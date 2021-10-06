@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-DewPointStory::~DewPointStory() {}
+DewPointStory::~DewPointStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

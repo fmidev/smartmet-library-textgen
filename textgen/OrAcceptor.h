@@ -26,7 +26,7 @@ class OrAcceptor : public Acceptor
   Acceptor* clone() const override;
 
  private:
-  OrAcceptor();
+  OrAcceptor() = delete;
 
   Acceptor* itsLhs;
   Acceptor* itsRhs;

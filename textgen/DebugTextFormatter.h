@@ -15,8 +15,8 @@ namespace TextGen
 class DebugTextFormatter : public TextFormatter
 {
  public:
-  DebugTextFormatter() {}
-  ~DebugTextFormatter() override {}
+  DebugTextFormatter() = default;
+  ~DebugTextFormatter() override = default;
   void dictionary(const boost::shared_ptr<Dictionary>& theDict) override {}
   std::string format(const Glyph& theGlyph) const override;
 

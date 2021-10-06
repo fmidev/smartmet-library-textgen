@@ -29,7 +29,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-FrostStory::~FrostStory() {}
+FrostStory::~FrostStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

@@ -33,7 +33,7 @@ class StoryTag : public Glyph
   virtual bool isPrefixTag() const;
 
  private:
-  StoryTag();
+  StoryTag() = delete;
   std::string itsName;
   bool itsPrefixTag;
 

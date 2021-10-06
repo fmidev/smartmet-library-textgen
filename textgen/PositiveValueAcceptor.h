@@ -14,7 +14,7 @@ namespace TextGen
 class PositiveValueAcceptor : public Acceptor
 {
  public:
-  ~PositiveValueAcceptor() override {}
+  ~PositiveValueAcceptor() override = default;
   bool accept(float theValue) const override;
   Acceptor* clone() const override;
 

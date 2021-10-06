@@ -25,7 +25,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-TimePeriod::~TimePeriod() {}
+TimePeriod::~TimePeriod() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

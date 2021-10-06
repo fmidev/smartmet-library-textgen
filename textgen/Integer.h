@@ -34,7 +34,7 @@ class Integer : public Glyph
   int value() const;
 
  private:
-  Integer();
+  Integer() = delete;
   int itsInteger;
 
 };  // class Integer

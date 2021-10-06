@@ -35,7 +35,7 @@ class WeatherFact
   const WeatherResult& result() const;
 
  private:
-  WeatherFact();
+  WeatherFact() = delete;
 
   WeatherParameter itsParameter;
   WeatherFunction itsFunction;

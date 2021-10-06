@@ -26,7 +26,7 @@ class AndAcceptor : public Acceptor
   Acceptor* clone() const override;
 
  private:
-  AndAcceptor();
+  AndAcceptor() = delete;
 
   Acceptor* itsLhs;
   Acceptor* itsRhs;

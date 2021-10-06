@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-TemperatureStory::~TemperatureStory() {}
+TemperatureStory::~TemperatureStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

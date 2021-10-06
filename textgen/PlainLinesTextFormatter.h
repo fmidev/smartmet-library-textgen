@@ -14,8 +14,8 @@ namespace TextGen
 class PlainLinesTextFormatter : public PlainTextFormatter
 {
  public:
-  PlainLinesTextFormatter() {}
-  ~PlainLinesTextFormatter() override {}
+  PlainLinesTextFormatter() = default;
+  ~PlainLinesTextFormatter() override = default;
   using PlainTextFormatter::visit;
   std::string visit(const Paragraph& theParagraph) const override;
 

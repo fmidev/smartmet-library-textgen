@@ -30,7 +30,7 @@ class Delimiter : public Glyph
   const std::string& value() const;
 
  private:
-  Delimiter();
+  Delimiter() = delete;
 
   std::string itsSeparator;
 

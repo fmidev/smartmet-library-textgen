@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-SpecialStory::~SpecialStory() {}
+SpecialStory::~SpecialStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

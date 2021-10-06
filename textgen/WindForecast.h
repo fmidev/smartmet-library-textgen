@@ -112,7 +112,7 @@ class WindForecast
  public:
   WindForecast(wo_story_params& parameters);
 
-  ~WindForecast() {}
+  ~WindForecast() = default;
   Paragraph getWindStory(const WeatherPeriod& thePeriod) const;
 
  private:

@@ -16,7 +16,7 @@ namespace TextGen
 class Paragraph : public GlyphContainer
 {
  public:
-  ~Paragraph() override {}
+  ~Paragraph() override = default;
 #ifdef NO_COMPILER_GENERATED
   Paragraph();
   Paragraph(const Paragraph& theParagraph);

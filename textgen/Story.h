@@ -18,8 +18,8 @@ class Paragraph;
 class Story
 {
  public:
-  Story() {}
-  virtual ~Story() {}
+  Story() = default;
+  virtual ~Story() = default;
   virtual Paragraph makeStory(const std::string& theName) const = 0;
 
 };  // class Story

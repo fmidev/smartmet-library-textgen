@@ -14,8 +14,8 @@ namespace TextGen
 class PlainTextFormatter : public TextFormatter
 {
  public:
-  PlainTextFormatter() {}
-  ~PlainTextFormatter() override {}
+  PlainTextFormatter() = default;
+  ~PlainTextFormatter() override = default;
   void dictionary(const boost::shared_ptr<Dictionary>& theDict) override;
 
   std::string format(const Glyph& theGlyph) const override;

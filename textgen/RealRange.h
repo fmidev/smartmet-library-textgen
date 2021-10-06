@@ -46,7 +46,7 @@ class RealRange : public Glyph
   int itsPrecision;
 
  private:
-  RealRange();
+  RealRange() = delete;
 
 };  // class RealRange
 }  // namespace TextGen

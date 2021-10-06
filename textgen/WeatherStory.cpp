@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WeatherStory::~WeatherStory() {}
+WeatherStory::~WeatherStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

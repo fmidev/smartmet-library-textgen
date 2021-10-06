@@ -47,7 +47,7 @@ struct postgis_identifier
 class PostGISDataSource
 {
  public:
-  PostGISDataSource() {}
+  PostGISDataSource() = default;
   bool readData(const std::string& host,
                 const std::string& port,
                 const std::string& dbname,

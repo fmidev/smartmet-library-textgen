@@ -36,7 +36,7 @@ class FogForecast
  public:
   FogForecast(wf_story_params& parameters, bool visibilityForecast = false);
 
-  ~FogForecast() {}
+  ~FogForecast() = default;
   Sentence fogSentence(const WeatherPeriod& thePeriod) const;
   FogInfo fogInfo(const WeatherPeriod& thePeriod) const;
 

@@ -27,7 +27,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-ForestStory::~ForestStory() {}
+ForestStory::~ForestStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

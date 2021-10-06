@@ -25,7 +25,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WeatherTime::~WeatherTime() {}
+WeatherTime::~WeatherTime() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

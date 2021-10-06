@@ -78,7 +78,7 @@ class FileDictionary::Pimple
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::~FileDictionary() {}
+FileDictionary::~FileDictionary() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

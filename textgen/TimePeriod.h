@@ -34,7 +34,7 @@ class TimePeriod : public Glyph
   inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
 
  private:
-  TimePeriod();
+  TimePeriod() = delete;
   WeatherPeriod itsPeriod;
 
 };  // class TimePeriod

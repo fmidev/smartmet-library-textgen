@@ -28,7 +28,7 @@ class EasternMaskSource : public MaskSource
                    const WeatherSource& theWeatherSource) const override;
 
  private:
-  EasternMaskSource();
+  EasternMaskSource() = delete;
 
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;

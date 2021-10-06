@@ -29,7 +29,7 @@ class Phrase : public Glyph
   bool isDelimiter() const override;
 
  private:
-  Phrase();
+  Phrase() = delete;
   std::string itsWord;
 
 };  // class Phrase

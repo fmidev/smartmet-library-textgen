@@ -29,7 +29,7 @@ class LocationPhrase : public Glyph
   bool isDelimiter() const override;
 
  private:
-  LocationPhrase();
+  LocationPhrase() = delete;
   std::string itsLocation;
 
 };  // class LocationPhrase

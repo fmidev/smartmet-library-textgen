@@ -16,7 +16,7 @@ namespace TextGen
 class Document : public GlyphContainer
 {
  public:
-  ~Document() override {}
+  ~Document() override = default;
 #ifdef NO_COMPILER_GENERATED
   Document();
   Document(const Document& theDocument);

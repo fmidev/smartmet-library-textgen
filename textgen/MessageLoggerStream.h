@@ -173,7 +173,7 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
     itsStreamBuf.pubsetbuf(nullptr, 0);
   }
 
-  ~MessageLoggerStream() override {}
+  ~MessageLoggerStream() override = default;
 
  
   virtual void onNewMessage(const string_type& strNewMessage) = 0;

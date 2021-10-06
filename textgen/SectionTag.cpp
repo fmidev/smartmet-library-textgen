@@ -29,7 +29,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-SectionTag::~SectionTag() {}
+SectionTag::~SectionTag() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

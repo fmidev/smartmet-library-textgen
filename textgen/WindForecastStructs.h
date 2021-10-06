@@ -203,7 +203,7 @@ struct WindDataItemUnit
 // contains WindDataItemUnit structs for different areas (coastal, inland, full area)
 struct WindDataItemsByArea
 {
-  WindDataItemsByArea() {}
+  WindDataItemsByArea() = default;
   ~WindDataItemsByArea()
   {
     std::map<WeatherArea::Type, WindDataItemUnit*>::iterator it;
@@ -331,12 +331,9 @@ struct TimePhraseInfo
   {
   }
   TimePhraseInfo(const TimePhraseInfo& tpi)
-      : starttime(tpi.starttime),
-        endtime(tpi.endtime),
-        day_number(tpi.day_number),
-        part_of_the_day(tpi.part_of_the_day)
-  {
-  }
+      
+        
+  = default;
   bool empty() const { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
 };
 

@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-RelativeHumidityStory::~RelativeHumidityStory() {}
+RelativeHumidityStory::~RelativeHumidityStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

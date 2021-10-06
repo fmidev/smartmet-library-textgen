@@ -35,7 +35,7 @@ class Real : public Glyph
   bool comma() const;
 
  private:
-  Real();
+  Real() = delete;
   float itsReal;
   int itsPrecision;
   bool itsComma;

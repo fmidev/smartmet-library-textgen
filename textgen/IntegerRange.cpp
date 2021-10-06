@@ -27,7 +27,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-IntegerRange::~IntegerRange() {}
+IntegerRange::~IntegerRange() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

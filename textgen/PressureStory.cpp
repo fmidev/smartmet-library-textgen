@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-PressureStory::~PressureStory() {}
+PressureStory::~PressureStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

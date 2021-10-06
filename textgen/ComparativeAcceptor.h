@@ -25,7 +25,7 @@ enum comparative_operator
 class ComparativeAcceptor : public Acceptor
 {
  public:
-  ~ComparativeAcceptor() override {}
+  ~ComparativeAcceptor() override = default;
   bool accept(float theValue) const override;
   Acceptor* clone() const override;
 

@@ -41,7 +41,7 @@ class IntegerRange : public Glyph
   int itsEndValue;
 
  private:
-  IntegerRange();
+  IntegerRange() = delete;
 
 };  // class IntegerRange
 }  // namespace TextGen

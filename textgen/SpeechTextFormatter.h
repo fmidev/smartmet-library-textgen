@@ -14,8 +14,8 @@ namespace TextGen
 class SpeechTextFormatter : public TextFormatter
 {
  public:
-  SpeechTextFormatter() {}
-  ~SpeechTextFormatter() override {}
+  SpeechTextFormatter() = default;
+  ~SpeechTextFormatter() override = default;
   void dictionary(const boost::shared_ptr<Dictionary>& theDict) override;
 
   std::string format(const Glyph& theGlyph) const override;

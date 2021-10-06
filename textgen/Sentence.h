@@ -16,7 +16,7 @@ namespace TextGen
 class Sentence : public GlyphContainer
 {
  public:
-  ~Sentence() override {}
+  ~Sentence() override = default;
 #ifdef NO_COMPILER_GENERATED
   Sentence();
   Sentence(const Sentence& theSentence);

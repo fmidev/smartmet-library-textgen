@@ -26,7 +26,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WeatherFact::~WeatherFact() {}
+WeatherFact::~WeatherFact() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Copy constructor
@@ -36,13 +36,9 @@ WeatherFact::~WeatherFact() {}
 // ----------------------------------------------------------------------
 
 WeatherFact::WeatherFact(const WeatherFact& theFact)
-    : itsParameter(theFact.itsParameter),
-      itsFunction(theFact.itsFunction),
-      itsPeriod(theFact.itsPeriod),
-      itsArea(theFact.itsArea),
-      itsResult(theFact.itsResult)
-{
-}
+    
+      
+= default;
 
 // ----------------------------------------------------------------------
 /*!

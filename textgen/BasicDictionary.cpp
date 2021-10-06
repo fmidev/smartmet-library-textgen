@@ -18,7 +18,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-BasicDictionary::~BasicDictionary() {}
+BasicDictionary::~BasicDictionary() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language

@@ -27,7 +27,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-LocationPhrase::~LocationPhrase() {}
+LocationPhrase::~LocationPhrase() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

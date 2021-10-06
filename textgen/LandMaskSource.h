@@ -28,7 +28,7 @@ class LandMaskSource : public MaskSource
                    const WeatherSource& theWeatherSource) const override;
 
  private:
-  LandMaskSource();
+  LandMaskSource() = delete;
 
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;

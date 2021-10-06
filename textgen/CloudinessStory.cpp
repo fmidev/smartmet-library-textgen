@@ -27,7 +27,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-CloudinessStory::~CloudinessStory() {}
+CloudinessStory::~CloudinessStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor

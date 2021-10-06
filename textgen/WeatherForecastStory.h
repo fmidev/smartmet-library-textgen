@@ -31,7 +31,7 @@ class WeatherForecastStoryItem
                            const WeatherPeriod& period,
                            story_part_id storyPartId);
 
-  virtual ~WeatherForecastStoryItem() {}
+  virtual ~WeatherForecastStoryItem() = default;
   Sentence getSentence();
   // if periods are merged this must be overwritten
   virtual WeatherPeriod getStoryItemPeriod() const;

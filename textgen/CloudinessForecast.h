@@ -12,7 +12,7 @@ class CloudinessForecast
  public:
   CloudinessForecast(wf_story_params& parameters);
 
-  ~CloudinessForecast() {}
+  ~CloudinessForecast() = default;
   void setCoastalData(const weather_result_data_item_vector* coastalData)
   {
     theCoastalData = coastalData;

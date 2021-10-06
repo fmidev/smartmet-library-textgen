@@ -15,13 +15,13 @@ template <class T>
 class TemplateAcceptor : public Acceptor
 {
  public:
-  ~TemplateAcceptor() override {}
+  ~TemplateAcceptor() override = default;
   TemplateAcceptor(const T& theFunctor) : itsFunctor(theFunctor) {}
   bool accept(float theValue) const override { return itsFunctor(theValue); }
   Acceptor* clone() const override { return new TemplateAcceptor(*this); }
 
  private:
-  TemplateAcceptor();
+  TemplateAcceptor() = delete;
 
   T itsFunctor;
 

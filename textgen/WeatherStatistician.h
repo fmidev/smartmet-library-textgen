@@ -20,7 +20,7 @@ class WeatherResult;
 class WeatherStatistician : public WeatherAnalyzer
 {
  public:
-  ~WeatherStatistician() override {}
+  ~WeatherStatistician() override = default;
   using WeatherAnalyzer::analyze;
 
   WeatherResult analyze(const AnalysisSources& theSources,

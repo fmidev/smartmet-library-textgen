@@ -32,7 +32,7 @@ class WeatherTime : public Glyph
   inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
 
  private:
-  WeatherTime();
+  WeatherTime() = delete;
   TextGenPosixTime itsTime;
 
 };  // class Time

@@ -33,7 +33,7 @@ class SectionTag : public Glyph
   virtual bool isPrefixTag() const;
 
  private:
-  SectionTag();
+  SectionTag() = delete;
   std::string itsName;
   bool itsPrefixTag;
 

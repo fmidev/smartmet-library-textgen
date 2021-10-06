@@ -76,7 +76,7 @@ class DatabaseDictionary::Pimple
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionary::~DatabaseDictionary() {}
+DatabaseDictionary::~DatabaseDictionary() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
