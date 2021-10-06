@@ -952,7 +952,7 @@ struct PrecipitationDataItemData
     return thePrecipitationPercentageNorthWest + thePrecipitationPercentageSouthWest;
   }
 
-  bool operator==(const PrecipitationDataItemData& theItem)
+  bool operator==(const PrecipitationDataItemData& theItem) const
   {
     return (thePrecipitationForm == theItem.thePrecipitationForm &&
             thePrecipitationIntensity == theItem.thePrecipitationIntensity &&

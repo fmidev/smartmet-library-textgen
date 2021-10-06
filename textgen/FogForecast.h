@@ -46,7 +46,7 @@ class FogForecast
 
  private:
   void findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
-                             fog_type_period_vector& theFogTypePeriods);
+                             fog_type_period_vector& theFogTypePeriods) const;
   void findOutFogPeriods(const weather_result_data_item_vector* theModerateFogData,
                          const weather_result_data_item_vector* theDenseFogData,
                          fog_period_vector& theFogPeriods);

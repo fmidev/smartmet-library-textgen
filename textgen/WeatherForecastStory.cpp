@@ -985,7 +985,7 @@ void WeatherForecastStory::mergePeriodsWhenFeasible()
   }
 }
 
-Sentence WeatherForecastStory::getTimePhrase()
+Sentence WeatherForecastStory::getTimePhrase() const
 {
   Sentence sentence;
 
@@ -1057,7 +1057,7 @@ WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const
   }
 }
 
-unsigned int WeatherForecastStoryItem::getPeriodLength()
+unsigned int WeatherForecastStoryItem::getPeriodLength() const
 {
   return thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime());
 }

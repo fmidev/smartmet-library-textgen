@@ -36,7 +36,7 @@ class WeatherForecastStoryItem
   // if periods are merged this must be overwritten
   virtual WeatherPeriod getStoryItemPeriod() const;
   virtual Sentence getStoryItemSentence() { return Sentence(); }
-  unsigned int getPeriodLength();
+  unsigned int getPeriodLength() const;
   int forecastPeriodLength() const;
   int storyItemPeriodLength() const;
   Sentence getTodayVectorSentence(const std::vector<Sentence*>& todayVector,
@@ -53,7 +53,7 @@ class WeatherForecastStoryItem
   story_part_id getStoryPartId() const { return theStoryPartId; }
   const WeatherPeriod& getPeriod() const { return thePeriod; }
   bool isIncluded() const { return theIncludeInTheStoryFlag; }
-  unsigned int numberOfAdditionalSentences() { return theAdditionalSentences.size(); }
+  unsigned int numberOfAdditionalSentences() const { return theAdditionalSentences.size(); }
   std::pair<WeatherPeriod, Sentence> getAdditionalSentence(unsigned int index) const;
 
   // protected:
@@ -166,7 +166,7 @@ class WeatherForecastStory
   void addPrecipitationStoryItems();
   void addCloudinessStoryItems();
   void mergePeriodsWhenFeasible();
-  Sentence getTimePhrase();
+  Sentence getTimePhrase() const;
   void mergePrecipitationPeriodsWhenFeasible();
   void mergeCloudinessPeriodsWhenFeasible();
 

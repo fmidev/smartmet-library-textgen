@@ -28,13 +28,13 @@ struct postgis_identifier
   std::string postGISTable;
   std::string postGISField;
   std::string postGISClientEncoding;
-  std::string key()
+  std::string key() const
   {
     return (postGISHost + ";" + postGISPort + ";" + postGISDatabase + ";" + postGISUsername + ";" +
             postGISPassword + ";" + postGISSchema + ";" + postGISTable + ";" + postGISField + ";" +
             postGISClientEncoding);
   }
-  bool allFieldsDefined()
+  bool allFieldsDefined() const
   {
     return (!postGISHost.empty() && !postGISPort.empty() && !postGISDatabase.empty() &&
             !postGISUsername.empty() && !postGISPassword.empty() && !postGISSchema.empty() &&

@@ -296,7 +296,7 @@ void FogForecast::findOutFogPeriods()
 }
 
 void FogForecast::findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
-                                        fog_type_period_vector& theFogTypePeriods)
+                                        fog_type_period_vector& theFogTypePeriods) const
 {
   if (theFogPeriods.size() == 0)
     return;

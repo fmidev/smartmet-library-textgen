@@ -631,7 +631,7 @@ struct t36hparams
     return false;
   }
 
-  unsigned int numberOfPeriods()
+  unsigned int numberOfPeriods() const
   {
     unsigned int retval(0);
 
