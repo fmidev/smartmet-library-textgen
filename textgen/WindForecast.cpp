@@ -2056,7 +2056,7 @@ void WindForecast::checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVe
     if (!sentenceInfo.intervalSentences.empty())
     {
       sentenceInfo.skip = true;
-      for (auto isi : sentenceInfo.intervalSentences)
+      for (const auto& isi : sentenceInfo.intervalSentences)
       {
         if (!isi.skip)
         {

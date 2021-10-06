@@ -611,7 +611,7 @@ if (previousStoryItemIndex > -1 &&
   if (!visibilitySentence.empty())
     weatherForecastSentences.push_back(visibilitySentence);
 
-  for (auto s : weatherForecastSentences)
+  for (const auto& s : weatherForecastSentences)
     paragraph << s;
 
   theLogger << "Weather Forecast At Sea: " << std::endl
