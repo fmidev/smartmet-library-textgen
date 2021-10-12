@@ -347,7 +347,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
 bool growing_season_going_on(const WeatherArea& theArea,
                              const AnalysisSources& theSources,
                              const WeatherPeriod& thePeriod,
-                             const std::string theVariable)
+                             const std::string& theVariable)
 {
   if (isset(theVariable + "::fake::growing_season_on"))
   {
@@ -387,7 +387,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
 forecast_season_id get_forecast_season(const WeatherArea& theArea,
                                        const AnalysisSources& theSources,
                                        const WeatherPeriod& thePeriod,
-                                       const std::string theVariable)
+                                       const std::string& theVariable)
 {
   bool growingSeasonGoingOn = growing_season_going_on(theArea, theSources, thePeriod, theVariable);
 

@@ -244,17 +244,15 @@ direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRe
       return NORTHEAST;
     if (westRect.contains(theSecondaryRect))
       return NORTHWEST;
-    else
-      return NORTH;
+          return NORTH;
   }
-  else if (southRect.contains(theSecondaryRect))
+  if (southRect.contains(theSecondaryRect))
   {
     if (eastRect.contains(theSecondaryRect))
       return SOUTHEAST;
     if (westRect.contains(theSecondaryRect))
       return SOUTHWEST;
-    else
-      return SOUTH;
+          return SOUTH;
   }
   else if (eastRect.contains(theSecondaryRect))
   {

@@ -1003,7 +1003,7 @@ Sentence WeatherForecastStory::getTimePhrase() const
 void WeatherForecastStory::logTheStoryItems() const
 {
   theLogger << "******** STORY ITEMS ********" << endl;
-  for (auto i : theStoryItemVector)
+  for (auto *i : theStoryItemVector)
   {
     theLogger << *i;
   }

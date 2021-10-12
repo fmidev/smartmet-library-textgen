@@ -303,8 +303,7 @@ std::string PostGISDataSource::getSVGPath(const std::string& name) const
     return polygonmap.at(name);
   if (linemap.find(name) != linemap.end())
     return linemap.at(name);
-  else
-    return "";
+      return "";
 }
 
 std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) const

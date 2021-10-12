@@ -333,9 +333,9 @@ std::string get_direction_abbreviation(
       return "N";
     if (direction >= 11.25 && direction < 33.75)
       return "n-ne";
-    else if (direction >= 33.75 && direction < 56.25)
+    if (direction >= 33.75 && direction < 56.25)
       return "NE";
-    else if (direction >= 56.25 && direction < 78.75)
+    if (direction >= 56.25 && direction < 78.75)
       return "ne-e";
     else if (direction >= 78.75 && direction < 101.25)
       return "E";
@@ -368,9 +368,9 @@ std::string get_direction_abbreviation(
       return "N";
     if (direction >= 22.50 && direction < 67.50)
       return "NE";
-    else if (direction >= 67.50 && direction < 112.50)
+    if (direction >= 67.50 && direction < 112.50)
       return "E";
-    else if (direction >= 112.50 && direction < 157.50)
+    if (direction >= 112.50 && direction < 157.50)
       return "SE";
     else if (direction >= 157.50 && direction < 202.50)
       return "S";
@@ -470,7 +470,7 @@ void print_wiki_table(const WeatherArea& theArea,
                  "suunnan k-hajonta || fraasi ||"
               << endl;
 
-  for (auto i : theWindDataItemVector)
+  for (auto *i : theWindDataItemVector)
   {
     const WindDataItemUnit& theWindDataItem = (*i)(theArea.type());
     output_file << "| " << theWindDataItem.thePeriod.localEndTime() << " | " << fixed
@@ -1072,7 +1072,7 @@ std::string get_html_winddirection_distribution(
   return html_data.str();
 }
 
-std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::string type)
+std::string get_html_windspeed_distribution(wo_story_params& storyParams, const std::string& type)
 {
   if (storyParams.theWindDataVector.empty())
     return "";
@@ -2011,10 +2011,9 @@ WindEventId get_wind_speed_event(float windSpeedAtStart,
     return MISSING_WIND_SPEED_EVENT;
   if (difference < 0.0 && windSpeedAtEnd >= 0.0 && windSpeedAtEnd < 0.5)
     return TUULI_TYYNTYY;
-  else if (difference < 0.0)
+  if (difference < 0.0)
     return TUULI_HEIKKENEE;
-  else
-    return TUULI_VOIMISTUU;
+      return TUULI_VOIMISTUU;
 }
 
 WindEventId get_wind_direction_event(const WeatherResult& windDirection1,
@@ -2034,7 +2033,7 @@ WindEventId get_wind_direction_event(const WeatherResult& windDirection1,
     return TUULI_MUUTTUU_VAIHTELEVAKSI;
   if (directionId1 == directionId2)
     return MISSING_WIND_DIRECTION_EVENT;
-  else if (directionId1 == VAIHTELEVA)
+  if (directionId1 == VAIHTELEVA)
   {
     return TUULI_KAANTYY;
   }

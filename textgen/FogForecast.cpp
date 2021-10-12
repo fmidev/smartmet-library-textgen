@@ -164,23 +164,20 @@ fog_type_id get_fog_type(const float& theModerateFog,
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return FOG_IN_SOME_PLACES;
-    else
-      return FOG_IN_SOME_PLACES_POSSIBLY_DENSE;
+          return FOG_IN_SOME_PLACES_POSSIBLY_DENSE;
   }
-  else if (totalFog > IN_MANY_PLACES_LOWER_LIMIT && totalFog < IN_MANY_PLACES_UPPER_LIMIT)
+  if (totalFog > IN_MANY_PLACES_LOWER_LIMIT && totalFog < IN_MANY_PLACES_UPPER_LIMIT)
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return (theReportInManyPlaces ? FOG_IN_MANY_PLACES : FOG_IN_SOME_PLACES);
-    else
-      return (theReportInManyPlaces ? FOG_IN_MANY_PLACES_POSSIBLY_DENSE
+          return (theReportInManyPlaces ? FOG_IN_MANY_PLACES_POSSIBLY_DENSE
                                     : FOG_IN_SOME_PLACES_POSSIBLY_DENSE);
   }
   else
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return FOG;
-    else
-      return FOG_POSSIBLY_DENSE;
+          return FOG_POSSIBLY_DENSE;
   }
 }
 
@@ -371,7 +368,7 @@ void FogForecast::printOutFogData(std::ostream& theOutput,
                                   const std::string& theLinePrefix,
                                   const weather_result_data_item_vector& theFogData) const
 {
-  for (auto i : theFogData)
+  for (auto *i : theFogData)
   {
     WeatherPeriod period(i->thePeriod.localStartTime(),
                          i->thePeriod.localEndTime());

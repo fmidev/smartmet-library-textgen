@@ -62,10 +62,9 @@ thunder_probability_id get_thunder_probability_id(const float& theThunderProbabi
   {
     return POSSIBLY_THUNDER;
   }
-  else
-  {
-    return OCCASIONALLY_THUNDER;
-  }
+  
+      return OCCASIONALLY_THUNDER;
+ 
 }
 
 ThunderForecast::ThunderForecast(wf_story_params& parameters) : theParameters(parameters) {}
@@ -73,7 +72,7 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
                                    const weather_result_data_item_vector& theDataVector) const
 {
   float maxValue(0.0);
-  for (auto i : theDataVector)
+  for (auto *i : theDataVector)
   {
     if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
         i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&

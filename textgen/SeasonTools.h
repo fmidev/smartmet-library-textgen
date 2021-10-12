@@ -46,12 +46,12 @@ float growing_season_percentage(const WeatherArea& theArea,
 bool growing_season_going_on(const WeatherArea& theArea,
                              const AnalysisSources& theSources,
                              const WeatherPeriod& thePeriod,
-                             const std::string theVariable);
+                             const std::string& theVariable);
 
 forecast_season_id get_forecast_season(const WeatherArea& theArea,
                                        const AnalysisSources& theSources,
                                        const WeatherPeriod& thePeriod,
-                                       const std::string theVariable);
+                                       const std::string& theVariable);
 
 }  // namespace SeasonTools
 }  // namespace TextGen

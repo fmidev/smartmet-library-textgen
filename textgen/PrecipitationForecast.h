@@ -49,9 +49,9 @@ class PrecipitationForecast
   Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod,
                                           const Sentence& thePeriodPhrase) const;
   bool isDryPeriod(const WeatherPeriod& theWeatherPeriod,
-                   const unsigned short theForecastAreaId) const;
+                   unsigned short theForecastAreaId) const;
   bool isMostlyDryPeriod(const WeatherPeriod& theWeatherPeriod,
-                         const unsigned short theForecastArea) const;
+                         unsigned short theForecastArea) const;
   bool getDryPeriods(const WeatherPeriod& theSourcePeriod,
                      std::vector<WeatherPeriod>& theDryPeriods) const;
   bool getPrecipitationPeriods(const WeatherPeriod& theSourcePeriod,
@@ -73,14 +73,14 @@ class PrecipitationForecast
     theSinglePrecipitationFormFlag = theFlag;
   }
   float getPrecipitationExtent(const WeatherPeriod& thePeriod,
-                               const unsigned short theForecastArea) const;
+                               unsigned short theForecastArea) const;
   precipitation_type getPrecipitationType(const WeatherPeriod& thePeriod,
-                                          const unsigned short theForecastArea) const;
+                                          unsigned short theForecastArea) const;
   precipitation_form_id getPrecipitationForm(const WeatherPeriod& thePeriod,
-                                             const unsigned short theForecastArea) const;
-  float getMaxIntensity(const WeatherPeriod& thePeriod, const unsigned short theForecastArea) const;
+                                             unsigned short theForecastArea) const;
+  float getMaxIntensity(const WeatherPeriod& thePeriod, unsigned short theForecastArea) const;
   float getMeanIntensity(const WeatherPeriod& thePeriod,
-                         const unsigned short theForecastArea) const;
+                         unsigned short theForecastArea) const;
   bool getPrecipitationPeriod(const TextGenPosixTime& theTimestamp,
                               TextGenPosixTime& theStartTime,
                               TextGenPosixTime& theEndTime) const;
@@ -105,7 +105,7 @@ class PrecipitationForecast
                               const Sentence& thePeriodPhrase,
                               const std::string& theAreaPhrase) const;
   bool getIntensityFormExtent(const WeatherPeriod& theWeatherPeriod,
-                              const unsigned short theForecastArea,
+                              unsigned short theForecastArea,
                               float& theIntensity,
                               precipitation_form_id& theForm,
                               float& theExtent) const;
@@ -118,9 +118,9 @@ class PrecipitationForecast
   AreaTools::direction_id getPrecipitationLeavingDirection(const WeatherPeriod& thePeriod) const;
   precipitation_traverse_id getPrecipitationTraverseId(const WeatherPeriod& thePeriod) const;
   const precipitation_data_vector& getPrecipitationDataVector(
-      const unsigned short theForecastArea) const;
+      unsigned short theForecastArea) const;
   precipitation_form_transformation_id getPrecipitationTransformationId(
-      const WeatherPeriod& thePeriod, const unsigned short theForecastArea) const;
+      const WeatherPeriod& thePeriod, unsigned short theForecastArea) const;
   Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
   void joinPrecipitationPeriods(std::vector<WeatherPeriod>& thePrecipitationPeriodVector);
   bool printOutPrecipitationPeriods(std::ostream& theOutput,

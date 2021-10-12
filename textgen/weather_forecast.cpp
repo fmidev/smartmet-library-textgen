@@ -122,7 +122,7 @@ void log_weather_result_time_series(MessageLogger& theLog,
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << endl;
 
-  for (auto theTimeSerie : theTimeSeries)
+  for (auto *theTimeSerie : theTimeSeries)
   {
     //		const WeatherResultDataItem& theWeatherResultDataItem = *theTimeSeries[i];
     // log_weather_result_data_item(theLog, *theTimeSeries[i]);
@@ -1103,14 +1103,14 @@ void delete_data_structures(wf_story_params& theParameters)
                               *theParameters.theCompleteData[FULL_AREA]);
   }
 
-  for (auto cloudinessDataItemContainer : theParameters.theCloudinessData)
+  for (auto *cloudinessDataItemContainer : theParameters.theCloudinessData)
   {
     for (auto& item : *cloudinessDataItemContainer)
       delete item.second;
     cloudinessDataItemContainer->clear();
   }
   theParameters.theCloudinessData.clear();
-  for (auto precipitationDataItemContainer : theParameters.thePrecipitationData)
+  for (auto *precipitationDataItemContainer : theParameters.thePrecipitationData)
   {
     for (auto& item : *precipitationDataItemContainer)
       delete item.second;
@@ -1118,14 +1118,14 @@ void delete_data_structures(wf_story_params& theParameters)
   }
   theParameters.thePrecipitationData.clear();
 
-  for (auto thunderDataItemContainer : theParameters.theThunderData)
+  for (auto *thunderDataItemContainer : theParameters.theThunderData)
   {
     for (auto& item : *thunderDataItemContainer)
       delete item.second;
     thunderDataItemContainer->clear();
   }
   theParameters.theFogData.clear();
-  for (auto fogIntensityDataItemContainer : theParameters.theFogData)
+  for (auto *fogIntensityDataItemContainer : theParameters.theFogData)
   {
     for (auto& item : *fogIntensityDataItemContainer)
       delete item.second;
@@ -1243,7 +1243,7 @@ void log_weather_forecast_story(MessageLogger& theLog,
   const vector<WeatherForecastStoryItem*> storyItemVector(
       theWeatherForecastStory.getStoryItemVector());
 
-  for (auto i : storyItemVector)
+  for (auto *i : storyItemVector)
   {
     WeatherForecastStoryItem& storyItem = *i;
 
@@ -1270,7 +1270,7 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
                            const TextGen::WeatherPeriod& itsPeriod,
                            const TextGen::AnalysisSources& itsSources,
                            const TextGenPosixTime& itsForecastTime,
-                           const std::string itsVar,
+                           const std::string& itsVar,
                            MessageLogger& theLog)
 {
   using namespace PrecipitationPeriodTools;
@@ -1366,7 +1366,7 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
                                   const TextGen::WeatherPeriod& itsPeriod,
                                   const TextGen::AnalysisSources& itsSources,
                                   const TextGenPosixTime& itsForecastTime,
-                                  const std::string itsVar,
+                                  const std::string& itsVar,
                                   MessageLogger& theLog)
 {
   using namespace PrecipitationPeriodTools;

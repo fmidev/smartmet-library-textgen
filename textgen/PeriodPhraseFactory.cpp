@@ -33,7 +33,6 @@ using TextGen::WeatherArea;
 using TextGen::WeatherPeriod;
 using namespace TextGen::TimeTools;
 using namespace std;
-using boost::lexical_cast;
 
 namespace
 {
@@ -251,7 +250,7 @@ Sentence today(const string& theVariable,
               return (sentence << on_weekday(thePeriod.localStartTime()));
      
     }
-    else if (it == "atday")
+    if (it == "atday")
     {
       if (isSameDay(theForecastTime, thePeriod.localStartTime()))
         return (sentence << "paivalla");
@@ -324,7 +323,7 @@ Sentence tonight(const string& theVariable,
               return (sentence << night_against_weekday(thePeriod.localEndTime()));
      
     }
-    else if (it == "atnight")
+    if (it == "atnight")
     {
       if (isNextDay(theForecastTime, thePeriod.localEndTime()))
         return (sentence << "yolla");
@@ -383,9 +382,9 @@ Sentence next_night(const string& theVariable,
               return (sentence << night_against_weekday(thePeriod.localEndTime()));
      
     }
-    else if (it == "followingnight")
+    if (it == "followingnight")
       return (sentence << "seuraavana yona");
-    else if (it == "atnight")
+    if (it == "atnight")
     {
       if (isNextDay(theForecastTime, thePeriod.localEndTime()))
         return (sentence << "yolla");
@@ -439,9 +438,9 @@ Sentence next_day(const string& theVariable,
               return (sentence << on_weekday(thePeriod.localStartTime()));
      
     }
-    else if (it == "followingday")
+    if (it == "followingday")
       return (sentence << "seuraavana paivana");
-    else if (it == "tomorrow")
+    if (it == "tomorrow")
     {
       if (isNextDay(theForecastTime, thePeriod.localStartTime()))
       {
@@ -498,7 +497,7 @@ Sentence next_days(const string& theVariable,
               return (sentence << from_weekday(thePeriod.localStartTime()));
      
     }
-    else if (it == "tomorrow")
+    if (it == "tomorrow")
     {
       // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
       // if(isNextDay(theForecastTime,thePeriod.localStartTime()))
@@ -771,10 +770,9 @@ Sentence days(const string& theVariable,
           */
           return (sentence << from_weekday(starttime, *theHistory));
         }
-        else
-        {
-          return (sentence << from_weekday(starttime));
-        }
+        
+                  return (sentence << from_weekday(starttime));
+       
       }
       else if (it == "none!")
         return sentence;

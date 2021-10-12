@@ -53,7 +53,7 @@ bool isPartOfArea(const UserWeatherSource& theWeatherSource,
 
 bool isPartOfArea(const WeatherArea& theWeatherArea1,
                   const std::string& theArea2SvgFile,
-                  const std::string theQueryData);
+                  std::string theQueryData);
 
 bool isPartOfArea(const WeatherArea& theWeatherArea,
                   const AnalysisSources& theSources,

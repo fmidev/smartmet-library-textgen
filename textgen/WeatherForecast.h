@@ -649,7 +649,7 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const std::string& theVariable,
                           const WeatherArea& theArea,
-                          const WeatherPeriod thePeriod,
+                          WeatherPeriod thePeriod,
                           const TextGenPosixTime& theForecastTime);
 std::string parse_time_phrase(short theWeekday,
                               bool theSpecifyDayFlag,

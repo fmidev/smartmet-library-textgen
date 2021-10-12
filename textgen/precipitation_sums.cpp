@@ -26,7 +26,6 @@
 
 using namespace std;
 using namespace TextGen;
-using boost::lexical_cast;
 
 namespace TextGen
 {

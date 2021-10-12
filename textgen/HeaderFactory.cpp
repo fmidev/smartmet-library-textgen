@@ -33,7 +33,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 // ======================================================================
 //				IMPLEMENTATION HIDING FUNCTIONS

@@ -24,7 +24,6 @@
 
 using namespace std;
 using namespace TextGen;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -60,7 +59,7 @@ Paragraph CloudinessStory::overview() const
   Paragraph paragraph;
 
   const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
-  const int ndays = min(periodgenerator.size(), 3u);
+  const int ndays = min(periodgenerator.size(), 3U);
 
   log << "Period covers " << ndays << " days" << endl;
 

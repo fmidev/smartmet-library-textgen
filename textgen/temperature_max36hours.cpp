@@ -584,7 +584,7 @@ struct t36hparams
         return theForecastSubPeriod & DAY1_MORNING_PERIOD;
       if (theForecastPeriodId == NIGHT_PERIOD)
         return false;
-      else if (theForecastPeriodId == DAY2_PERIOD)
+      if (theForecastPeriodId == DAY2_PERIOD)
         return theForecastSubPeriod & DAY2_MORNING_PERIOD;
     }
     else if (forecastPeriodId == DAY1_PERIOD)
@@ -611,7 +611,7 @@ struct t36hparams
         return (theForecastAreaDay1 & COASTAL_AREA) && (theForecastAreaDay1 & INLAND_AREA);
       if (theForecastPeriodId == NIGHT_PERIOD)
         return (theForecastAreaNight & COASTAL_AREA) && (theForecastAreaNight & INLAND_AREA);
-      else if (theForecastPeriodId == DAY2_PERIOD)
+      if (theForecastPeriodId == DAY2_PERIOD)
         return (theForecastAreaDay2 & COASTAL_AREA) && (theForecastAreaDay2 & INLAND_AREA);
     }
     else if (forecastPeriodId == DAY1_PERIOD)

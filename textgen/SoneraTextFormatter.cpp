@@ -44,7 +44,6 @@
 #include <boost/lexical_cast.hpp>
 
 using namespace std;
-using boost::lexical_cast;
 
 namespace
 {
@@ -157,8 +156,7 @@ namespace TextGen
 
 SoneraTextFormatter::SoneraTextFormatter()
       
-{
-}
+= default;
 
 // ----------------------------------------------------------------------
 /*!

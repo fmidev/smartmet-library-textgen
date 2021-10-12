@@ -221,9 +221,9 @@ part_of_the_day_id get_part_of_the_day_id_wind(const TextGenPosixTime& theTime)
     return AAMUYO;
   if (hour > 6 && hour <= 9)
     return AAMU;
-  else if (hour > 9 && hour < 12)
+  if (hour > 9 && hour < 12)
     return AAMUPAIVA;
-  else if (hour >= 12 && hour <= 18)
+  if (hour >= 12 && hour <= 18)
     return ILTAPAIVA;
   else if (hour > 18 && hour <= 21)
     return ILTA;
@@ -328,7 +328,7 @@ float wind_direction_error(const wind_data_item_vector& theWindDataVector,
   unsigned int counter(0);
   float cumulativeWindDirectionError(0.0);
 
-  for (auto i : theWindDataVector)
+  for (auto *i : theWindDataVector)
   {
     WindDataItemUnit& item = i->getDataItem(theArea.type());
     if (is_inside(item.thePeriod.localStartTime(), thePeriod))
@@ -2158,16 +2158,15 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
       hours = hours_shrunk;
       return shrunkPeriod;
     }
-    else if (hours_shrunk == 0)
+    if (hours_shrunk == 0)
     {
       hours = hours_moved;
       return movedPeriod;
     }
-    else
-    {
-      hours = (hours_moved < hours_shrunk ? hours_moved : hours_shrunk);
+    
+          hours = (hours_moved < hours_shrunk ? hours_moved : hours_shrunk);
       return (hours_moved < hours_shrunk ? movedPeriod : shrunkPeriod);
-    }
+   
   }
 
   hours = hours_moved;

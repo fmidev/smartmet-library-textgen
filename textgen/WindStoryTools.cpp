@@ -28,7 +28,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -601,9 +600,9 @@ WindSpeedId wind_speed_id(float theWindSpeed)
     return TYYNI;
   if (theWindSpeed >= HEIKKO_LOWER_LIMIT && theWindSpeed < HEIKKO_UPPER_LIMIT)
     return HEIKKO;
-  else if (theWindSpeed >= KOHTALAINEN_LOWER_LIMIT && theWindSpeed < KOHTALAINEN_UPPER_LIMIT)
+  if (theWindSpeed >= KOHTALAINEN_LOWER_LIMIT && theWindSpeed < KOHTALAINEN_UPPER_LIMIT)
     return KOHTALAINEN;
-  else if (theWindSpeed >= NAVAKKA_LOWER_LIMIT && theWindSpeed < NAVAKKA_UPPER_LIMIT)
+  if (theWindSpeed >= NAVAKKA_LOWER_LIMIT && theWindSpeed < NAVAKKA_UPPER_LIMIT)
     return NAVAKKA;
   else if (theWindSpeed >= KOVA_LOWER_LIMIT && theWindSpeed < KOVA_UPPER_LIMIT)
     return KOVA;

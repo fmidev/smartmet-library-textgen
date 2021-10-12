@@ -26,7 +26,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -235,10 +234,9 @@ const char* warning_places_phrase(double thePercentage,
     return "";
   if (thePercentage < theManyPlacesLimit)
     return "paikoin";
-  else if (thePercentage < theGenerallyLimit)
+  if (thePercentage < theGenerallyLimit)
     return "monin paikoin";
-  else
-    return "yleisesti";
+      return "yleisesti";
 }
 
 // ----------------------------------------------------------------------

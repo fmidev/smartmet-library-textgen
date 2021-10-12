@@ -322,7 +322,7 @@ struct TimePhraseInfo
   short day_number{-1};
   part_of_the_day_id part_of_the_day{MISSING_PART_OF_THE_DAY_ID};
 
-  TimePhraseInfo()  {}
+  TimePhraseInfo()  = default;
   TimePhraseInfo(const TextGenPosixTime& st,
                  const TextGenPosixTime& et,
                  short d,
@@ -340,8 +340,8 @@ struct TimePhraseInfo
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
 bool wind_speed_differ_enough(wo_story_params& theParameter, const WeatherPeriod& thePeriod);
-bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
-                                  const WeatherResult theWindDirection2,
+bool wind_direction_differ_enough(WeatherResult theWindDirection1,
+                                  WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const TextGenPosixTime& pointOfTime,

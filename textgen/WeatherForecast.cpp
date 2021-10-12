@@ -268,9 +268,9 @@ part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp,
     return AAMU;
   if (theTimestamp.GetHour() >= AAMUPAIVA_START && theTimestamp.GetHour() <= AAMUPAIVA_END)
     return AAMUPAIVA;
-  else if (theTimestamp.GetHour() >= ILTA_START && theTimestamp.GetHour() <= ILTA_END)
+  if (theTimestamp.GetHour() >= ILTA_START && theTimestamp.GetHour() <= ILTA_END)
     return ILTA;
-  else if (theTimestamp.GetHour() >= ILTAPAIVA_START && theTimestamp.GetHour() <= ILTAPAIVA_END)
+  if (theTimestamp.GetHour() >= ILTAPAIVA_START && theTimestamp.GetHour() <= ILTAPAIVA_END)
     return ILTAPAIVA;
   else if (theTimestamp.GetHour() >= ILTAYO_START)
     return ILTAYO;
@@ -309,10 +309,10 @@ part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod)
   if (thePeriod.localStartTime().GetHour() >= AAMU_START &&
            thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
     return AAMU_JA_AAMUPAIVA;
-  else if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
+  if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
            thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
     return ILTAPAIVA_JA_ILTA;
-  else if ((thePeriod.localStartTime().GetHour() >= ILTA_START &&
+  if ((thePeriod.localStartTime().GetHour() >= ILTA_START &&
             thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay))
     return ILTA_JA_ILTAYO;
   else if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
@@ -358,12 +358,12 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
       return AAMUPAIVA;
           return AAMU;
   }
-  else if (thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START &&
+  if (thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START &&
            thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
   {
     return AAMUPAIVA;
   }
-  else if (thePeriod.localStartTime().GetHour() >= ILTA_START &&
+  if (thePeriod.localStartTime().GetHour() >= ILTA_START &&
            thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
   {
     if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
@@ -634,9 +634,9 @@ part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeri
       return ILTAPAIVA;
     if (firstHour == 0)
       return AAMUYO;
-    else if (firstHour == 17 || firstHour == 18)
+    if (firstHour == 17 || firstHour == 18)
       return ILTA;
-    else if (firstHour == 6)
+    if (firstHour == 6)
       return AAMU;
 
     return get_part_of_the_day_id_narrow(
@@ -699,17 +699,15 @@ bool is_inside(const TextGenPosixTime& theTimeStamp, part_of_the_day_id thePartO
     return timestampHour >= startHour || endHour == timestampHour;
   if (startHour == 0)
     return timestampHour <= endHour;
-  else
-  {
-    if (thePartOfTheDayId == YO || thePartOfTheDayId == ILTAYO_JA_KESKIYO)
+  
+      if (thePartOfTheDayId == YO || thePartOfTheDayId == ILTAYO_JA_KESKIYO)
     {
       return timestampHour >= startHour || timestampHour <= endHour;
     }
-    else
-    {
-      return (timestampHour >= startHour && timestampHour <= endHour);
-    }
-  }
+    
+          return (timestampHour >= startHour && timestampHour <= endHour);
+   
+ 
 }
 
 bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePartOfTheDayId)
@@ -1676,7 +1674,7 @@ void get_sub_time_series(const WeatherPeriod& thePeriod,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
-  for (auto item : theSourceVector)
+  for (auto *item : theSourceVector)
   {
     if (item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
         item->thePeriod.localEndTime() <= thePeriod.localEndTime())
@@ -1688,7 +1686,7 @@ void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
-  for (auto item : theSourceVector)
+  for (auto *item : theSourceVector)
   {
     if (item->thePartOfTheDay == thePartOfTheDay)
       theDestinationVector.push_back(item);
@@ -1725,7 +1723,7 @@ float get_standard_deviation(const weather_result_data_item_vector& theTimeSerie
   float deviation_sum_pow2 = 0.0;
   float mean = get_mean(theTimeSeries);
   int counter = 0;
-  for (auto theTimeSerie : theTimeSeries)
+  for (auto *theTimeSerie : theTimeSeries)
   {
     if (theTimeSerie->theResult.value() == kFloatMissing)
       continue;
