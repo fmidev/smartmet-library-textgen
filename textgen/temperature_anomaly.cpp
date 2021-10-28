@@ -61,17 +61,14 @@ using namespace std;
 using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
-using MathTools::to_precision;
-using Settings::optional_bool;
-using Settings::optional_int;
 using Settings::optional_string;
 
-#define MILD_TEMPERATURE_LOWER_LIMIT -3.0
-#define MILD_TEMPERATURE_UPPER_LIMIT +5.0
-#define HOT_WEATHER_LIMIT +25.0
-#define GETTING_COOLER_NOTIFICATION_LIMIT +20.0
+#define MILD_TEMPERATURE_LOWER_LIMIT (-3.0)
+#define MILD_TEMPERATURE_UPPER_LIMIT (+5.0)
+#define HOT_WEATHER_LIMIT (+25.0)
+#define GETTING_COOLER_NOTIFICATION_LIMIT (+20.0)
 #define ZERO_DEGREES 0.0
-#define VERY_COLD_TEMPERATURE_UPPER_LIMIT -10.0
+#define VERY_COLD_TEMPERATURE_UPPER_LIMIT (-10.0)
 #define SMALL_CHANGE_LOWER_LIMIT 2.0
 #define SMALL_CHANGE_UPPER_LIMIT 3.0
 #define MODERATE_CHANGE_LOWER_LIMIT 3.0
@@ -263,7 +260,7 @@ struct temperature_anomaly_params
         thePeriodLength(periodLength),
         theAnomalyPhrase(UNDEFINED_ANOMALY_PHRASE_ID),
         theShortrunTrend(UNDEFINED_SHORTRUN_TREND_ID),
-        theFakeVariable(""),
+        
         theGrowingSeasonUnderway(false),
         theDayBeforeDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
         theDayBeforeDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
@@ -409,7 +406,7 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
   }
 }
 
-const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
+Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
                                             float fractile02Share,
                                             float fractile12Share,
                                             float fractile88Share,
@@ -444,9 +441,9 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
 
   if (fractile02Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                  << POIKKEUKSELLISEN_WORD
@@ -460,7 +457,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     }
     else
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                  << theSpecifiedDay << theAreaPhrase << POIKKEUKSELLISEN_WORD
@@ -480,9 +477,9 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   }
   else if (fractile12Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                  << EMPTY_STRING
@@ -496,7 +493,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     }
     else
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                  << theSpecifiedDay << theAreaPhrase << EMPTY_STRING
@@ -515,9 +512,9 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   }
   else if (fractile98Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                  << POIKKEUKSELLISEN_WORD
@@ -537,7 +534,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     }
     else
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                  << theSpecifiedDay << theAreaPhrase << POIKKEUKSELLISEN_WORD
@@ -564,11 +561,11 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   }
   else if (fractile88Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
       if (theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway)
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
           sentence << ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE
                    << theAreaPhrase;
         else
@@ -576,7 +573,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
       }
       else
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
         {
           sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                    << HYVIN_WORD << LEUTOA_WORD;
@@ -591,7 +588,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     {
       if (theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway)
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
         {
           sentence << MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE
                    << theSpecifiedDay << theAreaPhrase;
@@ -604,7 +601,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
       }
       else
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
         {
           sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                    << theSpecifiedDay << theAreaPhrase << HYVIN_WORD << LEUTOA_WORD;
@@ -625,7 +622,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   return sentence;
 }
 
-const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
+Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
                                           const std::string& theDayIncludedCompositePhrase,
                                           const std::string& theAreaIncludedCompositePhrase,
                                           const std::string& theTemperatureSentence,
@@ -634,15 +631,15 @@ const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaInclud
 {
   Sentence sentence;
 
-  if (theSpecifiedDay.size() > 0 && theAreaPhrase.size() > 0)
+  if (!theSpecifiedDay.empty() && !theAreaPhrase.empty())
   {
     sentence << theDayAndAreaIncludedCompositePhrase << theSpecifiedDay << theAreaPhrase;
   }
-  else if (theSpecifiedDay.size() > 0)
+  else if (!theSpecifiedDay.empty())
   {
     sentence << theDayIncludedCompositePhrase << theSpecifiedDay;
   }
-  else if (theAreaPhrase.size() > 0)
+  else if (!theAreaPhrase.empty())
   {
     sentence << theAreaIncludedCompositePhrase << theAreaPhrase;
   }
@@ -654,7 +651,7 @@ const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaInclud
   return sentence;
 }
 
-const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
+Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
                                                   fractile_type_id theFractileType)
 {
   Sentence sentence;
@@ -901,7 +898,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
     // kirea pakkanen jatkuu
     // pakkanen kiristyy
 
-    if (temperatureGettingLower == false)  // day2Temperature >= day1Temperature)
+    if (!temperatureGettingLower)  // day2Temperature >= day1Temperature)
     {
       if (day1Temperature > MILD_TEMPERATURE_LOWER_LIMIT &&
           day1Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
@@ -1015,7 +1012,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
         theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
       }
     }
-    else if (temperatureGettingLower == true)  // day2Temperature <= day1Temperature)
+    else if (temperatureGettingLower)  // day2Temperature <= day1Temperature)
     {
       if (temperatureDifferenceDay1Day2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
           temperatureDifferenceDay1DayAfterDay2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
@@ -1067,7 +1064,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
     // saa viilenee
     // saa viilenee huomattavasti
 
-    if (temperatureGettingLower == false)  // day2Temperature >= day1Temperature)
+    if (!temperatureGettingLower)  // day2Temperature >= day1Temperature)
     {
       if (dayBeforeDay1Temperature >= hot_weather_limit && day1Temperature >= hot_weather_limit &&
           day2Temperature >= hot_weather_limit && dayAfterDay2Temperature >= hot_weather_limit)
@@ -1172,7 +1169,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
         theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
       }
     }
-    else if (temperatureGettingLower == true &&
+    else if (temperatureGettingLower &&
              day2Temperature > ZERO_DEGREES)  // day2Temperature <= day1Temperature &&
                                               // day2Temperature > ZERO_DEGREES)
     {
@@ -1303,7 +1300,7 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
   return sentence;
 }
 
-const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
+Paragraph anomaly(const TextGen::WeatherArea& itsArea,
                         const TextGen::WeatherPeriod& itsPeriod,
                         const TextGen::AnalysisSources& itsSources,
                         const TextGenPosixTime& itsForecastTime,
@@ -1337,7 +1334,7 @@ const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
     theLog << paragraph;
     return paragraph;
   }
-  else if (ndays == 1)
+  if (ndays == 1)
   {
     periodStartTime.ChangeByDays(-1);
   }
@@ -1622,14 +1619,14 @@ const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
  */
 // ----------------------------------------------------------------------
 
-const Paragraph TemperatureStory::anomaly() const
+Paragraph TemperatureStory::anomaly() const
 {
   using namespace TemperatureAnomaly;
 
   Paragraph paragraph;
   MessageLogger log("TemperatureStory::anomaly");
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {

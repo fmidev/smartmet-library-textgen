@@ -50,21 +50,21 @@ using namespace std;
 
 thunder_probability_id get_thunder_probability_id(const float& theThunderProbability)
 {
-  if (theThunderProbability == 0) return NO_THUNDER;
+  if (theThunderProbability == 0)
+    return NO_THUNDER;
 
   if (theThunderProbability < SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT)
   {
     return SMALL_PROBABILITY_FOR_THUNDER;
   }
-  else if (theThunderProbability >= POSSIBLY_THUNDER_LOWER_LIMIT &&
+  if (theThunderProbability >= POSSIBLY_THUNDER_LOWER_LIMIT &&
            theThunderProbability < POSSIBLY_THUNDER_UPPER_LIMIT)
   {
     return POSSIBLY_THUNDER;
   }
-  else
-  {
-    return OCCASIONALLY_THUNDER;
-  }
+  
+      return OCCASIONALLY_THUNDER;
+ 
 }
 
 ThunderForecast::ThunderForecast(wf_story_params& parameters) : theParameters(parameters) {}
@@ -72,15 +72,15 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
                                    const weather_result_data_item_vector& theDataVector) const
 {
   float maxValue(0.0);
-  for (unsigned int i = 0; i < theDataVector.size(); i++)
+  for (auto *i : theDataVector)
   {
-    if (theDataVector[i]->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
-        theDataVector[i]->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
-        theDataVector[i]->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
-        theDataVector[i]->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
+    if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
+        i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
+        i->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
+        i->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
     {
-      if (theDataVector[i]->theResult.value() > maxValue)
-        maxValue = theDataVector[i]->theResult.value();
+      if (i->theResult.value() > maxValue)
+        maxValue = i->theResult.value();
     }
   }
   return maxValue;
@@ -88,14 +88,14 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
 
 Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
                                           const forecast_area_id& theForecastAreaId,
-                                          const string& theVariable) const
+                                          const string&  /*theVariable*/) const
 {
   Sentence sentence;
 
-  const weather_result_data_item_vector* thunderProbabilityData = 0;
-  const weather_result_data_item_vector* thunderExtentData = 0;
+  const weather_result_data_item_vector* thunderProbabilityData = nullptr;
+  const weather_result_data_item_vector* thunderExtentData = nullptr;
 
-  std::string areaString("");
+  std::string areaString;
 
   if (theForecastAreaId == FULL_AREA)
   {

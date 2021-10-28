@@ -18,21 +18,21 @@ class Dictionary;
 class RealRange : public Glyph
 {
  public:
-  virtual ~RealRange();
+  ~RealRange() override;
   explicit RealRange(float theStartValue,
                      float theEndValue,
                      int thePrecision = 1,
-                     const std::string& theSeparator = "-");
+                     std::string  theSeparator = "-");
 #ifdef NO_COMPILER_GENERATED
   RealRange(const RealRange& theRealRange);
   RealRange& operator=(const RealRange& theRealRange);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
 
-  virtual bool isDelimiter() const;
+  bool isDelimiter() const override;
 
   const std::string& rangeSeparator() const;
   float startValue() const;
@@ -46,7 +46,7 @@ class RealRange : public Glyph
   int itsPrecision;
 
  private:
-  RealRange();
+  RealRange() = delete;
 
 };  // class RealRange
 }  // namespace TextGen

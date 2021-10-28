@@ -49,7 +49,10 @@ OrAcceptor::OrAcceptor(const OrAcceptor& theOther)
  */
 // ----------------------------------------------------------------------
 
-Acceptor* OrAcceptor::clone() const { return new OrAcceptor(*this); }
+Acceptor* OrAcceptor::clone() const
+{
+  return new OrAcceptor(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Accept or reject a value

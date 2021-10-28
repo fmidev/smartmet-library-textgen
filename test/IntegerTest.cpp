@@ -41,10 +41,12 @@ void realize_int(void)
   using namespace TextGen;
 
   Integer n1(0);
-  if (n1.realize(NullDictionary()) != "0") TEST_FAILED("realization of int(0) failed");
+  if (n1.realize(NullDictionary()) != "0")
+    TEST_FAILED("realization of int(0) failed");
 
   Integer n2(123);
-  if (n2.realize(NullDictionary()) != "123") TEST_FAILED("realization of int(123) failed");
+  if (n2.realize(NullDictionary()) != "123")
+    TEST_FAILED("realization of int(123) failed");
 
   TEST_PASSED();
 }

@@ -16,7 +16,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <sstream>
-
+#include <utility>
 
 using namespace std;
 
@@ -28,15 +28,15 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-IntegerRange::~IntegerRange() {}
+IntegerRange::~IntegerRange() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
  */
 // ----------------------------------------------------------------------
 
-IntegerRange::IntegerRange(int theStartValue, int theEndValue, const std::string& theSeparator)
-    : itsRangeSeparator(theSeparator), itsStartValue(theStartValue), itsEndValue(theEndValue)
+IntegerRange::IntegerRange(int theStartValue, int theEndValue, std::string  theSeparator)
+    : itsRangeSeparator(std::move(theSeparator)), itsStartValue(theStartValue), itsEndValue(theEndValue)
 {
 }
 
@@ -61,7 +61,7 @@ boost::shared_ptr<Glyph> IntegerRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string IntegerRange::realize(const Dictionary& theDictionary) const
+std::string IntegerRange::realize(const Dictionary&  /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)
@@ -99,7 +99,10 @@ std::string IntegerRange::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool IntegerRange::isDelimiter() const { return false; }
+bool IntegerRange::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the range separator string
@@ -108,7 +111,10 @@ bool IntegerRange::isDelimiter() const { return false; }
  */
 // ----------------------------------------------------------------------
 
-const std::string& IntegerRange::rangeSeparator() const { return itsRangeSeparator; }
+const std::string& IntegerRange::rangeSeparator() const
+{
+  return itsRangeSeparator;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the start value of the range
@@ -117,7 +123,10 @@ const std::string& IntegerRange::rangeSeparator() const { return itsRangeSeparat
  */
 // ----------------------------------------------------------------------
 
-int IntegerRange::startValue() const { return itsStartValue; }
+int IntegerRange::startValue() const
+{
+  return itsStartValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the end value of the range
@@ -126,7 +135,10 @@ int IntegerRange::startValue() const { return itsStartValue; }
  */
 // ----------------------------------------------------------------------
 
-int IntegerRange::endValue() const { return itsEndValue; }
+int IntegerRange::endValue() const
+{
+  return itsEndValue;
+}
 }  // namespace TextGen
 
 // ======================================================================

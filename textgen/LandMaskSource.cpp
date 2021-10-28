@@ -80,8 +80,8 @@ class LandMaskSource::Pimple
 
   const WeatherArea itsLand;
 
-  typedef map<WeatherAreaAndID, mask_type> mask_storage;
-  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+  using mask_storage = map<WeatherAreaAndID, mask_type>;
+  using masks_storage = map<WeatherAreaAndID, masks_type>;
 
   mask_storage itsMaskStorage;
   masks_storage itsMasksStorage;
@@ -103,7 +103,7 @@ class LandMaskSource::Pimple
 // ----------------------------------------------------------------------
 
 LandMaskSource::Pimple::Pimple(const WeatherArea& theLand)
-    : itsLand(theLand), itsMaskStorage(), itsMasksStorage()
+    : itsLand(theLand) 
 {
 }
 
@@ -126,8 +126,9 @@ LandMaskSource::mask_type LandMaskSource::Pimple::find(const WeatherId& theID,
 
   WeatherAreaAndID key(theID, theArea);
 
-  mask_storage::const_iterator it = itsMaskStorage.find(key);
-  if (it == itsMaskStorage.end()) return dummy;
+  auto it = itsMaskStorage.find(key);
+  if (it == itsMaskStorage.end())
+    return dummy;
 
   return it->second;
 }
@@ -146,7 +147,7 @@ void LandMaskSource::Pimple::insert(const WeatherId& theID,
                                     const WeatherArea& theArea,
                                     const mask_type& theMask)
 {
-  typedef mask_storage::value_type value_type;
+  using value_type = mask_storage::value_type;
 
   WeatherAreaAndID key(theID, theArea);
 
@@ -180,7 +181,7 @@ LandMaskSource::mask_type LandMaskSource::Pimple::create_mask(const WeatherArea&
 
   // First build the area mask
 
-  const NFmiSvgPath svg = theArea.path();
+  const NFmiSvgPath& svg = theArea.path();
   const float radius = theArea.radius();
 
   mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
@@ -221,7 +222,8 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
                                                const std::string& theData,
                                                const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+  if (theArea.isPoint())
+    throw TextGenError("Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -231,7 +233,8 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0) return areamask;
+  if (areamask.get() != nullptr)
+    return areamask;
 
   // Calculate new mask and cache it
 
@@ -251,9 +254,9 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-LandMaskSource::masks_type LandMaskSource::masks(const WeatherArea& theArea,
-                                                 const std::string& theData,
-                                                 const WeatherSource& theWeatherSource) const
+LandMaskSource::masks_type LandMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                 const std::string&  /*theData*/,
+                                                 const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("LandMaskSource::masks not implemented");
 }

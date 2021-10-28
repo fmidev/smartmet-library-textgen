@@ -20,8 +20,8 @@ class WeatherPeriod;
 
 namespace PrecipitationPeriodTools
 {
-typedef std::list<TextGenPosixTime> RainTimes;
-typedef std::list<WeatherPeriod> RainPeriods;
+using RainTimes = std::list<TextGenPosixTime>;
+using RainPeriods = std::list<WeatherPeriod>;
 
 // The main function
 

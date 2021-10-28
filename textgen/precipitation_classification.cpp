@@ -42,28 +42,29 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-const list<pair<int, int> > parse_classes(const std::string& theVariable)
+list<pair<int, int> > parse_classes(const std::string& theVariable)
 {
   using namespace TextGen;
 
   const string value = Settings::require(theVariable);
 
-  if (value.empty()) throw TextGenError(theVariable + " value must not be empty");
+  if (value.empty())
+    throw TextGenError(theVariable + " value must not be empty");
 
   list<pair<int, int> > output;
 
   vector<string> clist = NFmiStringTools::Split(value);
-  for (vector<string>::const_iterator it = clist.begin(); it != clist.end(); ++it)
+  for (const auto & it : clist)
   {
-    vector<string> rlist = NFmiStringTools::Split(*it, "...");
+    vector<string> rlist = NFmiStringTools::Split(it, "...");
     if (rlist.size() != 2)
-      throw TextGenError(*it + " is not of form A...B in variable " + theVariable);
+      throw TextGenError(it + " is not of form A...B in variable " + theVariable);
     int lolimit = lexical_cast<int>(rlist[0]);
     int hilimit = lexical_cast<int>(rlist[1]);
     if (hilimit <= lolimit)
-      throw TextGenError(*it + " has upper limit <= lower limit in variable " + theVariable);
+      throw TextGenError(it + " has upper limit <= lower limit in variable " + theVariable);
 
-    output.push_back(make_pair(lolimit, hilimit));
+    output.emplace_back(lolimit, hilimit);
   }
 
   return output;
@@ -86,10 +87,10 @@ int rainlimit(const list<pair<int, int> >& theList)
     throw TextGenError("Internal error, trying to extract maximum rain from empty list");
 
   int ret = theList.front().first;
-  for (list<pair<int, int> >::const_iterator it = theList.begin(); it != theList.end(); ++it)
+  for (const auto & it : theList)
   {
-    ret = std::max(ret, it->first);
-    ret = std::max(ret, it->second);
+    ret = std::max(ret, it.first);
+    ret = std::max(ret, it.second);
   }
   return ret;
 }
@@ -248,7 +249,8 @@ Paragraph PrecipitationStory::classification() const
     // here we forge result to be back within the largest
     // available rain class
 
-    if (meanresult.value() > maxrainlimit) meanresult = WeatherResult(maxrainlimit, 1);
+    if (meanresult.value() > maxrainlimit)
+      meanresult = WeatherResult(maxrainlimit, 1);
   }
 
   // Find the first class with the correct mean rain amount
@@ -256,10 +258,12 @@ Paragraph PrecipitationStory::classification() const
   list<pair<int, int> >::const_iterator it;
   for (it = classes.begin(); it != classes.end(); ++it)
   {
-    if (meanresult.value() >= it->first && meanresult.value() <= it->second) break;
+    if (meanresult.value() >= it->first && meanresult.value() <= it->second)
+      break;
   }
 
-  if (it == classes.end()) throw TextGenError(itsVar + " has gaps in the ranges");
+  if (it == classes.end())
+    throw TextGenError(itsVar + " has gaps in the ranges");
 
   const int lolimit = it->first;
   const int hilimit = it->second;

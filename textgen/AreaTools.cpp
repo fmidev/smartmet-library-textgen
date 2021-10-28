@@ -26,10 +26,9 @@
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiSvgTools.h>
 
-typedef TextGen::RegularMaskSource::mask_type mask_type;
+using mask_type = TextGen::RegularMaskSource::mask_type;
 
 using namespace std;
-
 
 namespace TextGen
 {
@@ -55,16 +54,15 @@ bool isPartOfArea(const UserWeatherSource& theWeatherSource,
   {
     return theWeatherArea2.path().IsInside(theWeatherArea1.point());
   }
-  else
-  {
-    LandMaskSource area1LandMaskSource(theWeatherArea1);
+  
+      LandMaskSource area1LandMaskSource(theWeatherArea1);
 
     mask_type mask = area1LandMaskSource.mask(theWeatherArea2, "data", theWeatherSource);
 
     int size_of_mask = mask->size();
 
     return size_of_mask > 0;
-  }
+ 
 }
 
 // ----------------------------------------------------------------------
@@ -98,8 +96,8 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
                   const WeatherParameter& theParameter,
                   const NFmiIndexMask& theIndexMask)
 {
-  std::string parameterName("");
-  std::string dataName("");
+  std::string parameterName;
+  std::string dataName;
 
   ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
   const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
@@ -110,10 +108,11 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (unsigned long it : theIndexMask)
   {
-    NFmiPoint point(theQI.LatLon(*it).X(), theQI.LatLon(*it).Y());
-    if (!theWeatherArea.path().IsInside(point)) return false;
+    NFmiPoint point(theQI.LatLon(it).X(), theQI.LatLon(it).Y());
+    if (!theWeatherArea.path().IsInside(point))
+      return false;
   }
 
   return true;
@@ -133,8 +132,8 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   double latSum(0.0);
   double lonSum(0.0);
 
-  std::string parameterName("");
-  std::string dataName("");
+  std::string parameterName;
+  std::string dataName;
 
   ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
   const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
@@ -150,11 +149,11 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   ExtractMask(theSources, theParameter, theArea, thePeriod, theAcceptor, indexMask);
 
   vector<NFmiPoint*> latitudeLongitudeCoordinates;
-  for (NFmiIndexMask::const_iterator it = indexMask.begin(); it != indexMask.end(); ++it)
+  for (unsigned long it : indexMask)
   {
-    lonSum += theQI.LatLon(*it).X();
-    latSum += theQI.LatLon(*it).Y();
-    latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI.LatLon(*it)));
+    lonSum += theQI.LatLon(it).X();
+    latSum += theQI.LatLon(it).Y();
+    latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI.LatLon(it)));
   }
 
   if (!latitudeLongitudeCoordinates.empty())
@@ -223,7 +222,8 @@ void getArealDistribution(const vector<NFmiPoint*>& thePointVector,
 // if theSecondaryRect is outside, even if only partly, thePrimaryRect NO_DIRECTION is returned
 direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRect)
 {
-  if (!thePrimaryRect.contains(theSecondaryRect)) return NO_DIRECTION;
+  if (!thePrimaryRect.contains(theSecondaryRect))
+    return NO_DIRECTION;
 
   NFmiPoint topLeftPrimary = thePrimaryRect.getTopLeft();
   NFmiPoint bottomRightPrimary = thePrimaryRect.getBottomRight();
@@ -242,19 +242,17 @@ direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRe
   {
     if (eastRect.contains(theSecondaryRect))
       return NORTHEAST;
-    else if (westRect.contains(theSecondaryRect))
+    if (westRect.contains(theSecondaryRect))
       return NORTHWEST;
-    else
-      return NORTH;
+          return NORTH;
   }
-  else if (southRect.contains(theSecondaryRect))
+  if (southRect.contains(theSecondaryRect))
   {
     if (eastRect.contains(theSecondaryRect))
       return SOUTHEAST;
-    else if (westRect.contains(theSecondaryRect))
+    if (westRect.contains(theSecondaryRect))
       return SOUTHWEST;
-    else
-      return SOUTH;
+          return SOUTH;
   }
   else if (eastRect.contains(theSecondaryRect))
   {
@@ -308,7 +306,10 @@ std::string getDirectionString(const direction_id& theDirectionId)
 
 Rect::Rect(const vector<NFmiPoint*>& thePointVector)
 {
-  double xMin = 0.0, yMin = 0.0, xMax = 0.0, yMax = 0.0;
+  double xMin = 0.0;
+  double yMin = 0.0;
+  double xMax = 0.0;
+  double yMax = 0.0;
   for (unsigned int i = 0; i < thePointVector.size(); i++)
   {
     if (i == 0)
@@ -317,10 +318,14 @@ Rect::Rect(const vector<NFmiPoint*>& thePointVector)
       yMin = yMax = thePointVector.at(i)->Y();
       continue;
     }
-    if (xMin > thePointVector.at(i)->X()) xMin = thePointVector.at(i)->X();
-    if (xMax < thePointVector.at(i)->X()) xMax = thePointVector.at(i)->X();
-    if (yMin > thePointVector.at(i)->Y()) yMin = thePointVector.at(i)->Y();
-    if (yMax < thePointVector.at(i)->Y()) yMax = thePointVector.at(i)->Y();
+    if (xMin > thePointVector.at(i)->X())
+      xMin = thePointVector.at(i)->X();
+    if (xMax < thePointVector.at(i)->X())
+      xMax = thePointVector.at(i)->X();
+    if (yMin > thePointVector.at(i)->Y())
+      yMin = thePointVector.at(i)->Y();
+    if (yMax < thePointVector.at(i)->Y())
+      yMax = thePointVector.at(i)->Y();
   }
   m_topLeft.X(xMin);
   m_topLeft.Y(yMax);
@@ -341,7 +346,10 @@ Rect::Rect(const double& topLeftX,
 
 Rect::Rect(const WeatherArea& theWeatherArea)
 {
-  double xMin = 0, yMin = 0, xMax = 0, yMax = 0;
+  double xMin = 0;
+  double yMin = 0;
+  double xMax = 0;
+  double yMax = 0;
 
   NFmiSvgTools::BoundingBox(theWeatherArea.path(), xMin, yMin, xMax, yMax);
 
@@ -355,7 +363,7 @@ Rect::Rect(const AnalysisSources& theSources,
            const WeatherParameter& theParameter,
            const NFmiIndexMask& theIndexMask)
 {
-  if (theIndexMask.size() == 0)
+  if (theIndexMask.empty())
   {
     m_topLeft.X(0);
     m_topLeft.Y(0);
@@ -382,13 +390,17 @@ Rect::Rect(const AnalysisSources& theSources,
   double lon_max = 0.0;
   double lat_max = 0.0;
 
-  for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (unsigned long it : theIndexMask)
   {
-    NFmiPoint point(theQI.LatLon(*it));
-    if (lon_min > point.X()) lon_min = point.X();
-    if (lon_max < point.X()) lon_max = point.X();
-    if (lat_min > point.Y()) lat_min = point.Y();
-    if (lat_max < point.Y()) lat_max = point.Y();
+    NFmiPoint point(theQI.LatLon(it));
+    if (lon_min > point.X())
+      lon_min = point.X();
+    if (lon_max < point.X())
+      lon_max = point.X();
+    if (lat_min > point.Y())
+      lat_min = point.Y();
+    if (lat_max < point.Y())
+      lat_max = point.Y();
   }
   m_topLeft.X(lon_min);
   m_topLeft.Y(lat_max);
@@ -541,7 +553,8 @@ Rect Rect::subRect(const direction_id& theDirectionId) const
 
 bool Rect::contains(const Rect& theRect) const
 {
-  if (size() == 0 || theRect.size() == 0) return false;
+  if (size() == 0 || theRect.size() == 0)
+    return false;
 
   return (m_topLeft.X() <= theRect.m_topLeft.X() &&
           m_bottomRight.X() >= theRect.m_bottomRight.X() &&
@@ -556,7 +569,8 @@ bool Rect::contains(const NFmiPoint& thePoint) const
 
 direction_id Rect::getHalfDirection(const NFmiPoint& thePoint) const
 {
-  if (!contains(thePoint)) return NO_DIRECTION;
+  if (!contains(thePoint))
+    return NO_DIRECTION;
 
   direction_id retval = NO_DIRECTION;
 

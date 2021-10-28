@@ -22,9 +22,9 @@ class TemperatureRange : public IntegerRange
                             int theEndValue,
                             const std::string& theSeparator = "-");
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
 
 };  // class TemperatureRange
 

@@ -62,13 +62,16 @@ void header_none()
   string result;
 
   result = require("fi", area, period, var, "");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -93,22 +96,28 @@ void header_until()
   string result;
 
   result = require("fi", area, period1, var, "Odotettavissa maanantaiaamuun asti");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period1, var, "Utsikter till måndag morgon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period1, var, "Expected weather until Monday morning");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("fi", area, period2, var, "Odotettavissa maanantai-iltaan asti");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period2, var, "Utsikter till måndag kväll");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period2, var, "Expected weather until Monday evening");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -133,26 +142,32 @@ void header_from_until()
   string result;
 
   result = require("fi", area, period1, var, "Odotettavissa sunnuntaiaamusta maanantaiaamuun");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result =
       require("sv", area, period1, var, "Utsikter från och med söndag morgon till måndag morgon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require(
       "en", area, period1, var, "Expected weather from Sunday morning until Monday morning");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("fi", area, period2, var, "Odotettavissa sunnuntaiaamusta maanantai-iltaan");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result =
       require("sv", area, period2, var, "Utsikter från och med söndag morgon till måndag kväll");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require(
       "en", area, period2, var, "Expected weather from Sunday morning until Monday evening");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -176,14 +191,17 @@ void header_several_days()
   string result;
 
   result = require("fi", area, period, var, "Sunnuntaiaamusta alkavan kahden vuorokauden sää");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result =
       require("sv", area, period, var, "Från och med söndag morgon för de följande två dygnen");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "From Sunday morning for the next two days");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -207,13 +225,16 @@ void header_report_area()
   string result;
 
   result = require("fi", area, period, var, "Sääennuste Uudellemaalle sunnuntaina kello 6");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Väderrapport för Nyland söndag klockan 6");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Weather report for Uusimaa on Sunday 6 o'clock");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -237,13 +258,16 @@ void header_report_time()
   string result;
 
   result = require("fi", area, period, var, "Sääennuste sunnuntaina kello 6");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Väderrapport söndag klockan 6");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Weather report on Sunday 6 o'clock");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -267,13 +291,16 @@ void header_report_location()
   string result;
 
   result = require("fi", area, period, var, "Helsinki");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Helsinki");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Helsinki");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -298,24 +325,30 @@ void header_morning()
   string result;
 
   result = require("fi", area, period, var, "Odotettavissa aamulla");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på morgonen");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather in the morning");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   Settings::set(var + "::weekdays", "true");
 
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina aamulla");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på söndag morgon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday morning");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -340,24 +373,30 @@ void header_forenoon()
   string result;
 
   result = require("fi", area, period, var, "Odotettavissa aamupäivällä");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på förmiddagen");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather in the forenoon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   Settings::set(var + "::weekdays", "true");
 
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina aamupäivällä");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på söndag förmiddag");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday forenoon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -382,24 +421,30 @@ void header_afternoon()
   string result;
 
   result = require("fi", area, period, var, "Odotettavissa iltapäivällä");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på eftermiddagen");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather in the afternoon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   Settings::set(var + "::weekdays", "true");
 
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina iltapäivällä");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på söndag eftermiddag");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday afternoon");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -424,24 +469,30 @@ void header_evening()
   string result;
 
   result = require("fi", area, period, var, "Odotettavissa illalla");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på kvällen");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather in the evening");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   Settings::set(var + "::weekdays", "true");
 
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina illalla");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på söndag kväll");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday evening");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }
@@ -466,24 +517,30 @@ void header_clock_range()
   string result;
 
   result = require("fi", area, period, var, "Odotettavissa kello 6-12");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter klockan 6-12");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather 6-12 o'clock");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   Settings::set(var + "::weekdays", "true");
 
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina kello 6-12");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("sv", area, period, var, "Utsikter på söndag klockan 6-12");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday 6-12 o'clock");
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
 
   TEST_PASSED();
 }

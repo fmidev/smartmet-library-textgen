@@ -44,7 +44,8 @@ bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&)
 
 bool is_parameter_valid(int theMonth, int theDay)
 {
-  if (theMonth < 1 || theMonth > 12) return false;
+  if (theMonth < 1 || theMonth > 12)
+    return false;
 
   bool retval = true;
 
@@ -97,8 +98,7 @@ bool isBetweenDates(
   {
     if (theDate.GetMonth() >= startMonth && theDate.GetMonth() <= 12)
       return (compareDate >= startDate);
-    else
-      return (compareDate <= endDate);
+          return (compareDate <= endDate);
   }
 
   return (compareDate >= startDate && compareDate <= endDate);
@@ -115,7 +115,10 @@ bool isBetweenDates(
 
 bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int winterStartMonth = -1, winterStartDay = -1, winterEndMonth = -1, winterEndDay = -1;
+  int winterStartMonth = -1;
+  int winterStartDay = -1;
+  int winterEndMonth = -1;
+  int winterEndDay = -1;
 
   // by default dec-feb
   read_date_variable(theVar + "::winter::startdate", "1201", winterStartMonth, winterStartDay);
@@ -135,7 +138,10 @@ bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int springStartMonth = -1, springStartDay = -1, springEndMonth = -1, springEndDay = -1;
+  int springStartMonth = -1;
+  int springStartDay = -1;
+  int springEndMonth = -1;
+  int springEndDay = -1;
 
   // by default mar-may
   read_date_variable(theVar + "::spring::startdate", "0301", springStartMonth, springStartDay);
@@ -155,7 +161,10 @@ bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
+  int summerStartMonth = -1;
+  int summerStartDay = -1;
+  int summerEndMonth = -1;
+  int summerEndDay = -1;
 
   // by default jun-aug
   read_date_variable(theVar + "::summer::startdate", "0601", summerStartMonth, summerStartDay);
@@ -175,7 +184,10 @@ bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int autumnStartMonth = -1, autumnStartDay = -1, autumnEndMonth = -1, autumnEndDay = -1;
+  int autumnStartMonth = -1;
+  int autumnStartDay = -1;
+  int autumnEndMonth = -1;
+  int autumnEndDay = -1;
 
   // by default sep-nov
   read_date_variable(theVar + "::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
@@ -195,7 +207,10 @@ bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
+  int summerStartMonth = -1;
+  int summerStartDay = -1;
+  int summerEndMonth = -1;
+  int summerEndDay = -1;
 
   read_date_variable(theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
   read_date_variable(theVar + "::summertime::enddate", "0930", summerEndMonth, summerEndDay);
@@ -248,10 +263,13 @@ float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
                                      const std::string& theVariable)
 {
   string fake_var("onenight::fake::growing_season_percentange");
-  if (theArea.type() == WeatherArea::Inland) fake_var += "::inland";
-  if (theArea.type() == WeatherArea::Coast) fake_var += "::coastal";
+  if (theArea.type() == WeatherArea::Inland)
+    fake_var += "::inland";
+  if (theArea.type() == WeatherArea::Coast)
+    fake_var += "::coastal";
 
-  if (Settings::isset(fake_var)) return Settings::optional_double(fake_var, 0.0);
+  if (Settings::isset(fake_var))
+    return Settings::optional_double(fake_var, 0.0);
 
   GridForecaster forecaster;
   // 5 days average temperature
@@ -284,7 +302,8 @@ float growing_season_percentage(const WeatherArea& theArea,
   float growthPeriodOnOffPercentage =
       get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
 
-  if (growthPeriodOnOffPercentage != -1.0) return growthPeriodOnOffPercentage;
+  if (growthPeriodOnOffPercentage != -1.0)
+    return growthPeriodOnOffPercentage;
 
   float overFiveDegreesPercentage =
       get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
@@ -328,7 +347,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
 bool growing_season_going_on(const WeatherArea& theArea,
                              const AnalysisSources& theSources,
                              const WeatherPeriod& thePeriod,
-                             const std::string theVariable)
+                             const std::string& theVariable)
 {
   if (isset(theVariable + "::fake::growing_season_on"))
   {
@@ -356,7 +375,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
             overFiveDegreesPercentage != kFloatMissing &&
             overFiveDegreesPercentage >= required_growing_season_percentage);
   }
-  else if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
+  if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
   {
     return (overFiveDegreesPercentage != kFloatMissing &&
             overFiveDegreesPercentage >= required_growing_season_percentage);
@@ -368,7 +387,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
 forecast_season_id get_forecast_season(const WeatherArea& theArea,
                                        const AnalysisSources& theSources,
                                        const WeatherPeriod& thePeriod,
-                                       const std::string theVariable)
+                                       const std::string& theVariable)
 {
   bool growingSeasonGoingOn = growing_season_going_on(theArea, theSources, thePeriod, theVariable);
 

@@ -47,7 +47,8 @@ string require(const string& theMode,
 
 #define REQUIRE(mode, var, time, period, lang, expected)     \
   result = require(mode, var, time, period, lang, expected); \
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())                                       \
+    TEST_FAILED(result.c_str());
 
 // ----------------------------------------------------------------------
 /*!

@@ -133,9 +133,9 @@ enum WindEventType
 #define HIRMUMYRSKY_WORD "hirmumyrsky"
 
 // contains wind speed interval minimum and maximum values
-typedef std::vector<std::pair<float, float> > wind_speed_vector;
+using wind_speed_vector = std::vector<std::pair<float, float>>;
 
-WindDirectionAccuracy direction_accuracy(double theAccuracy, const std::string& theVariable);
+WindDirectionAccuracy direction_accuracy(double theError, const std::string& theVariable);
 int direction8th(double theDirection);
 
 int direction16th(double theDirection);
@@ -203,7 +203,7 @@ void populate_winddirection_distribution_time_series(
     const WeatherArea& theArea,
     const WeatherPeriod& thePeriod,
     const std::string& theVar,
-    std::vector<std::pair<float, WeatherResult> >& theWindDirectionDistribution,
+    std::vector<std::pair<float, WeatherResult>>& theWindDirectionDistribution,
     WindStoryTools::CompassType compass_type = sixteen_directions);
 
 }  // namespace WindStoryTools

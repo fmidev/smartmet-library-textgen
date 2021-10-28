@@ -26,7 +26,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -163,7 +162,7 @@ class WarningPercentages
  */
 // ----------------------------------------------------------------------
 
-const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
+WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
                                                int thePeriodIndex,
                                                const TextGen::AnalysisSources& theSources,
                                                const TextGen::WeatherArea& theArea,
@@ -174,9 +173,9 @@ const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   WarningPercentages percentages;
   for (int i = min_warning; i <= max_warning; i++)
   {
-    const RoadWarningType c = RoadWarningType(i);
+    const auto c = RoadWarningType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+    const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
                          "::" + warning_name(c) + "::percentage");
 
     ValueAcceptor warnfilter;
@@ -227,20 +226,18 @@ RoadWarningType find_most_general_warning(const WarningPercentages& thePercentag
  */
 // ----------------------------------------------------------------------
 
-const char* warning_places_phrase(RoadWarningType theType,
-                                  double thePercentage,
+const char* warning_places_phrase(double thePercentage,
                                   int theGenerallyLimit,
                                   int theManyPlacesLimit,
                                   int theSomePlacesLimit)
 {
   if (thePercentage < theSomePlacesLimit)
     return "";
-  else if (thePercentage < theManyPlacesLimit)
+  if (thePercentage < theManyPlacesLimit)
     return "paikoin";
-  else if (thePercentage < theGenerallyLimit)
+  if (thePercentage < theGenerallyLimit)
     return "monin paikoin";
-  else
-    return "yleisesti";
+      return "yleisesti";
 }
 
 // ----------------------------------------------------------------------
@@ -249,14 +246,13 @@ const char* warning_places_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence warning_phrase(RoadWarningType theType,
+Sentence warning_phrase(RoadWarningType theType,
                               double thePercentage,
                               int theGenerallyLimit,
                               int theManyPlacesLimit,
                               int theSomePlacesLimit)
 {
-  const char* places_phrase = warning_places_phrase(theType,
-                                                    thePercentage,
+  const char* places_phrase = warning_places_phrase(thePercentage,
                                                     theGenerallyLimit,
                                                     theManyPlacesLimit,
 
@@ -328,7 +324,7 @@ const Sentence warning_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence second_places_sentence(RoadWarningType thePrimaryType,
+Sentence second_places_sentence(RoadWarningType thePrimaryType,
                                       RoadWarningType theSecondaryType)
 {
   Sentence sentence;
@@ -764,7 +760,7 @@ const Sentence second_places_sentence(RoadWarningType thePrimaryType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence warning_sentence(const WarningPercentages& thePercentages, const string& theVar)
+Sentence warning_sentence(const WarningPercentages& thePercentages, const string& theVar)
 {
   Sentence sentence;
 
@@ -795,7 +791,7 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
 
   for (int i = min_warning; i <= max_warning; i++)
   {
-    const RoadWarningType warning = RoadWarningType(i);
+    const auto warning = RoadWarningType(i);
 
     if (thePercentages[warning] >= someplaces_limit && thePercentages[warning] < manyplaces_limit)
     {
@@ -818,7 +814,8 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
     if (!someplacestypes.empty())
     {
       Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
-      if (!s.empty()) sentence << Delimiter(",") << s;
+      if (!s.empty())
+        sentence << Delimiter(",") << s;
     }
     return sentence;
   }
@@ -877,7 +874,8 @@ Paragraph RoadStory::warning_shortview() const
 
   const TextGenPosixTime time1(itsPeriod.localStartTime());
   TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
-  if (itsPeriod.localEndTime().IsLessThan(time2)) time2 = itsPeriod.localEndTime();
+  if (itsPeriod.localEndTime().IsLessThan(time2))
+    time2 = itsPeriod.localEndTime();
 
   const WeatherPeriod fullperiod(time1, time2);
 

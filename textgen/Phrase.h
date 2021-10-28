@@ -17,19 +17,19 @@ class Dictionary;
 class Phrase : public Glyph
 {
  public:
-  virtual ~Phrase();
-  Phrase(const std::string& theWord);
+  ~Phrase() override;
+  Phrase(std::string  theWord);
 #ifdef NO_COMPILER_GENERATED
   Phrase(const Phrase& thePhrase);
   Phrase& operator=(const Phrase& thePhrase);
 #endif
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
  private:
-  Phrase();
+  Phrase() = delete;
   std::string itsWord;
 
 };  // class Phrase

@@ -18,7 +18,7 @@ namespace TextGen
 class Dictionary
 {
  public:
-  typedef unsigned long size_type;
+  using size_type = unsigned long;
 
   // Compiler generated:
   //
@@ -26,19 +26,19 @@ class Dictionary
   // Dictionary(const Dictionary & theDict);
   // Dictionary & operator=(const Dictionary & theDict);
 
-  virtual ~Dictionary() {}
-  virtual void init(const std::string& theLanguage) = 0;  
-  virtual void changeLanguage(const std::string& theLanguage) {};  
-  virtual const std::string& language(void) const = 0;
+  virtual ~Dictionary() = default;
+  virtual void init(const std::string& theLanguage) = 0;
+  virtual void changeLanguage(const std::string& theLanguage){};
+  virtual const std::string& language() const = 0;
   virtual bool contains(const std::string& theKey) const = 0;
   virtual const std::string& find(const std::string& theKey) const = 0;
   virtual void insert(const std::string& theKey, const std::string& thePhrase) = 0;
 
   virtual void geoinit(void* theReactor) {}
-  virtual bool geocontains(const std::string& theKey) const { return false; }
-  virtual bool geocontains(const double& theLongitude,
-                           const double& theLatitude,
-                           const double& theMaxDistance) const
+  virtual bool geocontains(const std::string&  /*theKey*/) const { return false; }
+  virtual bool geocontains(const double&  /*theLongitude*/,
+                           const double&  /*theLatitude*/,
+                           const double&  /*theMaxDistance*/) const
   {
     return false;
   }
@@ -46,9 +46,7 @@ class Dictionary
   {
     throw TextGenError("Error: Dictionary::geofind(" + theKey + ") failed");
   }
-  virtual std::string geofind(double theLongitude,
-							  double theLatitude,
-							  double theMaxDistance) const
+  virtual std::string geofind(double theLongitude, double theLatitude, double theMaxDistance) const
   {
     std::stringstream ss;
     ss << "Error: Dictionary::geofind(" << theLongitude << ", " << theLatitude << ", "
@@ -57,12 +55,12 @@ class Dictionary
     throw TextGenError(ss.str());
   }
 
-  virtual size_type size(void) const = 0;
-  virtual bool empty(void) const = 0;
+  virtual size_type size() const = 0;
+  virtual bool empty() const = 0;
 
-  const std::string getDictionaryId() const { return itsDictionaryId; }
+  std::string getDictionaryId() const { return itsDictionaryId; }
 
-protected:
+ protected:
   std::string itsDictionaryId;
 
 };  // class Dictionary

@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-DewPointStory::~DewPointStory() {}
+DewPointStory::~DewPointStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -45,12 +47,12 @@ DewPointStory::DewPointStory(const TextGenPosixTime& theForecastTime,
                              const AnalysisSources& theSources,
                              const WeatherArea& theArea,
                              const WeatherPeriod& thePeriod,
-                             const string& theVariable)
+                             string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -65,8 +67,7 @@ DewPointStory::DewPointStory(const TextGenPosixTime& theForecastTime,
 
 bool DewPointStory::hasStory(const string& theName)
 {
-  if (theName == "dewpoint_range") return true;
-  return false;
+  return theName == "dewpoint_range";
 }
 
 // ----------------------------------------------------------------------
@@ -82,7 +83,8 @@ bool DewPointStory::hasStory(const string& theName)
 
 Paragraph DewPointStory::makeStory(const string& theName) const
 {
-  if (theName == "dewpoint_range") return range();
+  if (theName == "dewpoint_range")
+    return range();
 
   throw TextGenError("DewPointStory cannot make story " + theName);
 }

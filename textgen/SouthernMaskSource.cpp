@@ -79,8 +79,8 @@ class SouthernMaskSource::Pimple
 
   const WeatherArea itsArea;
 
-  typedef map<WeatherAreaAndID, mask_type> mask_storage;
-  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+  using mask_storage = map<WeatherAreaAndID, mask_type>;
+  using masks_storage = map<WeatherAreaAndID, masks_type>;
 
   mutable mask_storage itsMaskStorage;
   mutable masks_storage itsMasksStorage;
@@ -102,7 +102,7 @@ class SouthernMaskSource::Pimple
 // ----------------------------------------------------------------------
 
 SouthernMaskSource::Pimple::Pimple(const WeatherArea& theArea)
-    : itsArea(theArea), itsMaskStorage(), itsMasksStorage()
+    : itsArea(theArea) 
 {
 }
 
@@ -128,14 +128,16 @@ SouthernMaskSource::mask_type SouthernMaskSource::Pimple::find(const WeatherId& 
   for (it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
   {
     // identicalArea-function compares more than operator ==
-    if (it->first.itsArea.identicalArea(theArea)) return it->second;
+    if (it->first.itsArea.identicalArea(theArea))
+      return it->second;
   }
 
   mask_storage::iterator iter;
 
   WeatherAreaAndID key(theID, theArea);
   iter = itsMaskStorage.find(key);
-  if (iter != itsMaskStorage.end()) itsMaskStorage.erase(iter);
+  if (iter != itsMaskStorage.end())
+    itsMaskStorage.erase(iter);
 
   return dummy;
 }
@@ -154,7 +156,7 @@ void SouthernMaskSource::Pimple::insert(const WeatherId& theID,
                                         const WeatherArea& theArea,
                                         const mask_type& theMask) const
 {
-  typedef mask_storage::value_type value_type;
+  using value_type = mask_storage::value_type;
 
   WeatherAreaAndID key(theID, theArea);
 
@@ -217,7 +219,8 @@ SouthernMaskSource::mask_type SouthernMaskSource::mask(const WeatherArea& theAre
                                                        const std::string& theData,
                                                        const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+  if (theArea.isPoint())
+    throw TextGenError("Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -227,7 +230,8 @@ SouthernMaskSource::mask_type SouthernMaskSource::mask(const WeatherArea& theAre
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0) return areamask;
+  if (areamask.get() != nullptr)
+    return areamask;
 
   // Calculate new mask and cache it
   areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
@@ -247,9 +251,9 @@ SouthernMaskSource::mask_type SouthernMaskSource::mask(const WeatherArea& theAre
 // ----------------------------------------------------------------------
 
 SouthernMaskSource::masks_type SouthernMaskSource::masks(
-    const WeatherArea& theArea,
-    const std::string& theData,
-    const WeatherSource& theWeatherSource) const
+    const WeatherArea&  /*theArea*/,
+    const std::string&  /*theData*/,
+    const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("SouthernMaskSource::masks not implemented");
 }

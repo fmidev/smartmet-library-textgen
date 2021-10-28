@@ -26,7 +26,10 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::size_type GlyphContainer::size() const { return itsData.size(); }
+GlyphContainer::size_type GlyphContainer::size() const
+{
+  return itsData.size();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test if the container is empty
@@ -35,14 +38,20 @@ GlyphContainer::size_type GlyphContainer::size() const { return itsData.size(); 
  */
 // ----------------------------------------------------------------------
 
-bool GlyphContainer::empty() const { return itsData.empty(); }
+bool GlyphContainer::empty() const
+{
+  return itsData.empty();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Clear the container
  */
 // ----------------------------------------------------------------------
 
-void GlyphContainer::clear() { itsData.clear(); }
+void GlyphContainer::clear()
+{
+  itsData.clear();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Append a new glyph to the container
@@ -51,7 +60,10 @@ void GlyphContainer::clear() { itsData.clear(); }
  */
 // ----------------------------------------------------------------------
 
-void GlyphContainer::push_back(const Glyph& theGlyph) { itsData.push_back(theGlyph.clone()); }
+void GlyphContainer::push_back(const Glyph& theGlyph)
+{
+  itsData.push_back(theGlyph.clone());
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Append a new glyph to the container
@@ -60,7 +72,10 @@ void GlyphContainer::push_back(const Glyph& theGlyph) { itsData.push_back(theGly
  */
 // ----------------------------------------------------------------------
 
-void GlyphContainer::push_back(const_reference theGlyph) { itsData.push_back(theGlyph); }
+void GlyphContainer::push_back(const_reference theGlyph)
+{
+  itsData.push_back(theGlyph);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Insert a new glyph to the container
@@ -69,7 +84,10 @@ void GlyphContainer::push_back(const_reference theGlyph) { itsData.push_back(the
  */
 // ----------------------------------------------------------------------
 
-void GlyphContainer::push_front(const Glyph& theGlyph) { itsData.push_front(theGlyph.clone()); }
+void GlyphContainer::push_front(const Glyph& theGlyph)
+{
+  itsData.push_front(theGlyph.clone());
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Insert a new glyph to the container
@@ -78,7 +96,10 @@ void GlyphContainer::push_front(const Glyph& theGlyph) { itsData.push_front(theG
  */
 // ----------------------------------------------------------------------
 
-void GlyphContainer::push_front(const_reference theGlyph) { itsData.push_front(theGlyph); }
+void GlyphContainer::push_front(const_reference theGlyph)
+{
+  itsData.push_front(theGlyph);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the begin iterator (const)
@@ -87,7 +108,10 @@ void GlyphContainer::push_front(const_reference theGlyph) { itsData.push_front(t
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::const_iterator GlyphContainer::begin() const { return itsData.begin(); }
+GlyphContainer::const_iterator GlyphContainer::begin() const
+{
+  return itsData.begin();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the end iterator (const)
@@ -96,7 +120,10 @@ GlyphContainer::const_iterator GlyphContainer::begin() const { return itsData.be
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::const_iterator GlyphContainer::end() const { return itsData.end(); }
+GlyphContainer::const_iterator GlyphContainer::end() const
+{
+  return itsData.end();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the begin iterator (non-const)
@@ -105,7 +132,10 @@ GlyphContainer::const_iterator GlyphContainer::end() const { return itsData.end(
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::iterator GlyphContainer::begin() { return itsData.begin(); }
+GlyphContainer::iterator GlyphContainer::begin()
+{
+  return itsData.begin();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the end iterator (non-const)
@@ -114,7 +144,10 @@ GlyphContainer::iterator GlyphContainer::begin() { return itsData.begin(); }
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::iterator GlyphContainer::end() { return itsData.end(); }
+GlyphContainer::iterator GlyphContainer::end()
+{
+  return itsData.end();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the front element
@@ -123,7 +156,10 @@ GlyphContainer::iterator GlyphContainer::end() { return itsData.end(); }
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::const_reference GlyphContainer::front() const { return itsData.front(); }
+GlyphContainer::const_reference GlyphContainer::front() const
+{
+  return itsData.front();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the back element
@@ -132,7 +168,10 @@ GlyphContainer::const_reference GlyphContainer::front() const { return itsData.f
  */
 // ----------------------------------------------------------------------
 
-GlyphContainer::const_reference GlyphContainer::back() const { return itsData.back(); }
+GlyphContainer::const_reference GlyphContainer::back() const
+{
+  return itsData.back();
+}
 }  // namespace TextGen
 
 // ======================================================================

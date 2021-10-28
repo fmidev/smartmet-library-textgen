@@ -94,16 +94,16 @@ frost_category get_frost_category(const double& frostProbability,
   // area not included or growing season not yet started
   if (!(forecast_areas & area_id) || !(growing_season_started & area_id))
     return CAT_NA;
-  else if (night_frost & area_id)  // night frost
+  if (night_frost & area_id)  // night frost
     return CAT_FROST;
 
   if (frostProbability >= 0.0 && frostProbability < 10.0)
     return CAT_0010;
-  else if (frostProbability >= 10.0 && frostProbability < 25.0)
+  if (frostProbability >= 10.0 && frostProbability < 25.0)
     return CAT_1020;
-  else if (frostProbability >= 25.0 && frostProbability < 45.0)
+  if (frostProbability >= 25.0 && frostProbability < 45.0)
     return CAT_3040;
-  else if (frostProbability >= 45.0 && frostProbability < 65.0)
+  if (frostProbability >= 45.0 && frostProbability < 65.0)
     return CAT_5060;
   else if (frostProbability >= 65.0 && frostProbability < 85.0)
     return CAT_7080;
@@ -125,18 +125,20 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       inlandFrostProbability, forecast_areas, growing_season_started, night_frost, INLAND_AREA);
 
   // if coastal or inland area is missing, read story from story selection table diagonal
-  if (!(forecast_areas & COASTAL_AREA)) categoryCoastal = categoryInland;
-  if (!(forecast_areas & INLAND_AREA)) categoryInland = categoryCoastal;
+  if (!(forecast_areas & COASTAL_AREA))
+    categoryCoastal = categoryInland;
+  if (!(forecast_areas & INLAND_AREA))
+    categoryInland = categoryCoastal;
 
   if (categoryCoastal == CAT_NA)
   {
     if (categoryInland == CAT_NA || categoryInland == CAT_0010 || categoryInland == CAT_FROST)
       return EMPTY_STORY;
-    else if (categoryInland == CAT_1020)
+    if (categoryInland == CAT_1020)
       return ALAVILLA_MAILLA_HALLAN_VAARA;
-    else if (categoryInland == CAT_3040)
+    if (categoryInland == CAT_3040)
       return MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_5060)
+    if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
     else if (categoryInland == CAT_7080)
       return MONIN_PAIKOIN_HALLAA;
@@ -147,11 +149,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   {
     if (categoryInland == CAT_NA || categoryInland == CAT_0010 || categoryInland == CAT_FROST)
       return EMPTY_STORY;
-    else if (categoryInland == CAT_1020)
+    if (categoryInland == CAT_1020)
       return ALAVILLA_MAILLA_HALLAN_VAARA;
-    else if (categoryInland == CAT_3040)
+    if (categoryInland == CAT_3040)
       return MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_5060)
+    if (categoryInland == CAT_5060)
       return SISAMAASSA_PAIKOIN_HALLAA;
     else if (categoryInland == CAT_7080)
       return SISAMAASSA_MONIN_PAIKOIN_HALLAA;
@@ -162,11 +164,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   {
     if (categoryInland == CAT_NA)
       return RANNIKOLLA_MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_0010 || categoryInland == CAT_1020)
+    if (categoryInland == CAT_0010 || categoryInland == CAT_1020)
       return ALAVILLA_MAILLA_HALLAN_VAARA;
-    else if (categoryInland == CAT_3040)
+    if (categoryInland == CAT_3040)
       return MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_5060)
+    if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
     else if (categoryInland == CAT_7080)
       return SISAMAASSA_MONIN_PAIKOIN_HALLAA;
@@ -179,11 +181,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   {
     if (categoryInland == CAT_NA || categoryInland == CAT_0010)
       return RANNIKOLLA_MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_1020 || categoryInland == CAT_3040)
+    if (categoryInland == CAT_1020 || categoryInland == CAT_3040)
       return MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_5060)
+    if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080)
+    if (categoryInland == CAT_7080)
       return (SISAMAASSA_MONIN_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA;
     else if (categoryInland == CAT_90100)
       return (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA;
@@ -195,11 +197,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   {
     if (categoryInland == CAT_NA || categoryInland == CAT_0010)
       return RANNIKOLLA_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_1020 || categoryInland == CAT_3040 || categoryInland == CAT_5060)
+    if (categoryInland == CAT_1020 || categoryInland == CAT_3040 || categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080)
+    if (categoryInland == CAT_7080)
       return MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_90100)
+    if (categoryInland == CAT_90100)
       return HALLAA_YLEISESTI;
     else if (categoryInland == CAT_FROST)
       return EMPTY_STORY;
@@ -208,11 +210,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   {
     if (categoryInland == CAT_NA || categoryInland == CAT_0010)
       return RANNIKOLLA_MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_1020)
+    if (categoryInland == CAT_1020)
       return (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_3040)
+    if (categoryInland == CAT_3040)
       return (RANNIKOLLA_MONIN_PAIKOIN_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_5060)
+    if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
     else if (categoryInland == CAT_7080)
       return MONIN_PAIKOIN_HALLAA;
@@ -225,11 +227,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   {
     if (categoryInland == CAT_NA || categoryInland == CAT_0010)
       return RANNIKOLLA_HALLAA;
-    else if (categoryInland == CAT_1020)
+    if (categoryInland == CAT_1020)
       return (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_HALLAA;
-    else if (categoryInland == CAT_3040)
+    if (categoryInland == CAT_3040)
       return (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_5060)
+    if (categoryInland == CAT_5060)
       return (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_PAIKOIN_HALLAA;
     else if (categoryInland == CAT_7080 || categoryInland == CAT_90100)
       return HALLAA_YLEISESTI;
@@ -471,7 +473,7 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
   return sentence;
 }
 
-const Sentence frost_onenight_sentence(const double& coastalFrostProbability,
+Sentence frost_onenight_sentence(const double& coastalFrostProbability,
                                        const double& inlandFrostProbability,
                                        const bool& severeFrostCoastal,
                                        const bool& severeFrostInland,
@@ -718,7 +720,8 @@ Paragraph FrostStory::onenight() const
   if (forecast_areas & COASTAL_AREA && ignoreCoastalArea)
   {
     forecast_areas ^= COASTAL_AREA;
-    if (growing_season_started & COASTAL_AREA) growing_season_started ^= COASTAL_AREA;
+    if (growing_season_started & COASTAL_AREA)
+      growing_season_started ^= COASTAL_AREA;
   }
 
   if (!(forecast_areas & (COASTAL_AREA | INLAND_AREA)))

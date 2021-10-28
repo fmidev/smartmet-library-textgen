@@ -16,6 +16,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -27,7 +29,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-ForestStory::~ForestStory() {}
+ForestStory::~ForestStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -44,12 +46,12 @@ ForestStory::ForestStory(const TextGenPosixTime& theForecastTime,
                          const AnalysisSources& theSources,
                          const WeatherArea& theArea,
                          const WeatherPeriod& thePeriod,
-                         const string& theVariable)
+                         string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -64,9 +66,12 @@ ForestStory::ForestStory(const TextGenPosixTime& theForecastTime,
 
 bool ForestStory::hasStory(const string& theName)
 {
-  if (theName == "forestfireindex_twodays") return true;
-  if (theName == "evaporation_day") return true;
-  if (theName == "forestfirewarning_county") return true;
+  if (theName == "forestfireindex_twodays")
+    return true;
+  if (theName == "evaporation_day")
+    return true;
+  if (theName == "forestfirewarning_county")
+    return true;
   return false;
 }
 
@@ -83,9 +88,12 @@ bool ForestStory::hasStory(const string& theName)
 
 Paragraph ForestStory::makeStory(const string& theName) const
 {
-  if (theName == "forestfireindex_twodays") return forestfireindex_twodays();
-  if (theName == "evaporation_day") return evaporation_day();
-  if (theName == "forestfirewarning_county") return forestfirewarning_county();
+  if (theName == "forestfireindex_twodays")
+    return forestfireindex_twodays();
+  if (theName == "evaporation_day")
+    return evaporation_day();
+  if (theName == "forestfirewarning_county")
+    return forestfirewarning_county();
 
   throw TextGenError("ForestStory cannot make story " + theName);
 }

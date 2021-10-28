@@ -57,7 +57,7 @@ std::string on_weekday_afternoon(const TextGenPosixTime& theTime,
 std::string on_weekday_evening(const TextGenPosixTime& theTime,
                                TextGen::WeatherHistory& theHistory);
 std::string get_time_phrase(const TextGenPosixTime& theTime,
-                            const std::string theNewPhrase,
+                            const std::string& theNewWeekdayPhrase,
                             TextGen::WeatherHistory& theHistory);
 
 }  // namespace WeekdayTools

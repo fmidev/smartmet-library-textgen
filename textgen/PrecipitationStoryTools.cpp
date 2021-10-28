@@ -38,7 +38,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -145,7 +144,7 @@ Sentence places_phrase(const AnalysisSources& theSources,
   RangeAcceptor rainlimits;
   rainlimits.lowerLimit(minrain);
 
-  const string day = lexical_cast<string>(theDay);
+  const string day = std::to_string(theDay);
   WeatherResult result = forecaster.analyze(theVar + "::fake::day" + day + "::places",
                                             theSources,
                                             Precipitation,
@@ -215,7 +214,7 @@ Sentence type_phrase(const AnalysisSources& theSources,
   GridForecaster forecaster;
   Sentence sentence;
 
-  const string day = lexical_cast<string>(theDay);
+  const string day = std::to_string(theDay);
 
   RangeAcceptor waterfilter;
   waterfilter.lowerLimit(0);  // 0 = drizzle

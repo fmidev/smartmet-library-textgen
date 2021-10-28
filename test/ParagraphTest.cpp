@@ -54,16 +54,19 @@ void empty(void)
   using namespace TextGen;
 
   Paragraph p1;
-  if (!p1.empty()) TEST_FAILED("paragraph should be empty after void constructor");
+  if (!p1.empty())
+    TEST_FAILED("paragraph should be empty after void constructor");
 
   Sentence s;
   s << "foobar";
   Paragraph p2;
   p2 << s;
-  if (p2.empty()) TEST_FAILED("paragraph should not be empty after explicit construction");
+  if (p2.empty())
+    TEST_FAILED("paragraph should not be empty after explicit construction");
 
   Paragraph p3(p2);
-  if (p3.empty()) TEST_FAILED("paragraph should not be empty after copy construction");
+  if (p3.empty())
+    TEST_FAILED("paragraph should not be empty after copy construction");
 
   TEST_PASSED();
 }
@@ -74,16 +77,19 @@ void size(void)
   using namespace TextGen;
 
   Paragraph p1;
-  if (p1.size() != 0) TEST_FAILED("paragraph size should be 0 after void constructor");
+  if (p1.size() != 0)
+    TEST_FAILED("paragraph size should be 0 after void constructor");
 
   Sentence s;
   s << "foobar";
   Paragraph p2;
   p2 << s;
-  if (p2.size() != 1) TEST_FAILED("paragraph size should be 1 after explicit construction");
+  if (p2.size() != 1)
+    TEST_FAILED("paragraph size should be 1 after explicit construction");
 
   Paragraph p3(p2);
-  if (p3.size() != 1) TEST_FAILED("paragraph size should be 1 after copy constructor");
+  if (p3.size() != 1)
+    TEST_FAILED("paragraph size should be 1 after copy constructor");
 
   TEST_PASSED();
 }
@@ -106,10 +112,12 @@ void appending(void)
   p2 << s2;
 
   p1 << p2;
-  if (p1.size() != 2) TEST_FAILED("size after a << b is not 2");
+  if (p1.size() != 2)
+    TEST_FAILED("size after a << b is not 2");
 
   p1 << s3;
-  if (p1.size() != 3) TEST_FAILED("size after ab << c is not 3");
+  if (p1.size() != 3)
+    TEST_FAILED("size after ab << c is not 3");
 
   p1 << p1;
   if (p1.size() != 6)
@@ -120,7 +128,8 @@ void appending(void)
 
   Paragraph p;
   p << s1 << s2 << s3;
-  if (p.size() != 3) TEST_FAILED("size after << b << c << d is not 3");
+  if (p.size() != 3)
+    TEST_FAILED("size after << b << c << d is not 3");
 
   TEST_PASSED();
 }

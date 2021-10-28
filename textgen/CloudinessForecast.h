@@ -4,15 +4,15 @@
 
 namespace TextGen
 {
-typedef std::pair<WeatherPeriod, cloudiness_id> weather_period_cloudiness_id_pair;
-typedef std::vector<weather_period_cloudiness_id_pair> cloudiness_period_vector;
+using weather_period_cloudiness_id_pair = std::pair<WeatherPeriod, cloudiness_id>;
+using cloudiness_period_vector = std::vector<weather_period_cloudiness_id_pair>;
 
 class CloudinessForecast
 {
  public:
   CloudinessForecast(wf_story_params& parameters);
 
-  ~CloudinessForecast() {}
+  ~CloudinessForecast() = default;
   void setCoastalData(const weather_result_data_item_vector* coastalData)
   {
     theCoastalData = coastalData;
@@ -91,7 +91,7 @@ class CloudinessForecast
                                       weather_event_id_vector& theCloudinessWeatherEvents);
   void findOutCloudinessWeatherEvents();
 
-  void joinPeriods(const weather_result_data_item_vector* theDataSource,
+  void joinPeriods(const weather_result_data_item_vector* theCloudinessDataSource,
                    const cloudiness_period_vector& theCloudinessPeriodsSource,
                    cloudiness_period_vector& theCloudinessPeriodsDestination);
   void joinPeriods();

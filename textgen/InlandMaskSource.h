@@ -14,21 +14,21 @@ namespace TextGen
 class InlandMaskSource : public MaskSource
 {
  public:
-  typedef MaskSource::mask_type mask_type;
-  typedef MaskSource::masks_type masks_type;
+  using mask_type = MaskSource::mask_type;
+  using masks_type = MaskSource::masks_type;
 
   InlandMaskSource(const WeatherArea& theCoast);
 
-  virtual mask_type mask(const WeatherArea& theArea,
-                         const std::string& theData,
-                         const WeatherSource& theWeatherSource) const;
+  mask_type mask(const WeatherArea& theArea,
+                 const std::string& theData,
+                 const WeatherSource& theWeatherSource) const override;
 
-  virtual masks_type masks(const WeatherArea& theArea,
-                           const std::string& theData,
-                           const WeatherSource& theWeatherSource) const;
+  masks_type masks(const WeatherArea& theArea,
+                   const std::string& theData,
+                   const WeatherSource& theWeatherSource) const override;
 
  private:
-  InlandMaskSource();
+  InlandMaskSource() = delete;
 
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;

@@ -28,7 +28,7 @@ class FireWarnings
   State state(int theArea) const;
 
  private:
-  FireWarnings();
+  FireWarnings() = delete;
   const TextGenPosixTime itsTime;
   std::vector<State> itsWarnings;
 

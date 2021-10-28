@@ -60,11 +60,11 @@ namespace TextGen
 class FileDictionary::Pimple
 {
  public:
-  Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
-  typedef std::map<std::string, std::string> StorageType;
-  typedef StorageType::value_type value_type;
+  Pimple()  = default;
+  using StorageType = std::map<std::string, std::string>;
+  using value_type = StorageType::value_type;
 
-  bool itsInitialized;
+  bool itsInitialized{false};
   std::string itsLanguage;
   StorageType itsData;
 
@@ -78,7 +78,7 @@ class FileDictionary::Pimple
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::~FileDictionary() {}
+FileDictionary::~FileDictionary() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -87,7 +87,10 @@ FileDictionary::~FileDictionary() {}
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::FileDictionary() : Dictionary(), itsPimple(new Pimple()) { itsDictionaryId = "file"; }
+FileDictionary::FileDictionary() :  itsPimple(new Pimple())
+{
+  itsDictionaryId = "file";
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -98,7 +101,10 @@ FileDictionary::FileDictionary() : Dictionary(), itsPimple(new Pimple()) { itsDi
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionary::language(void) const { return itsPimple->itsLanguage; }
+const std::string& FileDictionary::language() const
+{
+  return itsPimple->itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language
@@ -134,7 +140,8 @@ void FileDictionary::init(const std::string& theLanguage)
     throw TextGenError("Error: Could not find dictionary '" + filename + "'");
 
   std::ifstream in(filename.c_str());
-  if (!in) throw TextGenError("Error: Could not open dictionary '" + filename + "' for reading");
+  if (!in)
+    throw TextGenError("Error: Could not open dictionary '" + filename + "' for reading");
 
   std::string line;
   while (getline(in, line))
@@ -143,7 +150,8 @@ void FileDictionary::init(const std::string& theLanguage)
     if (parts.size() != 2)
       throw TextGenError("Error: Dictionary '" + filename + "' contains invalid line '" + line +
                          "'");
-    if (!parts[0].empty()) itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
+    if (!parts[0].empty())
+      itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
   }
 
   itsPimple->itsInitialized = true;
@@ -181,7 +189,8 @@ const std::string& FileDictionary::find(const std::string& theKey) const
     throw TextGenError("Error: FileDictionary::find() called before init()");
   Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
 
-  if (it != itsPimple->itsData.end()) return it->second;
+  if (it != itsPimple->itsData.end())
+    return it->second;
   throw TextGenError("Error: FileDictionary::find(" + theKey + ") failed in language " +
                      itsPimple->itsLanguage);
 }
@@ -198,7 +207,7 @@ const std::string& FileDictionary::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void FileDictionary::insert(const std::string& theKey, const std::string& thePhrase)
+void FileDictionary::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
 {
   throw TextGenError("Error: FileDictionary::insert() is not allowed");
 }
@@ -211,7 +220,10 @@ void FileDictionary::insert(const std::string& theKey, const std::string& thePhr
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::size_type FileDictionary::size(void) const { return itsPimple->itsData.size(); }
+FileDictionary::size_type FileDictionary::size() const
+{
+  return itsPimple->itsData.size();
+}
 // ----------------------------------------------------------------------
 /*!
  * Test if the dictionary is empty
@@ -220,7 +232,10 @@ FileDictionary::size_type FileDictionary::size(void) const { return itsPimple->i
  */
 // ----------------------------------------------------------------------
 
-bool FileDictionary::empty(void) const { return itsPimple->itsData.empty(); }
+bool FileDictionary::empty() const
+{
+  return itsPimple->itsData.empty();
+}
 
 // ----------------------------------------------------------------------
 /*!

@@ -17,7 +17,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -26,7 +25,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WeatherTime::~WeatherTime() {}
+WeatherTime::~WeatherTime() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -57,7 +56,10 @@ boost::shared_ptr<Glyph> WeatherTime::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string WeatherTime::realize(const Dictionary& theDictionary) const { return ""; }
+std::string WeatherTime::realize(const Dictionary&  /*theDictionary*/) const
+{
+  return "";
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Realize using the given text formatter
@@ -78,7 +80,10 @@ std::string WeatherTime::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool WeatherTime::isDelimiter() const { return false; }
+bool WeatherTime::isDelimiter() const
+{
+  return false;
+}
 }  // namespace TextGen
 
 // ======================================================================

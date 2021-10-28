@@ -37,7 +37,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-const Sentence plain_frost_sentence(bool isSevere,
+Sentence plain_frost_sentence(bool isSevere,
                                     int theValue,
                                     const string& theVar,
                                     const TextGenPosixTime& theForecastTime,
@@ -78,7 +78,8 @@ Paragraph FrostStory::day() const
 
   // Too late for this night? Return empty story then
 
-  if (generator.size() == 0) return paragraph;
+  if (generator.size() == 0)
+    return paragraph;
 
   // Too many days is an error
 

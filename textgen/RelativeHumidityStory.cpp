@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-RelativeHumidityStory::~RelativeHumidityStory() {}
+RelativeHumidityStory::~RelativeHumidityStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -45,12 +47,12 @@ RelativeHumidityStory::RelativeHumidityStory(const TextGenPosixTime& theForecast
                                              const AnalysisSources& theSources,
                                              const WeatherArea& theArea,
                                              const WeatherPeriod& thePeriod,
-                                             const string& theVariable)
+                                             string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -65,9 +67,12 @@ RelativeHumidityStory::RelativeHumidityStory(const TextGenPosixTime& theForecast
 
 bool RelativeHumidityStory::hasStory(const string& theName)
 {
-  if (theName == "relativehumidity_lowest") return true;
-  if (theName == "relativehumidity_day") return true;
-  if (theName == "relativehumidity_range") return true;
+  if (theName == "relativehumidity_lowest")
+    return true;
+  if (theName == "relativehumidity_day")
+    return true;
+  if (theName == "relativehumidity_range")
+    return true;
   return false;
 }
 
@@ -84,9 +89,12 @@ bool RelativeHumidityStory::hasStory(const string& theName)
 
 Paragraph RelativeHumidityStory::makeStory(const string& theName) const
 {
-  if (theName == "relativehumidity_lowest") return lowest();
-  if (theName == "relativehumidity_day") return day();
-  if (theName == "relativehumidity_range") return range();
+  if (theName == "relativehumidity_lowest")
+    return lowest();
+  if (theName == "relativehumidity_day")
+    return day();
+  if (theName == "relativehumidity_range")
+    return range();
 
   throw TextGenError("RelativeHumidityStory cannot make story " + theName);
 }

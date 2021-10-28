@@ -22,10 +22,8 @@
 
 #include <vector>
 
-
 using namespace std;
 using namespace TextGen;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -38,7 +36,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-const Paragraph CloudinessStory::overview() const
+Paragraph CloudinessStory::overview() const
 {
   MessageLogger log("CloudinessStory::overview");
 
@@ -61,7 +59,7 @@ const Paragraph CloudinessStory::overview() const
   Paragraph paragraph;
 
   const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
-  const int ndays = min(periodgenerator.size(), 3u);
+  const int ndays = min(periodgenerator.size(), 3U);
 
   log << "Period covers " << ndays << " days" << endl;
 
@@ -77,7 +75,7 @@ const Paragraph CloudinessStory::overview() const
   for (int day = 1; day <= ndays; day++)
   {
     const WeatherPeriod period(periodgenerator.period(day));
-    const string daystr = "day" + lexical_cast<string>(day);
+    const string daystr = "day" + std::to_string(day);
 
     RangeAcceptor cloudylimits;
     cloudylimits.lowerLimit(cloudy);
@@ -163,7 +161,8 @@ const Paragraph CloudinessStory::overview() const
 
     WeatherPeriod fullperiod(periods[startday].localStartTime(), periods[endday].localEndTime());
 
-    if (!sentence.empty()) sentence << Delimiter(",");
+    if (!sentence.empty())
+      sentence << Delimiter(",");
 
     sentence << PeriodPhraseFactory::create("days", itsVar, itsForecastTime, fullperiod)
              << cloudiness_phrase(cloudiness);

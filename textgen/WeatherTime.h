@@ -18,21 +18,21 @@ class Dictionary;
 class WeatherTime : public Glyph
 {
  public:
-  virtual ~WeatherTime();
+  ~WeatherTime() override;
   WeatherTime(const TextGenPosixTime& theTime);
 #ifdef NO_COMPILER_GENERATED
   WeatherTime(const WeatherTime& theTime);
   WeatherTime& operator=(const WeatherTime& theTime);
 #endif
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
   inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
 
  private:
-  WeatherTime();
+  WeatherTime() = delete;
   TextGenPosixTime itsTime;
 
 };  // class Time

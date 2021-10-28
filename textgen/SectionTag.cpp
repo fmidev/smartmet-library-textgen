@@ -18,9 +18,9 @@
 #include <boost/shared_ptr.hpp>
 
 #include <sstream>
+#include <utility>
 
 using namespace std;
-
 
 namespace TextGen
 {
@@ -30,15 +30,15 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-SectionTag::~SectionTag() {}
+SectionTag::~SectionTag() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
  */
 // ----------------------------------------------------------------------
 
-SectionTag::SectionTag(const std::string& theName, const bool& prefixTag /*= true*/)
-    : itsName(theName), itsPrefixTag(prefixTag)
+SectionTag::SectionTag(std::string  theName, const bool& prefixTag /*= true*/)
+    : itsName(std::move(theName)), itsPrefixTag(prefixTag)
 {
 }
 
@@ -63,7 +63,10 @@ boost::shared_ptr<Glyph> SectionTag::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string SectionTag::realize(const Dictionary& theDictionary) const { return itsName; }
+std::string SectionTag::realize(const Dictionary&  /*theDictionary*/) const
+{
+  return itsName;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the text for the number
@@ -84,14 +87,20 @@ std::string SectionTag::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool SectionTag::isDelimiter() const { return false; }
+bool SectionTag::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Returns true if tag is locatated before the story, false if after the story
  */
 // ----------------------------------------------------------------------
 
-bool SectionTag::isPrefixTag() const { return itsPrefixTag; }
+bool SectionTag::isPrefixTag() const
+{
+  return itsPrefixTag;
+}
 }  // namespace TextGen
 
 // ======================================================================

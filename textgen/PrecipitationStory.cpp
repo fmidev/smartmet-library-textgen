@@ -16,6 +16,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -27,7 +29,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-PrecipitationStory::~PrecipitationStory() {}
+PrecipitationStory::~PrecipitationStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -44,12 +46,12 @@ PrecipitationStory::PrecipitationStory(const TextGenPosixTime& theForecastTime,
                                        const AnalysisSources& theSources,
                                        const WeatherArea& theArea,
                                        const WeatherPeriod& thePeriod,
-                                       const string& theVariable)
+                                       string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -64,15 +66,24 @@ PrecipitationStory::PrecipitationStory(const TextGenPosixTime& theForecastTime,
 
 bool PrecipitationStory::hasStory(const string& theName)
 {
-  if (theName == "precipitation_total") return true;
-  if (theName == "precipitation_total_day") return true;
-  if (theName == "precipitation_range") return true;
-  if (theName == "precipitation_classification") return true;
-  if (theName == "precipitation_sums") return true;
-  if (theName == "precipitation_daily_sums") return true;
-  if (theName == "pop_days") return true;
-  if (theName == "pop_twodays") return true;
-  if (theName == "pop_max") return true;
+  if (theName == "precipitation_total")
+    return true;
+  if (theName == "precipitation_total_day")
+    return true;
+  if (theName == "precipitation_range")
+    return true;
+  if (theName == "precipitation_classification")
+    return true;
+  if (theName == "precipitation_sums")
+    return true;
+  if (theName == "precipitation_daily_sums")
+    return true;
+  if (theName == "pop_days")
+    return true;
+  if (theName == "pop_twodays")
+    return true;
+  if (theName == "pop_max")
+    return true;
   return false;
 }
 
@@ -89,15 +100,24 @@ bool PrecipitationStory::hasStory(const string& theName)
 
 Paragraph PrecipitationStory::makeStory(const string& theName) const
 {
-  if (theName == "precipitation_total") return total();
-  if (theName == "precipitation_total_day") return total_day();
-  if (theName == "precipitation_range") return range();
-  if (theName == "precipitation_classification") return classification();
-  if (theName == "precipitation_sums") return sums();
-  if (theName == "precipitation_daily_sums") return daily_sums();
-  if (theName == "pop_days") return pop_days();
-  if (theName == "pop_twodays") return pop_twodays();
-  if (theName == "pop_max") return pop_max();
+  if (theName == "precipitation_total")
+    return total();
+  if (theName == "precipitation_total_day")
+    return total_day();
+  if (theName == "precipitation_range")
+    return range();
+  if (theName == "precipitation_classification")
+    return classification();
+  if (theName == "precipitation_sums")
+    return sums();
+  if (theName == "precipitation_daily_sums")
+    return daily_sums();
+  if (theName == "pop_days")
+    return pop_days();
+  if (theName == "pop_twodays")
+    return pop_twodays();
+  if (theName == "pop_max")
+    return pop_max();
 
   throw TextGenError("PrecipitationStory cannot make story " + theName);
 }

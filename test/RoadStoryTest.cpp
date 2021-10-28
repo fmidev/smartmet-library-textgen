@@ -29,21 +29,30 @@ TextGen::PlainTextFormatter formatter;
  */
 // ----------------------------------------------------------------------
 
-void roadtemperature_daynightranges() { TEST_NOT_IMPLEMENTED(); }
+void roadtemperature_daynightranges()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test RoadStory::condition_overview()
  */
 // ----------------------------------------------------------------------
 
-void roadcondition_overview() { TEST_NOT_IMPLEMENTED(); }
+void roadcondition_overview()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test RoadStory::warning_overview()
  */
 // ----------------------------------------------------------------------
 
-void roadwarning_overview() { TEST_NOT_IMPLEMENTED(); }
+void roadwarning_overview()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief The actual test driver

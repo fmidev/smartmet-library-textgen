@@ -25,7 +25,6 @@
 using namespace TextGen::TemperatureStoryTools;
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -111,7 +110,7 @@ Paragraph TemperatureStory::nightlymin() const
   {
     period = getPeriod(itsPeriod, p, starthour, endhour, maxstarthour, minendhour);
 
-    const string var = (itsVar + "::fake::night" + lexical_cast<string>(p));
+    const string var = (itsVar + "::fake::night" + std::to_string(p));
 
     minresult = forecaster.analyze(
         var + "::minimum", itsSources, Temperature, Minimum, Minimum, itsArea, period);

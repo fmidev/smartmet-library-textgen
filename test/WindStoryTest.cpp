@@ -46,7 +46,8 @@ string require(const TextGen::Story& theStory,
 
 #define REQUIRE(story, lang, name, expected)     \
   result = require(story, lang, name, expected); \
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())                           \
+    TEST_FAILED(result.c_str());
 
 // ----------------------------------------------------------------------
 /*!
@@ -815,14 +816,20 @@ void wind_range()
  */
 // ----------------------------------------------------------------------
 
-void wind_simple_overview() { TEST_NOT_IMPLEMENTED(); }
+void wind_simple_overview()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test WindStory::overview
  */
 // ----------------------------------------------------------------------
 
-void wind_overview() { TEST_NOT_IMPLEMENTED(); }
+void wind_overview()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief The actual test driver

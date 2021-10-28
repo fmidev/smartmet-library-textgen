@@ -31,7 +31,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -85,7 +84,8 @@ Paragraph WeatherStory::shortoverview() const
   // Generate cloudiness story first
 
   {
-    RangeAcceptor n1limits, n3limits;
+    RangeAcceptor n1limits;
+    RangeAcceptor n3limits;
     n1limits.upperLimit(c_clear);
     n3limits.lowerLimit(c_cloudy);
 
@@ -158,7 +158,7 @@ Paragraph WeatherStory::shortoverview() const
   bool unstable_weather = false;
 
   {
-    typedef vector<WeatherResult> container;
+    using container = vector<WeatherResult>;
     container results;
     HourPeriodGenerator generator(itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
 
@@ -173,7 +173,7 @@ Paragraph WeatherStory::shortoverview() const
     {
       WeatherPeriod period = generator.period(i);
 
-      const string day = "day" + lexical_cast<string>(i);
+      const string day = "day" + std::to_string(i);
       const string var = itsVar + "::fake::" + day + "::precipitation";
 
       const WeatherResult result =

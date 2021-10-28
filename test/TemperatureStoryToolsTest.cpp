@@ -25,14 +25,20 @@ boost::shared_ptr<TextGen::Dictionary> dict;
  */
 // ----------------------------------------------------------------------
 
-void temperature_comparison_phrase() { TEST_NOT_IMPLEMENTED(); }
+void temperature_comparison_phrase()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test TemperatureStoryTools::temperature_sentence
  */
 // ----------------------------------------------------------------------
 
-void temperature_sentence() { TEST_NOT_IMPLEMENTED(); }
+void temperature_sentence()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief The actual test driver

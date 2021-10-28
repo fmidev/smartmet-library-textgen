@@ -26,7 +26,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WeatherFact::~WeatherFact() {}
+WeatherFact::~WeatherFact() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Copy constructor
@@ -36,13 +36,9 @@ WeatherFact::~WeatherFact() {}
 // ----------------------------------------------------------------------
 
 WeatherFact::WeatherFact(const WeatherFact& theFact)
-    : itsParameter(theFact.itsParameter),
-      itsFunction(theFact.itsFunction),
-      itsPeriod(theFact.itsPeriod),
-      itsArea(theFact.itsArea),
-      itsResult(theFact.itsResult)
-{
-}
+    
+      
+= default;
 
 // ----------------------------------------------------------------------
 /*!
@@ -99,7 +95,10 @@ WeatherFact& WeatherFact::operator=(const WeatherFact& theFact)
  */
 // ----------------------------------------------------------------------
 
-WeatherParameter WeatherFact::parameter() const { return itsParameter; }
+WeatherParameter WeatherFact::parameter() const
+{
+  return itsParameter;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Function accessor
@@ -108,7 +107,10 @@ WeatherParameter WeatherFact::parameter() const { return itsParameter; }
  */
 // ----------------------------------------------------------------------
 
-WeatherFunction WeatherFact::function() const { return itsFunction; }
+WeatherFunction WeatherFact::function() const
+{
+  return itsFunction;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Period accessor
@@ -117,7 +119,10 @@ WeatherFunction WeatherFact::function() const { return itsFunction; }
  */
 // ----------------------------------------------------------------------
 
-const WeatherPeriod& WeatherFact::period() const { return itsPeriod; }
+const WeatherPeriod& WeatherFact::period() const
+{
+  return itsPeriod;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Area accessor
@@ -126,7 +131,10 @@ const WeatherPeriod& WeatherFact::period() const { return itsPeriod; }
  */
 // ----------------------------------------------------------------------
 
-const WeatherArea& WeatherFact::area() const { return itsArea; }
+const WeatherArea& WeatherFact::area() const
+{
+  return itsArea;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Result accessor
@@ -135,7 +143,10 @@ const WeatherArea& WeatherFact::area() const { return itsArea; }
  */
 // ----------------------------------------------------------------------
 
-const WeatherResult& WeatherFact::result() const { return itsResult; }
+const WeatherResult& WeatherFact::result() const
+{
+  return itsResult;
+}
 }  // namespace TextGen
 
 // ----------------------------------------------------------------------

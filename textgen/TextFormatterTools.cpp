@@ -72,7 +72,8 @@ std::string capitalize(std::string& theString)
 
 void punctuate(std::string& theString)
 {
-  if (!theString.empty()) theString += '.';
+  if (!theString.empty())
+    theString += '.';
 }
 
 // ----------------------------------------------------------------------
@@ -83,7 +84,10 @@ void punctuate(std::string& theString)
  */
 // ----------------------------------------------------------------------
 
-std::string make_needle(int n) { return "[" + boost::lexical_cast<std::string>(n) + "]"; }
+std::string make_needle(int n)
+{
+  return "[" + std::to_string(n) + "]";
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Count patterns in order [1] ... [N]
@@ -99,7 +103,8 @@ int count_patterns(const std::string& theString)
 
   while (true)
   {
-    if (!boost::algorithm::find_first(theString, needle)) return n;
+    if (!boost::algorithm::find_first(theString, needle))
+      return n;
     ++n;
     needle = make_needle(n + 1);
   }
@@ -115,7 +120,8 @@ int count_patterns(const std::string& theString)
 // ----------------------------------------------------------------------
 std::string format_time(const TextGenPosixTime& theTime, const std::string& theFormattingString)
 {
-  if (theFormattingString.empty()) return "";
+  if (theFormattingString.empty())
+    return "";
 
   std::ostringstream string_stream;
 
@@ -145,7 +151,8 @@ std::string format_time(const TextGenPosixTime& theTime,
   std::string timeformat =
       Settings::optional_string(theStoryVar + "::" + theFormatterName + "::timeformat", "");
 
-  if (timeformat.empty()) timeformat = Settings::optional_string(theStoryVar + "::timeformat", "");
+  if (timeformat.empty())
+    timeformat = Settings::optional_string(theStoryVar + "::timeformat", "");
 
   return format_time(theTime, timeformat);
 }
@@ -170,7 +177,8 @@ std::string format_time(const WeatherPeriod& thePeriod,
 
   if (startformat.empty())
     startformat = Settings::optional_string(theStoryVar + "::startformat", "");
-  if (endformat.empty()) endformat = Settings::optional_string(theStoryVar + "::endformat", "");
+  if (endformat.empty())
+    endformat = Settings::optional_string(theStoryVar + "::endformat", "");
 
   std::string start_time_string(format_time(thePeriod.localStartTime(), startformat));
   std::string end_time_string(format_time(thePeriod.localEndTime(), endformat));
@@ -188,7 +196,7 @@ std::string format_time(const WeatherPeriod& thePeriod,
 // ----------------------------------------------------------------------
 std::string get_story_value_param(const std::string& theStoryVar, const std::string& theProductName)
 {
-  std::string retval("");
+  std::string retval;
 
   if (Settings::isset(theStoryVar + "::value::" + theProductName))
     retval = Settings::require_string(theStoryVar + "::value::" + theProductName);

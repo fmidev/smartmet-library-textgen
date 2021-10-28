@@ -65,11 +65,11 @@ using namespace std;
 void print_out_weather_event_vector(std::ostream& theOutput,
                                     const weather_event_id_vector& theWeatherEventVector)
 {
-  for (unsigned int i = 0; i < theWeatherEventVector.size(); i++)
+  for (const auto& i : theWeatherEventVector)
   {
-    weather_event_id trid(theWeatherEventVector.at(i).second);
+    weather_event_id trid(i.second);
 
-    theOutput << theWeatherEventVector.at(i).first << ": " << weather_event_string(trid) << endl;
+    theOutput << i.first << ": " << weather_event_string(trid) << endl;
   }
 }
 
@@ -97,7 +97,7 @@ bool same_content(const Sentence& sentence1, const Sentence& sentence2)
   std::string string1(sentence1.realize(formatter));
   std::string string2(sentence2.realize(formatter));
 
-  return (string1.compare(string2) == 0);
+  return (string1 == string2);
 }
 
 void get_part_of_the_day_time_series(wf_story_params& theParameters,
@@ -122,11 +122,11 @@ void log_weather_result_time_series(MessageLogger& theLog,
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << endl;
 
-  for (unsigned int i = 0; i < theTimeSeries.size(); i++)
+  for (auto *theTimeSerie : theTimeSeries)
   {
     //		const WeatherResultDataItem& theWeatherResultDataItem = *theTimeSeries[i];
     // log_weather_result_data_item(theLog, *theTimeSeries[i]);
-    theLog << *theTimeSeries[i];
+    theLog << *theTimeSerie;
   }
 }
 
@@ -134,7 +134,7 @@ void log_weather_result_data(MessageLogger& theLog,
                              weather_forecast_result_container& theDataContainer)
 {
   std::string theLogMessage;
-  weather_result_data_item_vector* timeSeries = 0;
+  weather_result_data_item_vector* timeSeries = nullptr;
   for (unsigned int i = CLOUDINESS_DATA; i < UNDEFINED_DATA_ID; i++)
   {
     timeSeries = theDataContainer[i];
@@ -767,63 +767,43 @@ void populate_cloudiness_time_series(wf_story_params& theParameters)
 
 void allocate_data_structures(wf_story_params& theParameters, const forecast_area_id& theAreaId)
 {
-  weather_result_data_item_vector* hourlyMaxPrecipitation = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyMeanPrecipitation = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationExtent =
-      new weather_result_data_item_vector();
+  auto* hourlyMaxPrecipitation = new weather_result_data_item_vector();
+  auto* hourlyMeanPrecipitation = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationExtent = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyPrecipitationType = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormWater =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormDrizzle =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormSleet =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormSnow =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormFreezingDrizzle =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormFreezingRain =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudiness = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbability = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderExtent = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogIntensityModerate =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogIntensityDense = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationType = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormWater = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormDrizzle = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormSleet = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormSnow = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormFreezingDrizzle = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormFreezingRain = new weather_result_data_item_vector();
+  auto* hourlyCloudiness = new weather_result_data_item_vector();
+  auto* hourlyThunderProbability = new weather_result_data_item_vector();
+  auto* hourlyThunderExtent = new weather_result_data_item_vector();
+  auto* hourlyFogIntensityModerate = new weather_result_data_item_vector();
+  auto* hourlyFogIntensityDense = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyPrecipitationShareNortEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationShareSouthEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationShareSouthWest =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationShareNorthWest =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationPoint = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareNorthWest = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationPoint = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyCloudinessShareNortEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudinessShareSouthEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudinessShareSouthWest =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudinessShareNorthWest =
-      new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareNorthWest = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyThunderProbabilityShareNortEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbabilityShareSouthEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbabilityShareSouthWest =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbabilityShareNorthWest =
-      new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareNorthWest = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyFogShareNortEast = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogShareSouthEast = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogShareSouthWest = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogShareNorthWest = new weather_result_data_item_vector();
+  auto* hourlyFogShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyFogShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyFogShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyFogShareNorthWest = new weather_result_data_item_vector();
 
   // first split the whole period to one-hour subperiods
   TextGenPosixTime periodStartTime = theParameters.theDataPeriod.localStartTime();
@@ -911,7 +891,7 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
     theParameters.theHourPeriodCount++;
   }
 
-  weather_forecast_result_container* resultContainer = new weather_forecast_result_container();
+  auto* resultContainer = new weather_forecast_result_container();
 
   resultContainer->insert(make_pair(PRECIPITATION_MAX_DATA, hourlyMaxPrecipitation));
   resultContainer->insert(make_pair(PRECIPITATION_MEAN_DATA, hourlyMeanPrecipitation));
@@ -1123,38 +1103,32 @@ void delete_data_structures(wf_story_params& theParameters)
                               *theParameters.theCompleteData[FULL_AREA]);
   }
 
-  for (unsigned int i = 0; i < theParameters.theCloudinessData.size(); i++)
+  for (auto *cloudinessDataItemContainer : theParameters.theCloudinessData)
   {
-    cloudiness_data_item_container* cloudinessDataItemContainer =
-        theParameters.theCloudinessData[i];
-    for (unsigned int k = 0; k < cloudinessDataItemContainer->size(); k++)
-      delete (*cloudinessDataItemContainer)[k];
+    for (auto& item : *cloudinessDataItemContainer)
+      delete item.second;
     cloudinessDataItemContainer->clear();
   }
   theParameters.theCloudinessData.clear();
-  for (unsigned int i = 0; i < theParameters.thePrecipitationData.size(); i++)
+  for (auto *precipitationDataItemContainer : theParameters.thePrecipitationData)
   {
-    precipitation_data_item_container* precipitationDataItemContainer =
-        theParameters.thePrecipitationData[i];
-    for (unsigned int k = 0; k < precipitationDataItemContainer->size(); k++)
-      delete (*precipitationDataItemContainer)[k];
+    for (auto& item : *precipitationDataItemContainer)
+      delete item.second;
     precipitationDataItemContainer->clear();
   }
   theParameters.thePrecipitationData.clear();
 
-  for (unsigned int i = 0; i < theParameters.theThunderData.size(); i++)
+  for (auto *thunderDataItemContainer : theParameters.theThunderData)
   {
-    thunder_data_item_container* thunderDataItemContainer = theParameters.theThunderData[i];
-    for (unsigned int k = 0; k < thunderDataItemContainer->size(); k++)
-      delete (*thunderDataItemContainer)[k];
+    for (auto& item : *thunderDataItemContainer)
+      delete item.second;
     thunderDataItemContainer->clear();
   }
   theParameters.theFogData.clear();
-  for (unsigned int i = 0; i < theParameters.theFogData.size(); i++)
+  for (auto *fogIntensityDataItemContainer : theParameters.theFogData)
   {
-    fog_data_item_container* fogIntensityDataItemContainer = theParameters.theFogData[i];
-    for (unsigned int k = 0; k < fogIntensityDataItemContainer->size(); k++)
-      delete (*fogIntensityDataItemContainer)[k];
+    for (auto& item : *fogIntensityDataItemContainer)
+      delete item.second;
     fogIntensityDataItemContainer->clear();
   }
   theParameters.theFogData.clear();
@@ -1254,7 +1228,7 @@ void init_parameters(wf_story_params& theParameters)
 
   if (theParameters.theCoastalAndInlandTogetherFlag)
   {
-    if (theParameters.theArea.isMarine() == false && theParameters.theArea.isIsland() == false)
+    if (!theParameters.theArea.isMarine() && !theParameters.theArea.isIsland())
       theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!"
                            << endl;
   }
@@ -1269,11 +1243,12 @@ void log_weather_forecast_story(MessageLogger& theLog,
   const vector<WeatherForecastStoryItem*> storyItemVector(
       theWeatherForecastStory.getStoryItemVector());
 
-  for (unsigned int i = 0; i < storyItemVector.size(); i++)
+  for (auto *i : storyItemVector)
   {
-    WeatherForecastStoryItem& storyItem = *(storyItemVector[i]);
+    WeatherForecastStoryItem& storyItem = *i;
 
-    if (!storyItem.isIncluded()) continue;
+    if (!storyItem.isIncluded())
+      continue;
 
     if (storyItem.getStoryPartId() == PRECIPITATION_STORY_PART)
       theLog << "PRECIPITATION STORY PART";
@@ -1291,12 +1266,12 @@ void log_weather_forecast_story(MessageLogger& theLog,
   theLog << "THE COMPLETE SENTENCE END" << endl;
 }
 
-const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
-                                 const TextGen::WeatherPeriod& itsPeriod,
-                                 const TextGen::AnalysisSources& itsSources,
-                                 const TextGenPosixTime& itsForecastTime,
-                                 const std::string itsVar,
-                                 MessageLogger& theLog)
+Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
+                           const TextGen::WeatherPeriod& itsPeriod,
+                           const TextGen::AnalysisSources& itsSources,
+                           const TextGenPosixTime& itsForecastTime,
+                           const std::string& itsVar,
+                           MessageLogger& theLog)
 {
   using namespace PrecipitationPeriodTools;
 
@@ -1320,7 +1295,7 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 
   if (itsArea.isNamed())
   {
-    std::string name(itsArea.name());
+    const std::string& name(itsArea.name());
     theLog << "** " << name << " **" << endl;
   }
 
@@ -1331,7 +1306,8 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 
   init_parameters(theParameters);
 
-  if (theParameters.theForecastArea == NO_AREA) return paragraph;
+  if (theParameters.theForecastArea == NO_AREA)
+    return paragraph;
 
   populate_precipitation_time_series(theParameters);
   populate_cloudiness_time_series(theParameters);
@@ -1386,12 +1362,12 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   return paragraph;
 }
 
-const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
-                                        const TextGen::WeatherPeriod& itsPeriod,
-                                        const TextGen::AnalysisSources& itsSources,
-                                        const TextGenPosixTime& itsForecastTime,
-                                        const std::string itsVar,
-                                        MessageLogger& theLog)
+Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
+                                  const TextGen::WeatherPeriod& itsPeriod,
+                                  const TextGen::AnalysisSources& itsSources,
+                                  const TextGenPosixTime& itsForecastTime,
+                                  const std::string& itsVar,
+                                  MessageLogger& theLog)
 {
   using namespace PrecipitationPeriodTools;
 
@@ -1415,7 +1391,7 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
   if (itsArea.isNamed())
   {
-    std::string name(itsArea.name());
+    const std::string& name(itsArea.name());
     theLog << "** " << name << " **" << endl;
   }
 
@@ -1426,7 +1402,8 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
   init_parameters(theParameters);
 
-  if (theParameters.theForecastArea == NO_AREA) return paragraph;
+  if (theParameters.theForecastArea == NO_AREA)
+    return paragraph;
 
   populate_precipitation_time_series(theParameters);
   populate_cloudiness_time_series(theParameters);
@@ -1478,44 +1455,45 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
 bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phrase2)
 {
-  if ((phrase1 == AAMULLA_WORD && (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == AAMUPAIVALLA_WORD &&
-       (phrase2 == AAMUPAIVALLA_WORD || phrase2 == AAMUPAIVASTA_ALKAEN_PHRASE)) ||
-      (phrase1 == ILTAPAIVALLA_WORD &&
-       (phrase2 == ILTAPAIVALLA_WORD || phrase2 == ILTAPAIVASTA_ALKAEN_PHRASE)) ||
-      (phrase1 == ILLALLA_WORD && (phrase2 == ILLALLA_WORD || phrase2 == ILLASTA_ALKAEN_PHRASE)) ||
-      (phrase1 == ILTAYOLLA_WORD &&
-       (phrase2 == ILTAYOLLA_WORD || phrase2 == ILTAYOSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == KESKIYOLLA_WORD &&
-       (phrase2 == KESKIYOLLA_WORD || phrase2 == KESKIYOSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == AAMUYOLLA_WORD &&
-       (phrase2 == AAMUYOLLA_WORD || phrase2 == AAMUYOSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == YOLLA_WORD && phrase2 == YOLLA_WORD) ||
-      (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD))
-    return true;
-
-  return false;
+  return (phrase1 == AAMULLA_WORD &&
+          (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == AAMUPAIVALLA_WORD &&
+          (phrase2 == AAMUPAIVALLA_WORD || phrase2 == AAMUPAIVASTA_ALKAEN_PHRASE)) ||
+         (phrase1 == ILTAPAIVALLA_WORD &&
+          (phrase2 == ILTAPAIVALLA_WORD || phrase2 == ILTAPAIVASTA_ALKAEN_PHRASE)) ||
+         (phrase1 == ILLALLA_WORD &&
+          (phrase2 == ILLALLA_WORD || phrase2 == ILLASTA_ALKAEN_PHRASE)) ||
+         (phrase1 == ILTAYOLLA_WORD &&
+          (phrase2 == ILTAYOLLA_WORD || phrase2 == ILTAYOSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == KESKIYOLLA_WORD &&
+          (phrase2 == KESKIYOLLA_WORD || phrase2 == KESKIYOSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == AAMUYOLLA_WORD &&
+          (phrase2 == AAMUYOLLA_WORD || phrase2 == AAMUYOSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == YOLLA_WORD && phrase2 == YOLLA_WORD) ||
+         (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD);
 }
 
 // if the successive sentences contains the same time phrase, insert
 // aluksi, myohemmin to the beginning of the sentence
 void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<Glyph>& theSentence2)
 {
-  GlyphContainer& gc1 = static_cast<GlyphContainer&>(*theSentence1);
-  GlyphContainer& gc2 = static_cast<GlyphContainer&>(*theSentence2);
+  auto& gc1 = static_cast<GlyphContainer&>(*theSentence1);
+  auto& gc2 = static_cast<GlyphContainer&>(*theSentence2);
 
   DebugTextFormatter dtf;
 
-  if (gc1.size() < 2 || gc2.size() < 2) return;
+  if (gc1.size() < 2 || gc2.size() < 2)
+    return;
 
-  GlyphContainer::iterator iter1(gc1.begin());
-  GlyphContainer::iterator iter2(gc2.begin());
+  auto iter1(gc1.begin());
+  auto iter2(gc2.begin());
   iter1++;
   iter2++;
 
   std::string str1 = dtf.format(**iter1);
   std::string str2 = dtf.format(**iter2);
-  if (isdigit(str1[0]) && !isdigit(str2[0])) str1 = str1.substr(2);
+  if (isdigit(str1[0]) && !isdigit(str2[0]))
+    str1 = str1.substr(2);
   if (is_same_part_of_the_day(str1, str2))
   {
     gc1.push_front(Phrase("aluksi"));
@@ -1527,14 +1505,15 @@ void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sente
 {
   if (typeid(glyphi) == typeid(Sentence))
   {
-    const GlyphContainer& gc = static_cast<const GlyphContainer&>(glyphi);
-    if (gc.size() > 0) sentences.push_back(glyphi.clone());
+    const auto& gc = static_cast<const GlyphContainer&>(glyphi);
+    if (!gc.empty())
+      sentences.push_back(glyphi.clone());
   }
   else
   {
-    const GlyphContainer& containeri = static_cast<const GlyphContainer&>(glyphi);
-    for (GlyphContainer::const_iterator iter = containeri.begin(); iter != containeri.end(); ++iter)
-      get_sentences(**iter, sentences);
+    const auto& containeri = static_cast<const GlyphContainer&>(glyphi);
+    for (const auto& iter : containeri)
+      get_sentences(*iter, sentences);
   }
 }
 
@@ -1549,8 +1528,9 @@ void analyze_sentences(Paragraph& paragraph)
 
   for (unsigned int i = 0; i < sentences.size(); i++)
   {
-    if (i < sentences.size() - 1) check_sentences(sentences[i], sentences[i + 1]);
-    Sentence& sen = static_cast<Sentence&>(*(sentences[i]));
+    if (i < sentences.size() - 1)
+      check_sentences(sentences[i], sentences[i + 1]);
+    auto& sen = static_cast<Sentence&>(*(sentences[i]));
     paragraph << sen;
   }
 }
@@ -1575,7 +1555,7 @@ Paragraph WeatherStory::forecast() const
 
   Paragraph paragraph;
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {
@@ -1644,7 +1624,7 @@ Paragraph WeatherStory::forecast_at_sea() const
 
   Paragraph paragraph;
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {

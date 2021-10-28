@@ -25,7 +25,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -45,9 +44,9 @@ NullMaskSource::NullMaskSource() : itsData(new NFmiIndexMask()) {}
  */
 // ----------------------------------------------------------------------
 
-NullMaskSource::mask_type NullMaskSource::mask(const WeatherArea& theArea,
-                                               const std::string& theData,
-                                               const WeatherSource& theWeatherSource) const
+NullMaskSource::mask_type NullMaskSource::mask(const WeatherArea&  /*theArea*/,
+                                               const std::string&  /*theData*/,
+                                               const WeatherSource&  /*theWeatherSource*/) const
 {
   return itsData;
 }
@@ -62,9 +61,9 @@ NullMaskSource::mask_type NullMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-NullMaskSource::masks_type NullMaskSource::masks(const WeatherArea& theArea,
-                                                 const std::string& theData,
-                                                 const WeatherSource& theWeatherSource) const
+NullMaskSource::masks_type NullMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                 const std::string&  /*theData*/,
+                                                 const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("NullMaskSource::masks not implemented");
 }

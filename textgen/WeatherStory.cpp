@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WeatherStory::~WeatherStory() {}
+WeatherStory::~WeatherStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -45,12 +47,12 @@ WeatherStory::WeatherStory(const TextGenPosixTime& theForecastTime,
                            const AnalysisSources& theSources,
                            const WeatherArea& theArea,
                            const WeatherPeriod& thePeriod,
-                           const string& theVariable)
+                           string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -65,12 +67,18 @@ WeatherStory::WeatherStory(const TextGenPosixTime& theForecastTime,
 
 bool WeatherStory::hasStory(const string& theName)
 {
-  if (theName == "weather_overview") return true;
-  if (theName == "weather_forecast") return true;
-  if (theName == "weather_forecast_at_sea") return true;
-  if (theName == "weather_shortoverview") return true;
-  if (theName == "weather_thunderprobability") return true;
-  if (theName == "weather_thunderprobability_simplified") return true;
+  if (theName == "weather_overview")
+    return true;
+  if (theName == "weather_forecast")
+    return true;
+  if (theName == "weather_forecast_at_sea")
+    return true;
+  if (theName == "weather_shortoverview")
+    return true;
+  if (theName == "weather_thunderprobability")
+    return true;
+  if (theName == "weather_thunderprobability_simplified")
+    return true;
   return false;
 }
 
@@ -87,12 +95,18 @@ bool WeatherStory::hasStory(const string& theName)
 
 Paragraph WeatherStory::makeStory(const string& theName) const
 {
-  if (theName == "weather_overview") return overview();
-  if (theName == "weather_forecast") return forecast();
-  if (theName == "weather_forecast_at_sea") return forecast_at_sea();
-  if (theName == "weather_shortoverview") return shortoverview();
-  if (theName == "weather_thunderprobability") return thunderprobability();
-  if (theName == "weather_thunderprobability_simplified") return thunderprobability_simplified();
+  if (theName == "weather_overview")
+    return overview();
+  if (theName == "weather_forecast")
+    return forecast();
+  if (theName == "weather_forecast_at_sea")
+    return forecast_at_sea();
+  if (theName == "weather_shortoverview")
+    return shortoverview();
+  if (theName == "weather_thunderprobability")
+    return thunderprobability();
+  if (theName == "weather_thunderprobability_simplified")
+    return thunderprobability_simplified();
   throw TextGenError("WeatherStory cannot make story " + theName);
 }
 

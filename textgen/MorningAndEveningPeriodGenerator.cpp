@@ -217,7 +217,10 @@ void MorningAndEveningPeriodGenerator::init()
  */
 // ----------------------------------------------------------------------
 
-bool MorningAndEveningPeriodGenerator::undivided() const { return false; }
+bool MorningAndEveningPeriodGenerator::undivided() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the number of subperiods

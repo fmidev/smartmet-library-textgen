@@ -15,21 +15,21 @@ namespace TextGen
 class GlyphContainer : public Glyph
 {
  public:
-  virtual ~GlyphContainer() {}
-  GlyphContainer() {}
-  virtual boost::shared_ptr<Glyph> clone() const = 0;
-  virtual std::string realize(const Dictionary& theDictionary) const = 0;
-  virtual std::string realize(const TextFormatter& theFormatter) const = 0;
-  virtual bool isDelimiter() const = 0;
+  ~GlyphContainer() override = default;
+  GlyphContainer() = default;
+  boost::shared_ptr<Glyph> clone() const override = 0;
+  std::string realize(const Dictionary& theDictionary) const override = 0;
+  std::string realize(const TextFormatter& theFormatter) const override = 0;
+  bool isDelimiter() const override = 0;
 
-  typedef boost::shared_ptr<Glyph> value_type;
-  typedef const value_type& const_reference;
-  typedef value_type& reference;
-  typedef std::list<value_type> storage_type;
-  typedef storage_type::size_type size_type;
-  typedef storage_type::difference_type difference_type;
-  typedef storage_type::const_iterator const_iterator;
-  typedef storage_type::iterator iterator;
+  using value_type = boost::shared_ptr<Glyph>;
+  using const_reference = const value_type&;
+  using reference = value_type&;
+  using storage_type = std::list<value_type>;
+  using size_type = storage_type::size_type;
+  using difference_type = storage_type::difference_type;
+  using const_iterator = storage_type::const_iterator;
+  using iterator = storage_type::iterator;
 
   size_type size() const;
   bool empty() const;

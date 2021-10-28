@@ -87,7 +87,7 @@ bool PostGISDataSource::readData(const std::string& host,
     }
 
     std::string sqlstmt("SET CLIENT_ENCODING TO '" + client_encoding + "'");
-    pDS->ExecuteSQL(sqlstmt.c_str(), 0, 0);
+    pDS->ExecuteSQL(sqlstmt.c_str(), nullptr, nullptr);
 
     std::stringstream schema_table_ss;
 
@@ -103,7 +103,7 @@ bool PostGISDataSource::readData(const std::string& host,
 
     // get spatial reference
     OGRSpatialReference* pLayerSRS = pLayer->GetSpatialRef();
-    OGRCoordinateTransformation* pCoordinateTransform(0);
+    OGRCoordinateTransformation* pCoordinateTransform(nullptr);
     OGRSpatialReference targetTransformSRS;
     if (pLayerSRS)
     {
@@ -126,7 +126,7 @@ bool PostGISDataSource::readData(const std::string& host,
       pCoordinateTransform = OGRCreateCoordinateTransformation(pLayerSRS, &targetTransformSRS);
     }
 
-    OGRFeature* pFeature(0);
+    OGRFeature* pFeature(nullptr);
     pLayer->ResetReading();
 
     while ((pFeature = pLayer->GetNextFeature()) != nullptr)
@@ -134,13 +134,13 @@ bool PostGISDataSource::readData(const std::string& host,
       OGRFeatureDefn* pFDefn = pLayer->GetLayerDefn();
 
       // find name for the area
-      std::string area_name("");
+      std::string area_name;
       int iField;
       for (iField = 0; iField < pFDefn->GetFieldCount(); iField++)
       {
         OGRFieldDefn* pFieldDefn = pFDefn->GetFieldDefn(iField);
 
-        if (fieldname.compare(pFieldDefn->GetNameRef()) == 0)
+        if (fieldname == pFieldDefn->GetNameRef())
         {
           area_name = pFeature->GetFieldAsString(iField);
           break;
@@ -168,12 +168,12 @@ bool PostGISDataSource::readData(const std::string& host,
         // wkbFlatten-macro uses old-style cast
         //				OGRwkbGeometryType
         // geometryType(wkbFlatten(pGeometry->getGeometryType()));
-        OGRwkbGeometryType geometryType =
+        auto geometryType =
             static_cast<OGRwkbGeometryType>(pGeometry->getGeometryType() & (~wkb25DBit));
 
         if (geometryType == wkbPoint)
         {
-          OGRPoint* pPoint = reinterpret_cast<OGRPoint*>(pGeometry);
+          auto* pPoint = reinterpret_cast<OGRPoint*>(pGeometry);
           if (pointmap.find(area_name) != pointmap.end())
             pointmap[area_name] = make_pair(pPoint->getX(), pPoint->getY());
           else
@@ -181,11 +181,11 @@ bool PostGISDataSource::readData(const std::string& host,
         }
         else if (geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
         {
-          string svg_string("");
+          string svg_string;
           if (geometryType == wkbMultiPolygon)
           {
-            OGRMultiPolygon* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
-            char* wkt_buffer(0);
+            auto* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
+            char* wkt_buffer(nullptr);
             pMultiPolygon->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
@@ -194,9 +194,9 @@ bool PostGISDataSource::readData(const std::string& host,
           }
           else
           {
-            OGRPolygon* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
+            auto* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
 
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pPolygon->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
@@ -220,21 +220,21 @@ bool PostGISDataSource::readData(const std::string& host,
         }
         else if (geometryType == wkbMultiLineString || geometryType == wkbLineString)
         {
-          string svg_string("");
+          string svg_string;
           if (geometryType == wkbMultiLineString)
           {
-            OGRMultiLineString* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
+            auto* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
 
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pMultiLine->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
           }
           else
           {
-            OGRLineString* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
+            auto* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
 
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pLine->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
@@ -277,10 +277,10 @@ bool PostGISDataSource::readData(const std::string& host,
       // destroy feature
       OGRFeature::DestroyFeature(pFeature);
     }
-    if (pCoordinateTransform)
-    {
+    
+    
       delete pCoordinateTransform;
-    }
+    
 
     // in the end destroy data source
 #if GDAL_VERSION_MAJOR < 2
@@ -301,18 +301,16 @@ std::string PostGISDataSource::getSVGPath(const std::string& name) const
 {
   if (polygonmap.find(name) != polygonmap.end())
     return polygonmap.at(name);
-  else if (linemap.find(name) != linemap.end())
+  if (linemap.find(name) != linemap.end())
     return linemap.at(name);
-  else
-    return "";
+      return "";
 }
 
 std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) const
 {
   if (pointmap.find(name) != pointmap.end())
     return pointmap.at(name);
-  else
-    return make_pair(32700.0, 32700.0);
+      return make_pair(32700.0, 32700.0);
 }
 
 PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,
@@ -355,8 +353,8 @@ bool PostGISDataSource::geoObjectExists(const std::string& name) const
 std::list<string> PostGISDataSource::areaNames() const
 {
   std::list<string> return_list;
-  typedef std::map<std::string, std::string> polygonmap_t;
-  typedef std::map<std::string, std::pair<double, double> > pointmap_t;
+  using polygonmap_t = std::map<std::string, std::string>;
+  using pointmap_t = std::map<std::string, std::pair<double, double>>;
 
   for (const polygonmap_t::value_type& vt : polygonmap)
   {

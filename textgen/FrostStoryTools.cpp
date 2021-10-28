@@ -32,7 +32,10 @@ namespace FrostStoryTools
  */
 // ----------------------------------------------------------------------
 
-bool is_frost_season() { return Settings::require_bool("textgen::frostseason"); }
+bool is_frost_season()
+{
+  return Settings::require_bool("textgen::frostseason");
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return sentence for severe frost

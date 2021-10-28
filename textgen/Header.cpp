@@ -22,7 +22,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -46,7 +45,7 @@ boost::shared_ptr<Glyph> Header::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Header::realize(const Dictionary& theDictionary) const
+std::string Header::realize(const Dictionary&  /*theDictionary*/) const
 {
   throw TextGenError("Header::realize(Dictionary) should not be called");
 }
@@ -71,7 +70,10 @@ std::string Header::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Header::isDelimiter() const { return false; }
+bool Header::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Adding a glyph to a header

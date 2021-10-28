@@ -73,10 +73,12 @@ void language(void)
   using namespace TextGen;
   FileDictionary dict;
 
-  if (!dict.language().empty()) TEST_FAILED("language should be empty before init");
+  if (!dict.language().empty())
+    TEST_FAILED("language should be empty before init");
 
   dict.init("fi");
-  if (dict.language() != "fi") TEST_FAILED("language should match init argument");
+  if (dict.language() != "fi")
+    TEST_FAILED("language should match init argument");
 
   TEST_PASSED();
 }
@@ -87,10 +89,12 @@ void empty(void)
   using namespace TextGen;
   FileDictionary dict;
 
-  if (!dict.empty()) TEST_FAILED("empty() should return true before init()");
+  if (!dict.empty())
+    TEST_FAILED("empty() should return true before init()");
 
   dict.init("fi");
-  if (dict.empty()) TEST_FAILED("empty() should return true after init()");
+  if (dict.empty())
+    TEST_FAILED("empty() should return true after init()");
 
   TEST_PASSED();
 }
@@ -101,10 +105,12 @@ void size(void)
   using namespace TextGen;
   FileDictionary dict;
 
-  if (dict.size() != 0) TEST_FAILED("size() should return 0 before init()");
+  if (dict.size() != 0)
+    TEST_FAILED("size() should return 0 before init()");
 
   dict.init("fi");
-  if (dict.size() == 0) TEST_FAILED("size() should return > 0 after init(fi)");
+  if (dict.size() == 0)
+    TEST_FAILED("size() should return > 0 after init(fi)");
 
   TEST_PASSED();
 }
@@ -115,11 +121,14 @@ void contains(void)
   using namespace TextGen;
   FileDictionary dict;
 
-  if (dict.contains("foobar")) TEST_FAILED("contains(foobar) should have failed");
+  if (dict.contains("foobar"))
+    TEST_FAILED("contains(foobar) should have failed");
 
   dict.init("fi");
-  if (dict.contains("foobar")) TEST_FAILED("contains(foobar) should have failed");
-  if (!dict.contains("sama")) TEST_FAILED("contains(sama) should have succeeded");
+  if (dict.contains("foobar"))
+    TEST_FAILED("contains(foobar) should have failed");
+  if (!dict.contains("sama"))
+    TEST_FAILED("contains(sama) should have succeeded");
 
   TEST_PASSED();
 }
@@ -150,10 +159,12 @@ void find(void)
   {
   }
 
-  if (dict.find("sama") != "sama") TEST_FAILED("find(sama) should have returned sama");
+  if (dict.find("sama") != "sama")
+    TEST_FAILED("find(sama) should have returned sama");
 
   dict.init("en");
-  if (dict.find("sama") != "the same") TEST_FAILED("find(sama) should have returned the same");
+  if (dict.find("sama") != "the same")
+    TEST_FAILED("find(sama) should have returned the same");
 
   TEST_PASSED();
 }

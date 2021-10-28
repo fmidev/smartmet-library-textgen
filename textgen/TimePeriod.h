@@ -18,23 +18,23 @@ class Dictionary;
 class TimePeriod : public Glyph
 {
  public:
-  virtual ~TimePeriod();
+  ~TimePeriod() override;
   TimePeriod(const WeatherPeriod& thePeriod);
 #ifdef NO_COMPILER_GENERATED
   TimePeriod(const TimePeriod& thePeriod);
   TimePeriod& operator=(const WeatherPeriod& thePeriod);
 #endif
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
   inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
   inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
   inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
 
  private:
-  TimePeriod();
+  TimePeriod() = delete;
   WeatherPeriod itsPeriod;
 
 };  // class TimePeriod

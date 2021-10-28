@@ -17,25 +17,26 @@ namespace TextGen
 class DatabaseDictionary : public Dictionary
 {
  public:
-  typedef Dictionary::size_type size_type;
+  using size_type = Dictionary::size_type;
 
-  virtual ~DatabaseDictionary();
+  ~DatabaseDictionary() override;
   DatabaseDictionary();
 #ifdef NO_COMPILER_OPTIMIZE
   DatabaseDictionary(const DatabaseDictionary& theDict);
   DatabaseDictionary& operator=(const DatabaseDictionary& theDict);
 #endif
 
-  virtual void init(const std::string& theLanguage);
-  virtual void getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage) = 0;
-  virtual const std::string& language(void) const;
-  virtual bool contains(const std::string& theKey) const;
-  virtual const std::string& find(const std::string& theKey) const;
-  virtual void insert(const std::string& theKey, const std::string& thePhrase);
+  void init(const std::string& theLanguage) override;
+  virtual void getDataFromDB(const std::string& theLanguage,
+                             std::map<std::string, std::string>& theDataStorage) = 0;
+  const std::string& language() const override;
+  bool contains(const std::string& theKey) const override;
+  const std::string& find(const std::string& theKey) const override;
+  void insert(const std::string& theKey, const std::string& thePhrase) override;
 
-  virtual size_type size(void) const;
-  virtual bool empty(void) const;
-  void  changeLanguage(const std::string& theLanguage) override;
+  size_type size() const override;
+  bool empty() const override;
+  void changeLanguage(const std::string& theLanguage) override;
 
  private:
   class Pimple;

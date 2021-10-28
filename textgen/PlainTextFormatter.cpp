@@ -30,7 +30,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -54,7 +53,10 @@ void PlainTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict
  */
 // ----------------------------------------------------------------------
 
-string PlainTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+string PlainTextFormatter::format(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Visit a glyph
@@ -141,7 +143,8 @@ string PlainTextFormatter::visit(const Header& theHeader) const
 
   string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
   ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty() && colon) ret += ':';
+  if (!ret.empty() && colon)
+    ret += ':';
 
   return ret;
 }

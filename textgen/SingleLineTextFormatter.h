@@ -14,10 +14,10 @@ namespace TextGen
 class SingleLineTextFormatter : public PlainTextFormatter
 {
  public:
-  SingleLineTextFormatter() {}
-  virtual ~SingleLineTextFormatter() {}
+  SingleLineTextFormatter() = default;
+  ~SingleLineTextFormatter() override = default;
   using PlainTextFormatter::visit;
-  virtual std::string visit(const Document& theDocument) const override;
+  std::string visit(const Document& theDocument) const override;
 
   std::string name() const { return "singleline"; }
 

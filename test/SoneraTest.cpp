@@ -32,7 +32,10 @@ void require(const string& theKey, const string& theValue)
   }
 }
 
-void require(const string& theKey) { require(theKey, theKey); }
+void require(const string& theKey)
+{
+  require(theKey, theKey);
+}
 void phrases()
 {
   require("o'clock", "");

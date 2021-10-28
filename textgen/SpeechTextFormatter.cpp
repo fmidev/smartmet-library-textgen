@@ -30,7 +30,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -54,7 +53,10 @@ void SpeechTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDic
  */
 // ----------------------------------------------------------------------
 
-string SpeechTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+string SpeechTextFormatter::format(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Visit a glyph

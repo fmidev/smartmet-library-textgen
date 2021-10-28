@@ -33,8 +33,6 @@ using TextGen::WeatherArea;
 using TextGen::WeatherPeriod;
 using namespace TextGen::TimeTools;
 using namespace std;
-using boost::lexical_cast;
-
 
 namespace
 {
@@ -73,22 +71,23 @@ vector<string> reorder_preferences(const string& thePreference, const string& th
   const vector<string> defaults = NFmiStringTools::Split(theDefault);
 
   // fast special case
-  if (preferences.empty()) return defaults;
-
-  typedef vector<string>::const_iterator const_iterator;
+  if (preferences.empty())
+    return defaults;
 
   vector<string> output;
 
   // first the allowed ones from preferences in correct order
-  for (const_iterator it = preferences.begin(); it != preferences.end(); ++it)
+  for (const auto & preference : preferences)
   {
-    if (find(defaults.begin(), defaults.end(), *it) != defaults.end())
-      if (find(output.begin(), output.end(), *it) == output.end()) output.push_back(*it);
+    if (find(defaults.begin(), defaults.end(), preference) != defaults.end())
+      if (find(output.begin(), output.end(), preference) == output.end())
+        output.push_back(preference);
   }
   // then the remaining defaults
-  for (const_iterator jt = defaults.begin(); jt != defaults.end(); ++jt)
+  for (const auto & jt : defaults)
   {
-    if (find(output.begin(), output.end(), *jt) == output.end()) output.push_back(*jt);
+    if (find(output.begin(), output.end(), jt) == output.end())
+      output.push_back(jt);
   }
   return output;
 }
@@ -111,7 +110,7 @@ namespace
 Sentence until_tonight(const string& theVariable,
                        const TextGenPosixTime& theForecastTime,
                        const WeatherPeriod& thePeriod,
-                       TextGen::WeatherHistory* theHistory = 0)
+                       TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::on_weekday;
   Sentence sentence;
@@ -121,35 +120,37 @@ Sentence until_tonight(const string& theVariable,
   const string defaults("none,today,atday,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "none")
+    if (it == "none")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return sentence;
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return sentence;
     }
-    else if (*it == "atday")
+    else if (it == "atday")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "paivalla");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "paivalla");
     }
-    else if (*it == "today")
+    else if (it == "today")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "tanaan");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "tanaan");
     }
-    else if (*it == "weekday")
+    else if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << on_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << on_weekday(thePeriod.localStartTime()));
+     
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhraseFactory::until_tonight does not accept phrase " + *it);
+      throw TextGenError("PeriodPhraseFactory::until_tonight does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::until_tonight run out of options");
@@ -168,7 +169,7 @@ Sentence until_tonight(const string& theVariable,
 Sentence until_morning(const string& theVariable,
                        const TextGenPosixTime& theForecastTime,
                        const WeatherPeriod& thePeriod,
-                       TextGen::WeatherHistory* theHistory = 0)
+                       TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::night_against_weekday;
   Sentence sentence;
@@ -178,35 +179,37 @@ Sentence until_morning(const string& theVariable,
   const string defaults("none,tonight,atnight,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "none")
+    if (it == "none")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return sentence;
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return sentence;
     }
-    else if (*it == "atnight")
+    else if (it == "atnight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "yolla");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "yolla");
     }
-    else if (*it == "tonight")
+    else if (it == "tonight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "ensi yona");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "ensi yona");
     }
-    else if (*it == "weekday")
+    else if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << night_against_weekday(thePeriod.localEndTime()));
-      }
+      
+              return (sentence << night_against_weekday(thePeriod.localEndTime()));
+     
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::until_morning does not accept phrase " + *it);
+      throw TextGenError("PeriodPhrasefactory::until_morning does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::until_morning run out of options");
@@ -225,7 +228,7 @@ Sentence until_morning(const string& theVariable,
 Sentence today(const string& theVariable,
                const TextGenPosixTime& theForecastTime,
                const WeatherPeriod& thePeriod,
-               TextGen::WeatherHistory* theHistory = 0)
+               TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::on_weekday;
   Sentence sentence;
@@ -235,32 +238,34 @@ Sentence today(const string& theVariable,
   const string defaults("none,today,tomorrow,atday,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "weekday")
+    if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << on_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << on_weekday(thePeriod.localStartTime()));
+     
     }
-    else if (*it == "atday")
+    if (it == "atday")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "paivalla");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "paivalla");
     }
-    else if (*it == "none")
+    else if (it == "none")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return sentence;
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return sentence;
     }
-    else if (*it == "today")
+    else if (it == "today")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "tanaan");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "tanaan");
     }
-    else if (*it == "tomorrow")
+    else if (it == "tomorrow")
     {
       if (isNextDay(theForecastTime, thePeriod.localStartTime()))
       {
@@ -269,16 +274,15 @@ Sentence today(const string& theVariable,
           return (sentence << WeekdayTools::get_time_phrase(
                       thePeriod.localStartTime(), "huomenna", *theHistory));
         }
-        else
-        {
-          return (sentence << "huomenna");
-        }
+        
+                  return (sentence << "huomenna");
+       
       }
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::today does not accept phrase " + *it);
+      throw TextGenError("PeriodPhrasefactory::today does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::today run out of options");
@@ -297,7 +301,7 @@ Sentence today(const string& theVariable,
 Sentence tonight(const string& theVariable,
                  const TextGenPosixTime& theForecastTime,
                  const WeatherPeriod& thePeriod,
-                 TextGen::WeatherHistory* theHistory = 0)
+                 TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::night_against_weekday;
   Sentence sentence;
@@ -307,35 +311,37 @@ Sentence tonight(const string& theVariable,
   const string defaults("none,tonight,atnight,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "weekday")
+    if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << night_against_weekday(thePeriod.localEndTime()));
-      }
+      
+              return (sentence << night_against_weekday(thePeriod.localEndTime()));
+     
     }
-    else if (*it == "atnight")
+    if (it == "atnight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "yolla");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "yolla");
     }
-    else if (*it == "none")
+    else if (it == "none")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return sentence;
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return sentence;
     }
-    else if (*it == "tonight")
+    else if (it == "tonight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "ensi yona");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "ensi yona");
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::tonight does not accept phrase " + *it);
+      throw TextGenError("PeriodPhrasefactory::tonight does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::tonight run out of options");
@@ -354,7 +360,7 @@ Sentence tonight(const string& theVariable,
 Sentence next_night(const string& theVariable,
                     const TextGenPosixTime& theForecastTime,
                     const WeatherPeriod& thePeriod,
-                    TextGen::WeatherHistory* theHistory = 0)
+                    TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::night_against_weekday;
   Sentence sentence;
@@ -364,33 +370,34 @@ Sentence next_night(const string& theVariable,
   const string defaults("tonight,atnight,followingnight,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "weekday")
+    if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << night_against_weekday(thePeriod.localEndTime()));
-      }
+      
+              return (sentence << night_against_weekday(thePeriod.localEndTime()));
+     
     }
-    else if (*it == "followingnight")
+    if (it == "followingnight")
       return (sentence << "seuraavana yona");
-    else if (*it == "atnight")
+    if (it == "atnight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "yolla");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "yolla");
     }
-    else if (*it == "tonight")
+    else if (it == "tonight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "ensi yona");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "ensi yona");
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::next_night does not accept phrase " + *it);
+      throw TextGenError("PeriodPhrasefactory::next_night does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::next_night run out of options");
@@ -409,7 +416,7 @@ Sentence next_night(const string& theVariable,
 Sentence next_day(const string& theVariable,
                   const TextGenPosixTime& theForecastTime,
                   const WeatherPeriod& thePeriod,
-                  TextGen::WeatherHistory* theHistory = 0)
+                  TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::on_weekday;
   Sentence sentence;
@@ -419,22 +426,21 @@ Sentence next_day(const string& theVariable,
   const string defaults("tomorrow,followingday,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "weekday")
+    if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << on_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << on_weekday(thePeriod.localStartTime()));
+     
     }
-    else if (*it == "followingday")
+    if (it == "followingday")
       return (sentence << "seuraavana paivana");
-    else if (*it == "tomorrow")
+    if (it == "tomorrow")
     {
       if (isNextDay(theForecastTime, thePeriod.localStartTime()))
       {
@@ -443,16 +449,15 @@ Sentence next_day(const string& theVariable,
           return (sentence << WeekdayTools::get_time_phrase(
                       thePeriod.localStartTime(), "huomenna", *theHistory));
         }
-        else
-        {
-          return (sentence << "huomenna");
-        }
+        
+                  return (sentence << "huomenna");
+       
       }
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::next_day does not accept phrase " + *it);
+      throw TextGenError("PeriodPhrasefactory::next_day does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::next_day run out of options");
@@ -469,9 +474,8 @@ Sentence next_day(const string& theVariable,
 // ----------------------------------------------------------------------
 
 Sentence next_days(const string& theVariable,
-                   const TextGenPosixTime& theForecastTime,
                    const WeatherPeriod& thePeriod,
-                   TextGen::WeatherHistory* theHistory = 0)
+                   TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::from_weekday;
   Sentence sentence;
@@ -481,29 +485,28 @@ Sentence next_days(const string& theVariable,
   const string defaults("tomorrow,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+  for (const auto & it : order)
   {
-    if (*it == "weekday")
+    if (it == "weekday")
     {
       if (theHistory)
       {
         return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << from_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << from_weekday(thePeriod.localStartTime()));
+     
     }
-    else if (*it == "tomorrow")
+    if (it == "tomorrow")
     {
       // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
       // if(isNextDay(theForecastTime,thePeriod.localStartTime()))
       // return (sentence << "huomisesta alkaen");
     }
-    else if (*it == "none!")
+    else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::next_days does not accept phrase " + *it);
+      throw TextGenError("PeriodPhrasefactory::next_days does not accept phrase " + it);
   }
 
   throw TextGenError("PeriodPhrasefactory::next_days run out of options");
@@ -522,12 +525,11 @@ Sentence next_days(const string& theVariable,
 Sentence remaining_days(const string& theVariable,
                         const TextGenPosixTime& theForecastTime,
                         const WeatherPeriod& thePeriod,
-                        TextGen::WeatherHistory* theHistory = 0)
+                        TextGen::WeatherHistory* theHistory = nullptr)
 {
   if (isSeveralDays(thePeriod.localStartTime(), thePeriod.localEndTime()))
-    return next_days(theVariable, theForecastTime, thePeriod, theHistory);
-  else
-    return next_day(theVariable, theForecastTime, thePeriod, theHistory);
+    return next_days(theVariable, thePeriod, theHistory);
+      return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 }
 
 // ----------------------------------------------------------------------
@@ -589,7 +591,7 @@ Sentence remaining_day(const WeatherPeriod& thePeriod)
 Sentence days(const string& theVariable,
               const TextGenPosixTime& theForecastTime,
               const WeatherPeriod& thePeriod,
-              TextGen::WeatherHistory* theHistory = 0)
+              TextGen::WeatherHistory* theHistory = nullptr)
 {
   using TextGen::HourPeriodGenerator;
   using WeekdayTools::from_weekday;
@@ -605,9 +607,10 @@ Sentence days(const string& theVariable,
   HourPeriodGenerator hours(thePeriod, theVariable + "::day");
   const int ndays = hours.size();
 
-  if (ndays == 0) return sentence;
+  if (ndays == 0)
+    return sentence;
 
-  const string nvar = var + "::days" + lexical_cast<string>(ndays);
+  const string nvar = var + "::days" + std::to_string(ndays);
   preferences = Settings::optional_string(nvar, preferences);
   vector<string> order = reorder_preferences(preferences, defaults);
 
@@ -618,17 +621,19 @@ Sentence days(const string& theVariable,
 
   if (ndays == 1)
   {
-    for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+    for (const auto & it : order)
     {
-      if (*it == "none")
+      if (it == "none")
       {
-        if (isSameDay(theForecastTime, starttime)) return sentence;
+        if (isSameDay(theForecastTime, starttime))
+          return sentence;
       }
-      else if (*it == "today")
+      else if (it == "today")
       {
-        if (isSameDay(theForecastTime, starttime)) return (sentence << "tanaan");
+        if (isSameDay(theForecastTime, starttime))
+          return (sentence << "tanaan");
       }
-      else if (*it == "tomorrow")
+      else if (it == "tomorrow")
       {
         if (isNextDay(theForecastTime, starttime))
         {
@@ -636,29 +641,27 @@ Sentence days(const string& theVariable,
           {
             return (sentence << WeekdayTools::get_time_phrase(starttime, "huomenna", *theHistory));
           }
-          else
-          {
-            return (sentence << "huomenna");
-          }
+          
+                      return (sentence << "huomenna");
+         
         }
       }
-      else if (*it == "followingday")
+      else if (it == "followingday")
         ;
-      else if (*it == "weekday")
+      else if (it == "weekday")
       {
         if (theHistory)
         {
           return (sentence << on_weekday(starttime, *theHistory));
         }
-        else
-        {
-          return (sentence << on_weekday(starttime));
-        }
+        
+                  return (sentence << on_weekday(starttime));
+       
       }
-      else if (*it == "none!")
+      else if (it == "none!")
         return sentence;
       else
-        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + *it);
+        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + it);
     }
   }
   else if (ndays == 2)
@@ -669,7 +672,8 @@ Sentence days(const string& theVariable,
     {
       if (*it == "none")
       {
-        if (isSameDay(theForecastTime, starttime)) return sentence;
+        if (isSameDay(theForecastTime, starttime))
+          return sentence;
       }
       else if (*it == "today")
       {
@@ -677,20 +681,21 @@ Sentence days(const string& theVariable,
         {
           sentence << "tanaan"
                    << "ja";
-          for (vector<string>::const_iterator jt = order.begin(); jt != order.end(); ++jt)
+          for (const auto & jt : order)
           {
-            if (*jt == "tomorrow") return (sentence << "huomenna");
-            if (*jt == "followingday") return (sentence << "seuraavana paivana");
-            if (*jt == "weekday")
+            if (jt == "tomorrow")
+              return (sentence << "huomenna");
+            if (jt == "followingday")
+              return (sentence << "seuraavana paivana");
+            if (jt == "weekday")
             {
               if (theHistory)
               {
                 return (sentence << on_weekday(nextday, *theHistory));
               }
-              else
-              {
-                return (sentence << on_weekday(nextday));
-              }
+              
+                              return (sentence << on_weekday(nextday));
+             
             }
           }
         }
@@ -701,19 +706,19 @@ Sentence days(const string& theVariable,
         {
           sentence << "huomenna"
                    << "ja";
-          for (vector<string>::const_iterator jt = order.begin(); jt != order.end(); ++jt)
+          for (const auto & jt : order)
           {
-            if (*jt == "followingday") return (sentence << "seuraavana paivana");
-            if (*jt == "weekday")
+            if (jt == "followingday")
+              return (sentence << "seuraavana paivana");
+            if (jt == "weekday")
             {
               if (theHistory)
               {
                 return (sentence << on_weekday(nextday, *theHistory));
               }
-              else
-              {
-                return (sentence << on_weekday(nextday));
-              }
+              
+                              return (sentence << on_weekday(nextday));
+             
             }
           }
         }
@@ -741,21 +746,21 @@ Sentence days(const string& theVariable,
   }
   else
   {
-    for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+    for (const auto & it : order)
     {
-      if (*it == "none")
+      if (it == "none")
         return sentence;
-      else if (*it == "today")
+      if (it == "today")
         ;
-      else if (*it == "tomorrow")
+      else if (it == "tomorrow")
       {
         // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
         // if(isNextDay(theForecastTime, starttime))
         // return (sentence << "huomisesta alkaen");
       }
-      else if (*it == "followingday")
+      else if (it == "followingday")
         ;
-      else if (*it == "weekday")
+      else if (it == "weekday")
       {
         if (theHistory)
         {
@@ -765,15 +770,14 @@ Sentence days(const string& theVariable,
           */
           return (sentence << from_weekday(starttime, *theHistory));
         }
-        else
-        {
-          return (sentence << from_weekday(starttime));
-        }
+        
+                  return (sentence << from_weekday(starttime));
+       
       }
-      else if (*it == "none!")
+      else if (it == "none!")
         return sentence;
       else
-        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + *it);
+        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + it);
     }
   }
 
@@ -788,7 +792,7 @@ Sentence create_sentence(const string& theType,
                          const string& theVariable,
                          const TextGenPosixTime& theForecastTime,
                          const WeatherPeriod& thePeriod,
-                         TextGen::WeatherHistory* theHistory = 0)
+                         TextGen::WeatherHistory* theHistory = nullptr)
 {
   if (theType == "until_tonight")
     return until_tonight(theVariable, theForecastTime, thePeriod, theHistory);
@@ -796,23 +800,29 @@ Sentence create_sentence(const string& theType,
   if (theType == "until_morning")
     return until_morning(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "today") return today(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "today")
+    return today(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "tonight") return tonight(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "tonight")
+    return tonight(theVariable, theForecastTime, thePeriod, theHistory);
 
   if (theType == "next_night")
     return next_night(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "next_day") return next_day(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "next_day")
+    return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "next_days") return next_days(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "next_days")
+    return next_days(theVariable, thePeriod, theHistory);
 
   if (theType == "remaining_days")
     return remaining_days(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "days") return days(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "days")
+    return days(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "remaining_day") return remaining_day(thePeriod);
+  if (theType == "remaining_day")
+    return remaining_day(thePeriod);
 
   throw TextGenError("PeriodPhraseFactory::create does not recognize type " + theType);
 }
@@ -876,7 +886,7 @@ Sentence create(const string& theType,
                 const WeatherPeriod& thePeriod,
                 const WeatherArea& theArea)
 {
-  TextGen::WeatherHistory* theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
+  auto* theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
 
   return create_sentence(theType, theVariable, theForecastTime, thePeriod, theHistory);
 

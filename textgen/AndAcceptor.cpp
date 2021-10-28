@@ -50,7 +50,10 @@ AndAcceptor::AndAcceptor(const Acceptor& theLhs, const Acceptor& theRhs)
  */
 // ----------------------------------------------------------------------
 
-Acceptor* AndAcceptor::clone() const { return new AndAcceptor(*this); }
+Acceptor* AndAcceptor::clone() const
+{
+  return new AndAcceptor(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Accept or reject a value

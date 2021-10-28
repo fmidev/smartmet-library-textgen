@@ -26,15 +26,15 @@ class Paragraph;
 class TemperatureStory : public Story
 {
  public:
-  virtual ~TemperatureStory();
+  ~TemperatureStory() override;
   TemperatureStory(const TextGenPosixTime& theForecastTime,
                    const TextGen::AnalysisSources& theSources,
                    const TextGen::WeatherArea& theArea,
                    const TextGen::WeatherPeriod& thePeriod,
-                   const std::string& theVariable);
+                   std::string  theVariable);
 
   static bool hasStory(const std::string& theName);
-  virtual Paragraph makeStory(const std::string& theName) const;
+  Paragraph makeStory(const std::string& theName) const override;
 
  private:
   Paragraph mean() const;
@@ -47,7 +47,7 @@ class TemperatureStory : public Story
   Paragraph day() const;
   Paragraph range() const;
   Paragraph max36hours() const;
-  const Paragraph anomaly() const;
+  Paragraph anomaly() const;
 
   TemperatureStory();
   TemperatureStory(const TemperatureStory& theStory);

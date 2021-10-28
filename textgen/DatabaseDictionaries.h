@@ -18,26 +18,26 @@ namespace TextGen
 class DatabaseDictionaries : public Dictionary
 {
  public:
-  typedef Dictionary::size_type size_type;
+  using size_type = Dictionary::size_type;
 
-  virtual ~DatabaseDictionaries();
+  ~DatabaseDictionaries() override;
   DatabaseDictionaries(const std::string& theDictionaryId);
 #ifdef NO_COMPILER_OPTIMIZE
   DatabaseDictionaries(const DatabaseDictionaries& theDict);
   DatabaseDictionaries& operator=(const DatabaseDictionaries& theDict);
 #endif
 
-  void init(const std::string& theLanguage);
-  virtual const std::string& language(void) const;
-  virtual bool contains(const std::string& theKey) const;
-  virtual const std::string& find(const std::string& theKey) const;
-  virtual void insert(const std::string& theKey, const std::string& thePhrase);
+  void init(const std::string& theLanguage) override;
+  const std::string& language() const override;
+  bool contains(const std::string& theKey) const override;
+  const std::string& find(const std::string& theKey) const override;
+  void insert(const std::string& theKey, const std::string& thePhrase) override;
 
-  virtual size_type size(void) const;
-  virtual bool empty(void) const;
-  void  changeLanguage(const std::string& theLanguage) override;
+  size_type size() const override;
+  bool empty() const override;
+  void changeLanguage(const std::string& theLanguage) override;
 
-private:
+ private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
 

@@ -31,12 +31,12 @@ class WeatherForecastStoryItem
                            const WeatherPeriod& period,
                            story_part_id storyPartId);
 
-  virtual ~WeatherForecastStoryItem() {}
+  virtual ~WeatherForecastStoryItem() = default;
   Sentence getSentence();
   // if periods are merged this must be overwritten
   virtual WeatherPeriod getStoryItemPeriod() const;
   virtual Sentence getStoryItemSentence() { return Sentence(); }
-  unsigned int getPeriodLength();
+  unsigned int getPeriodLength() const;
   int forecastPeriodLength() const;
   int storyItemPeriodLength() const;
   Sentence getTodayVectorSentence(const std::vector<Sentence*>& todayVector,
@@ -44,7 +44,7 @@ class WeatherForecastStoryItem
                                   unsigned int theEndIndex);
   Sentence getPeriodPhrase();
   Sentence getPeriodPhrase(bool theFromSpecifier,
-                           const WeatherPeriod* thePhrasePeriod = 0,
+                           const WeatherPeriod* thePhrasePeriod = nullptr,
                            bool theStoryUnderConstructionEmpty = true);
   std::string checkForAamuyoAndAamuPhrase(bool theFromSpecifier,
                                           const WeatherPeriod& thePhrasePeriod);
@@ -53,7 +53,7 @@ class WeatherForecastStoryItem
   story_part_id getStoryPartId() const { return theStoryPartId; }
   const WeatherPeriod& getPeriod() const { return thePeriod; }
   bool isIncluded() const { return theIncludeInTheStoryFlag; }
-  unsigned int numberOfAdditionalSentences() { return theAdditionalSentences.size(); }
+  unsigned int numberOfAdditionalSentences() const { return theAdditionalSentences.size(); }
   std::pair<WeatherPeriod, Sentence> getAdditionalSentence(unsigned int index) const;
 
   // protected:
@@ -84,7 +84,7 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
                                  precipitation_type type,
                                  bool thunder);
 
-  Sentence getStoryItemSentence();
+  Sentence getStoryItemSentence() override;
   bool isWeakPrecipitation(const wf_story_params& theParameters) const;
   float precipitationExtent() const;
   unsigned int precipitationForm() const;
@@ -119,7 +119,7 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
                               PrecipitationForecastStoryItem* previousPrecipitationStoryItem,
                               PrecipitationForecastStoryItem* nextPrecipitationStoryItem);
 
-  Sentence getStoryItemSentence();
+  Sentence getStoryItemSentence() override;
   Sentence cloudinessChangeSentence();
 
  private:
@@ -166,7 +166,7 @@ class WeatherForecastStory
   void addPrecipitationStoryItems();
   void addCloudinessStoryItems();
   void mergePeriodsWhenFeasible();
-  Sentence getTimePhrase();
+  Sentence getTimePhrase() const;
   void mergePrecipitationPeriodsWhenFeasible();
   void mergeCloudinessPeriodsWhenFeasible();
 

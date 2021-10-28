@@ -50,13 +50,14 @@ std::string get_story_value_param(const std::string& theStoryVar,
 // ----------------------------------------------------------------------
 
 template <typename Iterator>
-const std::string realize(Iterator it,
+std::string realize(Iterator it,
                           Iterator end,
                           const TextFormatter& theFormatter,
                           const std::string& thePrefix,
                           const std::string& theSuffix)
 {
-  std::string ret, tmp;
+  std::string ret;
+  std::string tmp;
 
   // Number of patterns to replace
   int patterns = 0;
@@ -102,9 +103,11 @@ const std::string realize(Iterator it,
     {
       patterns = count_patterns(tmp);
 
-      if (!ret.empty() && !isdelim) ret += thePrefix;
+      if (!ret.empty() && !isdelim)
+        ret += thePrefix;
       ret += tmp;
-      if (!isdelim) ret += theSuffix;
+      if (!isdelim)
+        ret += theSuffix;
     }
   }
 

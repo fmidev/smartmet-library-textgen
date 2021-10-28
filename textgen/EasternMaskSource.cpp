@@ -79,8 +79,8 @@ class EasternMaskSource::Pimple
 
   const WeatherArea itsArea;
 
-  typedef map<WeatherAreaAndID, mask_type> mask_storage;
-  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+  using mask_storage = map<WeatherAreaAndID, mask_type>;
+  using masks_storage = map<WeatherAreaAndID, masks_type>;
 
   mutable mask_storage itsMaskStorage;
   mutable masks_storage itsMasksStorage;
@@ -101,10 +101,7 @@ class EasternMaskSource::Pimple
  */
 // ----------------------------------------------------------------------
 
-EasternMaskSource::Pimple::Pimple(const WeatherArea& theArea)
-    : itsArea(theArea), itsMaskStorage(), itsMasksStorage()
-{
-}
+EasternMaskSource::Pimple::Pimple(const WeatherArea& theArea) : itsArea(theArea) {}
 
 // ----------------------------------------------------------------------
 /*!
@@ -128,14 +125,16 @@ EasternMaskSource::mask_type EasternMaskSource::Pimple::find(const WeatherId& th
   for (it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
   {
     // identicalArea-function compares more than operator ==
-    if (it->first.itsArea.identicalArea(theArea)) return it->second;
+    if (it->first.itsArea.identicalArea(theArea))
+      return it->second;
   }
 
   mask_storage::iterator iter;
 
   WeatherAreaAndID key(theID, theArea);
   iter = itsMaskStorage.find(key);
-  if (iter != itsMaskStorage.end()) itsMaskStorage.erase(iter);
+  if (iter != itsMaskStorage.end())
+    itsMaskStorage.erase(iter);
 
   return dummy;
 
@@ -166,7 +165,7 @@ void EasternMaskSource::Pimple::insert(const WeatherId& theID,
                                        const WeatherArea& theArea,
                                        const mask_type& theMask) const
 {
-  typedef mask_storage::value_type value_type;
+  using value_type = mask_storage::value_type;
 
   WeatherAreaAndID key(theID, theArea);
 
@@ -201,7 +200,7 @@ EasternMaskSource::mask_type EasternMaskSource::Pimple::create_mask(
 
   // First build the area mask
 
-  const NFmiSvgPath svg = theArea.path();
+  theArea.path();
 
   mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi.Grid()), theArea, AreaTools::EAST)));
 
@@ -229,7 +228,8 @@ EasternMaskSource::mask_type EasternMaskSource::mask(const WeatherArea& theArea,
                                                      const std::string& theData,
                                                      const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+  if (theArea.isPoint())
+    throw TextGenError("Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -239,7 +239,8 @@ EasternMaskSource::mask_type EasternMaskSource::mask(const WeatherArea& theArea,
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0) return areamask;
+  if (areamask.get() != nullptr)
+    return areamask;
 
   // Calculate new mask and cache it
 
@@ -259,9 +260,9 @@ EasternMaskSource::mask_type EasternMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-EasternMaskSource::masks_type EasternMaskSource::masks(const WeatherArea& theArea,
-                                                       const std::string& theData,
-                                                       const WeatherSource& theWeatherSource) const
+EasternMaskSource::masks_type EasternMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                       const std::string&  /*theData*/,
+                                                       const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("EasternMaskSource::masks not implemented");
 }

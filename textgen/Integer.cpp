@@ -21,7 +21,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -30,7 +29,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-Integer::~Integer() {}
+Integer::~Integer() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -59,7 +58,7 @@ boost::shared_ptr<Glyph> Integer::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Integer::realize(const Dictionary& theDictionary) const
+std::string Integer::realize(const Dictionary&  /*theDictionary*/) const
 {
   ostringstream os;
   os << itsInteger;
@@ -86,7 +85,10 @@ std::string Integer::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Integer::isDelimiter() const { return false; }
+bool Integer::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the value of the integer
@@ -95,7 +97,10 @@ bool Integer::isDelimiter() const { return false; }
  */
 // ----------------------------------------------------------------------
 
-int Integer::value() const { return itsInteger; }
+int Integer::value() const
+{
+  return itsInteger;
+}
 }  // namespace TextGen
 
 // ======================================================================

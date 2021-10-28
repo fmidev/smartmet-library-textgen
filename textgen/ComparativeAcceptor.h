@@ -25,9 +25,9 @@ enum comparative_operator
 class ComparativeAcceptor : public Acceptor
 {
  public:
-  virtual ~ComparativeAcceptor() {}
-  virtual bool accept(float theValue) const;
-  virtual Acceptor* clone() const;
+  ~ComparativeAcceptor() override = default;
+  bool accept(float theValue) const override;
+  Acceptor* clone() const override;
 
   ComparativeAcceptor(const float& theLimit = kFloatMissing,
                       const comparative_operator& theOperator = VOID_OPERATOR);

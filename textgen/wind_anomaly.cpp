@@ -58,8 +58,6 @@ using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
 using Settings::optional_bool;
-using Settings::optional_int;
-using Settings::optional_string;
 
 #define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE \
   "[iltapaivalla] [rannikolla] on [tuulista]"
@@ -93,8 +91,8 @@ using Settings::optional_string;
 #define WINDY_WEATER_LIMIT 7.0
 #define EXTREMELY_WINDY_WEATHER_LIMIT 10.0
 #define WIND_COOLING_THE_WEATHER_LIMIT 6.0
-#define EXTREME_WINDCHILL_LIMIT -35.0
-#define MILD_WINDCHILL_LIMIT -25.0
+#define EXTREME_WINDCHILL_LIMIT (-35.0)
+#define MILD_WINDCHILL_LIMIT (-25.0)
 #define ZERO_DEGREES 0.0
 #define TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT 7.0
 
@@ -142,7 +140,7 @@ struct wind_anomaly_params
         theForecastTime(forecastTime),
         thePeriodLength(periodLength),
         theSpecifyPartOfTheDayFlag(specifyPartOfTheDayFlag),
-        theFakeVariable(""),
+        
         theCoastalAndInlandTogetherFlag(false),
         theTemperatureAreaMorningMinimum(kFloatMissing, 0),
         theTemperatureAreaMorningMean(kFloatMissing, 0),
@@ -185,9 +183,8 @@ struct wind_anomaly_params
         theWindchillCoastalMorningMaximum(kFloatMissing, 0),
         theWindchillCoastalAfternoonMinimum(kFloatMissing, 0),
         theWindchillCoastalAfternoonMean(kFloatMissing, 0),
-        theWindchillCoastalAfternoonMaximum(kFloatMissing, 0),
-        theMorningWord(""),
-        theAfternoonWord("")
+        theWindchillCoastalAfternoonMaximum(kFloatMissing, 0)
+        
   {
   }
 
@@ -400,7 +397,7 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
   WeatherArea theArea(theParameters.theArea);
   theArea.type(theParameters.theCoastalAndInlandTogetherFlag ? WeatherArea::Full : theType);
 
-  std::string theFakeVariable("");
+  std::string theFakeVariable;
   std::string postfix_string(theWindspeed ? "::fake::windspeed" : "::fake::windchill");
   postfix_string += (theMorningPeriod ? "::morning" : "::afternoon");
   if (theType == WeatherArea::Inland)
@@ -576,7 +573,7 @@ Sentence get_windiness_sentence(const std::string& timeSpecifier,
   return sentence;
 }
 
-const Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
+Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
                                                      const float& windspeedAfternoon,
                                                      const float& windyWeatherLimit,
                                                      const float& extremelyWindyWeatherLimit,
@@ -592,17 +589,17 @@ const Sentence construct_windiness_sentence_for_area(const float& windspeedMorni
   bool afternoonIncluded = windspeedAfternoon != kFloatMissing;
 
   Sentence specifiedDay;
-  if (specifiedDaySentence.size() == 0)
+  if (specifiedDaySentence.empty())
     specifiedDay << EMPTY_STRING;
   else
     specifiedDay << specifiedDaySentence;
 
   std::string weekdayMorningString(parse_weekday_phrase(dayNumber, morningWord));
   std::string weekdayAfternoonString(parse_weekday_phrase(dayNumber, afternoonWord));
-  bool areaStringEmpty(areaString.compare(EMPTY_STRING) == 0);
-  bool specifiedDayEmpty(specifiedDaySentence.size() == 0);
-  bool weekdayMorningStringEmpty(weekdayMorningString.compare(EMPTY_STRING) == 0);
-  bool weekdayAfternoonStringEmpty(weekdayAfternoonString.compare(EMPTY_STRING) == 0);
+  bool areaStringEmpty(areaString == EMPTY_STRING);
+  bool specifiedDayEmpty(specifiedDaySentence.empty());
+  bool weekdayMorningStringEmpty(weekdayMorningString == EMPTY_STRING);
+  bool weekdayAfternoonStringEmpty(weekdayAfternoonString == EMPTY_STRING);
 
   if (morningIncluded && afternoonIncluded)
   {
@@ -812,7 +809,7 @@ else
   return sentence;
 }
 
-const Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
+Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
                                             const Sentence& theSpecifiedDay,
                                             const short& dayNumber)
 {
@@ -840,9 +837,9 @@ const Sentence construct_windiness_sentence(const wind_anomaly_params& theParame
   int windspeedAfternoonCoastal =
       static_cast<int>(round(theParameters.theWindspeedCoastalAfternoonMean.value()));
 
-  bool specifiedDayEmpty(theSpecifiedDay.size() == 0);
+  bool specifiedDayEmpty(theSpecifiedDay.empty());
   Sentence specifiedDay;
-  if (theSpecifiedDay.size() == 0)
+  if (theSpecifiedDay.empty())
     specifiedDay << EMPTY_STRING;
   else
     specifiedDay << theSpecifiedDay;
@@ -1280,7 +1277,7 @@ const Sentence construct_windiness_sentence(const wind_anomaly_params& theParame
   return sentence;
 }
 
-const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
+Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 {
   Sentence sentence;
 
@@ -1297,8 +1294,8 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
   */
   std::string aamupaivalla(theParameters.theMorningWord);
   std::string iltapaivalla(theParameters.theAfternoonWord);
-  std::string part_of_the_day("");
-  std::string areaString("");
+  std::string part_of_the_day;
+  std::string areaString;
 
   Sentence theSpecifiedDay;
   short dayNumber = 0;
@@ -1471,18 +1468,19 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 
     if (inlandIncluded || coastIncluded)
     {
-      if (areaString.empty()) areaString = EMPTY_STRING;
+      if (areaString.empty())
+        areaString = EMPTY_STRING;
       std::string timePhrase(parse_weekday_phrase(dayNumber, part_of_the_day));
 
       if (temperature > TUULI_KYLMENTAA_SAATA_LOWER_LIMIT &&
           temperature <= TUULI_KYLMENTAA_SAATA_UPPER_LIMIT)
       {
-        if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        if (areaString == EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE;
-        else if (areaString.compare(EMPTY_STRING) != 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        else if (areaString != EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
                    << areaString;
-        else if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) != 0)
+        else if (areaString == EMPTY_STRING && timePhrase != EMPTY_STRING)
           sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
                    << timePhrase;
         else
@@ -1492,12 +1490,12 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
       else if (temperature > TUULI_VIILENTAA_SAATA_LOWER_LIMIT &&
                temperature <= TUULI_VIILENTAA_SAATA_UPPER_LIMIT)
       {
-        if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        if (areaString == EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;
-        else if (areaString.compare(EMPTY_STRING) != 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        else if (areaString != EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
                    << areaString;
-        else if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) != 0)
+        else if (areaString == EMPTY_STRING && timePhrase != EMPTY_STRING)
           sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
                    << timePhrase;
         else
@@ -1510,7 +1508,7 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
   return sentence;
 }
 
-const Sentence windchill_sentence(const wind_anomaly_params& theParameters)
+Sentence windchill_sentence(const wind_anomaly_params& theParameters)
 {
   Sentence sentence;
 

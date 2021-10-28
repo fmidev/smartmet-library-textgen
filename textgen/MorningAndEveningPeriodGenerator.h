@@ -20,7 +20,7 @@ class WeatherPeriod;
 class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
 {
  public:
-  typedef WeatherPeriodGenerator::size_type size_type;
+  using size_type = WeatherPeriodGenerator::size_type;
 
   MorningAndEveningPeriodGenerator(const WeatherPeriod& theMainPeriod,
                                    int theMorningStartHour,
@@ -35,14 +35,14 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
   MorningAndEveningPeriodGenerator(const WeatherPeriod& theMainPeriod,
                                    const std::string& theVariable);
 
-  virtual ~MorningAndEveningPeriodGenerator() {}
-  virtual bool undivided() const;
-  virtual size_type size() const;
-  virtual WeatherPeriod period() const;
-  virtual WeatherPeriod period(size_type thePeriod) const;
+  ~MorningAndEveningPeriodGenerator() override = default;
+  bool undivided() const override;
+  size_type size() const override;
+  WeatherPeriod period() const override;
+  WeatherPeriod period(size_type thePeriod) const override;
 
  private:
-  MorningAndEveningPeriodGenerator(void);
+  MorningAndEveningPeriodGenerator() = delete;
   void init();
 
   const WeatherPeriod itsMainPeriod;

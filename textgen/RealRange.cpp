@@ -17,7 +17,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iomanip>
 #include <sstream>
-
+#include <utility>
 
 using namespace std;
 
@@ -29,7 +29,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-RealRange::~RealRange() {}
+RealRange::~RealRange() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -39,8 +39,8 @@ RealRange::~RealRange() {}
 RealRange::RealRange(float theStartValue,
                      float theEndValue,
                      int thePrecision,
-                     const std::string& theSeparator)
-    : itsRangeSeparator(theSeparator),
+                     std::string  theSeparator)
+    : itsRangeSeparator(std::move(theSeparator)),
       itsStartValue(theStartValue),
       itsEndValue(theEndValue),
       itsPrecision(thePrecision)
@@ -68,7 +68,7 @@ boost::shared_ptr<Glyph> RealRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string RealRange::realize(const Dictionary& theDictionary) const
+std::string RealRange::realize(const Dictionary&  /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)
@@ -109,7 +109,10 @@ std::string RealRange::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool RealRange::isDelimiter() const { return false; }
+bool RealRange::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the range separator string
@@ -118,7 +121,10 @@ bool RealRange::isDelimiter() const { return false; }
  */
 // ----------------------------------------------------------------------
 
-const std::string& RealRange::rangeSeparator() const { return itsRangeSeparator; }
+const std::string& RealRange::rangeSeparator() const
+{
+  return itsRangeSeparator;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the start value of the range
@@ -127,7 +133,10 @@ const std::string& RealRange::rangeSeparator() const { return itsRangeSeparator;
  */
 // ----------------------------------------------------------------------
 
-float RealRange::startValue() const { return itsStartValue; }
+float RealRange::startValue() const
+{
+  return itsStartValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the end value of the range
@@ -136,7 +145,10 @@ float RealRange::startValue() const { return itsStartValue; }
  */
 // ----------------------------------------------------------------------
 
-float RealRange::endValue() const { return itsEndValue; }
+float RealRange::endValue() const
+{
+  return itsEndValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the precision of the range
@@ -145,7 +157,10 @@ float RealRange::endValue() const { return itsEndValue; }
  */
 // ----------------------------------------------------------------------
 
-int RealRange::precision() const { return itsPrecision; }
+int RealRange::precision() const
+{
+  return itsPrecision;
+}
 }  // namespace TextGen
 
 // ======================================================================

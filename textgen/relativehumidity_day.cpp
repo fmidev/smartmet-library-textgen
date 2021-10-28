@@ -51,7 +51,8 @@ Paragraph RelativeHumidityStory::day() const
   HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
 
   // Too late for this day? Return empty story then
-  if (generator.size() == 0) return paragraph;
+  if (generator.size() == 0)
+    return paragraph;
 
   // Too many days is an error
 

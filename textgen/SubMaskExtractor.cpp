@@ -28,7 +28,6 @@
 
 using namespace std;
 
-
 // ----------------------------------------------------------------------
 /*!
  * \brief Integrate over space
@@ -75,11 +74,12 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
+  auto param = FmiParameterName(converter.ToEnum(parameterName));
   if (param == kFmiBadParameter)
     throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
 
-  if (!theQI.Param(param)) throw TextGenError(parameterName + " is not available in " + dataname);
+  if (!theQI.Param(param))
+    throw TextGenError(parameterName + " is not available in " + dataname);
 
   if (!theArea.isPoint())
   {
@@ -113,9 +113,11 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
         break;
     }
 
-    if (theIndexMask->empty()) return 0;
+    if (theIndexMask->empty())
+      return 0;
 
-    unsigned long startindex, endindex;
+    unsigned long startindex;
+    unsigned long endindex;
 
     if (!QueryDataTools::findIndices(
             theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -123,7 +125,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       return 0;
     }
 
-    for (NFmiIndexMask::const_iterator it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
+    for (unsigned long it : *theIndexMask)
     {
       theQI.TimeIndex(startindex);
 
@@ -131,12 +133,12 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       {
         // possible -1 is handled by IndexFloatValue
         const unsigned long idx =
-            theQI.Index(theQI.ParamIndex(), *it, theQI.LevelIndex(), theQI.TimeIndex());
+            theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
         const float tmp = theQI.GetFloatValue(idx);
 
         if (theAcceptor.accept(tmp))
         {
-          theResultData.push_back(new NFmiPoint(theQI.LatLon(*it)));
+          theResultData.push_back(new NFmiPoint(theQI.LatLon(it)));
           retval += tmp;
         }
       } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
@@ -169,11 +171,12 @@ double ExtractMask(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
+  auto param = FmiParameterName(converter.ToEnum(parameterName));
   if (param == kFmiBadParameter)
     throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
 
-  if (!theQI.Param(param)) throw TextGenError(parameterName + " is not available in " + dataname);
+  if (!theQI.Param(param))
+    throw TextGenError(parameterName + " is not available in " + dataname);
 
   if (!theArea.isPoint())
   {
@@ -207,15 +210,17 @@ double ExtractMask(const AnalysisSources& theSources,
         break;
     }
 
-    if (theIndexMask->empty()) return 0;
+    if (theIndexMask->empty())
+      return 0;
 
-    unsigned long startindex, endindex;
+    unsigned long startindex;
+    unsigned long endindex;
 
     if (!QueryDataTools::findIndices(
             theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
       return 0;
 
-    for (NFmiIndexMask::const_iterator it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
+    for (unsigned long it : *theIndexMask)
     {
       theQI.TimeIndex(startindex);
 
@@ -223,12 +228,12 @@ double ExtractMask(const AnalysisSources& theSources,
       {
         // possible -1 is handled by IndexFloatValue
         const unsigned long idx =
-            theQI.Index(theQI.ParamIndex(), *it, theQI.LevelIndex(), theQI.TimeIndex());
+            theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
         const float tmp = theQI.GetFloatValue(idx);
 
         if (theAcceptor.accept(tmp))
         {
-          theResultIndexMask.insert(*it);
+          theResultIndexMask.insert(it);
           retval += tmp;
         }
       } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
@@ -299,18 +304,19 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree,
 
 void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double theResolution)
 {
-  if (thePath.empty()) return;
+  if (thePath.empty())
+    return;
 
   NFmiPoint firstPoint(thePath.front().itsX, thePath.front().itsY);
 
   NFmiPoint lastPoint(0, 0);
 
-  for (NFmiSvgPath::const_iterator it = thePath.begin(); it != thePath.end(); ++it)
+  for (const auto & it : thePath)
   {
-    switch (it->itsType)
+    switch (it.itsType)
     {
       case NFmiSvgPath::kElementMoveto:
-        lastPoint.Set(it->itsX, it->itsY);
+        lastPoint.Set(it.itsX, it.itsY);
         firstPoint = lastPoint;
         break;
       case NFmiSvgPath::kElementClosePath:
@@ -321,7 +327,7 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double
       }
       case NFmiSvgPath::kElementLineto:
       {
-        NFmiPoint nextPoint(it->itsX, it->itsY);
+        NFmiPoint nextPoint(it.itsX, it.itsY);
         Insert(theTree, lastPoint, nextPoint, theResolution);
         lastPoint = nextPoint;
         break;
@@ -332,13 +338,13 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double
   }
 }
 
-const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
+NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
                                   const WeatherArea& theArea,
                                   const AreaTools::direction_id& theDirectionId)
 {
   NFmiIndexMask mask;
 
-  const NFmiSvgPath svgPath = theArea.path();
+  const NFmiSvgPath& svgPath = theArea.path();
 
   const double resolution_factor = 1.0 / 4;
 
@@ -355,7 +361,10 @@ const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
   Insert(tree, projectedPath, FmiMin(dx, dy) * resolution_factor);
 
   //
-  double theXmin, theYmin, theXmax, theYmax;
+  double theXmin;
+  double theYmin;
+  double theXmax;
+  double theYmax;
 
   NFmiSvgTools::BoundingBox(svgPath, theXmin, theYmin, theXmax, theYmax);
 
@@ -416,7 +425,8 @@ const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
               break;
           }
 
-          if (insert) mask.insert(idx);
+          if (insert)
+            mask.insert(idx);
         }
       }
   }
@@ -440,9 +450,9 @@ void PrintLatLon(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (unsigned long it : theIndexMask)
   {
-    cout << theQI.LatLon(*it);
+    cout << theQI.LatLon(it);
   }
 }
 }  // namespace TextGen

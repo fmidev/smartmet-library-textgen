@@ -22,7 +22,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -46,7 +45,7 @@ boost::shared_ptr<Glyph> Document::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Document::realize(const Dictionary& theDictionary) const
+std::string Document::realize(const Dictionary&  /*theDictionary*/) const
 {
   throw TextGenError("Document::realize(Dictionary) should not be called");
 }
@@ -71,7 +70,10 @@ std::string Document::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Document::isDelimiter() const { return false; }
+bool Document::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Add a document to the end of this document

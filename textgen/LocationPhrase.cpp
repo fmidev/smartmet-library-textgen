@@ -16,9 +16,9 @@
 #include "TextFormatterTools.h"
 #include <boost/locale.hpp>
 #include <newbase/NFmiStringTools.h>
+#include <utility>
 
 using namespace std;
-
 
 namespace TextGen
 {
@@ -28,7 +28,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-LocationPhrase::~LocationPhrase() {}
+LocationPhrase::~LocationPhrase() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -37,7 +37,7 @@ LocationPhrase::~LocationPhrase() {}
  */
 // ----------------------------------------------------------------------
 
-LocationPhrase::LocationPhrase(const std::string& theLocation) : itsLocation(theLocation) {}
+LocationPhrase::LocationPhrase(std::string  theLocation) : itsLocation(std::move(theLocation)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone
@@ -71,16 +71,17 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
   std::string location(itsLocation);
   if (theDictionary.contains(location))
     return theDictionary.find(location);
-  else
-  {
-    if (location.size() > 4)
+  
+      if (location.size() > 4)
     {
       string ending = location.substr(location.size() - 4);
-      if (ending.compare(":lle") == 0) location = location.substr(0, location.size() - 4);
+      if (ending == ":lle")
+        location = location.substr(0, location.size() - 4);
     }
     std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
-    if (theDictionary.geocontains(location)) return theDictionary.geofind(location);
-  }
+    if (theDictionary.geocontains(location))
+      return theDictionary.geofind(location);
+ 
 
   generator gen;
   std::locale loc(gen("fi_FI.UTF-8"));
@@ -121,7 +122,10 @@ std::string LocationPhrase::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool LocationPhrase::isDelimiter() const { return false; }
+bool LocationPhrase::isDelimiter() const
+{
+  return false;
+}
 }  // namespace TextGen
 
 // ======================================================================

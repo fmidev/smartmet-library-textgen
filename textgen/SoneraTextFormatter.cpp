@@ -44,8 +44,6 @@
 #include <boost/lexical_cast.hpp>
 
 using namespace std;
-using boost::lexical_cast;
-
 
 namespace
 {
@@ -76,7 +74,8 @@ void sonera_check(int theNumber)
 
 string padzeros(const string& theString, unsigned int theCount)
 {
-  if (theString.size() >= theCount) return theString;
+  if (theString.size() >= theCount)
+    return theString;
 
   string ret(theCount - theString.size(), '0');
   ret += theString;
@@ -97,7 +96,7 @@ void addpause(const std::string& theVar, list<string>& theList)
   if (Settings::isset(theVar))
   {
     const int num = Settings::require_int(theVar);
-    theList.push_back(lexical_cast<string>(num));
+    theList.push_back(std::to_string(num));
   }
 }
 
@@ -140,7 +139,8 @@ void sonera_realize(int theNumber,
   ostringstream os;
 
   sonera_check(theNumber);
-  if (theNumber < 0) theContainer.push_back(miinus.realize(theDictionary));
+  if (theNumber < 0)
+    theContainer.push_back(miinus.realize(theDictionary));
   os << abs(theNumber);
   theContainer.push_back(os.str());
 }
@@ -155,9 +155,8 @@ namespace TextGen
 // ----------------------------------------------------------------------
 
 SoneraTextFormatter::SoneraTextFormatter()
-    : TextFormatter(), itsParts(), itsDepth(0), itsDictionary(), itsSectionVar()
-{
-}
+      
+= default;
 
 // ----------------------------------------------------------------------
 /*!
@@ -188,7 +187,8 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
   theGlyph.realize(*this);
   --itsDepth;
 
-  if (itsDepth > 0) return dummy;
+  if (itsDepth > 0)
+    return dummy;
 
   const int max_words_on_line = 19;  // specified by Sonera
 
@@ -205,14 +205,16 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
         ++lines;
         words_on_line = 0;
       }
-      if (words_on_line == 0) ret += 'r' + lexical_cast<string>(lines) + ',';
+      if (words_on_line == 0)
+        ret += 'r' + std::to_string(lines) + ',';
       ret += padzeros(*it, 3);
       ret += ',';
       ++words_on_line;
     }
   }
 
-  if (words_on_line > 0) ret += ";\n";
+  if (words_on_line > 0)
+    ret += ";\n";
 
   return ret;
 }
@@ -255,7 +257,7 @@ string SoneraTextFormatter::visit(const Integer& theInteger) const
  */
 // ----------------------------------------------------------------------
 
-string SoneraTextFormatter::visit(const Real& theReal) const
+string SoneraTextFormatter::visit(const Real&  /*theReal*/) const
 {
   throw TextGen::TextGenError("Cannot use Reals in Sonera phone service");
 }

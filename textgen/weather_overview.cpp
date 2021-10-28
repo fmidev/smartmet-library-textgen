@@ -1431,7 +1431,8 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
   // start & end times of the rain
   int rainstarthour = theRainPeriod.localStartTime().GetHour();
   int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
-  if (rainendhour == 1) rainendhour = 24;
+  if (rainendhour == 1)
+    rainendhour = 24;
 
   // mapping onto the four basic cases
   const int idx = one_day_rain_unique_index(rainstarthour, rainendhour);
@@ -1488,7 +1489,7 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
 Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
                                     const AnalysisSources& theSources,
                                     const WeatherArea& theArea,
-                                    const WeatherPeriod& thePeriod,
+                                    const WeatherPeriod&  /*thePeriod*/,
                                     const string& theVar,
                                     const WeatherPeriod& theRainPeriod,
                                     int theDay)
@@ -1499,7 +1500,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
   // start & end times of the rain
   int rainstarthour = theRainPeriod.localStartTime().GetHour();
   int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
-  if (rainendhour == 1) rainendhour = 24;
+  if (rainendhour == 1)
+    rainendhour = 24;
 
   // mapping onto the seventeen basic cases
   const int idx = two_day_rain_unique_index(rainstarthour, rainendhour);
@@ -1587,7 +1589,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
       s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
          << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
          << phrase1;
-      if (strcmp(phrase2, "") != 0) s1 << "ja" << phrase2;
+      if (strcmp(phrase2, "") != 0)
+        s1 << "ja" << phrase2;
       s1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
 
       s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
@@ -1703,11 +1706,11 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
 // ----------------------------------------------------------------------
 
 Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
-                              const AnalysisSources& theSources,
-                              const WeatherArea& theArea,
+                              const AnalysisSources&  /*theSources*/,
+                              const WeatherArea&  /*theArea*/,
                               const WeatherPeriod& thePeriod,
                               const string& theVar,
-                              const PrecipitationPeriodTools::RainPeriods& theRainPeriods)
+                              const PrecipitationPeriodTools::RainPeriods&  /*theRainPeriods*/)
 {
   Sentence s;
   s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);
@@ -1768,7 +1771,7 @@ Paragraph WeatherStory::overview() const
     }
   }
 
-  if (rainperiods.size() == 0)
+  if (rainperiods.empty())
   {
     CloudinessStory story(itsForecastTime, itsSources, itsArea, itsPeriod, itsVar);
     paragraph << story.makeStory("cloudiness_overview");
@@ -1811,7 +1814,8 @@ Paragraph WeatherStory::overview() const
       int day2 = day;
       for (; day2 < n; day2++)
       {
-        if (overlaps[day2 + 1].size() != 0 || inclusives[day2 + 1].size() != 0) break;
+        if (!overlaps[day2 + 1].empty() || !inclusives[day2 + 1].empty())
+          break;
       }
 
       WeatherPeriod period(generator.period(day).localStartTime(),
@@ -1844,7 +1848,7 @@ Paragraph WeatherStory::overview() const
           itsForecastTime, itsSources, itsArea, generator.period(day), itsVar, inclusives[day]);
     }
     else if (ninclusive == 0 && noverlap == 1 && day + 1 <= n && overlaps[day + 1].size() == 1 &&
-             inclusives[day + 1].size() == 0)
+             inclusives[day + 1].empty())
     {
       WeatherPeriod period(generator.period(day).localStartTime(),
                            generator.period(day + 1).localEndTime());
@@ -1860,9 +1864,11 @@ Paragraph WeatherStory::overview() const
       for (; day2 < n; day2++)
       {
         // found end if there is a non-rainy day
-        if (overlaps[day2 + 1].size() == 0) break;
+        if (overlaps[day2 + 1].empty())
+          break;
         // found end if there is a 1-rain inclusive day
-        if (overlaps[day2 + 1].size() == 1 && inclusives[day2 + 1].size() == 1) break;
+        if (overlaps[day2 + 1].size() == 1 && inclusives[day2 + 1].size() == 1)
+          break;
       }
 
       WeatherPeriod period(generator.period(day).localStartTime(),

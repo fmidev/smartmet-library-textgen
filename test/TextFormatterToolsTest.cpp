@@ -37,15 +37,18 @@ void capitalize()
 {
   string tmp = "testi 1";
   string res = TextFormatterTools::capitalize(tmp);
-  if (res != "Testi 1") TEST_FAILED("Failed to capitalize 'testi 1', got " + res);
+  if (res != "Testi 1")
+    TEST_FAILED("Failed to capitalize 'testi 1', got " + res);
 
   tmp = "testi 2";
   res = TextFormatterTools::capitalize(tmp);
-  if (res != "Testi 2") TEST_FAILED("Failed to handle 'Testi 2', got " + res);
+  if (res != "Testi 2")
+    TEST_FAILED("Failed to handle 'Testi 2', got " + res);
 
   tmp = "ähtäri";
   res = TextFormatterTools::capitalize(tmp);
-  if (res != "Ähtäri") TEST_FAILED("Failed to capitalize 'ähtäri', got " + res);
+  if (res != "Ähtäri")
+    TEST_FAILED("Failed to capitalize 'ähtäri', got " + res);
 
   TEST_PASSED();
 }
@@ -60,11 +63,13 @@ void punctuate()
 {
   string tmp = "testi 1";
   TextFormatterTools::punctuate(tmp);
-  if (tmp != "testi 1.") TEST_FAILED("Failed to punctuate 'testi 1'");
+  if (tmp != "testi 1.")
+    TEST_FAILED("Failed to punctuate 'testi 1'");
 
   tmp = "";
   TextFormatterTools::punctuate(tmp);
-  if (tmp != "") TEST_FAILED("Failed to punctuate ''");
+  if (tmp != "")
+    TEST_FAILED("Failed to punctuate ''");
 
   TEST_PASSED();
 }
@@ -90,7 +95,8 @@ void realize()
       << "[1] asteen paikkeilla" << TextGen::Integer(10);
 
     tmp = TextFormatterTools::realize(s.begin(), s.end(), formatter, " ", "");
-    if (tmp != "lämpötila on 10 asteen paikkeilla") TEST_FAILED("Test 1 failed: " + tmp);
+    if (tmp != "lämpötila on 10 asteen paikkeilla")
+      TEST_FAILED("Test 1 failed: " + tmp);
   }
 
   // Test 2: normal case with 2 values
@@ -101,7 +107,8 @@ void realize()
       << "[1] viiva [2] astetta" << TextGen::Integer(10) << TextGen::Integer(15);
 
     tmp = TextFormatterTools::realize(s.begin(), s.end(), formatter, " ", "");
-    if (tmp != "lämpötila on 10 viiva 15 astetta") TEST_FAILED("Test 2 failed: " + tmp);
+    if (tmp != "lämpötila on 10 viiva 15 astetta")
+      TEST_FAILED("Test 2 failed: " + tmp);
   }
 
   // Test 3: degrees
@@ -114,7 +121,8 @@ void realize()
       << "[1] [2]" << TextGen::Integer(10) << *UnitFactory::create(DegreesCelsius);
 
     tmp = TextFormatterTools::realize(s.begin(), s.end(), formatter, " ", "");
-    if (tmp != "lämpötila on noin 10 astetta") TEST_FAILED("Test 3 failed: " + tmp);
+    if (tmp != "lämpötila on noin 10 astetta")
+      TEST_FAILED("Test 3 failed: " + tmp);
   }
 
   // Test 4: SI units
@@ -127,7 +135,8 @@ void realize()
       << "[1] [2]" << TextGen::Integer(10) << *UnitFactory::create(DegreesCelsius);
 
     tmp = TextFormatterTools::realize(s.begin(), s.end(), formatter, " ", "");
-    if (tmp != "lämpötila on noin 10°C") TEST_FAILED("Test 4 failed: " + tmp);
+    if (tmp != "lämpötila on noin 10°C")
+      TEST_FAILED("Test 4 failed: " + tmp);
   }
 
   TEST_PASSED();
@@ -152,7 +161,8 @@ void format_time()
     s << WeatherTime(nfmiTime);
 
     string tmp = TextFormatterTools::format_time(nfmiTime, "%d.%m.%Y %H:%M");
-    if (tmp != "09.08.2012 14:39") TEST_FAILED("format_time-test 1 failed: " + tmp);
+    if (tmp != "09.08.2012 14:39")
+      TEST_FAILED("format_time-test 1 failed: " + tmp);
   }
 
   // Test 2: std::string format_time(const TextGenPosixTime& theTime, const std::string&
@@ -167,7 +177,8 @@ void format_time()
 
     string tmp =
         TextFormatterTools::format_time(nfmiTime, "textgen::part1::story::test", "%d.%m.%Y %H");
-    if (tmp != "09.08.2012 14") TEST_FAILED("format_time-test 2 failed: " + tmp);
+    if (tmp != "09.08.2012 14")
+      TEST_FAILED("format_time-test 2 failed: " + tmp);
   }
   // Test 3: std::string format_time(const WeatherPeriod& thePeriod, const std::string& theStoryVar,
   // const std::string& theFormatterName)

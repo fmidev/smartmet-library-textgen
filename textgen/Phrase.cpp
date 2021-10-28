@@ -11,11 +11,12 @@
 // ======================================================================
 
 #include "Phrase.h"
+
 #include "Dictionary.h"
 #include "TextFormatter.h"
+#include <utility>
 
 using namespace std;
-
 
 namespace TextGen
 {
@@ -25,7 +26,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-Phrase::~Phrase() {}
+Phrase::~Phrase() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -34,7 +35,7 @@ Phrase::~Phrase() {}
  */
 // ----------------------------------------------------------------------
 
-Phrase::Phrase(const std::string& theWord) : itsWord(theWord) {}
+Phrase::Phrase(std::string  theWord) : itsWord(std::move(theWord)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone
@@ -81,7 +82,10 @@ std::string Phrase::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Phrase::isDelimiter() const { return false; }
+bool Phrase::isDelimiter() const
+{
+  return false;
+}
 }  // namespace TextGen
 
 // ======================================================================

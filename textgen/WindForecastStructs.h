@@ -8,19 +8,19 @@ namespace TextGen
 {
 using namespace WindStoryTools;
 
-class WindDataItemUnit;
-class WindDataItemsByArea;
-class WindSpeedPeriodDataItem;
-class WindDirectionPeriodDataItem;
-class WindEventPeriodDataItem;
+struct WindDataItemUnit;
+struct WindDataItemsByArea;
+struct WindSpeedPeriodDataItem;
+struct WindDirectionPeriodDataItem;
+struct WindEventPeriodDataItem;
 
-typedef std::vector<std::pair<float, WeatherResult> > value_distribution_data_vector;
-typedef std::vector<WindDataItemsByArea*> wind_data_item_vector;
-typedef std::vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
-typedef std::vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
-typedef std::vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
-typedef std::pair<WindEventId, WeatherPeriod> wind_event_period;
-typedef std::vector<wind_event_period> wind_event_period_vector;
+using value_distribution_data_vector = std::vector<std::pair<float, WeatherResult>>;
+using wind_data_item_vector = std::vector<WindDataItemsByArea*>;
+using wind_speed_period_data_item_vector = std::vector<WindSpeedPeriodDataItem*>;
+using wind_direction_period_data_item_vector = std::vector<WindDirectionPeriodDataItem*>;
+using wind_event_period_data_item_vector = std::vector<WindEventPeriodDataItem*>;
+using wind_event_period = std::pair<WindEventId, WeatherPeriod>;
+using wind_event_period_vector = std::vector<wind_event_period>;
 
 struct index_vectors
 {
@@ -203,7 +203,7 @@ struct WindDataItemUnit
 // contains WindDataItemUnit structs for different areas (coastal, inland, full area)
 struct WindDataItemsByArea
 {
-  WindDataItemsByArea() {}
+  WindDataItemsByArea() = default;
   ~WindDataItemsByArea()
   {
     std::map<WeatherArea::Type, WindDataItemUnit*>::iterator it;
@@ -221,14 +221,14 @@ struct WindDataItemsByArea
                const WeatherResult& gustSpeed,
                const WeatherArea::Type& type)
   {
-    WindDataItemUnit* dataItem = new WindDataItemUnit(period,
-                                                      windSpeedMin,
-                                                      windSpeedMax,
-                                                      windSpeedMean,
-                                                      windSpeedMedian,
-                                                      windSpeedTop,
-                                                      windDirection,
-                                                      gustSpeed);
+    auto* dataItem = new WindDataItemUnit(period,
+                                          windSpeedMin,
+                                          windSpeedMax,
+                                          windSpeedMean,
+                                          windSpeedMedian,
+                                          windSpeedTop,
+                                          windDirection,
+                                          gustSpeed);
     theDataItems.insert(std::make_pair(type, dataItem));
   }
 
@@ -297,12 +297,12 @@ struct WindDirectionInfo
 {
   WeatherPeriod period;
   WeatherResult direction;
-  WindDirectionId id;
+  WindDirectionId id{MISSING_WIND_DIRECTION_ID};
 
   WindDirectionInfo()
       : period(WeatherPeriod(TextGenPosixTime(), TextGenPosixTime())),
-        direction(WeatherResult(kFloatMissing, kFloatMissing)),
-        id(MISSING_WIND_DIRECTION_ID)
+        direction(WeatherResult(kFloatMissing, kFloatMissing))
+        
   {
   }
   WindDirectionInfo(const WeatherPeriod& p, const WeatherResult& d, WindDirectionId i)
@@ -312,17 +312,17 @@ struct WindDirectionInfo
 
   TextGenPosixTime startTime() const { return period.localStartTime(); }
   TextGenPosixTime endTime() const { return period.localEndTime(); }
-  bool empty() { return (id == MISSING_WIND_DIRECTION_ID); }
+  bool empty() const { return (id == MISSING_WIND_DIRECTION_ID); }
 };
 
 struct TimePhraseInfo
 {
   TextGenPosixTime starttime;
   TextGenPosixTime endtime;
-  short day_number;
-  part_of_the_day_id part_of_the_day;
+  short day_number{-1};
+  part_of_the_day_id part_of_the_day{MISSING_PART_OF_THE_DAY_ID};
 
-  TimePhraseInfo() : day_number(-1), part_of_the_day(MISSING_PART_OF_THE_DAY_ID) {}
+  TimePhraseInfo()  = default;
   TimePhraseInfo(const TextGenPosixTime& st,
                  const TextGenPosixTime& et,
                  short d,
@@ -331,27 +331,24 @@ struct TimePhraseInfo
   {
   }
   TimePhraseInfo(const TimePhraseInfo& tpi)
-      : starttime(tpi.starttime),
-        endtime(tpi.endtime),
-        day_number(tpi.day_number),
-        part_of_the_day(tpi.part_of_the_day)
-  {
-  }
-  bool empty() { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
+      
+        
+  = default;
+  bool empty() const { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
 };
 
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
 bool wind_speed_differ_enough(wo_story_params& theParameter, const WeatherPeriod& thePeriod);
-bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
-                                  const WeatherResult theWindDirection2,
+bool wind_direction_differ_enough(WeatherResult theWindDirection1,
+                                  WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const TextGenPosixTime& pointOfTime,
-                                     const WindDirectionInfo* thePreviousWindDirection = 0);
+                                     const WindDirectionInfo* thePreviousWindDirection = nullptr);
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const WeatherPeriod& period,
-                                     const WindDirectionInfo* thePreviousWindDirection = 0);
+                                     const WindDirectionInfo* thePreviousWindDirection = nullptr);
 
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
 

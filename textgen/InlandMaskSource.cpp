@@ -78,8 +78,8 @@ class InlandMaskSource::Pimple
  public:
   Pimple(const WeatherArea& theInland);
 
-  typedef map<WeatherAreaAndID, mask_type> mask_storage;
-  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+  using mask_storage = map<WeatherAreaAndID, mask_type>;
+  using masks_storage = map<WeatherAreaAndID, masks_type>;
 
   const WeatherArea itsCoast;
 
@@ -103,7 +103,7 @@ class InlandMaskSource::Pimple
 // ----------------------------------------------------------------------
 
 InlandMaskSource::Pimple::Pimple(const WeatherArea& theInland)
-    : itsCoast(theInland), itsMaskStorage(), itsMasksStorage()
+    : itsCoast(theInland) 
 {
 }
 
@@ -127,7 +127,8 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::find(const WeatherId& theI
   WeatherAreaAndID key(theID, theArea);
 
   mask_storage::const_iterator it = itsMaskStorage.find(key);
-  if (it == itsMaskStorage.end()) return dummy;
+  if (it == itsMaskStorage.end())
+    return dummy;
 
   return it->second;
 }
@@ -146,7 +147,7 @@ void InlandMaskSource::Pimple::insert(const WeatherId& theID,
                                       const WeatherArea& theArea,
                                       const mask_type& theMask) const
 {
-  typedef mask_storage::value_type value_type;
+  using value_type = mask_storage::value_type;
 
   WeatherAreaAndID key(theID, theArea);
 
@@ -181,7 +182,7 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
 
   // First build the area mask
 
-  const NFmiSvgPath svg = theArea.path();
+  const NFmiSvgPath& svg = theArea.path();
   const float radius = theArea.radius();
   mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
 
@@ -189,7 +190,7 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
 
   WeatherId id = theWeatherSource.id(theData);
   mask_type coastmask = find(id, itsCoast);
-  if (coastmask.get() == 0)
+  if (coastmask.get() == nullptr)
   {
     const NFmiSvgPath& csvg = itsCoast.path();
     const float cdistance = itsCoast.radius();
@@ -225,7 +226,8 @@ InlandMaskSource::mask_type InlandMaskSource::mask(const WeatherArea& theArea,
                                                    const std::string& theData,
                                                    const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+  if (theArea.isPoint())
+    throw TextGenError("Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -235,7 +237,8 @@ InlandMaskSource::mask_type InlandMaskSource::mask(const WeatherArea& theArea,
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0) return areamask;
+  if (areamask.get() != nullptr)
+    return areamask;
 
   // Calculate new mask and cache it
 
@@ -255,9 +258,9 @@ InlandMaskSource::mask_type InlandMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-InlandMaskSource::masks_type InlandMaskSource::masks(const WeatherArea& theArea,
-                                                     const std::string& theData,
-                                                     const WeatherSource& theWeatherSource) const
+InlandMaskSource::masks_type InlandMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                     const std::string&  /*theData*/,
+                                                     const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("InlandMaskSource::masks not implemented");
 }

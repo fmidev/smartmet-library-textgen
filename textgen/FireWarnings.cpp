@@ -49,7 +49,8 @@ FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& t
   // Read the file
 
   ifstream input(filename.c_str(), ios::in);
-  if (!input) throw TextGenError("Failed to open '" + filename + "' for reading");
+  if (!input)
+    throw TextGenError("Failed to open '" + filename + "' for reading");
 
   // Skip the date
   string tmp;

@@ -53,7 +53,8 @@ void mask()
   // Half of uusimaa (4/8) is coastal
   {
     mask_type m = source.mask(uusimaa, "data", wsource);
-    if (m->size() != 4) TEST_FAILED("Size of mask uusimaa should be 4, not " + Convert(m->size()));
+    if (m->size() != 4)
+      TEST_FAILED("Size of mask uusimaa should be 4, not " + Convert(m->size()));
   }
 
   // no points inside, hence no points on coast either
@@ -69,10 +70,10 @@ void mask()
 #ifdef WGS84
     if (m->size() != 4)
       TEST_FAILED("Size of mask ahvenanmaa:15 should be 4, not " + Convert(m->size()));
-#else    
+#else
     if (m->size() != 5)
       TEST_FAILED("Size of mask ahvenanmaa:15 should be 5, not " + Convert(m->size()));
-#endif    
+#endif
   }
 
   // not even near the coast

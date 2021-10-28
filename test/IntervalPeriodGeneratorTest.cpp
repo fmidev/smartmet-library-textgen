@@ -27,37 +27,43 @@ void size(void)
     {
       // 0-3, 3-6, 6-9, 9-12, 12-15, 15-18, 18-21, 21-24
       IntervalPeriodGenerator generator(period, 0, 3, 3);
-      if (generator.size() != 8) TEST_FAILED("0-24 divides into 8 3-hour intervals");
+      if (generator.size() != 8)
+        TEST_FAILED("0-24 divides into 8 3-hour intervals");
     }
 
     {
       // 0-4, 4-8, 8-12, 12-16, 16-20, 20-24
       IntervalPeriodGenerator generator(period, 0, 4, 4);
-      if (generator.size() != 6) TEST_FAILED("0-24 divides into 6 4-hour intervals");
+      if (generator.size() != 6)
+        TEST_FAILED("0-24 divides into 6 4-hour intervals");
     }
 
     {
       // 0-6, 6-12, 12-18, 18-24
       IntervalPeriodGenerator generator(period, 0, 6, 6);
-      if (generator.size() != 4) TEST_FAILED("0-24 divides into 4 6-hour intervals");
+      if (generator.size() != 4)
+        TEST_FAILED("0-24 divides into 4 6-hour intervals");
     }
 
     {
       // 0-8, 8-16, 16-24
       IntervalPeriodGenerator generator(period, 0, 8, 8);
-      if (generator.size() != 3) TEST_FAILED("0-24 divides into 3 8-hour intervals");
+      if (generator.size() != 3)
+        TEST_FAILED("0-24 divides into 3 8-hour intervals");
     }
 
     {
       // 0-12, 12-24
       IntervalPeriodGenerator generator(period, 0, 12, 12);
-      if (generator.size() != 2) TEST_FAILED("0-24 divides into 2 12-hour intervals");
+      if (generator.size() != 2)
+        TEST_FAILED("0-24 divides into 2 12-hour intervals");
     }
 
     {
       // 0-24
       IntervalPeriodGenerator generator(period, 0, 24, 24);
-      if (generator.size() != 1) TEST_FAILED("0-24 divides into 1 24-hour intervals");
+      if (generator.size() != 1)
+        TEST_FAILED("0-24 divides into 1 24-hour intervals");
     }
 
     {
@@ -152,13 +158,15 @@ void size(void)
       // 1-2, 2-3, 3-4, ... 9-10, 10-11
       IntervalPeriodGenerator generator(period, 0, 24, 24);
 
-      if (generator.size() != 10) TEST_FAILED("24h divides 10 days into 10 intervals");
+      if (generator.size() != 10)
+        TEST_FAILED("24h divides 10 days into 10 intervals");
     }
 
     {
       // 1-4, 4-7, 7-10
       IntervalPeriodGenerator generator(period, 0, 3 * 24, 3 * 24);
-      if (generator.size() != 3) TEST_FAILED("72h divides 10 days into 3 intervals");
+      if (generator.size() != 3)
+        TEST_FAILED("72h divides 10 days into 3 intervals");
     }
   }
 

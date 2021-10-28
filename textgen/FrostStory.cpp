@@ -18,6 +18,8 @@
 #include <calculator/AnalysisSources.h>
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace std;
 using namespace TextGen;
 
@@ -29,7 +31,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-FrostStory::~FrostStory() {}
+FrostStory::~FrostStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -46,12 +48,12 @@ FrostStory::FrostStory(const TextGenPosixTime& theForecastTime,
                        const AnalysisSources& theSources,
                        const WeatherArea& theArea,
                        const WeatherPeriod& thePeriod,
-                       const string& theVariable)
+                       string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -66,12 +68,18 @@ FrostStory::FrostStory(const TextGenPosixTime& theForecastTime,
 
 bool FrostStory::hasStory(const string& theName)
 {
-  if (theName == "frost_mean") return true;
-  if (theName == "frost_maximum") return true;
-  if (theName == "frost_range") return true;
-  if (theName == "frost_twonights") return true;
-  if (theName == "frost_onenight") return true;
-  if (theName == "frost_day") return true;
+  if (theName == "frost_mean")
+    return true;
+  if (theName == "frost_maximum")
+    return true;
+  if (theName == "frost_range")
+    return true;
+  if (theName == "frost_twonights")
+    return true;
+  if (theName == "frost_onenight")
+    return true;
+  if (theName == "frost_day")
+    return true;
   return false;
 }
 
@@ -88,12 +96,18 @@ bool FrostStory::hasStory(const string& theName)
 
 Paragraph FrostStory::makeStory(const string& theName) const
 {
-  if (theName == "frost_mean") return mean();
-  if (theName == "frost_maximum") return maximum();
-  if (theName == "frost_range") return range();
-  if (theName == "frost_twonights") return twonights();
-  if (theName == "frost_day") return day();
-  if (theName == "frost_onenight") return onenight();
+  if (theName == "frost_mean")
+    return mean();
+  if (theName == "frost_maximum")
+    return maximum();
+  if (theName == "frost_range")
+    return range();
+  if (theName == "frost_twonights")
+    return twonights();
+  if (theName == "frost_day")
+    return day();
+  if (theName == "frost_onenight")
+    return onenight();
 
   throw TextGenError("FrostStory cannot make story " + theName);
 }

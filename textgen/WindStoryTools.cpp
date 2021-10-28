@@ -28,8 +28,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
-
 
 namespace TextGen
 {
@@ -52,8 +50,10 @@ WindDirectionAccuracy direction_accuracy(double theError, const string& theVaria
   double accurate_limit = optional_double(theVariable + "::wind_direction::accurate_limit", 22.5);
   double variable_limit = optional_double(theVariable + "::wind_direction::variable_limit", 45);
 
-  if (theError <= accurate_limit) return good_accuracy;
-  if (theError <= variable_limit) return moderate_accuracy;
+  if (theError <= accurate_limit)
+    return good_accuracy;
+  if (theError <= variable_limit)
+    return moderate_accuracy;
   return bad_accuracy;
 }
 
@@ -66,7 +66,10 @@ WindDirectionAccuracy direction_accuracy(double theError, const string& theVaria
  */
 // ----------------------------------------------------------------------
 
-int direction8th(double theDirection) { return 1 + (lround(theDirection / 45.0) % 8); }
+int direction8th(double theDirection)
+{
+  return 1 + (lround(theDirection / 45.0) % 8);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Calculate the generic wind 16th direction from angle
@@ -76,7 +79,10 @@ int direction8th(double theDirection) { return 1 + (lround(theDirection / 45.0) 
  */
 // ----------------------------------------------------------------------
 
-int direction16th(double theDirection) { return 1 + (lround(theDirection / 22.5) % 16); }
+int direction16th(double theDirection)
+{
+  return 1 + (lround(theDirection / 22.5) % 16);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a sentence on wind direction
@@ -95,10 +101,10 @@ Sentence direction_sentence(const WeatherResult& theDirection, const string& the
   switch (direction_accuracy(theDirection.error(), theVariable))
   {
     case good_accuracy:
-      sentence << lexical_cast<string>(n) + "-tuulta";
+      sentence << std::to_string(n) + "-tuulta";
       break;
     case moderate_accuracy:
-      sentence << lexical_cast<string>(n) + "-puoleista tuulta";
+      sentence << std::to_string(n) + "-puoleista tuulta";
       break;
     case bad_accuracy:
       sentence << "suunnaltaan vaihtelevaa"
@@ -592,11 +598,11 @@ WindSpeedId wind_speed_id(float theWindSpeed)
 {
   if (theWindSpeed < HEIKKO_LOWER_LIMIT)
     return TYYNI;
-  else if (theWindSpeed >= HEIKKO_LOWER_LIMIT && theWindSpeed < HEIKKO_UPPER_LIMIT)
+  if (theWindSpeed >= HEIKKO_LOWER_LIMIT && theWindSpeed < HEIKKO_UPPER_LIMIT)
     return HEIKKO;
-  else if (theWindSpeed >= KOHTALAINEN_LOWER_LIMIT && theWindSpeed < KOHTALAINEN_UPPER_LIMIT)
+  if (theWindSpeed >= KOHTALAINEN_LOWER_LIMIT && theWindSpeed < KOHTALAINEN_UPPER_LIMIT)
     return KOHTALAINEN;
-  else if (theWindSpeed >= NAVAKKA_LOWER_LIMIT && theWindSpeed < NAVAKKA_UPPER_LIMIT)
+  if (theWindSpeed >= NAVAKKA_LOWER_LIMIT && theWindSpeed < NAVAKKA_UPPER_LIMIT)
     return NAVAKKA;
   else if (theWindSpeed >= KOVA_LOWER_LIMIT && theWindSpeed < KOVA_UPPER_LIMIT)
     return KOVA;
@@ -654,8 +660,10 @@ pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
     }
     else
     {
-      if (theWindSpeedVector[i].first < min_value) min_value = theWindSpeedVector[i].first;
-      if (theWindSpeedVector[i].second < max_value) max_value = theWindSpeedVector[i].second;
+      if (theWindSpeedVector[i].first < min_value)
+        min_value = theWindSpeedVector[i].first;
+      if (theWindSpeedVector[i].second < max_value)
+        max_value = theWindSpeedVector[i].second;
     }
   }
   retval.first = static_cast<int>(round(min_value));
@@ -1273,7 +1281,8 @@ float calculate_wind_direction_from_distribution(
                                         theDirectionDistribution[i].second.value());
       cumulativeShare += theDirectionDistribution[i].second.value();
 
-      if (cumulativeShare >= 85.0) break;
+      if (cumulativeShare >= 85.0)
+        break;
     }
   }
 
@@ -1307,7 +1316,8 @@ WeatherResult mode_wind_direction(const AnalysisSources& theSources,
         float overWeakLimit = abs(theTopWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
         // if most of the wind speed range is over WEAK_WIND_SPEED_UPPER_LIMIT, direction must be
         // mentioned
-        if (overWeakLimit >= underWeakLimit) error = 30;
+        if (overWeakLimit >= underWeakLimit)
+          error = 30;
       }
     }
   }

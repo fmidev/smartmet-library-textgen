@@ -17,16 +17,16 @@ class AndAcceptor : public Acceptor
  public:
   AndAcceptor(const AndAcceptor& theOther);
   AndAcceptor(const Acceptor& theLhs, const Acceptor& theRhs);
-  virtual ~AndAcceptor()
+  ~AndAcceptor() override
   {
     delete itsLhs;
     delete itsRhs;
   }
-  virtual bool accept(float theValue) const;
-  virtual Acceptor* clone() const;
+  bool accept(float theValue) const override;
+  Acceptor* clone() const override;
 
  private:
-  AndAcceptor();
+  AndAcceptor() = delete;
 
   Acceptor* itsLhs;
   Acceptor* itsRhs;

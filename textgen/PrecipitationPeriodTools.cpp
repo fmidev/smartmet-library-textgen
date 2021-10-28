@@ -40,7 +40,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 namespace PrecipitationPeriodTools
@@ -82,12 +81,12 @@ RainPeriods analyze(const AnalysisSources& theSources,
 RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (RainPeriods::const_iterator it = thePeriods.begin(); it != thePeriods.end(); ++it)
+  for (const auto & it : thePeriods)
   {
-    if (it->localStartTime() < thePeriod.localEndTime() &&
-        it->localEndTime() > thePeriod.localStartTime())
+    if (it.localStartTime() < thePeriod.localEndTime() &&
+        it.localEndTime() > thePeriod.localStartTime())
     {
-      out.push_back(*it);
+      out.push_back(it);
     }
   }
   return out;
@@ -106,12 +105,12 @@ RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPerio
 RainPeriods inclusivePeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (RainPeriods::const_iterator it = thePeriods.begin(); it != thePeriods.end(); ++it)
+  for (const auto & it : thePeriods)
   {
-    if (it->localStartTime() >= thePeriod.localStartTime() &&
-        it->localEndTime() <= thePeriod.localEndTime())
+    if (it.localStartTime() >= thePeriod.localStartTime() &&
+        it.localEndTime() <= thePeriod.localEndTime())
     {
-      out.push_back(*it);
+      out.push_back(it);
     }
   }
   return out;
@@ -185,7 +184,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       const float tmp = QueryDataIntegrator::Integrate(qi, *mask, calculator);
       if (tmp != kFloatMissing && tmp >= minimum_area)
       {
-        NFmiMetTime metTime(qi.Time());
+        const NFmiMetTime& metTime(qi.Time());
         TextGenPosixTime textgenTime(metTime.GetYear(),
                                      metTime.GetMonth(),
                                      metTime.GetDay(),
@@ -203,7 +202,8 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       ostringstream msg;
       msg << "Could not set desired coordinate (" << theArea.point().X() << ','
           << theArea.point().Y() << ')';
-      if (theArea.isNamed()) msg << " named " << theArea.name();
+      if (theArea.isNamed())
+        msg << " named " << theArea.name();
       msg << " in " << dataname;
       throw TextGenError(msg.str());
     }
@@ -213,7 +213,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       const float tmp = qi.FloatValue();
       if (tmp != kFloatMissing && tmp >= minimum_rain)
       {
-        NFmiMetTime metTime(qi.Time());
+        const NFmiMetTime& metTime(qi.Time());
         TextGenPosixTime textgenTime(metTime.GetYear(),
                                      metTime.GetMonth(),
                                      metTime.GetDay(),
@@ -260,10 +260,11 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
 
   // Handle special cases
 
-  if (theTimes.empty()) return periods;
+  if (theTimes.empty())
+    return periods;
 
   // Initialize current period to consist of first time only
-  RainTimes::const_iterator it = theTimes.begin();
+  auto it = theTimes.begin();
   TextGenPosixTime first_time = *it;
   TextGenPosixTime last_time = first_time;
 
@@ -324,7 +325,8 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
 RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::string& theVar)
 {
   // Quick exit if there are no no-rain periods between rain periods
-  if (thePeriods.size() <= 1) return thePeriods;
+  if (thePeriods.size() <= 1)
+    return thePeriods;
 
   // Establish the settings
 
@@ -338,7 +340,7 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
   // to it if possible. When it is no longer possible to merge,
   // we move on to the next period and continue.
 
-  RainPeriods::const_iterator it = thePeriods.begin();
+  auto it = thePeriods.begin();
   WeatherPeriod lastperiod = *it;
 
   for (++it; it != thePeriods.end(); ++it)
@@ -394,7 +396,7 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
  */
 // ----------------------------------------------------------------------
 
-RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string& theVar)
+RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string&  /*theVar*/)
 {
   return thePeriods;
 }

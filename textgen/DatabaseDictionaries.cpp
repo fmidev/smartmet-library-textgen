@@ -54,7 +54,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -67,7 +66,7 @@ namespace TextGen
 class DatabaseDictionaries::Pimple
 {
  public:
-  typedef map<string, boost::shared_ptr<DatabaseDictionary> > storage_type;
+  using storage_type = map<string, boost::shared_ptr<DatabaseDictionary>>;
 
   storage_type itsData;
   string itsLanguage;
@@ -85,7 +84,7 @@ class DatabaseDictionaries::Pimple
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionaries::~DatabaseDictionaries() {}
+DatabaseDictionaries::~DatabaseDictionaries() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -94,7 +93,11 @@ DatabaseDictionaries::~DatabaseDictionaries() {}
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId) : Dictionary(), itsPimple(new Pimple()) { itsDictionaryId = theDictionaryId; }
+DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId)
+    :  itsPimple(new Pimple())
+{
+  itsDictionaryId = theDictionaryId;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -105,7 +108,10 @@ DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId) :
  */
 // ----------------------------------------------------------------------
 
-const std::string& DatabaseDictionaries::language(void) const { return itsPimple->itsLanguage; }
+const std::string& DatabaseDictionaries::language() const
+{
+  return itsPimple->itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language
@@ -128,23 +134,26 @@ void DatabaseDictionaries::init(const std::string& theLanguage)
 {
   // Done if language is already active
 
-  if (theLanguage == itsPimple->itsLanguage) return;
+  if (theLanguage == itsPimple->itsLanguage)
+    return;
 
   itsPimple->itsLanguage = theLanguage;
 
   // Activate old language if possible
 
   itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
-  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end()) return;
+  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end())
+    return;
 
   // Load new language
 
   boost::shared_ptr<DatabaseDictionary> dict;
-  if(itsDictionaryId == "mysql")
-	dict.reset(new MySQLDictionary);
-  else if(itsDictionaryId == "postgresql")
-	dict.reset(new PostgreSQLDictionary);
-  if (dict.get() == 0) throw TextGenError("Failed to allocate a new DatabaseDictionary");
+  if (itsDictionaryId == "mysql")
+    dict.reset(new MySQLDictionary);
+  else if (itsDictionaryId == "postgresql")
+    dict.reset(new PostgreSQLDictionary);
+  if (dict.get() == nullptr)
+    throw TextGenError("Failed to allocate a new DatabaseDictionary");
 
   dict->init(theLanguage);
 
@@ -203,7 +212,7 @@ const std::string& DatabaseDictionaries::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void DatabaseDictionaries::insert(const std::string& theKey, const std::string& thePhrase)
+void DatabaseDictionaries::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
 {
   throw TextGenError("Error: DatabaseDictionaries::insert() is not allowed");
 }
@@ -216,7 +225,7 @@ void DatabaseDictionaries::insert(const std::string& theKey, const std::string& 
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionaries::size_type DatabaseDictionaries::size(void) const
+DatabaseDictionaries::size_type DatabaseDictionaries::size() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: DatabaseDictionaries::size() called before init()");
@@ -231,7 +240,7 @@ DatabaseDictionaries::size_type DatabaseDictionaries::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool DatabaseDictionaries::empty(void) const
+bool DatabaseDictionaries::empty() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: DatabaseDictionaries::empty() called before init()");
@@ -246,7 +255,7 @@ bool DatabaseDictionaries::empty(void) const
  */
 // ----------------------------------------------------------------------
 
-void  DatabaseDictionaries::changeLanguage(const std::string& theLanguage)
+void DatabaseDictionaries::changeLanguage(const std::string& theLanguage)
 {
   if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
     throw TextGenError("Error: The requested language not supported: " + theLanguage);
@@ -254,7 +263,6 @@ void  DatabaseDictionaries::changeLanguage(const std::string& theLanguage)
   itsPimple->itsLanguage = theLanguage;
   itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 }
-
 
 }  // namespace TextGen
 

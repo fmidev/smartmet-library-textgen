@@ -26,18 +26,18 @@ class Paragraph;
 class PressureStory : public Story
 {
  public:
-  virtual ~PressureStory();
+  ~PressureStory() override;
   PressureStory(const TextGenPosixTime& theForecastTime,
                 const TextGen::AnalysisSources& theSources,
                 const TextGen::WeatherArea& theArea,
                 const TextGen::WeatherPeriod& thePeriod,
-                const std::string& theVariable);
+                std::string  theVariable);
 
   static bool hasStory(const std::string& theName);
-  virtual Paragraph makeStory(const std::string& theName) const;
+  Paragraph makeStory(const std::string& theName) const override;
 
  private:
-  const Paragraph mean() const;
+  Paragraph mean() const;
 
   PressureStory();
   PressureStory(const PressureStory& theStory);

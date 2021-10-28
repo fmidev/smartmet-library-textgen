@@ -15,19 +15,19 @@ template <class T>
 class TemplateAcceptor : public Acceptor
 {
  public:
-  virtual ~TemplateAcceptor() {}
+  ~TemplateAcceptor() override = default;
   TemplateAcceptor(const T& theFunctor) : itsFunctor(theFunctor) {}
-  virtual bool accept(float theValue) const { return itsFunctor(theValue); }
-  virtual Acceptor* clone() const { return new TemplateAcceptor(*this); }
+  bool accept(float theValue) const override { return itsFunctor(theValue); }
+  Acceptor* clone() const override { return new TemplateAcceptor(*this); }
 
  private:
-  TemplateAcceptor(void);
+  TemplateAcceptor() = delete;
 
   T itsFunctor;
 
 };  // class TemplateAcceptor
 
-typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
+using FunctionAcceptor = TemplateAcceptor<bool (*)(float)>;
 
 }  // namespace TextGen
 

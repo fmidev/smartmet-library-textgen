@@ -28,7 +28,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -52,7 +51,7 @@ boost::shared_ptr<Glyph> Sentence::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Sentence::realize(const Dictionary& theDictionary) const
+std::string Sentence::realize(const Dictionary&  /*theDictionary*/) const
 {
   throw TextGenError("Sentence::realize(Dictionary) should not be called");
 }
@@ -77,7 +76,10 @@ std::string Sentence::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Sentence::isDelimiter() const { return false; }
+bool Sentence::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Add a sentence to the end of this sentence

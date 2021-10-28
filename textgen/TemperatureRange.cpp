@@ -17,7 +17,6 @@
 #include <boost/shared_ptr.hpp>
 #include <sstream>
 
-
 using namespace std;
 
 namespace TextGen
@@ -56,7 +55,7 @@ boost::shared_ptr<Glyph> TemperatureRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string TemperatureRange::realize(const Dictionary& theDictionary) const
+std::string TemperatureRange::realize(const Dictionary&  /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)

@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WaveStory::~WaveStory() {}
+WaveStory::~WaveStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -45,12 +47,12 @@ WaveStory::WaveStory(const TextGenPosixTime& theForecastTime,
                      const AnalysisSources& theSources,
                      const WeatherArea& theArea,
                      const WeatherPeriod& thePeriod,
-                     const string& theVariable)
+                     string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -65,8 +67,7 @@ WaveStory::WaveStory(const TextGenPosixTime& theForecastTime,
 
 bool WaveStory::hasStory(const string& theName)
 {
-  if (theName == "wave_range") return true;
-  return false;
+  return theName == "wave_range";
 }
 
 // ----------------------------------------------------------------------
@@ -82,7 +83,8 @@ bool WaveStory::hasStory(const string& theName)
 
 Paragraph WaveStory::makeStory(const string& theName) const
 {
-  if (theName == "wave_range") return range();
+  if (theName == "wave_range")
+    return range();
 
   throw TextGenError("WaveStory cannot make story " + theName);
 }

@@ -18,7 +18,7 @@ class TextFormatter;
 class Real : public Glyph
 {
  public:
-  virtual ~Real();
+  ~Real() override;
   explicit Real(float theReal, int thePrecision = 1, bool theComma = true);
 
 #ifdef NO_COMPILER_GENERATED
@@ -26,16 +26,16 @@ class Real : public Glyph
   Real& operator=(const Real& theReal);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
   float value() const;
   int precision() const;
   bool comma() const;
 
  private:
-  Real();
+  Real() = delete;
   float itsReal;
   int itsPrecision;
   bool itsComma;

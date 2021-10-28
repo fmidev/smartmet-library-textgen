@@ -27,7 +27,6 @@
 using namespace TextGen;
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -72,13 +71,15 @@ string execute(const string& cmd)
 #else
   FILE* pipe = _popen(cmd.c_str(), "r");
 #endif
-  if (!pipe) throw runtime_error("Could not execute command '" + cmd + "'");
+  if (!pipe)
+    throw runtime_error("Could not execute command '" + cmd + "'");
 
   char buffer[128];
-  std::string result = "";
+  std::string result;
   while (!feof(pipe))
   {
-    if (fgets(buffer, 128, pipe) != nullptr) result += buffer;
+    if (fgets(buffer, 128, pipe) != nullptr)
+      result += buffer;
   }
 #ifdef UNIX
   pclose(pipe);

@@ -39,6 +39,7 @@
 #include <ctime>
 #include <fstream>
 #include <iomanip>
+#include <utility>
 
 using namespace std;
 
@@ -104,7 +105,7 @@ MessageLogger::~MessageLogger()
  */
 // ----------------------------------------------------------------------
 
-MessageLogger::MessageLogger(const string& theFunction) : itsFunction(theFunction)
+MessageLogger::MessageLogger(string  theFunction) : itsFunction(std::move(theFunction))
 {
   output_timestamp(sTimeStampOn);
 

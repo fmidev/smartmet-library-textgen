@@ -53,7 +53,7 @@ bool isPartOfArea(const UserWeatherSource& theWeatherSource,
 
 bool isPartOfArea(const WeatherArea& theWeatherArea1,
                   const std::string& theArea2SvgFile,
-                  const std::string theQueryData);
+                  std::string theQueryData);
 
 bool isPartOfArea(const WeatherArea& theWeatherArea,
                   const AnalysisSources& theSources,
@@ -64,7 +64,7 @@ class Rect
 {
  public:
   Rect() : m_topLeft(NFmiPoint(0.0, 0.0)), m_bottomRight(NFmiPoint(0.0, 0.0)) {}
-  Rect(const Rect& theRect) : m_topLeft(theRect.m_topLeft), m_bottomRight(theRect.m_bottomRight) {}
+  Rect(const Rect& theRect)  = default;
   Rect(const double& topLeftX,
        const double& topLeftY,
        const double& bottomRightX,

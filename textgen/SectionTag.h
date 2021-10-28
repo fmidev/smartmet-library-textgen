@@ -18,22 +18,22 @@ class TextFormatter;
 class SectionTag : public Glyph
 {
  public:
-  virtual ~SectionTag();
-  SectionTag(const std::string& theName, const bool& prefixTag = true);
+  ~SectionTag() override;
+  SectionTag(std::string  theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
   SectionTag(const SectionTag& theSectionTag);
   SectionTag& operator=(const SectionTag& theSectionTag);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
 
-  virtual bool isDelimiter() const;
+  bool isDelimiter() const override;
   virtual bool isPrefixTag() const;
 
  private:
-  SectionTag();
+  SectionTag() = delete;
   std::string itsName;
   bool itsPrefixTag;
 

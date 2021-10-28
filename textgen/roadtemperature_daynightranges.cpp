@@ -21,7 +21,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -71,7 +70,7 @@ Paragraph RoadStory::daynightranges() const
       night++;
 
     const string periodstr =
-        (isday ? "day" + lexical_cast<string>(day) : "night" + lexical_cast<string>(night));
+        (isday ? "day" + std::to_string(day) : "night" + std::to_string(night));
 
     const string fake = itsVar + "::fake::" + periodstr;
 

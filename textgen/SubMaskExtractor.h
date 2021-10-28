@@ -30,7 +30,7 @@ double ExtractMask(const AnalysisSources& theSources,
                    const Acceptor& theAcceptor,
                    NFmiIndexMask& theResultIndexMask);
 
-const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
+NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
                                   const WeatherArea& theArea,
                                   const AreaTools::direction_id& theDirectionId);
 

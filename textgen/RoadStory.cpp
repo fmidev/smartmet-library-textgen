@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-RoadStory::~RoadStory() {}
+RoadStory::~RoadStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -45,12 +47,12 @@ RoadStory::RoadStory(const TextGenPosixTime& theForecastTime,
                      const AnalysisSources& theSources,
                      const WeatherArea& theArea,
                      const WeatherPeriod& thePeriod,
-                     const string& theVariable)
+                     string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -65,12 +67,18 @@ RoadStory::RoadStory(const TextGenPosixTime& theForecastTime,
 
 bool RoadStory::hasStory(const string& theName)
 {
-  if (theName == "roadtemperature_daynightranges") return true;
-  if (theName == "roadcondition_overview") return true;
-  if (theName == "roadwarning_overview") return true;
-  if (theName == "roadcondition_shortview") return true;
-  if (theName == "roadwarning_shortview") return true;
-  if (theName == "roadtemperature_shortrange") return true;
+  if (theName == "roadtemperature_daynightranges")
+    return true;
+  if (theName == "roadcondition_overview")
+    return true;
+  if (theName == "roadwarning_overview")
+    return true;
+  if (theName == "roadcondition_shortview")
+    return true;
+  if (theName == "roadwarning_shortview")
+    return true;
+  if (theName == "roadtemperature_shortrange")
+    return true;
 
   return false;
 }
@@ -88,12 +96,18 @@ bool RoadStory::hasStory(const string& theName)
 
 Paragraph RoadStory::makeStory(const string& theName) const
 {
-  if (theName == "roadtemperature_daynightranges") return daynightranges();
-  if (theName == "roadtemperature_shortrange") return shortrange();
-  if (theName == "roadcondition_overview") return condition_overview();
-  if (theName == "roadwarning_overview") return warning_overview();
-  if (theName == "roadwarning_shortview") return warning_shortview();
-  if (theName == "roadcondition_shortview") return condition_shortview();
+  if (theName == "roadtemperature_daynightranges")
+    return daynightranges();
+  if (theName == "roadtemperature_shortrange")
+    return shortrange();
+  if (theName == "roadcondition_overview")
+    return condition_overview();
+  if (theName == "roadwarning_overview")
+    return warning_overview();
+  if (theName == "roadwarning_shortview")
+    return warning_shortview();
+  if (theName == "roadcondition_shortview")
+    return condition_shortview();
 
   throw TextGenError("RoadStory cannot make story " + theName);
 }

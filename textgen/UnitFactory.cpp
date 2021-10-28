@@ -70,7 +70,6 @@
 
 using namespace std;
 
-
 namespace
 {
 // ----------------------------------------------------------------------
@@ -126,15 +125,15 @@ boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval 
   }
   else if (opt == "phrase")
   {
-    string degrees_string("");
+    string degrees_string;
 
     if (abs(value) <= 4)
     {
       if (isInterval)
         degrees_string =
-            string("astetta (n..." + boost::lexical_cast<std::string>(abs(value)) + ")");
+            string("astetta (n..." + std::to_string(abs(value)) + ")");
       else
-        degrees_string = string("astetta (" + boost::lexical_cast<std::string>(abs(value)) + ")");
+        degrees_string = string("astetta (" + std::to_string(abs(value)) + ")");
     }
     else if (abs(value) % 10 == 1 && abs(value) != 11)
     {

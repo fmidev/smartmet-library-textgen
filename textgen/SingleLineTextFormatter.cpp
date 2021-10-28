@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 string SingleLineTextFormatter::visit(const Document& theDocument) const

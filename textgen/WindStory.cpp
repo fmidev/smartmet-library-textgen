@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-WindStory::~WindStory() {}
+WindStory::~WindStory() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -45,12 +47,12 @@ WindStory::WindStory(const TextGenPosixTime& theForecastTime,
                      const AnalysisSources& theSources,
                      const WeatherArea& theArea,
                      const WeatherPeriod& thePeriod,
-                     const string& theVariable)
+                     string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 
@@ -65,11 +67,16 @@ WindStory::WindStory(const TextGenPosixTime& theForecastTime,
 
 bool WindStory::hasStory(const string& theName)
 {
-  if (theName == "wind_overview") return true;
-  if (theName == "wind_simple_overview") return true;
-  if (theName == "wind_daily_ranges") return true;
-  if (theName == "wind_range") return true;
-  if (theName == "wind_anomaly") return true;
+  if (theName == "wind_overview")
+    return true;
+  if (theName == "wind_simple_overview")
+    return true;
+  if (theName == "wind_daily_ranges")
+    return true;
+  if (theName == "wind_range")
+    return true;
+  if (theName == "wind_anomaly")
+    return true;
 
   return false;
 }
@@ -87,11 +94,16 @@ bool WindStory::hasStory(const string& theName)
 
 Paragraph WindStory::makeStory(const string& theName) const
 {
-  if (theName == "wind_overview") return overview();
-  if (theName == "wind_simple_overview") return simple_overview();
-  if (theName == "wind_daily_ranges") return daily_ranges();
-  if (theName == "wind_range") return range();
-  if (theName == "wind_anomaly") return anomaly();
+  if (theName == "wind_overview")
+    return overview();
+  if (theName == "wind_simple_overview")
+    return simple_overview();
+  if (theName == "wind_daily_ranges")
+    return daily_ranges();
+  if (theName == "wind_range")
+    return range();
+  if (theName == "wind_anomaly")
+    return anomaly();
 
   throw TextGenError("WindStory cannot make story " + theName);
 }

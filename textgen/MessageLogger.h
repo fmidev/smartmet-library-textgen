@@ -19,9 +19,9 @@ class Glyph;
 class MessageLogger : public MessageLoggerStream<>
 {
  public:
-  ~MessageLogger();
-  MessageLogger(const std::string& theFunction);
-  virtual void onNewMessage(const string_type& theMessage);
+  ~MessageLogger() override;
+  MessageLogger(std::string  theFunction);
+  void onNewMessage(const string_type& theMessage) override;
   std::string str() const;
   MessageLogger& operator<<(const TextGen::Glyph& theGlyph);
 
@@ -32,9 +32,9 @@ class MessageLogger : public MessageLoggerStream<>
   static void timestamp(bool theFlag);
 
  private:
-  MessageLogger();
-  MessageLogger(const MessageLogger& theLogger);
-  MessageLogger& operator=(const MessageLogger& theLogger);
+  MessageLogger() = delete;
+  MessageLogger(const MessageLogger& theLogger) = delete;
+  MessageLogger& operator=(const MessageLogger& theLogger) = delete;
 
   std::string itsFunction;
 

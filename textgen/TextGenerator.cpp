@@ -47,7 +47,6 @@
 using namespace TextGen;
 using namespace std;
 
-
 namespace TextGen
 {
 namespace
@@ -66,7 +65,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-const Paragraph make_contents(const string& theContents,
+Paragraph make_contents(const string& theContents,
                               const string& theVar,
                               const TextGenPosixTime& theForecastTime,
                               const AnalysisSources& theSources,
@@ -77,13 +76,13 @@ const Paragraph make_contents(const string& theContents,
 
   Paragraph paragraph;
 
-  for (vector<string>::const_iterator iter = contents.begin(); iter != contents.end(); ++iter)
+  for (const auto & content : contents)
   {
-    const string storyvar = theVar + "::story::" + *iter;
+    const string storyvar = theVar + "::story::" + content;
 
     paragraph << StoryTag(storyvar, true);
     Paragraph p =
-        StoryFactory::create(theForecastTime, theSources, theArea, thePeriod, *iter, storyvar);
+        StoryFactory::create(theForecastTime, theSources, theArea, thePeriod, content, storyvar);
     paragraph << p;
     paragraph << StoryTag(storyvar, false);
   }
@@ -124,7 +123,7 @@ TextGenerator::Pimple::Pimple()
   boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
   itsSources.setWeatherSource(weathersource);
 
-  typedef boost::shared_ptr<MaskSource> mask_source;
+  using mask_source = boost::shared_ptr<MaskSource>;
 
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);
@@ -176,17 +175,17 @@ TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
   boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
   itsSources.setWeatherSource(weathersource);
 
-  typedef boost::shared_ptr<MaskSource> mask_source;
+  using mask_source = boost::shared_ptr<MaskSource>;
 
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);
 
-  if (!theLandMaskArea.isPoint() && theLandMaskArea.path().size() > 0)
+  if (!theLandMaskArea.isPoint() && !theLandMaskArea.path().empty())
     itsSources.setLandMaskSource(mask_source(new LandMaskSource(theLandMaskArea)));
   else
     itsSources.setLandMaskSource(masksource);
 
-  if (!theCoastMaskArea.isPoint() && theCoastMaskArea.path().size() > 0)
+  if (!theCoastMaskArea.isPoint() && !theCoastMaskArea.path().empty())
   {
     itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(theCoastMaskArea)));
     itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(theCoastMaskArea)));
@@ -233,7 +232,10 @@ TextGenerator::TextGenerator() : itsPimple(new Pimple()) {}
  */
 // ----------------------------------------------------------------------
 
-const TextGenPosixTime& TextGenerator::time() const { return itsPimple->itsForecastTime; }
+const TextGenPosixTime& TextGenerator::time() const
+{
+  return itsPimple->itsForecastTime;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Set a new forecast time
@@ -288,15 +290,15 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
       NFmiStringTools::Split(Settings::require_string("textgen::sections"));
 
   Document doc;
-  for (vector<string>::const_iterator it = paragraphs.begin(); it != paragraphs.end(); ++it)
+  for (const auto & paragraph : paragraphs)
   {
-    doc << SectionTag("textgen::" + *it, true);
+    doc << SectionTag("textgen::" + paragraph, true);
 
-    const string periodvar = "textgen::" + *it + "::period";
+    const string periodvar = "textgen::" + paragraph + "::period";
     const WeatherPeriod period =
         WeatherPeriodFactory::create(itsPimple->itsForecastTime, periodvar);
 
-    const string headervar = "textgen::" + *it + "::header";
+    const string headervar = "textgen::" + paragraph + "::header";
 
     log << "TextGenerator::generate periodvar " << periodvar << endl
         << "TextGenerator::generate headervar " << headervar << endl
@@ -304,16 +306,17 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
         << " -  " << period.localEndTime() << endl;
 
     Header header = HeaderFactory::create(theArea, period, headervar);
-    if (!header.empty()) doc << header;
+    if (!header.empty())
+      doc << header;
 
-    const bool subs = Settings::optional_bool("textgen::" + *it + "::subperiods", false);
+    const bool subs = Settings::optional_bool("textgen::" + paragraph + "::subperiods", false);
 
     if (!subs)
     {
-      const string contents = Settings::require("textgen::" + *it + "::content");
+      const string contents = Settings::require("textgen::" + paragraph + "::content");
       log << "TextGenerator::generate contents " << contents << endl;
       doc << make_contents(contents,
-                           "textgen::" + *it,
+                           "textgen::" + paragraph,
                            itsPimple->itsForecastTime,
                            itsPimple->itsSources,
                            theArea,
@@ -322,9 +325,9 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
     else
     {
       // Generate subparagraphs for each day
-      HourPeriodGenerator generator(period, "textgen::" + *it + "::subperiod::day");
+      HourPeriodGenerator generator(period, "textgen::" + paragraph + "::subperiod::day");
 
-      const string defaultvar = "textgen::" + *it;
+      const string defaultvar = "textgen::" + paragraph;
 
       for (HourPeriodGenerator::size_type day = 1; day <= generator.size(); day++)
       {
@@ -346,7 +349,7 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
                              subperiod);
       }
     }
-    doc << SectionTag("textgen::" + *it, false);
+    doc << SectionTag("textgen::" + paragraph, false);
   }
   return doc;
 }
@@ -363,7 +366,10 @@ void TextGenerator::sources(const AnalysisSources& theSources)
   itsPimple->itsSources = theSources;
 }
 
-std::string TextGenerator::version() { return VERSION_STRING; }
+std::string TextGenerator::version()
+{
+  return VERSION_STRING;
+}
 
 }  // namespace TextGen
 

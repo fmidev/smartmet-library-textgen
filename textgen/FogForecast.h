@@ -17,15 +17,15 @@ enum fog_type_id
   NO_FOG
 };
 
-typedef std::pair<WeatherPeriod, FogIntensityDataItem> weather_period_fog_intensity_pair;
-typedef std::pair<WeatherPeriod, fog_type_id> weather_period_fog_type_intensity_pair;
-typedef std::vector<weather_period_fog_intensity_pair> fog_period_vector;
-typedef std::vector<weather_period_fog_type_intensity_pair> fog_type_period_vector;
+using weather_period_fog_intensity_pair = std::pair<WeatherPeriod, FogIntensityDataItem>;
+using weather_period_fog_type_intensity_pair = std::pair<WeatherPeriod, fog_type_id>;
+using fog_period_vector = std::vector<weather_period_fog_intensity_pair>;
+using fog_type_period_vector = std::vector<weather_period_fog_type_intensity_pair>;
 
 struct FogInfo
 {
-  FogInfo() : id(NO_FOG), period(TextGenPosixTime(), TextGenPosixTime()) {}
-  fog_type_id id;
+  FogInfo() :  period(TextGenPosixTime(), TextGenPosixTime()) {}
+  fog_type_id id{NO_FOG};
   WeatherPeriod period;
   Sentence sentence;
   Sentence timePhrase;
@@ -36,7 +36,7 @@ class FogForecast
  public:
   FogForecast(wf_story_params& parameters, bool visibilityForecast = false);
 
-  ~FogForecast() {}
+  ~FogForecast() = default;
   Sentence fogSentence(const WeatherPeriod& thePeriod) const;
   FogInfo fogInfo(const WeatherPeriod& thePeriod) const;
 
@@ -46,7 +46,7 @@ class FogForecast
 
  private:
   void findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
-                             fog_type_period_vector& theFogTypePeriods);
+                             fog_type_period_vector& theFogTypePeriods) const;
   void findOutFogPeriods(const weather_result_data_item_vector* theModerateFogData,
                          const weather_result_data_item_vector* theDenseFogData,
                          fog_period_vector& theFogPeriods);

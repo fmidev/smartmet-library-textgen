@@ -17,16 +17,16 @@ class OrAcceptor : public Acceptor
  public:
   OrAcceptor(const OrAcceptor& theOther);
   OrAcceptor(const Acceptor& theLhs, const Acceptor& theRhs);
-  virtual ~OrAcceptor()
+  ~OrAcceptor() override
   {
     delete itsLhs;
     delete itsRhs;
   }
-  virtual bool accept(float theValue) const;
-  virtual Acceptor* clone() const;
+  bool accept(float theValue) const override;
+  Acceptor* clone() const override;
 
  private:
-  OrAcceptor();
+  OrAcceptor() = delete;
 
   Acceptor* itsLhs;
   Acceptor* itsRhs;

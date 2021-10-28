@@ -26,8 +26,6 @@
 
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
-
 
 namespace TextGen
 {
@@ -163,7 +161,7 @@ class WarningPercentages
  */
 // ----------------------------------------------------------------------
 
-const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
+WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
                                                int thePeriodIndex,
                                                const TextGen::AnalysisSources& theSources,
                                                const TextGen::WeatherArea& theArea,
@@ -174,9 +172,9 @@ const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   WarningPercentages percentages;
   for (int i = min_warning; i <= max_warning; i++)
   {
-    const RoadWarningType c = RoadWarningType(i);
+    const auto c = RoadWarningType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+    const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
                          "::" + warning_name(c) + "::percentage");
 
     ValueAcceptor warnfilter;
@@ -227,20 +225,18 @@ RoadWarningType find_most_general_warning(const WarningPercentages& thePercentag
  */
 // ----------------------------------------------------------------------
 
-const char* warning_places_phrase(RoadWarningType theType,
-                                  double thePercentage,
+const char* warning_places_phrase(double thePercentage,
                                   int theGenerallyLimit,
                                   int theManyPlacesLimit,
                                   int theSomePlacesLimit)
 {
   if (thePercentage < theSomePlacesLimit)
     return "";
-  else if (thePercentage < theManyPlacesLimit)
+  if (thePercentage < theManyPlacesLimit)
     return "paikoin";
-  else if (thePercentage < theGenerallyLimit)
+  if (thePercentage < theGenerallyLimit)
     return "monin paikoin";
-  else
-    return "yleisesti";
+      return "yleisesti";
 }
 
 // ----------------------------------------------------------------------
@@ -249,14 +245,14 @@ const char* warning_places_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence warning_phrase(RoadWarningType theType,
+Sentence warning_phrase(RoadWarningType theType,
                               double thePercentage,
                               int theGenerallyLimit,
                               int theManyPlacesLimit,
                               int theSomePlacesLimit)
 {
   const char* places_phrase = warning_places_phrase(
-      theType, thePercentage, theGenerallyLimit, theManyPlacesLimit, theSomePlacesLimit);
+      thePercentage, theGenerallyLimit, theManyPlacesLimit, theSomePlacesLimit);
 
   Sentence tienpinta_muuttuu;
   Sentence tie_on_muuttumassa;
@@ -324,7 +320,7 @@ const Sentence warning_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence second_places_sentence(RoadWarningType thePrimaryType,
+Sentence second_places_sentence(RoadWarningType thePrimaryType,
                                       RoadWarningType theSecondaryType)
 {
   Sentence sentence;
@@ -760,7 +756,7 @@ const Sentence second_places_sentence(RoadWarningType thePrimaryType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence warning_sentence(const WarningPercentages& thePercentages, const string& theVar)
+Sentence warning_sentence(const WarningPercentages& thePercentages, const string& theVar)
 {
   Sentence sentence;
 
@@ -791,7 +787,7 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
 
   for (int i = min_warning; i <= max_warning; i++)
   {
-    const RoadWarningType warning = RoadWarningType(i);
+    const auto warning = RoadWarningType(i);
 
     if (thePercentages[warning] >= someplaces_limit && thePercentages[warning] < manyplaces_limit)
     {
@@ -814,7 +810,8 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
     if (!someplacestypes.empty())
     {
       Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
-      if (!s.empty()) sentence << Delimiter(",") << s;
+      if (!s.empty())
+        sentence << Delimiter(",") << s;
     }
     return sentence;
   }
@@ -867,11 +864,14 @@ bool is_morning(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime)) return false;
+  if (!TimeTools::isSameDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -894,11 +894,14 @@ bool is_day(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime)) return false;
+  if (!TimeTools::isSameDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -921,11 +924,14 @@ bool is_evening(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime)) return false;
+  if (!TimeTools::isSameDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -948,11 +954,14 @@ bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isNextDay(starttime, endtime)) return false;
+  if (!TimeTools::isNextDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour && starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour && starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour && endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour && endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -963,13 +972,13 @@ bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
 {
   const int startdaynumber = thePeriod.localStartTime().GetWeekday();
   const int enddaynumber = thePeriod.localEndTime().GetWeekday();
 
-  const string startday = lexical_cast<string>(startdaynumber);
-  const string endday = lexical_cast<string>(enddaynumber);
+  const string startday = std::to_string(startdaynumber);
+  const string endday = std::to_string(enddaynumber);
 
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -998,7 +1007,7 @@ const Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, cons
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -1027,7 +1036,7 @@ const Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, con
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -1056,7 +1065,7 @@ const Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const 
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase(const WeatherPeriod& thePeriod,
+Sentence during_period_phrase(const WeatherPeriod& thePeriod,
                                     const TextGenPosixTime& theLastTime,
                                     const TextGenPosixTime& theForecastTime,
                                     const string& theVar)
@@ -1079,13 +1088,13 @@ const Sentence during_period_phrase(const WeatherPeriod& thePeriod,
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
 {
   const int startdaynumber = thePeriod.localStartTime().GetWeekday();
   const int enddaynumber = thePeriod.localEndTime().GetWeekday();
 
-  const string startday = lexical_cast<string>(startdaynumber);
-  const string endday = lexical_cast<string>(enddaynumber);
+  const string startday = std::to_string(startdaynumber);
+  const string endday = std::to_string(enddaynumber);
 
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -1114,7 +1123,7 @@ const Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, co
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -1143,7 +1152,7 @@ const Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, c
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -1172,7 +1181,7 @@ const Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, cons
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
+Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
                                       const TextGenPosixTime& theLastTime,
                                       const TextGenPosixTime& theForecastTime,
                                       const string& theVar)
@@ -1213,7 +1222,8 @@ Paragraph RoadStory::warning_overview() const
 
   const TextGenPosixTime time1(itsPeriod.localStartTime());
   TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
-  if (itsPeriod.localEndTime().IsLessThan(time2)) time2 = itsPeriod.localEndTime();
+  if (itsPeriod.localEndTime().IsLessThan(time2))
+    time2 = itsPeriod.localEndTime();
 
   const WeatherPeriod fullperiod(time1, time2);
 
@@ -1280,7 +1290,8 @@ Paragraph RoadStory::warning_overview() const
 
     unsigned int j;
     for (j = i; j < periods.size() - 1; j++)
-      if (realizations[i] != realizations[j + 1]) break;
+      if (realizations[i] != realizations[j + 1])
+        break;
 
     // Generate the text
 

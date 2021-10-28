@@ -484,31 +484,31 @@ enum time_phrase_format
   AT_FORMAT
 };
 
-class WeatherResultDataItem;
-class PrecipitationDataItemData;
-class FogIntensityDataItem;
-class PrecipitationDataItem;
-class CloudinessDataItem;
-class ThunderDataItem;
+struct WeatherResultDataItem;
+struct PrecipitationDataItemData;
+struct FogIntensityDataItem;
+struct PrecipitationDataItem;
+struct CloudinessDataItem;
+struct ThunderDataItem;
 
-typedef std::vector<WeatherResultDataItem*> weather_result_data_item_vector;
-typedef std::pair<TextGenPosixTime, weather_event_id> timestamp_weather_event_id_pair;
-typedef std::vector<timestamp_weather_event_id_pair> weather_event_id_vector;
-typedef std::vector<PrecipitationDataItemData*> precipitation_data_vector;
-typedef std::vector<FogIntensityDataItem*> fog_data_vector;
-typedef std::map<int, PrecipitationDataItem*> precipitation_data_item_container;
-typedef std::vector<precipitation_data_item_container*> precipitation_data_container;
-typedef std::map<int, weather_result_data_item_vector*> weather_forecast_result_container;
-typedef std::map<int, weather_forecast_result_container*> weather_forecast_data_container;
-typedef std::map<int, CloudinessDataItem*> cloudiness_data_item_container;
-typedef std::vector<cloudiness_data_item_container*> cloudiness_data_container;
-typedef std::map<int, ThunderDataItem*> thunder_data_item_container;
-typedef std::vector<thunder_data_item_container*> thunder_data_container;
-typedef std::map<int, FogIntensityDataItem*> fog_data_item_container;
-typedef std::vector<fog_data_item_container*> fog_data_container;
-typedef std::vector<NFmiPoint*> location_coordinate_vector;
-typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
-typedef std::vector<weather_period_story_part_id_pair> story_part_vector;
+using weather_result_data_item_vector = std::vector<WeatherResultDataItem*>;
+using timestamp_weather_event_id_pair = std::pair<TextGenPosixTime, weather_event_id>;
+using weather_event_id_vector = std::vector<timestamp_weather_event_id_pair>;
+using precipitation_data_vector = std::vector<PrecipitationDataItemData*>;
+using fog_data_vector = std::vector<FogIntensityDataItem*>;
+using precipitation_data_item_container = std::map<int, PrecipitationDataItem*>;
+using precipitation_data_container = std::vector<precipitation_data_item_container*>;
+using weather_forecast_result_container = std::map<int, weather_result_data_item_vector*>;
+using weather_forecast_data_container = std::map<int, weather_forecast_result_container*>;
+using cloudiness_data_item_container = std::map<int, CloudinessDataItem*>;
+using cloudiness_data_container = std::vector<cloudiness_data_item_container*>;
+using thunder_data_item_container = std::map<int, ThunderDataItem*>;
+using thunder_data_container = std::vector<thunder_data_item_container*>;
+using fog_data_item_container = std::map<int, FogIntensityDataItem*>;
+using fog_data_container = std::vector<fog_data_item_container*>;
+using location_coordinate_vector = std::vector<NFmiPoint*>;
+using weather_period_story_part_id_pair = std::pair<WeatherPeriod, unsigned int>;
+using story_part_vector = std::vector<weather_period_story_part_id_pair>;
 
 struct wf_story_params
 {
@@ -528,10 +528,10 @@ struct wf_story_params
         theLog(log),
         theCoastalAndInlandTogetherFlag(false),
         theShortTextModeFlag(false),
-        thePrecipitationForecast(0),
-        theCloudinessForecast(0),
-        theFogForecast(0),
-        theThunderForecast(0),
+        thePrecipitationForecast(nullptr),
+        theCloudinessForecast(nullptr),
+        theFogForecast(nullptr),
+        theThunderForecast(nullptr),
         theHourPeriodCount(0),
         theOriginalPeriodCount(0),
         theForecastArea(TextGen::AreaTools::NO_AREA)
@@ -649,7 +649,7 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const std::string& theVariable,
                           const WeatherArea& theArea,
-                          const WeatherPeriod thePeriod,
+                          WeatherPeriod thePeriod,
                           const TextGenPosixTime& theForecastTime);
 std::string parse_time_phrase(short theWeekday,
                               bool theSpecifyDayFlag,
@@ -800,9 +800,12 @@ struct CloudinessDataItem
 
   ~CloudinessDataItem()
   {
-    if (theCoastalData) delete theCoastalData;
-    if (theInlandData) delete theInlandData;
-    if (theFullData) delete theFullData;
+    
+      delete theCoastalData;
+    
+      delete theInlandData;
+    
+      delete theFullData;
   }
 };
 
@@ -949,7 +952,7 @@ struct PrecipitationDataItemData
     return thePrecipitationPercentageNorthWest + thePrecipitationPercentageSouthWest;
   }
 
-  bool operator==(const PrecipitationDataItemData& theItem)
+  bool operator==(const PrecipitationDataItemData& theItem) const
   {
     return (thePrecipitationForm == theItem.thePrecipitationForm &&
             thePrecipitationIntensity == theItem.thePrecipitationIntensity &&
@@ -985,9 +988,12 @@ struct PrecipitationDataItem
 
   ~PrecipitationDataItem()
   {
-    if (theCoastalData) delete theCoastalData;
-    if (theInlandData) delete theInlandData;
-    if (theFullData) delete theFullData;
+    
+      delete theCoastalData;
+    
+      delete theInlandData;
+    
+      delete theFullData;
   }
 };
 }  // namespace TextGen

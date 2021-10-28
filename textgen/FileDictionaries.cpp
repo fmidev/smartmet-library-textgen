@@ -53,7 +53,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -66,7 +65,7 @@ namespace TextGen
 class FileDictionaries::Pimple
 {
  public:
-  typedef map<string, boost::shared_ptr<FileDictionary> > storage_type;
+  using storage_type = map<string, boost::shared_ptr<FileDictionary>>;
 
   storage_type itsData;
   string itsLanguage;
@@ -84,7 +83,7 @@ class FileDictionaries::Pimple
  */
 // ----------------------------------------------------------------------
 
-FileDictionaries::~FileDictionaries() {}
+FileDictionaries::~FileDictionaries() = default;
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -93,7 +92,10 @@ FileDictionaries::~FileDictionaries() {}
  */
 // ----------------------------------------------------------------------
 
-FileDictionaries::FileDictionaries() : Dictionary(), itsPimple(new Pimple()) { itsDictionaryId = "multifile"; }
+FileDictionaries::FileDictionaries() :  itsPimple(new Pimple())
+{
+  itsDictionaryId = "multifile";
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -104,7 +106,10 @@ FileDictionaries::FileDictionaries() : Dictionary(), itsPimple(new Pimple()) { i
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionaries::language(void) const { return itsPimple->itsLanguage; }
+const std::string& FileDictionaries::language() const
+{
+  return itsPimple->itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language
@@ -127,7 +132,8 @@ void FileDictionaries::init(const std::string& theLanguage)
 {
   // Done if language is already active
 
-  if (theLanguage == itsPimple->itsLanguage) return;
+  if (theLanguage == itsPimple->itsLanguage)
+    return;
 
   itsPimple->itsLanguage = theLanguage;
 
@@ -135,12 +141,14 @@ void FileDictionaries::init(const std::string& theLanguage)
 
   itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 
-  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end()) return;
+  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end())
+    return;
 
   // Load new language
 
   boost::shared_ptr<FileDictionary> dict(new FileDictionary);
-  if (dict.get() == 0) throw TextGenError("Failed to allocate a new FileDictionary");
+  if (dict.get() == nullptr)
+    throw TextGenError("Failed to allocate a new FileDictionary");
 
   dict->init(theLanguage);
 
@@ -199,7 +207,7 @@ const std::string& FileDictionaries::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void FileDictionaries::insert(const std::string& theKey, const std::string& thePhrase)
+void FileDictionaries::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
 {
   throw TextGenError("Error: FileDictionaries::insert() is not allowed");
 }
@@ -212,7 +220,7 @@ void FileDictionaries::insert(const std::string& theKey, const std::string& theP
  */
 // ----------------------------------------------------------------------
 
-FileDictionaries::size_type FileDictionaries::size(void) const
+FileDictionaries::size_type FileDictionaries::size() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: FileDictionaries::size() called before init()");
@@ -227,7 +235,7 @@ FileDictionaries::size_type FileDictionaries::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool FileDictionaries::empty(void) const
+bool FileDictionaries::empty() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: FileDictionaries::empty() called before init()");
@@ -242,7 +250,7 @@ bool FileDictionaries::empty(void) const
  */
 // ----------------------------------------------------------------------
 
-void  FileDictionaries::changeLanguage(const std::string& theLanguage)
+void FileDictionaries::changeLanguage(const std::string& theLanguage)
 {
   if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
     throw TextGenError("Error: The requested language not supported: " + theLanguage);
@@ -250,7 +258,6 @@ void  FileDictionaries::changeLanguage(const std::string& theLanguage)
   itsPimple->itsLanguage = theLanguage;
   itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 }
-
 
 }  // namespace TextGen
 

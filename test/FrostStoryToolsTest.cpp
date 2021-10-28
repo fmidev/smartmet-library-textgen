@@ -27,14 +27,20 @@ boost::shared_ptr<TextGen::Dictionary> dict;
  */
 // ----------------------------------------------------------------------
 
-void frost_sentence() { TEST_NOT_IMPLEMENTED(); }
+void frost_sentence()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test FrostStoryTools::severe_frost_sentence
  */
 // ----------------------------------------------------------------------
 
-void severe_frost_sentence() { TEST_NOT_IMPLEMENTED(); }
+void severe_frost_sentence()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief The actual test driver

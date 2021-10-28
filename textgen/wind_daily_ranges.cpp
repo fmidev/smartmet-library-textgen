@@ -27,7 +27,6 @@
 using namespace TextGen::WindStoryTools;
 using namespace TextGen;
 using namespace std;
-using boost::lexical_cast;
 
 namespace TextGen
 {
@@ -87,7 +86,7 @@ Paragraph WindStory::daily_ranges() const
   {
     const WeatherPeriod period(periodgenerator.period(day));
 
-    const string daystr = "day" + lexical_cast<string>(day);
+    const string daystr = "day" + std::to_string(day);
 
     const WeatherResult minspeed =
         forecaster.analyze(itsVar + "::fake::" + daystr + "::speed::minimum",
@@ -180,7 +179,7 @@ Paragraph WindStory::daily_ranges() const
         string speed_string0(speed_string(meanspeeds[0]));
         string speed_string1(speed_string(meanspeeds[1]));
 
-        similar_speeds = (speed_string0.compare(speed_string1) == 0);
+        similar_speeds = (speed_string0 == speed_string1);
       }
 
       if (accuracy12 != bad_accuracy ||
