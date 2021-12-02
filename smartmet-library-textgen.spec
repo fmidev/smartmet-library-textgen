@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.10.12
+Version: 21.12.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -13,19 +13,19 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: boost169-devel
 BuildRequires: gcc-c++
-BuildRequires: gdal32-devel
+BuildRequires: gdal33-devel
 BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 21.10.6
-BuildRequires: smartmet-library-macgyver-devel >= 21.10.4
-BuildRequires: smartmet-library-newbase-devel >= 21.9.22
-BuildRequires: smartmet-library-gis-devel >= 21.9.24
-Requires: gdal32-libs
-Requires: smartmet-library-calculator >= 21.10.6
-Requires: smartmet-library-macgyver >= 21.10.4
-Requires: smartmet-library-newbase >= 21.9.22
+BuildRequires: smartmet-library-calculator-devel >= 21.12.2
+BuildRequires: smartmet-library-macgyver-devel >= 21.12.1
+BuildRequires: smartmet-library-newbase-devel >= 21.12.1
+BuildRequires: smartmet-library-gis-devel >= 21.12.2
+Requires: gdal33-libs
+Requires: smartmet-library-calculator >= 21.12.2
+Requires: smartmet-library-macgyver >= 21.12.1
+Requires: smartmet-library-newbase >= 21.12.1
 
 %if %{defined el7}
 Requires: libpqxx < 1:7.0
@@ -33,9 +33,9 @@ BuildRequires: libpqxx-devel < 1:7.0
 #TestRequires: libpqxx-devel < 1:7.0
 %else
 %if %{defined el8}
-Requires: libpqxx >= 5.0.1
-BuildRequires: libpqxx-devel >= 5.0.1
-#TestRequires: libpqxx-devel >= 5.0.1
+Requires: libpqxx >= 1:7.6.0, libpqxx < 1:7.7.0
+BuildRequires: libpqxx-devel >= 1:7.6.0, libpqxx-devel < 1:7.7.0
+#TestRequires: libpqxx-devel >= 1:7.6.0, libpqxx-devel < 1:7.7.0
 %else
 Requires: libpqxx
 BuildRequires: libpqxx-devel
@@ -49,10 +49,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: boost169-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 21.10.6
-#TestRequires: smartmet-library-macgyver-devel >= 21.10.4
-#TestRequires: smartmet-library-newbase-devel >= 21.9.22
-#TestRequires: smartmet-library-gis-devel >= 21.9.24
+#TestRequires: smartmet-library-calculator-devel >= 21.12.2
+#TestRequires: smartmet-library-macgyver-devel >= 21.12.1
+#TestRequires: smartmet-library-newbase-devel >= 21.12.1
+#TestRequires: smartmet-library-gis-devel >= 21.12.1
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
