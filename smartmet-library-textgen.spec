@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.12.2
+Version: 21.12.7
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -95,6 +95,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Dec  7 2021 Andris Pavēnis <andris.pavenis@fmi.fi> 21.12.7-1.fmi
+- Update to postgresql 13 and gdal 3.3
+
 * Tue Oct 12 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.10.12-1.fmi
 - More clang-tidy
 
