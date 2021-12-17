@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.12.7
+Version: 21.12.17
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -95,6 +95,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+
+* Fri Dec 17 2021 Anssi Reponen <anssi.reponen@fmi.fi> 21.12.17-1.fmi
+- Changed default values for thunder forecast configuration parameters (PAK-2297)
+- New option 'dont_report_coastal_area' makes it possible to ignore coastal area in frost_onenight story (PAK-2302)
+- New option 'use_in_the_beginning_phrase' makes it possible to start weather_forecast story with 'In the beginning'-phrase (PAK-2300)
+
 * Tue Dec  7 2021 Andris Pavēnis <andris.pavenis@fmi.fi> 21.12.7-1.fmi
 - Update to postgresql 13 and gdal 3.3
 
