@@ -48,25 +48,6 @@ using namespace AreaTools;
 
 using namespace std;
 
-thunder_probability_id get_thunder_probability_id(const float& theThunderProbability)
-{
-  if (theThunderProbability == 0)
-    return NO_THUNDER;
-
-  if (theThunderProbability < SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT)
-  {
-    return SMALL_PROBABILITY_FOR_THUNDER;
-  }
-  if (theThunderProbability >= POSSIBLY_THUNDER_LOWER_LIMIT &&
-           theThunderProbability < POSSIBLY_THUNDER_UPPER_LIMIT)
-  {
-    return POSSIBLY_THUNDER;
-  }
-  
-      return OCCASIONALLY_THUNDER;
- 
-}
-
 ThunderForecast::ThunderForecast(wf_story_params& parameters) : theParameters(parameters) {}
 float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
                                    const weather_result_data_item_vector& theDataVector) const
