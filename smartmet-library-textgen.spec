@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 21.12.17
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -95,6 +95,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Dec 17 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.12.17-2.fmi
+- Fixed the default value for setting 'use_in_the_beginning_phrase'
 
 * Fri Dec 17 2021 Anssi Reponen <anssi.reponen@fmi.fi> 21.12.17-1.fmi
 - Changed default values for thunder forecast configuration parameters (PAK-2297)
