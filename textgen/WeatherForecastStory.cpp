@@ -92,6 +92,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
       theShortTimePrecipitationReportedFlag(false),
       theReportTimePhraseFlag(false),
       theCloudinessReportedFlag(false),
+	  theAddAluksiWord(false),
       thePeriodPhraseGenerator(var)
 {
   addPrecipitationStoryItems();
@@ -100,7 +101,10 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
 
   bool specifyPartOfTheDayFlag =
       Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
+  bool useInTheBeginningPhrase =
+      Settings::optional_bool(theVar + "::use_in_the_beginning_phrase", true);
   int storyItemCounter(0);
+  int storyItemCounterTotal(0);
   bool moreThanOnePrecipitationForms(false);
   for (auto & i : theStoryItemVector)
   {
@@ -114,6 +118,9 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
         storyItemCounter++;
     }
 
+	if (!i->getSentence().empty())
+	  storyItemCounterTotal++;
+
     // check wheather more than one precipitation form exists during the forecast period
     if (!moreThanOnePrecipitationForms &&
         i->theStoryPartId == PRECIPITATION_STORY_PART &&
@@ -126,7 +133,8 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
     }
   }
   // if more than one item exists, use the phrases "aluksi", "myöhemmin" when the period is short
-  theReportTimePhraseFlag = storyItemCounter > 1;
+  theReportTimePhraseFlag = (storyItemCounter > 1);
+  theAddAluksiWord = (useInTheBeginningPhrase && storyItemCounterTotal > 1);
   thePrecipitationForecast.setSinglePrecipitationFormFlag(!moreThanOnePrecipitationForms);
 }
 
@@ -991,10 +999,14 @@ Sentence WeatherForecastStory::getTimePhrase() const
 
   if (theReportTimePhraseFlag)
   {
-    if (theStorySize == 0)
-      sentence << ALUKSI_WORD;
-    else
-      sentence << MYOHEMMIN_WORD;
+	if (theStorySize == 0)
+	  sentence << ALUKSI_WORD;
+	else
+	  sentence << MYOHEMMIN_WORD;
+  }
+  else if(theAddAluksiWord && theStorySize == 0)
+  {
+	sentence << ALUKSI_WORD;
   }
 
   return sentence;

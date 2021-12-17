@@ -184,6 +184,7 @@ class WeatherForecastStory
   bool theShortTimePrecipitationReportedFlag;
   bool theReportTimePhraseFlag;
   bool theCloudinessReportedFlag;
+  bool theAddAluksiWord;
   PeriodPhraseGenerator thePeriodPhraseGenerator;
 
   std::vector<WeatherForecastStoryItem*> theStoryItemVector;

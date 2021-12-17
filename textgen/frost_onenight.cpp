@@ -688,6 +688,9 @@ Paragraph FrostStory::onenight() const
     if (growingSeasonCoastal)
       log << "Growing season not started on inland area, coastal area is not reported alone!"
           << endl;
+	else 
+	  log << "Growing season not started, frost will not be reported!"
+		  << endl;
 
     return paragraph;
   }
@@ -699,6 +702,20 @@ Paragraph FrostStory::onenight() const
       itsVar + "::separate_coastal_area_percentage", SEPARATE_COASTAL_AREA_PERCENTAGE);
 
   bool ignoreCoastalArea = coastalPercentage < separate_coastal_area_percentage;
+  std::string coastal_areas_to_ignore = Settings::optional_string(itsVar + "::dont_report_coastal_area", "");
+  if(!coastal_areas_to_ignore.empty())
+	{
+	  std::vector<std::string> areas;
+	  boost::algorithm::split(areas, coastal_areas_to_ignore, boost::algorithm::is_any_of(","));
+	  for(const auto& area : areas)
+		{
+		  if(itsArea.name() == boost::trim_copy(area))
+			{
+			  ignoreCoastalArea = true;
+			  break;
+			}
+		}
+	}
 
   float inlandPercentage = get_area_percentage(
       itsVar + "::fake::area_percentage", itsArea, WeatherArea::Inland, itsSources, itsPeriod);
