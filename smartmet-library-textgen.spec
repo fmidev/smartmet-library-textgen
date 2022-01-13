@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.12.17
+Version: 22.1.13
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -95,6 +95,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Jan 13 2022 Anssi Reponen <anssi.reponen@fmi.fi> 22.1.13.1.fmi
+- Change word describing heavy snowfall/snow showers (BRAINSTORM-2237)
 
 * Fri Dec 17 2021 Anssi Reponen <anssi.reponen@fmi.fi> 21.12.17-1.fmi
 - Changed default values for thunder forecast configuration parameters (PAK-2297)
