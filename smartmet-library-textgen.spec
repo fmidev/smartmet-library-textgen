@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.12.17
-Release: 2%{?dist}.fmi
+Version: 22.1.13
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -95,6 +95,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Jan 13 2022 Anssi Reponen <anssi.reponen@fmi.fi> 22.1.13.1.fmi
+- Change word describing heavy snowfall/snow showers (BRAINSTORM-2237)
+
 * Fri Dec 17 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.12.17-2.fmi
 - Fixed the default value for setting 'use_in_the_beginning_phrase'
 

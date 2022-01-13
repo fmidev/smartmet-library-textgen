@@ -70,10 +70,11 @@ using namespace std;
   "[sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
 #define HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE \
   "[huomenna] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
-
 // sade
 #define ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA "[iltapaivalla] kuurot voivat olla voimakkaita"
+#define ILTAPAIVALLA_LUMIKUUROT_VOIVAT_OLLA_SAKEITA "[iltapaivalla] lumikuurot voivat olla sakeita"
 #define ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA "[iltapaivalla] sade voi olla runsasta"
+#define ILTAPAIVALLA_LUMISADE_VOI_OLLA_SAKEAA "[iltapaivalla] lumisade voi olla sakeaa"
 #define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE \
   "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta]"
 #define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE \
@@ -3989,10 +3990,21 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
           Sentence heavyPrecipitationSentence;
           if (partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
           {
-            if (theCheckHeavyIntensityFlag == SHOWERS)
-              heavyPrecipitationSentence << ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA;
-            else
-              heavyPrecipitationSentence << ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA;
+			if(precipitationForm == SNOW_FORM || precipitationForm == SNOW_FREEZING_FORM)
+			  {
+
+				if (theCheckHeavyIntensityFlag == SHOWERS)
+				  heavyPrecipitationSentence << ILTAPAIVALLA_LUMIKUUROT_VOIVAT_OLLA_SAKEITA;
+				else
+				  heavyPrecipitationSentence << ILTAPAIVALLA_LUMISADE_VOI_OLLA_SAKEAA;
+			  }
+			else
+			  {
+				if (theCheckHeavyIntensityFlag == SHOWERS)
+				  heavyPrecipitationSentence << ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA;
+				else
+				  heavyPrecipitationSentence << ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA;
+			  }
 
             heavyPrecipitationSentence << getTimePhrase(partOfTheDayId, timePhraseFormat);
 
