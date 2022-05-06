@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 Summary: FMI textgen development files
 Provides: %{DEVELNAME}
 Requires: %{SPECNAME}
+Requires: %{SPECNAME} = %{version}-%{release}
+Requires: smartmet-library-calculator-devel
+Requires: smartmet-library-newbase-devel
 Obsoletes: libsmartmet-textgen-devel < 17.1.4
 
 %description -n %{DEVELNAME}
