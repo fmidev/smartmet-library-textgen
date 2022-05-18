@@ -33,15 +33,10 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <newbase/NFmiAreaTools.h>
 #include <newbase/NFmiCombinedParam.h>
 #include <map>
 #include <vector>
-
-#ifdef WGS84
-#include <newbase/NFmiAreaTools.h>
-#else
-#include <newbase/NFmiMercatorArea.h>
-#endif
 
 namespace TextGen
 {
@@ -164,20 +159,20 @@ fog_type_id get_fog_type(const float& theModerateFog,
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return FOG_IN_SOME_PLACES;
-          return FOG_IN_SOME_PLACES_POSSIBLY_DENSE;
+    return FOG_IN_SOME_PLACES_POSSIBLY_DENSE;
   }
   if (totalFog > IN_MANY_PLACES_LOWER_LIMIT && totalFog < IN_MANY_PLACES_UPPER_LIMIT)
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return (theReportInManyPlaces ? FOG_IN_MANY_PLACES : FOG_IN_SOME_PLACES);
-          return (theReportInManyPlaces ? FOG_IN_MANY_PLACES_POSSIBLY_DENSE
-                                    : FOG_IN_SOME_PLACES_POSSIBLY_DENSE);
+    return (theReportInManyPlaces ? FOG_IN_MANY_PLACES_POSSIBLY_DENSE
+                                  : FOG_IN_SOME_PLACES_POSSIBLY_DENSE);
   }
   else
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return FOG;
-          return FOG_POSSIBLY_DENSE;
+    return FOG_POSSIBLY_DENSE;
   }
 }
 
@@ -351,10 +346,9 @@ void FogForecast::findOutFogTypePeriods()
 void FogForecast::printOutFogPeriods(std::ostream& theOutput,
                                      const fog_period_vector& theFogPeriods) const
 {
-  for (const auto & theFogPeriod : theFogPeriods)
+  for (const auto& theFogPeriod : theFogPeriods)
   {
-    WeatherPeriod period(theFogPeriod.first.localStartTime(),
-                         theFogPeriod.first.localEndTime());
+    WeatherPeriod period(theFogPeriod.first.localStartTime(), theFogPeriod.first.localEndTime());
 
     float moderateFog(theFogPeriod.second.theModerateFogExtent);
     float denseFog(theFogPeriod.second.theDenseFogExtent);
@@ -368,14 +362,12 @@ void FogForecast::printOutFogData(std::ostream& theOutput,
                                   const std::string& theLinePrefix,
                                   const weather_result_data_item_vector& theFogData) const
 {
-  for (auto *i : theFogData)
+  for (auto* i : theFogData)
   {
-    WeatherPeriod period(i->thePeriod.localStartTime(),
-                         i->thePeriod.localEndTime());
+    WeatherPeriod period(i->thePeriod.localStartTime(), i->thePeriod.localEndTime());
 
-    theOutput << i->thePeriod.localStartTime() << "..."
-              << i->thePeriod.localEndTime() << ": " << theLinePrefix << "="
-              << i->theResult.value() << endl;
+    theOutput << i->thePeriod.localStartTime() << "..." << i->thePeriod.localEndTime() << ": "
+              << theLinePrefix << "=" << i->theResult.value() << endl;
   }
 }
 
@@ -451,7 +443,7 @@ void FogForecast::printOutFogPeriods(std::ostream& theOutput) const
 void FogForecast::printOutFogTypePeriods(std::ostream& theOutput,
                                          const fog_type_period_vector& theFogTypePeriods) const
 {
-  for (const auto & theFogTypePeriod : theFogTypePeriods)
+  for (const auto& theFogTypePeriod : theFogTypePeriods)
   {
     WeatherPeriod period(theFogTypePeriod.first.localStartTime(),
                          theFogTypePeriod.first.localEndTime());
@@ -488,10 +480,10 @@ float FogForecast::getMean(const fog_period_vector& theFogPeriods,
   float sum(0.0);
   unsigned int count(0);
 
-  for (const auto & theFogPeriod : theFogPeriods)
+  for (const auto& theFogPeriod : theFogPeriods)
   {
-    float totalFog = theFogPeriod.second.theModerateFogExtent +
-                     theFogPeriod.second.theDenseFogExtent;
+    float totalFog =
+        theFogPeriod.second.theModerateFogExtent + theFogPeriod.second.theDenseFogExtent;
     if (theFogPeriod.first.localStartTime() >= theWeatherPeriod.localStartTime() &&
         theFogPeriod.first.localStartTime() <= theWeatherPeriod.localEndTime() &&
         theFogPeriod.first.localEndTime() >= theWeatherPeriod.localStartTime() &&
@@ -715,39 +707,38 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
         theFogTypeId = theFogTypePeriods.at(longestFogPeriodIndex).second;
         return true;
       }
-      
-              WeatherPeriod firstPeriod(getActualFogPeriod(
-            theForecastPeriod, theFogTypePeriods.at(firstPeriodIndex).first, fogPeriodOk));
-        WeatherPeriod lastPeriod(getActualFogPeriod(
-            theForecastPeriod, theFogTypePeriods.at(lastPeriodIndex).first, fogPeriodOk));
-        theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
-        float periodIdAverage(static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount));
 
-        // find the fog type that is closest to the average
-        fog_type_id finalFogType = NO_FOG;
-        float fogTypeGap = 10.0;
-        for (unsigned int i = FOG; i < NO_FOG; i++)
+      WeatherPeriod firstPeriod(getActualFogPeriod(
+          theForecastPeriod, theFogTypePeriods.at(firstPeriodIndex).first, fogPeriodOk));
+      WeatherPeriod lastPeriod(getActualFogPeriod(
+          theForecastPeriod, theFogTypePeriods.at(lastPeriodIndex).first, fogPeriodOk));
+      theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
+      float periodIdAverage(static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount));
+
+      // find the fog type that is closest to the average
+      fog_type_id finalFogType = NO_FOG;
+      float fogTypeGap = 10.0;
+      for (unsigned int i = FOG; i < NO_FOG; i++)
+      {
+        if (encounteredFogTypes.find(i) != encounteredFogTypes.end())
         {
-          if (encounteredFogTypes.find(i) != encounteredFogTypes.end())
+          if (finalFogType == NO_FOG)
           {
-            if (finalFogType == NO_FOG)
+            finalFogType = static_cast<fog_type_id>(i);
+            fogTypeGap = abs(periodIdAverage - i);
+          }
+          else
+          {
+            if (fogTypeGap > abs(periodIdAverage - static_cast<float>(i)))
             {
               finalFogType = static_cast<fog_type_id>(i);
               fogTypeGap = abs(periodIdAverage - i);
             }
-            else
-            {
-              if (fogTypeGap > abs(periodIdAverage - static_cast<float>(i)))
-              {
-                finalFogType = static_cast<fog_type_id>(i);
-                fogTypeGap = abs(periodIdAverage - i);
-              }
-            }
           }
         }
-        theFogTypeId = finalFogType;
-        return (theFogTypeId != NO_FOG);
-     
+      }
+      theFogTypeId = finalFogType;
+      return (theFogTypeId != NO_FOG);
     }
   }
   return false;
@@ -1138,13 +1129,9 @@ Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
 
     Rect areaRect(theParameters.theArea);
 
-#ifdef WGS84
     std::unique_ptr<NFmiArea> mercatorArea(
         NFmiAreaTools::CreateLegacyMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
-#else
-    std::unique_ptr<NFmiMercatorArea> mercatorArea(
-        new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
-#endif
+
     float areaHeightWidthRatio =
         mercatorArea->WorldRect().Height() / mercatorArea->WorldRect().Width();
 
