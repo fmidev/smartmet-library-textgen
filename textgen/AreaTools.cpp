@@ -54,15 +54,14 @@ bool isPartOfArea(const UserWeatherSource& theWeatherSource,
   {
     return theWeatherArea2.path().IsInside(theWeatherArea1.point());
   }
-  
-      LandMaskSource area1LandMaskSource(theWeatherArea1);
 
-    mask_type mask = area1LandMaskSource.mask(theWeatherArea2, "data", theWeatherSource);
+  LandMaskSource area1LandMaskSource(theWeatherArea1);
 
-    int size_of_mask = mask->size();
+  mask_type mask = area1LandMaskSource.mask(theWeatherArea2, "data", theWeatherSource);
 
-    return size_of_mask > 0;
- 
+  int size_of_mask = mask->size();
+
+  return size_of_mask > 0;
 }
 
 // ----------------------------------------------------------------------
@@ -110,7 +109,7 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
 
   for (unsigned long it : theIndexMask)
   {
-    NFmiPoint point(theQI.LatLon(it).X(), theQI.LatLon(it).Y());
+    NFmiPoint point = theQI.LatLon(it);
     if (!theWeatherArea.path().IsInside(point))
       return false;
   }
@@ -151,9 +150,10 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   vector<NFmiPoint*> latitudeLongitudeCoordinates;
   for (unsigned long it : indexMask)
   {
-    lonSum += theQI.LatLon(it).X();
-    latSum += theQI.LatLon(it).Y();
-    latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI.LatLon(it)));
+    NFmiPoint latlon = theQI.LatLon(it);
+    lonSum += latlon.X();
+    latSum += latlon.Y();
+    latitudeLongitudeCoordinates.push_back(new NFmiPoint(latlon));
   }
 
   if (!latitudeLongitudeCoordinates.empty())
@@ -244,7 +244,7 @@ direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRe
       return NORTHEAST;
     if (westRect.contains(theSecondaryRect))
       return NORTHWEST;
-          return NORTH;
+    return NORTH;
   }
   if (southRect.contains(theSecondaryRect))
   {
@@ -252,7 +252,7 @@ direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRe
       return SOUTHEAST;
     if (westRect.contains(theSecondaryRect))
       return SOUTHWEST;
-          return SOUTH;
+    return SOUTH;
   }
   else if (eastRect.contains(theSecondaryRect))
   {
@@ -392,7 +392,7 @@ Rect::Rect(const AnalysisSources& theSources,
 
   for (unsigned long it : theIndexMask)
   {
-    NFmiPoint point(theQI.LatLon(it));
+    NFmiPoint point = theQI.LatLon(it);
     if (lon_min > point.X())
       lon_min = point.X();
     if (lon_max < point.X())

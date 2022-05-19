@@ -100,6 +100,7 @@ FMI textgen development files
 %changelog
 * Thu May 19 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.19-1.fmi
 - Removed need for NFmiPoint::Set for ABI compability with WGS84 branch code
+- Safer NFmiFastQueryInfo::LatLon calls
 
 * Wed May 18 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.18-1.fmi
 - Removed direct dependencies to legacy projections by using NFmiAreaTools factory methods instead
