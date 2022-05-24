@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 22.5.20
+Version: 22.5.24
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -18,14 +18,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 22.5.20
+BuildRequires: smartmet-library-calculator-devel >= 22.5.24
 BuildRequires: smartmet-library-macgyver-devel >= 22.3.28
-BuildRequires: smartmet-library-newbase-devel >= 22.5.20
+BuildRequires: smartmet-library-newbase-devel >= 22.5.24
 BuildRequires: smartmet-library-gis-devel >= 22.5.4
 Requires: gdal34-libs
-Requires: smartmet-library-calculator >= 22.5.20
+Requires: smartmet-library-calculator >= 22.5.24
 Requires: smartmet-library-macgyver >= 22.3.28
-Requires: smartmet-library-newbase >= 22.5.20
+Requires: smartmet-library-newbase >= 22.5.24
 
 %if %{defined el7}
 Requires: libpqxx < 1:7.0
@@ -49,9 +49,9 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: boost169-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 22.5.20
+#TestRequires: smartmet-library-calculator-devel >= 22.5.24
 #TestRequires: smartmet-library-macgyver-devel >= 22.3.28
-#TestRequires: smartmet-library-newbase-devel >= 22.5.20
+#TestRequires: smartmet-library-newbase-devel >= 22.5.24
 #TestRequires: smartmet-library-gis-devel >= 22.5.4
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
@@ -98,6 +98,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue May 24 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.24-1.fmi
+- Repackaged due to NFmiArea ABI changes
+
 * Fri May 20 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.5.20-1.fmi
 - Repackaged due to ABI changes to newbase LatLon methods
 
