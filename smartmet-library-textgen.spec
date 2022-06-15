@@ -10,32 +10,39 @@ License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
+
+%if 0%{?rhel} && 0%{rhel} < 9
+%define smartmet_boost boost169
+%else
+%define smartmet_boost boost
+%endif
+
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: boost169-devel
+BuildRequires: %{smartmet_boost}-devel
 BuildRequires: gcc-c++
 BuildRequires: gdal34-devel
 BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 22.5.24
-BuildRequires: smartmet-library-macgyver-devel >= 22.3.28
-BuildRequires: smartmet-library-newbase-devel >= 22.5.24
-BuildRequires: smartmet-library-gis-devel >= 22.5.4
+BuildRequires: smartmet-library-calculator-devel >= 22.6.16
+BuildRequires: smartmet-library-macgyver-devel >= 22.6.16
+BuildRequires: smartmet-library-newbase-devel >= 22.6.16
+BuildRequires: smartmet-library-gis-devel >= 22.6.16
 Requires: gdal34-libs
-Requires: smartmet-library-calculator >= 22.5.24
-Requires: smartmet-library-macgyver >= 22.3.28
-Requires: smartmet-library-newbase >= 22.5.24
+Requires: smartmet-library-calculator >= 22.6.16
+Requires: smartmet-library-macgyver >= 22.6.16
+Requires: smartmet-library-newbase >= 22.6.16
 
-%if %{defined el7}
+%if %{?rhel} && %{rhel} == 7
 Requires: libpqxx < 1:7.0
 BuildRequires: libpqxx-devel < 1:7.0
 #TestRequires: libpqxx-devel < 1:7.0
 %else
-%if %{defined el8}
-Requires: libpqxx >= 6.2.5 libpqxx < 1:7.7.0
-BuildRequires: libpqxx-devel >= 6.2.5 libpqxx-devel < 1:7.7.0
-#TestRequires: libpqxx-devel >= 6.2.5 libpqxx-devel < 1:7.7.0
+%if %{?rhel} && %{rhel} >= 8
+Requires: libpqxx >= 7.7.0 libpqxx < 1:7.8.0
+BuildRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
+#TestRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
 %else
 Requires: libpqxx
 BuildRequires: libpqxx-devel
@@ -46,7 +53,7 @@ BuildRequires: libpqxx-devel
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
-#TestRequires: boost169-devel
+#TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 22.5.24
