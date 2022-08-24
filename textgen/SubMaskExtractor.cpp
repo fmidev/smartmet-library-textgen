@@ -350,8 +350,8 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
 
   // Establish grid resolution
 
-  const double dx = theGrid.Area()->WorldXYWidth() / theGrid.XNumber();
-  const double dy = theGrid.Area()->WorldXYHeight() / theGrid.YNumber();
+  const double dx = theGrid.Area()->WorldXYWidth() / (theGrid.XNumber() - 1);
+  const double dy = theGrid.Area()->WorldXYHeight() / (theGrid.YNumber() - 1);
 
   // Fast lookup tree for distance calculations
 
