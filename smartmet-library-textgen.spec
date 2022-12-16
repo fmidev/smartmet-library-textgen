@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 22.8.24
+Version: 22.12.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -26,13 +26,13 @@ BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 22.6.16
-BuildRequires: smartmet-library-macgyver-devel >= 22.6.16
-BuildRequires: smartmet-library-newbase-devel >= 22.6.16
-BuildRequires: smartmet-library-gis-devel >= 22.6.16
+BuildRequires: smartmet-library-macgyver-devel >= 22.12.16
+BuildRequires: smartmet-library-newbase-devel >= 22.11.14
+BuildRequires: smartmet-library-gis-devel >= 22.12.14
 Requires: gdal34-libs
 Requires: smartmet-library-calculator >= 22.6.16
-Requires: smartmet-library-macgyver >= 22.6.16
-Requires: smartmet-library-newbase >= 22.6.16
+Requires: smartmet-library-macgyver >= 22.12.16
+Requires: smartmet-library-newbase >= 22.11.14
 
 %if %{?rhel} && %{rhel} == 7
 Requires: libpqxx < 1:7.0
@@ -56,10 +56,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 22.5.24
-#TestRequires: smartmet-library-macgyver-devel >= 22.3.28
-#TestRequires: smartmet-library-newbase-devel >= 22.5.24
-#TestRequires: smartmet-library-gis-devel >= 22.5.4
+#TestRequires: smartmet-library-calculator-devel >= 22.6.16
+#TestRequires: smartmet-library-macgyver-devel >= 22.12.16
+#TestRequires: smartmet-library-newbase-devel >= 22.11.14
+#TestRequires: smartmet-library-gis-devel >= 22.12.14
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Dec 16 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.12.16-1.fmi
+- Repackaged since PostgreSQLConnection ABI changed
+
 * Wed Aug 24 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.8.24-1.fmi
 - Fixed resolution calculations in sub mask extractor
 
