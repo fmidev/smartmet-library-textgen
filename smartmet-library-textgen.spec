@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 22.12.16
+Version: 23.7.10
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Jul 10 2023 Andris Pavēnis <andris.pavenis@fmi.fi> 23.7.10-1.fmi
+- Use postgresql 15, gdal 3.5, geos 3.11 and proj-9.0
+
 * Fri Dec 16 2022 Mika Heiskanen <mika.heiskanen@fmi.fi> - 22.12.16-1.fmi
 - Repackaged since PostgreSQLConnection ABI changed
 
