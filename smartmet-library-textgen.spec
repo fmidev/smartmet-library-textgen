@@ -20,19 +20,19 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: gcc-c++
-BuildRequires: gdal34-devel
+BuildRequires: gdal35-devel
 BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 22.6.16
+BuildRequires: smartmet-library-calculator-devel >= 23.7.10
 BuildRequires: smartmet-library-macgyver-devel >= 22.12.16
-BuildRequires: smartmet-library-newbase-devel >= 22.11.14
-BuildRequires: smartmet-library-gis-devel >= 22.12.14
-Requires: gdal34-libs
-Requires: smartmet-library-calculator >= 22.6.16
+BuildRequires: smartmet-library-newbase-devel >= 23.7.10
+BuildRequires: smartmet-library-gis-devel >= 23.7.10
+Requires: gdal35-libs
+Requires: smartmet-library-calculator >= 23.7.10
 Requires: smartmet-library-macgyver >= 22.12.16
-Requires: smartmet-library-newbase >= 22.11.14
+Requires: smartmet-library-newbase >= 23.7.10
 
 %if %{?rhel} && %{rhel} == 7
 Requires: libpqxx < 1:7.0
@@ -56,10 +56,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 22.6.16
+#TestRequires: smartmet-library-calculator-devel >= 23.7.10
 #TestRequires: smartmet-library-macgyver-devel >= 22.12.16
-#TestRequires: smartmet-library-newbase-devel >= 22.11.14
-#TestRequires: smartmet-library-gis-devel >= 22.12.14
+#TestRequires: smartmet-library-newbase-devel >= 23.7.10
+#TestRequires: smartmet-library-gis-devel >= 23.7.10
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
