@@ -3,6 +3,7 @@
 #include "AreaTools.h"
 #include "MessageLogger.h"
 #include <calculator/WeatherPeriod.h>
+#include <memory>
 
 namespace TextGen
 {
