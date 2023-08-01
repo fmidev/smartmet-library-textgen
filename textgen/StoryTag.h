@@ -19,7 +19,7 @@ class StoryTag : public Glyph
 {
  public:
   ~StoryTag() override;
-  StoryTag(std::string  theName, const bool& prefixTag = true);
+  StoryTag(std::string theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
   StoryTag(const StoryTag& theStoryTag);
   StoryTag& operator=(const StoryTag& theStoryTag);

@@ -818,74 +818,74 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
 
     part_of_the_day_id partOfTheDayId = get_part_of_the_day_id_large(theWeatherPeriod);
 
-    hourlyMaxPrecipitation->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyMeanPrecipitation->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationExtent->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationType->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormWater->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormDrizzle->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormSleet->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormSnow->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormFreezingDrizzle->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormFreezingRain->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationPoint->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudiness->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbability->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderExtent->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogIntensityModerate->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogIntensityDense->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyMaxPrecipitation->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyMeanPrecipitation->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationExtent->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationType->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormWater->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormDrizzle->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormSleet->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormSnow->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormFreezingDrizzle->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormFreezingRain->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationPoint->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyCloudiness->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyThunderProbability->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyThunderExtent->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyFogIntensityModerate->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyFogIntensityDense->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyPrecipitationShareNortEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationShareSouthEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationShareSouthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationShareNorthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyCloudinessShareNortEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudinessShareSouthEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudinessShareSouthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudinessShareNorthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyCloudinessShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyCloudinessShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyCloudinessShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyCloudinessShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyThunderProbabilityShareNortEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbabilityShareSouthEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbabilityShareSouthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbabilityShareNorthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyThunderProbabilityShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyThunderProbabilityShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyThunderProbabilityShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyThunderProbabilityShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyFogShareNortEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogShareSouthEast->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogShareSouthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogShareNorthWest->push_back(
-        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyFogShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyFogShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyFogShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyFogShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+        theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
     periodStartTime.ChangeByHours(1);
     theParameters.theHourPeriodCount++;
@@ -1122,7 +1122,7 @@ void log_weather_forecast_story(MessageLogger& theLog,
   const vector<WeatherForecastStoryItem*> storyItemVector(
       theWeatherForecastStory.getStoryItemVector());
 
-  for (auto *i : storyItemVector)
+  for (auto* i : storyItemVector)
   {
     WeatherForecastStoryItem& storyItem = *i;
 

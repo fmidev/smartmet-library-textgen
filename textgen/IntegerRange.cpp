@@ -35,8 +35,10 @@ IntegerRange::~IntegerRange() = default;
  */
 // ----------------------------------------------------------------------
 
-IntegerRange::IntegerRange(int theStartValue, int theEndValue, std::string  theSeparator)
-    : itsRangeSeparator(std::move(theSeparator)), itsStartValue(theStartValue), itsEndValue(theEndValue)
+IntegerRange::IntegerRange(int theStartValue, int theEndValue, std::string theSeparator)
+    : itsRangeSeparator(std::move(theSeparator)),
+      itsStartValue(theStartValue),
+      itsEndValue(theEndValue)
 {
 }
 
@@ -61,7 +63,7 @@ boost::shared_ptr<Glyph> IntegerRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string IntegerRange::realize(const Dictionary&  /*theDictionary*/) const
+std::string IntegerRange::realize(const Dictionary& /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)

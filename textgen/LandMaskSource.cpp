@@ -102,10 +102,7 @@ class LandMaskSource::Pimple
  */
 // ----------------------------------------------------------------------
 
-LandMaskSource::Pimple::Pimple(const WeatherArea& theLand)
-    : itsLand(theLand) 
-{
-}
+LandMaskSource::Pimple::Pimple(const WeatherArea& theLand) : itsLand(theLand) {}
 
 // ----------------------------------------------------------------------
 /*!
@@ -254,9 +251,9 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-LandMaskSource::masks_type LandMaskSource::masks(const WeatherArea&  /*theArea*/,
-                                                 const std::string&  /*theData*/,
-                                                 const WeatherSource&  /*theWeatherSource*/) const
+LandMaskSource::masks_type LandMaskSource::masks(const WeatherArea& /*theArea*/,
+                                                 const std::string& /*theData*/,
+                                                 const WeatherSource& /*theWeatherSource*/) const
 {
   throw TextGenError("LandMaskSource::masks not implemented");
 }

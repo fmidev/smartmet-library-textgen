@@ -56,7 +56,7 @@ boost::shared_ptr<Glyph> TimePeriod::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string TimePeriod::realize(const Dictionary&  /*theDictionary*/) const
+std::string TimePeriod::realize(const Dictionary& /*theDictionary*/) const
 {
   return "";
 }

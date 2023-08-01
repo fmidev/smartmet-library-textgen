@@ -81,7 +81,7 @@ RainPeriods analyze(const AnalysisSources& theSources,
 RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (const auto & it : thePeriods)
+  for (const auto& it : thePeriods)
   {
     if (it.localStartTime() < thePeriod.localEndTime() &&
         it.localEndTime() > thePeriod.localStartTime())
@@ -105,7 +105,7 @@ RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPerio
 RainPeriods inclusivePeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (const auto & it : thePeriods)
+  for (const auto& it : thePeriods)
   {
     if (it.localStartTime() >= thePeriod.localStartTime() &&
         it.localEndTime() <= thePeriod.localEndTime())
@@ -396,7 +396,7 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
  */
 // ----------------------------------------------------------------------
 
-RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string&  /*theVar*/)
+RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string& /*theVar*/)
 {
   return thePeriods;
 }

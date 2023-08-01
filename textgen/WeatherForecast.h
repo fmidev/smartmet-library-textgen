@@ -550,33 +550,33 @@ struct wf_story_params
   unsigned int theHourPeriodCount;
   unsigned int theOriginalPeriodCount;
   unsigned short theForecastArea;
-  float theDryWeatherLimitWater;
-  float theDryWeatherLimitDrizzle;
-  float theDryWeatherLimitSleet;
-  float theDryWeatherLimitSnow;
-  float theWeakPrecipitationLimitWater;
-  float theWeakPrecipitationLimitSleet;
-  float theWeakPrecipitationLimitSnow;
-  float theHeavyPrecipitationLimitWater;
-  float theHeavyPrecipitationLimitSleet;
-  float theHeavyPrecipitationLimitSnow;
-  float thePrecipitationStormLimit;
-  float theMostlyDryWeatherLimit;
-  float theInSomePlacesLowerLimit;
-  float theInSomePlacesUpperLimit;
-  float theInManyPlacesLowerLimit;
-  float theInManyPlacesUpperLimit;
-  float theFreezingPrecipitationLimit;
-  float theClearSkyUpperLimit;
-  float theAlmostClearSkyUpperLimit;
-  float thePartlyCloudySkyUpperLimit;
-  float theMostlyCloudySkyUpperLimit;
-  float theThuderNormalExtentMin;
-  float theThuderNormalExtentMax;
-  float theThunderSmallProbabilityMin;
-  float theThunderSmallProbabilityMax;
-  float theThunderNormalProbabilityMin;
-  float theThunderNormalProbabilityMax;
+  float theDryWeatherLimitWater = 0;
+  float theDryWeatherLimitDrizzle = 0;
+  float theDryWeatherLimitSleet = 0;
+  float theDryWeatherLimitSnow = 0;
+  float theWeakPrecipitationLimitWater = 0;
+  float theWeakPrecipitationLimitSleet = 0;
+  float theWeakPrecipitationLimitSnow = 0;
+  float theHeavyPrecipitationLimitWater = 0;
+  float theHeavyPrecipitationLimitSleet = 0;
+  float theHeavyPrecipitationLimitSnow = 0;
+  float thePrecipitationStormLimit = 0;
+  float theMostlyDryWeatherLimit = 0;
+  float theInSomePlacesLowerLimit = 0;
+  float theInSomePlacesUpperLimit = 0;
+  float theInManyPlacesLowerLimit = 0;
+  float theInManyPlacesUpperLimit = 0;
+  float theFreezingPrecipitationLimit = 0;
+  float theClearSkyUpperLimit = 0;
+  float theAlmostClearSkyUpperLimit = 0;
+  float thePartlyCloudySkyUpperLimit = 0;
+  float theMostlyCloudySkyUpperLimit = 0;
+  float theThuderNormalExtentMin = 0;
+  float theThuderNormalExtentMax = 0;
+  float theThunderSmallProbabilityMin = 0;
+  float theThunderSmallProbabilityMax = 0;
+  float theThunderNormalProbabilityMin = 0;
+  float theThunderNormalProbabilityMax = 0;
   weather_forecast_data_container theCompleteData;
   cloudiness_data_container theCloudinessData;
   fog_data_container theFogData;
@@ -794,12 +794,11 @@ struct CloudinessDataItem
 
   ~CloudinessDataItem()
   {
-    
-      delete theCoastalData;
-    
-      delete theInlandData;
-    
-      delete theFullData;
+    delete theCoastalData;
+
+    delete theInlandData;
+
+    delete theFullData;
   }
 };
 
@@ -982,12 +981,11 @@ struct PrecipitationDataItem
 
   ~PrecipitationDataItem()
   {
-    
-      delete theCoastalData;
-    
-      delete theInlandData;
-    
-      delete theFullData;
+    delete theCoastalData;
+
+    delete theInlandData;
+
+    delete theFullData;
   }
 };
 }  // namespace TextGen

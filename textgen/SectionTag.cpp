@@ -37,7 +37,7 @@ SectionTag::~SectionTag() = default;
  */
 // ----------------------------------------------------------------------
 
-SectionTag::SectionTag(std::string  theName, const bool& prefixTag /*= true*/)
+SectionTag::SectionTag(std::string theName, const bool& prefixTag /*= true*/)
     : itsName(std::move(theName)), itsPrefixTag(prefixTag)
 {
 }
@@ -63,7 +63,7 @@ boost::shared_ptr<Glyph> SectionTag::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string SectionTag::realize(const Dictionary&  /*theDictionary*/) const
+std::string SectionTag::realize(const Dictionary& /*theDictionary*/) const
 {
   return itsName;
 }

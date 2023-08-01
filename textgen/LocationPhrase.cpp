@@ -37,7 +37,7 @@ LocationPhrase::~LocationPhrase() = default;
  */
 // ----------------------------------------------------------------------
 
-LocationPhrase::LocationPhrase(std::string  theLocation) : itsLocation(std::move(theLocation)) {}
+LocationPhrase::LocationPhrase(std::string theLocation) : itsLocation(std::move(theLocation)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone
@@ -71,17 +71,16 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
   std::string location(itsLocation);
   if (theDictionary.contains(location))
     return theDictionary.find(location);
-  
-      if (location.size() > 4)
-    {
-      string ending = location.substr(location.size() - 4);
-      if (ending == ":lle")
-        location = location.substr(0, location.size() - 4);
-    }
-    std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
-    if (theDictionary.geocontains(location))
-      return theDictionary.geofind(location);
- 
+
+  if (location.size() > 4)
+  {
+    string ending = location.substr(location.size() - 4);
+    if (ending == ":lle")
+      location = location.substr(0, location.size() - 4);
+  }
+  std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
+  if (theDictionary.geocontains(location))
+    return theDictionary.geofind(location);
 
   generator gen;
   std::locale loc(gen("fi_FI.UTF-8"));

@@ -37,7 +37,7 @@ StoryTag::~StoryTag() = default;
  */
 // ----------------------------------------------------------------------
 
-StoryTag::StoryTag(std::string  theName, const bool& prefixTag /*= true*/)
+StoryTag::StoryTag(std::string theName, const bool& prefixTag /*= true*/)
     : itsName(std::move(theName)), itsPrefixTag(prefixTag)
 {
 }
@@ -63,7 +63,7 @@ boost::shared_ptr<Glyph> StoryTag::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string StoryTag::realize(const Dictionary&  /*theDictionary*/) const
+std::string StoryTag::realize(const Dictionary& /*theDictionary*/) const
 {
   return itsName;
 }

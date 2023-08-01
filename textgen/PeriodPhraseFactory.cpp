@@ -77,14 +77,14 @@ vector<string> reorder_preferences(const string& thePreference, const string& th
   vector<string> output;
 
   // first the allowed ones from preferences in correct order
-  for (const auto & preference : preferences)
+  for (const auto& preference : preferences)
   {
     if (find(defaults.begin(), defaults.end(), preference) != defaults.end())
       if (find(output.begin(), output.end(), preference) == output.end())
         output.push_back(preference);
   }
   // then the remaining defaults
-  for (const auto & jt : defaults)
+  for (const auto& jt : defaults)
   {
     if (find(output.begin(), output.end(), jt) == output.end())
       output.push_back(jt);
@@ -120,7 +120,7 @@ Sentence until_tonight(const string& theVariable,
   const string defaults("none,today,atday,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "none")
     {
@@ -143,9 +143,8 @@ Sentence until_tonight(const string& theVariable,
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      
-              return (sentence << on_weekday(thePeriod.localStartTime()));
-     
+
+      return (sentence << on_weekday(thePeriod.localStartTime()));
     }
     else if (it == "none!")
       return sentence;
@@ -179,7 +178,7 @@ Sentence until_morning(const string& theVariable,
   const string defaults("none,tonight,atnight,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "none")
     {
@@ -202,9 +201,8 @@ Sentence until_morning(const string& theVariable,
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      
-              return (sentence << night_against_weekday(thePeriod.localEndTime()));
-     
+
+      return (sentence << night_against_weekday(thePeriod.localEndTime()));
     }
     else if (it == "none!")
       return sentence;
@@ -238,7 +236,7 @@ Sentence today(const string& theVariable,
   const string defaults("none,today,tomorrow,atday,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "weekday")
     {
@@ -246,9 +244,8 @@ Sentence today(const string& theVariable,
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      
-              return (sentence << on_weekday(thePeriod.localStartTime()));
-     
+
+      return (sentence << on_weekday(thePeriod.localStartTime()));
     }
     if (it == "atday")
     {
@@ -274,9 +271,8 @@ Sentence today(const string& theVariable,
           return (sentence << WeekdayTools::get_time_phrase(
                       thePeriod.localStartTime(), "huomenna", *theHistory));
         }
-        
-                  return (sentence << "huomenna");
-       
+
+        return (sentence << "huomenna");
       }
     }
     else if (it == "none!")
@@ -311,7 +307,7 @@ Sentence tonight(const string& theVariable,
   const string defaults("none,tonight,atnight,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "weekday")
     {
@@ -319,9 +315,8 @@ Sentence tonight(const string& theVariable,
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      
-              return (sentence << night_against_weekday(thePeriod.localEndTime()));
-     
+
+      return (sentence << night_against_weekday(thePeriod.localEndTime()));
     }
     if (it == "atnight")
     {
@@ -370,7 +365,7 @@ Sentence next_night(const string& theVariable,
   const string defaults("tonight,atnight,followingnight,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "weekday")
     {
@@ -378,9 +373,8 @@ Sentence next_night(const string& theVariable,
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      
-              return (sentence << night_against_weekday(thePeriod.localEndTime()));
-     
+
+      return (sentence << night_against_weekday(thePeriod.localEndTime()));
     }
     if (it == "followingnight")
       return (sentence << "seuraavana yona");
@@ -426,7 +420,7 @@ Sentence next_day(const string& theVariable,
   const string defaults("tomorrow,followingday,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "weekday")
     {
@@ -434,9 +428,8 @@ Sentence next_day(const string& theVariable,
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      
-              return (sentence << on_weekday(thePeriod.localStartTime()));
-     
+
+      return (sentence << on_weekday(thePeriod.localStartTime()));
     }
     if (it == "followingday")
       return (sentence << "seuraavana paivana");
@@ -449,9 +442,8 @@ Sentence next_day(const string& theVariable,
           return (sentence << WeekdayTools::get_time_phrase(
                       thePeriod.localStartTime(), "huomenna", *theHistory));
         }
-        
-                  return (sentence << "huomenna");
-       
+
+        return (sentence << "huomenna");
       }
     }
     else if (it == "none!")
@@ -485,7 +477,7 @@ Sentence next_days(const string& theVariable,
   const string defaults("tomorrow,weekday,none!");
   vector<string> order = reorder_preferences(preferences, defaults);
 
-  for (const auto & it : order)
+  for (const auto& it : order)
   {
     if (it == "weekday")
     {
@@ -493,9 +485,8 @@ Sentence next_days(const string& theVariable,
       {
         return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      
-              return (sentence << from_weekday(thePeriod.localStartTime()));
-     
+
+      return (sentence << from_weekday(thePeriod.localStartTime()));
     }
     if (it == "tomorrow")
     {
@@ -529,7 +520,7 @@ Sentence remaining_days(const string& theVariable,
 {
   if (isSeveralDays(thePeriod.localStartTime(), thePeriod.localEndTime()))
     return next_days(theVariable, thePeriod, theHistory);
-      return next_day(theVariable, theForecastTime, thePeriod, theHistory);
+  return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 }
 
 // ----------------------------------------------------------------------
@@ -621,7 +612,7 @@ Sentence days(const string& theVariable,
 
   if (ndays == 1)
   {
-    for (const auto & it : order)
+    for (const auto& it : order)
     {
       if (it == "none")
       {
@@ -641,9 +632,8 @@ Sentence days(const string& theVariable,
           {
             return (sentence << WeekdayTools::get_time_phrase(starttime, "huomenna", *theHistory));
           }
-          
-                      return (sentence << "huomenna");
-         
+
+          return (sentence << "huomenna");
         }
       }
       else if (it == "followingday")
@@ -654,9 +644,8 @@ Sentence days(const string& theVariable,
         {
           return (sentence << on_weekday(starttime, *theHistory));
         }
-        
-                  return (sentence << on_weekday(starttime));
-       
+
+        return (sentence << on_weekday(starttime));
       }
       else if (it == "none!")
         return sentence;
@@ -681,7 +670,7 @@ Sentence days(const string& theVariable,
         {
           sentence << "tanaan"
                    << "ja";
-          for (const auto & jt : order)
+          for (const auto& jt : order)
           {
             if (jt == "tomorrow")
               return (sentence << "huomenna");
@@ -693,9 +682,8 @@ Sentence days(const string& theVariable,
               {
                 return (sentence << on_weekday(nextday, *theHistory));
               }
-              
-                              return (sentence << on_weekday(nextday));
-             
+
+              return (sentence << on_weekday(nextday));
             }
           }
         }
@@ -706,7 +694,7 @@ Sentence days(const string& theVariable,
         {
           sentence << "huomenna"
                    << "ja";
-          for (const auto & jt : order)
+          for (const auto& jt : order)
           {
             if (jt == "followingday")
               return (sentence << "seuraavana paivana");
@@ -716,9 +704,8 @@ Sentence days(const string& theVariable,
               {
                 return (sentence << on_weekday(nextday, *theHistory));
               }
-              
-                              return (sentence << on_weekday(nextday));
-             
+
+              return (sentence << on_weekday(nextday));
             }
           }
         }
@@ -746,7 +733,7 @@ Sentence days(const string& theVariable,
   }
   else
   {
-    for (const auto & it : order)
+    for (const auto& it : order)
     {
       if (it == "none")
         return sentence;
@@ -770,9 +757,8 @@ Sentence days(const string& theVariable,
           */
           return (sentence << from_weekday(starttime, *theHistory));
         }
-        
-                  return (sentence << from_weekday(starttime));
-       
+
+        return (sentence << from_weekday(starttime));
       }
       else if (it == "none!")
         return sentence;

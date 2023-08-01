@@ -1489,7 +1489,7 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
 Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
                                     const AnalysisSources& theSources,
                                     const WeatherArea& theArea,
-                                    const WeatherPeriod&  /*thePeriod*/,
+                                    const WeatherPeriod& /*thePeriod*/,
                                     const string& theVar,
                                     const WeatherPeriod& theRainPeriod,
                                     int theDay)
@@ -1706,11 +1706,11 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
 // ----------------------------------------------------------------------
 
 Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
-                              const AnalysisSources&  /*theSources*/,
-                              const WeatherArea&  /*theArea*/,
+                              const AnalysisSources& /*theSources*/,
+                              const WeatherArea& /*theArea*/,
                               const WeatherPeriod& thePeriod,
                               const string& theVar,
-                              const PrecipitationPeriodTools::RainPeriods&  /*theRainPeriods*/)
+                              const PrecipitationPeriodTools::RainPeriods& /*theRainPeriods*/)
 {
   Sentence s;
   s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);

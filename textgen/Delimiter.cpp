@@ -35,7 +35,7 @@ Delimiter::~Delimiter() = default;
  */
 // ----------------------------------------------------------------------
 
-Delimiter::Delimiter(std::string  theSeparator) : itsSeparator(std::move(theSeparator)) {}
+Delimiter::Delimiter(std::string theSeparator) : itsSeparator(std::move(theSeparator)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone
@@ -60,7 +60,7 @@ boost::shared_ptr<Glyph> Delimiter::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Delimiter::realize(const Dictionary&  /*theDictionary*/) const
+std::string Delimiter::realize(const Dictionary& /*theDictionary*/) const
 {
   return itsSeparator;
 }

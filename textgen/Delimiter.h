@@ -16,7 +16,7 @@ class Delimiter : public Glyph
 {
  public:
   ~Delimiter() override;
-  Delimiter(std::string  theSeparator);
+  Delimiter(std::string theSeparator);
 #ifdef NO_COMPILER_GENERATED
   Delimiter(const Delimiter& thePhrase);
   Delimiter& operator=(const Delimiter& thePhrase);

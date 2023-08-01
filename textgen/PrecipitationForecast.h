@@ -48,8 +48,7 @@ class PrecipitationForecast
   bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
   Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod,
                                           const Sentence& thePeriodPhrase) const;
-  bool isDryPeriod(const WeatherPeriod& theWeatherPeriod,
-                   unsigned short theForecastAreaId) const;
+  bool isDryPeriod(const WeatherPeriod& theWeatherPeriod, unsigned short theForecastAreaId) const;
   bool isMostlyDryPeriod(const WeatherPeriod& theWeatherPeriod,
                          unsigned short theForecastArea) const;
   bool getDryPeriods(const WeatherPeriod& theSourcePeriod,
@@ -79,8 +78,7 @@ class PrecipitationForecast
   precipitation_form_id getPrecipitationForm(const WeatherPeriod& thePeriod,
                                              unsigned short theForecastArea) const;
   float getMaxIntensity(const WeatherPeriod& thePeriod, unsigned short theForecastArea) const;
-  float getMeanIntensity(const WeatherPeriod& thePeriod,
-                         unsigned short theForecastArea) const;
+  float getMeanIntensity(const WeatherPeriod& thePeriod, unsigned short theForecastArea) const;
   bool getPrecipitationPeriod(const TextGenPosixTime& theTimestamp,
                               TextGenPosixTime& theStartTime,
                               TextGenPosixTime& theEndTime) const;
@@ -117,8 +115,7 @@ class PrecipitationForecast
   AreaTools::direction_id getPrecipitationArrivalDirection(const WeatherPeriod& thePeriod) const;
   AreaTools::direction_id getPrecipitationLeavingDirection(const WeatherPeriod& thePeriod) const;
   precipitation_traverse_id getPrecipitationTraverseId(const WeatherPeriod& thePeriod) const;
-  const precipitation_data_vector& getPrecipitationDataVector(
-      unsigned short theForecastArea) const;
+  const precipitation_data_vector& getPrecipitationDataVector(unsigned short theForecastArea) const;
   precipitation_form_transformation_id getPrecipitationTransformationId(
       const WeatherPeriod& thePeriod, unsigned short theForecastArea) const;
   Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;

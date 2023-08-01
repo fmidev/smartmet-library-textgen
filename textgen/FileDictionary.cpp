@@ -60,7 +60,7 @@ namespace TextGen
 class FileDictionary::Pimple
 {
  public:
-  Pimple()  = default;
+  Pimple() = default;
   using StorageType = std::map<std::string, std::string>;
   using value_type = StorageType::value_type;
 
@@ -87,7 +87,7 @@ FileDictionary::~FileDictionary() = default;
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::FileDictionary() :  itsPimple(new Pimple())
+FileDictionary::FileDictionary() : itsPimple(new Pimple())
 {
   itsDictionaryId = "file";
 }
@@ -207,7 +207,7 @@ const std::string& FileDictionary::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void FileDictionary::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
+void FileDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
   throw TextGenError("Error: FileDictionary::insert() is not allowed");
 }

@@ -18,7 +18,7 @@ class Phrase : public Glyph
 {
  public:
   ~Phrase() override;
-  Phrase(std::string  theWord);
+  Phrase(std::string theWord);
 #ifdef NO_COMPILER_GENERATED
   Phrase(const Phrase& thePhrase);
   Phrase& operator=(const Phrase& thePhrase);

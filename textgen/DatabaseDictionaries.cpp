@@ -94,7 +94,7 @@ DatabaseDictionaries::~DatabaseDictionaries() = default;
 // ----------------------------------------------------------------------
 
 DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId)
-    :  itsPimple(new Pimple())
+    : itsPimple(new Pimple())
 {
   itsDictionaryId = theDictionaryId;
 }
@@ -212,7 +212,7 @@ const std::string& DatabaseDictionaries::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void DatabaseDictionaries::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
+void DatabaseDictionaries::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
   throw TextGenError("Error: DatabaseDictionaries::insert() is not allowed");
 }

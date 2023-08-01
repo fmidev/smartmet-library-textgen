@@ -31,8 +31,8 @@ double ExtractMask(const AnalysisSources& theSources,
                    NFmiIndexMask& theResultIndexMask);
 
 NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
-                                  const WeatherArea& theArea,
-                                  const AreaTools::direction_id& theDirectionId);
+                            const WeatherArea& theArea,
+                            const AreaTools::direction_id& theDirectionId);
 
 void PrintLatLon(const AnalysisSources& theSources,
                  const WeatherParameter& theParameter,

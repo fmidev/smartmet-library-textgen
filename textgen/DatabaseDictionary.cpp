@@ -58,7 +58,7 @@ namespace TextGen
 class DatabaseDictionary::Pimple
 {
  public:
-  Pimple()  = default;
+  Pimple() = default;
   using StorageType = std::map<std::string, std::string>;
   using value_type = StorageType::value_type;
 
@@ -85,7 +85,7 @@ DatabaseDictionary::~DatabaseDictionary() = default;
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionary::DatabaseDictionary() :  itsPimple(new Pimple()) {}
+DatabaseDictionary::DatabaseDictionary() : itsPimple(new Pimple()) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -187,7 +187,7 @@ const std::string& DatabaseDictionary::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void DatabaseDictionary::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
+void DatabaseDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
   throw TextGenError("Error: DatabaseDictionary::insert() is not allowed");
 }

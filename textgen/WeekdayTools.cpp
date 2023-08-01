@@ -138,13 +138,12 @@ string until_weekday_time(const TextGenPosixTime& theTime)
   {
     return until_weekday_evening(theTime);
   }
-  
-      const string msg =
-        "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan or -iltaan "
-        "phrase for hour " +
-        std::to_string(hour);
-    throw TextGenError(msg);
- 
+
+  const string msg =
+      "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan or -iltaan "
+      "phrase for hour " +
+      std::to_string(hour);
+  throw TextGenError(msg);
 }
 
 // ----------------------------------------------------------------------
@@ -225,13 +224,12 @@ string from_weekday_time(const TextGenPosixTime& theTime)
     return from_weekday_noon(theTime);
   if (hour == 18)
     return from_weekday_evening(theTime);
-  
-      const string msg =
-        "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta "
-        "phrase for hour " +
-        std::to_string(hour);
-    throw TextGenError(msg);
- 
+
+  const string msg =
+      "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta "
+      "phrase for hour " +
+      std::to_string(hour);
+  throw TextGenError(msg);
 }
 
 // ----------------------------------------------------------------------
@@ -308,14 +306,12 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
       theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
       return theNewWeekdayPhrase;
     }
-    
-          return "";
-   
+
+    return "";
   }
-  
-      theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
-    return theNewWeekdayPhrase;
- 
+
+  theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
+  return theNewWeekdayPhrase;
 
   return "";
 }
@@ -358,12 +354,11 @@ string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHisto
     return until_weekday_morning(theTime, theHistory);
   if (hour == 18)
     return until_weekday_evening(theTime, theHistory);
-  
-      const string msg =
-        "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
-        std::to_string(hour);
-    throw TextGenError(msg);
- 
+
+  const string msg =
+      "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
+      std::to_string(hour);
+  throw TextGenError(msg);
 }
 
 string from_weekday(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
@@ -391,12 +386,11 @@ string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistor
     return from_weekday_morning(theTime, theHistory);
   if (hour == 18)
     return from_weekday_evening(theTime, theHistory);
-  
-      const string msg =
-        "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
-        std::to_string(hour);
-    throw TextGenError(msg);
- 
+
+  const string msg =
+      "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
+      std::to_string(hour);
+  throw TextGenError(msg);
 }
 
 string on_weekday_morning(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)

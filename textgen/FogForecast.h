@@ -24,7 +24,7 @@ using fog_type_period_vector = std::vector<weather_period_fog_type_intensity_pai
 
 struct FogInfo
 {
-  FogInfo() :  period(TextGenPosixTime(), TextGenPosixTime()) {}
+  FogInfo() : period(TextGenPosixTime(), TextGenPosixTime()) {}
   fog_type_id id{NO_FOG};
   WeatherPeriod period;
   Sentence sentence;

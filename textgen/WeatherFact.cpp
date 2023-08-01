@@ -36,9 +36,8 @@ WeatherFact::~WeatherFact() = default;
 // ----------------------------------------------------------------------
 
 WeatherFact::WeatherFact(const WeatherFact& theFact)
-    
-      
-= default;
+
+    = default;
 
 // ----------------------------------------------------------------------
 /*!

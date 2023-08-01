@@ -47,7 +47,7 @@ RoadStory::RoadStory(const TextGenPosixTime& theForecastTime,
                      const AnalysisSources& theSources,
                      const WeatherArea& theArea,
                      const WeatherPeriod& thePeriod,
-                     string  theVariable)
+                     string theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),

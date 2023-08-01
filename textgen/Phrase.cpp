@@ -35,7 +35,7 @@ Phrase::~Phrase() = default;
  */
 // ----------------------------------------------------------------------
 
-Phrase::Phrase(std::string  theWord) : itsWord(std::move(theWord)) {}
+Phrase::Phrase(std::string theWord) : itsWord(std::move(theWord)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone
