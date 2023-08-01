@@ -1119,10 +1119,10 @@ void log_weather_forecast_story(MessageLogger& theLog,
   theLog << "WEATHER FORECAST STORY FOR PERIOD ";
   log_start_time_and_end_time(theLog, "", theWeatherForecastStory.getStoryPeriod());
 
-  const vector<WeatherForecastStoryItem*> storyItemVector(
-      theWeatherForecastStory.getStoryItemVector());
+  const std::vector<std::shared_ptr<WeatherForecastStoryItem> > storyItemVector =
+      theWeatherForecastStory.getStoryItemVector();
 
-  for (auto* i : storyItemVector)
+  for (auto& i : storyItemVector)
   {
     WeatherForecastStoryItem& storyItem = *i;
 

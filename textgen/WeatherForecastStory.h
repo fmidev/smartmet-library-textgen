@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 class MessageLogger;
 
 namespace TextGen
@@ -154,7 +156,7 @@ class WeatherForecastStory
   Paragraph getWeatherForecastStory();
   Paragraph getWeatherForecastStoryAtSea();
   const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
-  const std::vector<WeatherForecastStoryItem*>& getStoryItemVector() const
+  const std::vector<std::shared_ptr<WeatherForecastStoryItem> >& getStoryItemVector() const
   {
     return theStoryItemVector;
   }
@@ -187,7 +189,7 @@ class WeatherForecastStory
   bool theAddAluksiWord;
   PeriodPhraseGenerator thePeriodPhraseGenerator;
 
-  std::vector<WeatherForecastStoryItem*> theStoryItemVector;
+  std::vector<std::shared_ptr<WeatherForecastStoryItem> > theStoryItemVector;
 
   friend class PrecipitationForecastStoryItem;
   friend class CloudinessForecastStoryItem;

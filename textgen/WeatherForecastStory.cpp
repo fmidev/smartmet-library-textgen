@@ -56,7 +56,7 @@ std::ostream& operator<<(std::ostream& theOutput, const WeatherForecastStoryItem
 namespace
 {
 std::vector<unsigned int> get_story_item_indexes(
-    const std::vector<WeatherForecastStoryItem*>& storyItems)
+    const std::vector<std::shared_ptr<WeatherForecastStoryItem> >& storyItems)
 {
   std::vector<unsigned int> indexes;
 
@@ -246,7 +246,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
 
   for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
   {
-    WeatherForecastStoryItem* item = theStoryItemVector[i];
+    WeatherForecastStoryItem* item = theStoryItemVector[i].get();
     theLogger << "Story item: " << as_string(item->getStoryItemPeriod())
               << (item->thePeriodToMergeWith ? " WITH " : " ") << std::endl;
 
@@ -284,7 +284,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
         bool mergeDone = false;
         if (!storyItems.empty())
         {
-          WeatherForecastStoryItem* previousItem = theStoryItemVector[storyItems.back().second];
+          WeatherForecastStoryItem* previousItem = theStoryItemVector[storyItems.back().second].get();
           if (previousItem->theStoryPartId == PRECIPITATION_STORY_PART &&
               precipitationStoryItem->theStoryPartId == PRECIPITATION_STORY_PART)
           {
@@ -337,8 +337,8 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
   // if precipitation/fog lasts whole period
   if (!storyItems.empty())
   {
-    WeatherForecastStoryItem* firstItemOfForecast = theStoryItemVector[0];
-    WeatherForecastStoryItem* firstItemOfStory = theStoryItemVector[storyItems[0].second];
+    WeatherForecastStoryItem* firstItemOfForecast = theStoryItemVector[0].get();
+    WeatherForecastStoryItem* firstItemOfStory = theStoryItemVector[storyItems[0].second].get();
     // theStorySize is set in order to obtain time phrase for the first sentence
     // even if it does not start from the beginning of forecast period
     if (firstItemOfStory->getStoryItemPeriod().localStartTime() >
@@ -358,9 +358,9 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       {
         // successive precipitation periods
         auto* previousItem = static_cast<PrecipitationForecastStoryItem*>(
-            theStoryItemVector[storyItems[firstIndex].second]);
+            theStoryItemVector[storyItems[firstIndex].second].get());
         auto* currentItem =
-            static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[storyItems[i].second]);
+            static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[storyItems[i].second].get());
         if (previousItem->theType == currentItem->theType &&
             previousItem->theForm == currentItem->theForm)
         {
@@ -393,7 +393,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
     if (storyItems[i].first == MISSING_STORY_PART)
       continue;
     int currentStoryItemIndex = storyItems[i].second;
-    WeatherForecastStoryItem* item = theStoryItemVector[currentStoryItemIndex];
+    WeatherForecastStoryItem* item = theStoryItemVector[currentStoryItemIndex].get();
 
     if (storyItems[i].first == CLOUDINESS_STORY_PART)
     {
@@ -642,8 +642,8 @@ void WeatherForecastStory::addPrecipitationStoryItems()
 
   thePrecipitationForecast.getPrecipitationPeriods(theForecastPeriod, precipitationPeriods);
 
-  PrecipitationForecastStoryItem* previousPrItem = nullptr;
-  WeatherForecastStoryItem* missingStoryItem = nullptr;
+  std::shared_ptr<PrecipitationForecastStoryItem> previousPrItem;
+  std::shared_ptr<WeatherForecastStoryItem> missingStoryItem;
   for (auto& precipitationPeriod : precipitationPeriods)
   {
     float intensity(thePrecipitationForecast.getMeanIntensity(precipitationPeriod,
@@ -661,7 +661,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     if (get_period_length(precipitationPeriod) <= 1 && extent < 10)
       continue;
 
-    auto* item = new PrecipitationForecastStoryItem(*this,
+    auto item = std::make_shared<PrecipitationForecastStoryItem>(*this,
                                                     precipitationPeriod,
                                                     PRECIPITATION_STORY_PART,
                                                     intensity,
@@ -689,7 +689,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
         endTime.ChangeByHours(-1);
 
         // placeholder for some other story item between precipitation periods
-        missingStoryItem = new WeatherForecastStoryItem(
+        missingStoryItem = std::make_shared<WeatherForecastStoryItem>(
             *this, WeatherPeriod(startTime, endTime), MISSING_STORY_PART);
 
         theStoryItemVector.push_back(missingStoryItem);
@@ -704,8 +704,8 @@ void WeatherForecastStory::addPrecipitationStoryItems()
   if (theStoryItemVector.empty())
   {
     WeatherPeriod cloudinessPeriod(theForecastPeriod);
-    auto* item =
-        new CloudinessForecastStoryItem(*this,
+    auto item =
+        std::make_shared<CloudinessForecastStoryItem>(*this,
                                         cloudinessPeriod,
                                         CLOUDINESS_STORY_PART,
                                         theCloudinessForecast.getCloudinessId(cloudinessPeriod),
@@ -730,7 +730,8 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     {
       firstPeriodEndTime.ChangeByHours(-1);
       WeatherPeriod firstPeriod(firstPeriodStartTime, firstPeriodEndTime);
-      missingStoryItem = new WeatherForecastStoryItem(*this, firstPeriod, MISSING_STORY_PART);
+      missingStoryItem = std::make_shared<WeatherForecastStoryItem>(
+          *this, firstPeriod, MISSING_STORY_PART);
       theStoryItemVector.insert(theStoryItemVector.begin(), missingStoryItem);
     }
 
@@ -743,7 +744,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
       lastPeriodStartTime.ChangeByHours(1);
       WeatherPeriod lastPeriod(lastPeriodStartTime, lastPeriodEndTime);
 
-      missingStoryItem = new WeatherForecastStoryItem(*this, lastPeriod, MISSING_STORY_PART);
+      missingStoryItem = std::make_shared<WeatherForecastStoryItem>(*this, lastPeriod, MISSING_STORY_PART);
       theStoryItemVector.push_back(missingStoryItem);
     }
 
@@ -764,7 +765,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
 
           middlePeriodStartTime.ChangeByHours(1);
           middlePeriodEndTime.ChangeByHours(-1);
-          missingStoryItem = new WeatherForecastStoryItem(
+          missingStoryItem = std::make_shared<WeatherForecastStoryItem>(
               *this, WeatherPeriod(middlePeriodStartTime, middlePeriodEndTime), MISSING_STORY_PART);
           theStoryItemVector.insert(theStoryItemVector.begin() + i, missingStoryItem);
           emptyPeriodsFound = true;
@@ -782,9 +783,9 @@ void WeatherForecastStory::addCloudinessStoryItems()
   {
     if (theStoryItemVector[i]->theStoryPartId == MISSING_STORY_PART)
     {
-      WeatherForecastStoryItem* placeholder = theStoryItemVector[i];
+      WeatherForecastStoryItem* placeholder = theStoryItemVector[i].get();
 
-      auto* cloudinessStoryItem = new CloudinessForecastStoryItem(
+      auto cloudinessStoryItem = std::make_shared<CloudinessForecastStoryItem>(
           *this,
           placeholder->thePeriod,
           CLOUDINESS_STORY_PART,
@@ -802,16 +803,16 @@ void WeatherForecastStory::addCloudinessStoryItems()
       if (i < theStoryItemVector.size() - 1 &&
           theStoryItemVector[i + 1]->theStoryPartId == PRECIPITATION_STORY_PART)
         cloudinessStoryItem->theNextPrecipitationStoryItem =
-            static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i + 1]);
+            static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i + 1].get());
 
       theStoryItemVector[i] = cloudinessStoryItem;
 
-      delete placeholder;
+      //delete placeholder;
     }
     else if (theStoryItemVector[i]->theStoryPartId == PRECIPITATION_STORY_PART)
     {
       previousPrecipitationStoryItem =
-          static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i]);
+          static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i].get());
     }
   }
 }
@@ -824,9 +825,9 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
 
   for (unsigned int i = 0; i < indexes.size(); i++)
   {
-    WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]];
+    WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]].get();
     WeatherForecastStoryItem* previousStoryItem =
-        (i > 0 ? theStoryItemVector[indexes[i - 1]] : nullptr);
+        (i > 0 ? theStoryItemVector[indexes[i - 1]].get() : nullptr);
     if (!currentStoryItem->theIncludeInTheStoryFlag)
       continue;
 
@@ -911,7 +912,7 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
 
   for (unsigned int indexe : indexes)
   {
-    WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexe];
+    WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexe].get();
     if (currentStoryItem->theStoryPartId == CLOUDINESS_STORY_PART &&
         currentStoryItem->theIncludeInTheStoryFlag)
     {
@@ -1012,7 +1013,7 @@ Sentence WeatherForecastStory::getTimePhrase() const
 void WeatherForecastStory::logTheStoryItems() const
 {
   theLogger << "******** STORY ITEMS ********" << endl;
-  for (auto* i : theStoryItemVector)
+  for (auto& i : theStoryItemVector)
   {
     theLogger << *i;
   }
