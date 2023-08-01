@@ -122,7 +122,7 @@ void log_weather_result_time_series(MessageLogger& theLog,
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << endl;
 
-  for (auto *theTimeSerie : theTimeSeries)
+  for (const auto& theTimeSerie : theTimeSeries)
   {
     //		const WeatherResultDataItem& theWeatherResultDataItem = *theTimeSeries[i];
     // log_weather_result_data_item(theLog, *theTimeSeries[i]);
@@ -819,73 +819,73 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
     part_of_the_day_id partOfTheDayId = get_part_of_the_day_id_large(theWeatherPeriod);
 
     hourlyMaxPrecipitation->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyMeanPrecipitation->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationExtent->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationType->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormWater->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormDrizzle->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormSleet->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormSnow->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormFreezingDrizzle->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormFreezingRain->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationPoint->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyCloudiness->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyThunderProbability->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyThunderExtent->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyFogIntensityModerate->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyFogIntensityDense->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
     hourlyPrecipitationShareNortEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationShareSouthEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationShareSouthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationShareNorthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
     hourlyCloudinessShareNortEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyCloudinessShareSouthEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyCloudinessShareSouthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyCloudinessShareNorthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
     hourlyThunderProbabilityShareNortEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyThunderProbabilityShareSouthEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyThunderProbabilityShareSouthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyThunderProbabilityShareNorthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
     hourlyFogShareNortEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyFogShareSouthEast->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyFogShareSouthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyFogShareNorthWest->push_back(
-        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+        std::make_shared<WeatherResultDataItem>(theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
     periodStartTime.ChangeByHours(1);
     theParameters.theHourPeriodCount++;
@@ -1089,10 +1089,6 @@ void deallocate_data_structure(unsigned int& thePeriodCount,
   (void)thePeriodCount;
   for (auto& result_item : theResultContainer)
   {
-      for (auto& item : *result_item.second)
-      {
-          delete item;
-      }
       delete result_item.second;
   }
 #endif

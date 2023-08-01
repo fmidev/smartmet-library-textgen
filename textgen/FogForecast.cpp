@@ -362,7 +362,7 @@ void FogForecast::printOutFogData(std::ostream& theOutput,
                                   const std::string& theLinePrefix,
                                   const weather_result_data_item_vector& theFogData) const
 {
-  for (auto* i : theFogData)
+  for (const auto& i : theFogData)
   {
     WeatherPeriod period(i->thePeriod.localStartTime(), i->thePeriod.localEndTime());
 

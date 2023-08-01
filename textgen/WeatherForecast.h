@@ -492,7 +492,7 @@ struct PrecipitationDataItem;
 struct CloudinessDataItem;
 struct ThunderDataItem;
 
-using weather_result_data_item_vector = std::vector<WeatherResultDataItem*>;
+using weather_result_data_item_vector = std::vector<std::shared_ptr<WeatherResultDataItem> >;
 using timestamp_weather_event_id_pair = std::pair<TextGenPosixTime, weather_event_id>;
 using weather_event_id_vector = std::vector<timestamp_weather_event_id_pair>;
 using precipitation_data_vector = std::vector<PrecipitationDataItemData*>;

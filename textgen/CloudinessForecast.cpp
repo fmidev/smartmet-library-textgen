@@ -358,7 +358,7 @@ float CloudinessForecast::getMeanCloudiness(
 {
   float cloudinessSum(0.0);
   unsigned int count = 0;
-  for (auto *i : theDataVector)
+  for (const auto& i : theDataVector)
   {
     if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
         i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
@@ -676,7 +676,7 @@ void CloudinessForecast::printOutCloudinessData(std::ostream& theOutput) const
 void CloudinessForecast::printOutCloudinessData(
     std::ostream& theOutput, const weather_result_data_item_vector* theDataVector) const
 {
-  for (auto *i : *theDataVector)
+  for (const auto& i : *theDataVector)
   {
     theOutput << i->thePeriod.localStartTime() << "..."
               << i->thePeriod.localEndTime() << ": "

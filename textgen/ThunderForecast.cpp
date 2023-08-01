@@ -53,7 +53,7 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
                                    const weather_result_data_item_vector& theDataVector) const
 {
   float maxValue(0.0);
-  for (auto *i : theDataVector)
+  for (const auto& i : theDataVector)
   {
     if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
         i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&

@@ -1674,7 +1674,7 @@ void get_sub_time_series(const WeatherPeriod& thePeriod,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
-  for (auto *item : theSourceVector)
+  for (const auto& item : theSourceVector)
   {
     if (item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
         item->thePeriod.localEndTime() <= thePeriod.localEndTime())
@@ -1686,7 +1686,7 @@ void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
-  for (auto *item : theSourceVector)
+  for (const auto& item : theSourceVector)
   {
     if (item->thePartOfTheDay == thePartOfTheDay)
       theDestinationVector.push_back(item);
@@ -1723,7 +1723,7 @@ float get_standard_deviation(const weather_result_data_item_vector& theTimeSerie
   float deviation_sum_pow2 = 0.0;
   float mean = get_mean(theTimeSeries);
   int counter = 0;
-  for (auto *theTimeSerie : theTimeSeries)
+  for (const auto& theTimeSerie : theTimeSeries)
   {
     if (theTimeSerie->theResult.value() == kFloatMissing)
       continue;
