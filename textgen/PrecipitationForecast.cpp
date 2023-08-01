@@ -2155,22 +2155,22 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
                                         precipitationFormFreezingRain,
                                         precipitationFormFreezingDrizzle);
 
-    auto item =
-        std::make_shared<PrecipitationDataItemData>(theParameters,
-                                      precipitationForm,
-                                      (precipitationMaxIntesity + precipitationMeanIntesity) / 2.0,
-                                      precipitationMaxIntesity,
-                                      precipitationExtent,
-                                      precipitationFormWater,
-                                      precipitationFormDrizzle,
-                                      precipitationFormSleet,
-                                      precipitationFormSnow,
-                                      precipitationFormFreezingRain,
-                                      precipitationFormFreezingDrizzle,
-                                      precipitationTypeShowers,
-                                      MISSING_WEATHER_EVENT,
-                                      0.0,
-                                      (*precipitationMaxHourly)[i]->thePeriod.localStartTime());
+    auto item = std::make_shared<PrecipitationDataItemData>(
+        theParameters,
+        precipitationForm,
+        (precipitationMaxIntesity + precipitationMeanIntesity) / 2.0,
+        precipitationMaxIntesity,
+        precipitationExtent,
+        precipitationFormWater,
+        precipitationFormDrizzle,
+        precipitationFormSleet,
+        precipitationFormSnow,
+        precipitationFormFreezingRain,
+        precipitationFormFreezingDrizzle,
+        precipitationTypeShowers,
+        MISSING_WEATHER_EVENT,
+        0.0,
+        (*precipitationMaxHourly)[i]->thePeriod.localStartTime());
 
     item->thePrecipitationPercentageNorthEast =
         (*precipitationNorthEastShareHourly)[i]->theResult.value();
@@ -3074,7 +3074,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
   int heavyPrecipitationEndIndex(-1);
   for (unsigned int i = 0; i < theDataVector.size(); i++)
   {
-      const PrecipitationDataItemData* precipitationItem(theDataVector[i].get());
+    const PrecipitationDataItemData* precipitationItem(theDataVector[i].get());
 
     if (precipitationItem->theObservationTime < thePeriod.localStartTime())
       continue;

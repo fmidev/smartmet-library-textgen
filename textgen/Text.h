@@ -19,7 +19,7 @@ class Text : public Glyph
 {
  public:
   ~Text() override;
-  explicit Text(std::string  theText);
+  explicit Text(std::string theText);
 
 #ifdef NO_COMPILER_GENERATED
   Text(const Text& theText);

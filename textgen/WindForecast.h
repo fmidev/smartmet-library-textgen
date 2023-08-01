@@ -39,10 +39,7 @@ struct interval_sentence_info
   // report them together)
   bool useAlkaenPhrase{false};
   bool skip{false};  // flag to indicate if interval is not reported (too close to previous)
-  interval_sentence_info()
-      : period(TextGenPosixTime(), TextGenPosixTime()) 
-  {
-  }
+  interval_sentence_info() : period(TextGenPosixTime(), TextGenPosixTime()) {}
 };
 
 // type of parameter in composite sentence
@@ -61,13 +58,13 @@ enum SentenceParameterType
 struct sentence_info
 {
   Sentence sentence;
-  WeatherPeriod period;     // period when wind strenghtens/weakens or wind direction
-                            // stays the
-                            // same??
-  std::string changeType;   // e.g. voimistuvaa,heikenevää, alkaa voimistua,
-                            // alkaa heiketä
-  std::string changeSpeed;  // e.g. nopeasti, vähitellen
-  bool useWindBasicForm{false};    // basic form: 'tuuli', partitive form: 'tuulta'
+  WeatherPeriod period;          // period when wind strenghtens/weakens or wind direction
+                                 // stays the
+                                 // same??
+  std::string changeType;        // e.g. voimistuvaa,heikenevää, alkaa voimistua,
+                                 // alkaa heiketä
+  std::string changeSpeed;       // e.g. nopeasti, vähitellen
+  bool useWindBasicForm{false};  // basic form: 'tuuli', partitive form: 'tuulta'
   bool firstSentence{false};
   bool skip{false};
   interval_info intervalInfo;                          // for first period
@@ -80,11 +77,7 @@ struct sentence_info
                                                               // sentence
                                                               // parameters
 
-  sentence_info()
-      : period(TextGenPosixTime(), TextGenPosixTime())
-        
-  {
-  }
+  sentence_info() : period(TextGenPosixTime(), TextGenPosixTime()) {}
 };
 
 struct sentence_parameter

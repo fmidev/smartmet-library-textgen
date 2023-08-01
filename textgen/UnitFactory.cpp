@@ -130,8 +130,7 @@ boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval 
     if (abs(value) <= 4)
     {
       if (isInterval)
-        degrees_string =
-            string("astetta (n..." + std::to_string(abs(value)) + ")");
+        degrees_string = string("astetta (n..." + std::to_string(abs(value)) + ")");
       else
         degrees_string = string("astetta (" + std::to_string(abs(value)) + ")");
     }

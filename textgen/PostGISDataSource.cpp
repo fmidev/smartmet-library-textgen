@@ -277,10 +277,8 @@ bool PostGISDataSource::readData(const std::string& host,
       // destroy feature
       OGRFeature::DestroyFeature(pFeature);
     }
-    
-    
-      delete pCoordinateTransform;
-    
+
+    delete pCoordinateTransform;
 
     // in the end destroy data source
 #if GDAL_VERSION_MAJOR < 2
@@ -303,14 +301,14 @@ std::string PostGISDataSource::getSVGPath(const std::string& name) const
     return polygonmap.at(name);
   if (linemap.find(name) != linemap.end())
     return linemap.at(name);
-      return "";
+  return "";
 }
 
 std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) const
 {
   if (pointmap.find(name) != pointmap.end())
     return pointmap.at(name);
-      return make_pair(32700.0, 32700.0);
+  return make_pair(32700.0, 32700.0);
 }
 
 PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,

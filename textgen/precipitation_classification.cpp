@@ -54,7 +54,7 @@ list<pair<int, int> > parse_classes(const std::string& theVariable)
   list<pair<int, int> > output;
 
   vector<string> clist = NFmiStringTools::Split(value);
-  for (const auto & it : clist)
+  for (const auto& it : clist)
   {
     vector<string> rlist = NFmiStringTools::Split(it, "...");
     if (rlist.size() != 2)
@@ -87,7 +87,7 @@ int rainlimit(const list<pair<int, int> >& theList)
     throw TextGenError("Internal error, trying to extract maximum rain from empty list");
 
   int ret = theList.front().first;
-  for (const auto & it : theList)
+  for (const auto& it : theList)
   {
     ret = std::max(ret, it.first);
     ret = std::max(ret, it.second);

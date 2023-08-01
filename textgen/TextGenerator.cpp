@@ -66,17 +66,17 @@ namespace
 // ----------------------------------------------------------------------
 
 Paragraph make_contents(const string& theContents,
-                              const string& theVar,
-                              const TextGenPosixTime& theForecastTime,
-                              const AnalysisSources& theSources,
-                              const WeatherArea& theArea,
-                              const WeatherPeriod& thePeriod)
+                        const string& theVar,
+                        const TextGenPosixTime& theForecastTime,
+                        const AnalysisSources& theSources,
+                        const WeatherArea& theArea,
+                        const WeatherPeriod& thePeriod)
 {
   const vector<string> contents = NFmiStringTools::Split(theContents);
 
   Paragraph paragraph;
 
-  for (const auto & content : contents)
+  for (const auto& content : contents)
   {
     const string storyvar = theVar + "::story::" + content;
 
@@ -290,7 +290,7 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
       NFmiStringTools::Split(Settings::require_string("textgen::sections"));
 
   Document doc;
-  for (const auto & paragraph : paragraphs)
+  for (const auto& paragraph : paragraphs)
   {
     doc << SectionTag("textgen::" + paragraph, true);
 

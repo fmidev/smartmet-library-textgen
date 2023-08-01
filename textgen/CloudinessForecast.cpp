@@ -330,7 +330,7 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
            : ((theParameters.theForecastArea & INLAND_AREA) ? theCloudinessWeatherEventsInland
                                                             : theCloudinessWeatherEventsCoastal));
 
-  for (const auto & cloudinessWeatherEvent : cloudinessWeatherEvents)
+  for (const auto& cloudinessWeatherEvent : cloudinessWeatherEvents)
   {
     TextGenPosixTime weatherEventTimestamp(cloudinessWeatherEvent.first);
 
@@ -678,8 +678,7 @@ void CloudinessForecast::printOutCloudinessData(
 {
   for (const auto& i : *theDataVector)
   {
-    theOutput << i->thePeriod.localStartTime() << "..."
-              << i->thePeriod.localEndTime() << ": "
+    theOutput << i->thePeriod.localStartTime() << "..." << i->thePeriod.localEndTime() << ": "
               << i->theResult.value() << endl;
   }
 }
@@ -687,7 +686,7 @@ void CloudinessForecast::printOutCloudinessData(
 void CloudinessForecast::printOutCloudinessPeriods(
     std::ostream& theOutput, const cloudiness_period_vector& theCloudinessPeriods) const
 {
-  for (const auto & theCloudinessPeriod : theCloudinessPeriods)
+  for (const auto& theCloudinessPeriod : theCloudinessPeriods)
   {
     WeatherPeriod period(theCloudinessPeriod.first.localStartTime(),
                          theCloudinessPeriod.first.localEndTime());
@@ -762,7 +761,7 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
     const cloudiness_period_vector& theSourceCloudinessPeriods,
     cloudiness_period_vector& theWeatherPeriodCloudiness) const
 {
-  for (const auto & theSourceCloudinessPeriod : theSourceCloudinessPeriods)
+  for (const auto& theSourceCloudinessPeriod : theSourceCloudinessPeriods)
   {
     if (thePeriod.localStartTime() >= theSourceCloudinessPeriod.first.localStartTime() &&
         thePeriod.localEndTime() <= theSourceCloudinessPeriod.first.localEndTime())
@@ -773,8 +772,7 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
     }
-    else if (thePeriod.localStartTime() >=
-                 theSourceCloudinessPeriod.first.localStartTime() &&
+    else if (thePeriod.localStartTime() >= theSourceCloudinessPeriod.first.localStartTime() &&
              thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localEndTime() &&
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localEndTime())
     {
@@ -923,7 +921,7 @@ cloudiness_id CloudinessForecast::getCloudinessPeriodId(
     const TextGenPosixTime& theObservationTime,
     const cloudiness_period_vector& theCloudinessPeriodVector) const
 {
-  for (const auto & i : theCloudinessPeriodVector)
+  for (const auto& i : theCloudinessPeriodVector)
   {
     if (theObservationTime >= i.first.localStartTime() &&
         theObservationTime <= i.first.localEndTime())
@@ -985,7 +983,7 @@ void CloudinessForecast::getWeatherEventIdVector(
     theCloudinessWeatherEvents = *vectorToClone;
 }
 
-Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod&  /*thePeriod*/) const
+Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& /*thePeriod*/) const
 {
   Sentence sentence;
 
@@ -1030,7 +1028,7 @@ Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod&  /*thePer
 cloudiness_id CloudinessForecast::getCloudinessId(const float& theMin,
                                                   const float& theMean,
                                                   const float& theMax,
-                                                  const float&  /*theStandardDeviation*/) const
+                                                  const float& /*theStandardDeviation*/) const
 {
   cloudiness_id id(MISSING_CLOUDINESS_ID);
 

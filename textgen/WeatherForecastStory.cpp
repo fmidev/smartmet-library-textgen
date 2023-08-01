@@ -92,7 +92,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
       theShortTimePrecipitationReportedFlag(false),
       theReportTimePhraseFlag(false),
       theCloudinessReportedFlag(false),
-	  theAddAluksiWord(false),
+      theAddAluksiWord(false),
       thePeriodPhraseGenerator(var)
 {
   addPrecipitationStoryItems();
@@ -106,24 +106,22 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
   int storyItemCounter(0);
   int storyItemCounterTotal(0);
   bool moreThanOnePrecipitationForms(false);
-  for (auto & i : theStoryItemVector)
+  for (auto& i : theStoryItemVector)
   {
     // when specifyPartOfTheDayFlag is false it means
     // that the period is short and part of the day should not be expressed
     if (!specifyPartOfTheDayFlag)
     {
       // ARE 14.4.2011: checking theIncludeInTheStoryFlag
-      if (i->theIncludeInTheStoryFlag &&
-          !i->getSentence().empty())
+      if (i->theIncludeInTheStoryFlag && !i->getSentence().empty())
         storyItemCounter++;
     }
 
-	if (!i->getSentence().empty())
-	  storyItemCounterTotal++;
+    if (!i->getSentence().empty())
+      storyItemCounterTotal++;
 
     // check wheather more than one precipitation form exists during the forecast period
-    if (!moreThanOnePrecipitationForms &&
-        i->theStoryPartId == PRECIPITATION_STORY_PART &&
+    if (!moreThanOnePrecipitationForms && i->theStoryPartId == PRECIPITATION_STORY_PART &&
         i->theIncludeInTheStoryFlag)
     {
       precipitation_form_id precipitationForm = thePrecipitationForecast.getPrecipitationForm(
@@ -161,7 +159,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
 
   thePrecipitationForecast.setDryPeriodTautologyFlag(false);
 
-  for (auto & i : theStoryItemVector)
+  for (auto& i : theStoryItemVector)
   {
     WeatherForecastStoryItem& item = *i;
 
@@ -178,8 +176,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
       // voi olla runsasta"
       for (unsigned int k = 0; k < i->numberOfAdditionalSentences(); k++)
       {
-        std::pair<WeatherPeriod, Sentence> additionalSentence(
-            i->getAdditionalSentence(k));
+        std::pair<WeatherPeriod, Sentence> additionalSentence(i->getAdditionalSentence(k));
         paragraph << additionalSentence.second;
       }
 
@@ -212,7 +209,7 @@ if (i > 0 &&
     std::vector<std::pair<WeatherPeriod, Sentence>> theAdditionalSentences;
     paragraph << thePrecipitationForecast.precipitationSentence(
         theForecastPeriod, periodPhrase, theAdditionalSentences);
-    for (auto & theAdditionalSentence : theAdditionalSentences)
+    for (auto& theAdditionalSentence : theAdditionalSentences)
     {
       paragraph << theAdditionalSentence.second;
     }
@@ -647,7 +644,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
 
   PrecipitationForecastStoryItem* previousPrItem = nullptr;
   WeatherForecastStoryItem* missingStoryItem = nullptr;
-  for (auto & precipitationPeriod : precipitationPeriods)
+  for (auto& precipitationPeriod : precipitationPeriods)
   {
     float intensity(thePrecipitationForecast.getMeanIntensity(precipitationPeriod,
                                                               theParameters.theForecastArea));
@@ -972,14 +969,14 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
 void WeatherForecastStory::mergePeriodsWhenFeasible()
 {
   theLogger << "******** STORY ITEMS BEFORE MERGE ********" << endl;
-  for (auto & i : theStoryItemVector)
+  for (auto& i : theStoryItemVector)
     theLogger << as_string(i->getStoryItemPeriod()) << std::endl;
 
   mergeCloudinessPeriodsWhenFeasible();
   mergePrecipitationPeriodsWhenFeasible();
 
   theLogger << "******** STORY ITEMS AFTER MERGE ********" << endl;
-  for (auto & i : theStoryItemVector)
+  for (auto& i : theStoryItemVector)
   {
     if (!i->theIncludeInTheStoryFlag)
       continue;
@@ -999,14 +996,14 @@ Sentence WeatherForecastStory::getTimePhrase() const
 
   if (theReportTimePhraseFlag)
   {
-	if (theStorySize == 0)
-	  sentence << ALUKSI_WORD;
-	else
-	  sentence << MYOHEMMIN_WORD;
+    if (theStorySize == 0)
+      sentence << ALUKSI_WORD;
+    else
+      sentence << MYOHEMMIN_WORD;
   }
-  else if(theAddAluksiWord && theStorySize == 0)
+  else if (theAddAluksiWord && theStorySize == 0)
   {
-	sentence << ALUKSI_WORD;
+    sentence << ALUKSI_WORD;
   }
 
   return sentence;
@@ -1015,7 +1012,7 @@ Sentence WeatherForecastStory::getTimePhrase() const
 void WeatherForecastStory::logTheStoryItems() const
 {
   theLogger << "******** STORY ITEMS ********" << endl;
-  for (auto *i : theStoryItemVector)
+  for (auto* i : theStoryItemVector)
   {
     theLogger << *i;
   }
@@ -1051,7 +1048,7 @@ std::pair<WeatherPeriod, Sentence> WeatherForecastStoryItem::getAdditionalSenten
 {
   if (index >= theAdditionalSentences.size())
     return make_pair(WeatherPeriod(TextGenPosixTime(), TextGenPosixTime()), Sentence());
-      return theAdditionalSentences[index];
+  return theAdditionalSentences[index];
 }
 
 WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const
@@ -1062,9 +1059,8 @@ WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const
                          thePeriodToMergeWith->getStoryItemPeriod().localEndTime());
     return period;
   }
-  
-      return thePeriod;
- 
+
+  return thePeriod;
 }
 
 unsigned int WeatherForecastStoryItem::getPeriodLength() const
@@ -1220,7 +1216,7 @@ int get_day_number(part_of_the_day_id id, const WeatherPeriod& period, std::stri
 
 void check_percentage(const WeatherPeriod& period,
                       const std::string& part_of_day,
-                      part_of_the_day_id  /*id*/,
+                      part_of_the_day_id /*id*/,
                       float& topPercentage,
                       std::string& phrase)
 {
@@ -1319,9 +1315,10 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase()
   return theWeatherForecastStory.getPeriodPhrase(getStoryItemPeriod());
 }
 
-Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
-                                                   const WeatherPeriod* thePhrasePeriod /*= 0*/,
-                                                   bool  /*theStoryUnderConstructionEmpty*/ /*= true*/)
+Sentence WeatherForecastStoryItem::getPeriodPhrase(
+    bool theFromSpecifier,
+    const WeatherPeriod* thePhrasePeriod /*= 0*/,
+    bool /*theStoryUnderConstructionEmpty*/ /*= true*/)
 {
   Sentence sentence;
 
@@ -1553,7 +1550,7 @@ Sentence CloudinessForecastStoryItem::cloudinessChangeSentence()
 
   theWeatherForecastStory.theCloudinessForecast.getWeatherEventIdVector(cloudinessEvents);
 
-  for (auto & cloudinessEvent : cloudinessEvents)
+  for (auto& cloudinessEvent : cloudinessEvents)
   {
     TextGenPosixTime cloudinessEventTimestamp(cloudinessEvent.first);
     if (cloudinessEventTimestamp >= thePeriod.localStartTime() &&

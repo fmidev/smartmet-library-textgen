@@ -98,7 +98,7 @@ bool isBetweenDates(
   {
     if (theDate.GetMonth() >= startMonth && theDate.GetMonth() <= 12)
       return (compareDate >= startDate);
-          return (compareDate <= endDate);
+    return (compareDate <= endDate);
   }
 
   return (compareDate >= startDate && compareDate <= endDate);

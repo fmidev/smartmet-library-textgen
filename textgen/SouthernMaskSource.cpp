@@ -101,10 +101,7 @@ class SouthernMaskSource::Pimple
  */
 // ----------------------------------------------------------------------
 
-SouthernMaskSource::Pimple::Pimple(const WeatherArea& theArea)
-    : itsArea(theArea) 
-{
-}
+SouthernMaskSource::Pimple::Pimple(const WeatherArea& theArea) : itsArea(theArea) {}
 
 // ----------------------------------------------------------------------
 /*!
@@ -251,9 +248,9 @@ SouthernMaskSource::mask_type SouthernMaskSource::mask(const WeatherArea& theAre
 // ----------------------------------------------------------------------
 
 SouthernMaskSource::masks_type SouthernMaskSource::masks(
-    const WeatherArea&  /*theArea*/,
-    const std::string&  /*theData*/,
-    const WeatherSource&  /*theWeatherSource*/) const
+    const WeatherArea& /*theArea*/,
+    const std::string& /*theData*/,
+    const WeatherSource& /*theWeatherSource*/) const
 {
   throw TextGenError("SouthernMaskSource::masks not implemented");
 }

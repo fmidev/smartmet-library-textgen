@@ -140,7 +140,7 @@ struct wind_anomaly_params
         theForecastTime(forecastTime),
         thePeriodLength(periodLength),
         theSpecifyPartOfTheDayFlag(specifyPartOfTheDayFlag),
-        
+
         theCoastalAndInlandTogetherFlag(false),
         theTemperatureAreaMorningMinimum(kFloatMissing, 0),
         theTemperatureAreaMorningMean(kFloatMissing, 0),
@@ -184,7 +184,7 @@ struct wind_anomaly_params
         theWindchillCoastalAfternoonMinimum(kFloatMissing, 0),
         theWindchillCoastalAfternoonMean(kFloatMissing, 0),
         theWindchillCoastalAfternoonMaximum(kFloatMissing, 0)
-        
+
   {
   }
 
@@ -574,14 +574,14 @@ Sentence get_windiness_sentence(const std::string& timeSpecifier,
 }
 
 Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
-                                                     const float& windspeedAfternoon,
-                                                     const float& windyWeatherLimit,
-                                                     const float& extremelyWindyWeatherLimit,
-                                                     const Sentence& specifiedDaySentence,
-                                                     const short& dayNumber,
-                                                     const std::string& areaString,
-                                                     const std::string& morningWord,
-                                                     const std::string& afternoonWord)
+                                               const float& windspeedAfternoon,
+                                               const float& windyWeatherLimit,
+                                               const float& extremelyWindyWeatherLimit,
+                                               const Sentence& specifiedDaySentence,
+                                               const short& dayNumber,
+                                               const std::string& areaString,
+                                               const std::string& morningWord,
+                                               const std::string& afternoonWord)
 {
   Sentence sentence;
 
@@ -810,8 +810,8 @@ else
 }
 
 Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
-                                            const Sentence& theSpecifiedDay,
-                                            const short& dayNumber)
+                                      const Sentence& theSpecifiedDay,
+                                      const short& dayNumber)
 {
   Sentence sentence;
 

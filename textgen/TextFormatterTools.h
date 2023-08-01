@@ -51,10 +51,10 @@ std::string get_story_value_param(const std::string& theStoryVar,
 
 template <typename Iterator>
 std::string realize(Iterator it,
-                          Iterator end,
-                          const TextFormatter& theFormatter,
-                          const std::string& thePrefix,
-                          const std::string& theSuffix)
+                    Iterator end,
+                    const TextFormatter& theFormatter,
+                    const std::string& thePrefix,
+                    const std::string& theSuffix)
 {
   std::string ret;
   std::string tmp;

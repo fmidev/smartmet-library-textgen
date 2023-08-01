@@ -38,10 +38,10 @@ namespace
 // ----------------------------------------------------------------------
 
 Sentence plain_frost_sentence(bool isSevere,
-                                    int theValue,
-                                    const string& theVar,
-                                    const TextGenPosixTime& theForecastTime,
-                                    const WeatherPeriod& thePeriod)
+                              int theValue,
+                              const string& theVar,
+                              const TextGenPosixTime& theForecastTime,
+                              const WeatherPeriod& thePeriod)
 {
   Sentence sentence;
   sentence << (isSevere ? "ankaran hallan todennakoisyys" : "hallan todennakoisyys") << "on"

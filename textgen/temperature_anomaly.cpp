@@ -260,7 +260,7 @@ struct temperature_anomaly_params
         thePeriodLength(periodLength),
         theAnomalyPhrase(UNDEFINED_ANOMALY_PHRASE_ID),
         theShortrunTrend(UNDEFINED_SHORTRUN_TREND_ID),
-        
+
         theGrowingSeasonUnderway(false),
         theDayBeforeDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
         theDayBeforeDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
@@ -407,11 +407,11 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
 }
 
 Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
-                                            float fractile02Share,
-                                            float fractile12Share,
-                                            float fractile88Share,
-                                            float fractile98Share,
-                                            const WeatherPeriod& thePeriod)
+                                      float fractile02Share,
+                                      float fractile12Share,
+                                      float fractile88Share,
+                                      float fractile98Share,
+                                      const WeatherPeriod& thePeriod)
 {
   Sentence sentence;
 
@@ -623,11 +623,11 @@ Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
 }
 
 Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
-                                          const std::string& theDayIncludedCompositePhrase,
-                                          const std::string& theAreaIncludedCompositePhrase,
-                                          const std::string& theTemperatureSentence,
-                                          const Sentence& theSpecifiedDay,
-                                          const Sentence& theAreaPhrase)
+                                    const std::string& theDayIncludedCompositePhrase,
+                                    const std::string& theAreaIncludedCompositePhrase,
+                                    const std::string& theTemperatureSentence,
+                                    const Sentence& theSpecifiedDay,
+                                    const Sentence& theAreaPhrase)
 {
   Sentence sentence;
 
@@ -652,7 +652,7 @@ Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedComp
 }
 
 Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
-                                                  fractile_type_id theFractileType)
+                                            fractile_type_id theFractileType)
 {
   Sentence sentence;
 
@@ -1301,12 +1301,12 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
 }
 
 Paragraph anomaly(const TextGen::WeatherArea& itsArea,
-                        const TextGen::WeatherPeriod& itsPeriod,
-                        const TextGen::AnalysisSources& itsSources,
-                        const TextGenPosixTime& itsForecastTime,
-                        const std::string& itsVar,
-                        const std::string& theAreaName,
-                        MessageLogger& theLog)
+                  const TextGen::WeatherPeriod& itsPeriod,
+                  const TextGen::AnalysisSources& itsSources,
+                  const TextGenPosixTime& itsForecastTime,
+                  const std::string& itsVar,
+                  const std::string& theAreaName,
+                  MessageLogger& theLog)
 {
   using namespace TemperatureAnomaly;
 

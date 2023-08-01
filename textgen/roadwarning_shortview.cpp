@@ -163,10 +163,10 @@ class WarningPercentages
 // ----------------------------------------------------------------------
 
 WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
-                                               int thePeriodIndex,
-                                               const TextGen::AnalysisSources& theSources,
-                                               const TextGen::WeatherArea& theArea,
-                                               const std::string& theVar)
+                                         int thePeriodIndex,
+                                         const TextGen::AnalysisSources& theSources,
+                                         const TextGen::WeatherArea& theArea,
+                                         const std::string& theVar)
 {
   GridForecaster forecaster;
 
@@ -237,7 +237,7 @@ const char* warning_places_phrase(double thePercentage,
     return "paikoin";
   if (thePercentage < theGenerallyLimit)
     return "monin paikoin";
-      return "yleisesti";
+  return "yleisesti";
 }
 
 // ----------------------------------------------------------------------
@@ -247,10 +247,10 @@ const char* warning_places_phrase(double thePercentage,
 // ----------------------------------------------------------------------
 
 Sentence warning_phrase(RoadWarningType theType,
-                              double thePercentage,
-                              int theGenerallyLimit,
-                              int theManyPlacesLimit,
-                              int theSomePlacesLimit)
+                        double thePercentage,
+                        int theGenerallyLimit,
+                        int theManyPlacesLimit,
+                        int theSomePlacesLimit)
 {
   const char* places_phrase = warning_places_phrase(thePercentage,
                                                     theGenerallyLimit,
@@ -324,8 +324,7 @@ Sentence warning_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-Sentence second_places_sentence(RoadWarningType thePrimaryType,
-                                      RoadWarningType theSecondaryType)
+Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType theSecondaryType)
 {
   Sentence sentence;
 

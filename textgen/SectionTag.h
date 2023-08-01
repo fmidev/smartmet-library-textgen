@@ -19,7 +19,7 @@ class SectionTag : public Glyph
 {
  public:
   ~SectionTag() override;
-  SectionTag(std::string  theName, const bool& prefixTag = true);
+  SectionTag(std::string theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
   SectionTag(const SectionTag& theSectionTag);
   SectionTag& operator=(const SectionTag& theSectionTag);

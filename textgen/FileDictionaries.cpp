@@ -92,7 +92,7 @@ FileDictionaries::~FileDictionaries() = default;
  */
 // ----------------------------------------------------------------------
 
-FileDictionaries::FileDictionaries() :  itsPimple(new Pimple())
+FileDictionaries::FileDictionaries() : itsPimple(new Pimple())
 {
   itsDictionaryId = "multifile";
 }
@@ -207,7 +207,7 @@ const std::string& FileDictionaries::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void FileDictionaries::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
+void FileDictionaries::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
   throw TextGenError("Error: FileDictionaries::insert() is not allowed");
 }

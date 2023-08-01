@@ -102,10 +102,7 @@ class InlandMaskSource::Pimple
  */
 // ----------------------------------------------------------------------
 
-InlandMaskSource::Pimple::Pimple(const WeatherArea& theInland)
-    : itsCoast(theInland) 
-{
-}
+InlandMaskSource::Pimple::Pimple(const WeatherArea& theInland) : itsCoast(theInland) {}
 
 // ----------------------------------------------------------------------
 /*!
@@ -258,9 +255,10 @@ InlandMaskSource::mask_type InlandMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-InlandMaskSource::masks_type InlandMaskSource::masks(const WeatherArea&  /*theArea*/,
-                                                     const std::string&  /*theData*/,
-                                                     const WeatherSource&  /*theWeatherSource*/) const
+InlandMaskSource::masks_type InlandMaskSource::masks(
+    const WeatherArea& /*theArea*/,
+    const std::string& /*theData*/,
+    const WeatherSource& /*theWeatherSource*/) const
 {
   throw TextGenError("InlandMaskSource::masks not implemented");
 }

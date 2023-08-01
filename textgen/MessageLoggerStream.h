@@ -44,7 +44,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 
  protected:
   // only for output, not for input
-  int_type pbackfail(int_type  /*unused*/= CharTraits::eof()) override
+  int_type pbackfail(int_type /*unused*/ = CharTraits::eof()) override
   {
     throw std::runtime_error("MessageLoggerStream::pbackfail not available");
     return 0;
@@ -81,7 +81,8 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   // we don't allow positioning
   pos_type seekoff(off_type /*unused*/,
                    std::ios_base::seekdir /*unused*/,
-                   std::ios_base::openmode  /*unused*/= std::ios_base::in | std::ios_base::out) override
+                   std::ios_base::openmode /*unused*/ = std::ios_base::in |
+                                                        std::ios_base::out) override
   {
     throw std::runtime_error("MessageLoggerStream::seekoff not available");
     return 0;
@@ -89,7 +90,8 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 
   // we don't allow positioning
   pos_type seekpos(pos_type /*unused*/,
-                   std::ios_base::openmode  /*unused*/= std::ios_base::in | std::ios_base::out) override
+                   std::ios_base::openmode /*unused*/ = std::ios_base::in |
+                                                        std::ios_base::out) override
   {
     throw std::runtime_error("MessageLoggerStream::seekpos not available");
     return 0;
@@ -147,7 +149,6 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
     return *itsStreamBuffer;
   }
 
- 
   // holds the Message, until it's flushed
   std::unique_ptr<StringStream> itsStreamBuffer;
 
@@ -175,7 +176,6 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
 
   ~MessageLoggerStream() override = default;
 
- 
   virtual void onNewMessage(const string_type& strNewMessage) = 0;
 
  public:

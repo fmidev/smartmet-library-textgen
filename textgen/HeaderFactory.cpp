@@ -154,8 +154,7 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_report_area(const WeatherArea& theArea,
-                                   const WeatherPeriod& thePeriod)
+TextGen::Header header_report_area(const WeatherArea& theArea, const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_report_area");
   using namespace TextGen;

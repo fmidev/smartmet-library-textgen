@@ -103,7 +103,7 @@ TextGen::Sentence temperature_sentence(int theMinimum,
                                        int theMean,
                                        int theMaximum,
                                        int theMinInterval,
-                                       bool  /*theZeroFlag*/,
+                                       bool /*theZeroFlag*/,
                                        const std::string& theRangeSeparator)
 {
   Sentence sentence;
@@ -208,7 +208,7 @@ bool sort_out_temperature_interval(int theMinimum,
                                    int theMean,
                                    int theMaximum,
                                    int theMinInterval,
-                                   bool  /*theZeroFlag*/,
+                                   bool /*theZeroFlag*/,
                                    int& intervalStart,
                                    int& intervalEnd,
                                    const bool& theRoundTheNumber)
@@ -578,8 +578,8 @@ void clamp_temperature(
   else if (theMinimum <= -20 && abs(theMaximum - theMinimum) > 10)
     return;
 
-  bool clamp_down = optional_bool(thePlainVar + season + period + "::temperature_clamp_down",
-                                  !isWinter);
+  bool clamp_down =
+      optional_bool(thePlainVar + season + period + "::temperature_clamp_down", !isWinter);
 
   if (theMaximum - theMinimum > temperature_max_interval)
   {
@@ -751,7 +751,7 @@ fractile_id get_fractile(const std::string& theVar,
     return FRACTILE_98;
   if (result.value() != kFloatMissing)
     return FRACTILE_100;
-      return FRACTILE_UNDEFINED;
+  return FRACTILE_UNDEFINED;
 }
 
 // ----------------------------------------------------------------------

@@ -142,10 +142,10 @@ class ConditionPercentages
 // ----------------------------------------------------------------------
 
 ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
-                                                 int thePeriodIndex,
-                                                 const TextGen::AnalysisSources& theSources,
-                                                 const TextGen::WeatherArea& theArea,
-                                                 const std::string& theVar)
+                                           int thePeriodIndex,
+                                           const TextGen::AnalysisSources& theSources,
+                                           const TextGen::WeatherArea& theArea,
+                                           const std::string& theVar)
 {
   GridForecaster forecaster;
 
@@ -243,10 +243,10 @@ const char* condition_places_phrase(RoadConditionType theType,
 // ----------------------------------------------------------------------
 
 Sentence condition_phrase(RoadConditionType theType,
-                                double thePercentage,
-                                int theGenerallyLimit,
-                                int theManyPlacesLimit,
-                                int theSomePlacesLimit)
+                          double thePercentage,
+                          int theGenerallyLimit,
+                          int theManyPlacesLimit,
+                          int theSomePlacesLimit)
 {
   const char* places_phrase = condition_places_phrase(
       theType, thePercentage, theGenerallyLimit, theManyPlacesLimit, theSomePlacesLimit);
@@ -288,7 +288,7 @@ Sentence condition_phrase(RoadConditionType theType,
 // ----------------------------------------------------------------------
 
 Sentence second_places_sentence(RoadConditionType thePrimaryType,
-                                      RoadConditionType theSecondaryType)
+                                RoadConditionType theSecondaryType)
 {
   Sentence sentence;
   switch (thePrimaryType)
@@ -763,9 +763,9 @@ Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string
 // ----------------------------------------------------------------------
 
 Sentence during_period_phrase(const WeatherPeriod& thePeriod,
-                                    const TextGenPosixTime& theLastTime,
-                                    const TextGenPosixTime& theForecastTime,
-                                    const string& theVar)
+                              const TextGenPosixTime& theLastTime,
+                              const TextGenPosixTime& theForecastTime,
+                              const string& theVar)
 {
   if (TimeTools::isSameDay(theLastTime, thePeriod.localStartTime()))
     return during_period_phrase_today(thePeriod, theVar);
@@ -879,9 +879,9 @@ Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const stri
 // ----------------------------------------------------------------------
 
 Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
-                                      const TextGenPosixTime& theLastTime,
-                                      const TextGenPosixTime& theForecastTime,
-                                      const string& theVar)
+                                const TextGenPosixTime& theLastTime,
+                                const TextGenPosixTime& theForecastTime,
+                                const string& theVar)
 {
   if (TimeTools::isSameDay(theLastTime, thePeriod.localStartTime()))
     return starting_period_phrase_today(thePeriod, theVar);

@@ -69,7 +69,7 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
 
 Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
                                           const forecast_area_id& theForecastAreaId,
-                                          const string&  /*theVariable*/) const
+                                          const string& /*theVariable*/) const
 {
   Sentence sentence;
 

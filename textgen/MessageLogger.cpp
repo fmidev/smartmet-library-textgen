@@ -105,7 +105,7 @@ MessageLogger::~MessageLogger()
  */
 // ----------------------------------------------------------------------
 
-MessageLogger::MessageLogger(string  theFunction) : itsFunction(std::move(theFunction))
+MessageLogger::MessageLogger(string theFunction) : itsFunction(std::move(theFunction))
 {
   output_timestamp(sTimeStampOn);
 

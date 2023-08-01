@@ -328,7 +328,7 @@ float wind_direction_error(const wind_data_item_vector& theWindDataVector,
   unsigned int counter(0);
   float cumulativeWindDirectionError(0.0);
 
-  for (auto *i : theWindDataVector)
+  for (auto* i : theWindDataVector)
   {
     WindDataItemUnit& item = i->getDataItem(theArea.type());
     if (is_inside(item.thePeriod.localStartTime(), thePeriod))
@@ -397,7 +397,7 @@ unsigned int get_peak_wind(const WeatherPeriod& thePeriod,
 
 WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
                                            const TextGenPosixTime& pointOfTime,
-                                           const std::string&  /*var*/)
+                                           const std::string& /*var*/)
 {
   WeatherResult retval(kFloatMissing, 0.0);
 
@@ -417,7 +417,7 @@ WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const TextGenPosixTime& pointOfTime,
-                   const std::string&  /*var*/)
+                   const std::string& /*var*/)
 {
   for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
   {
@@ -435,7 +435,7 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const WeatherPeriod& period,
-                   const std::string&  /*var*/)
+                   const std::string& /*var*/)
 {
   float speedSum(0.0);
   float gustSpeedSum(0.0);
@@ -486,7 +486,7 @@ WindDirectionInfo negotiateWindDirection(WindDirectionInfo& theProposedWindDirec
 
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const TextGenPosixTime& pointOfTime,
-                                     const WindDirectionInfo*  /*thePreviousWindDirection*/ /*= 0*/)
+                                     const WindDirectionInfo* /*thePreviousWindDirection*/ /*= 0*/)
 {
   WeatherResult directionValue(kFloatMissing, 0.0);
   WindDirectionId directionId(MISSING_WIND_DIRECTION_ID);
@@ -514,7 +514,7 @@ WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
 
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const WeatherPeriod& period,
-                                     const WindDirectionInfo*  /*thePreviousWindDirection*/ /*= 0*/)
+                                     const WindDirectionInfo* /*thePreviousWindDirection*/ /*= 0*/)
 {
   float topSpeedSum(0.0);
   float topSpeedStdDevSum(0.0);
@@ -1156,8 +1156,8 @@ bool wind_speed_differ_enough(const interval_info& firstInterval,
 
   if (firstTopValue == 0 && secondTopValue == 0)
     return (lowerLimitDifference + upperLimitDifference > 3);
-      return (firstStartValue + firstEndValue + firstTopValue !=
-            secondStartValue + secondEndValue + secondTopValue);
+  return (firstStartValue + firstEndValue + firstTopValue !=
+          secondStartValue + secondEndValue + secondTopValue);
 }
 
 bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
@@ -1750,7 +1750,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
         continue;
       }
       if (abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
-                   windDirectionPeriod.localStartTime())) < 4)
+              windDirectionPeriod.localStartTime())) < 4)
       {
         // direction changes about same time as wind speed starts to increase / decrease
         if (windDirectionInfo.id != VAIHTELEVA)
@@ -2035,11 +2035,10 @@ void WindForecast::checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVe
         interval_sentence_info& isiNext = sentenceInfo.intervalSentences[k + 1];
         interval_info intervalInfoIsiNext = windSpeedIntervalInfo(isiNext.period);
 
-        bool differEnough =
-            wind_speed_differ_enough(intervalInfoIsi,
-                                     intervalInfoIsiNext,
-                                     theParameters.theContextualMaxIntervalSize,
-                                     sentenceInfo.changeType == VOIMISTUVAA_WORD);
+        bool differEnough = wind_speed_differ_enough(intervalInfoIsi,
+                                                     intervalInfoIsiNext,
+                                                     theParameters.theContextualMaxIntervalSize,
+                                                     sentenceInfo.changeType == VOIMISTUVAA_WORD);
         if (!differEnough)
         {
           isi.skip = true;
@@ -2163,10 +2162,9 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
       hours = hours_moved;
       return movedPeriod;
     }
-    
-          hours = (hours_moved < hours_shrunk ? hours_moved : hours_shrunk);
-      return (hours_moved < hours_shrunk ? movedPeriod : shrunkPeriod);
-   
+
+    hours = (hours_moved < hours_shrunk ? hours_moved : hours_shrunk);
+    return (hours_moved < hours_shrunk ? movedPeriod : shrunkPeriod);
   }
 
   hours = hours_moved;
@@ -2349,9 +2347,8 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
           step = 1;
           continue;
         }
-        
-                  step = 3;
-       
+
+        step = 3;
 
         WeatherResult direction1 = directionChanges[i]->direction;
         WeatherResult direction2 = directionChanges[i + 1]->direction;
@@ -2373,7 +2370,7 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
 
 // get paragraph info
 ParagraphInfoVector WindForecast::getParagraphInfo(
-    const WeatherPeriod&  /*thePeriod*/, const WindSpeedSentenceInfo& sentenceInfoVector) const
+    const WeatherPeriod& /*thePeriod*/, const WindSpeedSentenceInfo& sentenceInfoVector) const
 {
   ParagraphInfoVector ret;
   TimePhraseInfo timePhraseInfo;
@@ -2893,8 +2890,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
       if (!is_inside(windDataItem.thePeriod.localStartTime(), speedEventPeriod))
       {
         // we must have at least one reporting point
-        if ((firstSentenceInTheStory && reportingIndexes.size() == 1) ||
-            reportingIndexes.empty())
+        if ((firstSentenceInTheStory && reportingIndexes.size() == 1) || reportingIndexes.empty())
         {
           const WindDataItemUnit& previousWindDataItem =
               (*theParameters.theWindDataVector[i - 1])(theParameters.theArea.type());
@@ -3249,7 +3245,7 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
   return false;
 }
 
-Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod&  /*thePeriod*/,
+Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePeriod*/,
                                                  interval_info intervalInfo,
                                                  TimePhraseInfo& timePhraseInfo,
                                                  bool theUseAtItsStrongestPhrase) const
