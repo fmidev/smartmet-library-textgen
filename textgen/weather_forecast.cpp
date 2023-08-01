@@ -1016,6 +1016,7 @@ void create_data_structures(wf_story_params& theParameters)
 void deallocate_data_structure(unsigned int& thePeriodCount,
                                weather_forecast_result_container& theResultContainer)
 {
+#if 0
   for (unsigned int i = 0; i < thePeriodCount; i++)
   {
     delete (*theResultContainer[CLOUDINESS_DATA])[i];
@@ -1083,6 +1084,18 @@ void deallocate_data_structure(unsigned int& thePeriodCount,
   delete theResultContainer[FOG_NORTHWEST_SHARE_DATA];
 
   theResultContainer.clear();
+
+#else
+  (void)thePeriodCount;
+  for (auto& result_item : theResultContainer)
+  {
+      for (auto& item : *result_item.second)
+      {
+          delete item;
+      }
+      delete result_item.second;
+  }
+#endif
 }
 
 void delete_data_structures(wf_story_params& theParameters)
