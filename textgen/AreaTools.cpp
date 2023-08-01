@@ -147,13 +147,13 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
 
   ExtractMask(theSources, theParameter, theArea, thePeriod, theAcceptor, indexMask);
 
-  vector<NFmiPoint*> latitudeLongitudeCoordinates;
+  vector<NFmiPoint> latitudeLongitudeCoordinates;
   for (unsigned long it : indexMask)
   {
     NFmiPoint latlon = theQI.LatLon(it);
     lonSum += latlon.X();
     latSum += latlon.Y();
-    latitudeLongitudeCoordinates.push_back(new NFmiPoint(latlon));
+    latitudeLongitudeCoordinates.push_back(latlon);
   }
 
   if (!latitudeLongitudeCoordinates.empty())
@@ -179,7 +179,7 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   return retval;
 }
 
-void getArealDistribution(const vector<NFmiPoint*>& thePointVector,
+void getArealDistribution(const vector<NFmiPoint>& thePointVector,
                           map<direction_id, double>& theResultData)
 {
   Rect area(thePointVector);
@@ -198,7 +198,7 @@ void getArealDistribution(const vector<NFmiPoint*>& thePointVector,
 
   for (unsigned int i = 0; i < count; i++)
   {
-    NFmiPoint thePoint(*(thePointVector[i]));
+    NFmiPoint thePoint(thePointVector[i]);
     theResultData[area.getHalfDirection(thePoint)] += 1.0;
   }
 
@@ -304,7 +304,7 @@ std::string getDirectionString(const direction_id& theDirectionId)
   return retval;
 }
 
-Rect::Rect(const vector<NFmiPoint*>& thePointVector)
+Rect::Rect(const vector<NFmiPoint>& thePointVector)
 {
   double xMin = 0.0;
   double yMin = 0.0;
@@ -314,18 +314,18 @@ Rect::Rect(const vector<NFmiPoint*>& thePointVector)
   {
     if (i == 0)
     {
-      xMin = xMax = thePointVector.at(i)->X();
-      yMin = yMax = thePointVector.at(i)->Y();
+      xMin = xMax = thePointVector.at(i).X();
+      yMin = yMax = thePointVector.at(i).Y();
       continue;
     }
-    if (xMin > thePointVector.at(i)->X())
-      xMin = thePointVector.at(i)->X();
-    if (xMax < thePointVector.at(i)->X())
-      xMax = thePointVector.at(i)->X();
-    if (yMin > thePointVector.at(i)->Y())
-      yMin = thePointVector.at(i)->Y();
-    if (yMax < thePointVector.at(i)->Y())
-      yMax = thePointVector.at(i)->Y();
+    if (xMin > thePointVector.at(i).X())
+      xMin = thePointVector.at(i).X();
+    if (xMax < thePointVector.at(i).X())
+      xMax = thePointVector.at(i).X();
+    if (yMin > thePointVector.at(i).Y())
+      yMin = thePointVector.at(i).Y();
+    if (yMax < thePointVector.at(i).Y())
+      yMax = thePointVector.at(i).Y();
   }
   m_topLeft.X(xMin);
   m_topLeft.Y(yMax);

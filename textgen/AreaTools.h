@@ -69,7 +69,7 @@ class Rect
        const double& topLeftY,
        const double& bottomRightX,
        const double& bottomRightY);
-  Rect(const std::vector<NFmiPoint*>& thePointVector);
+  Rect(const std::vector<NFmiPoint>& thePointVector);
   Rect(const NFmiPoint& topLeft, const NFmiPoint& bottomRight)
       : m_topLeft(topLeft), m_bottomRight(bottomRight)
   {
@@ -134,7 +134,7 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
                                WeatherResult& theSouthWestShare,
                                WeatherResult& theNortWestShare);
 
-void getArealDistribution(const std::vector<NFmiPoint*>& thePointVector,
+void getArealDistribution(const std::vector<NFmiPoint>& thePointVector,
                           std::map<direction_id, double>& theResultData);
 
 std::string getDirectionString(const direction_id& theDirectionId);
