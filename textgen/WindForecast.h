@@ -19,9 +19,9 @@ struct WindDirectionPeriodInfo
 
 struct interval_info
 {
-  int lowerLimit;
-  int upperLimit;
-  int peakWind;
+  int lowerLimit = 0;
+  int upperLimit = 0;
+  int peakWind = 0;
   TextGenPosixTime startTime;
   TextGenPosixTime endTime;
   TextGenPosixTime peakWindTime;
