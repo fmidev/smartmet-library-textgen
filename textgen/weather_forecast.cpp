@@ -137,7 +137,7 @@ void log_weather_result_data(MessageLogger& theLog,
   weather_result_data_item_vector* timeSeries = nullptr;
   for (unsigned int i = CLOUDINESS_DATA; i < UNDEFINED_DATA_ID; i++)
   {
-    timeSeries = theDataContainer[i];
+    timeSeries = theDataContainer[i].get();
     if (i == PRECIPITATION_MAX_DATA)
       theLogMessage = "*** precipitation maximum ****";
     else if (i == PRECIPITATION_MEAN_DATA)
@@ -284,35 +284,35 @@ void populate_precipitation_time_series(const string& theVariable,
 {
   GridForecaster theForecaster;
 
-  weather_result_data_item_vector* precipitationMaxHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationMaxHourly =
       theHourlyDataContainer[PRECIPITATION_MAX_DATA];
-  weather_result_data_item_vector* precipitationMeanHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationMeanHourly =
       theHourlyDataContainer[PRECIPITATION_MEAN_DATA];
-  weather_result_data_item_vector* precipitationExtentHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationExtentHourly =
       theHourlyDataContainer[PRECIPITATION_EXTENT_DATA];
-  weather_result_data_item_vector* precipitationFormWaterHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationFormWaterHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_WATER_DATA];
-  weather_result_data_item_vector* precipitationFormDrizzleHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationFormDrizzleHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_DRIZZLE_DATA];
-  weather_result_data_item_vector* precipitationFormSleetHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationFormSleetHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_SLEET_DATA];
-  weather_result_data_item_vector* precipitationFormSnowHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationFormSnowHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_SNOW_DATA];
-  weather_result_data_item_vector* precipitationFormFreezingDrizzleHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationFormFreezingDrizzleHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
-  weather_result_data_item_vector* precipitationFormFreezingRainHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationFormFreezingRainHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
-  weather_result_data_item_vector* precipitationTypeHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationTypeHourly =
       theHourlyDataContainer[PRECIPITATION_TYPE_DATA];
-  weather_result_data_item_vector* precipitationShareNorthEastHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationShareNorthEastHourly =
       theHourlyDataContainer[PRECIPITATION_NORTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* precipitationShareSouthEastHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationShareSouthEastHourly =
       theHourlyDataContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* precipitationShareSouthWestHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationShareSouthWestHourly =
       theHourlyDataContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
-  weather_result_data_item_vector* precipitationShareNorthWestHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationShareNorthWestHourly =
       theHourlyDataContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
-  weather_result_data_item_vector* precipitationPointHourly =
+ std::shared_ptr< weather_result_data_item_vector> precipitationPointHourly =
       theHourlyDataContainer[PRECIPITATION_POINT_DATA];
 
   RangeAcceptor precipitationlimits;
@@ -514,15 +514,15 @@ void populate_thunderprobability_time_series(
 {
   weather_result_data_item_vector& thunderProbabilityHourly =
       *(theHourlyDataContainer[THUNDER_PROBABILITY_DATA]);
-  weather_result_data_item_vector* thunderExtentHourly =
+ std::shared_ptr< weather_result_data_item_vector> thunderExtentHourly =
       theHourlyDataContainer[THUNDER_EXTENT_DATA];
-  weather_result_data_item_vector* thunderNorthEastHourly =
+ std::shared_ptr< weather_result_data_item_vector> thunderNorthEastHourly =
       theHourlyDataContainer[THUNDER_NORTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* thunderSouthEastHourly =
+ std::shared_ptr< weather_result_data_item_vector> thunderSouthEastHourly =
       theHourlyDataContainer[THUNDER_SOUTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* thunderSouthWestHourly =
+ std::shared_ptr< weather_result_data_item_vector> thunderSouthWestHourly =
       theHourlyDataContainer[THUNDER_SOUTHWEST_SHARE_DATA];
-  weather_result_data_item_vector* thunderNorthWestHourly =
+ std::shared_ptr< weather_result_data_item_vector> thunderNorthWestHourly =
       theHourlyDataContainer[THUNDER_NORTHWEST_SHARE_DATA];
 
   RangeAcceptor thunderlimits;
@@ -607,13 +607,13 @@ void populate_fogintensity_time_series(const string& theVariable,
       *(theHourlyDataContainer[FOG_INTENSITY_MODERATE_DATA]);
   weather_result_data_item_vector& fogIntensityDenseHourly =
       *(theHourlyDataContainer[FOG_INTENSITY_DENSE_DATA]);
-  weather_result_data_item_vector* fogNorthEastHourly =
+ std::shared_ptr< weather_result_data_item_vector> fogNorthEastHourly =
       theHourlyDataContainer[FOG_NORTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* fogSouthEastHourly =
+ std::shared_ptr< weather_result_data_item_vector> fogSouthEastHourly =
       theHourlyDataContainer[FOG_SOUTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* fogSouthWestHourly =
+ std::shared_ptr< weather_result_data_item_vector> fogSouthWestHourly =
       theHourlyDataContainer[FOG_SOUTHWEST_SHARE_DATA];
-  weather_result_data_item_vector* fogNorthWestHourly =
+ std::shared_ptr< weather_result_data_item_vector> fogNorthWestHourly =
       theHourlyDataContainer[FOG_NORTHWEST_SHARE_DATA];
 
   GridForecaster theForecaster;
@@ -699,13 +699,13 @@ void populate_cloudiness_time_series(const string& theVariable,
                                      weather_forecast_result_container& theHourlyDataContainer)
 {
   weather_result_data_item_vector& cloudinessHourly = *(theHourlyDataContainer[CLOUDINESS_DATA]);
-  weather_result_data_item_vector* cloudinessNorthEastHourly =
+  std::shared_ptr< weather_result_data_item_vector> cloudinessNorthEastHourly =
       theHourlyDataContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* cloudinessSouthEastHourly =
+  std::shared_ptr< weather_result_data_item_vector> cloudinessSouthEastHourly =
       theHourlyDataContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
-  weather_result_data_item_vector* cloudinessSouthWestHourly =
+  std::shared_ptr< weather_result_data_item_vector> cloudinessSouthWestHourly =
       theHourlyDataContainer[CLOUDINESS_SOUTHWEST_SHARE_DATA];
-  weather_result_data_item_vector* cloudinessNorthWestHourly =
+  std::shared_ptr< weather_result_data_item_vector> cloudinessNorthWestHourly =
       theHourlyDataContainer[CLOUDINESS_NORTHWEST_SHARE_DATA];
 
   GridForecaster theForecaster;
@@ -767,43 +767,43 @@ void populate_cloudiness_time_series(wf_story_params& theParameters)
 
 void allocate_data_structures(wf_story_params& theParameters, const forecast_area_id& theAreaId)
 {
-  auto* hourlyMaxPrecipitation = new weather_result_data_item_vector();
-  auto* hourlyMeanPrecipitation = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationExtent = new weather_result_data_item_vector();
+    auto hourlyMaxPrecipitation = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyMeanPrecipitation = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationExtent = std::make_shared<weather_result_data_item_vector>();
 
-  auto* hourlyPrecipitationType = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormWater = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormDrizzle = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormSleet = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormSnow = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormFreezingDrizzle = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormFreezingRain = new weather_result_data_item_vector();
-  auto* hourlyCloudiness = new weather_result_data_item_vector();
-  auto* hourlyThunderProbability = new weather_result_data_item_vector();
-  auto* hourlyThunderExtent = new weather_result_data_item_vector();
-  auto* hourlyFogIntensityModerate = new weather_result_data_item_vector();
-  auto* hourlyFogIntensityDense = new weather_result_data_item_vector();
+  auto hourlyPrecipitationType = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationFormWater = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationFormDrizzle = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationFormSleet = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationFormSnow = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationFormFreezingDrizzle = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationFormFreezingRain = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyCloudiness = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyThunderProbability = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyThunderExtent = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyFogIntensityModerate = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyFogIntensityDense = std::make_shared<weather_result_data_item_vector>();
 
-  auto* hourlyPrecipitationShareNortEast = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationShareSouthEast = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationShareSouthWest = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationShareNorthWest = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationPoint = new weather_result_data_item_vector();
+  auto hourlyPrecipitationShareNortEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationShareNorthWest = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyPrecipitationPoint = std::make_shared<weather_result_data_item_vector>();
 
-  auto* hourlyCloudinessShareNortEast = new weather_result_data_item_vector();
-  auto* hourlyCloudinessShareSouthEast = new weather_result_data_item_vector();
-  auto* hourlyCloudinessShareSouthWest = new weather_result_data_item_vector();
-  auto* hourlyCloudinessShareNorthWest = new weather_result_data_item_vector();
+  auto hourlyCloudinessShareNortEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyCloudinessShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyCloudinessShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyCloudinessShareNorthWest = std::make_shared<weather_result_data_item_vector>();
 
-  auto* hourlyThunderProbabilityShareNortEast = new weather_result_data_item_vector();
-  auto* hourlyThunderProbabilityShareSouthEast = new weather_result_data_item_vector();
-  auto* hourlyThunderProbabilityShareSouthWest = new weather_result_data_item_vector();
-  auto* hourlyThunderProbabilityShareNorthWest = new weather_result_data_item_vector();
+  auto hourlyThunderProbabilityShareNortEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyThunderProbabilityShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyThunderProbabilityShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyThunderProbabilityShareNorthWest = std::make_shared<weather_result_data_item_vector>();
 
-  auto* hourlyFogShareNortEast = new weather_result_data_item_vector();
-  auto* hourlyFogShareSouthEast = new weather_result_data_item_vector();
-  auto* hourlyFogShareSouthWest = new weather_result_data_item_vector();
-  auto* hourlyFogShareNorthWest = new weather_result_data_item_vector();
+  auto hourlyFogShareNortEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyFogShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyFogShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+  auto hourlyFogShareNorthWest = std::make_shared<weather_result_data_item_vector>();
 
   // first split the whole period to one-hour subperiods
   TextGenPosixTime periodStartTime = theParameters.theDataPeriod.localStartTime();
@@ -891,7 +891,7 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
     theParameters.theHourPeriodCount++;
   }
 
-  auto* resultContainer = new weather_forecast_result_container();
+  auto resultContainer = std::make_shared<weather_forecast_result_container>();
 
   resultContainer->insert(make_pair(PRECIPITATION_MAX_DATA, hourlyMaxPrecipitation));
   resultContainer->insert(make_pair(PRECIPITATION_MEAN_DATA, hourlyMeanPrecipitation));
@@ -1011,65 +1011,6 @@ void create_data_structures(wf_story_params& theParameters)
   {
     // error not inland, nor coastal area included
   }
-}
-
-void deallocate_data_structure(unsigned int& thePeriodCount,
-                               weather_forecast_result_container& theResultContainer)
-{
-  (void)thePeriodCount;
-  for (auto& result_item : theResultContainer)
-  {
-      delete result_item.second;
-  }
-}
-
-void delete_data_structures(wf_story_params& theParameters)
-{
-  if (theParameters.theForecastArea & INLAND_AREA)
-  {
-    deallocate_data_structure(theParameters.theHourPeriodCount,
-                              *theParameters.theCompleteData[INLAND_AREA]);
-  }
-  if (theParameters.theForecastArea & COASTAL_AREA)
-  {
-    deallocate_data_structure(theParameters.theHourPeriodCount,
-                              *theParameters.theCompleteData[COASTAL_AREA]);
-  }
-  if (theParameters.theForecastArea & FULL_AREA)
-  {
-    deallocate_data_structure(theParameters.theHourPeriodCount,
-                              *theParameters.theCompleteData[FULL_AREA]);
-  }
-
-  for (auto *cloudinessDataItemContainer : theParameters.theCloudinessData)
-  {
-    for (auto& item : *cloudinessDataItemContainer)
-      delete item.second;
-    cloudinessDataItemContainer->clear();
-  }
-  theParameters.theCloudinessData.clear();
-  for (auto *precipitationDataItemContainer : theParameters.thePrecipitationData)
-  {
-    for (auto& item : *precipitationDataItemContainer)
-      delete item.second;
-    precipitationDataItemContainer->clear();
-  }
-  theParameters.thePrecipitationData.clear();
-
-  for (auto *thunderDataItemContainer : theParameters.theThunderData)
-  {
-    for (auto& item : *thunderDataItemContainer)
-      delete item.second;
-    thunderDataItemContainer->clear();
-  }
-  theParameters.theFogData.clear();
-  for (auto *fogIntensityDataItemContainer : theParameters.theFogData)
-  {
-    for (auto& item : *fogIntensityDataItemContainer)
-      delete item.second;
-    fogIntensityDataItemContainer->clear();
-  }
-  theParameters.theFogData.clear();
 }
 
 void init_parameters(wf_story_params& theParameters)
@@ -1292,8 +1233,6 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   paragraph << wfs.getWeatherForecastStory();
 
   //  log_weather_forecast_story(theLog, wfs);
-
-  delete_data_structures(theParameters);
 
   theLog << paragraph;
 

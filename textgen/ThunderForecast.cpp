@@ -81,22 +81,22 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
   if (theForecastAreaId == FULL_AREA)
   {
     thunderProbabilityData =
-        ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA]);
-    thunderExtentData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_EXTENT_DATA]);
+        ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA].get());
+    thunderExtentData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_EXTENT_DATA].get());
     areaString = "full area";
   }
   if (theForecastAreaId == COASTAL_AREA)
   {
     thunderProbabilityData =
-        ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA]);
-    thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA]);
+        ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA].get());
+    thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA].get());
     areaString = "coast";
   }
   if (theForecastAreaId == INLAND_AREA)
   {
     thunderProbabilityData =
-        ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA]);
-    thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA]);
+        ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA].get());
+    thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA].get());
     areaString = "inland";
   }
 

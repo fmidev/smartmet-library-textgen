@@ -309,11 +309,11 @@ CloudinessForecast::CloudinessForecast(wf_story_params& parameters)
 
 {
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-    theFullData = ((*theParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA]);
+    theFullData = ((*theParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA].get());
   if (theParameters.theForecastArea & COASTAL_AREA)
-    theCoastalData = ((*theParameters.theCompleteData[COASTAL_AREA])[CLOUDINESS_DATA]);
+    theCoastalData = ((*theParameters.theCompleteData[COASTAL_AREA])[CLOUDINESS_DATA].get());
   if (theParameters.theForecastArea & INLAND_AREA)
-    theInlandData = ((*theParameters.theCompleteData[INLAND_AREA])[CLOUDINESS_DATA]);
+    theInlandData = ((*theParameters.theCompleteData[INLAND_AREA])[CLOUDINESS_DATA].get());
 
   findOutCloudinessPeriods();
   joinPeriods();

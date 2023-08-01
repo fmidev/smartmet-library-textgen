@@ -189,23 +189,23 @@ FogForecast::FogForecast(wf_story_params& parameters, bool visibilityForecast /*
   if (theParameters.theForecastArea & FULL_AREA)
   {
     theFullAreaModerateFogData =
-        ((*theParameters.theCompleteData[FULL_AREA])[FOG_INTENSITY_MODERATE_DATA]);
+        ((*theParameters.theCompleteData[FULL_AREA])[FOG_INTENSITY_MODERATE_DATA].get());
     theFullAreaDenseFogData =
-        ((*theParameters.theCompleteData[FULL_AREA])[FOG_INTENSITY_DENSE_DATA]);
+        ((*theParameters.theCompleteData[FULL_AREA])[FOG_INTENSITY_DENSE_DATA].get());
   }
   if (theParameters.theForecastArea & COASTAL_AREA)
   {
     theCoastalModerateFogData =
-        ((*theParameters.theCompleteData[COASTAL_AREA])[FOG_INTENSITY_MODERATE_DATA]);
+        ((*theParameters.theCompleteData[COASTAL_AREA])[FOG_INTENSITY_MODERATE_DATA].get());
     theCoastalDenseFogData =
-        ((*theParameters.theCompleteData[COASTAL_AREA])[FOG_INTENSITY_DENSE_DATA]);
+        ((*theParameters.theCompleteData[COASTAL_AREA])[FOG_INTENSITY_DENSE_DATA].get());
   }
   if (theParameters.theForecastArea & INLAND_AREA)
   {
     theInlandModerateFogData =
-        ((*theParameters.theCompleteData[INLAND_AREA])[FOG_INTENSITY_MODERATE_DATA]);
+        ((*theParameters.theCompleteData[INLAND_AREA])[FOG_INTENSITY_MODERATE_DATA].get());
     theInlandDenseFogData =
-        ((*theParameters.theCompleteData[INLAND_AREA])[FOG_INTENSITY_DENSE_DATA]);
+        ((*theParameters.theCompleteData[INLAND_AREA])[FOG_INTENSITY_DENSE_DATA].get());
   }
 
   findOutFogPeriods();

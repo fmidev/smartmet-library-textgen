@@ -496,18 +496,13 @@ using weather_result_data_item_vector = std::vector<std::shared_ptr<WeatherResul
 using timestamp_weather_event_id_pair = std::pair<TextGenPosixTime, weather_event_id>;
 using weather_event_id_vector = std::vector<timestamp_weather_event_id_pair>;
 using precipitation_data_vector = std::vector<std::shared_ptr<PrecipitationDataItemData> >;
-using fog_data_vector = std::vector<FogIntensityDataItem*>;
-using precipitation_data_item_container = std::map<int, PrecipitationDataItem*>;
-using precipitation_data_container = std::vector<precipitation_data_item_container*>;
-using weather_forecast_result_container = std::map<int, weather_result_data_item_vector*>;
-using weather_forecast_data_container = std::map<int, weather_forecast_result_container*>;
-using cloudiness_data_item_container = std::map<int, CloudinessDataItem*>;
-using cloudiness_data_container = std::vector<cloudiness_data_item_container*>;
-using thunder_data_item_container = std::map<int, ThunderDataItem*>;
-using thunder_data_container = std::vector<thunder_data_item_container*>;
-using fog_data_item_container = std::map<int, FogIntensityDataItem*>;
-using fog_data_container = std::vector<fog_data_item_container*>;
-using location_coordinate_vector = std::vector<NFmiPoint*>;
+using precipitation_data_item_container = std::map<int, std::shared_ptr<PrecipitationDataItem> >;
+using weather_forecast_result_container = std::map<int, std::shared_ptr<weather_result_data_item_vector> >;
+using weather_forecast_data_container = std::map<int, std::shared_ptr<weather_forecast_result_container> >;
+using cloudiness_data_item_container = std::map<int, std::shared_ptr<CloudinessDataItem> >;
+using cloudiness_data_container = std::vector<std::shared_ptr<cloudiness_data_item_container> >;
+using fog_data_item_container = std::map<int, std::shared_ptr<FogIntensityDataItem> >;
+using fog_data_container = std::vector<std::shared_ptr<fog_data_item_container> >;
 using weather_period_story_part_id_pair = std::pair<WeatherPeriod, unsigned int>;
 using story_part_vector = std::vector<weather_period_story_part_id_pair>;
 
@@ -584,8 +579,6 @@ struct wf_story_params
   float theThunderNormalProbabilityMax;
   weather_forecast_data_container theCompleteData;
   cloudiness_data_container theCloudinessData;
-  precipitation_data_container thePrecipitationData;
-  thunder_data_container theThunderData;
   fog_data_container theFogData;
 };
 
