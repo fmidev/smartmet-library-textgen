@@ -1571,7 +1571,7 @@ bool PrecipitationForecast::getIntensityFormExtent(const WeatherPeriod& theWeath
   precipitation_form_id precipitationForm = MISSING_PRECIPITATION_FORM;
   theIntensity = getMean(dataVector, PRECIPITATION_MEAN_DATA, theWeatherPeriod);
 
-  for (auto* i : dataVector)
+  for (const auto& i : dataVector)
     if (i->theObservationTime >= theWeatherPeriod.localStartTime() &&
         i->theObservationTime <= theWeatherPeriod.localEndTime() &&
         i->thePrecipitationForm != MISSING_PRECIPITATION_FORM)
@@ -1629,7 +1629,7 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
   float maxValue = 0.0;
   int count = 0;
 
-  for (auto* i : theData)
+  for (const auto& i : theData)
   {
     if (i->theObservationTime < theWeatherPeriod.localStartTime())
       continue;
@@ -1813,7 +1813,7 @@ precipitation_type PrecipitationForecast::getPrecipitationType(
   unsigned int showers_counter(0);
   unsigned int continuous_counter(0);
 
-  for (auto* i : theData)
+  for (const auto& i : theData)
   {
     if (i->theObservationTime < thePeriod.localStartTime())
       continue;
@@ -2052,7 +2052,7 @@ bool PrecipitationForecast::separateCoastInlandPrecipitation(
 void PrecipitationForecast::printOutPrecipitationVector(
     std::ostream& theOutput, const precipitation_data_vector& thePrecipitationDataVector) const
 {
-  for (auto* i : thePrecipitationDataVector)
+  for (const auto& i : thePrecipitationDataVector)
   {
     theOutput << *i;
   }
@@ -2155,8 +2155,8 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
                                         precipitationFormFreezingRain,
                                         precipitationFormFreezingDrizzle);
 
-    auto* item =
-        new PrecipitationDataItemData(theParameters,
+    auto item =
+        std::make_shared<PrecipitationDataItemData>(theParameters,
                                       precipitationForm,
                                       (precipitationMaxIntesity + precipitationMeanIntesity) / 2.0,
                                       precipitationMaxIntesity,
@@ -2481,7 +2481,7 @@ void PrecipitationForecast::printOutPrecipitationDistribution(std::ostream& theO
 void PrecipitationForecast::printOutPrecipitationDistribution(
     std::ostream& theOutput, const precipitation_data_vector& theDataVector) const
 {
-  for (auto* i : theDataVector)
+  for (const auto& i : theDataVector)
   {
     theOutput << "distribution(ne,se,sw,nw,n,s,e,w): " << i->theObservationTime << ", "
               << i->thePrecipitationPercentageNorthEast << ", "
@@ -2868,7 +2868,7 @@ void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& /*
   theNorthWestPercentage = 0.0;
 
   unsigned int count = 0;
-  for (auto* i : *precipitationDataVector)
+  for (const auto& i : *precipitationDataVector)
   {
     if (i->thePrecipitationIntensity > 0)
     {
@@ -3074,7 +3074,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
   int heavyPrecipitationEndIndex(-1);
   for (unsigned int i = 0; i < theDataVector.size(); i++)
   {
-    const PrecipitationDataItemData* precipitationItem(theDataVector[i]);
+      const PrecipitationDataItemData* precipitationItem(theDataVector[i].get());
 
     if (precipitationItem->theObservationTime < thePeriod.localStartTime())
       continue;
@@ -4710,7 +4710,7 @@ unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intesity
   hours.insert(make_pair(MODERATE_PRECIPITATION, 0));
   hours.insert(make_pair(HEAVY_PRECIPITATION, 0));
   hours.insert(make_pair(MISSING_INTENSITY_ID, 0));
-  for (auto* i : dataVector)
+  for (const auto& i : dataVector)
   {
     if (i->theObservationTime >= period.localStartTime() &&
         i->theObservationTime <= period.localEndTime())
