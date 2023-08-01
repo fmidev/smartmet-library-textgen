@@ -39,6 +39,7 @@
 #include <ctime>
 #include <fstream>
 #include <iomanip>
+#include <memory>
 #include <utility>
 
 using namespace std;
@@ -48,8 +49,8 @@ using namespace std;
 // without massive refactoring of code.
 
 thread_local unsigned long sDepth = 0;
-thread_local ofstream* sOutputFile = nullptr;
-thread_local ostringstream* sOutputStream = nullptr;
+thread_local std::unique_ptr<ofstream> sOutputFile;
+thread_local std::unique_ptr<ostringstream> sOutputStream;
 thread_local char sIndentChar = ' ';
 thread_local unsigned int sIndentStep = 2;
 thread_local bool sTimeStampOn = false;
@@ -146,13 +147,12 @@ void MessageLogger::onNewMessage(const string_type& theMessage)
 
 void MessageLogger::open(const string& theFilename)
 {
-  delete sOutputFile;
-  sOutputFile = nullptr;
+  sOutputFile.reset();
 
   if (theFilename.empty())
     return;
 
-  sOutputFile = new ofstream(theFilename.c_str(), ios::out);
+  sOutputFile.reset(new ofstream(theFilename.c_str(), ios::out));
   if (!(*sOutputFile))
     throw std::runtime_error("MessageLogger failed to open '" + theFilename + "' for writing");
 }
@@ -167,8 +167,8 @@ void MessageLogger::open(const string& theFilename)
 
 void MessageLogger::open()
 {
-  if (sOutputStream == nullptr)
-    sOutputStream = new ostringstream();
+  if (sOutputStream.get() == nullptr)
+    sOutputStream.reset(new ostringstream());
   else
     sOutputStream->str("");
 }
@@ -190,7 +190,7 @@ void MessageLogger::timestamp(bool theFlag)
 
 std::string MessageLogger::str() const
 {
-  if (sOutputStream != nullptr)
+  if (sOutputStream.get() != nullptr)
     return sOutputStream->str();
   return {};
 }
@@ -208,9 +208,9 @@ std::string MessageLogger::str() const
 
 MessageLogger& MessageLogger::operator<<(const TextGen::Glyph& theGlyph)
 {
-  if (sOutputFile != nullptr)
+  if (sOutputFile.get() != nullptr)
     *sOutputFile << "Return: " << sFormatter.format(theGlyph) << endl;
-  if (sOutputStream != nullptr)
+  if (sOutputStream.get() != nullptr)
     *sOutputStream << "Return: " << sFormatter.format(theGlyph) << endl;
   return *this;
 }
