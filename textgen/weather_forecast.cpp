@@ -1016,82 +1016,11 @@ void create_data_structures(wf_story_params& theParameters)
 void deallocate_data_structure(unsigned int& thePeriodCount,
                                weather_forecast_result_container& theResultContainer)
 {
-#if 0
-  for (unsigned int i = 0; i < thePeriodCount; i++)
-  {
-    delete (*theResultContainer[CLOUDINESS_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_MAX_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_MEAN_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_EXTENT_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_TYPE_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_WATER_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_DRIZZLE_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_SLEET_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_SNOW_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA])[i];
-    delete (*theResultContainer[THUNDER_PROBABILITY_DATA])[i];
-    delete (*theResultContainer[THUNDER_EXTENT_DATA])[i];
-    delete (*theResultContainer[FOG_INTENSITY_MODERATE_DATA])[i];
-  }
-
-  theResultContainer[PRECIPITATION_MAX_DATA]->clear();
-  theResultContainer[PRECIPITATION_MEAN_DATA]->clear();
-  theResultContainer[PRECIPITATION_EXTENT_DATA]->clear();
-  theResultContainer[PRECIPITATION_TYPE_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_WATER_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_DRIZZLE_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_SLEET_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_SNOW_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA]->clear();
-  theResultContainer[THUNDER_PROBABILITY_DATA]->clear();
-  theResultContainer[THUNDER_EXTENT_DATA]->clear();
-  theResultContainer[FOG_INTENSITY_MODERATE_DATA]->clear();
-  theResultContainer[FOG_INTENSITY_DENSE_DATA]->clear();
-
-  delete theResultContainer[CLOUDINESS_DATA];
-  delete theResultContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
-  delete theResultContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
-  delete theResultContainer[CLOUDINESS_SOUTHWEST_SHARE_DATA];
-  delete theResultContainer[CLOUDINESS_NORTHWEST_SHARE_DATA];
-  delete theResultContainer[PRECIPITATION_MAX_DATA];
-  delete theResultContainer[PRECIPITATION_MEAN_DATA];
-  delete theResultContainer[PRECIPITATION_EXTENT_DATA];
-  delete theResultContainer[PRECIPITATION_TYPE_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_WATER_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_DRIZZLE_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_SLEET_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_SNOW_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
-  delete theResultContainer[PRECIPITATION_NORTHEAST_SHARE_DATA];
-  delete theResultContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
-  delete theResultContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
-  delete theResultContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
-  delete theResultContainer[PRECIPITATION_POINT_DATA];
-  delete theResultContainer[THUNDER_PROBABILITY_DATA];
-  delete theResultContainer[THUNDER_EXTENT_DATA];
-  delete theResultContainer[THUNDER_NORTHEAST_SHARE_DATA];
-  delete theResultContainer[THUNDER_SOUTHEAST_SHARE_DATA];
-  delete theResultContainer[THUNDER_SOUTHWEST_SHARE_DATA];
-  delete theResultContainer[THUNDER_NORTHWEST_SHARE_DATA];
-  delete theResultContainer[FOG_INTENSITY_MODERATE_DATA];
-  delete theResultContainer[FOG_INTENSITY_DENSE_DATA];
-  delete theResultContainer[FOG_NORTHEAST_SHARE_DATA];
-  delete theResultContainer[FOG_SOUTHEAST_SHARE_DATA];
-  delete theResultContainer[FOG_SOUTHWEST_SHARE_DATA];
-  delete theResultContainer[FOG_NORTHWEST_SHARE_DATA];
-
-  theResultContainer.clear();
-
-#else
   (void)thePeriodCount;
   for (auto& result_item : theResultContainer)
   {
       delete result_item.second;
   }
-#endif
 }
 
 void delete_data_structures(wf_story_params& theParameters)
