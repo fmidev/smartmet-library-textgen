@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 23.8.1
+Version: 24.1.30
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Jan 30 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> 24.1.30-1.fmi
+- Repackaged due to newbase ABI changes
+
 * Tue Aug  1 2023 Andris Pavēnis <andris.pavenis@fmi.fi> 23.8.1-1.fmi
 - Fix memory leaks
 
