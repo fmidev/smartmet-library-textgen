@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.1.30
+Version: 24.2.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -25,12 +25,12 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 23.11.16
+BuildRequires: smartmet-library-calculator-devel >= 24.1.30
 BuildRequires: smartmet-library-macgyver-devel >= 24.1.17
 BuildRequires: smartmet-library-newbase-devel >= 24.1.30
 BuildRequires: smartmet-library-gis-devel >= 24.1.3
 Requires: gdal35-libs
-Requires: smartmet-library-calculator >= 23.11.16
+Requires: smartmet-library-calculator >= 24.1.30
 Requires: smartmet-library-macgyver >= 24.1.17
 Requires: smartmet-library-newbase >= 24.1.30
 
@@ -56,7 +56,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 23.11.16
+#TestRequires: smartmet-library-calculator-devel >= 24.1.30
 #TestRequires: smartmet-library-macgyver-devel >= 24.1.17
 #TestRequires: smartmet-library-newbase-devel >= 24.1.30
 #TestRequires: smartmet-library-gis-devel >= 24.1.3
@@ -105,6 +105,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Feb 16 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.2.16-1.fmi
+- Logfile can now be set to "-" to indicate later output to stdout
+- Adjusted cloudiness limits (BRAINSTORM-2866)
+
 * Tue Jan 30 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> 24.1.30-1.fmi
 - Repackaged due to newbase ABI changes
 
