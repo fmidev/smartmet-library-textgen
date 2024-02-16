@@ -152,9 +152,14 @@ void MessageLogger::open(const string& theFilename)
   if (theFilename.empty())
     return;
 
-  sOutputFile.reset(new ofstream(theFilename.c_str(), ios::out));
-  if (!(*sOutputFile))
-    throw std::runtime_error("MessageLogger failed to open '" + theFilename + "' for writing");
+  if (theFilename == "-")
+    open();
+  else
+  {
+    sOutputFile.reset(new ofstream(theFilename.c_str(), ios::out));
+    if (!(*sOutputFile))
+      throw std::runtime_error("MessageLogger failed to open '" + theFilename + "' for writing");
+  }
 }
 
 // ----------------------------------------------------------------------
