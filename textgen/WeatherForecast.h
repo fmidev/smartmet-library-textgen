@@ -198,16 +198,17 @@ class GlyphContainer;
 #define HORIZONTAL_SPLIT_KEY "horizontal"
 #define VERTICAL_SPLIT_KEY "vertical"
 
-#define SELKEA_UPPER_LIMIT 9.9
-#define MELKEIN_SELKEA_LOWER_LIMIT 9.9
-#define MELKEIN_SELKEA_UPPER_LIMIT 35.0
-#define PUOLIPILVISTA_LOWER_LIMIT 35.0
-#define PUOLIPILVISTA_UPPER_LIMIT 65.0
-#define VERRATTAIN_PILVISTA_LOWER_LIMIT 65.0
-#define VERRATTAIN_PILVISTA_UPPER_LIMIT 85.0
-#define PILVISTA_LOWER_LIMIT 85.0
+#define SELKEA_UPPER_LIMIT 19.9
+#define MELKEIN_SELKEA_LOWER_LIMIT 19.9
+#define MELKEIN_SELKEA_UPPER_LIMIT 33.0
+#define PUOLIPILVISTA_LOWER_LIMIT 33.0
+#define PUOLIPILVISTA_UPPER_LIMIT 72.0
+#define VERRATTAIN_PILVISTA_LOWER_LIMIT 72.0
+#define VERRATTAIN_PILVISTA_UPPER_LIMIT 93.0
+#define PILVISTA_LOWER_LIMIT 93.0
+
 #define PILVISTYVAA_LOWER_LIMIT 20.0
-#define PILVISTYVAA_UPPER_LIMIT 65.0
+#define PILVISTYVAA_UPPER_LIMIT 72.0
 
 #define TAYSIN_PILVETON_LIMIT 5.0
 #define HYVIN_PILVINEN_LIMIT 70.0
@@ -497,8 +498,10 @@ using timestamp_weather_event_id_pair = std::pair<TextGenPosixTime, weather_even
 using weather_event_id_vector = std::vector<timestamp_weather_event_id_pair>;
 using precipitation_data_vector = std::vector<std::shared_ptr<PrecipitationDataItemData> >;
 using precipitation_data_item_container = std::map<int, std::shared_ptr<PrecipitationDataItem> >;
-using weather_forecast_result_container = std::map<int, std::shared_ptr<weather_result_data_item_vector> >;
-using weather_forecast_data_container = std::map<int, std::shared_ptr<weather_forecast_result_container> >;
+using weather_forecast_result_container =
+    std::map<int, std::shared_ptr<weather_result_data_item_vector> >;
+using weather_forecast_data_container =
+    std::map<int, std::shared_ptr<weather_forecast_result_container> >;
 using cloudiness_data_item_container = std::map<int, std::shared_ptr<CloudinessDataItem> >;
 using cloudiness_data_container = std::vector<std::shared_ptr<cloudiness_data_item_container> >;
 using fog_data_item_container = std::map<int, std::shared_ptr<FogIntensityDataItem> >;
