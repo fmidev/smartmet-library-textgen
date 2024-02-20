@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.2.16
+Version: 24.2.20
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Feb 20 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.2.20-1.fmi
+- "In the beginning" -phrase is now on by default
+
 * Fri Feb 16 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.2.16-1.fmi
 - Logfile can now be set to "-" to indicate later output to stdout
 - Adjusted cloudiness limits (BRAINSTORM-2866)
