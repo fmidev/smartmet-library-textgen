@@ -14,6 +14,7 @@ LIBS += \
 	../libsmartmet-textgen.so \
 	-lsmartmet-calculator \
 	-lsmartmet-newbase \
+	-lsmartmet-macgyver \
 	-lboost_locale \
 	-L$(libdir)/mysql -lmysqlclient -lmysqlpp
 
