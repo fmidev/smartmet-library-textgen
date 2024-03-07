@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::FrostStory::one night
+ *Â \brief Implementation of method TextGen::FrostStory::one night
  */
 // ======================================================================
 
@@ -28,6 +28,8 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim.hpp>
 #include <boost/lexical_cast.hpp>
 #include <newbase/NFmiStringTools.h>
 #include <iomanip>

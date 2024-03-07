@@ -11,6 +11,7 @@
 #include "UnitFactory.h"
 #include <calculator/Settings.h>
 #include <macgyver/StringConversion.h>
+#include <boost/algorithm/string/case_conv.hpp>
 
 namespace TextGen
 {
