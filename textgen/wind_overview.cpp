@@ -7,8 +7,6 @@
 #include "WindForecast.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
-#include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
-#include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
 #include <calculator/GridForecaster.h>
 #include <calculator/ParameterAnalyzer.h>
 #include <calculator/RangeAcceptor.h>
