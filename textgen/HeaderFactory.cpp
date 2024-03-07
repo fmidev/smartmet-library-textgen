@@ -26,6 +26,7 @@
 #include "WeekdayTools.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 
@@ -72,13 +73,15 @@ TextGen::Header header_none(const WeatherPeriod& thePeriod, const string& theVar
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_until(const WeatherPeriod& thePeriod)
+TextGen::Header header_until(const TextGenPosixTime& theForecastTime,
+                             const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_until");
   using namespace TextGen;
   Header header;
 
-  header << "odotettavissa" << WeekdayTools::until_weekday_time(thePeriod.localEndTime()) << "asti";
+  header << "odotettavissa"
+         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
   log << header;
   return header;
@@ -97,14 +100,15 @@ TextGen::Header header_until(const WeatherPeriod& thePeriod)
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_from_until(const WeatherPeriod& thePeriod)
+TextGen::Header header_from_until(const TextGenPosixTime& theForecastTime,
+                                  const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_from_until");
   using namespace TextGen;
   Header header;
 
   header << "odotettavissa" << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
-         << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
+         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
   log << header;
   return header;
@@ -430,7 +434,8 @@ namespace HeaderFactory
  */
 // ----------------------------------------------------------------------
 
-Header create(const WeatherArea& theArea,
+Header create(const TextGenPosixTime& theForecastTime,
+              const WeatherArea& theArea,
               const WeatherPeriod& thePeriod,
               const std::string& theVariable)
 {
@@ -441,9 +446,9 @@ Header create(const WeatherArea& theArea,
   if (type == "none")
     return header_none(thePeriod, theVariable);
   if (type == "until")
-    return header_until(thePeriod);
+    return header_until(theForecastTime, thePeriod);
   if (type == "from_until")
-    return header_from_until(thePeriod);
+    return header_from_until(theForecastTime, thePeriod);
   if (type == "several_days")
     return header_several_days(thePeriod);
   if (type == "report_area")

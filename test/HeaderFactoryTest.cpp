@@ -33,7 +33,8 @@ string require(const string& theLanguage,
   dict->init(theLanguage);
   formatter.dictionary(dict);
 
-  TextGen::Header header = TextGen::HeaderFactory::create(theArea, thePeriod, theName);
+  auto forecastTime = TextGenPosixTime(2003, 5, 1);
+  auto header = TextGen::HeaderFactory::create(forecastTime, theArea, thePeriod, theName);
 
   const string value = header.realize(formatter);
 
@@ -141,7 +142,7 @@ void header_from_until()
 
   string result;
 
-  result = require("fi", area, period1, var, "Odotettavissa sunnuntaiaamusta maanantaiaamuun");
+  result = require("fi", area, period1, var, "Odotettavissa sunnuntaiaamusta maanantaiaamuun asti");
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
@@ -155,7 +156,8 @@ void header_from_until()
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
-  result = require("fi", area, period2, var, "Odotettavissa sunnuntaiaamusta maanantai-iltaan");
+  result =
+      require("fi", area, period2, var, "Odotettavissa sunnuntaiaamusta maanantai-iltaan asti");
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
