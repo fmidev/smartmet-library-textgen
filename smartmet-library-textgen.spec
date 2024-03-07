@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.2.23
+Version: 24.3.7
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Mar  7 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.3.7-1.fmi
+- Added text phrases like "until Monday afternoon"
+- Improved until-phrases to handle today and tomorrow separately
+
 * Fri Feb 23 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> 24.2.23-1.fmi
 - Full repackaging
 
