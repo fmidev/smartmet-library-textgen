@@ -22,12 +22,15 @@ std::string on_weekday_time(const TextGenPosixTime& theTime);
 std::string night_against_weekday(const TextGenPosixTime& theTime);
 
 std::string until_weekday_morning(const TextGenPosixTime& theTime);
+std::string until_weekday_noon(const TextGenPosixTime& theTime);
 std::string until_weekday_afternoon(const TextGenPosixTime& theTime);
 std::string until_weekday_evening(const TextGenPosixTime& theTime);
 std::string until_weekday_time(const TextGenPosixTime& theTime);
 
 std::string until_weekday_morning(const TextGenPosixTime& theTime,
                                   const TextGenPosixTime& theForecastTime);
+std::string until_weekday_noon(const TextGenPosixTime& theTime,
+                               const TextGenPosixTime& theForecastTime);
 std::string until_weekday_afternoon(const TextGenPosixTime& theTime,
                                     const TextGenPosixTime& theForecastTime);
 std::string until_weekday_evening(const TextGenPosixTime& theTime,

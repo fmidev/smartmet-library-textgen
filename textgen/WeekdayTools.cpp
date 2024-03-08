@@ -172,6 +172,16 @@ std::string until_weekday_morning(const TextGenPosixTime& theTime,
   return until_weekday_morning(theTime);
 }
 
+std::string until_weekday_noon(const TextGenPosixTime& theTime,
+                               const TextGenPosixTime& theForecastTime)
+{
+  if (TimeTools::isSameDay(theForecastTime, theTime))
+    return "keskipaivaan asti";
+  if (TimeTools::isNextDay(theForecastTime, theTime))
+    return "huomisen keskipaivaan asti";
+  return until_weekday_noon(theTime);
+}
+
 std::string until_weekday_afternoon(const TextGenPosixTime& theTime,
                                     const TextGenPosixTime& theForecastTime)
 {
@@ -199,6 +209,9 @@ std::string until_weekday_time(const TextGenPosixTime& theTime,
   if (hour == 6)
     return until_weekday_morning(theTime, theForecastTime);
 
+  if (hour == 12)
+    return until_weekday_noon(theTime, theForecastTime);
+
   if (hour >= 13 && hour <= 16)
     return until_weekday_afternoon(theTime, theForecastTime);
 
@@ -206,7 +219,8 @@ std::string until_weekday_time(const TextGenPosixTime& theTime,
     return until_weekday_evening(theTime, theForecastTime);
 
   const string msg =
-      "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -iltapaivaan or -iltaan phrase "
+      "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan, -iltapaivaan or "
+      "-iltaan phrase "
       "for hour " +
       std::to_string(hour);
   throw TextGenError(msg);
