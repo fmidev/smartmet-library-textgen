@@ -12,6 +12,7 @@ murmanskin alueen lansiosa:lle|for Western part of Murmansk Oblast
 pohjois-ruotsi:lle|for Northern Sweden
 [iltapaivalla] lumikuurot voivat olla sakeita|snow showers can be heavy [1]
 [iltapaivalla] lumisade voi olla sakeaa|snowfall can be heavy [1]
+huomiseen iltapaivaan asti|until tomorrow afternoon
 astetta(noin n)|degrees
 huomattavasti lampimampi|significantly warmer
 lampimampi|warmer

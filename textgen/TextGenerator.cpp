@@ -305,7 +305,7 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
         << "TextGenerator::generate period : " << period.localStartTime() << endl
         << " -  " << period.localEndTime() << endl;
 
-    Header header = HeaderFactory::create(theArea, period, headervar);
+    Header header = HeaderFactory::create(itsPimple->itsForecastTime, theArea, period, headervar);
     if (!header.empty())
       doc << header;
 

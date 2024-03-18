@@ -9,6 +9,8 @@
 
 #include <string>
 
+class TextGenPosixTime;
+
 namespace TextGen
 {
 class WeatherArea;
@@ -21,7 +23,8 @@ class Header;
 
 namespace HeaderFactory
 {
-Header create(const TextGen::WeatherArea& theArea,
+Header create(const TextGenPosixTime& theForecastTime,
+              const TextGen::WeatherArea& theArea,
               const TextGen::WeatherPeriod& thePeriod,
               const std::string& theVariable);
 

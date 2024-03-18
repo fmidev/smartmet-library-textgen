@@ -114,24 +114,24 @@ void until_weekday_morning()
 {
   using namespace TextGen;
 
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 1)) != "7-aamuun")
-    TEST_FAILED("June 1 2003 should return '7-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 2)) != "1-aamuun")
-    TEST_FAILED("June 2 2003 should return '1-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 3)) != "2-aamuun")
-    TEST_FAILED("June 3 2003 should return '2-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 4)) != "3-aamuun")
-    TEST_FAILED("June 4 2003 should return '3-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 5)) != "4-aamuun")
-    TEST_FAILED("June 5 2003 should return '4-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 6)) != "5-aamuun")
-    TEST_FAILED("June 6 2003 should return '5-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 7)) != "6-aamuun")
-    TEST_FAILED("June 7 2003 should return '6-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 8)) != "7-aamuun")
-    TEST_FAILED("June 8 2003 should return '7-aamuun'");
-  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 9)) != "1-aamuun")
-    TEST_FAILED("June 9 2003 should return '1-aamuun'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 1)) != "7-aamuun asti")
+    TEST_FAILED("June 1 2003 should return '7-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 2)) != "1-aamuun asti")
+    TEST_FAILED("June 2 2003 should return '1-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 3)) != "2-aamuun asti")
+    TEST_FAILED("June 3 2003 should return '2-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 4)) != "3-aamuun asti")
+    TEST_FAILED("June 4 2003 should return '3-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 5)) != "4-aamuun asti")
+    TEST_FAILED("June 5 2003 should return '4-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 6)) != "5-aamuun asti")
+    TEST_FAILED("June 6 2003 should return '5-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 7)) != "6-aamuun asti")
+    TEST_FAILED("June 7 2003 should return '6-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 8)) != "7-aamuun asti")
+    TEST_FAILED("June 8 2003 should return '7-aamuun asti'");
+  if (WeekdayTools::until_weekday_morning(TextGenPosixTime(2003, 6, 9)) != "1-aamuun asti")
+    TEST_FAILED("June 9 2003 should return '1-aamuun asti'");
 
   TEST_PASSED();
 }
@@ -146,24 +146,24 @@ void until_weekday_evening()
 {
   using namespace TextGen;
 
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 1)) != "7-iltaan")
-    TEST_FAILED("June 1 2003 should return '7-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 2)) != "1-iltaan")
-    TEST_FAILED("June 2 2003 should return '1-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 3)) != "2-iltaan")
-    TEST_FAILED("June 3 2003 should return '2-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 4)) != "3-iltaan")
-    TEST_FAILED("June 4 2003 should return '3-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 5)) != "4-iltaan")
-    TEST_FAILED("June 5 2003 should return '4-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 6)) != "5-iltaan")
-    TEST_FAILED("June 6 2003 should return '5-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 7)) != "6-iltaan")
-    TEST_FAILED("June 7 2003 should return '6-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 8)) != "7-iltaan")
-    TEST_FAILED("June 8 2003 should return '7-iltaan'");
-  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 9)) != "1-iltaan")
-    TEST_FAILED("June 9 2003 should return '1-iltaan'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 1)) != "7-iltaan asti")
+    TEST_FAILED("June 1 2003 should return '7-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 2)) != "1-iltaan asti")
+    TEST_FAILED("June 2 2003 should return '1-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 3)) != "2-iltaan asti")
+    TEST_FAILED("June 3 2003 should return '2-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 4)) != "3-iltaan asti")
+    TEST_FAILED("June 4 2003 should return '3-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 5)) != "4-iltaan asti")
+    TEST_FAILED("June 5 2003 should return '4-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 6)) != "5-iltaan asti")
+    TEST_FAILED("June 6 2003 should return '5-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 7)) != "6-iltaan asti")
+    TEST_FAILED("June 7 2003 should return '6-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 8)) != "7-iltaan asti")
+    TEST_FAILED("June 8 2003 should return '7-iltaan asti'");
+  if (WeekdayTools::until_weekday_evening(TextGenPosixTime(2003, 6, 9)) != "1-iltaan asti")
+    TEST_FAILED("June 9 2003 should return '1-iltaan asti'");
 
   TEST_PASSED();
 }
@@ -242,11 +242,11 @@ void until_weekday_time()
 {
   using namespace TextGen;
 
-  if (WeekdayTools::until_weekday_time(TextGenPosixTime(2003, 6, 1, 6)) != "7-aamuun")
-    TEST_FAILED("June 1 2003 06:00 should return '7-aamuun'");
+  if (WeekdayTools::until_weekday_time(TextGenPosixTime(2003, 6, 1, 6)) != "7-aamuun asti")
+    TEST_FAILED("June 1 2003 06:00 should return '7-aamuun asti'");
 
-  if (WeekdayTools::until_weekday_time(TextGenPosixTime(2003, 6, 1, 18)) != "7-iltaan")
-    TEST_FAILED("June 1 2003 18:00 should return '7-iltaan'");
+  if (WeekdayTools::until_weekday_time(TextGenPosixTime(2003, 6, 1, 18)) != "7-iltaan asti")
+    TEST_FAILED("June 1 2003 18:00 should return '7-iltaan asti'");
 
   try
   {
