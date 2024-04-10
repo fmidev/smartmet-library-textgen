@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.3.8
+Version: 24.4.10
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -27,12 +27,12 @@ BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 24.2.23
 BuildRequires: smartmet-library-macgyver-devel >= 24.1.17
-BuildRequires: smartmet-library-newbase-devel >= 24.3.7
-BuildRequires: smartmet-library-gis-devel >= 24.1.3
+BuildRequires: smartmet-library-newbase-devel >= 24.3.11
+BuildRequires: smartmet-library-gis-devel >= 24.3.25
 Requires: gdal35-libs
 Requires: smartmet-library-calculator >= 24.2.23
 Requires: smartmet-library-macgyver >= 24.1.17
-Requires: smartmet-library-newbase >= 24.3.7
+Requires: smartmet-library-newbase >= 24.3.11
 
 %if %{?rhel} && %{rhel} == 7
 Requires: libpqxx < 1:7.0
@@ -58,8 +58,8 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 24.2.23
 #TestRequires: smartmet-library-macgyver-devel >= 24.1.17
-#TestRequires: smartmet-library-newbase-devel >= 24.3.7
-#TestRequires: smartmet-library-gis-devel >= 24.1.3
+#TestRequires: smartmet-library-newbase-devel >= 24.3.11
+#TestRequires: smartmet-library-gis-devel >= 24.3.25
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Apr 10 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.4.10-1.fmi
+- Added until_weekday and from_until_weekday header types which ignore "tomorrow" etc phrases
+
 * Fri Mar  8 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.3.8-1.fmi
 - Added text phrases like "until Monday noon"
 
