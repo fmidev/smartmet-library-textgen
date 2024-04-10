@@ -87,6 +87,19 @@ TextGen::Header header_until(const TextGenPosixTime& theForecastTime,
   return header;
 }
 
+TextGen::Header header_until_weekday(const TextGenPosixTime& theForecastTime,
+                                     const WeatherPeriod& thePeriod)
+{
+  MessageLogger log("header_until_weekday");
+  using namespace TextGen;
+  Header header;
+
+  header << "odotettavissa" << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
+
+  log << header;
+  return header;
+}
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Return header of type "Odotettavissa tiistai-illasta torstaiaamuun asti"
@@ -109,6 +122,20 @@ TextGen::Header header_from_until(const TextGenPosixTime& theForecastTime,
 
   header << "odotettavissa" << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
          << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
+
+  log << header;
+  return header;
+}
+
+TextGen::Header header_from_until_weekday(const TextGenPosixTime& theForecastTime,
+                                          const WeatherPeriod& thePeriod)
+{
+  MessageLogger log("header_from_until_weekday");
+  using namespace TextGen;
+  Header header;
+
+  header << "odotettavissa" << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
+         << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
 
   log << header;
   return header;
@@ -447,8 +474,12 @@ Header create(const TextGenPosixTime& theForecastTime,
     return header_none(thePeriod, theVariable);
   if (type == "until")
     return header_until(theForecastTime, thePeriod);
+  if (type == "until_weekday")
+    return header_until_weekday(theForecastTime, thePeriod);
   if (type == "from_until")
     return header_from_until(theForecastTime, thePeriod);
+  if (type == "from_until_weekday")
+    return header_from_until_weekday(theForecastTime, thePeriod);
   if (type == "several_days")
     return header_several_days(thePeriod);
   if (type == "report_area")
