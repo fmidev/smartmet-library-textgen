@@ -20,7 +20,7 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: gcc-c++
-BuildRequires: gdal35-devel
+BuildRequires: gdal38-devel
 BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
@@ -29,20 +29,20 @@ BuildRequires: smartmet-library-calculator-devel >= 24.5.6
 BuildRequires: smartmet-library-macgyver-devel >= 24.5.6
 BuildRequires: smartmet-library-newbase-devel >= 24.5.6
 BuildRequires: smartmet-library-gis-devel >= 24.3.25
-Requires: gdal35-libs
+Requires: gdal38-libs
 Requires: smartmet-library-calculator >= 24.5.6
 Requires: smartmet-library-macgyver >= 24.4.5
 Requires: smartmet-library-newbase >= 24.5.6
 
-%if %{?rhel} && %{rhel} == 7
-Requires: libpqxx < 1:7.0
-BuildRequires: libpqxx-devel < 1:7.0
-#TestRequires: libpqxx-devel < 1:7.0
-%else
-%if %{?rhel} && %{rhel} >= 8
-Requires: libpqxx >= 7.7.0 libpqxx < 1:7.8.0
+%if %{?rhel} && %{rhel} == 8
+Requires: libpqxx >= 1:7.0 libpqxx < 7.8.0
 BuildRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
 #TestRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
+%else
+%if %{?rhel} && %{rhel} >= 9
+Requires: libpqxx >= 7.9.0 libpqxx < 1:7.10.0
+BuildRequires: libpqxx-devel >= 7.9.0 libpqxx-devel < 1:7.10.0
+#TestRequires: libpqxx-devel >= 7.9.0 libpqxx-devel < 1:7.10.0
 %else
 Requires: libpqxx
 BuildRequires: libpqxx-devel
