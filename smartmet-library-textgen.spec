@@ -35,7 +35,7 @@ Requires: smartmet-library-macgyver >= 24.4.5
 Requires: smartmet-library-newbase >= 24.5.6
 
 %if %{?rhel} && %{rhel} == 8
-Requires: libpqxx >= 1:7.0 libpqxx < 7.8.0
+Requires: libpqxx >= 1:7.7.0 libpqxx < 1:7.8.0
 BuildRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
 #TestRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
 %else
