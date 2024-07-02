@@ -8,7 +8,7 @@
 #pragma once
 
 #include "GlyphContainer.h"
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <string>
 
 namespace TextGen
@@ -23,7 +23,7 @@ class Paragraph : public GlyphContainer
   Paragraph& operator=(const Paragraph& theParagraph);
 #endif
 
-  boost::shared_ptr<Glyph> clone() const override;
+  std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;
   std::string realize(const TextFormatter& theFormatter) const override;
   bool isDelimiter() const override;

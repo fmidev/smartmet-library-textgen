@@ -25,7 +25,7 @@ class IntegerRange : public Glyph
   IntegerRange& operator=(const IntegerRange& theIntegerRange);
 #endif
 
-  boost::shared_ptr<Glyph> clone() const override;
+  std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;
   std::string realize(const TextFormatter& theFormatter) const override;
 

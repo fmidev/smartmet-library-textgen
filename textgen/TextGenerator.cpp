@@ -120,10 +120,10 @@ class TextGenerator::Pimple
 
 TextGenerator::Pimple::Pimple()
 {
-  boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+  std::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
   itsSources.setWeatherSource(weathersource);
 
-  using mask_source = boost::shared_ptr<MaskSource>;
+  using mask_source = std::shared_ptr<MaskSource>;
 
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);
@@ -154,10 +154,10 @@ TextGenerator::Pimple::Pimple()
   NFmiPoint point(0.0, 0.0);
   WeatherArea theArea(point);
 
-  itsSources.setNorthernMaskSource(boost::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
-  itsSources.setSouthernMaskSource(boost::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
-  itsSources.setEasternMaskSource(boost::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
-  itsSources.setWesternMaskSource(boost::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
+  itsSources.setNorthernMaskSource(std::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
+  itsSources.setSouthernMaskSource(std::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
+  itsSources.setEasternMaskSource(std::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
+  itsSources.setWesternMaskSource(std::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
 }
 
 // ----------------------------------------------------------------------
@@ -172,10 +172,10 @@ TextGenerator::Pimple::Pimple()
 TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
                               const WeatherArea& theCoastMaskArea)
 {
-  boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+  std::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
   itsSources.setWeatherSource(weathersource);
 
-  using mask_source = boost::shared_ptr<MaskSource>;
+  using mask_source = std::shared_ptr<MaskSource>;
 
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);
@@ -201,10 +201,10 @@ TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
   NFmiPoint point(0.0, 0.0);
   WeatherArea theArea(point);
 
-  itsSources.setNorthernMaskSource(boost::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
-  itsSources.setSouthernMaskSource(boost::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
-  itsSources.setEasternMaskSource(boost::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
-  itsSources.setWesternMaskSource(boost::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
+  itsSources.setNorthernMaskSource(std::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
+  itsSources.setSouthernMaskSource(std::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
+  itsSources.setEasternMaskSource(std::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
+  itsSources.setWesternMaskSource(std::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
 }
 
 // ----------------------------------------------------------------------

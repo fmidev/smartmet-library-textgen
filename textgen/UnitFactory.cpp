@@ -80,14 +80,14 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> degrees_celsius()
+std::shared_ptr<TextGen::Sentence> degrees_celsius()
 {
   using namespace TextGen;
 
   const string var = "textgen::units::celsius::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
     *sentence << Delimiter("\xc2\xb0" + string("C"));
@@ -110,14 +110,14 @@ boost::shared_ptr<TextGen::Sentence> degrees_celsius()
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval = false)
+std::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval = false)
 {
   using namespace TextGen;
 
   const string var = "textgen::units::celsius::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
   {
@@ -167,14 +167,14 @@ boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval 
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> meters_per_second()
+std::shared_ptr<TextGen::Sentence> meters_per_second()
 {
   using namespace TextGen;
 
   const string var = "textgen::units::meterspersecond::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
     *sentence << "m/s";
@@ -197,14 +197,14 @@ boost::shared_ptr<TextGen::Sentence> meters_per_second()
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNumber = false)
+std::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNumber = false)
 {
   using namespace TextGen;
 
   const string var = "textgen::units::meterspersecond::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
   {
@@ -281,14 +281,14 @@ boost::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNu
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> millimeters()
+std::shared_ptr<TextGen::Sentence> millimeters()
 {
   using namespace TextGen;
 
   const string var = "textgen::units::millimeters::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
     *sentence << Delimiter("mm");
@@ -311,14 +311,14 @@ boost::shared_ptr<TextGen::Sentence> millimeters()
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> millimeters(int value, bool withoutNumber = false)
+std::shared_ptr<TextGen::Sentence> millimeters(int value, bool withoutNumber = false)
 {
   using namespace TextGen;
 
   const string var = "textgen::units::millimeters::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
   {
@@ -368,14 +368,14 @@ boost::shared_ptr<TextGen::Sentence> millimeters(int value, bool withoutNumber =
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> meters()
+std::shared_ptr<TextGen::Sentence> meters()
 {
   using namespace TextGen;
 
   const string var = "textgen::units::meters::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
     *sentence << Delimiter("m");
@@ -398,14 +398,14 @@ boost::shared_ptr<TextGen::Sentence> meters()
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> meters(int value, bool withoutNumber = false)
+std::shared_ptr<TextGen::Sentence> meters(int value, bool withoutNumber = false)
 {
   using namespace TextGen;
 
   const string var = "textgen::units::meters::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
   {
@@ -455,14 +455,14 @@ boost::shared_ptr<TextGen::Sentence> meters(int value, bool withoutNumber = fals
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> percent()
+std::shared_ptr<TextGen::Sentence> percent()
 {
   using namespace TextGen;
 
   const string var = "textgen::units::percent::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
     *sentence << Delimiter("%");
@@ -484,14 +484,14 @@ boost::shared_ptr<TextGen::Sentence> percent()
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> percent(int value, bool withoutNumber = false)
+std::shared_ptr<TextGen::Sentence> percent(int value, bool withoutNumber = false)
 {
   using namespace TextGen;
 
   const string var = "textgen::units::percent::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
   {
@@ -540,14 +540,14 @@ boost::shared_ptr<TextGen::Sentence> percent(int value, bool withoutNumber = fal
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> hectopascal()
+std::shared_ptr<TextGen::Sentence> hectopascal()
 {
   using namespace TextGen;
 
   const string var = "textgen::units::hectopascal::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
     *sentence << Delimiter("hPa");
@@ -569,14 +569,14 @@ boost::shared_ptr<TextGen::Sentence> hectopascal()
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<TextGen::Sentence> hectopascal(int value, bool withoutNumber = false)
+std::shared_ptr<TextGen::Sentence> hectopascal(int value, bool withoutNumber = false)
 {
   using namespace TextGen;
 
   const string var = "textgen::units::hectopascal::format";
   const string opt = Settings::optional_string(var, "SI");
 
-  boost::shared_ptr<Sentence> sentence(new Sentence);
+  std::shared_ptr<Sentence> sentence(new Sentence);
 
   if (opt == "SI")
   {
@@ -632,7 +632,7 @@ namespace UnitFactory
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Sentence> create(Units theUnit)
+std::shared_ptr<Sentence> create(Units theUnit)
 {
   switch (theUnit)
   {
@@ -662,7 +662,7 @@ boost::shared_ptr<Sentence> create(Units theUnit)
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Sentence> create(Units theUnit, int value)
+std::shared_ptr<Sentence> create(Units theUnit, int value)
 {
   switch (theUnit)
   {
@@ -692,7 +692,7 @@ boost::shared_ptr<Sentence> create(Units theUnit, int value)
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterval /* = false*/)
+std::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterval /* = false*/)
 {
   switch (theUnit)
   {

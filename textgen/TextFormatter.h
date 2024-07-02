@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <string>
 
 namespace TextGen
@@ -36,7 +36,7 @@ class TextFormatter
   TextFormatter() {}
 #endif
 
-  virtual void dictionary(const boost::shared_ptr<Dictionary>& theDict) = 0;
+  virtual void dictionary(const std::shared_ptr<Dictionary>& theDict) = 0;
 
   virtual std::string format(const Glyph& theGlyph) const = 0;
 

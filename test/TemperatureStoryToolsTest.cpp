@@ -17,7 +17,7 @@ using namespace boost;
 
 namespace TemperatureStoryToolsTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 
 // ----------------------------------------------------------------------
 /*!

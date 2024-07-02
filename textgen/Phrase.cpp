@@ -42,9 +42,9 @@ Phrase::Phrase(std::string theWord) : itsWord(std::move(theWord)) {}
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Phrase::clone() const
+std::shared_ptr<Glyph> Phrase::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Phrase(*this));
+  std::shared_ptr<Glyph> ret(new Phrase(*this));
   return ret;
 }
 

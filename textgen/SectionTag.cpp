@@ -15,7 +15,7 @@
 #include "TextFormatter.h"
 #include <calculator/TextGenError.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <sstream>
 #include <utility>
@@ -48,9 +48,9 @@ SectionTag::SectionTag(std::string theName, const bool& prefixTag /*= true*/)
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> SectionTag::clone() const
+std::shared_ptr<Glyph> SectionTag::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new SectionTag(*this));
+  std::shared_ptr<Glyph> ret(new SectionTag(*this));
   return ret;
 }
 

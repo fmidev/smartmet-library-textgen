@@ -15,7 +15,7 @@
 #include "TextFormatter.h"
 #include <calculator/TextGenError.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <sstream>
 
@@ -43,9 +43,9 @@ Integer::Integer(int theInteger) : itsInteger(theInteger) {}
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Integer::clone() const
+std::shared_ptr<Glyph> Integer::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Integer(*this));
+  std::shared_ptr<Glyph> ret(new Integer(*this));
   return ret;
 }
 

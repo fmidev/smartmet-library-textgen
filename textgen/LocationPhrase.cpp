@@ -44,9 +44,9 @@ LocationPhrase::LocationPhrase(std::string theLocation) : itsLocation(std::move(
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> LocationPhrase::clone() const
+std::shared_ptr<Glyph> LocationPhrase::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new LocationPhrase(*this));
+  std::shared_ptr<Glyph> ret(new LocationPhrase(*this));
   return ret;
 }
 

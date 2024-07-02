@@ -39,7 +39,7 @@ enum TemperatureTestType
   WIND_ANOMALY
 };
 
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,
@@ -12442,7 +12442,7 @@ void temperature_max36hours()
   TEST_PASSED();
 }
 
-boost::shared_ptr<NFmiQueryData> theQD;
+std::shared_ptr<NFmiQueryData> theQD;
 
 void read_querydata(const std::string& theFilename)
 {

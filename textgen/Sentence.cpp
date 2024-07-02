@@ -36,9 +36,9 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Sentence::clone() const
+std::shared_ptr<Glyph> Sentence::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Sentence(*this));
+  std::shared_ptr<Glyph> ret(new Sentence(*this));
   return ret;
 }
 
@@ -131,7 +131,7 @@ Sentence& Sentence::operator<<(const string& thePhrase)
 {
   if (!thePhrase.empty())
   {
-    boost::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+    std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
     itsData.push_back(phrase);
   }
   return *this;

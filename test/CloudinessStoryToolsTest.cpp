@@ -593,7 +593,7 @@ void cloudiness_phrase()
   using namespace TextGen::CloudinessStoryTools;
 
   TextGen::PlainTextFormatter formatter;
-  boost::shared_ptr<Dictionary> dict(new TextGen::DebugDictionary);
+  std::shared_ptr<Dictionary> dict(new TextGen::DebugDictionary);
   formatter.dictionary(dict);
 
   string result, expected;

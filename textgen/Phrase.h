@@ -23,7 +23,7 @@ class Phrase : public Glyph
   Phrase(const Phrase& thePhrase);
   Phrase& operator=(const Phrase& thePhrase);
 #endif
-  boost::shared_ptr<Glyph> clone() const override;
+  std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;
   std::string realize(const TextFormatter& theFormatter) const override;
   bool isDelimiter() const override;

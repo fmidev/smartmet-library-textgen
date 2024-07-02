@@ -31,7 +31,7 @@ class LandMaskSource : public MaskSource
   LandMaskSource() = delete;
 
   class Pimple;
-  boost::shared_ptr<Pimple> itsPimple;
+  std::shared_ptr<Pimple> itsPimple;
 
 };  // class LandMaskSource
 

@@ -17,12 +17,12 @@ class GlyphContainer : public Glyph
  public:
   ~GlyphContainer() override = default;
   GlyphContainer() = default;
-  boost::shared_ptr<Glyph> clone() const override = 0;
+  std::shared_ptr<Glyph> clone() const override = 0;
   std::string realize(const Dictionary& theDictionary) const override = 0;
   std::string realize(const TextFormatter& theFormatter) const override = 0;
   bool isDelimiter() const override = 0;
 
-  using value_type = boost::shared_ptr<Glyph>;
+  using value_type = std::shared_ptr<Glyph>;
   using const_reference = const value_type&;
   using reference = value_type&;
   using storage_type = std::list<value_type>;

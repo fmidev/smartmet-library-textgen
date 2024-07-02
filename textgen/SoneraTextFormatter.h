@@ -19,7 +19,7 @@ class SoneraTextFormatter : public TextFormatter
   SoneraTextFormatter();
 
   ~SoneraTextFormatter() override = default;
-  void dictionary(const boost::shared_ptr<Dictionary>& theDict) override;
+  void dictionary(const std::shared_ptr<Dictionary>& theDict) override;
 
   std::string format(const Glyph& theGlyph) const override;
 
@@ -45,7 +45,7 @@ class SoneraTextFormatter : public TextFormatter
   mutable container_type itsParts;
   mutable int itsDepth{0};
 
-  boost::shared_ptr<Dictionary> itsDictionary;
+  std::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
   mutable std::string itsStoryVar;
 

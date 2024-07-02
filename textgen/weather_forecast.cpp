@@ -88,7 +88,7 @@ std::ostream& operator<<(std::ostream& theOutput,
 
 bool same_content(const Sentence& sentence1, const Sentence& sentence2)
 {
-  boost::shared_ptr<TextGen::Dictionary> dict;
+  std::shared_ptr<TextGen::Dictionary> dict;
   dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
   dict->init("fi");
@@ -1352,7 +1352,7 @@ bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phra
 
 // if the successive sentences contains the same time phrase, insert
 // aluksi, myohemmin to the beginning of the sentence
-void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<Glyph>& theSentence2)
+void check_sentences(std::shared_ptr<Glyph>& theSentence1, std::shared_ptr<Glyph>& theSentence2)
 {
   auto& gc1 = static_cast<GlyphContainer&>(*theSentence1);
   auto& gc2 = static_cast<GlyphContainer&>(*theSentence2);
@@ -1378,7 +1378,7 @@ void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<G
   }
 }
 
-void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sentences)
+void get_sentences(const Glyph& glyphi, vector<std::shared_ptr<Glyph> >& sentences)
 {
   if (typeid(glyphi) == typeid(Sentence))
   {
@@ -1400,7 +1400,7 @@ void analyze_sentences(Paragraph& paragraph)
   paragraph_tmp << paragraph;
   paragraph.clear();
 
-  vector<boost::shared_ptr<Glyph> > sentences;
+  vector<std::shared_ptr<Glyph> > sentences;
   get_sentences(paragraph_tmp, sentences);
 
   for (unsigned int i = 0; i < sentences.size(); i++)

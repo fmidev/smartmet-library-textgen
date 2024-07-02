@@ -41,9 +41,9 @@ TimePeriod::TimePeriod(const WeatherPeriod& thePeriod) : itsPeriod(thePeriod) {}
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> TimePeriod::clone() const
+std::shared_ptr<Glyph> TimePeriod::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new TimePeriod(*this));
+  std::shared_ptr<Glyph> ret(new TimePeriod(*this));
   return ret;
 }
 
