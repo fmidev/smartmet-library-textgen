@@ -35,8 +35,8 @@
 #include <iomanip>
 #include <map>
 #define BOOST_FILESYSTEM_VERSION 3
-#include <boost/filesystem.hpp>  // includes all needed Boost.Filesystem declarations
-namespace boostfs = boost::filesystem;
+#include <filesystem>  // includes all needed Boost.Filesystem declarations
+namespace boostfs = std::filesystem;
 
 namespace TextGen
 {

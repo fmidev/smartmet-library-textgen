@@ -46,8 +46,8 @@
 
 #include <boost/lexical_cast.hpp>
 #define BOOST_FILESYSTEM_VERSION 3
-#include <boost/filesystem.hpp>  // includes all needed Boost.Filesystem declarations
-namespace boostfs = boost::filesystem;
+#include <filesystem>  // includes all needed Boost.Filesystem declarations
+namespace fs = std::filesystem;
 
 namespace TextGen
 {
@@ -1634,9 +1634,9 @@ Paragraph TemperatureStory::anomaly() const
     log << areaName << endl;
   }
 
-  boostfs::path climatologyFile(Settings::optional_string("textgen::tmax_climatology", ""));
+  fs::path climatologyFile(Settings::optional_string("textgen::tmax_climatology", ""));
 
-  if (!boostfs::exists(climatologyFile))
+  if (!fs::exists(climatologyFile))
   {
     log << "The climatology file " << climatologyFile << " does not exist!" << endl;
     return paragraph;
