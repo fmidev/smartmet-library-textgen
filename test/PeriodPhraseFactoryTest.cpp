@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace PeriodPhraseFactoryTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const string& theMode,

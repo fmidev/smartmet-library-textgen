@@ -11,7 +11,7 @@
 #include "Text.h"
 #include <calculator/Settings.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include <cstdio>
 #include <fstream>
@@ -131,7 +131,7 @@ Paragraph SpecialStory::text() const
   {
     string filename = default_text.substr(1, string::npos);
     log << "File to be included: " << filename << endl;
-    if (!boost::filesystem::exists(filename))
+    if (!std::filesystem::exists(filename))
     {
       log << "The file does not exist!" << endl;
       throw runtime_error("File '" + filename + "' is not readable");

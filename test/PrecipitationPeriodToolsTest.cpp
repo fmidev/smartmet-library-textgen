@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace PrecipitationPeriodToolsTest
 {
-boost::shared_ptr<NFmiQueryData> theQD;
+std::shared_ptr<NFmiQueryData> theQD;
 
 void read_querydata(const std::string& theFilename)
 {
@@ -47,12 +47,12 @@ void findRainTimes()
   WeatherPeriod period(time1, time2);
 
   AnalysisSources sources;
-  boost::shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
+  std::shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
   weathersource->insert("data", theQD);
 
   Settings::set("textgen::precipitation_forecast", "data");
 
-  boost::shared_ptr<MaskSource> masksource(new RegularMaskSource());
+  std::shared_ptr<MaskSource> masksource(new RegularMaskSource());
   sources.setWeatherSource(weathersource);
   sources.setMaskSource(masksource);
 
@@ -108,11 +108,11 @@ void findRainPeriods()
   WeatherPeriod period(time1, time2);
 
   AnalysisSources sources;
-  boost::shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
+  std::shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
   weathersource->insert("data", theQD);
   Settings::set("textgen::precipitation_forecast", "data");
 
-  boost::shared_ptr<MaskSource> masksource(new RegularMaskSource());
+  std::shared_ptr<MaskSource> masksource(new RegularMaskSource());
   sources.setWeatherSource(weathersource);
   sources.setMaskSource(masksource);
 

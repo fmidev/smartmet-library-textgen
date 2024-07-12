@@ -39,7 +39,7 @@ void mask()
 
   // Initialize all the data
 
-  boost::shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(datafile));
+  std::shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(datafile));
 
   UserWeatherSource wsource;
   wsource.insert("data", sqd);

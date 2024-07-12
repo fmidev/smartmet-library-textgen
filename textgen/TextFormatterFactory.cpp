@@ -14,8 +14,8 @@
  *
  * For example,
  * \code
- * boost::shared_ptr<TextFormatter> form1(TextFormatterFactory::create("plain"));
- * boost::shared_ptr<TextFormatter> form2(TextFormatterFactory::create("html"));
+ * std::shared_ptr<TextFormatter> form1(TextFormatterFactory::create("plain"));
+ * std::shared_ptr<TextFormatter> form2(TextFormatterFactory::create("html"));
  * \endcode
  *
  */

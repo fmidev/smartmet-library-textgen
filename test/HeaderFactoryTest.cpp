@@ -21,7 +21,7 @@ using namespace boost;
 
 namespace HeaderFactoryTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const string& theLanguage,

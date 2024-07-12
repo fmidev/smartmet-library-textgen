@@ -26,7 +26,7 @@
 #include <calculator/WeatherPeriodGenerator.h>
 #include <calculator/WeatherResult.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace TextGen
 {
@@ -59,7 +59,7 @@ WeatherResult GridClimatology::analyze(const AnalysisSources& theSources,
                                        const Acceptor& theTimeAcceptor,
                                        const Acceptor& theTester) const
 {
-  boost::shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
+  std::shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
 
   return analyzer->analyze(theSources,
                            Climatology,

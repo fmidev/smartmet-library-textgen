@@ -119,7 +119,7 @@ CoastMaskSource::Pimple::Pimple(const WeatherArea& theCoast) : itsCoast(theCoast
 CoastMaskSource::mask_type CoastMaskSource::Pimple::find(const WeatherId& theID,
                                                          const WeatherArea& theArea) const
 {
-  static boost::shared_ptr<NFmiIndexMask> dummy;
+  static std::shared_ptr<NFmiIndexMask> dummy;
 
   WeatherAreaAndID key(theID, theArea);
 
@@ -172,7 +172,7 @@ CoastMaskSource::mask_type CoastMaskSource::Pimple::create_mask(
 {
   // Establish the grid which to mask
 
-  boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+  std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
   NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
   if (!qi.IsGrid())
     throw TextGenError("The data in " + theData + " is not gridded - cannot generate mask for it");

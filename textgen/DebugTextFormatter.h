@@ -17,7 +17,7 @@ class DebugTextFormatter : public TextFormatter
  public:
   DebugTextFormatter() = default;
   ~DebugTextFormatter() override = default;
-  void dictionary(const boost::shared_ptr<Dictionary>& theDict) override {}
+  void dictionary(const std::shared_ptr<Dictionary>& theDict) override {}
   std::string format(const Glyph& theGlyph) const override;
 
   // override for all composites

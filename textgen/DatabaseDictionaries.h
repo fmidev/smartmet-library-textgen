@@ -10,7 +10,7 @@
 
 #include "Dictionary.h"
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <string>
 
 namespace TextGen
@@ -39,7 +39,7 @@ class DatabaseDictionaries : public Dictionary
 
  private:
   class Pimple;
-  boost::shared_ptr<Pimple> itsPimple;
+  std::shared_ptr<Pimple> itsPimple;
 
 };  // class DatabaseDictionaries
 

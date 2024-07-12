@@ -22,7 +22,7 @@ class Delimiter : public Glyph
   Delimiter& operator=(const Delimiter& thePhrase);
 #endif
 
-  boost::shared_ptr<Glyph> clone() const override;
+  std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;
   std::string realize(const TextFormatter& theFormatter) const override;
   bool isDelimiter() const override;

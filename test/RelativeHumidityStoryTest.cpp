@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace RelativeHumidityStoryTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const TextGen::Story& theStory,

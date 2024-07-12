@@ -22,7 +22,7 @@ class TemperatureRange : public IntegerRange
                             int theEndValue,
                             const std::string& theSeparator = "-");
 
-  boost::shared_ptr<Glyph> clone() const override;
+  std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;
   std::string realize(const TextFormatter& theFormatter) const override;
 

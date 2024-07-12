@@ -15,7 +15,7 @@ class WmlTextFormatter : public TextFormatter
 {
  public:
   ~WmlTextFormatter() override = default;
-  void dictionary(const boost::shared_ptr<Dictionary>& theDict) override;
+  void dictionary(const std::shared_ptr<Dictionary>& theDict) override;
 
   std::string format(const Glyph& theGlyph) const override;
 
@@ -37,7 +37,7 @@ class WmlTextFormatter : public TextFormatter
   std::string name() const { return "wml"; }
 
  private:
-  boost::shared_ptr<Dictionary> itsDictionary;
+  std::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
   mutable std::string itsStoryVar;
 

@@ -15,7 +15,7 @@
 #include "TextFormatter.h"
 #include <calculator/TextGenError.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <sstream>
 #include <utility>
@@ -44,9 +44,9 @@ Text::Text(std::string theText) : itsText(std::move(theText)) {}
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Text::clone() const
+std::shared_ptr<Glyph> Text::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Text(*this));
+  std::shared_ptr<Glyph> ret(new Text(*this));
   return ret;
 }
 

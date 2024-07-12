@@ -80,7 +80,7 @@ bool isPartOfArea(const WeatherArea& theWeatherArea1,
                   const std::string& theArea2SvgFile,
                   const std::string& theQueryData)
 {
-  boost::shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(theQueryData));
+  std::shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(theQueryData));
 
   UserWeatherSource theWeatherSource;
   theWeatherSource.insert("data", sqd);
@@ -103,8 +103,8 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
   const string datavar = dataName + '_' + "forecast";
   const string dataname = Settings::optional_string(datavar, default_forecast);
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
   for (unsigned long it : theIndexMask)
@@ -139,8 +139,8 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   const string datavar = dataName + '_' + "forecast";
   const string dataname = Settings::optional_string(datavar, default_forecast);
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
   NFmiIndexMask indexMask;
@@ -381,8 +381,8 @@ Rect::Rect(const AnalysisSources& theSources,
       dataName + '_' + "forecast";  // ParameterAnalyzer::getDataTypeName(TextGen::Forecast);
   const string dataname = Settings::optional_string(datavar, default_forecast);
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
   double lon_min = 180.0;

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <string>
 
 class TextGenPosixTime;
@@ -44,7 +44,7 @@ class TextGenerator
 
  private:
   class Pimple;
-  boost::shared_ptr<Pimple> itsPimple;
+  std::shared_ptr<Pimple> itsPimple;
 
 };  // class TextGenerator
 }  // namespace TextGen

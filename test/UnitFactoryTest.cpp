@@ -28,13 +28,13 @@ void celsius()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  boost::shared_ptr<Sentence> unit;
+  std::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::celsius::format", "SI");
   unit = create(DegreesCelsius);
@@ -66,13 +66,13 @@ void meterspersecond()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  boost::shared_ptr<Sentence> unit;
+  std::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::meterspersecond::format", "SI");
   unit = create(MetersPerSecond);
@@ -103,13 +103,13 @@ void millimeters()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  boost::shared_ptr<Sentence> unit;
+  std::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::millimeters::format", "SI");
   unit = create(Millimeters);
@@ -140,13 +140,13 @@ void percent()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  boost::shared_ptr<Sentence> unit;
+  std::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::percent::format", "SI");
   unit = create(Percent);
@@ -177,13 +177,13 @@ void hectopascal()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  boost::shared_ptr<Sentence> unit;
+  std::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::hectopascal::format", "SI");
   unit = create(HectoPascal);

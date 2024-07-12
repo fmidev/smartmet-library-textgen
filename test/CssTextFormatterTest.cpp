@@ -22,7 +22,7 @@ using namespace boost;
 
 namespace SpecialStoryTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 TextGen::CssTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,

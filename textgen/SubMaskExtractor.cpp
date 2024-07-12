@@ -22,7 +22,7 @@
 #include <cassert>
 
 #include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -70,8 +70,8 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
 
   // Get the data into use
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
   auto param = FmiParameterName(converter.ToEnum(parameterName));
@@ -167,8 +167,8 @@ double ExtractMask(const AnalysisSources& theSources,
 
   // Get the data into use
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
   auto param = FmiParameterName(converter.ToEnum(parameterName));
@@ -446,8 +446,8 @@ void PrintLatLon(const AnalysisSources& theSources,
   const string datavar = dataName + '_' + data_type_name(Forecast);
   const string dataname = Settings::optional_string(datavar, default_forecast);
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
   for (unsigned long it : theIndexMask)

@@ -41,9 +41,9 @@ WeatherTime::WeatherTime(const TextGenPosixTime& theTime) : itsTime(theTime) {}
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> WeatherTime::clone() const
+std::shared_ptr<Glyph> WeatherTime::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new WeatherTime(*this));
+  std::shared_ptr<Glyph> ret(new WeatherTime(*this));
   return ret;
 }
 

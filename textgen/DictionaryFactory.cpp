@@ -14,10 +14,10 @@
  *
  * For example,
  * \code
- * boost::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
- * boost::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
- * boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("mysql"));
- * boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("file"));
+ * std::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
+ * std::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
+ * std::shared_ptr<Dictionary> dict3(DictionaryFactory::create("mysql"));
+ * std::shared_ptr<Dictionary> dict3(DictionaryFactory::create("file"));
  * \endcode
  *
  */

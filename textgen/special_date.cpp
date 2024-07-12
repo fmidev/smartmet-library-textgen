@@ -13,7 +13,7 @@
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/locale.hpp>
 
 #include <cstdio>

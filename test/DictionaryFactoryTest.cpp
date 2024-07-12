@@ -3,7 +3,7 @@
 
 #include <newbase/NFmiSettings.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <iostream>
 #include <string>
@@ -20,14 +20,14 @@ void create(void)
   using namespace TextGen;
 
   // Should succeed
-  boost::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
-  boost::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
-  boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
+  std::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
+  std::shared_ptr<Dictionary> dict3(DictionaryFactory::create("file"));
 
   // Should throw
   try
   {
-    boost::shared_ptr<Dictionary> dict4(DictionaryFactory::create("foobar"));
+    std::shared_ptr<Dictionary> dict4(DictionaryFactory::create("foobar"));
     TEST_FAILED("create(foobar) should have thrown");
   }
   catch (...)

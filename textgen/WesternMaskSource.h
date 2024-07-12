@@ -31,7 +31,7 @@ class WesternMaskSource : public MaskSource
   WesternMaskSource() = delete;
 
   class Pimple;
-  boost::shared_ptr<Pimple> itsPimple;
+  std::shared_ptr<Pimple> itsPimple;
 
 };  // class WesternMaskSource
 

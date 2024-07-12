@@ -40,7 +40,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-void PlainTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
+void PlainTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 {
   itsDictionary = theDict;
 }

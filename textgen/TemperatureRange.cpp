@@ -14,7 +14,7 @@
 #include "Dictionary.h"
 #include <calculator/TextGenError.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <sstream>
 
 using namespace std;
@@ -40,9 +40,9 @@ TemperatureRange::TemperatureRange(int theStartValue,
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> TemperatureRange::clone() const
+std::shared_ptr<Glyph> TemperatureRange::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new TemperatureRange(*this));
+  std::shared_ptr<Glyph> ret(new TemperatureRange(*this));
   return ret;
 }
 

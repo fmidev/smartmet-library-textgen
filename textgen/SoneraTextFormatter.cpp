@@ -166,7 +166,7 @@ SoneraTextFormatter::SoneraTextFormatter()
  */
 // ----------------------------------------------------------------------
 
-void SoneraTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
+void SoneraTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 {
   itsDictionary = theDict;
 }

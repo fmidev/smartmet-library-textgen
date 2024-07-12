@@ -17,7 +17,7 @@ using namespace boost;
 
 namespace HeaderPhrasesTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 
 void require(const string& theKey, const string& theValue)
 {

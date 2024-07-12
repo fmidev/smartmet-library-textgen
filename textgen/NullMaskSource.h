@@ -28,7 +28,7 @@ class NullMaskSource : public MaskSource
                    const WeatherSource& theWeatherSource) const override;
 
  private:
-  boost::shared_ptr<NFmiIndexMask> itsData;
+  std::shared_ptr<NFmiIndexMask> itsData;
 
 };  // class NullMaskSource
 

@@ -25,7 +25,7 @@ using namespace TextGen;
 
 namespace TextFormatterToolsTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 
 // ----------------------------------------------------------------------
 /*!
