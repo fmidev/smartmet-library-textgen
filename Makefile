@@ -15,7 +15,6 @@ LIBS += -L$(libdir) \
 	-lsmartmet-calculator \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
-	-lboost_filesystem \
 	-lboost_locale \
 	-lboost_thread \
 	-lmysqlpp
