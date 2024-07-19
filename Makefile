@@ -11,8 +11,7 @@ DEFINES = -DUNIX -D_REENTRANT
 
 INCLUDES += -isystem $(includedir)/mysql
 
-LIBS += -L$(libdir) \
-	-lsmartmet-calculator \
+LIBS += -lsmartmet-calculator \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
 	-lboost_locale \
