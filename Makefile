@@ -11,7 +11,8 @@ DEFINES = -DUNIX -D_REENTRANT
 
 INCLUDES += -isystem $(includedir)/mysql
 
-LIBS += -lsmartmet-calculator \
+LIBS += \
+	-lsmartmet-calculator \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
 	-lboost_locale \
@@ -57,6 +58,7 @@ $(LIBFILE): $(OBJS)
 clean:
 	rm -f $(LIBFILE) *~ $(SUBNAME)/*~
 	rm -rf $(objdir)
+	$(MAKE) -C test clean
 
 format:
 	clang-format -i -style=file $(SUBNAME)/*.h $(SUBNAME)/*.cpp test/*.cpp

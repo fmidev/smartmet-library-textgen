@@ -12,6 +12,7 @@ INCLUDES += \
 
 LIBS += \
 	../libsmartmet-textgen.so \
+	$(PREFIX_LDFLAGS) \
 	-lsmartmet-calculator \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
@@ -19,6 +20,7 @@ LIBS += \
 	-L$(libdir)/mysql -lmysqlclient -lmysqlpp
 
 all: $(PROG)
+
 clean:
 	rm -f $(PROG) *~
 	rm -rf .obj
