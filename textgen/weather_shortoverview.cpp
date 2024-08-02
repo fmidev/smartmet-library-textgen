@@ -25,7 +25,7 @@
 #include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <vector>
 
@@ -89,11 +89,11 @@ Paragraph WeatherStory::shortoverview() const
     n1limits.upperLimit(c_clear);
     n3limits.lowerLimit(c_cloudy);
 
-    boost::shared_ptr<WeatherPeriodGenerator> periods;
+    std::shared_ptr<WeatherPeriodGenerator> periods;
     if (c_fullrange)
-      periods = boost::shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
+      periods = std::shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
     else
-      periods = boost::shared_ptr<WeatherPeriodGenerator>(
+      periods = std::shared_ptr<WeatherPeriodGenerator>(
           new HourPeriodGenerator(itsPeriod, c_starthour, c_endhour, c_maxstarthour, c_minendhour));
 
     const WeatherResult n1result = forecaster.analyze(itsVar + "::fake::clear_percentage",

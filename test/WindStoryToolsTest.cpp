@@ -5,7 +5,7 @@
 
 #include <newbase/NFmiSettings.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <iostream>
 #include <stdexcept>
@@ -18,7 +18,7 @@ using namespace boost;
 
 namespace WindStoryToolsTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 
 // ----------------------------------------------------------------------
 /*!

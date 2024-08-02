@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.5.6
+Version: 24.7.17
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -25,14 +25,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 24.5.6
-BuildRequires: smartmet-library-macgyver-devel >= 24.5.6
-BuildRequires: smartmet-library-newbase-devel >= 24.5.6
-BuildRequires: smartmet-library-gis-devel >= 24.3.25
+BuildRequires: smartmet-library-calculator-devel >= 24.7.12
+BuildRequires: smartmet-library-macgyver-devel >= 24.7.12
+BuildRequires: smartmet-library-newbase-devel >= 24.7.12
+BuildRequires: smartmet-library-gis-devel >= 24.7.12
 Requires: gdal38-libs
-Requires: smartmet-library-calculator >= 24.5.6
-Requires: smartmet-library-macgyver >= 24.4.5
-Requires: smartmet-library-newbase >= 24.5.6
+Requires: smartmet-library-calculator >= 24.7.12
+Requires: smartmet-library-macgyver >= 24.7.12
+Requires: smartmet-library-newbase >= 24.7.12
 
 %if %{?rhel} && %{rhel} == 8
 Requires: libpqxx >= 1:7.7.0 libpqxx < 1:7.8.0
@@ -56,10 +56,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 24.5.6
-#TestRequires: smartmet-library-macgyver-devel >= 24.5.6
-#TestRequires: smartmet-library-newbase-devel >= 24.5.6
-#TestRequires: smartmet-library-gis-devel >= 24.3.25
+#TestRequires: smartmet-library-calculator-devel >= 24.7.12
+#TestRequires: smartmet-library-macgyver-devel >= 24.7.12
+#TestRequires: smartmet-library-newbase-devel >= 24.7.12
+#TestRequires: smartmet-library-gis-devel >= 24.7.12
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -105,6 +105,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Jul 17 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.7.17-1.fmi
+- Do not link with libboost_filesystem
+
+* Fri Jul 12 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.7.12-1.fmi
+- Replace many boost library types with C++ standard library ones
+
 * Mon May  6 2024 Andris Pavēnis <andris.pavenis@fmi.fi> 24.5.6-1.fmi
 - Use Date library (https://github.com/HowardHinnant/date) instead of boost date_time
 

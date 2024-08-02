@@ -40,7 +40,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-void SpeechTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
+void SpeechTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 {
   itsDictionary = theDict;
 }

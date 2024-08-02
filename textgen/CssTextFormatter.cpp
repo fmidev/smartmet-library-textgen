@@ -45,7 +45,7 @@ std::set<string> css_class_set;
  */
 // ----------------------------------------------------------------------
 
-void CssTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
+void CssTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 {
   itsDictionary = theDict;
 }

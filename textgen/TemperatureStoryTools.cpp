@@ -26,7 +26,7 @@
 
 #include "SeasonTools.h"
 #include "TextFormatter.h"
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <calculator/GridForecaster.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>

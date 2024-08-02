@@ -14,7 +14,7 @@
 #include "Dictionary.h"
 #include <calculator/TextGenError.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <iomanip>
 #include <sstream>
 #include <utility>
@@ -53,9 +53,9 @@ RealRange::RealRange(float theStartValue,
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> RealRange::clone() const
+std::shared_ptr<Glyph> RealRange::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new RealRange(*this));
+  std::shared_ptr<Glyph> ret(new RealRange(*this));
   return ret;
 }
 

@@ -47,7 +47,7 @@
 #include "FileDictionaries.h"
 #ifdef UNIX
 #include "FileDictionary.h"
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <calculator/TextGenError.h>
 #include <map>
 
@@ -65,7 +65,7 @@ namespace TextGen
 class FileDictionaries::Pimple
 {
  public:
-  using storage_type = map<string, boost::shared_ptr<FileDictionary>>;
+  using storage_type = map<string, std::shared_ptr<FileDictionary>>;
 
   storage_type itsData;
   string itsLanguage;
@@ -146,7 +146,7 @@ void FileDictionaries::init(const std::string& theLanguage)
 
   // Load new language
 
-  boost::shared_ptr<FileDictionary> dict(new FileDictionary);
+  std::shared_ptr<FileDictionary> dict(new FileDictionary);
   if (dict.get() == nullptr)
     throw TextGenError("Failed to allocate a new FileDictionary");
 

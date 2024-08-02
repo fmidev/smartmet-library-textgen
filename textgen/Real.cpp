@@ -17,7 +17,7 @@
 
 #include <newbase/NFmiStringTools.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <iomanip>
 #include <sstream>
@@ -50,9 +50,9 @@ Real::Real(float theReal, int thePrecision, bool theComma)
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Real::clone() const
+std::shared_ptr<Glyph> Real::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Real(*this));
+  std::shared_ptr<Glyph> ret(new Real(*this));
   return ret;
 }
 

@@ -34,9 +34,9 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Paragraph::clone() const
+std::shared_ptr<Glyph> Paragraph::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Paragraph(*this));
+  std::shared_ptr<Glyph> ret(new Paragraph(*this));
   return ret;
 }
 

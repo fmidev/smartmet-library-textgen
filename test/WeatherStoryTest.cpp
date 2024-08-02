@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace WeatherStoryTest
 {
-boost::shared_ptr<TextGen::Dictionary> dict;
+std::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,

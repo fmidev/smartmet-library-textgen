@@ -42,9 +42,9 @@ Delimiter::Delimiter(std::string theSeparator) : itsSeparator(std::move(theSepar
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Delimiter::clone() const
+std::shared_ptr<Glyph> Delimiter::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Delimiter(*this));
+  std::shared_ptr<Glyph> ret(new Delimiter(*this));
   return ret;
 }
 

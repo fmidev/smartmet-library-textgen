@@ -33,7 +33,7 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherSource.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
@@ -155,8 +155,8 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
 
   // Get the data into use
 
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
 
   // Try activating the parameter
@@ -173,7 +173,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
 
   if (!theArea.isPoint())
   {
-    boost::shared_ptr<MaskSource> msource = theSources.getMaskSource();
+    std::shared_ptr<MaskSource> msource = theSources.getMaskSource();
     MaskSource::mask_type mask = msource->mask(theArea, dataname, *wsource);
     RangeAcceptor acceptor;
     acceptor.lowerLimit(minimum_rain);

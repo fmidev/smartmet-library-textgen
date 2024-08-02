@@ -48,7 +48,7 @@
 #ifdef UNIX
 #include "MySQLDictionary.h"
 #include "PostgreSQLDictionary.h"
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <calculator/TextGenError.h>
 #include <map>
 
@@ -66,7 +66,7 @@ namespace TextGen
 class DatabaseDictionaries::Pimple
 {
  public:
-  using storage_type = map<string, boost::shared_ptr<DatabaseDictionary>>;
+  using storage_type = map<string, std::shared_ptr<DatabaseDictionary>>;
 
   storage_type itsData;
   string itsLanguage;
@@ -147,7 +147,7 @@ void DatabaseDictionaries::init(const std::string& theLanguage)
 
   // Load new language
 
-  boost::shared_ptr<DatabaseDictionary> dict;
+  std::shared_ptr<DatabaseDictionary> dict;
   if (itsDictionaryId == "mysql")
     dict.reset(new MySQLDictionary);
   else if (itsDictionaryId == "postgresql")

@@ -17,7 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherSource.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
 
@@ -43,8 +43,8 @@ WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
 {
   const std::string datavar = theDataName + "_climatology";
   const std::string dataname = Settings::require_string(datavar);
-  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
   qi.FirstTime();
   int year = qi.ValidTime().GetYear();

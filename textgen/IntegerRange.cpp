@@ -14,7 +14,7 @@
 #include "Dictionary.h"
 #include <calculator/TextGenError.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <sstream>
 #include <utility>
 
@@ -48,9 +48,9 @@ IntegerRange::IntegerRange(int theStartValue, int theEndValue, std::string theSe
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> IntegerRange::clone() const
+std::shared_ptr<Glyph> IntegerRange::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new IntegerRange(*this));
+  std::shared_ptr<Glyph> ret(new IntegerRange(*this));
   return ret;
 }
 
