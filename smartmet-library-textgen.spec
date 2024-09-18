@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.4.10
+Version: 24.9.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Sep 18 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.9.18-1.fmi
+- More lenient definitions for morning, afternoon and evening
+
 * Wed Apr 10 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.4.10-1.fmi
 - Added until_weekday and from_until_weekday header types which ignore "tomorrow" etc phrases
 
