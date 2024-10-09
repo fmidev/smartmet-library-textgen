@@ -34,7 +34,7 @@ struct interval_sentence_info
   interval_info intervalInfo;
   std::vector<WindDirectionInfo> directionChangesBefore;  // direction changes before interval
   std::vector<WindDirectionInfo> directionChangesAfter;   // direction changes after interval
-  std::optional<WindDirectionInfo> directionChange;     // wind direction changes nearby
+  std::optional<WindDirectionInfo> directionChange;       // wind direction changes nearby
   // interval start time (so that we can
   // report them together)
   bool useAlkaenPhrase{false};
@@ -67,10 +67,10 @@ struct sentence_info
   bool useWindBasicForm{false};  // basic form: 'tuuli', partitive form: 'tuulta'
   bool firstSentence{false};
   bool skip{false};
-  interval_info intervalInfo;                          // for first period
+  interval_info intervalInfo;                        // for first period
   std::optional<WindDirectionInfo> directionChange;  // wind direction change nearby
-                                                       // sentence start time (so that we can
-                                                       // report them together)
+                                                     // sentence start time (so that we can
+                                                     // report them together)
 
   std::vector<interval_sentence_info> intervalSentences;
   std::vector<SentenceParameterType> sentenceParameterTypes;  // order of

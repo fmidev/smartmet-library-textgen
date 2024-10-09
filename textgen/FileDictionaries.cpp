@@ -47,9 +47,9 @@
 #include "FileDictionaries.h"
 #ifdef UNIX
 #include "FileDictionary.h"
-#include <memory>
 #include <calculator/TextGenError.h>
 #include <map>
+#include <memory>
 
 using namespace std;
 

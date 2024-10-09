@@ -14,8 +14,8 @@
 #include "Dictionary.h"
 #include <calculator/TextGenError.h>
 
-#include <memory>
 #include <iomanip>
+#include <memory>
 #include <sstream>
 #include <utility>
 

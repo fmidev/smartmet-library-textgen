@@ -26,11 +26,11 @@
 
 #include "SeasonTools.h"
 #include "TextFormatter.h"
-#include <memory>
 #include <calculator/GridForecaster.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
+#include <memory>
 #include <sstream>
 #include <string>
 

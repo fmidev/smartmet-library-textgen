@@ -9,9 +9,9 @@
 #include "Delimiter.h"
 #include "IntegerRange.h"
 #include "UnitFactory.h"
+#include <boost/algorithm/string/case_conv.hpp>
 #include <calculator/Settings.h>
 #include <macgyver/StringConversion.h>
-#include <boost/algorithm/string/case_conv.hpp>
 
 namespace TextGen
 {

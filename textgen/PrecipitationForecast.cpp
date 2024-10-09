@@ -213,7 +213,7 @@ using namespace std;
 #define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
   "[sadekuuroja], jotka voivat olla jaatavia"
 
-//#define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu"
+// #define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu"
 
 #define SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE \
   "[iltapaivalla] saa poutaantuu vesisateen jalkeen"
@@ -224,7 +224,7 @@ using namespace std;
 #define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE \
   "[iltapaivalla] saa poutaantuu tihkusateen jalkeen"
 
-//#define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja on
+// #define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja on
 //[selkea]"
 
 #define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE \
@@ -272,8 +272,8 @@ using namespace std;
 #define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE \
   "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on pilvinen"
 
-//#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja vaihtelee
-// puolipilvisesta pilviseen"
+// #define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja vaihtelee
+//  puolipilvisesta pilviseen"
 
 #define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
   "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
@@ -2096,35 +2096,35 @@ void PrecipitationForecast::gatherPrecipitationData()
 
 void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAreaId)
 {
- std::shared_ptr< weather_result_data_item_vector> precipitationMaxHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationMaxHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_MAX_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationMeanHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationMeanHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_MEAN_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationExtentHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationExtentHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_EXTENT_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationFormWaterHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationFormWaterHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_WATER_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationFormDrizzleHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationFormDrizzleHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_DRIZZLE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationFormSleetHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationFormSleetHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_SLEET_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationFormSnowHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationFormSnowHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_SNOW_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationFormFreezingRainHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationFormFreezingRainHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationFormFreezingDrizzleHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationFormFreezingDrizzleHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationTypeHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationTypeHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_TYPE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationNorthEastShareHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationNorthEastShareHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_NORTHEAST_SHARE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationSouthEastShareHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationSouthEastShareHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_SOUTHEAST_SHARE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationSouthWestShareHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationSouthWestShareHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_SOUTHWEST_SHARE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationNorthWestShareHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationNorthWestShareHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_NORTHWEST_SHARE_DATA];
- std::shared_ptr< weather_result_data_item_vector> precipitationPointHourly =
+  std::shared_ptr<weather_result_data_item_vector> precipitationPointHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_POINT_DATA];
 
   precipitation_data_vector& dataVector =

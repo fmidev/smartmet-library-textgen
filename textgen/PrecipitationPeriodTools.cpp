@@ -33,10 +33,10 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherSource.h>
 
-#include <memory>
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
+#include <memory>
 
 using namespace std;
 

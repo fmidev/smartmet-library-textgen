@@ -17,9 +17,9 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherSource.h>
 
-#include <memory>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
+#include <memory>
 
 namespace TextGen
 {

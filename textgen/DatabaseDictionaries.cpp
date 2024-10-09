@@ -48,9 +48,9 @@
 #ifdef UNIX
 #include "MySQLDictionary.h"
 #include "PostgreSQLDictionary.h"
-#include <memory>
 #include <calculator/TextGenError.h>
 #include <map>
+#include <memory>
 
 using namespace std;
 
