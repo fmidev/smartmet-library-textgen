@@ -2721,6 +2721,8 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
                          actualPeriod.localStartTime().GetWeekday()) &&
                     ((timePhraseInfo.day_number != actualPeriod.localStartTime().GetWeekday())));
 
+    specifyDay &= theParameters.theWeekdaysUsed;
+
     std::string plainTimePhrase =
         get_time_phrase_from_id(timePhraseInfo.part_of_the_day, theParameters.theVar, false);
     timePhrase << parse_time_phrase(
@@ -2758,6 +2760,8 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
                      theParameters.theForecastPeriod.localStartTime().GetWeekday() !=
                          actualPeriod.localStartTime().GetWeekday()) &&
                     ((timePhraseInfo.day_number != actualPeriod.localStartTime().GetWeekday())));
+
+    specifyDay &= theParameters.theWeekdaysUsed;
 
     timePhrase << get_time_phrase_large(actualPeriod,
                                         specifyDay,

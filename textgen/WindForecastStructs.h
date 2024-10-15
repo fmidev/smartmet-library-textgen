@@ -65,7 +65,8 @@ struct wo_story_params
         theContextualMaxIntervalSize(5),
         theMetersPerSecondFormat("SI"),
         theAlkaenPhraseUsed(false),
-        theWeakTopWind(false)
+        theWeakTopWind(false),
+        theWeekdaysUsed(true)
   {
   }
 
@@ -96,6 +97,7 @@ struct wo_story_params
   std::string theMetersPerSecondFormat;
   bool theAlkaenPhraseUsed;
   bool theWeakTopWind;  // if top wind strays under 10 m/s the whole period
+  bool theWeekdaysUsed;
 
   // contains raw data
   wind_data_item_vector theWindDataVector;
