@@ -1199,15 +1199,15 @@ int get_day_number(part_of_the_day_id id, const WeatherPeriod& period, std::stri
     case PAIVA:
     {
       dayNum = period.localStartTime().GetWeekday();
+      break;
     }
-    break;
     case AAMUYO:
     case KESKIYO_JA_AAMUYO:
     case AAMUYO_JA_AAMU:
     {
       dayNum = period.localEndTime().GetWeekday();
+      break;
     }
-    break;
     default:
       break;
   };
@@ -1266,7 +1266,8 @@ Sentence PeriodPhraseGenerator::getPeriodPhrase(const WeatherPeriod& period)
     {
       std::string dayNumber;
       int dayNum = get_day_number(id, period, dayNumber);
-      if (dayNum == -1 || dayExists(dayNum))
+      if (dayNum == -1 || dayExists(dayNum) ||
+          false == Settings::optional_bool(itsVar + "::weekdays", true))
         dayNumber = "";
       else
         dayNumbers.insert(dayNum);

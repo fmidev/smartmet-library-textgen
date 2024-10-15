@@ -1,6 +1,8 @@
 #pragma once
 
+#include <map>
 #include <memory>
+#include <set>
 
 class MessageLogger;
 
@@ -156,7 +158,7 @@ class WeatherForecastStory
   Paragraph getWeatherForecastStory();
   Paragraph getWeatherForecastStoryAtSea();
   const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
-  const std::vector<std::shared_ptr<WeatherForecastStoryItem> >& getStoryItemVector() const
+  const std::vector<std::shared_ptr<WeatherForecastStoryItem>>& getStoryItemVector() const
   {
     return theStoryItemVector;
   }
@@ -189,7 +191,7 @@ class WeatherForecastStory
   bool theAddAluksiWord;
   PeriodPhraseGenerator thePeriodPhraseGenerator;
 
-  std::vector<std::shared_ptr<WeatherForecastStoryItem> > theStoryItemVector;
+  std::vector<std::shared_ptr<WeatherForecastStoryItem>> theStoryItemVector;
 
   friend class PrecipitationForecastStoryItem;
   friend class CloudinessForecastStoryItem;

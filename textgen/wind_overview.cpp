@@ -3405,6 +3405,7 @@ void read_configuration_params(wo_story_params& storyParams)
       Settings::optional_int(storyParams.theVar + "::wind_speed_interval_max_size", 5);
   double windDirectionMinSpeed =
       Settings::optional_double(storyParams.theVar + "::wind_direction_min_speed", 6.5);
+  bool weekdaysUsed = Settings::optional_bool(storyParams.theVar + "::weekdays", true);
 
   storyParams.theWindSpeedMaxError = windSpeedMaxError;
   storyParams.theWindDirectionMaxError = windDirectionMaxError;
@@ -3420,6 +3421,7 @@ void read_configuration_params(wo_story_params& storyParams)
   storyParams.theMinIntervalSize = minIntervalSize;
   storyParams.theMaxIntervalSize = maxIntervalSize;
   storyParams.theContextualMaxIntervalSize = maxIntervalSize;
+  storyParams.theWeekdaysUsed = weekdaysUsed;
 
   storyParams.theWeatherAreas.push_back(storyParams.theArea);
 
