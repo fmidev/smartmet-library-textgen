@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.9.28
+Version: 24.10.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Oct 15 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.10.15-1.fmi
+- Added possibility to disable mention weekdays for wind_overview and weather_forecast_at_sea using "weekdays = false"
+
 * Sat Sep 28 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.9.28-1.fmi
 - Repackaged due to PostgreSQLConnection ABI change
 
