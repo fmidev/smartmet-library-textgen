@@ -1714,11 +1714,11 @@ bool populate_time_series(wo_story_params& storyParams)
                              weatherArea,
                              dataItem.thePeriod);
 
-      // ARE 2012-04-26: if MaximumWind parameter is missing, use WindSpeed maximum + 1.0 instead
+      // 1.07 from Kaisa Solin, 16.1.2025 Teams meeting
       if (dataItem.theWindSpeedTop.value() == kFloatMissing)
       {
-        dataItem.theWindSpeedTop =
-            WeatherResult(dataItem.theWindSpeedMax.value() + 1.0, dataItem.theWindSpeedMax.error());
+        dataItem.theWindSpeedTop = WeatherResult(dataItem.theWindSpeedMean.value() * 1.07,
+                                                 dataItem.theWindSpeedMean.error() * 1.07);
       }
 
       dataItem.theEqualizedTopWind = dataItem.theWindSpeedTop;
