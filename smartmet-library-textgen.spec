@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 24.10.15
+Version: 25.1.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Jan 16 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.1.16-1.fmi
+- Fixed maxwind calculation from meanwind if maximum wind forecast is missing
+
 * Tue Oct 15 2024 Mika Heiskanen <mika.heiskanen@fmi.fi> - 24.10.15-1.fmi
 - Added possibility to disable mention weekdays for wind_overview and weather_forecast_at_sea using "weekdays = false"
 
