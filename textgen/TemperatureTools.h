@@ -7,7 +7,6 @@
 
 #pragma once
 
-using namespace std;
 #include <string>
 
 namespace TextGen
@@ -29,7 +28,7 @@ namespace TemperatureTools
  */
 // ----------------------------------------------------------------------
 
-void min_max_mean_temperature(const string& theVar,
+void min_max_mean_temperature(const std::string& theVar,
                               const TextGen::AnalysisSources& theSources,
                               const TextGen::WeatherArea& theArea,
                               const TextGen::WeatherPeriod& thePeriod,
@@ -43,7 +42,7 @@ void min_max_mean_temperature(const string& theVar,
  */
 // ----------------------------------------------------------------------
 
-void morning_temperature(const string& theVar,
+void morning_temperature(const std::string& theVar,
                          const TextGen::AnalysisSources& theSources,
                          const TextGen::WeatherArea& theArea,
                          const TextGen::WeatherPeriod& thePeriod,
@@ -57,7 +56,7 @@ void morning_temperature(const string& theVar,
  */
 // ----------------------------------------------------------------------
 
-void afternoon_temperature(const string& theVar,
+void afternoon_temperature(const std::string& theVar,
                            const TextGen::AnalysisSources& theSources,
                            const TextGen::WeatherArea& theArea,
                            const TextGen::WeatherPeriod& thePeriod,
@@ -71,7 +70,7 @@ void afternoon_temperature(const string& theVar,
  */
 // ----------------------------------------------------------------------
 
-void clamp_temperature(const string& theVar,
+void clamp_temperature(const std::string& theVar,
                        const bool& isWinter,
                        const bool& isDay,
                        int& theMinimum,

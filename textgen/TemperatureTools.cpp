@@ -13,7 +13,7 @@ namespace TemperatureTools
 {
 using namespace Settings;
 
-void min_max_mean_temperature(const string& theVar,
+void min_max_mean_temperature(const std::string& theVar,
                               const AnalysisSources& theSources,
                               const WeatherArea& theArea,
                               const WeatherPeriod& thePeriod,
@@ -39,7 +39,7 @@ void min_max_mean_temperature(const string& theVar,
  */
 // ----------------------------------------------------------------------
 
-void morning_temperature(const string& theVar,
+void morning_temperature(const std::string& theVar,
                          const AnalysisSources& theSources,
                          const WeatherArea& theArea,
                          const WeatherPeriod& thePeriod,
@@ -80,7 +80,7 @@ void morning_temperature(const string& theVar,
  */
 // ----------------------------------------------------------------------
 
-void afternoon_temperature(const string& theVar,
+void afternoon_temperature(const std::string& theVar,
                            const AnalysisSources& theSources,
                            const WeatherArea& theArea,
                            const WeatherPeriod& thePeriod,
