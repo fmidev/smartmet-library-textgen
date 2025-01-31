@@ -24,6 +24,7 @@ using namespace std;
 
 namespace
 {
+[[maybe_unused]]
 inline double as_double(const pqxx::field& obj)
 {
 #if PQXX_VERSION_MAJOR > 5
