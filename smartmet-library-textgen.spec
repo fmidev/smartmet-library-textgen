@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.1.16
+Version: 25.2.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Feb 18 2025 Andris Pavēnis <andris.pavenis@fmi.fi> 25.2.18-1.fmi
+- Update to gdal-3.10, geos-3.13 and proj-9.5
+
 * Thu Jan 16 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.1.16-1.fmi
 - Fixed top wind speed calculation to use 1.07*mean if maximum wind forecast is missing, was previously +1.0
 
