@@ -25,14 +25,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 24.8.7
-BuildRequires: smartmet-library-macgyver-devel >= 24.9.28
-BuildRequires: smartmet-library-newbase-devel >= 24.9.25
-BuildRequires: smartmet-library-gis-devel >= 24.8.7
+BuildRequires: smartmet-library-calculator-devel >= 25.2.18
+BuildRequires: smartmet-library-macgyver-devel >= 25.2.18
+BuildRequires: smartmet-library-newbase-devel >= 25.2.18
+BuildRequires: smartmet-library-gis-devel >= 25.2.18
 Requires: gdal310-libs
-Requires: smartmet-library-calculator >= 24.8.7
-Requires: smartmet-library-macgyver >= 24.9.28
-Requires: smartmet-library-newbase >= 24.9.25
+Requires: smartmet-library-calculator >= 25.2.18
+Requires: smartmet-library-macgyver >= 25.2.18
+Requires: smartmet-library-newbase >= 25.2.18
 
 %if %{?rhel} && %{rhel} == 8
 Requires: libpqxx >= 1:7.7.0 libpqxx < 1:7.8.0
@@ -56,10 +56,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 24.8.7
-#TestRequires: smartmet-library-macgyver-devel >= 24.9.28
-#TestRequires: smartmet-library-newbase-devel >= 24.9.25
-#TestRequires: smartmet-library-gis-devel >= 24.8.7
+#TestRequires: smartmet-library-calculator-devel >= 25.2.18
+#TestRequires: smartmet-library-macgyver-devel >= 25.2.18
+#TestRequires: smartmet-library-newbase-devel >= 25.2.18
+#TestRequires: smartmet-library-gis-devel >= 25.2.18
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
