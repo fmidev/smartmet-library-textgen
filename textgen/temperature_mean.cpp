@@ -12,7 +12,7 @@
 #include "TemperatureStory.h"
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 

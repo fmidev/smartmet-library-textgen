@@ -12,7 +12,7 @@
 
 #include "TemperatureRange.h"
 #include "Dictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <memory>
 #include <sstream>

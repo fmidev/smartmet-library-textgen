@@ -26,7 +26,7 @@
 #include <calculator/QueryDataTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
@@ -162,12 +162,12 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
   // Try activating the parameter
 
   if (!qi.Param(kFmiPrecipitation1h))
-    throw TextGenError("Precipitation1h is not available in " + dataname);
+    throw Fmi::Exception(BCP, "Precipitation1h is not available in " + dataname);
 
   // Handle points and areas separately
 
   if (!QueryDataTools::firstTime(qi, thePeriod.utcStartTime(), thePeriod.utcEndTime()))
-    throw TextGenError("The required time period is not available in " + dataname);
+    throw Fmi::Exception(BCP, "The required time period is not available in " + dataname);
 
   RainTimes times;
 
@@ -205,7 +205,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       if (theArea.isNamed())
         msg << " named " << theArea.name();
       msg << " in " << dataname;
-      throw TextGenError(msg.str());
+      throw Fmi::Exception(BCP, msg.str());
     }
 
     do

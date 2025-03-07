@@ -18,7 +18,7 @@
 #include "Integer.h"
 #include "Phrase.h"
 #include "PlainTextFormatter.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 
@@ -47,7 +47,7 @@ std::shared_ptr<Glyph> Header::clone() const
 
 std::string Header::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw TextGenError("Header::realize(Dictionary) should not be called");
+  throw Fmi::Exception(BCP, "Header::realize(Dictionary) should not be called");
 }
 
 // ----------------------------------------------------------------------

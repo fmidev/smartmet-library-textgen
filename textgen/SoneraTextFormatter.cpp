@@ -37,7 +37,7 @@
 #include "TimePeriod.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiStringTools.h>
 
@@ -60,7 +60,7 @@ namespace
 void sonera_check(int theNumber)
 {
   if (theNumber < -100 || theNumber > 100)
-    throw TextGen::TextGenError("SoneraTextFormatter supports only numbers -100...100");
+    throw Fmi::Exception(BCP, "SoneraTextFormatter supports only numbers -100...100");
 }
 
 // ----------------------------------------------------------------------
@@ -259,7 +259,7 @@ string SoneraTextFormatter::visit(const Integer& theInteger) const
 
 string SoneraTextFormatter::visit(const Real& /*theReal*/) const
 {
-  throw TextGen::TextGenError("Cannot use Reals in Sonera phone service");
+  throw Fmi::Exception(BCP, "Cannot use Reals in Sonera phone service");
 }
 
 // ----------------------------------------------------------------------

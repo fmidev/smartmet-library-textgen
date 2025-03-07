@@ -20,7 +20,7 @@
 
 #include "WeatherPeriodFactory.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriod.h>
 
 #include <calculator/TextGenPosixTime.h>
@@ -206,7 +206,7 @@ WeatherPeriod create(const TextGenPosixTime& theTime, const std::string& theVari
   if (type == "from_until")
     return period_from_until(theTime, theVariable);
 
-  throw TextGenError("WeatherPeriodFactory does not recognize period name " + type);
+  throw Fmi::Exception(BCP, "WeatherPeriodFactory does not recognize period name " + type);
 }
 }  // namespace WeatherPeriodFactory
 }  // namespace TextGen

@@ -17,7 +17,7 @@
 
 #include "MorningAndEveningPeriodGenerator.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 
 #include <algorithm>
@@ -124,28 +124,28 @@ void MorningAndEveningPeriodGenerator::init()
   // morning, day, evening and night must start during the same day
 
   if (itsDayStartHour <= itsMorningStartHour)
-    throw TextGenError("MorningAndEveningPeriodGenerator: Morning must start before day");
+    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Morning must start before day");
   if (itsEveningStartHour <= itsDayStartHour)
-    throw TextGenError("MorningAndEveningPeriodGenerator: Day must start before evening");
+    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Day must start before evening");
   if (itsNightStartHour <= itsEveningStartHour)
-    throw TextGenError("MorningAndEveningPeriodGenerator: Evening must start before night");
+    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Evening must start before night");
   if (itsMorningStartHour >= itsNightStartHour)
-    throw TextGenError("MorningAndEveningPeriodGenerator: Night must start before morning");
+    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Night must start before morning");
 
   if (itsMorningMaxStartHour < itsMorningStartHour || itsMorningMaxStartHour >= itsDayStartHour)
-    throw TextGenError(
+    throw Fmi::Exception(BCP, 
         "MorningAndEveningPeriodGenerator: Maximum morning start hour must be during the morning");
 
   if (itsDayMaxStartHour < itsDayStartHour || itsDayMaxStartHour >= itsEveningStartHour)
-    throw TextGenError(
+    throw Fmi::Exception(BCP, 
         "MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
 
   if (itsEveningMaxStartHour < itsEveningStartHour || itsEveningMaxStartHour >= itsNightStartHour)
-    throw TextGenError(
+    throw Fmi::Exception(BCP, 
         "MorningAndEveningPeriodGenerator: Maximum evening start hour must be during the evening");
 
   if (itsNightMaxStartHour < itsNightStartHour && itsNightMaxStartHour >= itsMorningStartHour)
-    throw TextGenError(
+    throw Fmi::Exception(BCP, 
         "MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
 
   const int mornings = countPeriods(
@@ -261,7 +261,7 @@ WeatherPeriod MorningAndEveningPeriodGenerator::period() const
 WeatherPeriod MorningAndEveningPeriodGenerator::period(size_type thePeriod) const
 {
   if (thePeriod < 1 || thePeriod > itsPeriods.size())
-    throw TextGen::TextGenError("MorningAndEveningPeriodGenerator::period(): invalid argument");
+    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator::period(): invalid argument");
   return itsPeriods[thePeriod - 1];
 }
 

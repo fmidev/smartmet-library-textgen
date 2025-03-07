@@ -16,7 +16,7 @@
 #include "ValueAcceptor.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
 
@@ -93,7 +93,7 @@ unsigned int warning_importance(int theWarning)
     case ICYRAIN:
       return 11;
   }
-  throw TextGenError("Unknown road warning in warning_importance");
+  throw Fmi::Exception(BCP, "Unknown road warning in warning_importance");
 }
 
 // ----------------------------------------------------------------------
@@ -131,7 +131,7 @@ const char* warning_name(RoadWarningType theWarning)
     case ICYRAIN:
       return "icyrain";
   }
-  throw TextGenError("Unknown road warning in warning_name");
+  throw Fmi::Exception(BCP, "Unknown road warning in warning_name");
 }
 
 // ----------------------------------------------------------------------
@@ -311,7 +311,7 @@ Sentence warning_phrase(RoadWarningType theType,
 
   // Unreachable
 
-  throw TextGenError("Internal error in roadwarning_overview warning_phrase function");
+  throw Fmi::Exception(BCP, "Internal error in roadwarning_overview warning_phrase function");
 }
 
 // ----------------------------------------------------------------------
@@ -994,7 +994,7 @@ Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const stri
     msg << "roadwarning overview: "
         << "Could not classify period " << thePeriod.localStartTime() << " ... "
         << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw TextGenError(msg.str());
+    throw Fmi::Exception(BCP, msg.str());
   }
 
   return sentence;
@@ -1023,7 +1023,7 @@ Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const str
     msg << "roadwarning overview: "
         << "Could not classify period " << thePeriod.localStartTime() << " ... "
         << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw TextGenError(msg.str());
+    throw Fmi::Exception(BCP, msg.str());
   }
 
   return sentence;
@@ -1052,7 +1052,7 @@ Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string
     msg << "roadwarning overview: "
         << "Could not classify period " << thePeriod.localStartTime() << " ... "
         << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw TextGenError(msg.str());
+    throw Fmi::Exception(BCP, msg.str());
   }
 
   return sentence;
@@ -1110,7 +1110,7 @@ Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const st
     msg << "roadwarning overview: "
         << "Could not classify period " << thePeriod.localStartTime() << " ... "
         << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw TextGenError(msg.str());
+    throw Fmi::Exception(BCP, msg.str());
   }
 
   return sentence;
@@ -1139,7 +1139,7 @@ Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const s
     msg << "roadwarning overview: "
         << "Could not classify period " << thePeriod.localStartTime() << " ... "
         << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw TextGenError(msg.str());
+    throw Fmi::Exception(BCP, msg.str());
   }
 
   return sentence;
@@ -1168,7 +1168,7 @@ Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const stri
     msg << "roadwarning overview: "
         << "Could not classify period " << thePeriod.localStartTime() << " ... "
         << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw TextGenError(msg.str());
+    throw Fmi::Exception(BCP, msg.str());
   }
 
   return sentence;

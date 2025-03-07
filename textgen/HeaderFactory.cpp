@@ -25,7 +25,7 @@
 #include "MessageLogger.h"
 #include "WeekdayTools.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
@@ -166,7 +166,7 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
   const long days = diff / 24;
 
   if (diff % 24 != 0)
-    throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
+    throw Fmi::Exception(BCP, "HeaderFactory:: several_days must be N*24 hours long");
   header << WeekdayTools::from_weekday_time(thePeriod.localStartTime()) << "alkavan"
          << std::to_string(days) + "-vuorokauden saa";
 
@@ -193,7 +193,7 @@ TextGen::Header header_report_area(const WeatherArea& theArea, const WeatherPeri
   Header header;
 
   if (!theArea.isNamed())
-    throw TextGenError("Cannot generate report_area title for an unnamed point");
+    throw Fmi::Exception(BCP, "Cannot generate report_area title for an unnamed point");
 
   if (theArea.isPoint())
     log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
@@ -232,7 +232,7 @@ TextGen::Header header_report_location(const WeatherArea& theArea,
   Header header;
 
   if (!theArea.isNamed())
-    throw TextGenError("Cannot generate report_location title for an unnamed point");
+    throw Fmi::Exception(BCP, "Cannot generate report_location title for an unnamed point");
 
   if (theArea.isPoint())
     log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
@@ -499,7 +499,7 @@ Header create(const TextGenPosixTime& theForecastTime,
   if (type == "clock_range")
     return header_clock_range(thePeriod, theVariable);
 
-  throw TextGenError("HeaderFactory does not recognize header type " + type);
+  throw Fmi::Exception(BCP, "HeaderFactory does not recognize header type " + type);
 }
 
 }  // namespace HeaderFactory

@@ -7,7 +7,7 @@
 #include <calculator/QueryDataIntegrator.h>
 #include <calculator/QueryDataTools.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherSource.h>
 
@@ -76,10 +76,10 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
 
   auto param = FmiParameterName(converter.ToEnum(parameterName));
   if (param == kFmiBadParameter)
-    throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
+    throw Fmi::Exception(BCP, "Parameter " + parameterName + " is not defined in newbase");
 
   if (!theQI.Param(param))
-    throw TextGenError(parameterName + " is not available in " + dataname);
+    throw Fmi::Exception(BCP, parameterName + " is not available in " + dataname);
 
   if (!theArea.isPoint())
   {
@@ -173,10 +173,10 @@ double ExtractMask(const AnalysisSources& theSources,
 
   auto param = FmiParameterName(converter.ToEnum(parameterName));
   if (param == kFmiBadParameter)
-    throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
+    throw Fmi::Exception(BCP, "Parameter " + parameterName + " is not defined in newbase");
 
   if (!theQI.Param(param))
-    throw TextGenError(parameterName + " is not available in " + dataname);
+    throw Fmi::Exception(BCP, parameterName + " is not available in " + dataname);
 
   if (!theArea.isPoint())
   {

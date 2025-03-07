@@ -14,7 +14,7 @@
 
 #include "ForestStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -95,7 +95,7 @@ Paragraph ForestStory::makeStory(const string& theName) const
   if (theName == "forestfirewarning_county")
     return forestfirewarning_county();
 
-  throw TextGenError("ForestStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "ForestStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

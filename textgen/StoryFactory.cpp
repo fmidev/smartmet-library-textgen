@@ -29,7 +29,7 @@
 #include "WaveStory.h"
 #include "WeatherStory.h"
 #include "WindStory.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <calculator/TextGenPosixTime.h>
 
@@ -148,7 +148,7 @@ Paragraph create(const TextGenPosixTime& theForecastTime,
     return story.makeStory(theName);
   }
 
-  throw TextGenError("StoryFactory: Unrecognized story '" + theName + "'");
+  throw Fmi::Exception(BCP, "StoryFactory: Unrecognized story '" + theName + "'");
 }
 
 }  // namespace StoryFactory

@@ -48,7 +48,7 @@
 #ifdef UNIX
 #include "MySQLDictionary.h"
 #include "PostgreSQLDictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <map>
 #include <memory>
 
@@ -153,7 +153,7 @@ void DatabaseDictionaries::init(const std::string& theLanguage)
   else if (itsDictionaryId == "postgresql")
     dict.reset(new PostgreSQLDictionary);
   if (dict.get() == nullptr)
-    throw TextGenError("Failed to allocate a new DatabaseDictionary");
+    throw Fmi::Exception(BCP, "Failed to allocate a new DatabaseDictionary");
 
   dict->init(theLanguage);
 
@@ -175,7 +175,7 @@ void DatabaseDictionaries::init(const std::string& theLanguage)
 bool DatabaseDictionaries::contains(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: DatabaseDictionaries::contains() called before init()");
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionaries::contains() called before init()");
 
   return (itsPimple->itsCurrentDictionary->second->contains(theKey));
 }
@@ -195,7 +195,7 @@ bool DatabaseDictionaries::contains(const std::string& theKey) const
 const std::string& DatabaseDictionaries::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: DatabaseDictionaries::find() called before init()");
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionaries::find() called before init()");
 
   return itsPimple->itsCurrentDictionary->second->find(theKey);
 }
@@ -214,7 +214,7 @@ const std::string& DatabaseDictionaries::find(const std::string& theKey) const
 
 void DatabaseDictionaries::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw TextGenError("Error: DatabaseDictionaries::insert() is not allowed");
+  throw Fmi::Exception(BCP, "Error: DatabaseDictionaries::insert() is not allowed");
 }
 
 // ----------------------------------------------------------------------
@@ -228,7 +228,7 @@ void DatabaseDictionaries::insert(const std::string& /*theKey*/, const std::stri
 DatabaseDictionaries::size_type DatabaseDictionaries::size() const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: DatabaseDictionaries::size() called before init()");
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionaries::size() called before init()");
   return itsPimple->itsCurrentDictionary->second->size();
 }
 
@@ -243,7 +243,7 @@ DatabaseDictionaries::size_type DatabaseDictionaries::size() const
 bool DatabaseDictionaries::empty() const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: DatabaseDictionaries::empty() called before init()");
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionaries::empty() called before init()");
 
   return itsPimple->itsCurrentDictionary->second->empty();
 }
@@ -258,7 +258,7 @@ bool DatabaseDictionaries::empty() const
 void DatabaseDictionaries::changeLanguage(const std::string& theLanguage)
 {
   if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
-    throw TextGenError("Error: The requested language not supported: " + theLanguage);
+    throw Fmi::Exception(BCP, "Error: The requested language not supported: " + theLanguage);
 
   itsPimple->itsLanguage = theLanguage;
   itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);

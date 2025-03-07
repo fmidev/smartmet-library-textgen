@@ -15,7 +15,7 @@
 
 #include "WaveStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -86,7 +86,7 @@ Paragraph WaveStory::makeStory(const string& theName) const
   if (theName == "wave_range")
     return range();
 
-  throw TextGenError("WaveStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "WaveStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

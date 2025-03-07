@@ -47,7 +47,7 @@
 #include "FileDictionaries.h"
 #ifdef UNIX
 #include "FileDictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <map>
 #include <memory>
 
@@ -148,7 +148,7 @@ void FileDictionaries::init(const std::string& theLanguage)
 
   std::shared_ptr<FileDictionary> dict(new FileDictionary);
   if (dict.get() == nullptr)
-    throw TextGenError("Failed to allocate a new FileDictionary");
+    throw Fmi::Exception(BCP, "Failed to allocate a new FileDictionary");
 
   dict->init(theLanguage);
 
@@ -170,7 +170,7 @@ void FileDictionaries::init(const std::string& theLanguage)
 bool FileDictionaries::contains(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: FileDictionaries::contains() called before init()");
+    throw Fmi::Exception(BCP, "Error: FileDictionaries::contains() called before init()");
 
   return (itsPimple->itsCurrentDictionary->second->contains(theKey));
 }
@@ -190,7 +190,7 @@ bool FileDictionaries::contains(const std::string& theKey) const
 const std::string& FileDictionaries::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: FileDictionaries::find() called before init()");
+    throw Fmi::Exception(BCP, "Error: FileDictionaries::find() called before init()");
 
   return itsPimple->itsCurrentDictionary->second->find(theKey);
 }
@@ -209,7 +209,7 @@ const std::string& FileDictionaries::find(const std::string& theKey) const
 
 void FileDictionaries::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw TextGenError("Error: FileDictionaries::insert() is not allowed");
+  throw Fmi::Exception(BCP, "Error: FileDictionaries::insert() is not allowed");
 }
 
 // ----------------------------------------------------------------------
@@ -223,7 +223,7 @@ void FileDictionaries::insert(const std::string& /*theKey*/, const std::string& 
 FileDictionaries::size_type FileDictionaries::size() const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: FileDictionaries::size() called before init()");
+    throw Fmi::Exception(BCP, "Error: FileDictionaries::size() called before init()");
   return itsPimple->itsCurrentDictionary->second->size();
 }
 
@@ -238,7 +238,7 @@ FileDictionaries::size_type FileDictionaries::size() const
 bool FileDictionaries::empty() const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: FileDictionaries::empty() called before init()");
+    throw Fmi::Exception(BCP, "Error: FileDictionaries::empty() called before init()");
 
   return itsPimple->itsCurrentDictionary->second->empty();
 }
@@ -253,7 +253,7 @@ bool FileDictionaries::empty() const
 void FileDictionaries::changeLanguage(const std::string& theLanguage)
 {
   if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
-    throw TextGenError("Error: The requested language not supported: " + theLanguage);
+    throw Fmi::Exception(BCP, "Error: The requested language not supported: " + theLanguage);
 
   itsPimple->itsLanguage = theLanguage;
   itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);

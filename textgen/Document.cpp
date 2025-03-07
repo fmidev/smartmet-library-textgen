@@ -16,7 +16,7 @@
 
 #include "Dictionary.h"
 #include "PlainTextFormatter.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <iterator>
 
@@ -47,7 +47,7 @@ std::shared_ptr<Glyph> Document::clone() const
 
 std::string Document::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw TextGenError("Document::realize(Dictionary) should not be called");
+  throw Fmi::Exception(BCP, "Document::realize(Dictionary) should not be called");
 }
 
 // ----------------------------------------------------------------------

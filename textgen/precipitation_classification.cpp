@@ -15,7 +15,7 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 
@@ -49,7 +49,7 @@ list<pair<int, int> > parse_classes(const std::string& theVariable)
   const string value = Settings::require(theVariable);
 
   if (value.empty())
-    throw TextGenError(theVariable + " value must not be empty");
+    throw Fmi::Exception(BCP, theVariable + " value must not be empty");
 
   list<pair<int, int> > output;
 
@@ -58,11 +58,11 @@ list<pair<int, int> > parse_classes(const std::string& theVariable)
   {
     vector<string> rlist = NFmiStringTools::Split(it, "...");
     if (rlist.size() != 2)
-      throw TextGenError(it + " is not of form A...B in variable " + theVariable);
+      throw Fmi::Exception(BCP, it + " is not of form A...B in variable " + theVariable);
     int lolimit = lexical_cast<int>(rlist[0]);
     int hilimit = lexical_cast<int>(rlist[1]);
     if (hilimit <= lolimit)
-      throw TextGenError(it + " has upper limit <= lower limit in variable " + theVariable);
+      throw Fmi::Exception(BCP, it + " has upper limit <= lower limit in variable " + theVariable);
 
     output.emplace_back(lolimit, hilimit);
   }
@@ -84,7 +84,7 @@ int rainlimit(const list<pair<int, int> >& theList)
   using namespace TextGen;
 
   if (theList.empty())
-    throw TextGenError("Internal error, trying to extract maximum rain from empty list");
+    throw Fmi::Exception(BCP, "Internal error, trying to extract maximum rain from empty list");
 
   int ret = theList.front().first;
   for (const auto& it : theList)
@@ -263,7 +263,7 @@ Paragraph PrecipitationStory::classification() const
   }
 
   if (it == classes.end())
-    throw TextGenError(itsVar + " has gaps in the ranges");
+    throw Fmi::Exception(BCP, itsVar + " has gaps in the ranges");
 
   const int lolimit = it->first;
   const int hilimit = it->second;

@@ -14,7 +14,7 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 

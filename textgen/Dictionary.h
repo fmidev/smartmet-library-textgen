@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -44,7 +44,7 @@ class Dictionary
   }
   virtual std::string geofind(const std::string& theKey) const
   {
-    throw TextGenError("Error: Dictionary::geofind(" + theKey + ") failed");
+    throw Fmi::Exception(BCP, "Error: Dictionary::geofind(" + theKey + ") failed");
   }
   virtual std::string geofind(double theLongitude, double theLatitude, double theMaxDistance) const
   {
@@ -52,7 +52,7 @@ class Dictionary
     ss << "Error: Dictionary::geofind(" << theLongitude << ", " << theLatitude << ", "
        << theMaxDistance << ") failed";
 
-    throw TextGenError(ss.str());
+    throw Fmi::Exception(BCP, ss.str());
   }
 
   virtual size_type size() const = 0;

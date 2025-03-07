@@ -16,7 +16,7 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
 
@@ -94,7 +94,7 @@ unsigned int warning_importance(int theWarning)
       return 11;
   }
 
-  throw TextGenError("Unknown road warning in warning_importance");
+  throw Fmi::Exception(BCP, "Unknown road warning in warning_importance");
 }
 
 // ----------------------------------------------------------------------
@@ -132,7 +132,7 @@ const char* warning_name(RoadWarningType theWarning)
     case ICYRAIN:
       return "icyrain";
   }
-  throw TextGenError("Unknown road warning in warning_name");
+  throw Fmi::Exception(BCP, "Unknown road warning in warning_name");
 }
 
 // ----------------------------------------------------------------------
@@ -315,7 +315,7 @@ Sentence warning_phrase(RoadWarningType theType,
 
   // Unreachable
 
-  throw TextGenError("Internal error in roadwarning_shortview warning_phrase function");
+  throw Fmi::Exception(BCP, "Internal error in roadwarning_shortview warning_phrase function");
 }
 
 // ----------------------------------------------------------------------

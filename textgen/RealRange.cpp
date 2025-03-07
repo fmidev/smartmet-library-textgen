@@ -12,7 +12,7 @@
 
 #include "RealRange.h"
 #include "Dictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <iomanip>
 #include <memory>

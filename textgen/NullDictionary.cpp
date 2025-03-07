@@ -50,7 +50,7 @@
  *   if(itsDictionary.get())
  *      return itsDictionary->find(theKey);
  *   else
- *      throw TextGenError("Dictionary not initialized");
+ *      throw Fmi::Exception(BCP, "Dictionary not initialized");
  * }
  * \endcode
  * That is, we avoid having to test the validity of the pointer
@@ -59,7 +59,7 @@
 // ----------------------------------------------------------------------
 
 #include "NullDictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -76,7 +76,7 @@ namespace TextGen
 
 const std::string& NullDictionary::find(const std::string& /*theKey*/) const
 {
-  throw TextGenError("NullDictionary find is disabled");
+  throw Fmi::Exception(BCP, "NullDictionary find is disabled");
 }
 
 // ----------------------------------------------------------------------
@@ -92,7 +92,7 @@ const std::string& NullDictionary::find(const std::string& /*theKey*/) const
 
 void NullDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw TextGenError("NullDictionary insert is disabled");
+  throw Fmi::Exception(BCP, "NullDictionary insert is disabled");
 }
 
 }  // namespace TextGen

@@ -15,7 +15,7 @@
 
 #include "WindStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -105,7 +105,7 @@ Paragraph WindStory::makeStory(const string& theName) const
   if (theName == "wind_anomaly")
     return anomaly();
 
-  throw TextGenError("WindStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "WindStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

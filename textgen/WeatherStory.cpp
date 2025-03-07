@@ -15,7 +15,7 @@
 
 #include "WeatherStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -107,7 +107,7 @@ Paragraph WeatherStory::makeStory(const string& theName) const
     return thunderprobability();
   if (theName == "weather_thunderprobability_simplified")
     return thunderprobability_simplified();
-  throw TextGenError("WeatherStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "WeatherStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

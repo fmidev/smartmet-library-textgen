@@ -15,7 +15,7 @@
 
 #include "SpecialStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -104,7 +104,7 @@ Paragraph SpecialStory::makeStory(const string& theName) const
 	  return table();
 #endif
 
-  throw TextGenError("SpecialStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "SpecialStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

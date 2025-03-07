@@ -15,7 +15,7 @@
 
 #include "DewPointStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -86,7 +86,7 @@ Paragraph DewPointStory::makeStory(const string& theName) const
   if (theName == "dewpoint_range")
     return range();
 
-  throw TextGenError("DewPointStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "DewPointStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

@@ -12,7 +12,7 @@
 
 #include "PostgreSQLDictionary.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <macgyver/PostgreSQLConnection.h>
 #include <macgyver/StringConversion.h>
 
@@ -74,11 +74,11 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
     }
     catch (const std::exception& e)
     {
-      throw TextGenError("PostgreSQL error: " + std::string(e.what()));
+      throw Fmi::Exception(BCP, "PostgreSQL error: " + std::string(e.what()));
     }
     catch (...)
     {
-      throw TextGenError(
+      throw Fmi::Exception(BCP, 
           "SmartMet::Textgen::PostgreSQLDictionary: Creating database connection failed: " +
           std::string(connectionOptions));
     }
@@ -93,21 +93,21 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
 
     if (result_set.empty())
     {
-      throw TextGenError("Error: Error occurred while querying languages table:\n" + sqlStmt);
+      throw Fmi::Exception(BCP, "Error: Error occurred while querying languages table:\n" + sqlStmt);
     }
 
     if (result_set.size() != 1)
     {
-      throw TextGenError("Error: Obtained multiple matches for language " + theLanguage);
+      throw Fmi::Exception(BCP, "Error: Obtained multiple matches for language " + theLanguage);
     }
 
     std::string translationtable = result_set.at(0).at(0).as<std::string>();
     int active = as_int(result_set.at(0).at(1));
 
     if (active != 1)
-      throw TextGenError("Error: Language " + theLanguage + " is not active");
+      throw Fmi::Exception(BCP, "Error: Language " + theLanguage + " is not active");
     if (translationtable.empty())
-      throw TextGenError("Error: Language " + theLanguage + " has no translationtable");
+      throw Fmi::Exception(BCP, "Error: Language " + theLanguage + " has no translationtable");
 
     sqlStmt = ("select keyword, translation from " + schema_name + translationtable);
 
@@ -126,7 +126,7 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
   catch (...)
   {
     // Handle any query errors
-    throw TextGenError("Query error: ");
+    throw Fmi::Exception(BCP, "Query error: ");
   }
 }
 

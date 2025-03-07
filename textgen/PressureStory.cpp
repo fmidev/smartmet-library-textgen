@@ -15,7 +15,7 @@
 
 #include "PressureStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -86,7 +86,7 @@ Paragraph PressureStory::makeStory(const string& theName) const
   if (theName == "pressure_mean")
     return mean();
 
-  throw TextGenError("PressureStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "PressureStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

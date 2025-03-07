@@ -20,7 +20,7 @@
 #include "WeekdayTools.h"
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherHistory.h>
@@ -149,10 +149,10 @@ Sentence until_tonight(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhraseFactory::until_tonight does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhraseFactory::until_tonight does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::until_tonight run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::until_tonight run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -207,10 +207,10 @@ Sentence until_morning(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::until_morning does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhrasefactory::until_morning does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::until_morning run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::until_morning run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -278,10 +278,10 @@ Sentence today(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::today does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhrasefactory::today does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::today run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::today run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -336,10 +336,10 @@ Sentence tonight(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::tonight does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhrasefactory::tonight does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::tonight run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::tonight run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -391,10 +391,10 @@ Sentence next_night(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::next_night does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhrasefactory::next_night does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::next_night run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::next_night run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -449,10 +449,10 @@ Sentence next_day(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::next_day does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhrasefactory::next_day does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::next_day run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::next_day run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -497,10 +497,10 @@ Sentence next_days(const string& theVariable,
     else if (it == "none!")
       return sentence;
     else
-      throw TextGenError("PeriodPhrasefactory::next_days does not accept phrase " + it);
+      throw Fmi::Exception(BCP, "PeriodPhrasefactory::next_days does not accept phrase " + it);
   }
 
-  throw TextGenError("PeriodPhrasefactory::next_days run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::next_days run out of options");
 }
 
 // ----------------------------------------------------------------------
@@ -650,7 +650,7 @@ Sentence days(const string& theVariable,
       else if (it == "none!")
         return sentence;
       else
-        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + it);
+        throw Fmi::Exception(BCP, "PeriodPhrasefactory::days does not accept phrase " + it);
     }
   }
   else if (ndays == 2)
@@ -728,7 +728,7 @@ Sentence days(const string& theVariable,
       else if (*it == "none!")
         return sentence;
       else
-        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + *it);
+        throw Fmi::Exception(BCP, "PeriodPhrasefactory::days does not accept phrase " + *it);
     }
   }
   else
@@ -763,11 +763,11 @@ Sentence days(const string& theVariable,
       else if (it == "none!")
         return sentence;
       else
-        throw TextGenError("PeriodPhrasefactory::days does not accept phrase " + it);
+        throw Fmi::Exception(BCP, "PeriodPhrasefactory::days does not accept phrase " + it);
     }
   }
 
-  throw TextGenError("PeriodPhrasefactory::days run out of options");
+  throw Fmi::Exception(BCP, "PeriodPhrasefactory::days run out of options");
 }
 
 }  // namespace
@@ -810,7 +810,7 @@ Sentence create_sentence(const string& theType,
   if (theType == "remaining_day")
     return remaining_day(thePeriod);
 
-  throw TextGenError("PeriodPhraseFactory::create does not recognize type " + theType);
+  throw Fmi::Exception(BCP, "PeriodPhraseFactory::create does not recognize type " + theType);
 }
 
 // ----------------------------------------------------------------------
@@ -862,7 +862,7 @@ Sentence create(const string& theType,
 	  if(theType == "remaining_day")
 		return remaining_day(thePeriod);
 
-	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
+	  throw Fmi::Exception(BCP, "PeriodPhraseFactory::create does not recognize type "+theType);
 #endif
 }
 
@@ -907,7 +907,7 @@ Sentence create(const string& theType,
 	  if(theType == "remaining_day")
 		return remaining_day(thePeriod, theHistory);
 
-	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
+	  throw Fmi::Exception(BCP, "PeriodPhraseFactory::create does not recognize type "+theType);
 #endif
 }
 

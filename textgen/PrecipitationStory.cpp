@@ -14,7 +14,7 @@
 
 #include "PrecipitationStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -119,7 +119,7 @@ Paragraph PrecipitationStory::makeStory(const string& theName) const
   if (theName == "pop_max")
     return pop_max();
 
-  throw TextGenError("PrecipitationStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "PrecipitationStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

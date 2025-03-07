@@ -15,7 +15,7 @@
 
 #include "RoadStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -109,7 +109,7 @@ Paragraph RoadStory::makeStory(const string& theName) const
   if (theName == "roadcondition_shortview")
     return condition_shortview();
 
-  throw TextGenError("RoadStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "RoadStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

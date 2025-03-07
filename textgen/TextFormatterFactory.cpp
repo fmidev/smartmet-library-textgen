@@ -31,7 +31,7 @@
 #include "SoneraTextFormatter.h"
 #include "SpeechTextFormatter.h"
 #include "WmlTextFormatter.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -71,7 +71,7 @@ TextFormatter* create(const std::string& theType)
     return new SoneraTextFormatter();
   if (theType == "debug")
     return new DebugTextFormatter();
-  throw TextGenError("Error: Unknown text formatter type " + theType);
+  throw Fmi::Exception(BCP, "Error: Unknown text formatter type " + theType);
 }
 
 }  // namespace TextFormatterFactory

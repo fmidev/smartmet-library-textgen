@@ -30,7 +30,7 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
@@ -2460,7 +2460,7 @@ Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phr
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }

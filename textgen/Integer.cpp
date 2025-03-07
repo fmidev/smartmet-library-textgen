@@ -13,7 +13,7 @@
 #include "Integer.h"
 #include "Dictionary.h"
 #include "TextFormatter.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <memory>
 

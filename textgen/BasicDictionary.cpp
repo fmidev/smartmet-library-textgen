@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "BasicDictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -82,7 +82,7 @@ const std::string& BasicDictionary::find(const std::string& theKey) const
   auto it = itsData.find(theKey);
   if (it != itsData.end())
     return it->second;
-  throw TextGenError("Dictionary does not contain phrase '" + theKey + "'");
+  throw Fmi::Exception(BCP, "Dictionary does not contain phrase '" + theKey + "'");
 }
 
 // ----------------------------------------------------------------------

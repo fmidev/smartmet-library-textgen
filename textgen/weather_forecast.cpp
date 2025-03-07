@@ -39,7 +39,7 @@
 #include <calculator/ParameterAnalyzer.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriodTools.h>

@@ -14,7 +14,7 @@
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 
 using namespace std;
@@ -46,7 +46,7 @@ Paragraph ForestStory::evaporation_day() const
   // Too many days is an error
 
   if (generator.size() != 1)
-    throw TextGenError("Cannot use evaporationt_day story for periods longer than 1 day");
+    throw Fmi::Exception(BCP, "Cannot use evaporationt_day story for periods longer than 1 day");
 
   // Exactly one period is fine
 

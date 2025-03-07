@@ -20,7 +20,7 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
 
@@ -1348,7 +1348,7 @@ int two_day_forecasts[577] = {
 int one_day_rain_index(int theStartHour, int theEndHour)
 {
   if (theEndHour <= theStartHour)
-    throw TextGen::TextGenError(
+    throw Fmi::Exception(BCP, 
         "Internal error in weather_overview: end hour must be greater than start hour");
 
   const int n = theEndHour - theStartHour - 1;
@@ -1475,7 +1475,7 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
       break;
     }
     default:
-      throw TextGenError("Internal error in weather_overview::one_inclusive_rain");
+      throw Fmi::Exception(BCP, "Internal error in weather_overview::one_inclusive_rain");
   }
   return s;
 }
@@ -1692,7 +1692,7 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
       break;
     }
     default:
-      throw TextGenError("Internal error in weather_overview::one_twoday_inclusive_rain");
+      throw Fmi::Exception(BCP, "Internal error in weather_overview::one_twoday_inclusive_rain");
   }
 
   paragraph << s1 << s2;

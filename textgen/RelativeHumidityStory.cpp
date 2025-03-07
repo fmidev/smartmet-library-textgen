@@ -15,7 +15,7 @@
 
 #include "RelativeHumidityStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -96,7 +96,7 @@ Paragraph RelativeHumidityStory::makeStory(const string& theName) const
   if (theName == "relativehumidity_range")
     return range();
 
-  throw TextGenError("RelativeHumidityStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "RelativeHumidityStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

@@ -41,7 +41,7 @@
 
 #include "FileDictionary.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
 
@@ -137,18 +137,18 @@ void FileDictionary::init(const std::string& theLanguage)
   std::string filename = database + '/' + theLanguage + ".txt";
 
   if (!NFmiFileSystem::FileExists(filename))
-    throw TextGenError("Error: Could not find dictionary '" + filename + "'");
+    throw Fmi::Exception(BCP, "Error: Could not find dictionary '" + filename + "'");
 
   std::ifstream in(filename.c_str());
   if (!in)
-    throw TextGenError("Error: Could not open dictionary '" + filename + "' for reading");
+    throw Fmi::Exception(BCP, "Error: Could not open dictionary '" + filename + "' for reading");
 
   std::string line;
   while (getline(in, line))
   {
     std::vector<std::string> parts = NFmiStringTools::Split(line, "|");
     if (parts.size() != 2)
-      throw TextGenError("Error: Dictionary '" + filename + "' contains invalid line '" + line +
+      throw Fmi::Exception(BCP, "Error: Dictionary '" + filename + "' contains invalid line '" + line +
                          "'");
     if (!parts[0].empty())
       itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
@@ -186,12 +186,12 @@ bool FileDictionary::contains(const std::string& theKey) const
 const std::string& FileDictionary::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: FileDictionary::find() called before init()");
+    throw Fmi::Exception(BCP, "Error: FileDictionary::find() called before init()");
   Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
 
   if (it != itsPimple->itsData.end())
     return it->second;
-  throw TextGenError("Error: FileDictionary::find(" + theKey + ") failed in language " +
+  throw Fmi::Exception(BCP, "Error: FileDictionary::find(" + theKey + ") failed in language " +
                      itsPimple->itsLanguage);
 }
 
@@ -209,7 +209,7 @@ const std::string& FileDictionary::find(const std::string& theKey) const
 
 void FileDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw TextGenError("Error: FileDictionary::insert() is not allowed");
+  throw Fmi::Exception(BCP, "Error: FileDictionary::insert() is not allowed");
 }
 
 // ----------------------------------------------------------------------

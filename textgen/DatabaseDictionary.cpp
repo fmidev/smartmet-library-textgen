@@ -40,7 +40,7 @@
  */
 // ----------------------------------------------------------------------
 #include "DatabaseDictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <map>
 
@@ -132,7 +132,7 @@ void DatabaseDictionary::init(const std::string& theLanguage)
   }
   catch (...)
   {
-    throw TextGenError("Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
   }
 }
 
@@ -165,13 +165,13 @@ bool DatabaseDictionary::contains(const std::string& theKey) const
 const std::string& DatabaseDictionary::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: DatabaseDictionary::find() called before init()");
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionary::find() called before init()");
 
   Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
 
   if (it != itsPimple->itsData.end())
     return it->second;
-  throw TextGenError("Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
+  throw Fmi::Exception(BCP, "Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
                      itsPimple->itsLanguage);
 }
 
@@ -189,7 +189,7 @@ const std::string& DatabaseDictionary::find(const std::string& theKey) const
 
 void DatabaseDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw TextGenError("Error: DatabaseDictionary::insert() is not allowed");
+  throw Fmi::Exception(BCP, "Error: DatabaseDictionary::insert() is not allowed");
 }
 
 // ----------------------------------------------------------------------

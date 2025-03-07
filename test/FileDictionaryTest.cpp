@@ -1,6 +1,6 @@
 #include "FileDictionary.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiSettings.h>
 #include <regression/tframe.h>
 #include <iostream>
@@ -61,7 +61,7 @@ void init(void)
     dict.init("ru");
     TEST_FAILED("init('ru') should have failed");
   }
-  catch (const TextGenError& e)
+  catch (const Fmi::Exception&)
   {
   }
   TEST_PASSED();
@@ -144,7 +144,7 @@ void find(void)
     dict.find("foobar");
     TEST_FAILED("find() should throw before init()");
   }
-  catch (const TextGenError& e)
+  catch (const Fmi::Exception& e)
   {
   }
 
@@ -155,7 +155,7 @@ void find(void)
     dict.find("foobar");
     TEST_FAILED("find(foobar) should have thrown");
   }
-  catch (const TextGenError& e)
+  catch (const Fmi::Exception& e)
   {
   }
 
@@ -180,7 +180,7 @@ void insert(void)
     dict.insert("foo", "bar");
     TEST_FAILED("insert(foo,bar) should throw even before init()");
   }
-  catch (const TextGenError& e)
+  catch (const Fmi::Exception& e)
   {
   }
 
@@ -191,7 +191,7 @@ void insert(void)
     dict.insert("foo", "bar");
     TEST_FAILED("insert(foo,bar) should have thrown after init(fi)");
   }
-  catch (const TextGenError& e)
+  catch (const Fmi::Exception& e)
   {
   }
 

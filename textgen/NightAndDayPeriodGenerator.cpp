@@ -14,7 +14,7 @@
 
 #include "NightAndDayPeriodGenerator.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 
 #include <algorithm>
@@ -183,7 +183,7 @@ WeatherPeriod NightAndDayPeriodGenerator::period() const
 WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
 {
   if (thePeriod < 1 || thePeriod > itsPeriods.size())
-    throw TextGen::TextGenError("NightAndDayPeriodGenerator::period(): invalid argument");
+    throw Fmi::Exception(BCP, "NightAndDayPeriodGenerator::period(): invalid argument");
   return itsPeriods[thePeriod - 1];
 }
 
@@ -196,7 +196,7 @@ WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
 bool NightAndDayPeriodGenerator::isday(size_type thePeriod) const
 {
   if (thePeriod < 1 || thePeriod > itsPeriods.size())
-    throw TextGen::TextGenError("NightAndDayPeriodGenerator::isday(): invalid argument");
+    throw Fmi::Exception(BCP, "NightAndDayPeriodGenerator::isday(): invalid argument");
 
   const int starthour = itsPeriods[thePeriod - 1].localStartTime().GetHour();
   const int endhour = itsPeriods[thePeriod - 1].localEndTime().GetHour();

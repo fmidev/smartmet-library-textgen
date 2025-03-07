@@ -18,7 +18,7 @@
 
 #include "NullMaskSource.h"
 
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
 #include <newbase/NFmiIndexMask.h>
@@ -65,7 +65,7 @@ NullMaskSource::masks_type NullMaskSource::masks(const WeatherArea& /*theArea*/,
                                                  const std::string& /*theData*/,
                                                  const WeatherSource& /*theWeatherSource*/) const
 {
-  throw TextGenError("NullMaskSource::masks not implemented");
+  throw Fmi::Exception(BCP, "NullMaskSource::masks not implemented");
 }
 
 }  // namespace TextGen

@@ -21,7 +21,7 @@
 
 #include "LandMaskSource.h"
 
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
 
@@ -151,7 +151,7 @@ void LandMaskSource::Pimple::insert(const WeatherId& theID,
   itsMaskStorage.insert(value_type(key, theMask));
 
   if (itsMaskStorage.insert(value_type(key, theMask)).second)
-    throw TextGenError("Could not cache mask for " + theArea.name());
+    throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
 }
 
 // ----------------------------------------------------------------------
@@ -174,7 +174,7 @@ LandMaskSource::mask_type LandMaskSource::Pimple::create_mask(const WeatherArea&
   std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
   NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
   if (!qi.IsGrid())
-    throw TextGenError("The data in " + theData + " is not gridded - cannot generate mask for it");
+    throw Fmi::Exception(BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
 
   // First build the area mask
 
@@ -220,7 +220,7 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
                                                const WeatherSource& theWeatherSource) const
 {
   if (theArea.isPoint())
-    throw TextGenError("Trying to generate mask for point");
+    throw Fmi::Exception(BCP, "Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -255,7 +255,7 @@ LandMaskSource::masks_type LandMaskSource::masks(const WeatherArea& /*theArea*/,
                                                  const std::string& /*theData*/,
                                                  const WeatherSource& /*theWeatherSource*/) const
 {
-  throw TextGenError("LandMaskSource::masks not implemented");
+  throw Fmi::Exception(BCP, "LandMaskSource::masks not implemented");
 }
 
 }  // namespace TextGen

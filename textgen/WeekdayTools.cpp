@@ -14,7 +14,7 @@
 
 #include "WeekdayTools.h"
 #include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherHistory.h>
@@ -180,7 +180,7 @@ string until_weekday_time(const TextGenPosixTime& theTime)
       "-iltaan "
       "phrase for hour " +
       std::to_string(hour);
-  throw TextGenError(msg);
+  throw Fmi::Exception(BCP, msg);
 }
 
 std::string until_weekday_morning(const TextGenPosixTime& theTime,
@@ -244,7 +244,7 @@ std::string until_weekday_time(const TextGenPosixTime& theTime,
       "-iltaan phrase "
       "for hour " +
       std::to_string(hour);
-  throw TextGenError(msg);
+  throw Fmi::Exception(BCP, msg);
 }
 
 // ----------------------------------------------------------------------
@@ -330,7 +330,7 @@ string from_weekday_time(const TextGenPosixTime& theTime)
       "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta "
       "phrase for hour " +
       std::to_string(hour);
-  throw TextGenError(msg);
+  throw Fmi::Exception(BCP, msg);
 }
 
 // ----------------------------------------------------------------------
@@ -459,7 +459,7 @@ string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHisto
   const string msg =
       "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
       std::to_string(hour);
-  throw TextGenError(msg);
+  throw Fmi::Exception(BCP, msg);
 }
 
 string from_weekday(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
@@ -491,7 +491,7 @@ string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistor
   const string msg =
       "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
       std::to_string(hour);
-  throw TextGenError(msg);
+  throw Fmi::Exception(BCP, msg);
 }
 
 string on_weekday_morning(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)

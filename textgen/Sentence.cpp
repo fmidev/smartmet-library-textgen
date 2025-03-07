@@ -22,7 +22,7 @@
 #include "Phrase.h"
 #include "PlainTextFormatter.h"
 #include "TextFormatter.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <algorithm>
 #include <iterator>
 
@@ -53,7 +53,7 @@ std::shared_ptr<Glyph> Sentence::clone() const
 
 std::string Sentence::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw TextGenError("Sentence::realize(Dictionary) should not be called");
+  throw Fmi::Exception(BCP, "Sentence::realize(Dictionary) should not be called");
 }
 
 // ----------------------------------------------------------------------

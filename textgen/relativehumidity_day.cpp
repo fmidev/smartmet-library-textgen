@@ -19,7 +19,7 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
@@ -57,7 +57,7 @@ Paragraph RelativeHumidityStory::day() const
   // Too many days is an error
 
   if (generator.size() != 1)
-    throw TextGenError("Cannot use relativehumidity_day story for periods longer than 1 day");
+    throw Fmi::Exception(BCP, "Cannot use relativehumidity_day story for periods longer than 1 day");
 
   // Exactly one period is fine
 

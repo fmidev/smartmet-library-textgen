@@ -16,7 +16,7 @@
 #include "FrostStory.h"
 #include "Paragraph.h"
 #include <calculator/AnalysisSources.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -109,7 +109,7 @@ Paragraph FrostStory::makeStory(const string& theName) const
   if (theName == "frost_onenight")
     return onenight();
 
-  throw TextGenError("FrostStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "FrostStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

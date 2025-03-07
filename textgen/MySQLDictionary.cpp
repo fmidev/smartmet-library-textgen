@@ -11,7 +11,7 @@
 // ----------------------------------------------------------------------
 #include "MySQLDictionary.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -60,25 +60,25 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
     mysqlpp::StoreQueryResult result1 = query.store();
 
     if (!result1)
-      throw TextGenError(std::string("Error: Error occurred while querying languages table:\n") +
+      throw Fmi::Exception(BCP, std::string("Error: Error occurred while querying languages table:\n") +
                          query.str());
 
     unsigned int num_rows = result1.num_rows();
 
     if (num_rows == 0)
-      throw TextGenError("Error: Language " + theLanguage +
+      throw Fmi::Exception(BCP, "Error: Language " + theLanguage +
                          " is not among the supported languages");
 
     if (num_rows != 1)
-      throw TextGenError("Error: Obtained multiple matches for language " + theLanguage);
+      throw Fmi::Exception(BCP, "Error: Obtained multiple matches for language " + theLanguage);
 
     std::string translationtable = result1.at(0).at(0).c_str();
     std::string active = result1.at(0).at(1).c_str();
 
     if (active != "1")
-      throw TextGenError("Error: Language " + theLanguage + " is not active");
+      throw Fmi::Exception(BCP, "Error: Language " + theLanguage + " is not active");
     if (translationtable.empty())
-      throw TextGenError("Error: Language " + theLanguage + " has no translationtable");
+      throw Fmi::Exception(BCP, "Error: Language " + theLanguage + " has no translationtable");
 
     query.reset();
 
@@ -88,7 +88,7 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
     mysqlpp::StoreQueryResult result2 = query.store();
 
     if (!result2)
-      throw TextGenError("Error: Error occurred while querying " + translationtable + " table");
+      throw Fmi::Exception(BCP, "Error: Error occurred while querying " + translationtable + " table");
 
     for (size_t i = 0; i < result2.num_rows(); ++i)
     {
@@ -102,19 +102,19 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
   catch (const mysqlpp::BadQuery& er)
   {
     // Handle any query errors
-    throw TextGenError("Query error: " + string(er.what()));
+    throw Fmi::Exception(BCP, "Query error: " + string(er.what()));
   }
   catch (const mysqlpp::BadConversion& er)
   {
     // Handle bad conversions
-    throw TextGenError("Conversion error: " + string(er.what()) +
+    throw Fmi::Exception(BCP, "Conversion error: " + string(er.what()) +
                        ";\tretrieved data size: " + std::to_string(er.retrieved) +
                        ", actual size: " + std::to_string(er.actual_size));
   }
   catch (const mysqlpp::Exception& er)
   {
     // Catch-all for any other MySQL++ exceptions
-    throw TextGenError("Error: " + string(er.what()));
+    throw Fmi::Exception(BCP, "Error: " + string(er.what()));
   }
   catch (...)
   {

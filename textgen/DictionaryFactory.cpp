@@ -31,7 +31,7 @@
 #include "MySQLDictionary.h"
 #include "NullDictionary.h"
 #include "PostgreSQLDictionary.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -65,7 +65,7 @@ Dictionary* DictionaryFactory::create(const std::string& theType)
     return new DatabaseDictionaries("postgresql");
 #endif  // UNIX
 
-  throw TextGenError("Error: Unknown dictionary type " + theType);
+  throw Fmi::Exception(BCP, "Error: Unknown dictionary type " + theType);
 }
 
 }  // namespace TextGen

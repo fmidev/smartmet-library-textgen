@@ -19,7 +19,7 @@
 #include <calculator/MathTools.h>
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 

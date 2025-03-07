@@ -20,7 +20,7 @@
 #include "NorthernMaskSource.h"
 
 #include "SubMaskExtractor.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
 
@@ -170,7 +170,7 @@ void NorthernMaskSource::Pimple::insert(const WeatherId& theID,
   itsMaskStorage.insert(value_type(key, theMask));
 
   if (itsMaskStorage.insert(value_type(key, theMask)).second)
-    throw TextGenError("Could not cache mask for " + theArea.name());
+    throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
 }
 
 // ----------------------------------------------------------------------
@@ -194,7 +194,7 @@ NorthernMaskSource::mask_type NorthernMaskSource::Pimple::create_mask(
   std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
   NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
   if (!qi.IsGrid())
-    throw TextGenError("The data in " + theData + " is not gridded - cannot generate mask for it");
+    throw Fmi::Exception(BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
 
   // First build the area mask
 
@@ -228,7 +228,7 @@ NorthernMaskSource::mask_type NorthernMaskSource::mask(const WeatherArea& theAre
                                                        const WeatherSource& theWeatherSource) const
 {
   if (theArea.isPoint())
-    throw TextGenError("Trying to generate mask for point");
+    throw Fmi::Exception(BCP, "Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -264,7 +264,7 @@ NorthernMaskSource::masks_type NorthernMaskSource::masks(
     const std::string& /*theData*/,
     const WeatherSource& /*theWeatherSource*/) const
 {
-  throw TextGenError("NorthernMaskSource::masks not implemented");
+  throw Fmi::Exception(BCP, "NorthernMaskSource::masks not implemented");
 }
 
 }  // namespace TextGen

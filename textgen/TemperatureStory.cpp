@@ -15,7 +15,7 @@
 
 #include "TemperatureStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -128,7 +128,7 @@ Paragraph TemperatureStory::makeStory(const string& theName) const
   if (theName == "temperature_anomaly")
     return anomaly();
 
-  throw TextGenError("TemperatureStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "TemperatureStory cannot make story " + theName);
 }
 
 }  // namespace TextGen

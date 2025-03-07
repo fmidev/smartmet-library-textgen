@@ -63,7 +63,7 @@
 #include "Integer.h"
 #include "Sentence.h"
 #include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 #include <string>
@@ -96,7 +96,7 @@ std::shared_ptr<TextGen::Sentence> degrees_celsius()
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -154,7 +154,7 @@ std::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval = 
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -183,7 +183,7 @@ std::shared_ptr<TextGen::Sentence> meters_per_second()
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -268,7 +268,7 @@ std::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNumb
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -297,7 +297,7 @@ std::shared_ptr<TextGen::Sentence> millimeters()
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -355,7 +355,7 @@ std::shared_ptr<TextGen::Sentence> millimeters(int value, bool withoutNumber = f
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -384,7 +384,7 @@ std::shared_ptr<TextGen::Sentence> meters()
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -442,7 +442,7 @@ std::shared_ptr<TextGen::Sentence> meters(int value, bool withoutNumber = false)
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
 
   return sentence;
 }
@@ -471,7 +471,7 @@ std::shared_ptr<TextGen::Sentence> percent()
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
   return sentence;
 }
 
@@ -528,7 +528,7 @@ std::shared_ptr<TextGen::Sentence> percent(int value, bool withoutNumber = false
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
   return sentence;
 }
 
@@ -556,7 +556,7 @@ std::shared_ptr<TextGen::Sentence> hectopascal()
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
   return sentence;
 }
 
@@ -613,7 +613,7 @@ std::shared_ptr<TextGen::Sentence> hectopascal(int value, bool withoutNumber = f
   else if (opt == "none")
     ;
   else
-    throw TextGenError("Unknown format " + opt + " in variable " + var);
+    throw Fmi::Exception(BCP, "Unknown format " + opt + " in variable " + var);
   return sentence;
 }
 }  // namespace
@@ -650,7 +650,7 @@ std::shared_ptr<Sentence> create(Units theUnit)
       return meters();
   }
 
-  throw TextGenError("UnitFactory::create failed - unknown unit");
+  throw Fmi::Exception(BCP, "UnitFactory::create failed - unknown unit");
 }
 
 // ----------------------------------------------------------------------
@@ -680,7 +680,7 @@ std::shared_ptr<Sentence> create(Units theUnit, int value)
       return meters(value);
   }
 
-  throw TextGenError("UnitFactory::create failed - unknown unit");
+  throw Fmi::Exception(BCP, "UnitFactory::create failed - unknown unit");
 }
 
 // ----------------------------------------------------------------------
@@ -710,7 +710,7 @@ std::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterval 
       return meters(value, true);
   }
 
-  throw TextGenError("UnitFactory::create failed - unknown unit");
+  throw Fmi::Exception(BCP, "UnitFactory::create failed - unknown unit");
 }
 
 }  // namespace UnitFactory

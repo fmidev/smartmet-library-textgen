@@ -14,7 +14,7 @@
 
 #include "CloudinessStory.h"
 #include "Paragraph.h"
-#include <calculator/TextGenError.h>
+#include <macgyver/Exception.h>
 
 #include <utility>
 
@@ -85,7 +85,7 @@ Paragraph CloudinessStory::makeStory(const string& theName) const
   if (theName == "cloudiness_overview")
     return overview();
 
-  throw TextGenError("CloudinessStory cannot make story " + theName);
+  throw Fmi::Exception(BCP, "CloudinessStory cannot make story " + theName);
 }
 
 }  // namespace TextGen
