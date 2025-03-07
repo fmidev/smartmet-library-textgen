@@ -25,12 +25,12 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 25.2.18
+BuildRequires: smartmet-library-calculator-devel >= 25.3.7
 BuildRequires: smartmet-library-macgyver-devel >= 25.2.18
 BuildRequires: smartmet-library-newbase-devel >= 25.2.18
 BuildRequires: smartmet-library-gis-devel >= 25.2.18
 Requires: gdal310-libs
-Requires: smartmet-library-calculator >= 25.2.18
+Requires: smartmet-library-calculator >= 25.3.7
 Requires: smartmet-library-macgyver >= 25.2.18
 Requires: smartmet-library-newbase >= 25.2.18
 
@@ -56,7 +56,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 25.2.18
+#TestRequires: smartmet-library-calculator-devel >= 25.3.7
 #TestRequires: smartmet-library-macgyver-devel >= 25.2.18
 #TestRequires: smartmet-library-newbase-devel >= 25.2.18
 #TestRequires: smartmet-library-gis-devel >= 25.2.18
