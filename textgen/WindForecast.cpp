@@ -1568,10 +1568,13 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
     switch (parameterType)
     {
       case TIME_PERIOD:
+      {
         theOutput << "  TIME_PERIOD: " << sentenceInfo.period.localStartTime() << "..."
                   << sentenceInfo.period.localEndTime() << std::endl;
         break;
+      }
       case WIND_DIRECTION:
+      {
         if (sentenceInfo.directionChange)
           theOutput << "  WIND_DIRECTION: " << sentenceInfo.directionChange->period.localStartTime()
                     << " (" << wind_direction_string(sentenceInfo.directionChange->id) << ")"
@@ -1583,12 +1586,17 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
                     << std::endl;
 
         break;
+      }
       case CHANGE_TYPE:
+      {
         theOutput << "  CHANGE_TYPE: " << sentenceInfo.changeType << std::endl;
         break;
+      }
       case CHANGE_SPEED:
+      {
         theOutput << "  CHANGE_SPEED: " << sentenceInfo.changeSpeed << std::endl;
         break;
+      }
       case WIND_SPEED_INTERVAL:
       {
         theOutput << "  WIND_SPEED_INTERVAL: " << std::endl;
@@ -1620,11 +1628,13 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
                         << wind_direction_string(direction.id) << ")" << std::endl;
           }
         }
+        break;
       }
-      break;
       case VOID_TYPE:
+      {
         theOutput << "  VOID_TYPE: " << std::endl;
         break;
+      }
     }
   }
 
@@ -2384,11 +2394,10 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
     const sentence_info& sentenceInfo = sentenceInfoVector[i];
     if (sentenceInfo.skip)
       continue;
+
     if (i == sentenceInfoVector.size() - 1 && get_period_length(sentenceInfo.period) < 3 &&
         !sentenceInfo.changeType.empty())
     {
-      theParameters.theLog << "Skipping last short period: " << as_string(sentenceInfo.period)
-                           << std::endl;
       continue;
     }
 
@@ -2401,16 +2410,20 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
       {
         case TIME_PERIOD:
         {
-          if (i > 0)
           {
             sentence_parameter sp(TIME_PERIOD);
-            WeatherPeriod period = sentenceInfo.period;
-            sp.sentence << getTimePhrase(period, timePhraseInfo, get_period_length(period) > 6);
+            if (i == 0)
+              sp.sentence << Delimiter("");  // dummy empty string for [1] [2] pattern substitutions
+            else
+            {
+              WeatherPeriod period = sentenceInfo.period;
+              sp.sentence << getTimePhrase(period, timePhraseInfo, get_period_length(period) > 6);
+            }
             sp.tpi = timePhraseInfo;
             pi.sentenceParameters.push_back(sp);
           }
+          break;
         }
-        break;
         case WIND_DIRECTION:
         {
           if (sentenceInfo.directionChange)
@@ -2426,22 +2439,22 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
             sp.sentence << (sentenceInfo.useWindBasicForm ? TUULI_WORD : TUULTA_WORD);
             pi.sentenceParameters.push_back(sp);
           }
+          break;
         }
-        break;
         case CHANGE_TYPE:
         {
           sentence_parameter sp(CHANGE_TYPE);
           sp.sentence << sentenceInfo.changeType;
           pi.sentenceParameters.push_back(sp);
+          break;
         }
-        break;
         case CHANGE_SPEED:
         {
           sentence_parameter sp(CHANGE_SPEED);
           sp.sentence << sentenceInfo.changeSpeed;
           pi.sentenceParameters.push_back(sp);
+          break;
         }
-        break;
         case WIND_SPEED_INTERVAL:
         {
           if (firstSentence && sentenceInfo.intervalSentences.size() == 1)
@@ -2589,9 +2602,10 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
             piAfterLastInterval.sentenceParameters.insert(
                 piAfterLastInterval.sentenceParameters.end(), sps2.begin(), sps2.end());
           }
+          break;
         }
-        break;
         case VOID_TYPE:
+          std::cout << "VOID_TYPE\n";
           break;
       }
     }

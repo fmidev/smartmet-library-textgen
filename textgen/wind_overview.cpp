@@ -26,6 +26,15 @@ using namespace std;
 
 namespace TextGen
 {
+std::size_t generateUniqueID()
+{
+  static std::random_device rd;
+  static std::mt19937_64 generator(rd());
+  static std::uniform_int_distribution<std::size_t> distribution;
+
+  return distribution(generator);
+}
+
 void find_out_wind_direction_periods(wo_story_params& storyParams)
 {
   unsigned int firstIndex(UINT_MAX);
@@ -928,6 +937,7 @@ std::string get_html_rawdata(wo_story_params& storyParams)
 {
   std::stringstream html_data;
 
+  html_data << "<h5>Summary data</h5>" << endl;
   html_data << "<table border=\"1\">" << endl;
 
   html_data << std::endl
@@ -948,7 +958,8 @@ std::string get_html_rawdata(wo_story_params& storyParams)
 
     html_data
         << "<tr>"
-        << "<td>" << windDataItem.thePeriod.localStartTime() << "</td>"
+        << "<td>" << Fmi::to_simple_string(windDataItem.thePeriod.localStartTime().GetDateTime())
+        << "</td>"
         << "<td>" << fixed << setprecision(2) << windDataItem.theWindSpeedMin.value() << "</td>"
         << "<td>" << fixed << setprecision(2) << windDataItem.theWindSpeedMax.value() << "</td>"
         << "<td>" << fixed << setprecision(2) << windDataItem.theEqualizedMaxWind.value() << "</td>"
@@ -1042,7 +1053,9 @@ std::string get_html_winddirection_distribution(
         (*theWindDataItemVector[index])(storyParams.theArea.type());
 
     html_data << "<tr>" << std::endl
-              << "<td>" << theWindDataItem.thePeriod.localEndTime() << "</td>";
+              << "<td>"
+              << Fmi::to_simple_string(theWindDataItem.thePeriod.localEndTime().GetDateTime())
+              << "</td>";
 
     for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE;
          i += (compass_type == sixteen_directions ? 1 : 2))
@@ -1134,7 +1147,9 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
     // datarivit
     html_data << std::endl
               << "<tr>" << std::endl
-              << "<td>" << theWindDataItem.thePeriod.localEndTime() << "</td>";
+              << "<td>"
+              << Fmi::to_simple_string(theWindDataItem.thePeriod.localEndTime().GetDateTime())
+              << "</td>";
 
     for (unsigned int k = start_index; k < end_index; k++)
     {
@@ -1159,13 +1174,13 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
   return html_data.str();
 }
 
-std::string get_js_code(unsigned int js_id, bool addExternalScripts, unsigned int peakWindSpeed)
+std::string get_js_code(std::size_t js_id, bool addExternalScripts, unsigned int peakWindSpeed)
 {
   std::stringstream js_code;
 
   if (addExternalScripts)
     js_code << std::endl
-            << "<script src=\"http://code.jquery.com/jquery-1.12.0.min.js\"></script>" << std::endl
+            << "<script src=\"https://code.jquery.com/jquery-1.12.0.min.js\"></script>" << std::endl
             << "<script src=\"https://code.highcharts.com/highcharts.js\"></script>" << std::endl
             << "<script src=\"https://code.highcharts.com/modules/data.js\"></script>" << std::endl
             << "<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>"
@@ -1236,7 +1251,7 @@ std::string get_js_code(unsigned int js_id, bool addExternalScripts, unsigned in
   return js_code.str();
 }
 
-std::string get_js_data(wo_story_params& storyParams, const std::string& param, unsigned int js_id)
+std::string get_js_data(wo_story_params& storyParams, const std::string& param, std::size_t js_id)
 {
   std::stringstream js_data;
 
@@ -3596,7 +3611,7 @@ Paragraph WindStory::overview() const
 
     paragraph << windForecast.getWindStory(itsPeriod);
 
-    static unsigned int js_id(1);
+    std::size_t js_id = generateUniqueID();
 
     if (Settings::optional_bool("qdtext::append_graph", false))
     {
