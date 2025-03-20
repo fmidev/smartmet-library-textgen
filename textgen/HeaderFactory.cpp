@@ -25,10 +25,10 @@
 #include "MessageLogger.h"
 #include "WeekdayTools.h"
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -185,7 +185,9 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_report_area(const WeatherArea& theArea, const WeatherPeriod& thePeriod)
+TextGen::Header header_report_area(const WeatherArea& theArea,
+                                   const WeatherPeriod& thePeriod,
+                                   const string& theVariable)
 {
   MessageLogger log("header_report_area");
   using namespace TextGen;
@@ -203,9 +205,25 @@ TextGen::Header header_report_area(const WeatherArea& theArea, const WeatherPeri
 
   const int starthour = thePeriod.localStartTime().GetHour();
 
-  header << "saaennuste" << LocationPhrase(theArea.name() + ":lle")
-         << WeekdayTools::on_weekday_time(thePeriod.localStartTime()) << TextGen::Integer(starthour)
-         << "o'clock";
+  const bool compact = Settings::optional_bool(theVariable + "::compact", false);
+  const bool dated = Settings::optional_bool(theVariable + "::date", true);
+  const bool timed = Settings::optional_bool(theVariable + "::time", true);
+
+  if (!compact)
+    header << "saaennuste" << LocationPhrase(theArea.name() + ":lle");
+  else
+    header << LocationPhrase(theArea.name());
+
+  if (dated)
+  {
+    if (timed)
+      header << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
+             << TextGen::Integer(starthour) << "o'clock";
+    else
+      header << WeekdayTools::on_weekday(thePeriod.localStartTime());
+  }
+  else if (timed)
+    header << "kello" << TextGen::Integer(starthour) << "o'clock";
 
   log << header;
   return header;
@@ -483,7 +501,7 @@ Header create(const TextGenPosixTime& theForecastTime,
   if (type == "several_days")
     return header_several_days(thePeriod);
   if (type == "report_area")
-    return header_report_area(theArea, thePeriod);
+    return header_report_area(theArea, thePeriod, theVariable);
   if (type == "report_time")
     return header_report_time(thePeriod);
   if (type == "report_location")
