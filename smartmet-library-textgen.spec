@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.3.19
+Version: 25.3.20
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -27,12 +27,12 @@ BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 25.3.19
 BuildRequires: smartmet-library-macgyver-devel >= 25.2.18
-BuildRequires: smartmet-library-newbase-devel >= 25.2.18
+BuildRequires: smartmet-library-newbase-devel >= 25.3.20
 BuildRequires: smartmet-library-gis-devel >= 25.2.18
 Requires: gdal310-libs
 Requires: smartmet-library-calculator >= 25.3.19
 Requires: smartmet-library-macgyver >= 25.2.18
-Requires: smartmet-library-newbase >= 25.2.18
+Requires: smartmet-library-newbase >= 25.3.20
 
 %if %{?rhel} && %{rhel} == 8
 Requires: libpqxx >= 1:7.7.0 libpqxx < 1:7.8.0
@@ -58,7 +58,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 25.3.19
 #TestRequires: smartmet-library-macgyver-devel >= 25.2.18
-#TestRequires: smartmet-library-newbase-devel >= 25.2.18
+#TestRequires: smartmet-library-newbase-devel >= 25.3.20
 #TestRequires: smartmet-library-gis-devel >= 25.2.18
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Mar 20 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.3.20-1.fmi
+- Added new options for "report_area" header to reduce its size: 'compact', 'date' and 'time'
+
 * Wed Mar 19 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.3.19-1.fmi
 - More collision resistant debug output for graphs and tables
 - Fixed bug in wind_overview output
