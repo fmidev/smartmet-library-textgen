@@ -243,6 +243,7 @@ pohjois-pohjanmaa:lle|för Norra Österbotten
 pohjois-savo:lle|för Norra Savolax
 satakunta:lle|för Satakunta
 uusimaa:lle|för Nyland
+uusimaa|Nyland
 varsinais-suomi:lle|för Egentliga Finland
 osterbotten:lle|för Österbotten
 huomattavasti pienempi|betydligt mindre

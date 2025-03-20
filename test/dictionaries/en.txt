@@ -249,7 +249,8 @@ keski-suomi:lle|for Central Finland
 koillismaa:lle|for Koillismaa
 kymenlaakso:lle|for Kymenlaakso
 lansi-lappi:lle|for Western Lapland
-nyland:lle|for Uusimaa
+uusimaa:lle|for Uusimaa
+uusimaa|Uusimaa
 osterbotten:lle|for Ostrobothnia
 paijat-hame:lle|for Päijänne Tavastia
 pirkanmaa:lle|for Pirkanmaa

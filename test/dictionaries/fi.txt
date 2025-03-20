@@ -209,6 +209,7 @@ pohjois-pohjanmaa:lle|Pohjois-Pohjanmaalle
 pohjois-savo:lle|Pohjois-Savoon
 satakunta:lle|Satakuntaan
 uusimaa:lle|Uudellemaalle
+uusimaa|Uusimaa
 varsinais-suomi:lle|Varsinais-Suomeen
 huomattavasti suurempi|huomattavasti suurempi
 huomattavasti pienempi|huomattavasti pienempi

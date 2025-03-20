@@ -238,6 +238,45 @@ void header_report_area()
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
+  Settings::set(var + "::compact", "true");
+  result = require("fi", area, period, var, "Uusimaa sunnuntaina kello 6");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  result = require("sv", area, period, var, "Nyland söndag klockan 6");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  result = require("en", area, period, var, "Uusimaa on Sunday 6 o'clock");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  Settings::set(var + "::date", "false");
+  result = require("fi", area, period, var, "Uusimaa kello 6");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  result = require("sv", area, period, var, "Nyland klockan 6");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  result = require("en", area, period, var, "Uusimaa 6 o'clock");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  Settings::set(var + "::time", "false");
+  result = require("fi", area, period, var, "Uusimaa");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  result = require("sv", area, period, var, "Nyland");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
+  result = require("en", area, period, var, "Uusimaa");
+  if (!result.empty())
+    TEST_FAILED(result.c_str());
+
   TEST_PASSED();
 }
 
