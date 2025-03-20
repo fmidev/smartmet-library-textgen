@@ -421,7 +421,7 @@ void header_forenoon()
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
-  result = require("en", area, period, var, "Expected weather in the forenoon");
+  result = require("en", area, period, var, "Expected weather before noon");
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
@@ -435,7 +435,7 @@ void header_forenoon()
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
-  result = require("en", area, period, var, "Expected weather on Sunday forenoon");
+  result = require("en", area, period, var, "Expected weather before Sunday noon");
   if (!result.empty())
     TEST_FAILED(result.c_str());
 
