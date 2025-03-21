@@ -411,9 +411,8 @@ void phrases()
   // ahvenanmaa:lle == aland::lle
   // o'clock = <empty>
 
-  const int extras = 3 + 14;
-  if (dict->size() != 546 - 200 + 1 + extras)
-    TEST_FAILED("Sonera dictionary should have 350 phrases, not " +
+  if (dict->size() != 378)
+    TEST_FAILED("Sonera dictionary should have 378 phrases, not " +
                 boost::lexical_cast<std::string>(dict->size()));
 
   TEST_PASSED();
