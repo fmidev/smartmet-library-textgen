@@ -29,10 +29,10 @@
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiAreaTools.h>
 #include <newbase/NFmiCombinedParam.h>
 #include <map>
@@ -930,7 +930,8 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
     ret.period = fogPeriod;
     Sentence todayPhrase;
 
-    if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+    if (thePeriod.localEndTime().DifferenceInHours(
+            theParameters.theForecastPeriod.localStartTime()) > 24)
     {
       todayPhrase << PeriodPhraseFactory::create("today",
                                                  theParameters.theVariable,
