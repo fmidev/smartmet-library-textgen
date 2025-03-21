@@ -853,9 +853,8 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
   {
     Sentence todayPhrase;
 
-    //    if (get_period_length(fogPeriod) == 0) return sentence;
-
-    if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+    if (thePeriod.localEndTime().DifferenceInHours(
+            theParameters.theForecastPeriod.localStartTime()) > 24)
     {
       todayPhrase << PeriodPhraseFactory::create("today",
                                                  theParameters.theVariable,
@@ -888,14 +887,12 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
         sentence << constructFogSentence(dayPhasePhrase, theAreaString, "", false);
         break;
       case FOG_POSSIBLY_DENSE:
-
         sentence << constructFogSentence(dayPhasePhrase, theAreaString, "", true);
         break;
       case FOG_IN_SOME_PLACES:
         sentence << constructFogSentence(dayPhasePhrase, theAreaString, PAIKOIN_WORD, false);
         break;
       case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
-
         sentence << constructFogSentence(dayPhasePhrase, theAreaString, PAIKOIN_WORD, true);
         break;
       case FOG_IN_MANY_PLACES:
@@ -971,7 +968,6 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
         ret.sentence << constructFogSentence(dayPhasePhrase, theAreaString, "", false);
         break;
       case FOG_POSSIBLY_DENSE:
-
         ret.sentence << constructFogSentence(dayPhasePhrase, theAreaString, "", true);
         break;
       case FOG_IN_SOME_PLACES:
