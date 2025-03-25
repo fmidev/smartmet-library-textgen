@@ -169,7 +169,7 @@ void until_morning()
 
   Settings::set(phrasesvar, "atnight");
   REQUIRE(mode, var, ftime, period1, "fi", "Yöllä.");
-  REQUIRE(mode, var, ftime, period1, "sv", "På natten.");
+  REQUIRE(mode, var, ftime, period1, "sv", "I natt.");
   REQUIRE(mode, var, ftime, period1, "en", "At night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
@@ -294,7 +294,7 @@ void tonight()
 
   Settings::set(phrasesvar, "atnight");
   REQUIRE(mode, var, ftime, period1, "fi", "Yöllä.");
-  REQUIRE(mode, var, ftime, period1, "sv", "På natten.");
+  REQUIRE(mode, var, ftime, period1, "sv", "I natt.");
   REQUIRE(mode, var, ftime, period1, "en", "At night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
@@ -363,7 +363,7 @@ void next_night()
 
   Settings::set(phrasesvar, "atnight");
   REQUIRE(mode, var, ftime, period, "fi", "Yöllä.");
-  REQUIRE(mode, var, ftime, period, "sv", "På natten.");
+  REQUIRE(mode, var, ftime, period, "sv", "I natt.");
   REQUIRE(mode, var, ftime, period, "en", "At night.");
 
   TEST_PASSED();
