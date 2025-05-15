@@ -26,6 +26,11 @@ using namespace std;
 
 namespace TextGen
 {
+// Define named constants for magic numbers
+constexpr int INITIAL_MERGE_THRESHOLD_HOURS = 3;
+constexpr int SHORT_PERIOD_THRESHOLD_HOURS = 2;
+constexpr int MISSING_EVENT_THRESHOLD_HOURS = 6;
+
 std::size_t generateUniqueID()
 {
   static std::random_device rd;
@@ -125,7 +130,8 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
   }
 
   // short period (< 3h) in the beginning is merged with the next
-  if (directionPeriods.size() > 1 && get_period_length(directionPeriods.front()) < 3)
+  if (directionPeriods.size() > 1 &&
+      get_period_length(directionPeriods.front()) < INITIAL_MERGE_THRESHOLD_HOURS)
   {
     directionPeriods.front() = WeatherPeriod(directionPeriods.front().localStartTime(),
                                              directionPeriods[1].localEndTime());
@@ -147,11 +153,12 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     WindDirectionInfo nextId = get_wind_direction(storyParams, nextPeriod);
     if (currentId.id == VAIHTELEVA)
     {
-      if (i != 1 && get_period_length(previousPeriod) <= 2)
+      if (i != 1 && get_period_length(previousPeriod) <= SHORT_PERIOD_THRESHOLD_HOURS)
       {
         indexesToRemove.insert(i - 1);
       }
-      if (i + 1 != directionPeriods.size() - 1 && get_period_length(nextPeriod) <= 2)
+      if (i + 1 != directionPeriods.size() - 1 &&
+          get_period_length(nextPeriod) <= SHORT_PERIOD_THRESHOLD_HOURS)
       {
         indexesToRemove.insert(i + 1);
       }
@@ -209,8 +216,8 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     WindDirectionId id = get_wind_direction(storyParams, period).id;
 
     // dont report short varying wind if it is not the first/last one
-    if (i < cleanedPeriods.size() - 1 && id == VAIHTELEVA && get_period_length(period) < 2 &&
-        i != 0)
+    if (i < cleanedPeriods.size() - 1 && id == VAIHTELEVA &&
+        get_period_length(period) < SHORT_PERIOD_THRESHOLD_HOURS && i != 0)
     {
       continue;
     }
@@ -2221,7 +2228,7 @@ wind_event_period_data_item_vector remove_short_missing_periods(
     if (nextDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT &&
         currentDataItem->theWindEvent == afterNextDataItem->theWindEvent)
     {
-      if (get_period_length(nextDataItem->thePeriod) <= 6)
+      if (get_period_length(nextDataItem->thePeriod) <= MISSING_EVENT_THRESHOLD_HOURS)
       {
         // merge the three event periods
         WeatherPeriod newPeriod(currentDataItem->thePeriod.localStartTime(),
