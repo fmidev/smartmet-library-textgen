@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.3.21
+Version: 25.5.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -105,6 +105,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu May 15 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.5.15-1.fmi
+- Clarified code by naming some magic constants
+
 * Fri Mar 21 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.3.21-1.fmi
 - Fixed fog forecast not to produce "in the afternoon and in the afternoon"
 
