@@ -6,6 +6,13 @@
 
 namespace TextGen
 {
+
+// Use this to enable or disable dense fogs in actual output. We use
+// this so as not to destroy the original algorithm in case we want
+// dense fogs back later on.
+
+#define ENABLE_DENSE_FOG 0
+
 enum fog_type_id
 {
   FOG,
@@ -80,7 +87,7 @@ class FogForecast
   Sentence constructFogSentence(const std::string& theDayPhasePhrase,
                                 const std::string& theAreaString,
                                 const std::string& theInPlacesString,
-                                const bool& thePossiblyDenseFlag) const;
+                                bool thePossiblyDenseFlag) const;
 
   wf_story_params& theParameters;
 

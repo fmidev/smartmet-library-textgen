@@ -116,6 +116,7 @@ const char* get_fog_type_string(const fog_type_id& theFogTypeId)
 {
   const char* retval = "";
 
+#if ENABLE_DENSE_FOG
   switch (theFogTypeId)
   {
     case FOG:
@@ -124,12 +125,14 @@ const char* get_fog_type_string(const fog_type_id& theFogTypeId)
     case FOG_POSSIBLY_DENSE:
       retval = "sumua, joka voi olla sakeaa";
       break;
+
     case FOG_IN_SOME_PLACES:
       retval = "paikoin sumua";
       break;
     case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
       retval = "paikoin sumua, joka voi olla sakeaa";
       break;
+
     case FOG_IN_MANY_PLACES:
       retval = "monin paikoin sumua";
       break;
@@ -140,6 +143,28 @@ const char* get_fog_type_string(const fog_type_id& theFogTypeId)
       retval = "ei sumua";
       break;
   }
+#else
+  switch (theFogTypeId)
+  {
+    case FOG:
+    case FOG_POSSIBLY_DENSE:
+      retval = "sumua";
+      break;
+
+    case FOG_IN_SOME_PLACES:
+    case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
+      retval = "paikoin sumua";
+      break;
+
+    case FOG_IN_MANY_PLACES:
+    case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
+      retval = "monin paikoin sumua";
+      break;
+    default:
+      retval = "ei sumua";
+      break;
+  }
+#endif
 
   return retval;
 }
@@ -501,6 +526,7 @@ Sentence FogForecast::getFogPhrase(const fog_type_id& theFogTypeId) const
 {
   Sentence sentence;
 
+#if ENABLE_DENSE_FOG
   switch (theFogTypeId)
   {
     case FOG:
@@ -521,9 +547,29 @@ Sentence FogForecast::getFogPhrase(const fog_type_id& theFogTypeId) const
     case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
       sentence << MONIN_PAIKOIN_WORD << SUMUA_WORD << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
       break;
-    default:
+    case NO_FOG:
       break;
   }
+#else
+  switch (theFogTypeId)
+  {
+    case FOG:
+    case FOG_POSSIBLY_DENSE:
+      sentence << SUMUA_WORD;
+      break;
+    case FOG_IN_SOME_PLACES:
+    case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
+      sentence << PAIKOIN_WORD << SUMUA_WORD;
+      break;
+    case FOG_IN_MANY_PLACES:
+    case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
+      sentence << MONIN_PAIKOIN_WORD << SUMUA_WORD;
+      break;
+    case NO_FOG:
+      break;
+  }
+#endif
+
   return sentence;
 }
 
@@ -747,13 +793,17 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
 Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
                                            const std::string& theAreaString,
                                            const std::string& theInPlacesString,
-                                           const bool& thePossiblyDenseFlag) const
+                                           bool thePossiblyDenseFlag) const
 {
   Sentence sentence;
 
   bool dayPhaseExists(!theDayPhasePhrase.empty());
   bool placeExists(!theAreaString.empty());
   bool inPlacesPhraseExists(!theInPlacesString.empty());
+
+#if !ENABLE_DENSE_FOG
+  thePossiblyDenseFlag = false;
+#endif
 
   if (dayPhaseExists)
   {
