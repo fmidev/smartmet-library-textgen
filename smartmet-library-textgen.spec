@@ -34,19 +34,25 @@ Requires: smartmet-library-calculator >= 25.3.19
 Requires: smartmet-library-macgyver >= 25.5.22
 Requires: smartmet-library-newbase >= 25.3.20
 
-%if %{?rhel} && %{rhel} == 8
-Requires: libpqxx >= 1:7.7.0 libpqxx < 1:7.8.0
-BuildRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
-#TestRequires: libpqxx-devel >= 7.7.0 libpqxx-devel < 1:7.8.0
+%if 0%{?rhel} && 0%{rhel} == 8
+Requires: libpqxx >= 1:7.7.0, libpqxx < 1:7.8.0
+BuildRequires: libpqxx-devel >= 1:7.7.0, libpqxx-devel < 1:7.8.0
+#TestRequires: libpqxx-devel >= 1:7.7.0, libpqxx-devel < 1:7.8.0
 %else
-%if %{?rhel} && %{rhel} >= 9
-Requires: libpqxx >= 7.9.0 libpqxx < 1:7.10.0
-BuildRequires: libpqxx-devel >= 7.9.0 libpqxx-devel < 1:7.10.0
-#TestRequires: libpqxx-devel >= 7.9.0 libpqxx-devel < 1:7.10.0
+%if 0%{?rhel} && 0%{rhel} == 9
+Requires: libpqxx >= 1:7.9.0, libpqxx < 1:7.10.0
+BuildRequires: libpqxx-devel >= 1:7.9.0, libpqxx-devel < 1:7.10.0
+#TestRequires: libpqxx-devel >= 1:7.9.0, libpqxx-devel < 1:7.10.0
+%else
+%if 0%{?rhel} && 0%{rhel} >= 10
+Requires: libpqxx >= 1:7.10.0, libpqxx < 1:7.11.0
+BuildRequires: libpqxx-devel >= 1:7.10.0, libpqxx-devel < 1:7.11.0
+#TestRequires: libpqxx-devel >= 1:7.10.0, libpqxx-devel < 1:7.11.0
 %else
 Requires: libpqxx
 BuildRequires: libpqxx-devel
 #TestRequires: libpqxx-devel
+%endif
 %endif
 %endif
 
