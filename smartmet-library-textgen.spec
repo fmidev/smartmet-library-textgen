@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.5.27
+Version: 25.10.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -25,13 +25,13 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 25.3.19
-BuildRequires: smartmet-library-macgyver-devel >= 25.5.22
+BuildRequires: smartmet-library-calculator-devel >= 25.10.2
+BuildRequires: smartmet-library-macgyver-devel >= 25.9.30
 BuildRequires: smartmet-library-newbase-devel >= 25.3.20
-BuildRequires: smartmet-library-gis-devel >= 25.2.18
+BuildRequires: smartmet-library-gis-devel >= 25.9.15
 Requires: gdal310-libs
-Requires: smartmet-library-calculator >= 25.3.19
-Requires: smartmet-library-macgyver >= 25.5.22
+Requires: smartmet-library-calculator >= 25.10.2
+Requires: smartmet-library-macgyver >= 25.9.30
 Requires: smartmet-library-newbase >= 25.3.20
 
 %if 0%{?rhel} && 0%{rhel} == 8
@@ -62,10 +62,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 25.3.19
-#TestRequires: smartmet-library-macgyver-devel >= 25.5.22
+#TestRequires: smartmet-library-calculator-devel >= 25.10.2
+#TestRequires: smartmet-library-macgyver-devel >= 25.9.30
 #TestRequires: smartmet-library-newbase-devel >= 25.3.20
-#TestRequires: smartmet-library-gis-devel >= 25.2.18
+#TestRequires: smartmet-library-gis-devel >= 25.9.15
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Oct  2 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.10.2-1.fmi
+- Use Peak (98th percentile) instead of Maximum in wind_overview
+
 * Tue May 27 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.5.27-1.fmi
 - Disabled dense fog phrases, there is just fog
 
