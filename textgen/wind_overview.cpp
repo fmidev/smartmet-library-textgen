@@ -1689,7 +1689,7 @@ bool populate_time_series(wo_story_params& storyParams)
           forecaster.analyze(storyParams.theVar + "::fake::wind::speed::maximum",
                              storyParams.theSources,
                              WindSpeed,
-                             Maximum,
+                             Peak,
                              Mean,
                              weatherArea,
                              dataItem.thePeriod);
@@ -1731,7 +1731,7 @@ bool populate_time_series(wo_story_params& storyParams)
           forecaster.analyze(storyParams.theVar + "::fake::wind::maximumwind",
                              storyParams.theSources,
                              MaximumWind,
-                             Maximum,
+                             Peak,
                              Mean,
                              weatherArea,
                              dataItem.thePeriod);
