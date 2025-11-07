@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::ForestStory::forestfireindex_twodays
+ * \brief Implementation of method TextGen::ForestStory::forestfireindex_twodays
  */
 // ======================================================================
 
