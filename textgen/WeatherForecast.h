@@ -4,6 +4,7 @@
 #include "MessageLogger.h"
 #include <calculator/WeatherPeriod.h>
 #include <memory>
+#include <string>
 
 namespace TextGen
 {
@@ -991,4 +992,5 @@ struct PrecipitationDataItem
     delete theFullData;
   }
 };
+
 }  // namespace TextGen

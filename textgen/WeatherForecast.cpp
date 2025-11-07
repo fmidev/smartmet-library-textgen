@@ -266,17 +266,23 @@ part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp,
 
   if (theTimestamp.GetHour() >= AAMU_START && theTimestamp.GetHour() <= AAMU_END)
     return AAMU;
+
   if (theTimestamp.GetHour() >= AAMUPAIVA_START && theTimestamp.GetHour() <= AAMUPAIVA_END)
     return AAMUPAIVA;
+
   if (theTimestamp.GetHour() >= ILTA_START && theTimestamp.GetHour() <= ILTA_END)
     return ILTA;
+
   if (theTimestamp.GetHour() >= ILTAPAIVA_START && theTimestamp.GetHour() <= ILTAPAIVA_END)
     return ILTAPAIVA;
-  else if (theTimestamp.GetHour() >= ILTAYO_START)
+
+  if (theTimestamp.GetHour() >= ILTAYO_START)
     return ILTAYO;
-  else if (!ignoreKeskiyo && theTimestamp.GetHour() <= KESKIYO_END)
+
+  if (!ignoreKeskiyo && theTimestamp.GetHour() <= KESKIYO_END)
     return KESKIYO;
-  else if (theTimestamp.GetHour() >= aamuyoStart && theTimestamp.GetHour() <= AAMUYO_END)
+
+  if (theTimestamp.GetHour() >= aamuyoStart && theTimestamp.GetHour() <= AAMUYO_END)
     return AAMUYO;
 
   return MISSING_PART_OF_THE_DAY_ID;
@@ -302,38 +308,46 @@ part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod)
         thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay() - 1;
   }
 
-  part_of_the_day_id narrow_id(get_part_of_the_day_id_narrow(thePeriod));
+  part_of_the_day_id narrow_id = get_part_of_the_day_id_narrow(thePeriod);
 
   if (narrow_id != MISSING_PART_OF_THE_DAY_ID)
     return narrow_id;
+
   if (thePeriod.localStartTime().GetHour() >= AAMU_START &&
       thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
     return AAMU_JA_AAMUPAIVA;
-  if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
-      thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
-    return ILTAPAIVA_JA_ILTA;
+
   if ((thePeriod.localStartTime().GetHour() >= ILTA_START &&
        thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay))
     return ILTA_JA_ILTAYO;
-  else if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-           thePeriod.localStartTime().GetHour() <= ILTAYO_END &&
-           thePeriod.localEndTime().GetHour() > KESKIYO_START &&
-           thePeriod.localEndTime().GetHour() <= KESKIYO_END && successiveDays)
+
+  if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
+      thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
+    return ILTAPAIVA_JA_ILTA;
+
+  if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+      thePeriod.localStartTime().GetHour() <= ILTAYO_END &&
+      thePeriod.localEndTime().GetHour() > KESKIYO_START &&
+      thePeriod.localEndTime().GetHour() <= KESKIYO_END && successiveDays)
     return YO;  // ILTAYO_JA_KESKIYO;
-  else if (thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
-           thePeriod.localStartTime().GetHour() <= KESKIYO_END &&
-           thePeriod.localEndTime().GetHour() >= AAMUYO_START &&
-           thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
+
+  if (thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
+      thePeriod.localStartTime().GetHour() <= KESKIYO_END &&
+      thePeriod.localEndTime().GetHour() >= AAMUYO_START &&
+      thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
     return YO;  // KESKIYO_JA_AAMUYO;
-  else if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
-           thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
+
+  if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
+      thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
     return AAMUYO_JA_AAMU;
-  else if (thePeriod.localStartTime().GetHour() >= YO_START &&
-           thePeriod.localEndTime().GetHour() <= YO_END && get_period_length(thePeriod) > 3 &&
-           successiveDays)
+
+  if (thePeriod.localStartTime().GetHour() >= YO_START &&
+      thePeriod.localEndTime().GetHour() <= YO_END && get_period_length(thePeriod) > 3 &&
+      successiveDays)
     return YO;
-  else if (thePeriod.localStartTime().GetHour() >= PAIVA_START - 2 &&
-           thePeriod.localEndTime().GetHour() <= PAIVA_END && insideSameDay)
+
+  if (thePeriod.localStartTime().GetHour() >= PAIVA_START - 2 &&
+      thePeriod.localEndTime().GetHour() <= PAIVA_END && insideSameDay)
     return PAIVA;
 
   return MISSING_PART_OF_THE_DAY_ID;
@@ -358,11 +372,11 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
       return AAMUPAIVA;
     return AAMU;
   }
+
   if (thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START &&
       thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
-  {
     return AAMUPAIVA;
-  }
+
   if (thePeriod.localStartTime().GetHour() >= ILTA_START &&
       thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
   {
@@ -371,23 +385,27 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
       return ILTAYO;
     return ILTA;
   }
-  else if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
-           thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
+
+  if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
+      thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
     return ILTAPAIVA;
-  else if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-           ((thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay) ||
-            (thePeriod.localEndTime().GetHour() == KESKIYO_START && !insideSameDay)))
+
+  if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+      ((thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay) ||
+       (thePeriod.localEndTime().GetHour() == KESKIYO_START && !insideSameDay)))
     return ILTAYO;
-  else if (!ignoreKeskiyo && thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
-           thePeriod.localEndTime().GetHour() <= KESKIYO_END && insideSameDay)
+
+  if (!ignoreKeskiyo && thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
+      thePeriod.localEndTime().GetHour() <= KESKIYO_END && insideSameDay)
   {
     if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
         thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
       return AAMUYO;
     return KESKIYO;
   }
-  else if (thePeriod.localStartTime().GetHour() >= aamuyoStart &&
-           thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
+
+  if (thePeriod.localStartTime().GetHour() >= aamuyoStart &&
+      thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
     return AAMUYO;
 
   return MISSING_PART_OF_THE_DAY_ID;
@@ -430,92 +448,92 @@ void get_part_of_the_day(part_of_the_day_id thePartOfTheDayId, int& theStartHour
     {
       theStartHour = AAMU_START;
       theEndHour = AAMU_END;
+      break;
     }
-    break;
     case AAMUPAIVA:
     {
       theStartHour = AAMUPAIVA_START;
       theEndHour = AAMUPAIVA_END;
+      break;
     }
-    break;
     case ILTAPAIVA:
     {
       theStartHour = ILTAPAIVA_START;
       theEndHour = ILTAPAIVA_END;
+      break;
     }
-    break;
     case ILTA:
     {
       theStartHour = ILTA_START;
       theEndHour = ILTA_END;
+      break;
     }
-    break;
     case ILTAYO:
     {
       theStartHour = ILTAYO_START;
       theEndHour = ILTAYO_END;
+      break;
     }
-    break;
     case KESKIYO:
     {
       theStartHour = KESKIYO_START;
       theEndHour = KESKIYO_END;
+      break;
     }
-    break;
     case AAMUYO:
     {
       theStartHour = AAMUYO_START;
       theEndHour = AAMUYO_END;
+      break;
     }
-    break;
     case PAIVA:
     {
       theStartHour = PAIVA_START;
       theEndHour = PAIVA_END;
+      break;
     }
-    break;
     case YO:
     {
       theStartHour = YO_START;
       theEndHour = YO_END;
+      break;
     }
-    break;
     case AAMU_JA_AAMUPAIVA:
     {
       theStartHour = AAMU_START;
       theEndHour = AAMUPAIVA_END;
+      break;
     }
-    break;
     case ILTAPAIVA_JA_ILTA:
     {
       theStartHour = ILTAPAIVA_START;
       theEndHour = ILTA_END;
+      break;
     }
-    break;
     case ILTA_JA_ILTAYO:
     {
       theStartHour = ILTA_START;
       theEndHour = ILTAYO_END;
+      break;
     }
-    break;
     case ILTAYO_JA_KESKIYO:
     {
       theStartHour = ILTAYO_START;
       theEndHour = KESKIYO_END;
+      break;
     }
-    break;
     case KESKIYO_JA_AAMUYO:
     {
       theStartHour = KESKIYO_START;
       theEndHour = AAMUYO_END;
+      break;
     }
-    break;
     case AAMUYO_JA_AAMU:
     {
       theStartHour = AAMUYO_START;
       theEndHour = AAMU_END;
+      break;
     }
-    break;
     default:
     {
       theStartHour = -1;
@@ -772,73 +790,73 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
     case AAMU:
     {
       retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+      break;
     }
-    break;
     case AAMUPAIVA:
     {
       retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+      break;
     }
-    break;
     case KESKIPAIVA:
     {
       retval = (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+      break;
     }
-    break;
     case ILTA:
     {
       retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+      break;
     }
-    break;
     case ILTAPAIVA:
     {
       retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+      break;
     }
-    break;
     case ILTAYO:
     {
       retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
+      break;
     }
-    break;
     case KESKIYO:
     {
       retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+      break;
     }
-    break;
     case AAMUYO:
     {
       retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+      break;
     }
-    break;
     case AAMU_JA_AAMUPAIVA:
     {
       retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_JA_AAMUPAIVALLA_PHRASE);
+      break;
     }
-    break;
     case ILTAPAIVA_JA_ILTA:
     {
       retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_JA_ILLALLA_PHRASE);
+      break;
     }
-    break;
     case ILTA_JA_ILTAYO:
     {
       retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_JA_ILTAYOLLA_PHRASE);
+      break;
     }
-    break;
     case ILTAYO_JA_KESKIYO:
     {
       retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_JA_KESKIYOLLA_PHRASE);
+      break;
     }
-    break;
     case KESKIYO_JA_AAMUYO:
     {
       retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_JA_AAMUYOLLA_PHRASE);
+      break;
     }
-    break;
     case AAMUYO_JA_AAMU:
     {
       retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_JA_AAMULLA_PHRASE);
+      break;
     }
-    break;
     default:
       break;
   };
@@ -1039,7 +1057,7 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
   if (!specify_part_of_the_day)
     return sentence;
 
-  short weekday(theWeatherPeriod.localStartTime().GetWeekday());
+  short weekday = theWeatherPeriod.localStartTime().GetWeekday();
 
   // if period is within one day and withing same part of the day, e.g. afternoon
   if (theWeatherPeriod.localStartTime().GetJulianDay() ==
@@ -1164,10 +1182,6 @@ std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
   }
   else if (is_inside(theTimestamp, ILTA))
   {
-    /*
-    if(is_inside(theTimestamp, ILTAPAIVA))
-      retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-    */
     if (is_inside(theTimestamp, ILTAYO))
       retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
     else

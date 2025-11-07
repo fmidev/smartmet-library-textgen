@@ -1212,7 +1212,7 @@ int get_day_number(part_of_the_day_id id, const WeatherPeriod& period, std::stri
       break;
   };
   if (dayNum > -1)
-    dayNumber += (to_string(dayNum) + "-");
+    dayNumber += (std::to_string(dayNum) + "-");
 
   return dayNum;
 }

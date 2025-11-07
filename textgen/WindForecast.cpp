@@ -13,6 +13,9 @@
 #include <calculator/Settings.h>
 #include <macgyver/StringConversion.h>
 
+// #define BOOST_STACKTRACE_USE_ADDR2LINE
+#include <boost/stacktrace.hpp>
+
 namespace TextGen
 {
 namespace WindForecastPhrases
@@ -218,18 +221,17 @@ part_of_the_day_id get_part_of_the_day_id_wind(const TextGenPosixTime& theTime)
 
   //  if (hour == 23 || hour <= 2) return KESKIYO;
 
-  if (hour >= 0 && hour <= 6)
+  if (hour >= KESKIYO_START && hour < AAMU_START)
     return AAMUYO;
-  if (hour > 6 && hour <= 9)
+  if (hour >= AAMU_START && hour < AAMUPAIVA_START)
     return AAMU;
-  if (hour > 9 && hour < 12)
+  if (hour >= AAMUPAIVA_START && hour < ILTAPAIVA_START)
     return AAMUPAIVA;
-  if (hour >= 12 && hour <= 18)
-    return ILTAPAIVA;
-  else if (hour > 18 && hour <= 21)
+  if (hour >= ILTA_START && hour <= YO_START)
     return ILTA;
-  else  // if (hour > 21)
-    return ILTAYO;
+  if (hour >= ILTAPAIVA_START && hour <= ILTAPAIVA_END)
+    return ILTAPAIVA;
+  return ILTAYO;
 }
 
 part_of_the_day_id get_part_of_the_day_id_wind(const WeatherPeriod& thePeriod)
@@ -2303,7 +2305,7 @@ void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) c
           TimePhraseInfo tpi;
           getTimePhrase(*currentPeriod, tpi, get_period_length(*currentPeriod) > 6);
           theParameters.theLog << " changed to " << as_string(*currentPeriod) << " ("
-                               << part_of_the_day_string(tpi.part_of_the_day) << ")" << std::endl;
+                               << part_of_the_day_string(tpi.part_of_the_day) << ")\n";
         }
         else
         {
@@ -2312,14 +2314,14 @@ void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) c
           TimePhraseInfo tpi;
           getTimePhrase(*previousPeriod, tpi, get_period_length(*previousPeriod) > 6);
           theParameters.theLog << " changed to " << as_string(*previousPeriod) << " ("
-                               << part_of_the_day_string(tpi.part_of_the_day) << ")" << std::endl;
+                               << part_of_the_day_string(tpi.part_of_the_day) << ")\n";
         }
       }
       else
       {
         theParameters.theLog << "Tautology COULD NOT BE resolved between periods "
                              << as_string(*previousPeriod) << " and " << as_string(*currentPeriod)
-                             << std::endl;
+                             << "\n";
       }
     }
   }
@@ -2388,6 +2390,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
 
   for (unsigned int i = 0; i < sentenceInfoVector.size(); i++)
   {
+    theParameters.theLog << "** Processing sentence part " << i << "\n";
     bool firstSentence = ret.empty();
     paragraph_info pi;
     paragraph_info piAfterLastInterval;
@@ -2417,7 +2420,8 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
             else
             {
               WeatherPeriod period = sentenceInfo.period;
-              sp.sentence << getTimePhrase(period, timePhraseInfo, get_period_length(period) > 6);
+              auto phrase = getTimePhrase(period, timePhraseInfo, get_period_length(period) > 6);
+              sp.sentence << phrase;
             }
             sp.tpi = timePhraseInfo;
             pi.sentenceParameters.push_back(sp);
@@ -2650,6 +2654,10 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
     const WindEventPeriodDataItem* windSpeedEventPeriodDataItem =
         theParameters.theWindSpeedEventPeriodVector[i];
 
+    theParameters.theLog << "** Processing event period " << i << " "
+                         << windSpeedEventPeriodDataItem->thePeriod.localStartTime() << " - "
+                         << windSpeedEventPeriodDataItem->thePeriod.localEndTime() << "\n";
+
     const WindEventPeriodDataItem* nextWindSpeedEventPeriodDataItem =
         (i < theParameters.theWindSpeedEventPeriodVector.size() - 1
              ? theParameters.theWindSpeedEventPeriodVector[i + 1]
@@ -2725,6 +2733,8 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   if (get_period_length(thePeriod) == 0)
   {
     timePhraseInfo.part_of_the_day = get_part_of_the_day_id_wind(thePeriod);
+    // theParameters.theLog << "\tperiod length is 0, part_of_the_day_id = "
+    // part_of_the_day_string(timePhraseInfo.part_of_the_day) << "\n";
     //    timePhraseInfo.part_of_the_day =
     //    get_part_of_the_day_id_wind(thePeriod.localStartTime());
     if (timePhraseInfo.part_of_the_day == KESKIYO)
@@ -2739,8 +2749,11 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
 
     std::string plainTimePhrase =
         get_time_phrase_from_id(timePhraseInfo.part_of_the_day, theParameters.theVar, false);
-    timePhrase << parse_time_phrase(
-        thePeriod.localStartTime().GetWeekday(), specifyDay, plainTimePhrase);
+
+    auto phrase =
+        parse_time_phrase(thePeriod.localStartTime().GetWeekday(), specifyDay, plainTimePhrase);
+
+    timePhrase << phrase;
 
     theParameters.theAlkaenPhraseUsed = false;
   }
@@ -2791,8 +2804,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
           theParameters.theForecastPeriod.localEndTime())) < 6)
   {
     // if the whole forecast ends in the evening, the last phrase can not be 'illalla', but it
-    // must
-    // be 'iltapaivalla'
+    // must be 'iltapaivalla'
     timePhraseInfo.part_of_the_day = ILTAPAIVA;
     timePhrase.clear();
     timePhrase << get_time_phrase_from_id(
@@ -2859,13 +2871,12 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   }
 
   sentence << tps;
-  /*
-  std::cout << "timePhrase: " << as_string(thePeriod) << " --> " << tps << " (" << specifyDay
-            << " -> " << timePhraseInfo.day_number << ")"
-            << " -> " << as_string(actualPeriod)
-            << (useAlkaenPhrase ? " use alkaen phrase" : " dont use alkaen phrase") << " -> "
-            << timePhraseInfo << std::endl;
-  */
+
+  theParameters.theLog << "timePhrase: " << as_string(thePeriod) << " --> " << tps << " ("
+                       << specifyDay << " -> " << timePhraseInfo.day_number << ")"
+                       << " -> " << as_string(actualPeriod)
+                       << (useAlkaenPhrase ? " use alkaen phrase" : " dont use alkaen phrase")
+                       << " -> " << timePhraseInfo << "\n";
 
   return sentence;
 }

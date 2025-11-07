@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace TextGen::PeriodPhraseFactory
+ * \brief Interface of namespace TextGen::PeriodPhraseFactory
  */
 // ======================================================================
 
