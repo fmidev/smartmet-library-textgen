@@ -23,10 +23,10 @@
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <macgyver/TimeFormatter.h>
 
@@ -70,9 +70,9 @@ std::string as_string(const WeatherPeriod& period)
 {
   std::string ret;
 
-  ret.append(period.localStartTime().ToStr(kYYYYMMDDHHMMSS));
+  ret.append(period.localStartTime().ToIsoExtendedStr());
   ret.append("...");
-  ret.append(period.localEndTime().ToStr(kYYYYMMDDHHMMSS));
+  ret.append(period.localEndTime().ToIsoExtendedStr());
 
   return ret;
 }
