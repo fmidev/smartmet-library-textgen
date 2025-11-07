@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.10.2
+Version: 25.11.7
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -25,13 +25,13 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 25.10.2
-BuildRequires: smartmet-library-macgyver-devel >= 25.9.30
+BuildRequires: smartmet-library-calculator-devel >= 25.11.7
+BuildRequires: smartmet-library-macgyver-devel >= 25.11.5
 BuildRequires: smartmet-library-newbase-devel >= 25.3.20
 BuildRequires: smartmet-library-gis-devel >= 25.9.15
 Requires: gdal310-libs
-Requires: smartmet-library-calculator >= 25.10.2
-Requires: smartmet-library-macgyver >= 25.9.30
+Requires: smartmet-library-calculator >= 25.11.7
+Requires: smartmet-library-macgyver >= 25.11.5
 Requires: smartmet-library-newbase >= 25.3.20
 
 %if 0%{?rhel} && 0%{rhel} == 8
@@ -62,8 +62,8 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 25.10.2
-#TestRequires: smartmet-library-macgyver-devel >= 25.9.30
+#TestRequires: smartmet-library-calculator-devel >= 25.11.7
+#TestRequires: smartmet-library-macgyver-devel >= 25.11.5
 #TestRequires: smartmet-library-newbase-devel >= 25.3.20
 #TestRequires: smartmet-library-gis-devel >= 25.9.15
 #TestRequires: smartmet-library-regression
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Nov  7 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.7-1.fmi
+- Fixed afternoon and evening handling to be consistent (prefer evening from 17 onwards)
+
 * Thu Oct  2 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.10.2-1.fmi
 - Use Peak (98th percentile) instead of Maximum in wind_overview
 
