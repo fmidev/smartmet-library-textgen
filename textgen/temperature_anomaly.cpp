@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::TemperatureStory::anomaly
+ * \brief Implementation of method TextGen::TemperatureStory::anomaly
  */
 // ======================================================================
 
@@ -26,9 +26,9 @@
 #include <calculator/MathTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
@@ -39,9 +39,9 @@
 #include <newbase/NFmiStringTools.h>
 
 #include "WeatherForecast.h"
-#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
+#include <macgyver/Exception.h>
 #include <map>
 
 #include <boost/lexical_cast.hpp>

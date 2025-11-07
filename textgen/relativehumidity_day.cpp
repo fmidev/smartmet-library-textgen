@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::RelativeHumidityStory::day
+ * \brief Implementation of method TextGen::RelativeHumidityStory::day
  */
 // ======================================================================
 
@@ -19,10 +19,10 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -57,7 +57,8 @@ Paragraph RelativeHumidityStory::day() const
   // Too many days is an error
 
   if (generator.size() != 1)
-    throw Fmi::Exception(BCP, "Cannot use relativehumidity_day story for periods longer than 1 day");
+    throw Fmi::Exception(BCP,
+                         "Cannot use relativehumidity_day story for periods longer than 1 day");
 
   // Exactly one period is fine
 

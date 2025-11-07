@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::WindStory::anomaly
+ * \brief Implementation of method TextGen::WindStory::anomaly
  */
 // ======================================================================
 
@@ -21,10 +21,10 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
@@ -34,9 +34,9 @@
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiStringTools.h>
 
-#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 

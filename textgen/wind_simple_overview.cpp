@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::WindStory::simple_overview
+ * \brief Implementation of method TextGen::WindStory::simple_overview
  */
 // ======================================================================
 
@@ -14,10 +14,10 @@
 #include "WindStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen::WindStoryTools;
 using namespace TextGen;

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::FrostStory::one night
+ * \brief Implementation of method TextGen::FrostStory::one night
  */
 // ======================================================================
 
@@ -24,9 +24,9 @@
 #include <calculator/MathTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim.hpp>
