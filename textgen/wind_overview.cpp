@@ -1158,6 +1158,8 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
               << Fmi::to_simple_string(theWindDataItem.thePeriod.localEndTime().GetDateTime())
               << "</td>";
 
+    auto median = std::lround(theWindDataItem.theWindSpeedMedian.value());
+
     for (unsigned int k = start_index; k < end_index; k++)
     {
       double share = (type == "mean" ? theWindDataItem.getWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
@@ -1166,11 +1168,15 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
                                            (k == 0 ? 0.0 : k - 0.5), (k == 0 ? 0.5 : k + 0.5)));
       std::string cell_effect("<td>");
       if (share > 10.0)
-        cell_effect = "<td BGCOLOR=\"#FF9A9A\">";
+        html_data << "<td BGCOLOR=\"#FF9A9A\">";
       else if (share > 0.0)
-        cell_effect = "<td BGCOLOR=lightgreen>";
-
-      html_data << cell_effect << fixed << setprecision(2) << share << "</td>";
+        html_data << "<td BGCOLOR=lightgreen>";
+      if (k == median)
+        html_data << "<b>";
+      html_data << fixed << setprecision(2) << share;
+      if (k == median)
+        html_data << "</b>";
+      html_data << "</td>";
     }
 
     html_data << std::endl << "</tr>" << std::endl;
