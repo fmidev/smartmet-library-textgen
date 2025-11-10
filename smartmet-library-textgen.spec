@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.11.7
+Version: 25.11.10
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Nov 10 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.10-1.fmi
+- Added median information to distribution tables by printing the share in bold
+
 * Fri Nov  7 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.7-1.fmi
 - Fixed afternoon and evening handling to be consistent (prefer evening from 17 onwards)
 
