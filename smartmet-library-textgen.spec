@@ -112,7 +112,7 @@ FMI textgen development files
 
 %changelog
 * Mon Nov 10 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.10-1.fmi
-- Added median information to distribution tables by printing the share in bold
+- Added median/mean information to distribution tables by printing the share in italic/bold
 
 * Fri Nov  7 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.7-1.fmi
 - Fixed afternoon and evening handling to be consistent (prefer evening from 17 onwards)
