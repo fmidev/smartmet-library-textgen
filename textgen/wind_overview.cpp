@@ -1159,6 +1159,7 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
               << "</td>";
 
     auto median = std::lround(theWindDataItem.theWindSpeedMedian.value());
+    auto mean = std::lround(theWindDataItem.theWindSpeedMean.value());
 
     for (unsigned int k = start_index; k < end_index; k++)
     {
@@ -1171,10 +1172,14 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
         html_data << "<td BGCOLOR=\"#FF9A9A\">";
       else if (share > 0.0)
         html_data << "<td BGCOLOR=lightgreen>";
-      if (k == median)
+      if (k == mean)
         html_data << "<b>";
+      if (k == median)
+        html_data << "<it>";
       html_data << fixed << setprecision(2) << share;
       if (k == median)
+        html_data << "</it>";
+      if (k == mean)
         html_data << "</b>";
       html_data << "</td>";
     }
