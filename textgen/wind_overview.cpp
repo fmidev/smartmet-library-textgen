@@ -1098,6 +1098,7 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
   std::stringstream html_data;
 
   html_data << "<h5>Wind speed distribution - " + type + " wind </h5>" << endl;
+  html_data << "<b>Mean</b> <u>Median</u><br>";
   html_data << "<table border=\"1\">" << endl;
 
   const wind_data_item_vector& theWindDataItemVector(storyParams.theWindDataVector);
@@ -1167,18 +1168,19 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
                                                                          (k == 0 ? 0.5 : k + 0.5))
                                      : theWindDataItem.getTopWindSpeedShare(
                                            (k == 0 ? 0.0 : k - 0.5), (k == 0 ? 0.5 : k + 0.5)));
-      std::string cell_effect("<td>");
       if (share > 10.0)
         html_data << "<td BGCOLOR=\"#FF9A9A\">";
       else if (share > 0.0)
         html_data << "<td BGCOLOR=lightgreen>";
+      else
+        html_data << "<td>";
       if (k == mean)
         html_data << "<b>";
       if (k == median)
-        html_data << "<it>";
+        html_data << "<u>";
       html_data << fixed << setprecision(2) << share;
       if (k == median)
-        html_data << "</it>";
+        html_data << "</u>";
       if (k == mean)
         html_data << "</b>";
       html_data << "</td>";
