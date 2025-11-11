@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.11.10
+Version: 25.11.11
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Nov 11 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.11-1.fmi
+- Added class TimePhrase
+- Added class ExtendedDebugFormetter
+- Improved CssTextFormatter customization
+
 * Mon Nov 10 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.10-1.fmi
 - Added median/mean information to distribution tables by printing the share in italic/bold
 
