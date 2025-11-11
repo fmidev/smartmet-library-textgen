@@ -25,6 +25,7 @@
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
 #include "TimePeriod.h"
+#include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 
@@ -103,6 +104,18 @@ string WmlTextFormatter::visit(const Real& theReal) const
 string WmlTextFormatter::visit(const IntegerRange& theRange) const
 {
   return theRange.realize(*itsDictionary);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a time phrase
+ */
+// ----------------------------------------------------------------------
+
+string WmlTextFormatter::visit(const TimePhrase& theTime) const
+{
+  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+  return ret;
 }
 
 // ----------------------------------------------------------------------

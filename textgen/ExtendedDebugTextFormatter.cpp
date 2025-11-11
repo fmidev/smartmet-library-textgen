@@ -25,6 +25,7 @@
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
 #include "TimePeriod.h"
+#include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 
@@ -91,6 +92,18 @@ string ExtendedDebugTextFormatter::visit(const Real& theReal) const
 string ExtendedDebugTextFormatter::visit(const IntegerRange& theRange) const
 {
   return theRange.realize(itsDictionary);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a time phrase
+ */
+// ----------------------------------------------------------------------
+
+string ExtendedDebugTextFormatter::visit(const TimePhrase& theTime) const
+{
+  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, "", "");
+  return "<timephrase var=\"" + itsSectionVar + "\">\n" + txt + "</timephrase>";
 }
 
 // ----------------------------------------------------------------------

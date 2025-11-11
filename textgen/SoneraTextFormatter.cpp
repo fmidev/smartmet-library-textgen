@@ -35,6 +35,7 @@
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
 #include "TimePeriod.h"
+#include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
@@ -278,6 +279,27 @@ string SoneraTextFormatter::visit(const IntegerRange& theRange) const
   {
     viiva.realize(*this);
     sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
+  }
+
+  return dummy;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a time phrase
+ */
+// ----------------------------------------------------------------------
+
+string SoneraTextFormatter::visit(const TimePhrase& theTime) const
+{
+  static string dummy("sentence");
+  const container_type::size_type oldsize = itsParts.size();
+  sonera_realize(theTime.begin(), theTime.end(), *this, itsParts);
+
+  if (itsParts.size() > oldsize)
+  {
+    static const string var = "textgen::soneraformatter::pause::sentence";
+    addpause(var, itsParts);
   }
 
   return dummy;

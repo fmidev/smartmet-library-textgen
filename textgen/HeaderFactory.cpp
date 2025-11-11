@@ -23,6 +23,7 @@
 #include "IntegerRange.h"
 #include "LocationPhrase.h"
 #include "MessageLogger.h"
+#include "TimePhrase.h"
 #include "WeekdayTools.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
@@ -218,16 +219,18 @@ TextGen::Header header_report_area(const TextGenPosixTime& theForecastTime,
   if (dated || timed)
     header.setForecastTime(theForecastTime);
 
+  TimePhrase timephrase(theForecastTime);
   if (dated)
   {
     if (timed)
-      header << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-             << TextGen::Integer(starthour) << "o'clock";
+      timephrase << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
+                 << TextGen::Integer(starthour) << "o'clock";
     else
-      header << WeekdayTools::on_weekday(thePeriod.localStartTime());
+      timephrase << WeekdayTools::on_weekday(thePeriod.localStartTime());
   }
   else if (timed)
-    header << "kello" << TextGen::Integer(starthour) << "o'clock";
+    timephrase << "kello" << TextGen::Integer(starthour) << "o'clock";
+  header << timephrase;
 
   log << header;
   return header;
@@ -290,8 +293,10 @@ TextGen::Header header_report_time(const TextGenPosixTime& theForecastTime,
 
   const int starthour = thePeriod.localStartTime().GetHour();
 
-  header << "saaennuste" << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-         << TextGen::Integer(starthour) << "o'clock";
+  TimePhrase timephrase(theForecastTime);
+  timephrase << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
+             << TextGen::Integer(starthour) << "o'clock";
+  header << "saaennuste" << timephrase;
 
   log << header;
   return header;

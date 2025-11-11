@@ -25,6 +25,7 @@
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
 #include "TimePeriod.h"
+#include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <boost/lexical_cast.hpp>
 #include <calculator/Settings.h>
@@ -109,6 +110,37 @@ string CssTextFormatter::visit(const IntegerRange& theRange) const
 
 // ----------------------------------------------------------------------
 /*!
+ * \brief Visit a time phrase
+ */
+// ----------------------------------------------------------------------
+
+string CssTextFormatter::visit(const TimePhrase& theTime) const
+{
+  const string css_timeclass =
+      Settings::optional_string(itsSectionVar + "::header::css::time::class", "");
+  const bool css_timefloor =
+      Settings::optional_bool(itsSectionVar + "::header::css::time::floor", true);
+
+  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+
+  // Round local time down to even hour
+  auto ftime = theTime.getForecastTime();
+  if (css_timefloor)
+  {
+    ftime.SetMin(0);
+    ftime.SetSec(0);
+  }
+
+  ostringstream out;
+  out << "<time";
+  if (!css_timeclass.empty())
+    out << " class=\"" << css_timeclass << "\"";
+  out << " datetime=\"" << ftime.ToIsoExtendedStr() << "\">" << txt << "</time>";
+  return out.str();
+}
+
+// ----------------------------------------------------------------------
+/*!
  * \brief Visit a sentence
  */
 // ----------------------------------------------------------------------
@@ -186,8 +218,6 @@ string CssTextFormatter::visit(const Header& theHeader) const
   ostringstream out;
   const string css_tag = Settings::optional_string(itsSectionVar + "::header::css::tag", "div");
   const string css_class = Settings::optional_string(itsSectionVar + "::header::css::class", "");
-  const string css_timeclass =
-      Settings::optional_string(itsSectionVar + "::header::css::timeclass", "");
 
   if (!css_tag.empty())
   {
@@ -195,25 +225,7 @@ string CssTextFormatter::visit(const Header& theHeader) const
     if (!css_class.empty())
       out << " class=\"" << css_class << "\"";
     out << "\">";
-
-    const auto opt_ftime = theHeader.getForecastTime();
-    if (opt_ftime)
-    {
-      // Round down to even hour
-      auto ftime = *opt_ftime;
-      ftime.SetMin(0);
-      ftime.SetSec(0);
-
-      out << "<time";
-      if (!css_timeclass.empty())
-        out << " class=\"" << css_timeclass << "\"";
-
-      out << " datetime=\"" << ftime.ToIsoExtendedStr() << "Z\">";
-    }
-
     out << text << (colon ? ":" : "");
-    if (opt_ftime)
-      out << "</time>";
     out << "</" << css_tag << ">\n";
   }
 
