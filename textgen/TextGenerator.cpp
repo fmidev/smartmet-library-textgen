@@ -264,8 +264,8 @@ void TextGenerator::time(const TextGenPosixTime& theForecastTime)
  * -# For each paragraph name
  *    -# Generate period from textgen::name::period
  *    -# Generate header from textgen::name::header, if it exists
- *    -# Initialize output paragraph
  *    -# Append the header to the document
+ *    -# Initialize output paragraph
  *    -# If there are no subperiods
  *       -# For each story name in textgen::name::content
  *           -# Generate the story

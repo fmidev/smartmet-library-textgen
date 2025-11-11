@@ -185,7 +185,8 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_report_area(const WeatherArea& theArea,
+TextGen::Header header_report_area(const TextGenPosixTime& theForecastTime,
+                                   const WeatherArea& theArea,
                                    const WeatherPeriod& thePeriod,
                                    const string& theVariable)
 {
@@ -213,6 +214,9 @@ TextGen::Header header_report_area(const WeatherArea& theArea,
     header << "saaennuste" << LocationPhrase(theArea.name() + ":lle");
   else
     header << LocationPhrase(theArea.name());
+
+  if (dated || timed)
+    header.setForecastTime(theForecastTime);
 
   if (dated)
   {
@@ -275,12 +279,14 @@ TextGen::Header header_report_location(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_report_time(const WeatherPeriod& thePeriod)
+TextGen::Header header_report_time(const TextGenPosixTime& theForecastTime,
+                                   const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_report_area");
+  MessageLogger log("header_report_time");
   using namespace TextGen;
 
   Header header;
+  header.setForecastTime(theForecastTime);
 
   const int starthour = thePeriod.localStartTime().GetHour();
 
@@ -501,9 +507,9 @@ Header create(const TextGenPosixTime& theForecastTime,
   if (type == "several_days")
     return header_several_days(thePeriod);
   if (type == "report_area")
-    return header_report_area(theArea, thePeriod, theVariable);
+    return header_report_area(theForecastTime, theArea, thePeriod, theVariable);
   if (type == "report_time")
-    return header_report_time(thePeriod);
+    return header_report_time(theForecastTime, thePeriod);
   if (type == "report_location")
     return header_report_location(theArea, thePeriod, theVariable);
   if (type == "morning")

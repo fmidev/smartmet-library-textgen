@@ -26,9 +26,8 @@
 #include "TextFormatterTools.h"
 #include "TimePeriod.h"
 #include "WeatherTime.h"
-#include <calculator/Settings.h>
-
 #include <boost/lexical_cast.hpp>
+#include <calculator/Settings.h>
 #include <set>
 
 using namespace std;
@@ -142,15 +141,15 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
   ostringstream out;
   if (!text.empty())
   {
-    const string css_tag = Settings::optional_string(itsSectionVar + "::css::tag", "div");
-    const string css_class = Settings::optional_string(itsSectionVar + "::css::class", "");
+    const string css_tag = Settings::optional_string(itsSectionVar + "::content::css::tag", "div");
+    const string css_class = Settings::optional_string(itsSectionVar + "::content::css::class", "");
 
     // add tag if class is not empty and starting-tag for the class has not been already defined
     bool addCssTag = !css_class.empty() && !(css_class_set.find(css_class) != css_class_set.end());
 
     if (addCssTag)
     {
-      out << '<' << css_tag << (" class=\"" + css_class + "\"") << ">";
+      out << '<' << css_tag << (" class=\"" + css_class + "\"") << ">\n";
 
       css_class_set.insert(css_class);
     }
@@ -187,14 +186,36 @@ string CssTextFormatter::visit(const Header& theHeader) const
   ostringstream out;
   const string css_tag = Settings::optional_string(itsSectionVar + "::header::css::tag", "div");
   const string css_class = Settings::optional_string(itsSectionVar + "::header::css::class", "");
+  const string css_timeclass =
+      Settings::optional_string(itsSectionVar + "::header::css::timeclass", "");
 
   if (!css_tag.empty())
-    out << "<" << css_tag << (!css_class.empty() ? (" class=\"" + css_class + "\"") : "") << ">\n";
+  {
+    out << "<" << css_tag;
+    if (!css_class.empty())
+      out << " class=\"" << css_class << "\"";
+    out << "\">";
 
-  out << text << (colon ? ":" : "") << "\n";
+    const auto opt_ftime = theHeader.getForecastTime();
+    if (opt_ftime)
+    {
+      // Round down to even hour
+      auto ftime = *opt_ftime;
+      ftime.SetMin(0);
+      ftime.SetSec(0);
 
-  if (!css_tag.empty())
+      out << "<time";
+      if (!css_timeclass.empty())
+        out << " class=\"" << css_timeclass << "\"";
+
+      out << " datetime=\"" << ftime.ToIsoExtendedStr() << "Z\">";
+    }
+
+    out << text << (colon ? ":" : "");
+    if (opt_ftime)
+      out << "</time>";
     out << "</" << css_tag << ">\n";
+  }
 
   return out.str();
 }
@@ -209,16 +230,22 @@ string CssTextFormatter::visit(const Document& theDocument) const
 {
   ostringstream out;
 
-  //	out << "<head>\n";
-  //	out << "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" />\n";
-  //	out << "</head>\n\n";
-
   const string css_class = Settings::optional_string("textgen::css::class", "forecast");
+  const string css_tag = Settings::optional_string("textgen::css::tag", "div");
+  string css_id = Settings::optional_string("textgen::css::id", "${AREA}");
 
-  out << "<div class=\"" << css_class << "\">\n\n";
+  if (!css_id.empty())
+    boost::algorithm::replace_all(css_id, "${AREA}", itsArea);
+
+  out << "<" << css_tag;
+  if (!css_id.empty())
+    out << " id=\"" << css_id << "\"";
+  if (!css_class.empty())
+    out << " class=\"" << css_class << "\"";
+  out << ">\n";
 
   out << TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n", "");
-  out << "\n</div>";
+  out << "\n</" << css_tag << ">";
 
   return out.str();
 }
@@ -276,21 +303,22 @@ string CssTextFormatter::visit(const StoryTag& theStory) const
   const string css_tag = Settings::optional_string(itsStoryVar + "::css::tag", "span");
   const string css_class = Settings::optional_string(itsStoryVar + "::css::class", "");
 
-  if (theStory.isPrefixTag())
+  if (!css_tag.empty())
   {
-    if (!css_tag.empty())
+    if (theStory.isPrefixTag())
     {
+      auto txt = TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+
       out << '<' << css_tag;
       if (!css_class.empty())
         out << " class=\"" << css_class << "\"";
-      out << ">\n";
+      out << ">";
+      out << txt;
     }
-    out << TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-  }
-  else
-  {
-    if (!css_tag.empty())
+    else
+    {
       out << "</" << css_tag << ">";
+    }
   }
 
   return out.str();

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <calculator/TextGenPosixTime.h>
 #include <memory>
 #include <string>
 
@@ -56,9 +57,13 @@ class TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const = 0;
 
   void setProductName(const std::string& theProductName) { itsProductName = theProductName; }
+  void setAreaName(const std::string& theArea) { itsArea = theArea; }
+  void setForecastTime(const TextGenPosixTime theTime) { itsTime = theTime; }
 
  protected:
   std::string itsProductName;
+  std::string itsArea;
+  TextGenPosixTime itsTime;
 
 };  // class TextFormatter
 }  // namespace TextGen
