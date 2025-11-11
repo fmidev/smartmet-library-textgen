@@ -24,6 +24,7 @@
 #include "TextFormatterFactory.h"
 #include "CssTextFormatter.h"
 #include "DebugTextFormatter.h"
+#include "ExtendedDebugTextFormatter.h"
 #include "HtmlTextFormatter.h"
 #include "PlainLinesTextFormatter.h"
 #include "PlainTextFormatter.h"
@@ -71,6 +72,8 @@ TextFormatter* create(const std::string& theType)
     return new SoneraTextFormatter();
   if (theType == "debug")
     return new DebugTextFormatter();
+  if (theType == "extended-debug")
+    return new ExtendedDebugTextFormatter();
   throw Fmi::Exception(BCP, "Error: Unknown text formatter type " + theType);
 }
 
