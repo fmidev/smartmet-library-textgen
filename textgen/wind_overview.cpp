@@ -1067,6 +1067,12 @@ std::string get_html_winddirection_distribution(
               << Fmi::to_simple_string(theWindDataItem.thePeriod.localEndTime().GetDateTime())
               << "</td>";
 
+    // Which index is the mean at?
+    float mean = theWindDataItem.theCorrectedWindDirection.value();
+    unsigned int steps = (compass_type == sixteen_directions ? 16 : 8);
+    float step = 360.0 / steps;
+    unsigned int mean_idx = static_cast<int>((mean + step / 2) / step) % steps + POHJOINEN;
+
     for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE;
          i += (compass_type == sixteen_directions ? 1 : 2))
     {
@@ -1077,12 +1083,17 @@ std::string get_html_winddirection_distribution(
         cell_effect = "<td bgcolor=\"#FF9A9A\">";
       else if (share > 0.0)
         cell_effect = "<td bgcolor=lightgreen>";
-      html_data << cell_effect << fixed << setprecision(2) << share << "</td>";
+      html_data << cell_effect;
+      if (i == mean_idx)
+        html_data << "<b>";
+      html_data << fixed << setprecision(2) << share;
+      if (i == mean_idx)
+        html_data << "</b>";
+      html_data << "</td>";
     }
 
-    float direction(theWindDataItem.theCorrectedWindDirection.value());
-    html_data << "<td>" << fixed << setprecision(2) << direction << "("
-              << get_direction_abbreviation(direction, compass_type) << ")</td>" << std::endl
+    html_data << "<td>" << fixed << setprecision(2) << mean << "("
+              << get_direction_abbreviation(mean, compass_type) << ")</td>" << std::endl
               << "<td>" << fixed << setprecision(2) << theWindDataItem.theWindDirection.error()
               << "</td>" << std::endl
               << "</tr>" << std::endl;
