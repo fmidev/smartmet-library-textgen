@@ -219,18 +219,18 @@ part_of_the_day_id get_part_of_the_day_id_wind(const TextGenPosixTime& theTime)
 {
   int hour = theTime.GetHour();
 
-  //  if (hour == 23 || hour <= 2) return KESKIYO;
+  // Note the reversed order. The periods overlap, and we prefer the later period name
 
-  if (hour >= KESKIYO_START && hour < AAMU_START)
-    return AAMUYO;
-  if (hour >= AAMU_START && hour < AAMUPAIVA_START)
-    return AAMU;
-  if (hour >= AAMUPAIVA_START && hour < ILTAPAIVA_START)
-    return AAMUPAIVA;
   if (hour >= ILTA_START && hour <= YO_START)
     return ILTA;
   if (hour >= ILTAPAIVA_START && hour <= ILTAPAIVA_END)
     return ILTAPAIVA;
+  if (hour >= AAMUPAIVA_START && hour < ILTAPAIVA_START)
+    return AAMUPAIVA;
+  if (hour >= AAMU_START && hour < AAMUPAIVA_START)
+    return AAMU;
+  if (hour >= KESKIYO_START && hour < AAMU_START)
+    return AAMUYO;
   return ILTAYO;
 }
 
