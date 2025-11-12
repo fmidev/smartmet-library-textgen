@@ -2862,7 +2862,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   {
     // replace keskiyo with aamuyo
     tps.replace(tps.find("keskiyo"), 7, "aamuyo");
-    if (forecastPeriodLength > 6 && !isdigit(tps[0]))
+    if (specifyDay && forecastPeriodLength > 6 && !isdigit(tps[0]))
     {
       timePhraseInfo.day_number = thePeriod.localEndTime().GetWeekday();
       tps.insert(0, (Fmi::to_string(timePhraseInfo.day_number) + "-"));
