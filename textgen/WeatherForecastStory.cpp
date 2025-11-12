@@ -1097,8 +1097,8 @@ Sentence WeatherForecastStoryItem::getTodayVectorSentence(const vector<Sentence*
 }
 
 // special treatment, because 06:00 can be aamuyö and morning, depends weather the period starts
-// or
-// ends
+// or ends
+
 std::string WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(
     bool theFromSpecifier, const WeatherPeriod& thePhrasePeriod)
 {
