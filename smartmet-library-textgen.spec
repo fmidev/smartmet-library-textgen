@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.11.11
+Version: 25.11.12
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,14 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Nov 12 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.12-1.fmi
+- Fixed wind timephrases to obey the weekdays=false setting
+- Mofied wind direction distribution colouring to be more informative
+- Prefer later time descriptions when periods overlap
+- Header time description improvements
+- Fixed TimePhrase debug formatting
+- Fixed wind timephrases to obey the weekdays=false setting
+
 * Tue Nov 11 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.11-1.fmi
 - Added class TimePhrase
 - Added class ExtendedDebugFormetter
