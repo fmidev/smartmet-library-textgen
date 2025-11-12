@@ -1004,6 +1004,7 @@ std::string get_html_winddirection_distribution(
             << (compass_type == sixteen_directions ? "16-compass" : "8-compass") << "</h5>" << endl;
   html_data << R"(<font face="Serif" size="2" color="darkblue">)" << endl;
   html_data << "<p>" << endl;
+
   if (compass_type == sixteen_directions)
   {
     html_data << "N=348.75-11.25 / n-ne=11.25-33.75 / NE=33.75-56.25 / "
@@ -1054,6 +1055,8 @@ std::string get_html_winddirection_distribution(
   const vector<unsigned int>& theIndexVector(
       storyParams.originalWindDataIndexes(storyParams.theArea.type()));
 
+  const double share_limit = (compass_type == sixteen_directions ? 10.0 : 20.0);
+
   for (unsigned int index : theIndexVector)
   {
     const WindDataItemUnit& theWindDataItem =
@@ -1069,11 +1072,11 @@ std::string get_html_winddirection_distribution(
     {
       double share = theWindDataItem.getWindDirectionShare(
           static_cast<WindDirectionId>(i), storyParams.theWindDirectionMinSpeed, compass_type);
-      std::string cell_effect("<td>");
-      if (share > 50.0)
-        cell_effect = "<td BGCOLOR=\"#FF9A9A\">";
+      std::string cell_effect = "<td>";
+      if (share >= share_limit)
+        cell_effect = "<td bgcolor=\"#FF9A9A\">";
       else if (share > 0.0)
-        cell_effect = "<td BGCOLOR=lightgreen>";
+        cell_effect = "<td bgcolor=lightgreen>";
       html_data << cell_effect << fixed << setprecision(2) << share << "</td>";
     }
 
