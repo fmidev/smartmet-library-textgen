@@ -35,13 +35,23 @@ std::string until_weekday_afternoon(const TextGenPosixTime& theTime,
                                     const TextGenPosixTime& theForecastTime);
 std::string until_weekday_evening(const TextGenPosixTime& theTime,
                                   const TextGenPosixTime& theForecastTime);
+std::string until_weekday_before_midnight(const TextGenPosixTime& theTime,
+                                          const TextGenPosixTime& theForecastTime);
 std::string until_weekday_time(const TextGenPosixTime& theTime,
                                const TextGenPosixTime& theForecastTime);
 
 std::string from_weekday(const TextGenPosixTime& theTime);
+std::string from_weekday_midnight(const TextGenPosixTime& theTime);
+std::string from_weekday_after_midnight(const TextGenPosixTime& theTime);
 std::string from_weekday_morning(const TextGenPosixTime& theTime);
+std::string from_weekday_noon(const TextGenPosixTime& theTime);
+std::string from_weekday_afternoon(const TextGenPosixTime& theTime);
 std::string from_weekday_evening(const TextGenPosixTime& theTime);
+std::string from_weekday_before_midnight(const TextGenPosixTime& theTime);
 std::string from_weekday_time(const TextGenPosixTime& theTime);
+std::string from_weekday_time(const TextGenPosixTime& theTime,
+                              const TextGenPosixTime& theForecastTime);
+
 std::string on_weekday_morning(const TextGenPosixTime& theTime);
 std::string on_weekday_forenoon(const TextGenPosixTime& theTime);
 std::string on_weekday_afternoon(const TextGenPosixTime& theTime);

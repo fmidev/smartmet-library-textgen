@@ -14,10 +14,10 @@
 
 #include "WeekdayTools.h"
 #include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
-#include <macgyver/Exception.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherHistory.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 
@@ -25,10 +25,24 @@ namespace TextGen
 {
 namespace WeekdayTools
 {
+bool is_midnight_hour(int hour)
+{
+  return hour == 0;
+}
+
+bool is_after_midnight_hour(int hour)
+{
+  return hour > 0 && hour < 4;
+}
 
 bool is_morning_hour(int hour)
 {
   return hour >= 4 && hour <= 8;
+}
+
+bool is_forenoon_hour(int hour)
+{
+  return hour >= 9 && hour <= 11;
 }
 
 bool is_noon_hour(int hour)
@@ -43,7 +57,12 @@ bool is_afternoon_hour(int hour)
 
 bool is_evening_hour(int hour)
 {
-  return hour >= 18 && hour <= 22;
+  return hour >= 17 && hour <= 21;
+}
+
+bool is_before_midnight_hour(int hour)
+{
+  return hour >= 22;
 }
 
 // ----------------------------------------------------------------------
@@ -223,6 +242,16 @@ std::string until_weekday_evening(const TextGenPosixTime& theTime,
   return until_weekday_evening(theTime);
 }
 
+std::string until_weekday_before_midnight(const TextGenPosixTime& theTime,
+                                          const TextGenPosixTime& theForecastTime)
+{
+  if (TimeTools::isSameDay(theForecastTime, theTime))
+    return "iltayohon asti";
+  //  if (TimeTools::isNextDay(theForecastTime, theTime))
+  // return "huomiseen iltayohon";
+  return until_weekday_evening(theTime);
+}
+
 std::string until_weekday_time(const TextGenPosixTime& theTime,
                                const TextGenPosixTime& theForecastTime)
 {
@@ -238,6 +267,9 @@ std::string until_weekday_time(const TextGenPosixTime& theTime,
 
   if (is_evening_hour(hour))
     return until_weekday_evening(theTime, theForecastTime);
+
+  if (is_before_midnight_hour(hour))
+    return until_weekday_before_midnight(theTime, theForecastTime);
 
   const string msg =
       "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan, -iltapaivaan or "
@@ -264,6 +296,36 @@ string from_weekday(const TextGenPosixTime& theTime)
 
 // ----------------------------------------------------------------------
 /*!
+ * \brief Return the "N-keskiyosta" phrase
+ *
+ * \param theTime The time
+ * \return The "N-keskiyosta" phrase
+ */
+// ----------------------------------------------------------------------
+
+string from_weekday_midnight(const TextGenPosixTime& theTime)
+{
+  string out = (std::to_string(theTime.GetWeekday()) + "-keskiyosta");
+  return out;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the "N-aamuyosta" phrase
+ *
+ * \param theTime The time
+ * \return The "N-aamuyosta" phrase
+ */
+// ----------------------------------------------------------------------
+
+string from_weekday_after_midnight(const TextGenPosixTime& theTime)
+{
+  string out = (std::to_string(theTime.GetWeekday()) + "-aamuyosta");
+  return out;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * \brief Return the "N-aamusta" phrase
  *
  * \param theTime The time
@@ -274,6 +336,21 @@ string from_weekday(const TextGenPosixTime& theTime)
 string from_weekday_morning(const TextGenPosixTime& theTime)
 {
   string out = (std::to_string(theTime.GetWeekday()) + "-aamusta");
+  return out;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the "N-aamupaivasta" phrase
+ *
+ * \param theTime The time
+ * \return The "N-aamupaivasta" phrase
+ */
+// ----------------------------------------------------------------------
+
+string from_weekday_forenoon(const TextGenPosixTime& theTime)
+{
+  string out = (std::to_string(theTime.GetWeekday()) + "-aamupaivasta");
   return out;
 }
 
@@ -294,6 +371,21 @@ string from_weekday_noon(const TextGenPosixTime& theTime)
 
 // ----------------------------------------------------------------------
 /*!
+ * \brief Return the "N-iltapaivasta" phrase
+ *
+ * \param theTime The time
+ * \return The "N-iltapaivasta" phrase
+ */
+// ----------------------------------------------------------------------
+
+string from_weekday_afternoon(const TextGenPosixTime& theTime)
+{
+  string out = (std::to_string(theTime.GetWeekday()) + "-iltapaivasta");
+  return out;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * \brief Return the "N-illasta" phrase
  *
  * \param theTime The time
@@ -309,6 +401,21 @@ string from_weekday_evening(const TextGenPosixTime& theTime)
 
 // ----------------------------------------------------------------------
 /*!
+ * \brief Return the "N-iltayosta" phrase
+ *
+ * \param theTime The time
+ * \return The "N-iltayosta" phrase
+ */
+// ----------------------------------------------------------------------
+
+string from_weekday_before_midnight(const TextGenPosixTime& theTime)
+{
+  string out = (std::to_string(theTime.GetWeekday()) + "-iltayosta");
+  return out;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * \brief Return the "N-aamusta" or "N-illasta" phrase
  *
  * \param theTime The time
@@ -319,18 +426,101 @@ string from_weekday_evening(const TextGenPosixTime& theTime)
 string from_weekday_time(const TextGenPosixTime& theTime)
 {
   const int hour = theTime.GetHour();
+  if (is_midnight_hour(hour))
+    return from_weekday_midnight(theTime);
+
+  if (is_after_midnight_hour(hour))
+    return from_weekday_after_midnight(theTime);
+
   if (is_morning_hour(hour))
     return from_weekday_morning(theTime);
+
+  if (is_forenoon_hour(hour))
+    return from_weekday_forenoon(theTime);
+
   if (is_noon_hour(hour))
     return from_weekday_noon(theTime);
+
+  if (is_afternoon_hour(hour))
+    return from_weekday_afternoon(theTime);
+
   if (is_evening_hour(hour))
     return from_weekday_evening(theTime);
 
-  const string msg =
-      "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta "
-      "phrase for hour " +
-      std::to_string(hour);
-  throw Fmi::Exception(BCP, msg);
+  return from_weekday_before_midnight(theTime);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the "aamusta", "huomisaamusta", "N-aamusta" or "N-illasta" phrase
+ *
+ * \param theTime The time
+ * \param theForecastTime The forecast time
+ * \return The phrase
+ */
+// ----------------------------------------------------------------------
+
+string from_weekday_time(const TextGenPosixTime& theTime, const TextGenPosixTime& theForecastTime)
+{
+  const int hour = theTime.GetHour();
+
+  bool sameday = TimeTools::isSameDay(theForecastTime, theTime);
+
+  // if (TimeTools::isNextDay(theForecastTime, theTime))
+  // return "huomisaamuun asti";
+
+  if (is_midnight_hour(hour))
+  {
+    if (sameday)
+      return "keskiyosta";
+    return from_weekday_midnight(theTime);
+  }
+
+  if (is_after_midnight_hour(hour))
+  {
+    if (sameday)
+      return "aamuyosta";
+    return from_weekday_after_midnight(theTime);
+  }
+
+  if (is_morning_hour(hour))
+  {
+    if (sameday)
+      return "aamusta";
+    return from_weekday_morning(theTime);
+  }
+
+  if (is_forenoon_hour(hour))
+  {
+    if (sameday)
+      return "aamupaivasta";
+    return from_weekday_forenoon(theTime);
+  }
+
+  if (is_noon_hour(hour))
+  {
+    if (sameday)
+      return "keskipaivasta";
+    return from_weekday_noon(theTime);
+  }
+
+  if (is_afternoon_hour(hour))
+  {
+    if (sameday)
+      return "iltapaivasta";
+    return from_weekday_afternoon(theTime);
+  }
+
+  if (is_evening_hour(hour))
+  {
+    if (sameday)
+      return "illasta";
+    return from_weekday_evening(theTime);
+  }
+
+  if (sameday)
+    return "iltayosta";
+  return from_weekday_before_midnight(theTime);
 }
 
 // ----------------------------------------------------------------------

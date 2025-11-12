@@ -121,7 +121,8 @@ TextGen::Header header_from_until(const TextGenPosixTime& theForecastTime,
   using namespace TextGen;
   Header header;
 
-  header << "odotettavissa" << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
+  header << "odotettavissa"
+         << WeekdayTools::from_weekday_time(thePeriod.localStartTime(), theForecastTime)
          << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
   log << header;
@@ -135,8 +136,9 @@ TextGen::Header header_from_until_weekday(const TextGenPosixTime& theForecastTim
   using namespace TextGen;
   Header header;
 
-  header << "odotettavissa" << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
-         << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
+  header << "odotettavissa"
+         << WeekdayTools::from_weekday_time(thePeriod.localStartTime(), theForecastTime)
+         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
   log << header;
   return header;
