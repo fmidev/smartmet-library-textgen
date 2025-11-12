@@ -102,7 +102,7 @@ string DebugTextFormatter::visit(const IntegerRange& theRange) const
 
 string DebugTextFormatter::visit(const TimePhrase& theTime) const
 {
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, "", "");
+  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
   return ret;
 }
 

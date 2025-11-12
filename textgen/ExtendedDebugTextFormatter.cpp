@@ -102,7 +102,7 @@ string ExtendedDebugTextFormatter::visit(const IntegerRange& theRange) const
 
 string ExtendedDebugTextFormatter::visit(const TimePhrase& theTime) const
 {
-  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, "", "");
+  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
   return "<timephrase var=\"" + itsSectionVar + "\">\n" + txt + "</timephrase>";
 }
 
