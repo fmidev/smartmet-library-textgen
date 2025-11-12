@@ -6,16 +6,14 @@
 #include "SpecialStory.h"
 #include "Story.h"
 #include "StoryTag.h"
+#include <boost/locale.hpp>
 #include <calculator/Settings.h>
-#include <regression/tframe.h>
-
 #include <newbase/NFmiSettings.h>
-
+#include <regression/tframe.h>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
-
-#include <boost/locale.hpp>
 
 using namespace std;
 using namespace boost;
@@ -42,7 +40,7 @@ void require(const TextGen::Story& theStory,
 
   if (value != theExpected)
   {
-    const string msg = "'" + value + "' <> '" + theExpected + "'";
+    const string msg = "'" + value + "' <> '" + theExpected;
     TEST_FAILED(msg.c_str());
   }
 }
@@ -69,18 +67,18 @@ void css_text()
 
   Settings::set("text::value", "This is the value of the string.");
 
-  require(story, "fi", fun, "<span>\nThis is the value of the string.\n</span>\n", "text");
-  require(story, "sv", fun, "<span>\nThis is the value of the string.\n</span>\n", "text");
-  require(story, "en", fun, "<span>\nThis is the value of the string.\n</span>\n", "text");
+  require(story, "fi", fun, "<span>This is the value of the string.\n</span>\n", "text");
+  require(story, "sv", fun, "<span>This is the value of the string.\n</span>\n", "text");
+  require(story, "en", fun, "<span>This is the value of the string.\n</span>\n", "text");
 
   Settings::set("text::value", "@data/special_text.fi");
-  require(story, "fi", fun, "<span>\n\nSuomenkielinen teksti.\n</span>\n");
+  require(story, "fi", fun, "<span>\nSuomenkielinen teksti.\n</span>\n");
 
   Settings::set("text::value", "@data/special_text.en");
-  require(story, "fi", fun, "<span>\n\nEnglish text.\n</span>\n");
+  require(story, "fi", fun, "<span>\nEnglish text.\n</span>\n");
 
   Settings::set("text::value", "@data/special_text.php");
-  require(story, "fi", fun, "<span>\n\nSuomenkieltä PHP-ohjelmasta\n</span>\n");
+  require(story, "fi", fun, "<span>\nSuomenkieltä PHP-ohjelmasta\n</span>\n");
 
   TEST_PASSED();
 }
