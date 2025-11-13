@@ -248,7 +248,7 @@ class GlyphContainer;
 
 #define KESKIYO_START 0
 #define KESKIYO_END 3
-#define AAMUYO_START 2
+#define AAMUYO_START 3
 #define AAMUYO_END 6
 #define AAMU_START 6
 #define AAMU_END 9
