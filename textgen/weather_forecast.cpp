@@ -39,12 +39,12 @@
 #include <calculator/ParameterAnalyzer.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiCombinedParam.h>
 #include <newbase/NFmiFastQueryInfo.h>
@@ -1159,7 +1159,7 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   // Period generator
   const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
 
-  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime();
+  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << '\n';
 
   TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
   TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
@@ -1253,7 +1253,7 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
   // Period generator
   const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
 
-  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime();
+  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << '\n';
 
   TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
   TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
