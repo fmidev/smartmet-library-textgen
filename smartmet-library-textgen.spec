@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.11.12
+Version: 25.11.13
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Nov 13 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.13-1.fmi
+- Fixed "aamuyo" to start from 3 a.m., not 2 a.m.
+
 * Wed Nov 12 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.12-1.fmi
 - Fixed wind timephrases to obey the weekdays=false setting
 - Mofied wind direction distribution colouring to be more informative
