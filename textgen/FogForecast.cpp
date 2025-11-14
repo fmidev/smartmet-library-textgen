@@ -904,7 +904,7 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
     Sentence todayPhrase;
 
     if (thePeriod.localEndTime().DifferenceInHours(
-            theParameters.theForecastPeriod.localStartTime()) > 24)
+            theParameters.theForecastPeriod.localStartTime()) >= 24)
     {
       todayPhrase << PeriodPhraseFactory::create("today",
                                                  theParameters.theVariable,
@@ -916,8 +916,8 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
 
     vector<std::string> theStringVector;
 
-    bool specifyDay =
-        get_period_length(theParameters.theForecastPeriod) > 24 && !todayPhrase.empty();
+    bool specifyDay = !TimeTools::isSameDay(theParameters.theForecastPeriod.localStartTime(),
+                                            thePeriod.localStartTime());
 
     std::string dayPhasePhrase;
     part_of_the_day_id id;
@@ -978,7 +978,7 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
     Sentence todayPhrase;
 
     if (thePeriod.localEndTime().DifferenceInHours(
-            theParameters.theForecastPeriod.localStartTime()) > 24)
+            theParameters.theForecastPeriod.localStartTime()) >= 24)
     {
       todayPhrase << PeriodPhraseFactory::create("today",
                                                  theParameters.theVariable,
@@ -987,8 +987,9 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
                                                  theParameters.theArea);
     }
 
-    bool specifyDay =
-        get_period_length(theParameters.theForecastPeriod) > 24 && !todayPhrase.empty();
+    bool specifyDay = !TimeTools::isSameDay(theParameters.theForecastPeriod.localStartTime(),
+                                            thePeriod.localStartTime());
+
     std::string dayPhasePhrase;
     part_of_the_day_id id;
     get_time_phrase_large(
