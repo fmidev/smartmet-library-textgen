@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.11.13
+Version: 25.11.14
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Nov 14 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.14-1.fmi
+- Fixes to time period handling
+
 * Thu Nov 13 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.13-1.fmi
 - Fixed "aamuyo" to start from 3 a.m., not 2 a.m.
 
