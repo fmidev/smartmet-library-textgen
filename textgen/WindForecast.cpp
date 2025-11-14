@@ -3237,38 +3237,39 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
   }
   else if (id1 == AAMUYO)
   {
-    if (id2 == KESKIYO)
+    if (id2 == KESKIYO || id2 == YO)
       return true;
   }
   else if (id1 == AAMU)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO)
+    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO)
       return true;
   }
   else if (id1 == AAMUPAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU)
+    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU)
       return true;
   }
   else if (id1 == KESKIPAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA)
+    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA)
       return true;
   }
   else if (id1 == ILTAPAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA || id2 == KESKIPAIVA)
+    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA ||
+        id2 == KESKIPAIVA)
       return true;
   }
   else if (id1 == ILTA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA || id2 == KESKIPAIVA ||
-        id2 == ILTAPAIVA)
+    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA ||
+        id2 == KESKIPAIVA || id2 == ILTAPAIVA)
       return true;
   }
   else if (id1 == PAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU)
+    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU)
       return true;
   }
 
