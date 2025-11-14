@@ -3294,8 +3294,9 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePerio
 
     if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
     {
-      if (timePhraseInfo.starttime.GetDay() == intervalInfo.peakWindTime.GetDay() &&
-          is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
+      if (timePhraseInfo.starttime.GetDay() != intervalInfo.peakWindTime.GetDay())
+        timePhraseInfo = tpi;
+      else if (is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
         timePhraseInfo = tpi;
       else
         timePhrase.clear();
@@ -3327,8 +3328,9 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
 
     if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
     {
-      if (timePhraseInfo.starttime.GetDay() == intervalInfo.peakWindTime.GetDay() &&
-          is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
+      if (timePhraseInfo.starttime.GetDay() != intervalInfo.peakWindTime.GetDay())
+        timePhraseInfo = tpi;
+      else if (is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
         timePhraseInfo = tpi;
       else
         timePhrase.clear();
