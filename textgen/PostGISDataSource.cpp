@@ -102,7 +102,7 @@ bool PostGISDataSource::readData(const std::string& host,
     }
 
     // get spatial reference
-    OGRSpatialReference* pLayerSRS = pLayer->GetSpatialRef();
+    const OGRSpatialReference* pLayerSRS = pLayer->GetSpatialRef();
     OGRCoordinateTransformation* pCoordinateTransform(nullptr);
     OGRSpatialReference targetTransformSRS;
     if (pLayerSRS)
