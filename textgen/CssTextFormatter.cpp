@@ -224,7 +224,7 @@ string CssTextFormatter::visit(const Header& theHeader) const
     out << "<" << css_tag;
     if (!css_class.empty())
       out << " class=\"" << css_class << "\"";
-    out << "\">";
+    out << '>';
     out << text << (colon ? ":" : "");
     out << "</" << css_tag << ">\n";
   }
