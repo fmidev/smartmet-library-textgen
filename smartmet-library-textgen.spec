@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.11.14
-Release: 2%{?dist}.fmi
+Version: 25.12.1
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -26,12 +26,12 @@ BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 25.11.7
-BuildRequires: smartmet-library-macgyver-devel >= 25.11.5
+BuildRequires: smartmet-library-macgyver-devel >= 25.11.20
 BuildRequires: smartmet-library-newbase-devel >= 25.3.20
 BuildRequires: smartmet-library-gis-devel >= 25.9.15
 Requires: gdal310-libs
 Requires: smartmet-library-calculator >= 25.11.7
-Requires: smartmet-library-macgyver >= 25.11.5
+Requires: smartmet-library-macgyver >= 25.11.20
 Requires: smartmet-library-newbase >= 25.3.20
 
 %if 0%{?rhel} && 0%{rhel} == 8
@@ -63,7 +63,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 25.11.7
-#TestRequires: smartmet-library-macgyver-devel >= 25.11.5
+#TestRequires: smartmet-library-macgyver-devel >= 25.11.20
 #TestRequires: smartmet-library-newbase-devel >= 25.3.20
 #TestRequires: smartmet-library-gis-devel >= 25.9.15
 #TestRequires: smartmet-library-regression
@@ -111,6 +111,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Dec  1 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.1-1.fmi
+- Some fine tuning to period start and end time descriptions (QDTOOLS-275)
+- Fixed syntax error in the output of CssFormatter
+
 * Fri Nov 14 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.11.14-2.fmi
 - Improved peak wind time phrase handling
 
