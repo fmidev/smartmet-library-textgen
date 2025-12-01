@@ -35,12 +35,22 @@ bool is_after_midnight_hour(int hour)
   return hour > 0 && hour < 4;
 }
 
-bool is_morning_hour(int hour)
+bool start_is_morning_hour(int hour)
 {
   return hour >= 4 && hour <= 8;
 }
 
-bool is_forenoon_hour(int hour)
+bool end_is_morning_hour(int hour)
+{
+  return hour >= 6 && hour <= 8;
+}
+
+bool start_is_forenoon_hour(int hour)
+{
+  return hour >= 9 && hour <= 11;
+}
+
+bool end_is_forenoon_hour(int hour)
 {
   return hour >= 9 && hour <= 11;
 }
@@ -50,14 +60,24 @@ bool is_noon_hour(int hour)
   return hour == 12;
 }
 
-bool is_afternoon_hour(int hour)
+bool start_is_afternoon_hour(int hour)
 {
   return hour >= 13 && hour <= 16;
 }
 
-bool is_evening_hour(int hour)
+bool end_is_afternoon_hour(int hour)
+{
+  return hour >= 14 && hour <= 17;
+}
+
+bool start_is_evening_hour(int hour)
 {
   return hour >= 17 && hour <= 21;
+}
+
+bool end_is_evening_hour(int hour)
+{
+  return hour >= 17 && hour <= 20;
 }
 
 bool is_before_midnight_hour(int hour)
@@ -182,16 +202,16 @@ string until_weekday_evening(const TextGenPosixTime& theTime)
 string until_weekday_time(const TextGenPosixTime& theTime)
 {
   const int hour = theTime.GetHour();
-  if (is_morning_hour(hour))
+  if (end_is_morning_hour(hour))
     return until_weekday_morning(theTime);
 
   if (is_noon_hour(hour))
     return until_weekday_noon(theTime);
 
-  if (is_afternoon_hour(hour))
+  if (end_is_afternoon_hour(hour))
     return until_weekday_afternoon(theTime);
 
-  if (is_evening_hour(hour))
+  if (end_is_evening_hour(hour))
     return until_weekday_evening(theTime);
 
   const string msg =
@@ -256,16 +276,16 @@ std::string until_weekday_time(const TextGenPosixTime& theTime,
                                const TextGenPosixTime& theForecastTime)
 {
   const int hour = theTime.GetHour();
-  if (is_morning_hour(hour))
+  if (end_is_morning_hour(hour))
     return until_weekday_morning(theTime, theForecastTime);
 
   if (is_noon_hour(hour))
     return until_weekday_noon(theTime, theForecastTime);
 
-  if (is_afternoon_hour(hour))
+  if (end_is_afternoon_hour(hour))
     return until_weekday_afternoon(theTime, theForecastTime);
 
-  if (is_evening_hour(hour))
+  if (end_is_evening_hour(hour))
     return until_weekday_evening(theTime, theForecastTime);
 
   if (is_before_midnight_hour(hour))
@@ -432,19 +452,19 @@ string from_weekday_time(const TextGenPosixTime& theTime)
   if (is_after_midnight_hour(hour))
     return from_weekday_after_midnight(theTime);
 
-  if (is_morning_hour(hour))
+  if (start_is_morning_hour(hour))
     return from_weekday_morning(theTime);
 
-  if (is_forenoon_hour(hour))
+  if (start_is_forenoon_hour(hour))
     return from_weekday_forenoon(theTime);
 
   if (is_noon_hour(hour))
     return from_weekday_noon(theTime);
 
-  if (is_afternoon_hour(hour))
+  if (start_is_afternoon_hour(hour))
     return from_weekday_afternoon(theTime);
 
-  if (is_evening_hour(hour))
+  if (start_is_evening_hour(hour))
     return from_weekday_evening(theTime);
 
   return from_weekday_before_midnight(theTime);
@@ -483,14 +503,14 @@ string from_weekday_time(const TextGenPosixTime& theTime, const TextGenPosixTime
     return from_weekday_after_midnight(theTime);
   }
 
-  if (is_morning_hour(hour))
+  if (start_is_morning_hour(hour))
   {
     if (sameday)
       return "aamusta";
     return from_weekday_morning(theTime);
   }
 
-  if (is_forenoon_hour(hour))
+  if (start_is_forenoon_hour(hour))
   {
     if (sameday)
       return "aamupaivasta";
@@ -504,14 +524,14 @@ string from_weekday_time(const TextGenPosixTime& theTime, const TextGenPosixTime
     return from_weekday_noon(theTime);
   }
 
-  if (is_afternoon_hour(hour))
+  if (start_is_afternoon_hour(hour))
   {
     if (sameday)
       return "iltapaivasta";
     return from_weekday_afternoon(theTime);
   }
 
-  if (is_evening_hour(hour))
+  if (start_is_evening_hour(hour))
   {
     if (sameday)
       return "illasta";
@@ -641,9 +661,9 @@ string until_weekday_evening(const TextGenPosixTime& theTime, TextGen::WeatherHi
 string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
 {
   const int hour = theTime.GetHour();
-  if (is_morning_hour(hour))
+  if (end_is_morning_hour(hour))
     return until_weekday_morning(theTime, theHistory);
-  if (is_evening_hour(hour))
+  if (end_is_evening_hour(hour))
     return until_weekday_evening(theTime, theHistory);
 
   const string msg =
@@ -673,9 +693,9 @@ string from_weekday_evening(const TextGenPosixTime& theTime, TextGen::WeatherHis
 string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
 {
   const int hour = theTime.GetHour();
-  if (is_morning_hour(hour))
+  if (start_is_morning_hour(hour))
     return from_weekday_morning(theTime, theHistory);
-  if (is_evening_hour(hour))
+  if (start_is_evening_hour(hour))
     return from_weekday_evening(theTime, theHistory);
 
   const string msg =
