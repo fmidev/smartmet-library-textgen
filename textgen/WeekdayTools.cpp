@@ -77,7 +77,7 @@ bool start_is_evening_hour(int hour)
 
 bool end_is_evening_hour(int hour)
 {
-  return hour >= 17 && hour <= 20;
+  return hour >= 17 && hour <= 21;
 }
 
 bool is_before_midnight_hour(int hour)
