@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 25.12.2
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Dec  2 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.2-2.fmi
+- Fixed handling of "until Saturday evening" type titles
+
 * Tue Dec  2 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.2-1.fmi
 - Improvements to Weekdaytools: added support for forecasts ending at some forenoon
 
