@@ -147,6 +147,21 @@ string until_weekday_morning(const TextGenPosixTime& theTime)
 
 // ----------------------------------------------------------------------
 /*!
+ * \brief Return the "N-aamupaivaan" phrase
+ *
+ * \param theTime The time
+ * \return The "N-aamupaivaan" phrase
+ */
+// ----------------------------------------------------------------------
+
+string until_weekday_forenoon(const TextGenPosixTime& theTime)
+{
+  string out = (std::to_string(theTime.GetWeekday()) + "-aamupaivaan asti");
+  return out;
+}
+
+// ----------------------------------------------------------------------
+/*!
  * \brief Return the "N-keskipaivaan" phrase
  *
  * \param theTime The time
@@ -205,6 +220,9 @@ string until_weekday_time(const TextGenPosixTime& theTime)
   if (end_is_morning_hour(hour))
     return until_weekday_morning(theTime);
 
+  if (end_is_forenoon_hour(hour))
+    return until_weekday_forenoon(theTime);
+
   if (is_noon_hour(hour))
     return until_weekday_noon(theTime);
 
@@ -229,6 +247,16 @@ std::string until_weekday_morning(const TextGenPosixTime& theTime,
     return "aamuun asti";
   if (TimeTools::isNextDay(theForecastTime, theTime))
     return "huomisaamuun asti";
+  return until_weekday_morning(theTime);
+}
+
+std::string until_weekday_forenoon(const TextGenPosixTime& theTime,
+                                   const TextGenPosixTime& theForecastTime)
+{
+  if (TimeTools::isSameDay(theForecastTime, theTime))
+    return "aamupaivaan asti";
+  if (TimeTools::isNextDay(theForecastTime, theTime))
+    return "huomisaamupaivaan asti";
   return until_weekday_morning(theTime);
 }
 
@@ -278,6 +306,9 @@ std::string until_weekday_time(const TextGenPosixTime& theTime,
   const int hour = theTime.GetHour();
   if (end_is_morning_hour(hour))
     return until_weekday_morning(theTime, theForecastTime);
+
+  if (end_is_forenoon_hour(hour))
+    return until_weekday_forenoon(theTime, theForecastTime);
 
   if (is_noon_hour(hour))
     return until_weekday_noon(theTime, theForecastTime);
