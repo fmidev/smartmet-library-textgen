@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.12.1
+Version: 25.12.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Dec  2 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.2-1.fmi
+- Improvements to Weekdaytools: added support for forecasts ending at some forenoon
+
 * Mon Dec  1 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.1-1.fmi
 - Some fine tuning to period start and end time descriptions (QDTOOLS-275)
 - Fixed syntax error in the output of CssFormatter
