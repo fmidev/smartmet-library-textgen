@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.12.2
-Release: 2%{?dist}.fmi
+Version: 25.12.4
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Dec  4 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.4-1.fmi
+- Added a CSS specific colon setting
+
 * Tue Dec  2 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.2-2.fmi
 - Fixed handling of "until Saturday evening" type titles
 
