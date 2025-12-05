@@ -924,7 +924,7 @@ Paragraph RoadStory::condition_overview() const
 
   const WeatherPeriod fullperiod(time1, time2);
 
-  log << "Analysis period is " << time1 << " ... " << time2 << endl;
+  log << "Analysis period is " << time1 << " ... " << time2 << '\n';
 
   // Calculate the results for each period
 
@@ -932,7 +932,7 @@ Paragraph RoadStory::condition_overview() const
 
   if (generator.size() == 0)
   {
-    log << "Analysis period is too short!" << endl;
+    log << "Analysis period is too short!\n";
     log << paragraph;
     return paragraph;
   }
@@ -946,7 +946,7 @@ Paragraph RoadStory::condition_overview() const
 
   DebugTextFormatter formatter;
 
-  log << "Individual period results:" << endl;
+  log << "Individual period results:\n";
   for (unsigned int i = 1; i <= generator.size(); i++)
   {
     const WeatherPeriod period = generator.period(i);
@@ -962,10 +962,10 @@ Paragraph RoadStory::condition_overview() const
     realizations.push_back(realization);
 
     log << period.localStartTime() << " ... " << period.localEndTime() << ": " << realization
-        << endl;
+        << '\n';
 
     for (int j = min_condition; j <= max_condition; j++)
-      log << '\t' << condition_name(RoadConditionType(j)) << '\t' << result[j] << " %" << endl;
+      log << '\t' << condition_name(RoadConditionType(j)) << '\t' << result[j] << " %\n";
   }
 
   // Algorithm:

@@ -57,7 +57,7 @@ Paragraph PrecipitationStory::total() const
 
   WeatherResultTools::checkMissingValue("precipitation_totsl", Precipitation, result);
 
-  log << "Precipitation Mean(Sum) " << result << endl;
+  log << "Precipitation Mean(Sum) " << result << '\n';
 
   sentence << "sadesumma" << Integer(static_cast<int>(round(result.value())))
            << *UnitFactory::create(Millimeters);

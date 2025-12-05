@@ -75,8 +75,8 @@ Paragraph PrecipitationStory::range() const
   WeatherResultTools::checkMissingValue(
       "precipitation_range", Precipitation, {minresult, maxresult});
 
-  log << "Precipitation Minimum(Sum) " << minresult << endl;
-  log << "Precipitation Maximum(Sum) " << maxresult << endl;
+  log << "Precipitation Minimum(Sum) " << minresult << '\n';
+  log << "Precipitation Maximum(Sum) " << maxresult << '\n';
 
   const int minrain = static_cast<int>(round(minresult.value()));
   const int maxrain = static_cast<int>(round(maxresult.value()));

@@ -22,11 +22,11 @@
  * DatabaseDictionary finnish;
  * finnish.init("fi");
  *
- * cout << finnish.find("good morning") << endl;
- * cout << finnish.find("good night") << endl;
+ * cout << finnish.find("good morning") << '\n';
+ * cout << finnish.find("good night") << '\n';
  *
  * if(finnish.contains("good night"))
- *    cout << finnish.find("good night") << endl;
+ *    cout << finnish.find("good night") << '\n';
  * \endcode
  *
  * Note that find throws if the given keyword does not exist.
@@ -132,7 +132,8 @@ void DatabaseDictionary::init(const std::string& theLanguage)
   }
   catch (...)
   {
-    throw Fmi::Exception(BCP, "Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
+    throw Fmi::Exception(
+        BCP, "Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
   }
 }
 
@@ -171,8 +172,9 @@ const std::string& DatabaseDictionary::find(const std::string& theKey) const
 
   if (it != itsPimple->itsData.end())
     return it->second;
-  throw Fmi::Exception(BCP, "Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
-                     itsPimple->itsLanguage);
+  throw Fmi::Exception(BCP,
+                       "Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
+                           itsPimple->itsLanguage);
 }
 
 // ----------------------------------------------------------------------

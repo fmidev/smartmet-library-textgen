@@ -18,9 +18,9 @@
 
 #include "NullMaskSource.h"
 
-#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiIndexMask.h>
 
 using namespace std;

@@ -107,9 +107,9 @@ Paragraph PrecipitationStory::daily_sums() const
                                                   DefaultAcceptor(),
                                                   rainlimits);
 
-    log << "Precipitation Minimum(Sum) for day " << day << " = " << minresult << endl;
-    log << "Precipitation Maximum(Sum) for day " << day << " = " << maxresult << endl;
-    log << "Precipitation Mean(Sum) for day " << day << " = " << meanresult << endl;
+    log << "Precipitation Minimum(Sum) for day " << day << " = " << minresult << '\n';
+    log << "Precipitation Maximum(Sum) for day " << day << " = " << maxresult << '\n';
+    log << "Precipitation Mean(Sum) for day " << day << " = " << meanresult << '\n';
 
     WeatherResultTools::checkMissingValue(
         "precipitation_daily_sums", Precipitation, {minresult, maxresult, meanresult});

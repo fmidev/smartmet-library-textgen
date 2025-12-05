@@ -224,14 +224,14 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     storyParams.theWindDirectionPeriods.push_back(period);
   }
 
-  storyParams.theLog << "** ORIGINAL DIRECTION PERIODS **" << std::endl;
+  storyParams.theLog << "** ORIGINAL DIRECTION PERIODS **\n";
 
   for (const WeatherPeriod& p : storyParams.theWindDirectionPeriods)
   {
     WindDirectionInfo wdi = get_wind_direction(storyParams, p);
 
     storyParams.theLog << as_string(p) << " -> " << wind_direction_string(wdi.id) << ", "
-                       << as_string(wdi.direction) << std::endl;
+                       << as_string(wdi.direction) << '\n';
   }
 }
 
@@ -438,7 +438,7 @@ std::ostream& operator<<(std::ostream& theOutput,
 {
   theOutput << theWindSpeedPeriodDataItem.thePeriod.localStartTime() << " ... "
             << theWindSpeedPeriodDataItem.thePeriod.localEndTime() << ": "
-            << wind_speed_string(theWindSpeedPeriodDataItem.theWindSpeedId) << endl;
+            << wind_speed_string(theWindSpeedPeriodDataItem.theWindSpeedId) << '\n';
 
   return theOutput;
 }
@@ -448,7 +448,7 @@ std::ostream& operator<<(std::ostream& theOutput,
 {
   theOutput << theWindDirectionPeriodDataItem.thePeriod.localStartTime() << " ... "
             << theWindDirectionPeriodDataItem.thePeriod.localEndTime() << ": "
-            << wind_direction_string(theWindDirectionPeriodDataItem.theWindDirection) << endl;
+            << wind_direction_string(theWindDirectionPeriodDataItem.theWindDirection) << '\n';
 
   return theOutput;
 }
@@ -456,13 +456,13 @@ std::ostream& operator<<(std::ostream& theOutput,
 std::ostream& operator<<(std::ostream& theOutput,
                          const WindEventPeriodDataItem& theWindEventPeriodDataItem)
 {
-  theOutput << endl
-            << "thePeriod: " << as_string(theWindEventPeriodDataItem.thePeriod) << endl
+  theOutput << '\n'
+            << "thePeriod: " << as_string(theWindEventPeriodDataItem.thePeriod) << '\n'
             << "theWindSpeedChangePeriod: "
-            << as_string(theWindEventPeriodDataItem.theWindSpeedChangePeriod) << endl
+            << as_string(theWindEventPeriodDataItem.theWindSpeedChangePeriod) << '\n'
             << "theWindEvent: " << get_wind_event_string(theWindEventPeriodDataItem.theWindEvent)
-            << endl
-            << endl;
+            << '\n'
+            << '\n';
 
   return theOutput;
 }
@@ -482,7 +482,7 @@ void print_wiki_table(const WeatherArea& theArea,
 
   output_file << "|| aika || min || max || ka, k-hajonta || maksimituuli || puuska || suunta || "
                  "suunnan k-hajonta || fraasi ||"
-              << endl;
+              << '\n';
 
   for (auto* i : theWindDataItemVector)
   {
@@ -501,7 +501,7 @@ void print_wiki_table(const WeatherArea& theArea,
     output_file << directed16_speed_string(theWindDataItem.theWindSpeedMean,
                                            theWindDataItem.theCorrectedWindDirection,
                                            theVar)
-                << " |" << endl;
+                << " |\n";
   }
 }
 
@@ -540,7 +540,7 @@ void print_csv_table(const WeatherArea& theArea,
   for (unsigned int i = 0; i < number_of_columns; i++)
     if (theColumnSelectionBitset.test(number_of_columns - i - 1))
       output_file << column_names[i];
-  output_file << endl;
+  output_file << '\n';
 
   for (unsigned int index : theIndexVector)
   {
@@ -608,7 +608,7 @@ void print_csv_table(const WeatherArea& theArea,
                  theWindDataItem.theCorrectedWindDirection,  // theWindDataItem.theWindDirection,
                  theVar);
     }
-    output_file << endl;
+    output_file << '\n';
   }
 }
 
@@ -638,7 +638,7 @@ void print_windspeed_distribution(const WeatherArea& theArea,
     else
       output_file << ", " << i + 1 << " m/s";
   }
-  output_file << endl;
+  output_file << '\n';
 
   for (unsigned int index : theIndexVector)
   {
@@ -651,7 +651,7 @@ void print_windspeed_distribution(const WeatherArea& theArea,
       output_file << ", ";
       output_file << fixed << setprecision(2) << theWindDataItem.getWindSpeedShare(k, k + 1);
     }
-    output_file << endl;
+    output_file << '\n';
   }
 }
 
@@ -679,7 +679,7 @@ void print_winddirection_distribution(const WeatherArea& theArea,
   }
   output_file << ", ";
   output_file << "keskihajonta";
-  output_file << endl;
+  output_file << '\n';
 
   for (unsigned int index : theIndexVector)
   {
@@ -697,7 +697,7 @@ void print_winddirection_distribution(const WeatherArea& theArea,
     }
     output_file << ", ";
     output_file << fixed << setprecision(2) << theWindDataItem.theWindDirection.error();
-    output_file << endl;
+    output_file << '\n';
   }
 }
 
@@ -717,8 +717,8 @@ void print_html_table(const WeatherArea::Type& theAreaType,
     throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
   }
 
-  output_file << "<h1>" << get_area_type_string(theAreaType) << "</h1>" << endl;
-  output_file << "<table border=\"1\">" << endl;
+  output_file << "<h1>" << get_area_type_string(theAreaType) << "</h1>\n";
+  output_file << "<table border=\"1\">\n";
 
   const char* column_names[] = {"aika",
                                 "min",
@@ -735,7 +735,7 @@ void print_html_table(const WeatherArea::Type& theAreaType,
                                 "suunnan k-hajonta",
                                 "fraasi"};
 
-  output_file << "<tr>" << endl;
+  output_file << "<tr>\n";
   const unsigned int number_of_columns = 14;
   for (unsigned int i = 0; i < number_of_columns; i++)
     if (theColumnSelectionBitset.test(number_of_columns - i - 1))
@@ -744,98 +744,98 @@ void print_html_table(const WeatherArea::Type& theAreaType,
       output_file << column_names[i];
       output_file << "</td>";
     }
-  output_file << "</tr>" << endl;
+  output_file << "</tr>\n";
 
   for (unsigned int index : theIndexVector)
   {
-    output_file << "<tr>" << endl;
+    output_file << "<tr>\n";
     const WindDataItemUnit& theWindDataItem = (*theWindDataItemVector[index])(theAreaType);
     if (theColumnSelectionBitset.test(13))
     {
       output_file << "<td style=\"white-space: nowrap;\">";
       output_file << theWindDataItem.thePeriod.localEndTime();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(12))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindSpeedMin.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(11))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindSpeedMax.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(10))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindSpeedMedian.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(9))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theEqualizedMedianWind.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(8))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindSpeedMean.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(7))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindSpeedMean.error();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(6))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theGustSpeed.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(5))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindSpeedTop.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(4))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theEqualizedTopWind.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(3))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theCorrectedWindDirection.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(2))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theEqualizedWindDirection.value();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(1))
     {
       output_file << "<td>";
       output_file << fixed << setprecision(2) << theWindDataItem.theWindDirection.error();
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
     if (theColumnSelectionBitset.test(0))
     {
       output_file << "<td style=\"white-space: nowrap;\">";
       output_file << directed16_speed_string(
           theWindDataItem.theWindSpeedMean, theWindDataItem.theCorrectedWindDirection, theVar);
-      output_file << "</td>" << endl;
+      output_file << "</td>\n";
     }
-    output_file << "</tr>" << endl;
+    output_file << "</tr>\n";
   }  // for
 
   output_file << "</table>";
@@ -886,14 +886,14 @@ std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
 {
   std::stringstream csv_data;
   if (param.empty())
-    csv_data << std::endl
+    csv_data << '\n'
              << "time,min,max,eq-max,median,eq-median,top-wind,eq-top-wind,wind-calc,gust,"
                 "direction,direction-sdev,eq-direction"
-             << std::endl;
+             << '\n';
   else if (param == "windspeed")
-    csv_data << std::endl << "time,median,eq-median,top-wind,eq-top-wind,wind-calc" << std::endl;
+    csv_data << "\ntime,median,eq-median,top-wind,eq-top-wind,wind-calc\n";
   else if (param == "winddirection")
-    csv_data << std::endl << "time,direction,eq-direction" << std::endl;
+    csv_data << "\ntime,direction,eq-direction\n";
 
   WeatherArea::Type areaType(storyParams.theWeatherAreas[0].type());
 
@@ -934,7 +934,7 @@ std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
                << windDataItem.theEqualizedWindDirection.value();
     }
 
-    csv_data << std::endl;
+    csv_data << '\n';
   }
 
   return csv_data.str();
@@ -944,18 +944,18 @@ std::string get_html_rawdata(wo_story_params& storyParams)
 {
   std::stringstream html_data;
 
-  html_data << "<h5>Summary data</h5>" << endl;
-  html_data << "<table border=\"1\">" << endl;
+  html_data << "<h5>Summary data</h5>\n";
+  html_data << "<table border=\"1\">\n";
 
-  html_data << std::endl
-            << "<tr>" << std::endl
+  html_data << '\n'
+            << "<tr>\n"
             << "<td>time</td><td>min</td><td>max</td><td>eq-max</td><td>median</td><td "
                "BGCOLOR=lightgreen>eq-median</td><td>mean</td><td>sdev</td><td>top-wind</td><td "
                "BGCOLOR=lightgreen>eq-top-wind</td><td "
                "BGCOLOR=gold>wind-calc</td><td>gust</td><td>direction</td><td>direction-sdev</"
                "td><td BGCOLOR=lightblue>eq-direction</td>"
-            << std::endl
-            << "</tr>" << std::endl;
+            << '\n'
+            << "</tr>\n";
 
   WeatherArea::Type areaType(storyParams.theWeatherAreas[0].type());
 
@@ -986,11 +986,11 @@ std::string get_html_rawdata(wo_story_params& storyParams)
         << "<td>" << fixed << setprecision(2) << windDataItem.theCorrectedWindDirection.error()
         << "</td>"
         << "<td BGCOLOR=lightblue>" << fixed << setprecision(2)
-        << windDataItem.theEqualizedWindDirection.value() << "</td>" << std::endl
-        << "</tr>" << std::endl;
+        << windDataItem.theEqualizedWindDirection.value() << "</td>\n"
+        << "</tr>\n";
   }
 
-  html_data << "</table>" << std::endl;
+  html_data << "</table>\n";
 
   return html_data.str();
 }
@@ -1001,9 +1001,9 @@ std::string get_html_winddirection_distribution(
   std::stringstream html_data;
 
   html_data << "<h5>Wind direction distribution - "
-            << (compass_type == sixteen_directions ? "16-compass" : "8-compass") << "</h5>" << endl;
-  html_data << R"(<font face="Serif" size="2" color="darkblue">)" << endl;
-  html_data << "<p>" << endl;
+            << (compass_type == sixteen_directions ? "16-compass" : "8-compass") << "</h5>\n";
+  html_data << R"(<font face="Serif" size="2" color="darkblue">\n)";
+  html_data << "<p>\n";
 
   if (compass_type == sixteen_directions)
   {
@@ -1011,44 +1011,44 @@ std::string get_html_winddirection_distribution(
                  "ne-e=56.25-78.75 / "
                  "E=78.75-101.25 / e-se=101.25-123.75 / SE=123.75-146.25 / "
                  "se-s=146.25-168.75</br>"
-              << endl;
+              << '\n';
     html_data << "S=168.75-191.25 / s-sw=191.25-213.75 / SW=213.75-236.25 / "
                  "sw-w=236.25-258.75 / "
                  "W=258.75-281.25 / w-nw=281.25-303.75 / NW=303.75-326.25 / "
                  "nw-n=326.25-348.75</br>"
-              << endl;
+              << '\n';
   }
   else
   {
     html_data << "N=337.50-22.50 / NE=22.20-67.50 / E=67.50-112.50 SE=112.50-157.50 / "
                  "S=157.50-202.50</br>"
-              << endl;
-    html_data << "SW=202.50-247.50 W=247.50-292.50 NW=292.50-337.50</br>" << endl;
+              << '\n';
+    html_data << "SW=202.50-247.50 W=247.50-292.50 NW=292.50-337.50</br>\n";
   }
 
-  html_data << "</p>" << endl;
-  html_data << "</font>" << endl;
-  html_data << "<table border=\"1\">" << endl;
+  html_data << "</p>\n";
+  html_data << "</font>\n";
+  html_data << "<table border=\"1\">\n";
 
   if (compass_type == sixteen_directions)
   {
-    html_data << std::endl
-              << "<tr>" << std::endl
+    html_data << '\n'
+              << "<tr>\n"
               << "<td>time</td><td>N</td><td>n-ne</td><td>NE</td><td>ne-e</td><td>E</"
                  "td><td>e-se</td><td>SE</td><td>se-s</td><td>S</td><td>s-sw</td><td>SW</"
                  "td><td>sw-w</td><td>W</td><td>w-nw</td><td>NW</"
                  "td><td>nw-n</td><td>mean</td><td>sdev</td>"
-              << std::endl
-              << "</tr>" << std::endl;
+              << '\n'
+              << "</tr>\n";
   }
   else
   {
-    html_data << std::endl
-              << "<tr>" << std::endl
+    html_data << '\n'
+              << "<tr>\n"
               << "<td>time</td><td>N</td><td>NE</td><td>E</td><td>SE</td><td>S</td><td>SW</"
                  "td><td>W</td><td>NW</td><td>mean</td><td>sdev</td>"
-              << std::endl
-              << "</tr>" << std::endl;
+              << '\n'
+              << "</tr>\n";
   }
 
   const wind_data_item_vector& theWindDataItemVector(storyParams.theWindDataVector);
@@ -1062,7 +1062,7 @@ std::string get_html_winddirection_distribution(
     const WindDataItemUnit& theWindDataItem =
         (*theWindDataItemVector[index])(storyParams.theArea.type());
 
-    html_data << "<tr>" << std::endl
+    html_data << "<tr>\n"
               << "<td>"
               << Fmi::to_simple_string(theWindDataItem.thePeriod.localEndTime().GetDateTime())
               << "</td>";
@@ -1093,13 +1093,13 @@ std::string get_html_winddirection_distribution(
     }
 
     html_data << "<td>" << fixed << setprecision(2) << mean << "("
-              << get_direction_abbreviation(mean, compass_type) << ")</td>" << std::endl
+              << get_direction_abbreviation(mean, compass_type) << ")</td>\n"
               << "<td>" << fixed << setprecision(2) << theWindDataItem.theWindDirection.error()
-              << "</td>" << std::endl
-              << "</tr>" << std::endl;
+              << "</td>\n"
+              << "</tr>\n";
   }
 
-  html_data << "</table>" << std::endl;
+  html_data << "</table>\n";
 
   return html_data.str();
 }
@@ -1111,9 +1111,9 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
 
   std::stringstream html_data;
 
-  html_data << "<h5>Wind speed distribution - " + type + " wind </h5>" << endl;
+  html_data << "<h5>Wind speed distribution - " + type + " wind </h5>\n";
   html_data << "<b>Mean</b> <u>Median</u><br>";
-  html_data << "<table border=\"1\">" << endl;
+  html_data << "<table border=\"1\">\n";
 
   const wind_data_item_vector& theWindDataItemVector(storyParams.theWindDataVector);
   const vector<unsigned int>& theIndexVector(
@@ -1160,15 +1160,15 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
     // otsikkorivi
     if (i == 0)
     {
-      html_data << std::endl << "<tr>" << std::endl << "<td>time</td>";
+      html_data << "\n<tr>\n<td>time</td>";
       for (unsigned int k = start_index; k < end_index; k++)
         html_data << "<td>" << k << "m/s</td>";
-      html_data << std::endl << "</tr>" << std::endl;
+      html_data << "\n</tr>\n";
     }
 
     // datarivit
-    html_data << std::endl
-              << "<tr>" << std::endl
+    html_data << '\n'
+              << "<tr>\n"
               << "<td>"
               << Fmi::to_simple_string(theWindDataItem.thePeriod.localEndTime().GetDateTime())
               << "</td>";
@@ -1200,10 +1200,10 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
       html_data << "</td>";
     }
 
-    html_data << std::endl << "</tr>" << std::endl;
+    html_data << "\n</tr>\n";
   }
 
-  html_data << "</table>" << std::endl;
+  html_data << "</table>\n";
 
   return html_data.str();
 }
@@ -1213,12 +1213,11 @@ std::string get_js_code(std::size_t js_id, bool addExternalScripts, unsigned int
   std::stringstream js_code;
 
   if (addExternalScripts)
-    js_code << std::endl
-            << "<script src=\"https://code.jquery.com/jquery-1.12.0.min.js\"></script>" << std::endl
-            << "<script src=\"https://code.highcharts.com/highcharts.js\"></script>" << std::endl
-            << "<script src=\"https://code.highcharts.com/modules/data.js\"></script>" << std::endl
-            << "<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>"
-            << std::endl;
+    js_code << '\n'
+            << "<script src=\"https://code.jquery.com/jquery-1.12.0.min.js\"></script>\n"
+            << "<script src=\"https://code.highcharts.com/highcharts.js\"></script>\n"
+            << "<script src=\"https://code.highcharts.com/modules/data.js\"></script>\n"
+            << "<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>" << '\n';
 
   js_code << "<script>"
              "$(function () {"
@@ -1280,7 +1279,7 @@ std::string get_js_code(std::size_t js_id, bool addExternalScripts, unsigned int
              "});"
              "});"
              "</script>"
-          << std::endl;
+          << '\n';
 
   return js_code.str();
 }
@@ -1291,12 +1290,10 @@ std::string get_js_data(wo_story_params& storyParams, const std::string& param, 
 
   js_data << "<div id=\""
           << std::string(param.empty() || param == "windspeed" ? "ws_container" : "wd_container")
-          << js_id << R"(" style="min-width: 310px; height: 400px; margin: 0 auto"></div>)"
-          << std::endl
-          << std::endl
-          << "<pre id=\"csv" << js_id << R"(" style="display:none">)" << std::endl
-          << get_csv_data(storyParams, param) << std::endl
-          << "</pre>" << std::endl;
+          << js_id << R"(" style="min-width: 310px; height: 400px; margin: 0 auto"></div>\n\n)"
+          << "<pre id=\"csv" << js_id << R"(" style="display:none">\n)"
+          << get_csv_data(storyParams, param) << '\n'
+          << "</pre>\n";
 
   return js_data.str();
 }
@@ -1306,10 +1303,10 @@ void generate_csv_file(wo_story_params& storyParams)
   for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
   {
     std::stringstream csv_data;
-    csv_data << std::endl
+    csv_data << '\n'
              << "time,min,max,eq-max,median,eq-median,mean,sdev,top-wind,eq-top-wind,direction,"
                 "direction-sdev,eq-direction,gust"
-             << std::endl;
+             << '\n';
 
     WeatherArea::Type areaType(storyParams.theWeatherAreas[k].type());
 
@@ -1330,7 +1327,7 @@ void generate_csv_file(wo_story_params& storyParams)
                << windDataItem.theCorrectedWindDirection.value() << ", " << fixed << setprecision(4)
                << windDataItem.theCorrectedWindDirection.error() << ", " << fixed << setprecision(4)
                << windDataItem.theEqualizedWindDirection.value() << ", " << fixed << setprecision(4)
-               << windDataItem.theGustSpeed.value() << std::endl;
+               << windDataItem.theGustSpeed.value() << '\n';
     }
 
     std::string csv_filename =
@@ -1352,7 +1349,7 @@ void log_raw_data(wo_story_params& storyParams)
     WeatherArea::Type areaType(storyParams.theWeatherAreas[k].type());
     std::string areaIdentifier(get_area_type_string(areaType));
 
-    storyParams.theLog << "*********** RAW DATA (" << areaIdentifier << ") ***********" << endl;
+    storyParams.theLog << "*********** RAW DATA (" << areaIdentifier << ") ***********\n";
 
     for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
     {
@@ -1365,7 +1362,7 @@ void log_raw_data(wo_story_params& storyParams)
       printDataItem(ss, windDataItem, storyParams.theWindDirectionMinSpeed);
       storyParams.theLog << ss.str();
 
-      storyParams.theLog << "; fraasi: " << wind_direction_string(windDirectionId) << endl;
+      storyParams.theLog << "; fraasi: " << wind_direction_string(windDirectionId) << '\n';
     }
   }
 }
@@ -1378,9 +1375,9 @@ void log_windirection_distribution(wo_story_params& storyParams)
       storyParams.originalWindDataIndexes(storyParams.theArea.type()));
 
   stringstream ss;
-  ss << endl
+  ss << '\n'
      << std::setw(75) << std::setfill('*') << " WINDDIRECTION DISTRIBUTION "
-     << storyParams.theArea.name() << " " << std::setw(50) << std::setfill('*') << " " << endl;
+     << storyParams.theArea.name() << " " << std::setw(50) << std::setfill('*') << " \n";
 
   ss << std::setw(31) << std::setfill(' ') << std::right << "POH" << std::setw(12)
      << std::setfill(' ') << std::right << "KOI" << std::setw(12) << std::setfill(' ') << std::right
@@ -1388,7 +1385,7 @@ void log_windirection_distribution(wo_story_params& storyParams)
      << std::setfill(' ') << std::right << "ETE" << std::setw(12) << std::setfill(' ') << std::right
      << "LOU" << std::setw(12) << std::setfill(' ') << std::right << "LÄN" << std::setw(12)
      << std::setfill(' ') << std::right << "LUO" << std::setw(12) << std::setfill(' ') << std::right
-     << "hajonta" << endl;
+     << "hajonta\n";
 
   for (unsigned int index : theIndexVector)
   {
@@ -1406,10 +1403,10 @@ void log_windirection_distribution(wo_story_params& storyParams)
     }
 
     ss << std::setw(6) << std::setfill(' ') << std::fixed << std::right << setprecision(2)
-       << theWindDataItem.theWindDirection.error() << endl;
+       << theWindDataItem.theWindDirection.error() << '\n';
   }
 
-  storyParams.theLog << ss.str() << endl;
+  storyParams.theLog << ss.str() << '\n';
 }
 
 void log_wind_data_vector(wo_story_params& storyParams,
@@ -1421,7 +1418,7 @@ void log_wind_data_vector(wo_story_params& storyParams,
     const WindDataItemUnit& windDataItem = (*storyParams.theWindDataVector[index])(areaType);
     std::stringstream ss;
     printDataItem(ss, windDataItem, storyParams.theWindDirectionMinSpeed);
-    storyParams.theLog << ss.str() << " " << std::endl;
+    storyParams.theLog << ss.str() << " \n";
   }
 }
 
@@ -1433,7 +1430,7 @@ void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
     std::string areaIdentifier(get_area_type_string(areaType));
 
     storyParams.theLog << "*********** EQUALIZED MEDIAN WIND SPEED DATA (" << areaIdentifier
-                       << ") ***********" << endl;
+                       << ") ***********\n";
 
     const vector<unsigned int>& indexVector = storyParams.equalizedWSIndexesMedian(areaType);
 
@@ -1446,7 +1443,7 @@ void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
     std::string areaIdentifier(get_area_type_string(areaType));
 
     storyParams.theLog << "*********** EQUALIZED MAXIMUM WIND SPEED DATA (" << areaIdentifier
-                       << ") ***********" << endl;
+                       << ") ***********\n";
 
     vector<unsigned int>& indexVector = storyParams.equalizedWSIndexesMaxWind(areaType);
 
@@ -1459,7 +1456,7 @@ void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
     std::string areaIdentifier(get_area_type_string(areaType));
 
     storyParams.theLog << "*********** EQUALIZED TOP WIND SPEED DATA (" << areaIdentifier
-                       << ") ***********" << endl;
+                       << ") ***********\n";
 
     vector<unsigned int>& indexVector = storyParams.equalizedWSIndexesTopWind(areaType);
 
@@ -1475,7 +1472,7 @@ void log_equalized_wind_direction_data_vector(wo_story_params& storyParams)
     std::string areaIdentifier(get_area_type_string(areaType));
 
     storyParams.theLog << "*********** EQUALIZED WIND DIRECTION DATA (" << areaIdentifier
-                       << ") ***********" << endl;
+                       << ") ***********\n";
 
     vector<unsigned int>& indexVector = storyParams.equalizedWDIndexes(areaType);
 
@@ -1485,7 +1482,7 @@ void log_equalized_wind_direction_data_vector(wo_story_params& storyParams)
 
 void log_wind_speed_periods(wo_story_params& storyParams)
 {
-  storyParams.theLog << "*********** WIND SPEED PERIODS ***********" << endl;
+  storyParams.theLog << "*********** WIND SPEED PERIODS ***********\n";
   for (unsigned int i = 0; i < storyParams.theWindSpeedVector.size(); i++)
   {
     storyParams.theLog << *(storyParams.theWindSpeedVector[i]);
@@ -1494,7 +1491,7 @@ void log_wind_speed_periods(wo_story_params& storyParams)
 
 void log_wind_direction_periods(wo_story_params& storyParams)
 {
-  storyParams.theLog << "*********** WIND DIRECTION PERIODS ***********" << endl;
+  storyParams.theLog << "*********** WIND DIRECTION PERIODS ***********\n";
   for (unsigned int i = 0; i < storyParams.theWindDirectionVector.size(); i++)
   {
     storyParams.theLog << *(storyParams.theWindDirectionVector[i]);
@@ -1503,7 +1500,7 @@ void log_wind_direction_periods(wo_story_params& storyParams)
 
 void log_wind_event_periods(wo_story_params& storyParams)
 {
-  storyParams.theLog << "*********** WIND EVENT PERIODS ***********" << endl;
+  storyParams.theLog << "*********** WIND EVENT PERIODS ***********\n";
 
   wind_event_period_data_item_vector windEventPeriodVector;
   windEventPeriodVector.insert(windEventPeriodVector.end(),
@@ -1530,7 +1527,7 @@ void log_wind_event_periods(wo_story_params& storyParams)
       storyParams.theLog << ": " << fixed << setprecision(2) << medianWindBeg << "..." << fixed
                          << setprecision(2) << maxWindBeg << " -> " << fixed << setprecision(2)
                          << medianWindEnd << "..." << fixed << setprecision(2) << maxWindEnd
-                         << endl;
+                         << '\n';
     }
     else if (windEventId == TUULI_KAANTYY || windEventId == TUULI_MUUTTUU_VAIHTELEVAKSI ||
              windEventId == MISSING_WIND_DIRECTION_EVENT)
@@ -1546,11 +1543,11 @@ void log_wind_event_periods(wo_story_params& storyParams)
           directionEnd, speedEnd, storyParams.theVar, storyParams.theWindDirectionMinSpeed);
 
       storyParams.theLog << ": " << wind_direction_string(directionIdBeg) << "->"
-                         << wind_direction_string(directionIdEnd) << endl;
+                         << wind_direction_string(directionIdEnd) << '\n';
     }
     else
     {
-      storyParams.theLog << " " << endl;
+      storyParams.theLog << " \n";
     }
   }
 }
@@ -1868,7 +1865,7 @@ bool populate_time_series(wo_story_params& storyParams)
   storyParams.theLog << "Top wind is " << (storyParams.theWeakTopWind ? "weak" : "NOT weak")
                      << " at period " << as_string(storyParams.theForecastPeriod) << ", " << fixed
                      << setprecision(2) << topWindAboveWeakShare << "% is above "
-                     << storyParams.theWindSpeedWarningThreshold << " m/s" << std::endl;
+                     << storyParams.theWindSpeedWarningThreshold << " m/s\n";
 
   // get calculated wind speed
   for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
@@ -2733,7 +2730,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
                              << as_string(newPeriod1) << " -> "
                              << get_wind_event_string(p->theWindEvent) << " and "
                              << as_string(newPeriod2) << " -> "
-                             << get_wind_event_string(newWindEvent) << std::endl;
+                             << get_wind_event_string(newWindEvent) << '\n';
           break;
         }
       }
@@ -2784,7 +2781,7 @@ void check_first_period(wo_story_params& storyParams)
   if (storyParams.theWindSpeedEventPeriodVector.empty())
   {
     storyParams.theLog << "Error: size of storyParams.theWindSpeedEventPeriodVector is zero!!"
-                       << std::endl;
+                       << '\n';
     return;
   }
 
@@ -3596,7 +3593,7 @@ Paragraph WindStory::overview() const
   if (itsArea.isNamed())
   {
     areaName = itsArea.name();
-    logger << "** " << areaName << " **" << endl;
+    logger << "** " << areaName << " **\n";
   }
 
   Paragraph paragraph;

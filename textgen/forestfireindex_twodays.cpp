@@ -19,8 +19,8 @@
 #include <calculator/MathTools.h>
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -70,11 +70,11 @@ Paragraph ForestStory::forestfireindex_twodays() const
 
   if (result.value() == kFloatMissing)
   {
-    log << "ForestFireIndex Maximum(Maximum) for day 1 is missing" << endl;
+    log << "ForestFireIndex Maximum(Maximum) for day 1 is missing\n";
     return paragraph;
   }
 
-  log << "ForestFirewarning Maximum(Maximum) for day 1 " << result << endl;
+  log << "ForestFirewarning Maximum(Maximum) for day 1 " << result << '\n';
 
   const float index1 = result.value();
 
@@ -100,11 +100,11 @@ Paragraph ForestStory::forestfireindex_twodays() const
     // value is not an error, we simply omit a story if day2 is missing
     if (result2.value() == kFloatMissing)
     {
-      log << "ForestFireIndex Maximum(Maximum) for day 2 is missing" << endl;
+      log << "ForestFireIndex Maximum(Maximum) for day 2 is missing\n";
     }
     else
     {
-      log << "ForestFireIndex Maximum(Maximum) for day 2 " << result2 << endl;
+      log << "ForestFireIndex Maximum(Maximum) for day 2 " << result2 << '\n';
 
       const float index2 = result2.value();
 

@@ -60,9 +60,9 @@ Paragraph RelativeHumidityStory::range() const
   WeatherResultTools::checkMissingValue(
       "relativehumidity_range", RelativeHumidity, {minresult, maxresult, meanresult});
 
-  log << "RelativeHumidity Mean(Min(Maximum())) = " << minresult << endl
-      << "RelativeHumidity Mean(Mean(Maximum())) = " << meanresult << endl
-      << "RelativeHumidity Mean(Max(Maximum())) = " << maxresult << endl;
+  log << "RelativeHumidity Mean(Min(Maximum())) = " << minresult << '\n'
+      << "RelativeHumidity Mean(Mean(Maximum())) = " << meanresult << '\n'
+      << "RelativeHumidity Mean(Max(Maximum())) = " << maxresult << '\n';
 
   const int rhmin = MathTools::to_precision(minresult.value(), precision);
   const int rhmax = MathTools::to_precision(maxresult.value(), precision);

@@ -84,7 +84,7 @@ Paragraph RelativeHumidityStory::lowest() const
 
   WeatherResultTools::checkMissingValue("relativehumidity_lowest", RelativeHumidity, result);
 
-  log << "RelativeHumidity Minimum(Minimum) for day 1 " << result << endl;
+  log << "RelativeHumidity Minimum(Minimum) for day 1 " << result << '\n';
 
   const int humidity1 = to_precision(result.value(), precision);
 
@@ -109,7 +109,7 @@ Paragraph RelativeHumidityStory::lowest() const
 
     WeatherResultTools::checkMissingValue("relativehumidity_day", RelativeHumidity, result2);
 
-    log << "RelativeHumidity Minimum(Minimum) for day 2 " << result2 << endl;
+    log << "RelativeHumidity Minimum(Minimum) for day 2 " << result2 << '\n';
 
     const int humidity2 = to_precision(result2.value(), precision);
 

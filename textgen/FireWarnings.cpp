@@ -30,8 +30,8 @@ FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& t
     : itsTime(theTime), itsWarnings(MaxAreaCode + 1, Undefined)
 {
   if (!NFmiFileSystem::DirectoryExists(theDirectory))
-    throw Fmi::Exception(BCP, "Directory '" + theDirectory +
-                       "' required by class FireWarnings does not exist");
+    throw Fmi::Exception(
+        BCP, "Directory '" + theDirectory + "' required by class FireWarnings does not exist");
 
   // Form the expected filename of form YYYYMMDD.palot_koodina
   // If we cannot find the file, an exception is thrown
@@ -63,8 +63,9 @@ FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& t
   while (input >> areacode >> areastate)
   {
     if (areacode < 1 || areacode > MaxAreaCode)
-      throw Fmi::Exception(BCP, "File '" + filename + "' contains invalid areacode " +
-                         NFmiStringTools::Convert(areacode));
+      throw Fmi::Exception(BCP,
+                           "File '" + filename + "' contains invalid areacode " +
+                               NFmiStringTools::Convert(areacode));
     switch (State(areastate))
     {
       case None:
@@ -73,8 +74,9 @@ FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& t
         itsWarnings[areacode] = State(areastate);
         break;
       default:
-        throw Fmi::Exception(BCP, "File '" + filename + "' contains invalid warningcode " +
-                           NFmiStringTools::Convert(areastate));
+        throw Fmi::Exception(BCP,
+                             "File '" + filename + "' contains invalid warningcode " +
+                                 NFmiStringTools::Convert(areastate));
     }
   }
   input.close();

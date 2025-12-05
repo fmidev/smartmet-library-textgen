@@ -21,9 +21,9 @@
 
 #include "InlandMaskSource.h"
 
-#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiGrid.h>
@@ -175,7 +175,8 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
   std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
   NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
   if (!qi.IsGrid())
-    throw Fmi::Exception(BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
+    throw Fmi::Exception(
+        BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
 
   // First build the area mask
 

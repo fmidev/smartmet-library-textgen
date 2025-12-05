@@ -300,10 +300,10 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
 
     const string headervar = "textgen::" + paragraph + "::header";
 
-    log << "TextGenerator::generate periodvar " << periodvar << endl
-        << "TextGenerator::generate headervar " << headervar << endl
-        << "TextGenerator::generate period : " << period.localStartTime() << endl
-        << " -  " << period.localEndTime() << endl;
+    log << "TextGenerator::generate periodvar " << periodvar << '\n'
+        << "TextGenerator::generate headervar " << headervar << '\n'
+        << "TextGenerator::generate period : " << period.localStartTime() << '\n'
+        << " -  " << period.localEndTime() << '\n';
 
     Header header = HeaderFactory::create(itsPimple->itsForecastTime, theArea, period, headervar);
     if (!header.empty())
@@ -314,7 +314,7 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
     if (!subs)
     {
       const string contents = Settings::require("textgen::" + paragraph + "::content");
-      log << "TextGenerator::generate contents " << contents << endl;
+      log << "TextGenerator::generate contents " << contents << '\n';
       doc << make_contents(contents,
                            "textgen::" + paragraph,
                            itsPimple->itsForecastTime,
@@ -334,7 +334,7 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
         const WeatherPeriod subperiod = generator.period(day);
 
         log << "TextGenerator::generate subperiod: " << subperiod.localStartTime() << " - "
-            << subperiod.localEndTime() << endl;
+            << subperiod.localEndTime() << '\n';
 
         const string dayvar = defaultvar + "::day" + NFmiStringTools::Convert(day);
 

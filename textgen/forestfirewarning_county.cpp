@@ -37,7 +37,7 @@ Paragraph ForestStory::forestfirewarning_county() const
   const string& areaname = itsArea.name();
   const int areacode = Settings::require_int("qdtext::forestfirewarning::areacodes::" + areaname);
 
-  log << "Area code for " << areaname << ' ' << " is " << areacode << endl;
+  log << "Area code for " << areaname << ' ' << " is " << areacode << '\n';
 
   // Read the file containing the warnings
 
@@ -51,8 +51,8 @@ Paragraph ForestStory::forestfirewarning_county() const
     switch (warnings.state(areacode))
     {
       case FireWarnings::Undefined:
-        log << "Warning: warning state for given area is undefined!" << endl
-            << "Returning an empty story" << endl;
+        log << "Warning: warning state for given area is undefined!\n"
+            << "Returning an empty story\n";
         break;
       case FireWarnings::None:
       case FireWarnings::GrassFireWarning:
@@ -67,8 +67,8 @@ Paragraph ForestStory::forestfirewarning_county() const
   }
   catch (...)
   {
-    log << "Failed to read forest fire warning data from directory '" << datadir << "'" << endl
-        << "Returning an empty story" << endl;
+    log << "Failed to read forest fire warning data from directory '" << datadir << "'\n"
+        << "Returning an empty story\n";
   }
 
   log << paragraph;

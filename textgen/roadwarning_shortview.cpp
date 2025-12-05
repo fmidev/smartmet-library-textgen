@@ -16,9 +16,9 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -878,7 +878,7 @@ Paragraph RoadStory::warning_shortview() const
 
   const WeatherPeriod fullperiod(time1, time2);
 
-  log << "Analysis period is " << time1 << " ... " << time2 << endl;
+  log << "Analysis period is " << time1 << " ... " << time2 << '\n';
 
   // Calculate the results for each period
 
@@ -886,7 +886,7 @@ Paragraph RoadStory::warning_shortview() const
 
   if (generator.size() == 0)
   {
-    log << "Analysis period is too short!" << endl;
+    log << "Analysis period is too short!\n";
     log << paragraph;
     return paragraph;
   }
@@ -899,7 +899,7 @@ Paragraph RoadStory::warning_shortview() const
 
   DebugTextFormatter formatter;
 
-  log << "Individual period results:" << endl;
+  log << "Individual period results:\n";
   for (unsigned int i = 1; i <= generator.size(); i++)
   {
     const WeatherPeriod period = generator.period(i);
@@ -925,10 +925,10 @@ Paragraph RoadStory::warning_shortview() const
     sentences.push_back(sentence);
 
     log << period.localStartTime() << " ... " << period.localEndTime() << ": " << realization
-        << endl;
+        << '\n';
 
     for (int j = min_warning; j <= max_warning; j++)
-      log << '\t' << warning_name(RoadWarningType(j)) << '\t' << result[j] << " %" << endl;
+      log << '\t' << warning_name(RoadWarningType(j)) << '\t' << result[j] << " %\n";
   }
 
   // Algorithm:

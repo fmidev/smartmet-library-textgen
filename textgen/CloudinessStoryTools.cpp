@@ -556,9 +556,9 @@ Sentence cloudiness_phrase(const AnalysisSources& theSources,
                                                  theArea,
                                                  thePeriod);
 
-  log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << endl;
-  log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << endl;
-  log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << endl;
+  log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << '\n';
+  log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << '\n';
+  log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << '\n';
 
   CloudinessType ctype =
       cloudiness_type(theVar, cloudy_percentage.value(), clear_percentage.value(), trend.value());

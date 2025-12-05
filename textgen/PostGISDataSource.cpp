@@ -56,19 +56,19 @@ bool PostGISDataSource::readData(const std::string& host,
 
     if(reg)
       {
-            cout << "GetDriverCount(): " << reg->GetDriverCount() << endl;
+            cout << "GetDriverCount(): " << reg->GetDriverCount() << '\n';
             for(int i = 0; i < reg->GetDriverCount(); i++)
               {
-                    cout << reg->GetDriver(i)->GetName() << endl;
+                    cout << reg->GetDriver(i)->GetName() << '\n';
               }
 
             OGRDataSource* pDS =
     reg->GetDriverByName("PostgreSQL")->Open(connection_ss.str().c_str(), FALSE);
 
             if(pDS)
-              cout << "OK" << endl;
+              cout << "OK\n";
             else
-              cout << "NOK" << endl;
+              cout << "NOK\n";
       }
     */
 
@@ -110,12 +110,12 @@ bool PostGISDataSource::readData(const std::string& host,
       /*
       int UTMZone(0);
       UTMZone = pLayerSRS->GetUTMZone();
-      cout << "UTMZone: " << UTMZone << endl;
-      cout << "IsGeographic: " << pLayerSRS->IsGeographic() << endl;
-      cout << "IsProjected: " << pLayerSRS->IsProjected() << endl;
+      cout << "UTMZone: " << UTMZone << '\n';
+      cout << "IsGeographic: " << pLayerSRS->IsGeographic() << '\n';
+      cout << "IsProjected: " << pLayerSRS->IsProjected() << '\n';
       char* wkt_buffer(0);
       pLayerSRS->exportToPrettyWkt(&wkt_buffer);
-      cout <<  wkt_buffer << endl;
+      cout <<  wkt_buffer << '\n';
       CPLFree(wkt_buffer);
       */
 
@@ -190,7 +190,7 @@ bool PostGISDataSource::readData(const std::string& host,
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
             //	if(area_name.compare("Finland") == 0)
-            // cout << "RAWMULTIPOLYGON: " << svg_string << endl;
+            // cout << "RAWMULTIPOLYGON: " << svg_string << '\n';
           }
           else
           {
@@ -200,7 +200,7 @@ bool PostGISDataSource::readData(const std::string& host,
             pPolygon->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
-            // cout << "RAWPOLYGON: " << svg_string << endl;
+            // cout << "RAWPOLYGON: " << svg_string << '\n';
           }
 
           boost::algorithm::replace_all(svg_string, "MULTIPOLYGON ", "");
@@ -212,7 +212,7 @@ bool PostGISDataSource::readData(const std::string& host,
           svg_string.insert(0, "\"M ");
           svg_string.append(" Z\"\n");
 
-          // cout << "POLYGON in SVG format: " << svg_string << endl;
+          // cout << "POLYGON in SVG format: " << svg_string << '\n';
           if (polygonmap.find(area_name) != polygonmap.end())
             polygonmap[area_name] = svg_string;
           else
@@ -238,7 +238,7 @@ bool PostGISDataSource::readData(const std::string& host,
             pLine->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
-            //	cout << "LINESTRING: " << svg_string << endl;
+            //	cout << "LINESTRING: " << svg_string << '\n';
           }
 
           boost::algorithm::replace_all(svg_string, "MULTILINESTRING ", "");
@@ -263,7 +263,7 @@ bool PostGISDataSource::readData(const std::string& host,
             svg_string.insert(0, "\"M ");
           }
 
-          // cout << "LINE in SVG format: " << svg_string << endl;
+          // cout << "LINE in SVG format: " << svg_string << '\n';
           if (linemap.find(area_name) != linemap.end())
             linemap[area_name] = svg_string;
           else

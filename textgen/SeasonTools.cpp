@@ -18,11 +18,11 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiStringTools.h>
 
 #include <ctime>
@@ -84,7 +84,8 @@ void read_date_variable(const std::string& theVariableName,
 
   if (!from_string(theMonth, date.substr(0, 2), std::dec) ||
       !from_string(theDay, date.substr(2, 2), std::dec) || !is_parameter_valid(theMonth, theDay))
-    throw Fmi::Exception(BCP, "Variable " + theVariableName + "is not of correct type (mmdd): " + date);
+    throw Fmi::Exception(BCP,
+                         "Variable " + theVariableName + "is not of correct type (mmdd): " + date);
 }
 
 bool isBetweenDates(

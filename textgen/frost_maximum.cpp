@@ -63,7 +63,7 @@ Paragraph FrostStory::maximum() const
 
   WeatherResultTools::checkMissingValue("frost_maximum", Frost, frost);
 
-  log << "Frost Maximum(Maximum) is " << frost << endl;
+  log << "Frost Maximum(Maximum) is " << frost << '\n';
 
   // Quick exit if the mean is zero
 
@@ -85,7 +85,7 @@ Paragraph FrostStory::maximum() const
 
   WeatherResultTools::checkMissingValue("frost_maximum", SevereFrost, severefrost);
 
-  log << "SevereFrost Maximum(Maximum) is " << severefrost << endl;
+  log << "SevereFrost Maximum(Maximum) is " << severefrost << '\n';
 
   const int frost_value = to_precision(frost.value(), precision);
 

@@ -13,7 +13,7 @@
  * and then, calls an Event function - onNewMessage
  *
  * A message is full when the stream buffer is flushed.
- * For instance, when std::endl is written to a stream.
+ * For instance, when '\n' is written to a stream.
  *
  * Usage: Derive your class from this, and implement the PROTECTED
  * onNewMessage function

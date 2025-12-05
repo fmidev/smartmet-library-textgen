@@ -75,9 +75,9 @@ Paragraph TemperatureStory::dailymax() const
   WeatherResultTools::checkMissingValue(
       "temperature_dailymax", Temperature, {minresult, maxresult, meanresult});
 
-  log << "Temperature Minimum(Maximum) day 1 = " << minresult << endl;
-  log << "Temperature Mean(Maximum) day 1 = " << meanresult << endl;
-  log << "Temperature Maximum(Maximum) day 1 = " << maxresult << endl;
+  log << "Temperature Minimum(Maximum) day 1 = " << minresult << '\n';
+  log << "Temperature Mean(Maximum) day 1 = " << meanresult << '\n';
+  log << "Temperature Maximum(Maximum) day 1 = " << maxresult << '\n';
 
   const int min1 = static_cast<int>(round(minresult.value()));
   const int max1 = static_cast<int>(round(maxresult.value()));
@@ -108,9 +108,9 @@ Paragraph TemperatureStory::dailymax() const
     WeatherResultTools::checkMissingValue(
         "temperature_dailymax", Temperature, {minresult, maxresult, meanresult});
 
-    log << "Temperature Minimum(Maximum) day " << p << " = " << minresult << endl;
-    log << "Temperature Mean(Maximum) day " << p << " = " << meanresult << endl;
-    log << "Temperature Maximum(Maximum) day " << p << " = " << maxresult << endl;
+    log << "Temperature Minimum(Maximum) day " << p << " = " << minresult << '\n';
+    log << "Temperature Mean(Maximum) day " << p << " = " << meanresult << '\n';
+    log << "Temperature Maximum(Maximum) day " << p << " = " << maxresult << '\n';
 
     const int min2 = static_cast<int>(round(minresult.value()));
     const int max2 = static_cast<int>(round(maxresult.value()));

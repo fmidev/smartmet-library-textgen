@@ -1380,12 +1380,12 @@ void log_start_time_and_end_time(MessageLogger& theLog,
                                  const WeatherPeriod& thePeriod)
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
-         << thePeriod.localEndTime() << endl;
+         << thePeriod.localEndTime() << '\n';
 }
 
 void log_weather_results(const t36hparams& theParameters)
 {
-  theParameters.theLog << "Weather results: " << endl;
+  theParameters.theLog << "Weather results: \n";
 
   // Iterate and print out the WeatherResult variables
   for (int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
@@ -1398,7 +1398,7 @@ void log_weather_results(const t36hparams& theParameters)
           theParameters.theWeatherArea.isNamed() ? theParameters.theWeatherArea.name() : "",
           static_cast<weather_result_id>(i),
           theParameters.theSeasonId == WINTER_SEASON);
-      theParameters.theLog << theWeatherResult << endl;
+      theParameters.theLog << theWeatherResult << '\n';
     }
   }
 }
@@ -1832,7 +1832,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
           intervalStart = theProximityNumber;
 
           theParameters.theLog << "PROXIMITY: Noin " << proximityNumberBuff
-                               << " astetta :: " << tempBuff << endl;
+                               << " astetta :: " << tempBuff << '\n';
         }
         break;
         case TIENOILLA_ASTETTA:
@@ -1842,7 +1842,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
           intervalStart = theProximityNumber;
 
           theParameters.theLog << "PROXIMITY: " << proximityNumberBuff
-                               << " asteen tienoilla :: " << tempBuff << endl;
+                               << " asteen tienoilla :: " << tempBuff << '\n';
         }
         break;
         case LAHELLA_ASTETTA:
@@ -1852,7 +1852,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
           intervalStart = theProximityNumber;
 
           theParameters.theLog << "PROXIMITY: Lahella " << proximityNumberBuff
-                               << " astetta :: " << tempBuff << endl;
+                               << " astetta :: " << tempBuff << '\n';
         }
         break;
         case TUNTUMASSA_ASTETTA:
@@ -1862,7 +1862,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
           intervalStart = theProximityNumber;
 
           theParameters.theLog << "PROXIMITY: " << proximityNumberBuff
-                               << " asteen tuntumassa :: " << tempBuff << endl;
+                               << " asteen tuntumassa :: " << tempBuff << '\n';
         }
         break;
         case VAJAAT_ASTETTA:
@@ -1874,7 +1874,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
             theParameters.theTemperaturePhraseId = VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID;
             intervalStart = 0;
 
-            theParameters.theLog << "PROXIMITY: Vähän nollan alapuolella " << endl;
+            theParameters.theLog << "PROXIMITY: Vähän nollan alapuolella \n";
           }
           else
           {
@@ -1886,7 +1886,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
               theParameters.theUseFrostExistsPhrase = true;
 
             theParameters.theLog << "PROXIMITY: Vajaat " << proximityNumberBuff
-                                 << " astetta :: " << tempBuff << endl;
+                                 << " astetta :: " << tempBuff << '\n';
           }
         }
         break;
@@ -1898,13 +1898,13 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
           intervalStart = theProximityNumber;
 
           theParameters.theLog << "PROXIMITY: Vahan yli " << proximityNumberBuff
-                               << " astetta :: " << tempBuff << endl;
+                               << " astetta :: " << tempBuff << '\n';
           if (theParameters.theMaximum < 0)
             theParameters.theUseFrostExistsPhrase = true;
         }
         break;
         case NO_PROXIMITY:
-          theParameters.theLog << "NO PROXIMITY: " << tempBuff << endl;
+          theParameters.theLog << "NO PROXIMITY: " << tempBuff << '\n';
           break;
       }
     }
@@ -4385,7 +4385,7 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
 
   if (generator00.size() == 0)
   {
-    theLog << "No weather periods available!" << endl;
+    theLog << "No weather periods available!\n";
     theLog << paragraph;
     return paragraph;
   }
@@ -4396,26 +4396,26 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
   {
     if (generator00.size() > 2)
     {
-      theLog << "today, night and tomorrow" << endl;
+      theLog << "today, night and tomorrow\n";
     }
     else if (generator00.size() == 2)
     {
-      theLog << "today and night" << endl;
+      theLog << "today and night\n";
     }
     else
     {
-      theLog << "today" << endl;
+      theLog << "today\n";
     }
   }
   else
   {
     if (generator00.size() == 1)
     {
-      theLog << "one night" << endl;
+      theLog << "one night\n";
     }
     else
     {
-      theLog << "night and tomorrow" << endl;
+      theLog << "night and tomorrow\n";
     }
   }
 
@@ -4501,7 +4501,7 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
 
     if (forecast_area == NO_AREA)
     {
-      theLog << "Something wrong, NO Coastal area NOR Inland area is included!" << endl;
+      theLog << "Something wrong, NO Coastal area NOR Inland area is included!\n";
     }
     else
     {
@@ -4666,7 +4666,7 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
     if (forecast_area == NO_AREA)
     {
       valid_value_period_check(kFloatMissing, forecast_period, NIGHT_PERIOD);
-      theLog << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
+      theLog << "Something wrong, NO Coastal area NOR Inland area is included! \n";
     }
     else
     {
@@ -4752,10 +4752,10 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
   if (coastalPercentage > 0)
   {
     if (parameters.theCoastalAndInlandTogetherFlag)
-      theLog << "Coastal proportion: " << coastalPercentage << endl;
+      theLog << "Coastal proportion: " << coastalPercentage << '\n';
     else
       theLog << "Coastal proportion: " << coastalPercentage
-             << " (the areas will be separated if mean temperature is different enough)" << endl;
+             << " (the areas will be separated if mean temperature is different enough)\n";
   }
 
   parameters.theRangeSeparator = range_separator;
@@ -4820,12 +4820,12 @@ Paragraph TemperatureStory::max36hours() const
     Paragraph paragraphAreaOne;
     Paragraph paragraphAreaTwo;
 
-    log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << endl;
+    log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << '\n';
 
     paragraphAreaOne << TemperatureMax36Hours::max36hours(
         areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
-    log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << endl;
+    log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << '\n';
 
     paragraphAreaTwo << TemperatureMax36Hours::max36hours(
         areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, log);
@@ -4834,7 +4834,7 @@ Paragraph TemperatureStory::max36hours() const
   }
   else
   {
-    log << areaName << endl;
+    log << areaName << '\n';
 
     paragraph << TemperatureMax36Hours::max36hours(
         itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);

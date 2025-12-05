@@ -89,8 +89,8 @@ Paragraph FrostStory::twonights() const
   WeatherResultTools::checkMissingValue("frost_twonights", Frost, frost);
   WeatherResultTools::checkMissingValue("frost_twonights", SevereFrost, severefrost);
 
-  log << "Frost Mean(Maximum) for day 1 " << frost << endl;
-  log << "SevereFrost Mean(Maximum) for day 1 " << severefrost << endl;
+  log << "Frost Mean(Maximum) for day 1 " << frost << '\n';
+  log << "SevereFrost Mean(Maximum) for day 1 " << severefrost << '\n';
 
   if (nights == 1)
   {
@@ -128,8 +128,8 @@ Paragraph FrostStory::twonights() const
     WeatherResultTools::checkMissingValue("frost_twonights", Frost, frost2);
     WeatherResultTools::checkMissingValue("frost_twonights", SevereFrost, severefrost2);
 
-    log << "Frost Mean(Maximum) for day 2 " << frost2 << endl;
-    log << "SevereFrost Mean(Maximum) for day 2 " << severefrost2 << endl;
+    log << "Frost Mean(Maximum) for day 2 " << frost2 << '\n';
+    log << "SevereFrost Mean(Maximum) for day 2 " << severefrost2 << '\n';
 
     const int value1 = to_precision(frost.value(), precision);
     const int severevalue1 = to_precision(severefrost.value(), precision);

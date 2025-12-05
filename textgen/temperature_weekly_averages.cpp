@@ -90,13 +90,13 @@ Paragraph TemperatureStory::weekly_averages() const
       Temperature,
       {dayminresult, daymaxresult, daymeanresult, nightminresult, nightmaxresult, nightmeanresult});
 
-  log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << endl;
-  log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << endl;
-  log << "Temperature Maximum(Mean(Maximum)) = " << daymaxresult << endl;
+  log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << '\n';
+  log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << '\n';
+  log << "Temperature Maximum(Mean(Maximum)) = " << daymaxresult << '\n';
 
-  log << "Temperature Minimum(Mean(Minimum)) = " << nightminresult << endl;
-  log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << endl;
-  log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << endl;
+  log << "Temperature Minimum(Mean(Minimum)) = " << nightminresult << '\n';
+  log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << '\n';
+  log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << '\n';
 
   const int daymin = static_cast<int>(round(dayminresult.value()));
   const int daymax = static_cast<int>(round(daymaxresult.value()));

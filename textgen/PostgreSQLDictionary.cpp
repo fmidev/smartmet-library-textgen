@@ -24,8 +24,7 @@ using namespace std;
 
 namespace
 {
-[[maybe_unused]]
-inline double as_double(const pqxx::field& obj)
+[[maybe_unused]] inline double as_double(const pqxx::field& obj)
 {
 #if PQXX_VERSION_MAJOR > 5
   return obj.as<double>();
@@ -78,9 +77,10 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
     }
     catch (...)
     {
-      throw Fmi::Exception(BCP, 
+      throw Fmi::Exception(
+          BCP,
           "SmartMet::Textgen::PostgreSQLDictionary: Creating database connection failed: " +
-          std::string(connectionOptions));
+              std::string(connectionOptions));
     }
 
     // select the right translation table
@@ -93,7 +93,8 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
 
     if (result_set.empty())
     {
-      throw Fmi::Exception(BCP, "Error: Error occurred while querying languages table:\n" + sqlStmt);
+      throw Fmi::Exception(BCP,
+                           "Error: Error occurred while querying languages table:\n" + sqlStmt);
     }
 
     if (result_set.size() != 1)

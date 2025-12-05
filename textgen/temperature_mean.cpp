@@ -47,7 +47,7 @@ Paragraph TemperatureStory::mean() const
 
   WeatherResultTools::checkMissingValue("temperature_mean", Temperature, result);
 
-  log << "Temperature Mean(Mean) = " << result << endl;
+  log << "Temperature Mean(Mean) = " << result << '\n';
 
   sentence << "keskilampotila" << Integer(static_cast<int>(round(result.value())))
            << *UnitFactory::create(DegreesCelsius);

@@ -59,9 +59,9 @@ Paragraph TemperatureStory::range() const
   WeatherResultTools::checkMissingValue(
       "temperature_range", Temperature, {minresult, maxresult, meanresult});
 
-  log << "Temperature Mean(Min(Maximum())) = " << minresult << endl
-      << "Temperature Mean(Mean(Maximum())) = " << meanresult << endl
-      << "Temperature Mean(Max(Maximum())) = " << maxresult << endl;
+  log << "Temperature Mean(Min(Maximum())) = " << minresult << '\n'
+      << "Temperature Mean(Mean(Maximum())) = " << meanresult << '\n'
+      << "Temperature Mean(Max(Maximum())) = " << maxresult << '\n';
 
   const int tmin = static_cast<int>(round(minresult.value()));
   const int tmax = static_cast<int>(round(maxresult.value()));

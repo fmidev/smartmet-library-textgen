@@ -68,9 +68,9 @@ Paragraph WindStory::range() const
                                                      itsArea,
                                                      itsPeriod);
 
-  log << "WindSpeed Minimum(Mean)  = " << minresult << endl;
-  log << "WindSpeed Maximum(Mean)  = " << maxresult << endl;
-  log << "WindSpeed Mean(Mean)     = " << meanresult << endl;
+  log << "WindSpeed Minimum(Mean)  = " << minresult << '\n';
+  log << "WindSpeed Maximum(Mean)  = " << maxresult << '\n';
+  log << "WindSpeed Mean(Mean)     = " << meanresult << '\n';
 
   WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxresult);
   WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minresult);

@@ -250,140 +250,140 @@ void log_data(const wind_anomaly_params& theParameters)
   if (theParameters.theTemperatureAreaMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureAreaMorningMinimum: "
-                         << theParameters.theTemperatureAreaMorningMinimum << endl;
+                         << theParameters.theTemperatureAreaMorningMinimum << '\n';
     theParameters.theLog << "theTemperatureAreaMorningMean: "
-                         << theParameters.theTemperatureAreaMorningMean << endl;
+                         << theParameters.theTemperatureAreaMorningMean << '\n';
     theParameters.theLog << "theTemperatureAreaMorningMaximum: "
-                         << theParameters.theTemperatureAreaMorningMaximum << endl;
+                         << theParameters.theTemperatureAreaMorningMaximum << '\n';
   }
 
   if (theParameters.theTemperatureAreaAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureAreaAfternoonMinimum: "
-                         << theParameters.theTemperatureAreaAfternoonMinimum << endl;
+                         << theParameters.theTemperatureAreaAfternoonMinimum << '\n';
     theParameters.theLog << "theTemperatureAreaAfternoonMean: "
-                         << theParameters.theTemperatureAreaAfternoonMean << endl;
+                         << theParameters.theTemperatureAreaAfternoonMean << '\n';
     theParameters.theLog << "theTemperatureAreaAfternoonMaximum: "
-                         << theParameters.theTemperatureAreaAfternoonMaximum << endl;
+                         << theParameters.theTemperatureAreaAfternoonMaximum << '\n';
   }
 
   if (theParameters.theTemperatureInlandMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureInlandMorningMinimum: "
-                         << theParameters.theTemperatureInlandMorningMinimum << endl;
+                         << theParameters.theTemperatureInlandMorningMinimum << '\n';
     theParameters.theLog << "theTemperatureInlandMorningMean: "
-                         << theParameters.theTemperatureInlandMorningMean << endl;
+                         << theParameters.theTemperatureInlandMorningMean << '\n';
     theParameters.theLog << "theTemperatureInlandMorningMaximum: "
-                         << theParameters.theTemperatureInlandMorningMaximum << endl;
+                         << theParameters.theTemperatureInlandMorningMaximum << '\n';
   }
 
   if (theParameters.theTemperatureInlandAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureInlandAfternoonMinimum: "
-                         << theParameters.theTemperatureInlandAfternoonMinimum << endl;
+                         << theParameters.theTemperatureInlandAfternoonMinimum << '\n';
     theParameters.theLog << "theTemperatureInlandAfternoonMean: "
-                         << theParameters.theTemperatureInlandAfternoonMean << endl;
+                         << theParameters.theTemperatureInlandAfternoonMean << '\n';
     theParameters.theLog << "theTemperatureInlandAfternoonMaximum: "
-                         << theParameters.theTemperatureInlandAfternoonMaximum << endl;
+                         << theParameters.theTemperatureInlandAfternoonMaximum << '\n';
   }
 
   if (theParameters.theTemperatureCoastalMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureCoastalMorningMinimum: "
-                         << theParameters.theTemperatureCoastalMorningMinimum << endl;
+                         << theParameters.theTemperatureCoastalMorningMinimum << '\n';
     theParameters.theLog << "theTemperatureCoastalMorningMean: "
-                         << theParameters.theTemperatureCoastalMorningMean << endl;
+                         << theParameters.theTemperatureCoastalMorningMean << '\n';
     theParameters.theLog << "theTemperatureCoastalMorningMaximum: "
-                         << theParameters.theTemperatureCoastalMorningMaximum << endl;
+                         << theParameters.theTemperatureCoastalMorningMaximum << '\n';
   }
 
   if (theParameters.theTemperatureCoastalAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureCoastalAfternoonMinimum: "
-                         << theParameters.theTemperatureCoastalAfternoonMinimum << endl;
+                         << theParameters.theTemperatureCoastalAfternoonMinimum << '\n';
     theParameters.theLog << "theTemperatureCoastalAfternoonMean: "
-                         << theParameters.theTemperatureCoastalAfternoonMean << endl;
+                         << theParameters.theTemperatureCoastalAfternoonMean << '\n';
     theParameters.theLog << "theTemperatureCoastalAfternoonMaximum: "
-                         << theParameters.theTemperatureCoastalAfternoonMaximum << endl;
+                         << theParameters.theTemperatureCoastalAfternoonMaximum << '\n';
   }
 
   if (theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindspeedInlandMorningMinimum: "
-                         << theParameters.theWindspeedInlandMorningMinimum << endl;
+                         << theParameters.theWindspeedInlandMorningMinimum << '\n';
     theParameters.theLog << "theWindspeedInlandMorningMean: "
-                         << theParameters.theWindspeedInlandMorningMean << endl;
+                         << theParameters.theWindspeedInlandMorningMean << '\n';
     theParameters.theLog << "theWindspeedInlandMorningMaximum: "
-                         << theParameters.theWindspeedInlandMorningMaximum << endl;
+                         << theParameters.theWindspeedInlandMorningMaximum << '\n';
   }
 
   if (theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindspeedInlandAfternoonMinimum: "
-                         << theParameters.theWindspeedInlandAfternoonMinimum << endl;
+                         << theParameters.theWindspeedInlandAfternoonMinimum << '\n';
     theParameters.theLog << "theWindspeedInlandAfternoonMean: "
-                         << theParameters.theWindspeedInlandAfternoonMean << endl;
+                         << theParameters.theWindspeedInlandAfternoonMean << '\n';
     theParameters.theLog << "theWindspeedInlandAfternoonMaximum: "
-                         << theParameters.theWindspeedInlandAfternoonMaximum << endl;
+                         << theParameters.theWindspeedInlandAfternoonMaximum << '\n';
   }
 
   if (theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindspeedCoastalMorningMinimum: "
-                         << theParameters.theWindspeedCoastalMorningMinimum << endl;
+                         << theParameters.theWindspeedCoastalMorningMinimum << '\n';
     theParameters.theLog << "theWindspeedCoastalMorningMean: "
-                         << theParameters.theWindspeedCoastalMorningMean << endl;
+                         << theParameters.theWindspeedCoastalMorningMean << '\n';
     theParameters.theLog << "theWindspeedCoastalMorningMaximum: "
-                         << theParameters.theWindspeedCoastalMorningMaximum << endl;
+                         << theParameters.theWindspeedCoastalMorningMaximum << '\n';
   }
   if (theParameters.theWindspeedCoastalAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindspeedCoastalAfternoonMinimum: "
-                         << theParameters.theWindspeedCoastalAfternoonMinimum << endl;
+                         << theParameters.theWindspeedCoastalAfternoonMinimum << '\n';
     theParameters.theLog << "theWindspeedCoastalAfternoonMean: "
-                         << theParameters.theWindspeedCoastalAfternoonMean << endl;
+                         << theParameters.theWindspeedCoastalAfternoonMean << '\n';
     theParameters.theLog << "theWindspeedCoastalAfternoonMaximum: "
-                         << theParameters.theWindspeedCoastalAfternoonMaximum << endl;
+                         << theParameters.theWindspeedCoastalAfternoonMaximum << '\n';
   }
 
   if (theParameters.theWindchillInlandMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindchillInlandMorningMinimum: "
-                         << theParameters.theWindchillInlandMorningMinimum << endl;
+                         << theParameters.theWindchillInlandMorningMinimum << '\n';
     theParameters.theLog << "theWindchillInlandMorningMean: "
-                         << theParameters.theWindchillInlandMorningMean << endl;
+                         << theParameters.theWindchillInlandMorningMean << '\n';
     theParameters.theLog << "theWindchillInlandMorningMaximum: "
-                         << theParameters.theWindchillInlandMorningMaximum << endl;
+                         << theParameters.theWindchillInlandMorningMaximum << '\n';
   }
 
   if (theParameters.theWindchillInlandAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindchillInlandAfternoonMinimum: "
-                         << theParameters.theWindchillInlandAfternoonMinimum << endl;
+                         << theParameters.theWindchillInlandAfternoonMinimum << '\n';
     theParameters.theLog << "theWindchillInlandAfternoonMean: "
-                         << theParameters.theWindchillInlandAfternoonMean << endl;
+                         << theParameters.theWindchillInlandAfternoonMean << '\n';
     theParameters.theLog << "theWindchillInlandAfternoonMaximum: "
-                         << theParameters.theWindchillInlandAfternoonMaximum << endl;
+                         << theParameters.theWindchillInlandAfternoonMaximum << '\n';
   }
 
   if (theParameters.theWindchillCoastalMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindchillCoastalMorningMinimum: "
-                         << theParameters.theWindchillCoastalMorningMinimum << endl;
+                         << theParameters.theWindchillCoastalMorningMinimum << '\n';
     theParameters.theLog << "theWindchillCoastalMorningMean: "
-                         << theParameters.theWindchillCoastalMorningMean << endl;
+                         << theParameters.theWindchillCoastalMorningMean << '\n';
     theParameters.theLog << "theWindchillCoastalMorningMaximum: "
-                         << theParameters.theWindchillCoastalMorningMaximum << endl;
+                         << theParameters.theWindchillCoastalMorningMaximum << '\n';
   }
 
   if (theParameters.theWindchillCoastalAfternoonMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theWindchillCoastalAfternoonMinimum: "
-                         << theParameters.theWindchillCoastalAfternoonMinimum << endl;
+                         << theParameters.theWindchillCoastalAfternoonMinimum << '\n';
     theParameters.theLog << "theWindchillCoastalAfternoonMean: "
-                         << theParameters.theWindchillCoastalAfternoonMean << endl;
+                         << theParameters.theWindchillCoastalAfternoonMean << '\n';
     theParameters.theLog << "theWindchillCoastalAfternoonMaximum: "
-                         << theParameters.theWindchillCoastalAfternoonMaximum << endl;
+                         << theParameters.theWindchillCoastalAfternoonMaximum << '\n';
   }
 }
 
@@ -528,7 +528,7 @@ void log_start_time_and_end_time(MessageLogger& theLog,
                                  const WeatherPeriod& thePeriod)
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
-         << thePeriod.localEndTime() << endl;
+         << thePeriod.localEndTime() << '\n';
 }
 
 Sentence get_windiness_sentence(const Sentence& timeSpecifier,
@@ -1726,7 +1726,7 @@ void testWindiness(wind_anomaly_params& parameters, MessageLogger& log)
             log << parameters.theWindspeedInlandMorningMean << ",";
             log << parameters.theWindspeedInlandAfternoonMean << ",";
             log << parameters.theWindspeedCoastalMorningMean << ",";
-            log << parameters.theWindspeedCoastalAfternoonMean << "): " << endl;
+            log << parameters.theWindspeedCoastalAfternoonMean << "): \n";
             log << sentence;
           }
         }
@@ -1763,7 +1763,7 @@ Paragraph WindStory::anomaly() const
       }
     */
 
-    log << nimi << endl;
+    log << nimi << '\n';
   }
 
   forecast_season_id theSeasonId =
@@ -1782,7 +1782,7 @@ Paragraph WindStory::anomaly() const
   const int ndays = periodgenerator.size();
 
   log << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << " covers "
-      << ndays << " days" << endl;
+      << ndays << " days\n";
 
   if (ndays <= 0)
   {
@@ -1817,7 +1817,7 @@ Paragraph WindStory::anomaly() const
       coastalPercentage > 0 && coastalPercentage < separate_coastal_area_percentage;
 
   if (parameters.theCoastalAndInlandTogetherFlag)
-    log << "Inland and coastal area(" << coastalPercentage << ") not separated!" << endl;
+    log << "Inland and coastal area(" << coastalPercentage << ") not separated!\n";
 
   WeatherArea inlandArea = itsArea;
   inlandArea.type(!parameters.theCoastalAndInlandTogetherFlag ? WeatherArea::Inland

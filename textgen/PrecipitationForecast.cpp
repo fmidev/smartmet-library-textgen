@@ -34,10 +34,10 @@
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiAreaTools.h>
 #include <iomanip>
 #include <map>
@@ -328,7 +328,7 @@ std::ostream& operator<<(std::ostream& theOutput,
     if (thePrecipitationDataItemData.thePrecipitationTypeShowers > 0.0)
       theOutput << "    showers=" << setw(1) << setfill(' ') << fixed << setprecision(0)
                 << thePrecipitationDataItemData.thePrecipitationTypeShowers;
-    theOutput << endl;
+    theOutput << '\n';
 
     /*
     theOutput << " ne=" << fixed << setprecision(0)
@@ -344,12 +344,12 @@ std::ostream& operator<<(std::ostream& theOutput,
                       << thePrecipitationDataItemData.thePrecipitationPoint.X()
                       << ", "
                       << setw(3) << setfill(' ') << fixed << setprecision(2)
-                      << thePrecipitationDataItemData.thePrecipitationPoint.Y() << endl;
+                      << thePrecipitationDataItemData.thePrecipitationPoint.Y() << '\n';
     */
   }
   else
   {
-    theOutput << endl;
+    theOutput << '\n';
   }
 
   return theOutput;
@@ -856,13 +856,13 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
     InPlacesPhrase& inPlacesPhraseMaker = get_in_places_phrase();
 
     theParameters.theLog << "Precipitation form is "
-                         << precipitation_form_string(thePrecipitationForm) << endl;
-    theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << endl;
+                         << precipitation_form_string(thePrecipitationForm) << '\n';
+    theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << '\n';
     theParameters.theLog << "Precipitation type is "
                          << (thePrecipitationType == 1
                                  ? "'continuous'"
                                  : (thePrecipitationType == 2 ? "'showers'" : "'missing'"))
-                         << endl;
+                         << '\n';
 
     if (!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
       theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
@@ -1453,17 +1453,17 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
     return true;
   }
 
-  theParameters.theLog << "START TIME: " << theSourcePeriod.localStartTime() << endl;
-  theParameters.theLog << "END TIME: " << theSourcePeriod.localEndTime() << endl;
+  theParameters.theLog << "START TIME: " << theSourcePeriod.localStartTime() << '\n';
+  theParameters.theLog << "END TIME: " << theSourcePeriod.localEndTime() << '\n';
 
   bool overlappingPeriods = false;
 
   for (unsigned i = 0; i < precipitationPeriods->size(); i++)
   {
     theParameters.theLog << "precipitation period i start: "
-                         << precipitationPeriods->at(i).localStartTime() << endl;
+                         << precipitationPeriods->at(i).localStartTime() << '\n';
     theParameters.theLog << "precipitation period i end: "
-                         << precipitationPeriods->at(i).localEndTime() << endl;
+                         << precipitationPeriods->at(i).localEndTime() << '\n';
 
     if ((precipitationPeriods->at(i).localStartTime() >= theSourcePeriod.localStartTime() &&
          precipitationPeriods->at(i).localStartTime() <= theSourcePeriod.localEndTime()) ||
@@ -2033,18 +2033,18 @@ bool PrecipitationForecast::separateCoastInlandPrecipitation(
       ((inlandPrecipitation > 0.04 && coastalPrecipitation > 0.04) && precipitationFormsDiffer))
   {
     retval = true;
-    theParameters.theLog << "Coastal and Inland precipitation reported separately:" << endl;
+    theParameters.theLog << "Coastal and Inland precipitation reported separately:\n";
   }
   else
   {
     retval = false;
-    theParameters.theLog << "Coastal and Inland precipitation reported together:" << endl;
+    theParameters.theLog << "Coastal and Inland precipitation reported together:\n";
   }
 
   theParameters.theLog << "Coastal: " << coastalPrecipitation << "("
                        << precipitation_form_string(coastalPrecipitationForm) << ")"
                        << "; Inland: " << inlandPrecipitation << "("
-                       << precipitation_form_string(inlandPrecipitationForm) << ")" << endl;
+                       << precipitation_form_string(inlandPrecipitationForm) << ")\n";
 
   return retval;
 }
@@ -2060,26 +2060,26 @@ void PrecipitationForecast::printOutPrecipitationVector(
 
 void PrecipitationForecast::printOutPrecipitationData(std::ostream& theOutput) const
 {
-  theOutput << "** PRECIPITATION DATA **" << endl;
+  theOutput << "** PRECIPITATION DATA **\n";
   theOutput << "time:**mean intensity**max "
                "intensity**extent**water**drizzle**sleet**snow**freezing rain**freezing "
                "drizzle**showers**northeast**"
                "southeast**southwest**northwest)"
-            << endl;
+            << '\n';
 
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
   {
-    theOutput << "Full area precipitation: " << endl;
+    theOutput << "Full area precipitation: \n";
     printOutPrecipitationVector(theOutput, theFullData);
   }
   if (theParameters.theForecastArea & COASTAL_AREA)
   {
-    theOutput << "Coastal precipitation: " << endl;
+    theOutput << "Coastal precipitation: \n";
     printOutPrecipitationVector(theOutput, theCoastalData);
   }
   if (theParameters.theForecastArea & INLAND_AREA)
   {
-    theOutput << "Inland precipitation: " << endl;
+    theOutput << "Inland precipitation: \n";
     printOutPrecipitationVector(theOutput, theInlandData);
   }
 }
@@ -2460,20 +2460,20 @@ void PrecipitationForecast::cleanUpPrecipitationWeatherEvents(
 
 void PrecipitationForecast::printOutPrecipitationDistribution(std::ostream& theOutput) const
 {
-  theOutput << "** PRECIPITATION DISTRIBUTION **" << endl;
+  theOutput << "** PRECIPITATION DISTRIBUTION **\n";
   if (!theCoastalData.empty())
   {
-    theOutput << "Coastal distribution: " << endl;
+    theOutput << "Coastal distribution: \n";
     printOutPrecipitationDistribution(theOutput, theCoastalData);
   }
   if (!theInlandData.empty())
   {
-    theOutput << "Inland distribution: " << endl;
+    theOutput << "Inland distribution: \n";
     printOutPrecipitationDistribution(theOutput, theInlandData);
   }
   if (!theFullData.empty())
   {
-    theOutput << "Full area distribution: " << endl;
+    theOutput << "Full area distribution: \n";
     printOutPrecipitationDistribution(theOutput, theFullData);
   }
 }
@@ -2490,63 +2490,63 @@ void PrecipitationForecast::printOutPrecipitationDistribution(
               << i->thePrecipitationPercentageNorthWest << ", " << i->precipitationPercentageNorth()
               << ", " << i->precipitationPercentageSouth() << ", "
               << i->precipitationPercentageEast() << ", " << i->precipitationPercentageWest()
-              << endl;
+              << '\n';
   }
 }
 
 void PrecipitationForecast::printOutPrecipitationWeatherEvents(std::ostream& theOutput) const
 {
-  theOutput << "** PRECIPITATION WEATHER EVENTS **" << endl;
+  theOutput << "** PRECIPITATION WEATHER EVENTS **\n";
   bool isWeatherEvents = false;
   if (!thePrecipitationWeatherEventsCoastal.empty())
   {
-    theOutput << "Coastal precipitation weather events: " << endl;
+    theOutput << "Coastal precipitation weather events: \n";
     print_out_weather_event_vector(theOutput, thePrecipitationWeatherEventsCoastal);
     isWeatherEvents = true;
   }
   if (!thePrecipitationWeatherEventsInland.empty())
   {
-    theOutput << "Inland precipitation weather events: " << endl;
+    theOutput << "Inland precipitation weather events: \n";
     print_out_weather_event_vector(theOutput, thePrecipitationWeatherEventsInland);
     isWeatherEvents = true;
   }
   if (!thePrecipitationWeatherEventsFull.empty())
   {
-    theOutput << "Full area precipitation weather events: " << endl;
+    theOutput << "Full area precipitation weather events: \n";
     print_out_weather_event_vector(theOutput, thePrecipitationWeatherEventsFull);
     isWeatherEvents = true;
   }
 
   if (!isWeatherEvents)
-    theOutput << "No weather events!" << endl;
+    theOutput << "No weather events!\n";
 }
 
 void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput,
                                                          bool isPoint) const
 {
-  theOutput << "** PRECIPITATION PERIODS **" << endl;
+  theOutput << "** PRECIPITATION PERIODS **\n";
   bool found = false;
   if (!thePrecipitationPeriodsCoastal.empty())
   {
-    theOutput << "Coastal precipitation periods: " << endl;
+    theOutput << "Coastal precipitation periods: \n";
     found = printOutPrecipitationPeriods(
         theOutput, thePrecipitationPeriodsCoastal, theCoastalData, isPoint);
   }
   if (!thePrecipitationPeriodsInland.empty())
   {
-    theOutput << "Inland precipitation periods: " << endl;
+    theOutput << "Inland precipitation periods: \n";
     found = printOutPrecipitationPeriods(
         theOutput, thePrecipitationPeriodsInland, theInlandData, isPoint);
   }
   if (!thePrecipitationPeriodsFull.empty())
   {
-    theOutput << "Full precipitation periods: " << endl;
+    theOutput << "Full precipitation periods: \n";
     found =
         printOutPrecipitationPeriods(theOutput, thePrecipitationPeriodsFull, theFullData, isPoint);
   }
 
   if (!found)
-    theOutput << "No precipitation periods!" << endl;
+    theOutput << "No precipitation periods!\n";
 }
 
 bool PrecipitationForecast::printOutPrecipitationPeriods(
@@ -2567,21 +2567,21 @@ bool PrecipitationForecast::printOutPrecipitationPeriods(
     {
       continue;
     }
-    theOutput << period.localStartTime() << "..." << period.localEndTime() << endl;
+    theOutput << period.localStartTime() << "..." << period.localEndTime() << '\n';
 
     theOutput  //<< ": "
         << " min_of_max = " << setw(7) << setfill(' ') << setprecision(3)
-        << getMin(theDataVector, PRECIPITATION_MAX_DATA, period) << endl
+        << getMin(theDataVector, PRECIPITATION_MAX_DATA, period) << '\n'
         << " min_of_mean = " << setw(7) << setfill(' ') << setprecision(3)
-        << getMin(theDataVector, PRECIPITATION_MEAN_DATA, period) << endl
+        << getMin(theDataVector, PRECIPITATION_MEAN_DATA, period) << '\n'
         << " mean_of_max = " << setw(7) << setfill(' ') << setprecision(3)
-        << getMean(theDataVector, PRECIPITATION_MAX_DATA, period) << endl
+        << getMean(theDataVector, PRECIPITATION_MAX_DATA, period) << '\n'
         << " mean_of_mean = " << setw(7) << setfill(' ') << setprecision(3)
-        << getMean(theDataVector, PRECIPITATION_MEAN_DATA, period) << endl
+        << getMean(theDataVector, PRECIPITATION_MEAN_DATA, period) << '\n'
         << " max_of_max = " << setprecision(3)
-        << getMax(theDataVector, PRECIPITATION_MAX_DATA, period) << endl
+        << getMax(theDataVector, PRECIPITATION_MAX_DATA, period) << '\n'
         << " max_of_mean = " << setprecision(3)
-        << getMax(theDataVector, PRECIPITATION_MEAN_DATA, period) << endl;
+        << getMax(theDataVector, PRECIPITATION_MEAN_DATA, period) << '\n';
 
     if (!isPoint)
     {
@@ -2592,7 +2592,7 @@ bool PrecipitationForecast::printOutPrecipitationPeriods(
       }
     }
 
-    theOutput << endl;
+    theOutput << '\n';
     retval = true;
   }
 
@@ -2623,14 +2623,14 @@ void PrecipitationForecast::printOutPrecipitationDistribution(std::ostream& theO
                                  southWestPercentage,
                                  northWestPercentage);
 
-    theOutput << "precipitation north: " << northPercentage << endl;
-    theOutput << "precipitation south: " << southPercentage << endl;
-    theOutput << "precipitation east: " << eastPercentage << endl;
-    theOutput << "precipitation west: " << westPercentage << endl;
-    theOutput << "precipitation northeast: " << northEastPercentage << endl;
-    theOutput << "precipitation southeast: " << southEastPercentage << endl;
-    theOutput << "precipitation southwest: " << southWestPercentage << endl;
-    theOutput << "precipitation northwest: " << northWestPercentage << endl;
+    theOutput << "precipitation north: " << northPercentage << '\n';
+    theOutput << "precipitation south: " << southPercentage << '\n';
+    theOutput << "precipitation east: " << eastPercentage << '\n';
+    theOutput << "precipitation west: " << westPercentage << '\n';
+    theOutput << "precipitation northeast: " << northEastPercentage << '\n';
+    theOutput << "precipitation southeast: " << southEastPercentage << '\n';
+    theOutput << "precipitation southwest: " << southWestPercentage << '\n';
+    theOutput << "precipitation northwest: " << northWestPercentage << '\n';
   }
 }
 
@@ -3300,9 +3300,9 @@ Sentence PrecipitationForecast::parseFinalSentence(
     theParameters.theLog << "inPlacesPhrase: ";
     theParameters.theLog << inPlacesPhrase;
     theParameters.theLog << "periodPhraseEmpty: ";
-    theParameters.theLog << (periodPhraseEmpty ? "yes" : "no") << endl;
+    theParameters.theLog << (periodPhraseEmpty ? "yes" : "no") << '\n';
     theParameters.theLog << "areaPhraseEmpty: ";
-    theParameters.theLog << (areaPhraseEmpty ? "yes" : "no") << endl;
+    theParameters.theLog << (areaPhraseEmpty ? "yes" : "no") << '\n';
 
     if (theCompositePhraseElements.find(
             HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE) !=
@@ -3903,9 +3903,9 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
                                      precipitationFormFreezingDrizzle);
 
     theParameters.theLog << "Period: " << thePeriod.localStartTime() << "..."
-                         << thePeriod.localEndTime() << endl;
-    theParameters.theLog << "Mean intensity (max+mean/2.0): " << precipitationIntensity << endl;
-    theParameters.theLog << "Maximum intensity: " << precipitationAbsoluteMaxIntensity << endl;
+                         << thePeriod.localEndTime() << '\n';
+    theParameters.theLog << "Mean intensity (max+mean/2.0): " << precipitationIntensity << '\n';
+    theParameters.theLog << "Maximum intensity: " << precipitationAbsoluteMaxIntensity << '\n';
 
     precipitation_type precipitationType(
         getPrecipitationType(thePeriod, theParameters.theForecastArea));
@@ -4009,7 +4009,7 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
             theParameters.theLog << "HEAVY PRECIPITATION PERIOD: "
                                  << heavyPrecipitationPeriod.localStartTime() << "..."
                                  << heavyPrecipitationPeriod.localEndTime() << " ("
-                                 << getTimePhrase(partOfTheDayId, timePhraseFormat) << ")" << endl;
+                                 << getTimePhrase(partOfTheDayId, timePhraseFormat) << ")\n";
           }
         }
       }
@@ -4424,23 +4424,23 @@ direction_id PrecipitationForecast::getPrecipitationArrivalDirection(
 
   if(retval != NO_DIRECTION)
     {
-          theParameters.theLog << "Whole area: " << (string)areaRect << endl;
-          theParameters.theLog << "Precipitation area: " << (string)precipitationRect << endl;
-          theParameters.theLog << "West: " <<	(string)areaRect.subRect(WEST) << endl;
-          theParameters.theLog << "East: " <<	(string)areaRect.subRect(EAST) << endl;
+          theParameters.theLog << "Whole area: " << (string)areaRect << '\n';
+          theParameters.theLog << "Precipitation area: " << (string)precipitationRect << '\n';
+          theParameters.theLog << "West: " <<	(string)areaRect.subRect(WEST) << '\n';
+          theParameters.theLog << "East: " <<	(string)areaRect.subRect(EAST) << '\n';
 
           theParameters.theLog << "Forecast period: "
                                                    <<
   theParameters.theForecastPeriod.localStartTime()
                                                    << " ... "
                                                    << theParameters.theForecastPeriod.localEndTime()
-                                                   << endl;
+                                                   << '\n';
           theParameters.theLog << "Rain direction check period: "
                                                    << thePeriod.localStartTime()
                                                    << " ... "
                                                    << thePeriod.localStartTime()
-                                                   << endl;
-          theParameters.theLog << getDirectionString(retval) << endl;
+                                                   << '\n';
+          theParameters.theLog << getDirectionString(retval) << '\n';
     }
   */
   return retval;
@@ -4565,7 +4565,7 @@ precipitation_traverse_id PrecipitationForecast::getPrecipitationTraverseId(
 
   if (retval != MISSING_TRAVERSE_ID)
   {
-    theParameters.theLog << "Sadealue kulkee " << precipitation_traverse_string(retval) << endl;
+    theParameters.theLog << "Sadealue kulkee " << precipitation_traverse_string(retval) << '\n';
   }
 
   return retval;

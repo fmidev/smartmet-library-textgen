@@ -15,8 +15,8 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include <mysql++/mystring.h>
 #include <mysql++/mysql++.h>
+#include <mysql++/mystring.h>
 
 using namespace std;
 
@@ -60,14 +60,15 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
     mysqlpp::StoreQueryResult result1 = query.store();
 
     if (!result1)
-      throw Fmi::Exception(BCP, std::string("Error: Error occurred while querying languages table:\n") +
-                         query.str());
+      throw Fmi::Exception(
+          BCP,
+          std::string("Error: Error occurred while querying languages table:\n") + query.str());
 
     unsigned int num_rows = result1.num_rows();
 
     if (num_rows == 0)
-      throw Fmi::Exception(BCP, "Error: Language " + theLanguage +
-                         " is not among the supported languages");
+      throw Fmi::Exception(
+          BCP, "Error: Language " + theLanguage + " is not among the supported languages");
 
     if (num_rows != 1)
       throw Fmi::Exception(BCP, "Error: Obtained multiple matches for language " + theLanguage);
@@ -88,7 +89,8 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
     mysqlpp::StoreQueryResult result2 = query.store();
 
     if (!result2)
-      throw Fmi::Exception(BCP, "Error: Error occurred while querying " + translationtable + " table");
+      throw Fmi::Exception(BCP,
+                           "Error: Error occurred while querying " + translationtable + " table");
 
     for (size_t i = 0; i < result2.num_rows(); ++i)
     {
@@ -107,9 +109,10 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
   catch (const mysqlpp::BadConversion& er)
   {
     // Handle bad conversions
-    throw Fmi::Exception(BCP, "Conversion error: " + string(er.what()) +
-                       ";\tretrieved data size: " + std::to_string(er.retrieved) +
-                       ", actual size: " + std::to_string(er.actual_size));
+    throw Fmi::Exception(BCP,
+                         "Conversion error: " + string(er.what()) +
+                             ";\tretrieved data size: " + std::to_string(er.retrieved) +
+                             ", actual size: " + std::to_string(er.actual_size));
   }
   catch (const mysqlpp::Exception& er)
   {

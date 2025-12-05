@@ -20,9 +20,9 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 #include <vector>
@@ -1348,8 +1348,8 @@ int two_day_forecasts[577] = {
 int one_day_rain_index(int theStartHour, int theEndHour)
 {
   if (theEndHour <= theStartHour)
-    throw Fmi::Exception(BCP, 
-        "Internal error in weather_overview: end hour must be greater than start hour");
+    throw Fmi::Exception(
+        BCP, "Internal error in weather_overview: end hour must be greater than start hour");
 
   const int n = theEndHour - theStartHour - 1;
   const int a1 = 24;
@@ -1762,12 +1762,12 @@ Paragraph WeatherStory::overview() const
   RainPeriods rainperiods =
       PrecipitationPeriodTools::analyze(itsSources, itsArea, rainperiod, itsVar);
 
-  log << "Found " << rainperiods.size() << " rainy periods" << endl;
+  log << "Found " << rainperiods.size() << " rainy periods\n";
 
   {
     for (RainPeriods::const_iterator it = rainperiods.begin(); it != rainperiods.end(); it++)
     {
-      log << "Period: " << it->localStartTime() << " ... " << it->localEndTime() << endl;
+      log << "Period: " << it->localStartTime() << " ... " << it->localEndTime() << '\n';
     }
   }
 
@@ -1805,8 +1805,8 @@ Paragraph WeatherStory::overview() const
     const RainPeriods::size_type noverlap = overlaps[day].size();
     const RainPeriods::size_type ninclusive = inclusives[day].size();
 
-    log << "Day " << day << " overlap   : " << noverlap << endl;
-    log << "Day " << day << " inclusive : " << ninclusive << endl;
+    log << "Day " << day << " overlap   : " << noverlap << '\n';
+    log << "Day " << day << " inclusive : " << ninclusive << '\n';
 
     if (noverlap == 0)
     {
@@ -1822,9 +1822,9 @@ Paragraph WeatherStory::overview() const
                            generator.period(day2).localEndTime());
 
       if (day != day2)
-        log << "Cloudiness only for days " << day << '-' << day2 << endl;
+        log << "Cloudiness only for days " << day << '-' << day2 << '\n';
       else
-        log << "Cloudiness only for day " << day << endl;
+        log << "Cloudiness only for day " << day << '\n';
 
       CloudinessStory story(itsForecastTime, itsSources, itsArea, period, itsVar);
 

@@ -48,7 +48,7 @@ Paragraph PressureStory::mean() const
 
   WeatherResultTools::checkMissingValue("pressure_mean", Pressure, meanresult);
 
-  log << "Pressure Mean(Mean(Maximum())) = " << meanresult << endl;
+  log << "Pressure Mean(Mean(Maximum())) = " << meanresult << '\n';
 
   const int pmean = static_cast<int>(round(meanresult.value()));
 

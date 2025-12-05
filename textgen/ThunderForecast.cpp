@@ -29,10 +29,10 @@
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiCombinedParam.h>
 
@@ -114,9 +114,9 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
     if (maxThunderProbability > 0.0 || maxThunderExtent > 0.0)
     {
       theParameters.theLog << "Area, period: " << areaString << ", " << thePeriod.localStartTime()
-                           << "..." << thePeriod.localEndTime() << endl;
-      theParameters.theLog << "Thunder probability (max): " << maxThunderProbability << endl;
-      theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << endl;
+                           << "..." << thePeriod.localEndTime() << '\n';
+      theParameters.theLog << "Thunder probability (max): " << maxThunderProbability << '\n';
+      theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << '\n';
     }
 
     if (maxThunderExtent >= theParameters.theThuderNormalExtentMin &&

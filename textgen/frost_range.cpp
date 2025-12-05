@@ -80,8 +80,8 @@ Paragraph FrostStory::range() const
 
   WeatherResultTools::checkMissingValue("frost_range", Frost, minfrost);
 
-  log << "Frost Maximum(Maximum) is " << maxfrost << endl;
-  log << "Frost Minimum(Maximum) is " << minfrost << endl;
+  log << "Frost Maximum(Maximum) is " << maxfrost << '\n';
+  log << "Frost Minimum(Maximum) is " << minfrost << '\n';
 
   // Maximum severe frost
 
@@ -105,8 +105,8 @@ Paragraph FrostStory::range() const
 
   WeatherResultTools::checkMissingValue("frost_range", SevereFrost, minseverefrost);
 
-  log << "SevereFrost Maximum(Maximum) is " << maxseverefrost << endl;
-  log << "SevereFrost Minimum(Maximum) is " << minseverefrost << endl;
+  log << "SevereFrost Maximum(Maximum) is " << maxseverefrost << '\n';
+  log << "SevereFrost Minimum(Maximum) is " << minseverefrost << '\n';
 
   const int frost_min = to_precision(minfrost.value(), precision);
   const int frost_max = to_precision(maxfrost.value(), precision);

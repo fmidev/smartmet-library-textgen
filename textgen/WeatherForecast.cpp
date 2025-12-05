@@ -2092,7 +2092,7 @@ split_method split_the_area(const std::string& theVar,
             {
               theLog << "The area " << theArea.name() << " is not split: the given "
                      << (retval == HORIZONTAL ? "latitude " : "longitude ") << divisionLine
-                     << " is out of the area!" << endl;
+                     << " is out of the area!\n";
               retval = NO_SPLITTING;
             }
           }
@@ -2212,16 +2212,16 @@ bool test_temperature_split_criterion(const std::string& theVar,
     theLog << "Morning ";
   else
     theLog << "Afternoon ";
-  theLog << "mean temperature in southern part: " << meanAreaOne.value() << endl;
+  theLog << "mean temperature in southern part: " << meanAreaOne.value() << '\n';
 
   if (morningTemperature)
     theLog << "Morning ";
   else
     theLog << "Afternoon ";
-  theLog << "mean temperature in northern part: " << meanAreaTwo.value() << endl;
+  theLog << "mean temperature in northern part: " << meanAreaTwo.value() << '\n';
 
   theLog << "Mean temperature difference: " << abs(meanAreaOne.value() - meanAreaTwo.value())
-         << endl;
+         << '\n';
 
   return retval;
 }
@@ -2271,18 +2271,18 @@ split_method check_area_splitting(const std::string& theVar,
       if (HORIZONTAL == splitMethod)
       {
         theLog << "The area " << theArea.name() << " is split horizontally at " << abs(divisionLine)
-               << (divisionLine < 0.0 ? " S" : " N") << endl;
+               << (divisionLine < 0.0 ? " S" : " N") << '\n';
       }
       else if (VERTICAL == splitMethod)
         theLog << "The area " << theArea.name() << " is split vertically at " << abs(divisionLine)
-               << (divisionLine < 0.0 ? " E" : " W") << endl;
+               << (divisionLine < 0.0 ? " E" : " W") << '\n';
     }
     else
     {
       splitMethod = NO_SPLITTING;
 
       theLog << "The area " << theArea.name()
-             << " is not split: temperature criterion not fulfilled!" << endl;
+             << " is not split: temperature criterion not fulfilled!\n";
     }
   }
 

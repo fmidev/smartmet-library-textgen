@@ -69,7 +69,7 @@ void print_out_weather_event_vector(std::ostream& theOutput,
   {
     weather_event_id trid(i.second);
 
-    theOutput << i.first << ": " << weather_event_string(trid) << endl;
+    theOutput << i.first << ": " << weather_event_string(trid) << '\n';
   }
 }
 
@@ -81,7 +81,7 @@ std::ostream& operator<<(std::ostream& theOutput,
   theOutput << theWeatherResultDataItem.thePeriod.localStartTime() << " ... "
             << theWeatherResultDataItem.thePeriod.localEndTime() << ": " << '('
             << theWeatherResultDataItem.theResult.value() << ','
-            << theWeatherResultDataItem.theResult.error() << ')' << endl;
+            << theWeatherResultDataItem.theResult.error() << ')' << '\n';
 
   return theOutput;
 }
@@ -113,14 +113,14 @@ void log_start_time_and_end_time(MessageLogger& theLog,
                                  const WeatherPeriod& thePeriod)
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
-         << thePeriod.localEndTime() << endl;
+         << thePeriod.localEndTime() << '\n';
 }
 
 void log_weather_result_time_series(MessageLogger& theLog,
                                     const std::string& theLogMessage,
                                     const weather_result_data_item_vector& theTimeSeries)
 {
-  theLog << NFmiStringTools::Convert(theLogMessage) << endl;
+  theLog << NFmiStringTools::Convert(theLogMessage) << '\n';
 
   for (const auto& theTimeSerie : theTimeSeries)
   {
@@ -213,17 +213,17 @@ void log_weather_result_data(wf_story_params& theParameters)
 {
   if (theParameters.theForecastArea & INLAND_AREA)
   {
-    theParameters.theLog << "**  INLAND AREA DATA   **" << endl;
+    theParameters.theLog << "**  INLAND AREA DATA   **\n";
     log_weather_result_data(theParameters.theLog, *theParameters.theCompleteData[INLAND_AREA]);
   }
   if (theParameters.theForecastArea & COASTAL_AREA)
   {
-    theParameters.theLog << "**  COASTAL AREA DATA   **" << endl;
+    theParameters.theLog << "**  COASTAL AREA DATA   **\n";
     log_weather_result_data(theParameters.theLog, *theParameters.theCompleteData[COASTAL_AREA]);
   }
   if (theParameters.theForecastArea & FULL_AREA)
   {
-    theParameters.theLog << "**  FULL AREA DATA   **" << endl;
+    theParameters.theLog << "**  FULL AREA DATA   **\n";
     log_weather_result_data(theParameters.theLog, *theParameters.theCompleteData[FULL_AREA]);
   }
 }
@@ -989,23 +989,23 @@ void create_data_structures(wf_story_params& theParameters)
     theParameters.theForecastArea |= COASTAL_AREA;
     theParameters.theForecastArea |= FULL_AREA;
 
-    theParameters.theLog << "inland area included" << endl;
-    theParameters.theLog << "coastal area included" << endl;
-    theParameters.theLog << "full area included" << endl;
+    theParameters.theLog << "inland area included\n";
+    theParameters.theLog << "coastal area included\n";
+    theParameters.theLog << "full area included\n";
   }
   else if (inlandExists)
   {
     // create data structures for inland only
     allocate_data_structures(theParameters, INLAND_AREA);
     theParameters.theForecastArea |= INLAND_AREA;
-    theParameters.theLog << "inland area included" << endl;
+    theParameters.theLog << "inland area included\n";
   }
   else if (coastExists)
   {
     // create data structures for coast only
     allocate_data_structures(theParameters, COASTAL_AREA);
     theParameters.theForecastArea |= COASTAL_AREA;
-    theParameters.theLog << "coastal area included" << endl;
+    theParameters.theLog << "coastal area included\n";
   }
   else
   {
@@ -1109,7 +1109,7 @@ void init_parameters(wf_story_params& theParameters)
   {
     if (!theParameters.theArea.isMarine() && !theParameters.theArea.isIsland())
       theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!"
-                           << endl;
+                           << '\n';
   }
 }
 
@@ -1140,9 +1140,9 @@ void log_weather_forecast_story(MessageLogger& theLog,
     theLog << storyItem.getStoryItemSentence();
   }
 
-  theLog << "THE COMPLETE SENTENCE BEGIN" << endl;
+  theLog << "THE COMPLETE SENTENCE BEGIN\n";
   theLog << theWeatherForecastStory.getWeatherForecastStory();
-  theLog << "THE COMPLETE SENTENCE END" << endl;
+  theLog << "THE COMPLETE SENTENCE END\n";
 }
 
 Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
@@ -1175,7 +1175,7 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   if (itsArea.isNamed())
   {
     const std::string& name(itsArea.name());
-    theLog << "** " << name << " **" << endl;
+    theLog << "** " << name << " **\n";
   }
 
   WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
@@ -1269,7 +1269,7 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
   if (itsArea.isNamed())
   {
     const std::string& name(itsArea.name());
-    theLog << "** " << name << " **" << endl;
+    theLog << "** " << name << " **\n";
   }
 
   WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
@@ -1457,12 +1457,12 @@ Paragraph WeatherStory::forecast() const
     paragraphAreaOne << onAreaOneSentence;
     paragraphAreaTwo << onAreaTwoSentence;
 
-    log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << endl;
+    log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << '\n';
 
     paragraphAreaOne << weather_forecast(
         areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
-    log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << endl;
+    log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << '\n';
 
     paragraphAreaTwo << weather_forecast(
         areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, log);
@@ -1471,7 +1471,7 @@ Paragraph WeatherStory::forecast() const
   }
   else
   {
-    log << areaName << endl;
+    log << areaName << '\n';
 
     paragraph << weather_forecast(itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
   }
@@ -1508,7 +1508,7 @@ Paragraph WeatherStory::forecast_at_sea() const
     areaName = itsArea.name();
   }
 
-  log << areaName << endl;
+  log << areaName << '\n';
 
   paragraph << weather_forecast_at_sea(
       itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);

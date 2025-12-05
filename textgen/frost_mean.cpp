@@ -63,7 +63,7 @@ Paragraph FrostStory::mean() const
 
   WeatherResultTools::checkMissingValue("frost_mean", Frost, frost);
 
-  log << "Frost Mean(Maximum) is " << frost << endl;
+  log << "Frost Mean(Maximum) is " << frost << '\n';
 
   // Quick exit if the mean is zero
 
@@ -78,7 +78,7 @@ Paragraph FrostStory::mean() const
   WeatherResult severefrost = forecaster.analyze(
       itsVar + "::fake::severe_mean", itsSources, SevereFrost, Mean, Maximum, itsArea, itsPeriod);
 
-  log << "SevereFrost Mean(Maximum) is " << severefrost << endl;
+  log << "SevereFrost Mean(Maximum) is " << severefrost << '\n';
 
   WeatherResultTools::checkMissingValue("frost_mean", Frost, severefrost);
 

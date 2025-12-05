@@ -58,7 +58,7 @@ Paragraph PrecipitationStory::total_day() const
 
   WeatherResultTools::checkMissingValue("precipitation_total_day", Precipitation, result);
 
-  log << "Precipitation Mean(Sum) " << result << endl;
+  log << "Precipitation Mean(Sum) " << result << '\n';
 
   int rain = static_cast<int>(round(result.value()));
 

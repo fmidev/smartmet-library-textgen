@@ -60,7 +60,7 @@ Paragraph PrecipitationStory::pop_max() const
 
   WeatherResultTools::checkMissingValue("pop_max", PrecipitationProbability, maxresult);
 
-  log << "PoP Mean(Max) " << maxresult << endl;
+  log << "PoP Mean(Max) " << maxresult << '\n';
 
   const int pop = to_precision(maxresult.value(), precision);
 

@@ -16,9 +16,9 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -76,9 +76,9 @@ Paragraph WaveStory::range() const
   WeatherResultTools::checkMissingValue(
       "wave_range", WaveHeight, {minresult, maxresult, meanresult});
 
-  log << "WaveHeight Minimum(Mean)  = " << minresult << endl;
-  log << "WaveHeight Maximum(Mean)  = " << maxresult << endl;
-  log << "WaveHeight Mean(Mean)     = " << meanresult << endl;
+  log << "WaveHeight Minimum(Mean)  = " << minresult << '\n';
+  log << "WaveHeight Maximum(Mean)  = " << maxresult << '\n';
+  log << "WaveHeight Mean(Mean)     = " << meanresult << '\n';
 
   const float mininterval = Settings::optional_double(itsVar + "::mininterval", 0.5);
   const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");

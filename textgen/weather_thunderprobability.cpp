@@ -14,10 +14,10 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen;
 using namespace std;
@@ -53,7 +53,7 @@ Paragraph WeatherStory::thunderprobability() const
 
   WeatherResultTools::checkMissingValue("weather_thunderprobability", Thunder, result);
 
-  log << "Thunder Maximum(Maximum) = " << result << endl;
+  log << "Thunder Maximum(Maximum) = " << result << '\n';
 
   const int probability = MathTools::to_precision(result.value(), precision);
 

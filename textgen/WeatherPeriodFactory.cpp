@@ -20,8 +20,8 @@
 
 #include "WeatherPeriodFactory.h"
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
 
 #include <calculator/TextGenPosixTime.h>
 

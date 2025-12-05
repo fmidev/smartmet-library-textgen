@@ -83,7 +83,7 @@ Paragraph RelativeHumidityStory::day() const
 
   WeatherResultTools::checkMissingValue("relativehumidity_day", RelativeHumidity, arearesult);
 
-  log << "RelativeHumidity Mean(Minimum) for area " << arearesult << endl;
+  log << "RelativeHumidity Mean(Minimum) for area " << arearesult << '\n';
 
   const int areahumidity = to_precision(arearesult.value(), precision);
 
@@ -135,8 +135,8 @@ Paragraph RelativeHumidityStory::day() const
     }
     else
     {
-      log << "RelativeHumidity Mean(Minimum) for coast " << coastresult << endl;
-      log << "RelativeHumidity Mean(Minimum) for inland " << inlandresult << endl;
+      log << "RelativeHumidity Mean(Minimum) for coast " << coastresult << '\n';
+      log << "RelativeHumidity Mean(Minimum) for inland " << inlandresult << '\n';
 
       const int coasthumidity = to_precision(coastresult.value(), precision);
       const int inlandhumidity = to_precision(inlandresult.value(), precision);

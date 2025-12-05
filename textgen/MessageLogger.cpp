@@ -15,7 +15,7 @@
  * {
  *   MessageLogger::open("my.log");
  *   MessageLogger log("main");
- *   log << "Starting the work" << std::endl;
+ *   log << "Starting the work\n";
  *   ...
  *
  * }
@@ -26,7 +26,7 @@
  * void myfunction()
  * {
  *   MessageLogger log("myfunction()");
- *   log << "calculating some result " << 10 << std::endl;
+ *   log << "calculating some result " << 10 << '\n';
  * }
  * \endcode
 
@@ -91,11 +91,11 @@ MessageLogger::~MessageLogger()
 
   if (sOutputFile != nullptr)
     *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << "[Leaving " << itsFunction << ']'
-                 << endl;
+                 << '\n';
 
   if (sOutputStream != nullptr)
     *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << "[Leaving " << itsFunction << ']'
-                   << endl;
+                   << '\n';
 }
 
 // ----------------------------------------------------------------------
@@ -112,10 +112,10 @@ MessageLogger::MessageLogger(string theFunction) : itsFunction(std::move(theFunc
 
   if (sOutputFile != nullptr)
     *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << "[Entering " << itsFunction << ']'
-                 << endl;
+                 << '\n';
   if (sOutputStream != nullptr)
     *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << "[Entering " << itsFunction
-                   << ']' << endl;
+                   << ']' << '\n';
   ++sDepth;
 }
 
@@ -214,9 +214,9 @@ std::string MessageLogger::str() const
 MessageLogger& MessageLogger::operator<<(const TextGen::Glyph& theGlyph)
 {
   if (sOutputFile.get() != nullptr)
-    *sOutputFile << "Return: " << sFormatter.format(theGlyph) << endl;
+    *sOutputFile << "Return: " << sFormatter.format(theGlyph) << '\n';
   if (sOutputStream.get() != nullptr)
-    *sOutputStream << "Return: " << sFormatter.format(theGlyph) << endl;
+    *sOutputStream << "Return: " << sFormatter.format(theGlyph) << '\n';
   return *this;
 }
 

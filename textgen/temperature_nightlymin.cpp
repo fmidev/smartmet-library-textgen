@@ -61,7 +61,7 @@ Paragraph TemperatureStory::nightlymin() const
 
   if (nights == 0)
   {
-    log << "No night periods!" << endl;
+    log << "No night periods!\n";
     return paragraph;
   }
 
@@ -91,9 +91,9 @@ Paragraph TemperatureStory::nightlymin() const
   WeatherResultTools::checkMissingValue(
       "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
 
-  log << "Temperature Minimum(Minimum) night 1 = " << minresult << endl;
-  log << "Temperature Mean(Minimum) night 1 = " << meanresult << endl;
-  log << "Temperature Maximum(Minimum) night 1 = " << maxresult << endl;
+  log << "Temperature Minimum(Minimum) night 1 = " << minresult << '\n';
+  log << "Temperature Mean(Minimum) night 1 = " << meanresult << '\n';
+  log << "Temperature Maximum(Minimum) night 1 = " << maxresult << '\n';
 
   const int min1 = static_cast<int>(round(minresult.value()));
   const int max1 = static_cast<int>(round(maxresult.value()));
@@ -124,9 +124,9 @@ Paragraph TemperatureStory::nightlymin() const
     WeatherResultTools::checkMissingValue(
         "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
 
-    log << "Temperature Minimum(Minimum) night " << p << " = " << minresult << endl;
-    log << "Temperature Mean(Minimum) night " << p << " = " << meanresult << endl;
-    log << "Temperature Maximum(Minimum) night " << p << " = " << maxresult << endl;
+    log << "Temperature Minimum(Minimum) night " << p << " = " << minresult << '\n';
+    log << "Temperature Mean(Minimum) night " << p << " = " << meanresult << '\n';
+    log << "Temperature Maximum(Minimum) night " << p << " = " << maxresult << '\n';
 
     const int min2 = static_cast<int>(round(minresult.value()));
     const int max2 = static_cast<int>(round(maxresult.value()));

@@ -85,7 +85,7 @@ Paragraph PrecipitationStory::pop_twodays() const
 
   WeatherResultTools::checkMissingValue("pop_twodays", PrecipitationProbability, result);
 
-  log << "PoP Maximum(Maximum) for day 1 " << result << endl;
+  log << "PoP Maximum(Maximum) for day 1 " << result << '\n';
 
   const int pop1 = to_precision(result.value(), precision);
 
@@ -112,7 +112,7 @@ Paragraph PrecipitationStory::pop_twodays() const
 
     WeatherResultTools::checkMissingValue("pop_twodays", PrecipitationProbability, result2);
 
-    log << "PoP Maximum(Maximum) for day 2 " << result2 << endl;
+    log << "PoP Maximum(Maximum) for day 2 " << result2 << '\n';
 
     const int pop2 = to_precision(result2.value(), precision);
 

@@ -102,10 +102,10 @@ Paragraph WindStory::simple_overview() const
                                                  itsArea,
                                                  morning);
 
-    log << "WindSpeed Minimum(Mean) until_morning  = " << minspeed << endl;
-    log << "WindSpeed Maximum(Mean) until_morning  = " << maxspeed << endl;
-    log << "WindSpeed Mean(Mean) until_morning  = " << meanspeed << endl;
-    log << "WindDirection Mean(Mean) until_morning  = " << direction << endl;
+    log << "WindSpeed Minimum(Mean) until_morning  = " << minspeed << '\n';
+    log << "WindSpeed Maximum(Mean) until_morning  = " << maxspeed << '\n';
+    log << "WindSpeed Mean(Mean) until_morning  = " << meanspeed << '\n';
+    log << "WindDirection Mean(Mean) until_morning  = " << direction << '\n';
 
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
@@ -156,10 +156,10 @@ Paragraph WindStory::simple_overview() const
                                                  itsArea,
                                                  day);
 
-    log << "WindSpeed Minimum(Mean) until_tonight  = " << minspeed << endl;
-    log << "WindSpeed Maximum(Mean) until_tonight  = " << maxspeed << endl;
-    log << "WindSpeed Mean(Mean) until_tonight  = " << meanspeed << endl;
-    log << "WindDirection Mean(Mean) until_tonight  = " << direction << endl;
+    log << "WindSpeed Minimum(Mean) until_tonight  = " << minspeed << '\n';
+    log << "WindSpeed Maximum(Mean) until_tonight  = " << maxspeed << '\n';
+    log << "WindSpeed Mean(Mean) until_tonight  = " << meanspeed << '\n';
+    log << "WindDirection Mean(Mean) until_tonight  = " << direction << '\n';
 
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
@@ -203,10 +203,10 @@ Paragraph WindStory::simple_overview() const
                                    itsArea,
                                    night);
 
-    log << "WindSpeed Minimum(Mean) tonight  = " << minspeed << endl;
-    log << "WindSpeed Maximum(Mean) tonight  = " << maxspeed << endl;
-    log << "WindSpeed Mean(Mean) tonight  = " << meanspeed << endl;
-    log << "WindDirection Mean(Mean) tonight  = " << direction << endl;
+    log << "WindSpeed Minimum(Mean) tonight  = " << minspeed << '\n';
+    log << "WindSpeed Maximum(Mean) tonight  = " << maxspeed << '\n';
+    log << "WindSpeed Mean(Mean) tonight  = " << meanspeed << '\n';
+    log << "WindDirection Mean(Mean) tonight  = " << direction << '\n';
 
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
@@ -258,10 +258,10 @@ Paragraph WindStory::simple_overview() const
                                                  itsArea,
                                                  remainder);
 
-    log << "WindSpeed Minimum(Mean) remaining_days  = " << minspeed << endl;
-    log << "WindSpeed Maximum(Mean) remaining_days  = " << maxspeed << endl;
-    log << "WindSpeed Mean(Mean) remaining_days  = " << meanspeed << endl;
-    log << "WindDirection Mean(Mean) remaining_days  = " << direction << endl;
+    log << "WindSpeed Minimum(Mean) remaining_days  = " << minspeed << '\n';
+    log << "WindSpeed Maximum(Mean) remaining_days  = " << maxspeed << '\n';
+    log << "WindSpeed Mean(Mean) remaining_days  = " << meanspeed << '\n';
+    log << "WindDirection Mean(Mean) remaining_days  = " << direction << '\n';
 
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
     WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);

@@ -110,8 +110,8 @@ Paragraph FrostStory::day() const
 
   WeatherResultTools::checkMissingValue("frost_day", Frost, {areafrost, areasevere});
 
-  log << "Frost Mean(Maximum) for area " << areafrost << endl;
-  log << "SevereFrost Mean(Maximum) for area " << areasevere << endl;
+  log << "Frost Mean(Maximum) for area " << areafrost << '\n';
+  log << "SevereFrost Mean(Maximum) for area " << areasevere << '\n';
 
   // Rounded values
 
@@ -183,8 +183,8 @@ Paragraph FrostStory::day() const
 
   // We have a coast and inland
 
-  log << "Mean(Maximum) for coast " << coastfrost << endl;
-  log << "Mean(Maximum) for inland " << inlandfrost << endl;
+  log << "Mean(Maximum) for coast " << coastfrost << '\n';
+  log << "Mean(Maximum) for inland " << inlandfrost << '\n';
 
   // What's the difference between coast and inland?
 

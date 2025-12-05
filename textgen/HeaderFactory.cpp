@@ -203,9 +203,9 @@ TextGen::Header header_report_area(const TextGenPosixTime& theForecastTime,
 
   if (theArea.isPoint())
     log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
-        << theArea.point().Y() << endl;
+        << theArea.point().Y() << '\n';
   else
-    log << "** area = " << theArea.name() << endl;
+    log << "** area = " << theArea.name() << '\n';
 
   const int starthour = thePeriod.localStartTime().GetHour();
 
@@ -263,9 +263,9 @@ TextGen::Header header_report_location(const WeatherArea& theArea,
 
   if (theArea.isPoint())
     log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
-        << theArea.point().Y() << endl;
+        << theArea.point().Y() << '\n';
   else
-    log << "** area = " << theArea.name() << endl;
+    log << "** area = " << theArea.name() << '\n';
 
   header << LocationPhrase(theArea.name());
 

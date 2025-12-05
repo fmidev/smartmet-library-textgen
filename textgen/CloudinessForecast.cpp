@@ -28,10 +28,10 @@
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 #include <map>
@@ -273,10 +273,10 @@ std::ostream& operator<<(std::ostream& theOutput,
   theOutput << "min=" << theCloudinessDataItemData.theMin << " ";
   theOutput << "mean=" << theCloudinessDataItemData.theMean << " ";
   theOutput << "max=" << theCloudinessDataItemData.theMax << " ";
-  theOutput << "std.dev=" << theCloudinessDataItemData.theStandardDeviation << endl;
-  theOutput << "    weather event: " << weatherEventIdStr << endl;
+  theOutput << "std.dev=" << theCloudinessDataItemData.theStandardDeviation << '\n';
+  theOutput << "    weather event: " << weatherEventIdStr << '\n';
   theOutput << "    pearson coefficient: " << theCloudinessDataItemData.thePearsonCoefficient
-            << endl;
+            << '\n';
 
   return theOutput;
 }
@@ -285,17 +285,17 @@ std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theC
 {
   if (theCloudinessDataItem.theCoastalData)
   {
-    theOutput << "  Coastal" << endl;
+    theOutput << "  Coastal\n";
     theOutput << *theCloudinessDataItem.theCoastalData;
   }
   if (theCloudinessDataItem.theInlandData)
   {
-    theOutput << "  Inland" << endl;
+    theOutput << "  Inland\n";
     theOutput << *theCloudinessDataItem.theInlandData;
   }
   if (theCloudinessDataItem.theFullData)
   {
-    theOutput << "  Full area" << endl;
+    theOutput << "  Full area\n";
     theOutput << *theCloudinessDataItem.theFullData;
   }
   return theOutput;
@@ -655,20 +655,20 @@ void CloudinessForecast::joinPeriods()
 
 void CloudinessForecast::printOutCloudinessData(std::ostream& theOutput) const
 {
-  theOutput << "** CLOUDINESS DATA **" << endl;
+  theOutput << "** CLOUDINESS DATA **\n";
   if (theCoastalData)
   {
-    theOutput << "Coastal cloudiness: " << endl;
+    theOutput << "Coastal cloudiness: \n";
     printOutCloudinessData(theOutput, theCoastalData);
   }
   if (theInlandData)
   {
-    theOutput << "Inland cloudiness: " << endl;
+    theOutput << "Inland cloudiness: \n";
     printOutCloudinessData(theOutput, theInlandData);
   }
   if (theFullData)
   {
-    theOutput << "Full area cloudiness: " << endl;
+    theOutput << "Full area cloudiness: \n";
     printOutCloudinessData(theOutput, theFullData);
   }
 }
@@ -679,7 +679,7 @@ void CloudinessForecast::printOutCloudinessData(
   for (const auto& i : *theDataVector)
   {
     theOutput << i->thePeriod.localStartTime() << "..." << i->thePeriod.localEndTime() << ": "
-              << i->theResult.value() << endl;
+              << i->theResult.value() << '\n';
   }
 }
 
@@ -692,64 +692,64 @@ void CloudinessForecast::printOutCloudinessPeriods(
                          theCloudinessPeriod.first.localEndTime());
     cloudiness_id clid(theCloudinessPeriod.second);
     theOutput << period.localStartTime() << "..." << period.localEndTime() << ": "
-              << cloudiness_string(clid) << endl;
+              << cloudiness_string(clid) << '\n';
   }
 }
 
 void CloudinessForecast::printOutCloudinessWeatherEvents(std::ostream& theOutput) const
 {
-  theOutput << "** CLOUDINESS WEATHER EVENTS **" << endl;
+  theOutput << "** CLOUDINESS WEATHER EVENTS **\n";
   bool isWeatherEvents = false;
   if (!theCloudinessWeatherEventsCoastal.empty())
   {
-    theOutput << "Coastal weather events: " << endl;
+    theOutput << "Coastal weather events: \n";
     print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsCoastal);
     isWeatherEvents = true;
   }
   if (!theCloudinessWeatherEventsInland.empty())
   {
-    theOutput << "Inland weather events: " << endl;
+    theOutput << "Inland weather events: \n";
     print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsInland);
     isWeatherEvents = true;
   }
   if (!theCloudinessWeatherEventsFull.empty())
   {
-    theOutput << "Full area weather events: " << endl;
+    theOutput << "Full area weather events: \n";
     print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsFull);
     isWeatherEvents = true;
   }
 
   if (!isWeatherEvents)
-    theOutput << "No weather events!" << endl;
+    theOutput << "No weather events!\n";
 }
 
 void CloudinessForecast::printOutCloudinessPeriods(std::ostream& theOutput) const
 {
-  theOutput << "** CLOUDINESS PERIODS **" << endl;
+  theOutput << "** CLOUDINESS PERIODS **\n";
 
   if (theCoastalData)
   {
-    theOutput << "Coastal cloudiness: " << endl;
+    theOutput << "Coastal cloudiness: \n";
     printOutCloudinessPeriods(theOutput, theCloudinessPeriodsCoastal);
-    theOutput << "Coastal cloudiness joined: " << endl;
+    theOutput << "Coastal cloudiness joined: \n";
     printOutCloudinessPeriods(theOutput, theCloudinessPeriodsCoastalJoined);
     vector<int> theCloudinessPuolipilvisestaPilviseen;
     joinPuolipilvisestaPilviseen(theCoastalData, theCloudinessPuolipilvisestaPilviseen);
   }
   if (theInlandData)
   {
-    theOutput << "Inland cloudiness: " << endl;
+    theOutput << "Inland cloudiness: \n";
     printOutCloudinessPeriods(theOutput, theCloudinessPeriodsInland);
-    theOutput << "Inland cloudiness joined: " << endl;
+    theOutput << "Inland cloudiness joined: \n";
     printOutCloudinessPeriods(theOutput, theCloudinessPeriodsInlandJoined);
     vector<int> theCloudinessPuolipilvisestaPilviseen;
     joinPuolipilvisestaPilviseen(theInlandData, theCloudinessPuolipilvisestaPilviseen);
   }
   if (theFullData)
   {
-    theOutput << "Full area cloudiness: " << endl;
+    theOutput << "Full area cloudiness: \n";
     printOutCloudinessPeriods(theOutput, theCloudinessPeriodsFull);
-    theOutput << "Full area cloudiness joined: " << endl;
+    theOutput << "Full area cloudiness joined: \n";
     printOutCloudinessPeriods(theOutput, theCloudinessPeriodsFullJoined);
     vector<int> theCloudinessPuolipilvisestaPilviseen;
     joinPuolipilvisestaPilviseen(theFullData, theCloudinessPuolipilvisestaPilviseen);

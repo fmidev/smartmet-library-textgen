@@ -97,9 +97,9 @@ Paragraph PrecipitationStory::pop_days() const
 
   WeatherResult result1 = WeatherResultTools::mean(pop1max, pop1mean);
 
-  log << "PoP Mean(Mean) for day 1 " << pop1mean << endl
-      << "PoP Mean(Max) for day 1 " << pop1max << endl
-      << "Pop for day 1 is the mean value " << result1 << endl;
+  log << "PoP Mean(Mean) for day 1 " << pop1mean << '\n'
+      << "PoP Mean(Max) for day 1 " << pop1max << '\n'
+      << "Pop for day 1 is the mean value " << result1 << '\n';
 
   const int pop1 = to_precision(result1.value(), precision);
 
@@ -137,9 +137,9 @@ Paragraph PrecipitationStory::pop_days() const
 
     WeatherResult result2 = WeatherResultTools::mean(pop2max, pop2mean);
 
-    log << "PoP Mean(Mean) for day 2 " << pop2mean << endl
-        << "PoP Mean(Max) for day 2 " << pop2max << endl
-        << "Pop for day 2 is the mean value " << result2 << endl;
+    log << "PoP Mean(Mean) for day 2 " << pop2mean << '\n'
+        << "PoP Mean(Max) for day 2 " << pop2max << '\n'
+        << "Pop for day 2 is the mean value " << result2 << '\n';
 
     const int pop2 = to_precision(result2.value(), precision);
 

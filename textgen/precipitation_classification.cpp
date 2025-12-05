@@ -168,9 +168,9 @@ Paragraph PrecipitationStory::classification() const
   WeatherResultTools::checkMissingValue(
       "precipitation_classification", Precipitation, {minresult, maxresult, meanresult});
 
-  log << "Precipitation Minimum(Sum) " << minresult << endl;
-  log << "Precipitation Mean(Sum) " << meanresult << endl;
-  log << "Precipitation Maximum(Sum) " << maxresult << endl;
+  log << "Precipitation Minimum(Sum) " << minresult << '\n';
+  log << "Precipitation Mean(Sum) " << meanresult << '\n';
+  log << "Precipitation Maximum(Sum) " << maxresult << '\n';
 
   // Parse the classes
 
@@ -216,7 +216,7 @@ Paragraph PrecipitationStory::classification() const
                                                     DefaultAcceptor(),
                                                     percentagelimits);
 
-      log << "Precipitation Percentage(Sum) " << probresult << endl;
+      log << "Precipitation Percentage(Sum) " << probresult << '\n';
 
       const int limit1 = Settings::optional_int(variable1, -1);
       const int limit2 = Settings::optional_int(variable2, -1);
@@ -294,7 +294,7 @@ Paragraph PrecipitationStory::classification() const
                                                   DefaultAcceptor(),
                                                   percentagelimits);
 
-    log << "Precipitation Percentage(Sum) " << probresult << endl;
+    log << "Precipitation Percentage(Sum) " << probresult << '\n';
 
     const int limit1 = Settings::optional_int(variable1, -1);
     const int limit2 = Settings::optional_int(variable2, -1);

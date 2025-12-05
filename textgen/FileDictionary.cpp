@@ -22,11 +22,11 @@
  * FileDictionary english;
  * english.init("en");
  *
- * cout << english.find("1-aamusta") << endl;
- * cout << english.find("paivan ylin lampotila") << endl;
+ * cout << english.find("1-aamusta") << '\n';
+ * cout << english.find("paivan ylin lampotila") << '\n';
  *
  * if(english.contains("1-aamusta"))
- *    cout << english.find("1-aamusta") << endl;
+ *    cout << english.find("1-aamusta") << '\n';
  * \endcode
  *
  * Note that find throws if the given keyword does not exist.
@@ -148,8 +148,8 @@ void FileDictionary::init(const std::string& theLanguage)
   {
     std::vector<std::string> parts = NFmiStringTools::Split(line, "|");
     if (parts.size() != 2)
-      throw Fmi::Exception(BCP, "Error: Dictionary '" + filename + "' contains invalid line '" + line +
-                         "'");
+      throw Fmi::Exception(
+          BCP, "Error: Dictionary '" + filename + "' contains invalid line '" + line + "'");
     if (!parts[0].empty())
       itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
   }
@@ -191,8 +191,9 @@ const std::string& FileDictionary::find(const std::string& theKey) const
 
   if (it != itsPimple->itsData.end())
     return it->second;
-  throw Fmi::Exception(BCP, "Error: FileDictionary::find(" + theKey + ") failed in language " +
-                     itsPimple->itsLanguage);
+  throw Fmi::Exception(
+      BCP,
+      "Error: FileDictionary::find(" + theKey + ") failed in language " + itsPimple->itsLanguage);
 }
 
 // ----------------------------------------------------------------------

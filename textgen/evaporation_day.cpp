@@ -61,11 +61,11 @@ Paragraph ForestStory::evaporation_day() const
 
   if (evaporation.value() == kFloatMissing)
   {
-    log << "No forecast available, returning empty story" << endl;
+    log << "No forecast available, returning empty story\n";
     return paragraph;
   }
 
-  log << "Evaporation Mean(Sum) for area " << evaporation << endl;
+  log << "Evaporation Mean(Sum) for area " << evaporation << '\n';
 
   // Generate the story
 

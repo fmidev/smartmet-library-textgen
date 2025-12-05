@@ -517,7 +517,7 @@ bool is_night_frost(MessageLogger& log,
                                                           DefaultAcceptor(),
                                                           comparativeAcceptor);
 
-  log << NFmiStringTools::Convert(theLogMessage) << nightFrostPercentage << endl;
+  log << NFmiStringTools::Convert(theLogMessage) << nightFrostPercentage << '\n';
 
   // At least 20% of the area has night frost
   bool retval = nightFrostPercentage.value() != kFloatMissing &&
@@ -542,7 +542,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
   if (growingSeasonPercentage != kFloatMissing)
   {
     log << NFmiStringTools::Convert(theLogMessage) << fixed << setprecision(0)
-        << (theArea.isPoint() ? growingSeasonPercentage * 100.0 : growingSeasonPercentage) << endl;
+        << (theArea.isPoint() ? growingSeasonPercentage * 100.0 : growingSeasonPercentage) << '\n';
   }
   const int notBeforeDate = Settings::optional_int(theVariable + "::not_before_date", 0);
   const int notAfterDate = Settings::optional_int(theVariable + "::not_after_date", 0);
@@ -567,12 +567,12 @@ bool growing_season_going_on(const WeatherArea& theArea,
     if (notBeforeDate != 0)
     {
       log << "No frost warnings will be issued before "
-          << Settings::optional_string(theVariable + "::not_before_date", "**") << endl;
+          << Settings::optional_string(theVariable + "::not_before_date", "**") << '\n';
     }
     if (notAfterDate != 0)
     {
       log << "No frost warnings are issued after "
-          << Settings::optional_string(theVariable + "::not_after_date", "**") << endl;
+          << Settings::optional_string(theVariable + "::not_after_date", "**") << '\n';
     }
 
     growingSeasonGoingOn = false;
@@ -597,7 +597,7 @@ Paragraph FrostStory::onenight() const
 
   MessageLogger log("FrostStory::onenight");
 
-  log << "forecasttime: " << itsForecastTime << endl;
+  log << "forecasttime: " << itsForecastTime << '\n';
 
   Paragraph paragraph;
 
@@ -608,7 +608,7 @@ Paragraph FrostStory::onenight() const
 
   if (!temperatureSumFileExists && !resressionTestRun)
   {
-    log << "The temperature sum file " << temperatureSumFile << " does not exist!" << endl;
+    log << "The temperature sum file " << temperatureSumFile << " does not exist!\n";
     return paragraph;
   }
 
@@ -631,20 +631,20 @@ Paragraph FrostStory::onenight() const
   const double required_growing_season_percentage =
       Settings::optional_double(parameter_name, 33.33);
 
-  log << "starthour " << starthour << endl;
-  log << "endhour " << endhour << endl;
-  log << "required_growing_season_percentage " << required_growing_season_percentage << endl;
-  log << "required_night_frost_percentage " << required_night_frost_percentage << endl;
-  log << "required_severe_frost_probability " << required_severe_frost_probability << endl;
-  log << "maxstarthour " << maxstarthour << endl;
-  log << "minendhour " << minendhour << endl;
+  log << "starthour " << starthour << '\n';
+  log << "endhour " << endhour << '\n';
+  log << "required_growing_season_percentage " << required_growing_season_percentage << '\n';
+  log << "required_night_frost_percentage " << required_night_frost_percentage << '\n';
+  log << "required_severe_frost_probability " << required_severe_frost_probability << '\n';
+  log << "maxstarthour " << maxstarthour << '\n';
+  log << "minendhour " << minendhour << '\n';
 
   HourPeriodGenerator generator(itsPeriod, itsVar + "::night");
 
   // Too late for this night? Return empty story then
   if (generator.size() == 0)
   {
-    log << "Too late for frost-story for this night!" << endl;
+    log << "Too late for frost-story for this night!\n";
     log << paragraph;
     return paragraph;
   }
@@ -668,7 +668,7 @@ Paragraph FrostStory::onenight() const
   if (precipitationResult.value() > 0)
   {
     log << "There is some rain during period " << night1.localStartTime() << "..."
-        << night1.localEndTime() << " -> frost is not reported!" << std::endl;
+        << night1.localEndTime() << " -> frost is not reported!\n";
     return paragraph;
   }
 
@@ -689,9 +689,9 @@ Paragraph FrostStory::onenight() const
   {
     if (growingSeasonCoastal)
       log << "Growing season not started on inland area, coastal area is not reported alone!"
-          << endl;
+          << '\n';
     else
-      log << "Growing season not started, frost will not be reported!" << endl;
+      log << "Growing season not started, frost will not be reported!\n";
 
     return paragraph;
   }
@@ -725,7 +725,7 @@ Paragraph FrostStory::onenight() const
   if (ignoreCoastalArea && coastalPercentage > 0.0)
   {
     log << "Coastal proportion: " << coastalPercentage << " is smaller than "
-        << SEPARATE_COASTAL_AREA_PERCENTAGE << " and thus will be ignored!" << endl;
+        << SEPARATE_COASTAL_AREA_PERCENTAGE << " and thus will be ignored!\n";
   }
 
   unsigned short growing_season_started = 0x0;
@@ -745,16 +745,16 @@ Paragraph FrostStory::onenight() const
 
   if (!(forecast_areas & (COASTAL_AREA | INLAND_AREA)))
   {
-    log << "Neither Coastal nor Inland area is included! " << endl;
+    log << "Neither Coastal nor Inland area is included! \n";
     return paragraph;
   }
   if (!(forecast_areas & COASTAL_AREA))
   {
-    log << "Coastal area is not included" << endl;
+    log << "Coastal area is not included\n";
   }
   if (!(forecast_areas & INLAND_AREA))
   {
-    log << "Inland area is not included" << endl;
+    log << "Inland area is not included\n";
   }
 
   WeatherResult temperatureMinMinCoastal(kFloatMissing, 0.0);
@@ -798,7 +798,7 @@ Paragraph FrostStory::onenight() const
   // night frost at both areas
   if (night_frost == (COASTAL_AREA | INLAND_AREA))
   {
-    log << "Night frost both on coastal and inland area!" << endl;
+    log << "Night frost both on coastal and inland area!\n";
     return paragraph;
   }
   else
@@ -816,7 +816,7 @@ Paragraph FrostStory::onenight() const
                                               coastalArea,
                                               night1);
 
-      log << "Frost_Maximum_Maximum Coastal: " << frostMaxMaxCoastal << endl;
+      log << "Frost_Maximum_Maximum Coastal: " << frostMaxMaxCoastal << '\n';
 
       // if frost probability >= 70%, then examine severe frost probabailty
       if (frostMaxMaxCoastal.value() >= 70.0)
@@ -830,7 +830,7 @@ Paragraph FrostStory::onenight() const
                                coastalArea,
                                night1);
 
-        log << "Severe_Frost_Maximum_Maximum Coastal: " << severeFrostMaxMaxCoastal << endl;
+        log << "Severe_Frost_Maximum_Maximum Coastal: " << severeFrostMaxMaxCoastal << '\n';
       }
     }
 
@@ -847,7 +847,7 @@ Paragraph FrostStory::onenight() const
                                              inlandArea,
                                              night1);
 
-      log << "Frost_Maximum_Maximum Inland: " << frostMaxMaxInland << endl;
+      log << "Frost_Maximum_Maximum Inland: " << frostMaxMaxInland << '\n';
 
       // if frost probability >= 70%, then examine severe frost probabailty
       if (frostMaxMaxInland.value() >= 70.0)
@@ -861,13 +861,13 @@ Paragraph FrostStory::onenight() const
                                inlandArea,
                                night1);
 
-        log << "Severe_Frost_Maximum_Maximum Inland: " << severeFrostMaxMaxInland << endl;
+        log << "Severe_Frost_Maximum_Maximum Inland: " << severeFrostMaxMaxInland << '\n';
       }
     }
 
-    log << "forecast_areas:  " << forecast_areas << endl;
-    log << "growing_season_started:  " << growing_season_started << endl;
-    log << "night_frost:  " << night_frost << endl;
+    log << "forecast_areas:  " << forecast_areas << '\n';
+    log << "growing_season_started:  " << growing_season_started << '\n';
+    log << "night_frost:  " << night_frost << '\n';
 
     bool is_severe_frost_coastal =
         (severeFrostMaxMaxCoastal.value() > required_severe_frost_probability &&

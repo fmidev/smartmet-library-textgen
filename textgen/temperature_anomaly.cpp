@@ -310,30 +310,30 @@ struct temperature_anomaly_params
 void log_data(const temperature_anomaly_params& theParameters)
 {
   theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum << endl;
+                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum << '\n';
   theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMean: "
-                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean << endl;
+                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean << '\n';
   theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum << endl;
+                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum << '\n';
   theParameters.theLog << "theDay1TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDay1TemperatureAreaAfternoonMinimum << endl;
+                       << theParameters.theDay1TemperatureAreaAfternoonMinimum << '\n';
   theParameters.theLog << "theDay1TemperatureAreaAfternoonMean: "
-                       << theParameters.theDay1TemperatureAreaAfternoonMean << endl;
+                       << theParameters.theDay1TemperatureAreaAfternoonMean << '\n';
   theParameters.theLog << "theDay1TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDay1TemperatureAreaAfternoonMaximum << endl;
+                       << theParameters.theDay1TemperatureAreaAfternoonMaximum << '\n';
 
   theParameters.theLog << "theDay2TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDay2TemperatureAreaAfternoonMinimum << endl;
+                       << theParameters.theDay2TemperatureAreaAfternoonMinimum << '\n';
   theParameters.theLog << "theDay2TemperatureAreaAfternoonMean: "
-                       << theParameters.theDay2TemperatureAreaAfternoonMean << endl;
+                       << theParameters.theDay2TemperatureAreaAfternoonMean << '\n';
   theParameters.theLog << "theDay2TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDay2TemperatureAreaAfternoonMaximum << endl;
+                       << theParameters.theDay2TemperatureAreaAfternoonMaximum << '\n';
   theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMinimum << endl;
+                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMinimum << '\n';
   theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMean: "
-                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMean << endl;
+                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMean << '\n';
   theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum << endl;
+                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum << '\n';
 }
 
 void log_start_time_and_end_time(MessageLogger& theLog,
@@ -341,7 +341,7 @@ void log_start_time_and_end_time(MessageLogger& theLog,
                                  const WeatherPeriod& thePeriod)
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
-         << thePeriod.localEndTime() << endl;
+         << thePeriod.localEndTime() << '\n';
 }
 
 std::string period2string(const WeatherPeriod& period)
@@ -392,14 +392,14 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
     WeatherResult fractile98Temperature = get_fractile_temperature(
         theVariable, FRACTILE_98, theSources, theArea, fractilePeriod, theFractileType);
 
-    theLog << "date = " << startTime << "..." << endTime << endl;
-    theLog << "F02 = " << fractile02Temperature << endl;
-    theLog << "F12 = " << fractile12Temperature << endl;
-    theLog << "F37 = " << fractile37Temperature << endl;
-    theLog << "F50 = " << fractile50Temperature << endl;
-    theLog << "F63 = " << fractile63Temperature << endl;
-    theLog << "F88 = " << fractile88Temperature << endl;
-    theLog << "F98 = " << fractile98Temperature << endl;
+    theLog << "date = " << startTime << "..." << endTime << '\n';
+    theLog << "F02 = " << fractile02Temperature << '\n';
+    theLog << "F12 = " << fractile12Temperature << '\n';
+    theLog << "F37 = " << fractile37Temperature << '\n';
+    theLog << "F50 = " << fractile50Temperature << '\n';
+    theLog << "F63 = " << fractile63Temperature << '\n';
+    theLog << "F88 = " << fractile88Temperature << '\n';
+    theLog << "F98 = " << fractile98Temperature << '\n';
 
     startTime.ChangeByDays(1);
     endTime.ChangeByDays(1);
@@ -818,52 +818,52 @@ Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParam
                                fractileTemperatureDayAfterDay2Period,
                                theFractileType);
 
-  theParameters.theLog << "thePeriod: " << period2string(theParameters.thePeriod) << std::endl;
+  theParameters.theLog << "thePeriod: " << period2string(theParameters.thePeriod) << '\n';
   theParameters.theLog << "fractileTemperatureDayBeforeDay1Period: "
-                       << period2string(fractileTemperatureDayBeforeDay1Period) << std::endl;
+                       << period2string(fractileTemperatureDayBeforeDay1Period) << '\n';
   theParameters.theLog << "fractileTemperatureDay1Period: "
-                       << period2string(fractileTemperatureDay1Period) << std::endl;
+                       << period2string(fractileTemperatureDay1Period) << '\n';
   theParameters.theLog << "fractileTemperatureDay2Period: "
-                       << period2string(fractileTemperatureDay2Period) << std::endl;
+                       << period2string(fractileTemperatureDay2Period) << '\n';
   theParameters.theLog << "fractileTemperatureDayAfterDay2Period: "
-                       << period2string(fractileTemperatureDayAfterDay2Period) << std::endl;
+                       << period2string(fractileTemperatureDayAfterDay2Period) << '\n';
 
   theParameters.theLog << "F12 temperature for period "
                        << period2string(fractileTemperatureDayBeforeDay1Period) << ": "
-                       << fractile12TemperatureDayBeforeDay1.value() << endl;
+                       << fractile12TemperatureDayBeforeDay1.value() << '\n';
   theParameters.theLog << "F37 temperature for period "
                        << period2string(fractileTemperatureDayBeforeDay1Period) << ": "
-                       << fractile37TemperatureDayBeforeDay1.value() << endl;
+                       << fractile37TemperatureDayBeforeDay1.value() << '\n';
   theParameters.theLog << "F63 temperature for period "
                        << period2string(fractileTemperatureDayBeforeDay1Period) << ": "
-                       << fractile63TemperatureDayBeforeDay1.value() << endl;
+                       << fractile63TemperatureDayBeforeDay1.value() << '\n';
   theParameters.theLog << "F12 temperature for period "
                        << period2string(fractileTemperatureDay1Period) << ": "
-                       << fractile12TemperatureDay1.value() << endl;
+                       << fractile12TemperatureDay1.value() << '\n';
   theParameters.theLog << "F37 temperature for period "
                        << period2string(fractileTemperatureDay1Period) << ": "
-                       << fractile37TemperatureDay1.value() << endl;
+                       << fractile37TemperatureDay1.value() << '\n';
   theParameters.theLog << "F63 temperature for period "
                        << period2string(fractileTemperatureDay1Period) << ": "
-                       << fractile63TemperatureDay1.value() << endl;
+                       << fractile63TemperatureDay1.value() << '\n';
   theParameters.theLog << "F12 temperature for period "
                        << period2string(fractileTemperatureDay2Period) << ": "
-                       << fractile12TemperatureDay2.value() << endl;
+                       << fractile12TemperatureDay2.value() << '\n';
   theParameters.theLog << "F37 temperature for period "
                        << period2string(fractileTemperatureDay2Period) << ": "
-                       << fractile37TemperatureDay2.value() << endl;
+                       << fractile37TemperatureDay2.value() << '\n';
   theParameters.theLog << "F63 temperature for period "
                        << period2string(fractileTemperatureDay2Period) << ": "
-                       << fractile63TemperatureDay2.value() << endl;
+                       << fractile63TemperatureDay2.value() << '\n';
   theParameters.theLog << "F12 temperature for period "
                        << period2string(fractileTemperatureDayAfterDay2Period) << ": "
-                       << fractile12TemperatureDayAfterDay2.value() << endl;
+                       << fractile12TemperatureDayAfterDay2.value() << '\n';
   theParameters.theLog << "F37 temperature for period "
                        << period2string(fractileTemperatureDayAfterDay2Period) << ": "
-                       << fractile37TemperatureDayAfterDay2.value() << endl;
+                       << fractile37TemperatureDayAfterDay2.value() << '\n';
   theParameters.theLog << "F63 temperature for period "
                        << period2string(fractileTemperatureDayAfterDay2Period) << ": "
-                       << fractile63TemperatureDayAfterDay2.value() << endl;
+                       << fractile63TemperatureDayAfterDay2.value() << '\n';
 
   Sentence theSpecifiedDay;
 
@@ -1327,7 +1327,7 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
   int ndays = HourPeriodGenerator(itsPeriod, itsVar + "::day").size();
 
   theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime()
-         << " covers " << ndays << " days" << endl;
+         << " covers " << ndays << " days\n";
 
   if (ndays <= 0)
   {
@@ -1458,12 +1458,12 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
     WeatherResult f98Temperature = get_fractile_temperature(
         itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperatureDay1Period, fractileType);
 
-    theLog << "is higher than F98 temperature " << f98Temperature << endl;
+    theLog << "is higher than F98 temperature " << f98Temperature << '\n';
   }
   else
   {
     theLog << " falls into fractile " << fractile_name(theFractileDay1) << fractileTemperatureDay1
-           << endl;
+           << '\n';
   }
 
   theLog << "Day2 maximum temperature " << parameters.theDay2TemperatureAreaAfternoonMaximum;
@@ -1471,18 +1471,18 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
   {
     WeatherResult f98Temperature = get_fractile_temperature(
         itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperatureDay2Period, fractileType);
-    theLog << "is higher than F98 temperature " << f98Temperature << endl;
+    theLog << "is higher than F98 temperature " << f98Temperature << '\n';
   }
   else
   {
     theLog << " falls into fractile " << fractile_name(theFractileDay2) << fractileTemperatureDay2
-           << endl;
+           << '\n';
   }
 
   if (parameters.theDay1TemperatureAreaAfternoonMaximum.value() == kFloatMissing ||
       parameters.theDay2TemperatureAreaAfternoonMaximum.value() == kFloatMissing)
   {
-    theLog << "Maximum temperature value(s) missing, no story generated!" << endl;
+    theLog << "Maximum temperature value(s) missing, no story generated!\n";
     theLog << paragraph;
     return paragraph;
   }
@@ -1553,22 +1553,22 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
                                                         DefaultAcceptor(),
                                                         lowerLimitF98Acceptor);
 
-  theLog << "Fractiles for period: " << period2string(fractileTemperaturePeriod) << std::endl;
+  theLog << "Fractiles for period: " << period2string(fractileTemperaturePeriod) << '\n';
   theLog << "Fractile 02 temperature and share (" << theAreaName << "): " << fractile02Temperature
-         << "; " << fractile02Share << endl;
+         << "; " << fractile02Share << '\n';
   theLog << "Fractile 12 temperature and share (" << theAreaName << "): " << fractile12Temperature
-         << "; " << fractile12Share << endl;
+         << "; " << fractile12Share << '\n';
   theLog << "Fractile 88 temperature and share (" << theAreaName << "): " << fractile88Temperature
-         << "; " << fractile88Share << endl;
+         << "; " << fractile88Share << '\n';
   theLog << "Fractile 98 temperature and share (" << theAreaName << "): " << fractile98Temperature
-         << "; " << fractile98Share << endl;
+         << "; " << fractile98Share << '\n';
 
   if (fractile02Temperature.value() == kFloatMissing ||
       fractile12Temperature.value() == kFloatMissing ||
       fractile88Temperature.value() == kFloatMissing ||
       fractile98Temperature.value() == kFloatMissing)
   {
-    theLog << "Fractile temperature value(s) missing, no story generated!" << endl;
+    theLog << "Fractile temperature value(s) missing, no story generated!\n";
     theLog << paragraph;
     return paragraph;
   }
@@ -1576,7 +1576,7 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
   if (fractile02Share.value() == kFloatMissing || fractile12Share.value() == kFloatMissing ||
       fractile88Share.value() == kFloatMissing || fractile98Share.value() == kFloatMissing)
   {
-    theLog << "Fractile share value(s) missing, no story generated!" << endl;
+    theLog << "Fractile share value(s) missing, no story generated!\n";
     theLog << paragraph;
     return paragraph;
   }
@@ -1631,14 +1631,14 @@ Paragraph TemperatureStory::anomaly() const
   if (itsArea.isNamed())
   {
     areaName = itsArea.name();
-    log << areaName << endl;
+    log << areaName << '\n';
   }
 
   fs::path climatologyFile(Settings::optional_string("textgen::tmax_climatology", ""));
 
   if (!fs::exists(climatologyFile))
   {
-    log << "The climatology file " << climatologyFile << " does not exist!" << endl;
+    log << "The climatology file " << climatologyFile << " does not exist!\n";
     return paragraph;
   }
 
@@ -1654,13 +1654,13 @@ Paragraph TemperatureStory::anomaly() const
 
     std::string areaId =
         (areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part"));
-    log << areaId << endl;
+    log << areaId << '\n';
 
     paragraphAreaOne << TemperatureAnomaly::anomaly(
         areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, areaId, log);
 
     areaId = (areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part"));
-    log << areaId << endl;
+    log << areaId << '\n';
 
     paragraphAreaTwo << TemperatureAnomaly::anomaly(
         areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, areaId, log);

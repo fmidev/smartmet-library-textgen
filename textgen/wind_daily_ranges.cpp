@@ -65,7 +65,7 @@ Paragraph WindStory::daily_ranges() const
   const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
   const int ndays = periodgenerator.size();
 
-  log << "Period covers " << ndays << " days" << endl;
+  log << "Period covers " << ndays << " days\n";
 
   if (ndays <= 0)
   {
@@ -123,9 +123,9 @@ Paragraph WindStory::daily_ranges() const
                            itsArea,
                            period);
 
-    log << "WindSpeed Minimum(Mean) " << daystr << " = " << minspeed << endl;
-    log << "WindSpeed Maximum(Mean) " << daystr << " = " << maxspeed << endl;
-    log << "WindSpeed Mean(Mean) " << daystr << " = " << meanspeed << endl;
+    log << "WindSpeed Minimum(Mean) " << daystr << " = " << minspeed << '\n';
+    log << "WindSpeed Maximum(Mean) " << daystr << " = " << maxspeed << '\n';
+    log << "WindSpeed Mean(Mean) " << daystr << " = " << meanspeed << '\n';
 
     WeatherResultTools::checkMissingValue("wind_daily_ranges", WindSpeed, maxspeed);
     WeatherResultTools::checkMissingValue("wind_daily_ranges", WindSpeed, minspeed);

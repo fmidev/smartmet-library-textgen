@@ -25,11 +25,11 @@
  * dict.init("fi");
  * dict.init("en");
  *
- * cout << dict.find("good morning") << endl;
- * cout << dict.find("good night") << endl;
+ * cout << dict.find("good morning") << '\n';
+ * cout << dict.find("good night") << '\n';
  *
  * if(dict.contains("good night"))
- *    cout << dict.find("good night") << endl;
+ *    cout << dict.find("good night") << '\n';
  * \endcode
  *
  * Note that find throws if the given keyword does not exist.

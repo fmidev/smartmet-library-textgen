@@ -48,7 +48,7 @@ Paragraph TemperatureStory::meanmax() const
 
   WeatherResultTools::checkMissingValue("temperature_meanmax", Temperature, result);
 
-  log << "Temperature Mean(Mean(Maximum())) = " << result << endl;
+  log << "Temperature Mean(Mean(Maximum())) = " << result << '\n';
 
   sentence << "keskimaarainen ylin lampotila" << Integer(static_cast<int>(round(result.value())))
            << *UnitFactory::create(DegreesCelsius);

@@ -61,9 +61,9 @@ void calculate_mean_min_max(MessageLogger& theLog,
   theMax = theForecaster.analyze(
       theVar + "::max", theSources, Temperature, Maximum, theFunction, theArea, thePeriod);
 
-  theLog << "Temperature Mean(Maximum) " << theMean << endl;
-  theLog << "Temperature Min(Maximum) " << theMin << endl;
-  theLog << "Temperature Max(Maximum) " << theMax << endl;
+  theLog << "Temperature Mean(Maximum) " << theMean << '\n';
+  theLog << "Temperature Min(Maximum) " << theMin << '\n';
+  theLog << "Temperature Max(Maximum) " << theMax << '\n';
 }
 
 // ----------------------------------------------------------------------
@@ -98,7 +98,7 @@ Paragraph TemperatureStory::day() const
     return paragraph;
   }
 
-  log << "Period contains " << generator.size() << " days or nights" << endl;
+  log << "Period contains " << generator.size() << " days or nights\n";
 
   // The options
 
@@ -128,7 +128,7 @@ Paragraph TemperatureStory::day() const
   {
     ++part;
 
-    log << "Sentence " << part << ":" << endl;
+    log << "Sentence " << part << ":\n";
 
     WeatherResult areameanday(kFloatMissing, 0);
     WeatherResult areaminday(kFloatMissing, 0);
@@ -163,9 +163,9 @@ Paragraph TemperatureStory::day() const
       hasday = true;
 
       WeatherPeriod period = generator.period(periodnum++);
-      log << "Day: " << period.localStartTime() << " ... " << period.localEndTime() << endl;
+      log << "Day: " << period.localStartTime() << " ... " << period.localEndTime() << '\n';
 
-      log << "Day results for area:" << endl;
+      log << "Day results for area:\n";
       calculate_mean_min_max(log,
                              forecaster,
                              itsVar + "::fake::day" + Convert(part) + "::area",
@@ -177,7 +177,7 @@ Paragraph TemperatureStory::day() const
                              areaminday,
                              areamaxday);
 
-      log << "Day results for coast:" << endl;
+      log << "Day results for coast:\n";
       calculate_mean_min_max(log,
                              forecaster,
                              itsVar + "::fake::day" + Convert(part) + "::coast",
@@ -189,7 +189,7 @@ Paragraph TemperatureStory::day() const
                              coastminday,
                              coastmaxday);
 
-      log << "Day results for inland:" << endl;
+      log << "Day results for inland:\n";
       calculate_mean_min_max(log,
                              forecaster,
                              itsVar + "::fake::day" + Convert(part) + "::inland",
@@ -211,9 +211,9 @@ Paragraph TemperatureStory::day() const
       hasnight = true;
       WeatherPeriod period = generator.period(periodnum++);
 
-      log << "Night: " << period.localStartTime() << " ... " << period.localEndTime() << endl;
+      log << "Night: " << period.localStartTime() << " ... " << period.localEndTime() << '\n';
 
-      log << "Night results for area:" << endl;
+      log << "Night results for area:\n";
       calculate_mean_min_max(log,
                              forecaster,
                              itsVar + "::fake::night" + Convert(part) + "::area",
@@ -225,7 +225,7 @@ Paragraph TemperatureStory::day() const
                              areaminnight,
                              areamaxnight);
 
-      log << "Night results for coast:" << endl;
+      log << "Night results for coast:\n";
       calculate_mean_min_max(log,
                              forecaster,
                              itsVar + "::fake::night" + Convert(part) + "::coast",
@@ -237,7 +237,7 @@ Paragraph TemperatureStory::day() const
                              coastminnight,
                              coastmaxnight);
 
-      log << "Night results for inland:" << endl;
+      log << "Night results for inland:\n";
       calculate_mean_min_max(log,
                              forecaster,
                              itsVar + "::fake::night" + Convert(part) + "::inland",

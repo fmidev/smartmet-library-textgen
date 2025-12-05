@@ -53,8 +53,8 @@ Paragraph PrecipitationStory::sums() const
   const TextGenPosixTime time2 = TimeTools::addHours(time1, 12);
   const TextGenPosixTime time3 = TimeTools::addHours(time1, 24);
 
-  log << "Period 1 = " << time1 << " ... " << time2 << endl;
-  log << "Period 2 = " << time2 << " ... " << time3 << endl;
+  log << "Period 1 = " << time1 << " ... " << time2 << '\n';
+  log << "Period 2 = " << time2 << " ... " << time3 << '\n';
 
   vector<WeatherPeriod> periods;
   periods.emplace_back(time1, time2);
@@ -101,9 +101,9 @@ Paragraph PrecipitationStory::sums() const
                                                   DefaultAcceptor(),
                                                   rainlimits);
 
-    log << "Precipitation Minimum(Sum) for period " << i + 1 << " = " << minresult << endl;
-    log << "Precipitation Maximum(Sum) for period " << i + 1 << " = " << maxresult << endl;
-    log << "Precipitation Mean(Sum) for period " << i + 1 << " = " << meanresult << endl;
+    log << "Precipitation Minimum(Sum) for period " << i + 1 << " = " << minresult << '\n';
+    log << "Precipitation Maximum(Sum) for period " << i + 1 << " = " << maxresult << '\n';
+    log << "Precipitation Mean(Sum) for period " << i + 1 << " = " << meanresult << '\n';
 
     WeatherResultTools::checkMissingValue(
         "precipitation_sums", Precipitation, {minresult, maxresult, meanresult});

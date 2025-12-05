@@ -88,9 +88,9 @@ Paragraph RoadStory::daynightranges() const
         meanresult.value() == kFloatMissing)
       break;
 
-    log << "Troad Minimum(Minimum) " << periodstr << " = " << minresult << endl;
-    log << "Troad Mean(Minimum) " << periodstr << " = " << meanresult << endl;
-    log << "Troad Maximum(Minimum) " << periodstr << " = " << maxresult << endl;
+    log << "Troad Minimum(Minimum) " << periodstr << " = " << minresult << '\n';
+    log << "Troad Mean(Minimum) " << periodstr << " = " << meanresult << '\n';
+    log << "Troad Maximum(Minimum) " << periodstr << " = " << maxresult << '\n';
 
     const int tmin = static_cast<int>(round(minresult.value()));
     const int tmax = static_cast<int>(round(maxresult.value()));

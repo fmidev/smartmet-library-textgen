@@ -130,10 +130,10 @@ Paragraph SpecialStory::text() const
   else
   {
     string filename = default_text.substr(1, string::npos);
-    log << "File to be included: " << filename << endl;
+    log << "File to be included: " << filename << '\n';
     if (!std::filesystem::exists(filename))
     {
-      log << "The file does not exist!" << endl;
+      log << "The file does not exist!\n";
       throw runtime_error("File '" + filename + "' is not readable");
     }
 

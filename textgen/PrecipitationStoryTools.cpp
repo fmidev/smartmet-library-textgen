@@ -156,7 +156,7 @@ Sentence places_phrase(const AnalysisSources& theSources,
                                             DefaultAcceptor(),
                                             rainlimits);
 
-  log << "Precipitation percentage: " << result.value() << endl;
+  log << "Precipitation percentage: " << result.value() << '\n';
 
   WeatherResultTools::checkMissingValue("PrecipitationStoryTools", Precipitation, result);
 
@@ -257,9 +257,9 @@ Sentence type_phrase(const AnalysisSources& theSources,
                                           DefaultAcceptor(),
                                           snowfilter);
 
-  log << "Water percentage: " << water << endl;
-  log << "Sleet percentage: " << sleet << endl;
-  log << "Snow percentage:  " << snow << endl;
+  log << "Water percentage: " << water << '\n';
+  log << "Sleet percentage: " << sleet << '\n';
+  log << "Snow percentage:  " << snow << '\n';
 
   ValueAcceptor showerfilter;
   showerfilter.value(2);  // 1=large scale, 2=showers
@@ -274,7 +274,7 @@ Sentence type_phrase(const AnalysisSources& theSources,
                                              DefaultAcceptor(),
                                              showerfilter);
 
-  log << "Shower percentage: " << showers << endl;
+  log << "Shower percentage: " << showers << '\n';
 
   WeatherResult strength = forecaster.analyze(theVar + "::fake::day" + day + "::strength",
                                               theSources,
@@ -284,7 +284,7 @@ Sentence type_phrase(const AnalysisSources& theSources,
                                               theArea,
                                               thePeriod);
 
-  log << "Precipitation maximum: " << strength << endl;
+  log << "Precipitation maximum: " << strength << '\n';
 
   // Safety against weird data. Note that we always assume
   // large scale rain, if for some reason we cannot obtain
@@ -308,13 +308,13 @@ Sentence type_phrase(const AnalysisSources& theSources,
   {
     case NONE:
     {
-      log << "Rain type is NONE" << endl;
+      log << "Rain type is NONE\n";
       sentence << "sadetta";
       break;
     }
     case WATER:
     {
-      log << "Rain type is WATER" << endl;
+      log << "Rain type is WATER\n";
       if (has_showers)
       {
         if (strength.value() < weak_limit)
@@ -337,13 +337,13 @@ Sentence type_phrase(const AnalysisSources& theSources,
     }
     case SLEET:
     {
-      log << "Rain type is SLEET" << endl;
+      log << "Rain type is SLEET\n";
       sentence << "rantasadetta";
       break;
     }
     case WATER_SLEET:
     {
-      log << "Rain type is WATER_SLEET" << endl;
+      log << "Rain type is WATER_SLEET\n";
       if (water.value() >= sleet.value())
         sentence << "vesi-"
                  << "tai"
@@ -356,7 +356,7 @@ Sentence type_phrase(const AnalysisSources& theSources,
     }
     case SNOW:
     {
-      log << "Rain type is SNOW" << endl;
+      log << "Rain type is SNOW\n";
       if (has_showers)
       {
         if (strength.value() < weak_limit)
@@ -381,9 +381,9 @@ Sentence type_phrase(const AnalysisSources& theSources,
     case SNOW_SLEET_WATER:
     {
       if (raintype(has_water, has_sleet, has_snow) == SNOW_WATER)
-        log << "Rain type is SNOW_WATER" << endl;
+        log << "Rain type is SNOW_WATER\n";
       else
-        log << "Rain type is SNOW_SLEET_WATER" << endl;
+        log << "Rain type is SNOW_SLEET_WATER\n";
 
       if (has_showers)
       {
@@ -419,7 +419,7 @@ Sentence type_phrase(const AnalysisSources& theSources,
     }
     case SNOW_SLEET:
     {
-      log << "Rain type is SNOW_SLEET" << endl;
+      log << "Rain type is SNOW_SLEET\n";
       if (has_showers)
       {
         if (strength.value() < weak_limit)

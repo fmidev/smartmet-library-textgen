@@ -51,7 +51,7 @@ Paragraph TemperatureStory::meanmin() const
 
   WeatherResultTools::checkMissingValue("temperature_meanmin", Temperature, result);
 
-  log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
+  log << "Temperature Mean(Mean(Minimum())) = " << result << '\n';
 
   sentence << "keskimaarainen alin lampotila" << Integer(static_cast<int>(round(result.value())))
            << *UnitFactory::create(DegreesCelsius);

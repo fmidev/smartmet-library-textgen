@@ -79,17 +79,17 @@ std::ostream& operator<<(std::ostream & theOutput,
 {
       if(theCloudinessDataItem.theCoastalData)
         {
-              theOutput << "  Coastal" << endl;
+              theOutput << "  Coastal\n";
               theOutput << *theCloudinessDataItem.theCoastalData;
         }
       if(theCloudinessDataItem.theInlandData)
         {
-              theOutput << "  Inland" << endl;
+              theOutput << "  Inland\n";
               theOutput << *theCloudinessDataItem.theInlandData;
         }
       if(theCloudinessDataItem.theFullData)
         {
-              theOutput << "  Full area" << endl;
+              theOutput << "  Full area\n";
               theOutput << *theCloudinessDataItem.theFullData;
         }
       return theOutput;
@@ -237,17 +237,17 @@ FogForecast::FogForecast(wf_story_params& parameters, bool visibilityForecast /*
   findOutFogTypePeriods();
 
 #ifdef MYDEBUG
-  std::cout << "FOG PERIODS: " << std::endl;
+  std::cout << "FOG PERIODS: \n";
   for (auto a : theFullAreaFog)
     std::cout << as_string(a.first)
               << ": moderate ext, dense ext: " << a.second.theModerateFogExtent << ", "
-              << a.second.theDenseFogExtent << std::endl;
-  std::cout << " ----- " << std::endl << std::endl;
+              << a.second.theDenseFogExtent << '\n';
+  std::cout << " ----- \n\n";
 
-  std::cout << "FOG TYPE PERIODS: " << std::endl;
+  std::cout << "FOG TYPE PERIODS: \n";
   for (auto a : theFullAreaFogType)
-    std::cout << as_string(a.first) << " -> " << get_fog_type_string(a.second) << std::endl;
-  std::cout << " ----- " << std::endl;
+    std::cout << as_string(a.first) << " -> " << get_fog_type_string(a.second) << '\n';
+  std::cout << " ----- \n";
 #endif
 }
 
@@ -379,7 +379,7 @@ void FogForecast::printOutFogPeriods(std::ostream& theOutput,
     float denseFog(theFogPeriod.second.theDenseFogExtent);
 
     theOutput << period.localStartTime() << "..." << period.localEndTime()
-              << ": moderate=" << moderateFog << " dense=" << denseFog << endl;
+              << ": moderate=" << moderateFog << " dense=" << denseFog << '\n';
   }
 }
 
@@ -392,75 +392,75 @@ void FogForecast::printOutFogData(std::ostream& theOutput,
     WeatherPeriod period(i->thePeriod.localStartTime(), i->thePeriod.localEndTime());
 
     theOutput << i->thePeriod.localStartTime() << "..." << i->thePeriod.localEndTime() << ": "
-              << theLinePrefix << "=" << i->theResult.value() << endl;
+              << theLinePrefix << "=" << i->theResult.value() << '\n';
   }
 }
 
 void FogForecast::printOutFogData(std::ostream& theOutput) const
 {
-  theOutput << "** FOG DATA **" << endl;
+  theOutput << "** FOG DATA **\n";
   bool fogDataExists = false;
 
   if (theCoastalModerateFogData && !theCoastalModerateFogData->empty())
   {
-    theOutput << "** Coastal moderate (1) fog data **" << endl;
+    theOutput << "** Coastal moderate (1) fog data **\n";
     printOutFogData(theOutput, "moderate", *theCoastalModerateFogData);
     fogDataExists = true;
   }
   if (theCoastalDenseFogData && !theCoastalDenseFogData->empty())
   {
-    theOutput << "** Coastal dense (2) fog data **" << endl;
+    theOutput << "** Coastal dense (2) fog data **\n";
     printOutFogData(theOutput, "dense", *theCoastalDenseFogData);
     fogDataExists = true;
   }
 
   if (theInlandModerateFogData && !theInlandModerateFogData->empty())
   {
-    theOutput << "** Inland moderate (1) fog data **" << endl;
+    theOutput << "** Inland moderate (1) fog data **\n";
     printOutFogData(theOutput, "moderate", *theInlandModerateFogData);
     fogDataExists = true;
   }
   if (theInlandDenseFogData && !theInlandDenseFogData->empty())
   {
-    theOutput << "** Inland dense (2) fog data **" << endl;
+    theOutput << "** Inland dense (2) fog data **\n";
     printOutFogData(theOutput, "dense", *theInlandDenseFogData);
     fogDataExists = true;
   }
 
   if (theFullAreaModerateFogData && !theFullAreaModerateFogData->empty())
   {
-    theOutput << "** Full area moderate (1) fog data **" << endl;
+    theOutput << "** Full area moderate (1) fog data **\n";
     printOutFogData(theOutput, "moderate", *theFullAreaModerateFogData);
     fogDataExists = true;
   }
   if (theFullAreaDenseFogData && !theFullAreaDenseFogData->empty())
   {
-    theOutput << "** Full dense (2) fog data **" << endl;
+    theOutput << "** Full dense (2) fog data **\n";
     printOutFogData(theOutput, "dense", *theFullAreaDenseFogData);
     fogDataExists = true;
   }
 
   if (!fogDataExists)
-    theOutput << "No Fog on this forecast period!" << endl;
+    theOutput << "No Fog on this forecast period!\n";
 }
 
 void FogForecast::printOutFogPeriods(std::ostream& theOutput) const
 {
-  theOutput << "** FOG PERIODS **" << endl;
+  theOutput << "** FOG PERIODS **\n";
 
   if (!theCoastalFog.empty())
   {
-    theOutput << "Coastal fog: " << endl;
+    theOutput << "Coastal fog: \n";
     printOutFogPeriods(theOutput, theCoastalFog);
   }
   if (!theInlandFog.empty())
   {
-    theOutput << "Inland fog: " << endl;
+    theOutput << "Inland fog: \n";
     printOutFogPeriods(theOutput, theInlandFog);
   }
   if (!theFullAreaFog.empty())
   {
-    theOutput << "Full area fog: " << endl;
+    theOutput << "Full area fog: \n";
     printOutFogPeriods(theOutput, theFullAreaFog);
   }
 }
@@ -474,27 +474,27 @@ void FogForecast::printOutFogTypePeriods(std::ostream& theOutput,
                          theFogTypePeriod.first.localEndTime());
 
     theOutput << period.localStartTime() << "..." << period.localEndTime() << ": "
-              << get_fog_type_string(theFogTypePeriod.second) << endl;
+              << get_fog_type_string(theFogTypePeriod.second) << '\n';
   }
 }
 
 void FogForecast::printOutFogTypePeriods(std::ostream& theOutput) const
 {
-  theOutput << "** FOG TYPE PERIODS **" << endl;
+  theOutput << "** FOG TYPE PERIODS **\n";
 
   if (!theCoastalFog.empty())
   {
-    theOutput << "Coastal fog types: " << endl;
+    theOutput << "Coastal fog types: \n";
     printOutFogTypePeriods(theOutput, theCoastalFogType);
   }
   if (!theInlandFog.empty())
   {
-    theOutput << "Inland fog types: " << endl;
+    theOutput << "Inland fog types: \n";
     printOutFogTypePeriods(theOutput, theInlandFogType);
   }
   if (!theFullAreaFog.empty())
   {
-    theOutput << "Full area fog types: " << endl;
+    theOutput << "Full area fog types: \n";
     printOutFogTypePeriods(theOutput, theFullAreaFogType);
   }
 }
@@ -651,7 +651,7 @@ WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPe
     theParameters.theLog << "result: ";
     theParameters.theLog << startTime;
     theParameters.theLog << "...";
-    theParameters.theLog << endTime << endl;
+    theParameters.theLog << endTime << '\n';
 
     return theResultFogPeriod;
   }

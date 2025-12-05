@@ -7,9 +7,9 @@
 #include <calculator/QueryDataIntegrator.h>
 #include <calculator/QueryDataTools.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherSource.h>
+#include <macgyver/Exception.h>
 
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiEnumConverter.h>

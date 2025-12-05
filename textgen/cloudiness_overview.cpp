@@ -61,7 +61,7 @@ Paragraph CloudinessStory::overview() const
   const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
   const int ndays = min(periodgenerator.size(), 3U);
 
-  log << "Period covers " << ndays << " days" << endl;
+  log << "Period covers " << ndays << " days\n";
 
   if (ndays <= 0)
   {
@@ -115,9 +115,9 @@ Paragraph CloudinessStory::overview() const
                                                    itsArea,
                                                    period);
 
-    log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << endl;
-    log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << endl;
-    log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << endl;
+    log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << '\n';
+    log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << '\n';
+    log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << '\n';
 
     CloudinessType ctype =
         cloudiness_type(itsVar, cloudy_percentage.value(), clear_percentage.value(), trend.value());

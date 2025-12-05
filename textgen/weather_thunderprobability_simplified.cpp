@@ -53,7 +53,7 @@ Paragraph WeatherStory::thunderprobability_simplified() const
 
   WeatherResultTools::checkMissingValue("weather_thunderprobability_simplified", Thunder, result);
 
-  log << "Thunder Maximum(Maximum) = " << result << endl;
+  log << "Thunder Maximum(Maximum) = " << result << '\n';
 
   const int probability = MathTools::to_precision(result.value(), precision);
 

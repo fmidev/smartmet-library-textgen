@@ -58,9 +58,9 @@ Paragraph DewPointStory::range() const
   WeatherResultTools::checkMissingValue(
       "dewpoint_range", DewPoint, {minresult, maxresult, meanresult});
 
-  log << "DewPoint Mean(Min(Maximum())) = " << minresult << endl
-      << "DewPoint Mean(Mean(Maximum())) = " << meanresult << endl
-      << "DewPoint Mean(Max(Maximum())) = " << maxresult << endl;
+  log << "DewPoint Mean(Min(Maximum())) = " << minresult << '\n'
+      << "DewPoint Mean(Mean(Maximum())) = " << meanresult << '\n'
+      << "DewPoint Mean(Max(Maximum())) = " << maxresult << '\n';
 
   const int tmin = static_cast<int>(round(minresult.value()));
   const int tmax = static_cast<int>(round(maxresult.value()));

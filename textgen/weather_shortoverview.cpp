@@ -122,8 +122,8 @@ Paragraph WeatherStory::shortoverview() const
     WeatherResultTools::checkMissingValue(
         "weather_shortoverview", Cloudiness, {n1result, n3result});
 
-    log << "Cloudiness clear  Mean(Mean) = " << n1result << endl;
-    log << "Cloudiness cloudy Mean(Mean) = " << n3result << endl;
+    log << "Cloudiness clear  Mean(Mean) = " << n1result << '\n';
+    log << "Cloudiness cloudy Mean(Mean) = " << n3result << '\n';
 
     // n1+n2+n3 = 100
     const float n1 = n1result.value();
@@ -181,7 +181,7 @@ Paragraph WeatherStory::shortoverview() const
 
       WeatherResultTools::checkMissingValue("weather_shortoverview", Precipitation, result);
 
-      log << "Precipitation Mean(Sum) day " << i << " = " << result << endl;
+      log << "Precipitation Mean(Sum) day " << i << " = " << result << '\n';
 
       if (result.value() >= r_rainy)
       {
