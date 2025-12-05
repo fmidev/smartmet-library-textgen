@@ -14,8 +14,8 @@
 
 #include "NightAndDayPeriodGenerator.h"
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
+#include <macgyver/Exception.h>
 
 #include <algorithm>
 
@@ -171,7 +171,7 @@ WeatherPeriod NightAndDayPeriodGenerator::period() const
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return the desired subperiod
+ * \brief Return the desired subperiod
  *
  * Throws if there is no such subperiod
  *

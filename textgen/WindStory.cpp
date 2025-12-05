@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::WindStory
+ * \brief Implementation of class TextGen::WindStory
  */
 // ======================================================================
 /*!

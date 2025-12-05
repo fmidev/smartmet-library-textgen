@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::CloudinessStory
+ * \brief Implementation of class TextGen::CloudinessStory
  */
 // ======================================================================
 /*!

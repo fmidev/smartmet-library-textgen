@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::DewPointStory::range
+ * \brief Implementation of method TextGen::DewPointStory::range
  */
 // ======================================================================
 
@@ -13,9 +13,9 @@
 #include "TemperatureStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen;
 using namespace std;

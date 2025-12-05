@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::TemperatureStory::mean
+ * \brief Implementation of method TextGen::TemperatureStory::mean
  */
 // ======================================================================
 
@@ -12,9 +12,9 @@
 #include "TemperatureStory.h"
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen;
 using namespace std;

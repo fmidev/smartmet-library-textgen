@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::WeatherStory::shortoverview
+ * \brief Implementation of method TextGen::WeatherStory::shortoverview
  */
 // ======================================================================
 
@@ -19,10 +19,10 @@
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 #include <memory>

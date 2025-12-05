@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::PrecipitationStory::pop_twodays
+ * \brief Implementation of method TextGen::PrecipitationStory::pop_twodays
  */
 // ======================================================================
 
@@ -19,9 +19,9 @@
 #include <calculator/MathTools.h>
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 

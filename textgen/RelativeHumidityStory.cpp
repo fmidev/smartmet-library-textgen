@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::RelativeHumidityStory
+ * \brief Implementation of class TextGen::RelativeHumidityStory
  */
 // ======================================================================
 /*!

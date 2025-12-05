@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::RoadStory::daynightranges
+ * \brief Implementation of method TextGen::RoadStory::daynightranges
  */
 // ======================================================================
 

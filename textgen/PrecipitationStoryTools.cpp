@@ -27,10 +27,10 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 #include <newbase/NFmiGlobals.h>
@@ -63,7 +63,7 @@ enum RainType
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Convert booleans to rain type
+ * \brief Convert booleans to rain type
  */
 // ----------------------------------------------------------------------
 

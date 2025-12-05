@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::ForestStory::evaporation_day
+ * \brief Implementation of method TextGen::ForestStory::evaporation_day
  */
 // ======================================================================
 
@@ -14,8 +14,8 @@
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 using namespace TextGen;

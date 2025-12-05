@@ -55,7 +55,7 @@ Acceptor* OrAcceptor::clone() const
 }
 // ----------------------------------------------------------------------
 /*!
- * \brief Accept or reject a value
+ * \brief Accept or reject a value
  *
  * The value kFloatMissing is never accepted.
 

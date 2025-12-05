@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::TemperatureStory::weekly_averages
+ * \brief Implementation of method TextGen::TemperatureStory::weekly_averages
  */
 // ======================================================================
 
@@ -14,9 +14,9 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen::TemperatureStoryTools;
 using namespace TextGen;

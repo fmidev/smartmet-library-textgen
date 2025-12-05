@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::SpecialStory::none
+ * \brief Implementation of method TextGen::SpecialStory::none
  */
 // ======================================================================
 

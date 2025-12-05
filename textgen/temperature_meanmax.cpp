@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::TemperatureStory::meanmax
+ * \brief Implementation of method TextGen::TemperatureStory::meanmax
  */
 // ======================================================================
 
@@ -13,9 +13,9 @@
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen;
 using namespace std;

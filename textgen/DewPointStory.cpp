@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::DewPointStory
+ * \brief Implementation of class TextGen::DewPointStory
  */
 // ======================================================================
 /*!

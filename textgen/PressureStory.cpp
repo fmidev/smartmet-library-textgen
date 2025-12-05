@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::PressureStory
+ * \brief Implementation of class TextGen::PressureStory
  */
 // ======================================================================
 /*!

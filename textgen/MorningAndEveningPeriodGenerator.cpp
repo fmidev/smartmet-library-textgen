@@ -17,8 +17,8 @@
 
 #include "MorningAndEveningPeriodGenerator.h"
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
+#include <macgyver/Exception.h>
 
 #include <algorithm>
 
@@ -133,20 +133,22 @@ void MorningAndEveningPeriodGenerator::init()
     throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Night must start before morning");
 
   if (itsMorningMaxStartHour < itsMorningStartHour || itsMorningMaxStartHour >= itsDayStartHour)
-    throw Fmi::Exception(BCP, 
+    throw Fmi::Exception(
+        BCP,
         "MorningAndEveningPeriodGenerator: Maximum morning start hour must be during the morning");
 
   if (itsDayMaxStartHour < itsDayStartHour || itsDayMaxStartHour >= itsEveningStartHour)
-    throw Fmi::Exception(BCP, 
-        "MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
+    throw Fmi::Exception(
+        BCP, "MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
 
   if (itsEveningMaxStartHour < itsEveningStartHour || itsEveningMaxStartHour >= itsNightStartHour)
-    throw Fmi::Exception(BCP, 
+    throw Fmi::Exception(
+        BCP,
         "MorningAndEveningPeriodGenerator: Maximum evening start hour must be during the evening");
 
   if (itsNightMaxStartHour < itsNightStartHour && itsNightMaxStartHour >= itsMorningStartHour)
-    throw Fmi::Exception(BCP, 
-        "MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
+    throw Fmi::Exception(
+        BCP, "MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
 
   const int mornings = countPeriods(
       itsMainPeriod, itsMorningStartHour, itsDayStartHour, itsMorningMaxStartHour, itsDayStartHour);
@@ -249,7 +251,7 @@ WeatherPeriod MorningAndEveningPeriodGenerator::period() const
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return the desired subperiod
+ * \brief Return the desired subperiod
  *
  * Throws if there is no such subperiod
  *

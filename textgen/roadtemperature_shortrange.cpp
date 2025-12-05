@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::RoadStory::shortrange
+ * \brief Implementation of method TextGen::RoadStory::shortrange
  */
 // ======================================================================
 

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::TemperatureStory::max36hours
+ * \brief Implementation of method TextGen::TemperatureStory::max36hours
  */
 // ======================================================================
 
@@ -30,12 +30,12 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <calculator/WeatherSource.h>
+#include <macgyver/Exception.h>
 
 #include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiGrid.h>

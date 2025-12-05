@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::RoadStory
+ * \brief Implementation of class TextGen::RoadStory
  */
 // ======================================================================
 /*!

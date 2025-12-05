@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::CloudinessStory::overview
+ * \brief Implementation of method TextGen::CloudinessStory::overview
  */
 // ======================================================================
 

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::ForestStory::forestfirewarning_county
+ * \brief Implementation of method TextGen::ForestStory::forestfirewarning_county
  */
 // ======================================================================
 

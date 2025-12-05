@@ -1,13 +1,13 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::WeatherFact
+ * \brief Implementation of class TextGen::WeatherFact
  */
 // ======================================================================
 /*!
  * \class TextGen::WeatherFact
  *
- * \brief Representation of a single fact about weather
+ * \brief Representation of a single fact about weather
  *
  * The purpose of a single WeatherFact object is to specify
  * a particular analysis type on the weather, and to provide

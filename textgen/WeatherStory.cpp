@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::WeatherStory
+ * \brief Implementation of class TextGen::WeatherStory
  */
 // ======================================================================
 /*!

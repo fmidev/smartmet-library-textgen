@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::PrecipitationStory
+ * \brief Implementation of class TextGen::PrecipitationStory
  */
 // ======================================================================
 /*!

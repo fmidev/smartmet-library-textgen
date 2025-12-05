@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::RoadStory::condition_overview
+ * \brief Implementation of method TextGen::RoadStory::condition_overview
  */
 // ======================================================================
 
@@ -16,9 +16,9 @@
 #include "ValueAcceptor.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::TemperatureStory::dailymax
+ * \brief Implementation of method TextGen::TemperatureStory::dailymax
  */
 // ======================================================================
 
@@ -15,10 +15,10 @@
 #include "WeekdayTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 

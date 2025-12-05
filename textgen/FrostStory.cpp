@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::FrostStory
+ * \brief Implementation of class TextGen::FrostStory
  */
 // ======================================================================
 /*!

@@ -7,7 +7,7 @@
 /*!
  * \namespace TextGen::PeriodPhraseFactory
  *
- * \brief Tools for generating phrases to describe periods
+ * \brief Tools for generating phrases to describe periods
  *
  * \see page_periodifraasit
  *
@@ -20,11 +20,11 @@
 #include "WeekdayTools.h"
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
 
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
@@ -99,7 +99,7 @@ namespace
 {
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "until_tonight"
+ * \brief Return sentence describing period of type "until_tonight"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -157,7 +157,7 @@ Sentence until_tonight(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "until_morning"
+ * \brief Return sentence describing period of type "until_morning"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -215,7 +215,7 @@ Sentence until_morning(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "today"
+ * \brief Return sentence describing period of type "today"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -286,7 +286,7 @@ Sentence today(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "tonight"
+ * \brief Return sentence describing period of type "tonight"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -344,7 +344,7 @@ Sentence tonight(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "next_night"
+ * \brief Return sentence describing period of type "next_night"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -399,7 +399,7 @@ Sentence next_night(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "next_day"
+ * \brief Return sentence describing period of type "next_day"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -457,7 +457,7 @@ Sentence next_day(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "next_days"
+ * \brief Return sentence describing period of type "next_days"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -505,7 +505,7 @@ Sentence next_days(const string& theVariable,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "remaining_days"
+ * \brief Return sentence describing period of type "remaining_days"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time
@@ -571,7 +571,7 @@ Sentence remaining_day(const WeatherPeriod& thePeriod)
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Return sentence describing period of type "days"
+ * \brief Return sentence describing period of type "days"
  *
  * \param theVariable The Settings variable containing extra details
  * \param theForecastTime The forecast time

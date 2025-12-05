@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::FrostStory::twonights
+ * \brief Implementation of method TextGen::FrostStory::twonights
  */
 // ======================================================================
 
@@ -16,10 +16,10 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <macgyver/Exception.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 using namespace TextGen;

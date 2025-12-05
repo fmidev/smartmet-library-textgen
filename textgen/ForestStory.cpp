@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::ForestStory
+ * \brief Implementation of class TextGen::ForestStory
  */
 // ======================================================================
 /*!

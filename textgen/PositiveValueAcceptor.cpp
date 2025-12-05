@@ -29,7 +29,7 @@ Acceptor* PositiveValueAcceptor::clone() const
 }
 // ----------------------------------------------------------------------
 /*!
- * \brief Accept or reject a value
+ * \brief Accept or reject a value
  *
  * Only positive value is accepted, , but value kFloatMissing is never accepted.
 

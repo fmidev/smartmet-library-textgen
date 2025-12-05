@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::SpecialStory::date
+ * \brief Implementation of method TextGen::SpecialStory::date
  */
 // ======================================================================
 
