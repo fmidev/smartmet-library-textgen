@@ -14,7 +14,7 @@
 #include <stdexcept>
 
 #ifndef UNIX
-#pragma warning(disable : 4512)  // poistaa VC++ k‰‰nt‰j‰n C4512 "assignment operator could not be
+#pragma warning(disable : 4512)  // poistaa VC++ k√§√§nt√§j√§n C4512 "assignment operator could not be
                                  // generated" varoituksen
 #endif
 

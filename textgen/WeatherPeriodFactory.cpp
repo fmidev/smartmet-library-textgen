@@ -79,7 +79,7 @@ WeatherPeriod period_now(const TextGenPosixTime& theTime)
  *
  *  - \c variable::days
  *  - \c variable::endhour
- *  - \c variable::switchhour
+ *  -Â \c variable::switchhour
  *
  * The start hour is formed by rounding up the given time to the
  * next full hour. The end hour is formed by adding \c days to

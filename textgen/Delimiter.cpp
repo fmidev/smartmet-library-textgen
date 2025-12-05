@@ -56,7 +56,7 @@ std::shared_ptr<Glyph> Delimiter::clone() const
  * the returned string is always the one given in the constructor.
  *
  * \param theDictionary The dictionary to realize with
- * \return The realized string
+ *Â \return The realized string
  */
 // ----------------------------------------------------------------------
 

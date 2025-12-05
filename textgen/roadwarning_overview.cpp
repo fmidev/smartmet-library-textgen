@@ -35,7 +35,7 @@ namespace
 /*!
  * \brief The various road warnings
  *
- * The numbers are fixed by the Tiesää-malli, and must not be changed.
+ * The numbers are fixed by the TiesÃ¤Ã¤-malli, and must not be changed.
  */
 // ----------------------------------------------------------------------
 
@@ -1204,7 +1204,7 @@ Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
  *
  * \return The story
  *
- * \see page_roadcondition_warning
+ *Â \see page_roadcondition_warning
  */
 // ----------------------------------------------------------------------
 

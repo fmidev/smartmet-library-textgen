@@ -59,7 +59,7 @@ std::shared_ptr<Glyph> LocationPhrase::clone() const
  * in the location name separated either by spaces or by hyphens.
  *
  * \param theDictionary The dictionary to realize with
- * \return The realized string
+ *Â \return The realized string
  */
 // ----------------------------------------------------------------------
 

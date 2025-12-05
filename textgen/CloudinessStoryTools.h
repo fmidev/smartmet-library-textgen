@@ -35,17 +35,17 @@ namespace CloudinessStoryTools
 
 enum CloudinessType
 {
-  Cloudy,                //!< pilvistä
-  PartlyCloudy,          //!< puolipilvistä
-  Clear,                 //!< selkeää
-  MostlyCloudy,          //!< enimmäkseen pilvistä
-  MostlyPartlyCloudy,    //!< enimmäkseen puolipilvistä
-  MostlyClear,           //!< enimmäkseen selkeää
-  CloudyOrPartlyCloudy,  //!< pilvistä tai puolipilvistä
-  ClearOrPartlyCloudy,   //!< selkeää tai puolipilvistä
-  DecreasingCloudiness,  //!< selkenevää
-  IncreasingCloudiness,  //!< pilvistyvää
-  VariableCloudiness     //!< vaihtelevaa pilvisyyttä
+  Cloudy,                //!< pilvistÃ¤
+  PartlyCloudy,          //!< puolipilvistÃ¤
+  Clear,                 //!< selkeÃ¤Ã¤
+  MostlyCloudy,          //!< enimmÃ¤kseen pilvistÃ¤
+  MostlyPartlyCloudy,    //!< enimmÃ¤kseen puolipilvistÃ¤
+  MostlyClear,           //!< enimmÃ¤kseen selkeÃ¤Ã¤
+  CloudyOrPartlyCloudy,  //!< pilvistÃ¤ tai puolipilvistÃ¤
+  ClearOrPartlyCloudy,   //!< selkeÃ¤Ã¤ tai puolipilvistÃ¤
+  DecreasingCloudiness,  //!< selkenevÃ¤Ã¤
+  IncreasingCloudiness,  //!< pilvistyvÃ¤Ã¤
+  VariableCloudiness     //!< vaihtelevaa pilvisyyttÃ¤
 };
 
 CloudinessType cloudiness_type(const std::string& theVar,

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::WeatherStory::thunderprobability
+ *Â \brief Implementation of method TextGen::WeatherStory::thunderprobability
  */
 // ======================================================================
 

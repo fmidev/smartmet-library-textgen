@@ -588,7 +588,7 @@ void PrecipitationForecast::waterAndSnowShowersPhrase(
   // and if there is no heavy rain
   /*
         // Annakaisa 8.5.2017: Olisiko mahdollista poistaa kuuro-tyypin kanssa sana heikko? Kuurot
-  ovat usein pienialaisia tai niit‰ on v‰h‰n, mutta jos kohdalle sattuu, niin kastuu varmasti.
+  ovat usein pienialaisia tai niit√§ on v√§h√§n, mutta jos kohdalle sattuu, niin kastuu varmasti.
   if (thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
       thePrecipitationIntensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
   {
@@ -4618,8 +4618,8 @@ bool PrecipitationForecast::singleForm(precipitation_form_id thePrecipitationFor
          thePrecipitationForm == MISSING_PRECIPITATION_FORM;
 }
 
-// this function is set up because of language versions, for eample in swedish: regnet/snˆfallet
-// upphˆr
+// this function is set up because of language versions, for eample in swedish: regnet/sn√∂fallet
+// upph√∂r
 precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() const
 {
   precipitation_form_id retval(MISSING_PRECIPITATION_FORM);

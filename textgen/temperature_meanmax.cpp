@@ -28,7 +28,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_meanmax
+ *Â \see page_temperature_meanmax
  */
 // ----------------------------------------------------------------------
 

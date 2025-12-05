@@ -42,7 +42,7 @@ Acceptor* ValueAcceptor::clone() const
  *
  * The value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ *Â \param theValue The value to be accepted
  * \return True if the value is accepted
  */
 // ----------------------------------------------------------------------

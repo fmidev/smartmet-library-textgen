@@ -30,7 +30,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_roadtemperature_daynightranges
+ *Â \see page_roadtemperature_daynightranges
  */
 // ----------------------------------------------------------------------
 

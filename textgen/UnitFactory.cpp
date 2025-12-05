@@ -561,7 +561,7 @@ std::shared_ptr<TextGen::Sentence> hectopascal()
 }
 
 // ----------------------------------------------------------------------
-/*!ง
+/*!ยง
  * \brief Return the HectoPascal sentence
  *
  * \param value The value

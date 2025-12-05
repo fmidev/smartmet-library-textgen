@@ -29,7 +29,7 @@ namespace TextGen
  *
  * \todo Is throwing the best way to handle missing results?
  *
- * \see page_temperature_mean
+ *Â \see page_temperature_mean
  */
 // ----------------------------------------------------------------------
 

@@ -244,11 +244,11 @@ void log_subperiods(wf_story_params& theParameters)
 
       get_part_of_the_day_time_series(
           theParameters, generator.period(i), AAMUPAIVA, PRECIPITATION_MAX_DATA, resultVector);
-      log_weather_result_time_series(theParameters.theLog, "AAMUPÄIVÄPERIODI MAX", resultVector);
+      log_weather_result_time_series(theParameters.theLog, "AAMUPÃ„IVÃ„PERIODI MAX", resultVector);
       resultVector.clear();
       get_part_of_the_day_time_series(
           theParameters, generator.period(i), ILTAPAIVA, PRECIPITATION_MAX_DATA, resultVector);
-      log_weather_result_time_series(theParameters.theLog, "ILTAPÄIVÄPERIODI MAX", resultVector);
+      log_weather_result_time_series(theParameters.theLog, "ILTAPÃ„IVÃ„PERIODI MAX", resultVector);
       resultVector.clear();
       get_part_of_the_day_time_series(
           theParameters, generator.period(i), ILTA, PRECIPITATION_MAX_DATA, resultVector);
@@ -263,15 +263,15 @@ void log_subperiods(wf_story_params& theParameters)
       resultVector.clear();
       get_part_of_the_day_time_series(
           theParameters, generator.period(i), ILTAYO, PRECIPITATION_MAX_DATA, resultVector);
-      log_weather_result_time_series(theParameters.theLog, "ILTAYÖPERIODI MAX", resultVector);
+      log_weather_result_time_series(theParameters.theLog, "ILTAYÃ–PERIODI MAX", resultVector);
       resultVector.clear();
       get_part_of_the_day_time_series(
           theParameters, generator.period(i), YO, PRECIPITATION_MAX_DATA, resultVector);
-      log_weather_result_time_series(theParameters.theLog, "YÖPERIODI MAX", resultVector);
+      log_weather_result_time_series(theParameters.theLog, "YÃ–PERIODI MAX", resultVector);
       resultVector.clear();
       get_part_of_the_day_time_series(
           theParameters, generator.period(i), AAMUYO, PRECIPITATION_MAX_DATA, resultVector);
-      log_weather_result_time_series(theParameters.theLog, "AAMUYÖPERIODI MAX", resultVector);
+      log_weather_result_time_series(theParameters.theLog, "AAMUYÃ–PERIODI MAX", resultVector);
       resultVector.clear();
     }
   }

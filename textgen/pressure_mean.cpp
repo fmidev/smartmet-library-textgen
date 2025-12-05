@@ -28,7 +28,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_pressure_range
+ *Â \see page_pressure_range
  */
 // ----------------------------------------------------------------------
 

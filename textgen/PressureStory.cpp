@@ -39,7 +39,7 @@ PressureStory::~PressureStory() = default;
  * \param theSources The analysis sources
  * \param theArea The area to be analyzed
  * \param thePeriod The period to be analyzed
- * \param theVariable The associated configuration variable
+ *Â \param theVariable The associated configuration variable
  */
 // ----------------------------------------------------------------------
 

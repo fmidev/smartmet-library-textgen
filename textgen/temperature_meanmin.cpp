@@ -31,7 +31,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_meanmin
+ *Â \see page_temperature_meanmin
  */
 // ----------------------------------------------------------------------
 

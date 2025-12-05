@@ -35,7 +35,7 @@ namespace
 /*!
  * \brief The various road conditions
  *
- * The numbers are fixed by the Ties‰‰-malli, and must not be changed.
+ * The numbers are fixed by the Ties√§√§-malli, and must not be changed.
  */
 // ----------------------------------------------------------------------
 

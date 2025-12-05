@@ -215,7 +215,7 @@ Paragraph WindStory::daily_ranges() const
                                      "next_day", itsVar, itsForecastTime, periods[1])
                               << nextdaySpeedSentence;
 
-            // esim. Tänään heikkoa, huomenna kohtalaista etelätuulta
+            // esim. TÃ¤nÃ¤Ã¤n heikkoa, huomenna kohtalaista etelÃ¤tuulta
             if (!todaySentence.empty() && !nextdaySentence.empty())
               sentence << todaySentence << Delimiter(",") << nextdaySentence;
             else if (todaySentence.empty() && !nextdaySentence.empty())

@@ -130,7 +130,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
       moreThanOnePrecipitationForms = !PrecipitationForecast::singleForm(precipitationForm);
     }
   }
-  // if more than one item exists, use the phrases "aluksi", "myöhemmin" when the period is short
+  // if more than one item exists, use the phrases "aluksi", "myÃ¶hemmin" when the period is short
   theReportTimePhraseFlag = (storyItemCounter > 1);
   theAddAluksiWord = (useInTheBeginningPhrase && storyItemCounterTotal > 1);
   thePrecipitationForecast.setSinglePrecipitationFormFlag(!moreThanOnePrecipitationForms);
@@ -172,7 +172,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
 
       paragraph << storyItemSentence;
 
-      // additional sentences: currently only in precipitation story: like "iltapäivästä alkaen sade
+      // additional sentences: currently only in precipitation story: like "iltapÃ¤ivÃ¤stÃ¤ alkaen sade
       // voi olla runsasta"
       for (unsigned int k = 0; k < i->numberOfAdditionalSentences(); k++)
       {
@@ -492,7 +492,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
              (preciptationForm & FREEZING_FORM)) &&
             precipitationExtent >= theParameters.theInManyPlacesLowerLimit)
         {
-          // sateen olomuoto = LUMI, räntä, jäätävä, sateen tyyppi kuuro tai jatkuva (eli kaikki) ja
+          // sateen olomuoto = LUMI, rÃ¤ntÃ¤, jÃ¤Ã¤tÃ¤vÃ¤, sateen tyyppi kuuro tai jatkuva (eli kaikki) ja
           // sateen intensiteetti > heikko ainakin 3 tuntia laajuus > ja monin paikoin
           badVisibilityPeriodLength += (moderatePrecipitationHours + heavyPrecipitationHours);
           badVisibility = true;
@@ -502,10 +502,10 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
                  precipitationItem->theType == SHOWERS &&
                  precipitationExtent >= theParameters.theInManyPlacesLowerLimit)
         {
-          // sateen olomuoto = VESI, räntä, tihku, sateen tyyppi KUURO ja sateen intensiteetti >=
+          // sateen olomuoto = VESI, rÃ¤ntÃ¤, tihku, sateen tyyppi KUURO ja sateen intensiteetti >=
           // rankka ainakin kolme tuntia ja laajuus > monin paikoin
-          // Elokuussa 2017 Kiira-myrskyn jälkeen päätettiin, että wesisateella ei raportoida huonoa
-          // näkyvyyttä
+          // Elokuussa 2017 Kiira-myrskyn jÃ¤lkeen pÃ¤Ã¤tettiin, ettÃ¤ wesisateella ei raportoida huonoa
+          // nÃ¤kyvyyttÃ¤
           //          badVisibilityPeriodLengthWater += heavyPrecipitationHours;
           //          badVisibility = true;
         }
@@ -553,7 +553,7 @@ if (previousStoryItemIndex > -1 &&
     //    previousStoryItemIndex = currentStoryItemIndex;
   }
 #ifdef LATER
-  // turha?: jos ei yksittäisiä sade/sumuperiodeja, ei reportoida koko ennustejaksoa kerralla
+  // turha?: jos ei yksittÃ¤isiÃ¤ sade/sumuperiodeja, ei reportoida koko ennustejaksoa kerralla
   if (weatherForecastSentences.empty())
   {
     if (!thePrecipitationForecast.isDryPeriod(theForecastPeriod, theParameters.theForecastArea))
@@ -587,8 +587,8 @@ if (previousStoryItemIndex > -1 &&
     float heavyRainPeriodShare = (static_cast<float>(badVisibilityPeriodLengthWater) /
                                   static_cast<float>(forecastPeriodLength));
 
-    // sateen kesto > 50 % jakson pituudesta, huono näkyvyys vähintään 3h (lumi, räntä jäätävä)
-    // tai yli 50% (vesi, räntä, tihku)
+    // sateen kesto > 50 % jakson pituudesta, huono nÃ¤kyvyys vÃ¤hintÃ¤Ã¤n 3h (lumi, rÃ¤ntÃ¤ jÃ¤Ã¤tÃ¤vÃ¤)
+    // tai yli 50% (vesi, rÃ¤ntÃ¤, tihku)
     if (badVisibility && precipitationPeriodShare > 0.50 &&
         (badVisibilityPeriodLength >= 3 || heavyRainPeriodShare > 0.50))
     {
@@ -1091,7 +1091,7 @@ Sentence WeatherForecastStoryItem::getTodayVectorSentence(const vector<Sentence*
   return sentence;
 }
 
-// special treatment, because 06:00 can be aamuyö and morning, depends weather the period starts
+// special treatment, because 06:00 can be aamuyÃ¶ and morning, depends weather the period starts
 // or ends
 
 std::string WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(
@@ -1627,7 +1627,7 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
   {
     sentence << thePoutaantuuSentence;
 
-    // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
+    // ARE 10.03.2011: Jos sÃ¤Ã¤ on melko selkeÃ¤ ei enÃ¤Ã¤ sanota selkenevÃ¤Ã¤
     if (!theChangeSentence.empty() && clForecast.getCloudinessId(storyItemPeriod) > MELKO_SELKEA)
     {
       sentence << Delimiter(COMMA_PUNCTUATION_MARK);
@@ -1672,7 +1672,7 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
     }
     prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);
 
-    // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
+    // ARE 10.03.2011: Jos sÃ¤Ã¤ on melko selkeÃ¤ ei enÃ¤Ã¤ sanota selkenevÃ¤Ã¤
     if (!theChangeSentence.empty() &&
         clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
     {

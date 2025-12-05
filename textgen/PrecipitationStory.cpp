@@ -38,7 +38,7 @@ PrecipitationStory::~PrecipitationStory() = default;
  * \param theSources The analysis sources
  * \param theArea The area to be analyzed
  * \param thePeriod The time interval to be analyzed
- * \param theVariable The associated configuration variable
+ *Â \param theVariable The associated configuration variable
  */
 // ----------------------------------------------------------------------
 

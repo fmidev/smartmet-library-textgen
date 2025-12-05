@@ -32,7 +32,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_weekly_minmax
+ *Â \see page_temperature_weekly_minmax
  *
  */
 // ----------------------------------------------------------------------

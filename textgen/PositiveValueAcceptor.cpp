@@ -33,7 +33,7 @@ Acceptor* PositiveValueAcceptor::clone() const
  *
  * Only positive value is accepted, , but value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ *Â \param theValue The value to be accepted
  * \return True if the value is accepted
  */
 // ----------------------------------------------------------------------

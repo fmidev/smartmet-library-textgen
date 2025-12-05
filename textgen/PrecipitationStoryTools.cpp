@@ -185,7 +185,7 @@ Sentence places_phrase(const AnalysisSources& theSources,
  * The variables used for determining the rain form are
  * \code
  * ::ignore_limit  = [0-100] (=5)
- * \endcode
+ *Â \endcode
  *
  * The variables used for determining the rain type are
  * \code

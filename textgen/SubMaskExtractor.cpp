@@ -39,7 +39,7 @@ using namespace std;
  *
  * \param theQI The query info
  * \param theIndexMask The mask containing the space indices
- * \param theSpaceCalculator The modifier for accumulating the result
+ *Â \param theSpaceCalculator The modifier for accumulating the result
  * \return The accumulation result
  */
 // ----------------------------------------------------------------------

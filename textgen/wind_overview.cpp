@@ -1381,9 +1381,9 @@ void log_windirection_distribution(wo_story_params& storyParams)
 
   ss << std::setw(31) << std::setfill(' ') << std::right << "POH" << std::setw(12)
      << std::setfill(' ') << std::right << "KOI" << std::setw(12) << std::setfill(' ') << std::right
-     << "ITÄ" << std::setw(12) << std::setfill(' ') << std::right << "KAA" << std::setw(12)
+     << "ITÃ„" << std::setw(12) << std::setfill(' ') << std::right << "KAA" << std::setw(12)
      << std::setfill(' ') << std::right << "ETE" << std::setw(12) << std::setfill(' ') << std::right
-     << "LOU" << std::setw(12) << std::setfill(' ') << std::right << "LÄN" << std::setw(12)
+     << "LOU" << std::setw(12) << std::setfill(' ') << std::right << "LÃ„N" << std::setw(12)
      << std::setfill(' ') << std::right << "LUO" << std::setw(12) << std::setfill(' ') << std::right
      << "hajonta\n";
 

@@ -30,7 +30,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_weekly_averages
+ *Â \see page_temperature_weekly_averages
  *
  */
 // ----------------------------------------------------------------------

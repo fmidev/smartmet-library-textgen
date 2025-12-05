@@ -1339,7 +1339,7 @@ int two_day_forecasts[577] = {
  *  -# sn = ((a1+an)*n)/2 = ((24+13)*12)/2 = 222
  *  -# 222+5+1 = 228, the final result
  *
- * \param theStartHour The start hour of the rain
+ *Â \param theStartHour The start hour of the rain
  * \param theEndHour The end hour of the rain
  * \return The index for the rain
  */
@@ -1362,7 +1362,7 @@ int one_day_rain_index(int theStartHour, int theEndHour)
 /*!
  * \brief Calculates index for rain in the second table at \ref page_rain_oneday
  *
- * \param theStartHour The start hour of the rain
+ *Â \param theStartHour The start hour of the rain
  * \param theEndHour The end hour of the rain
  * \return The index for the rain
  */
@@ -1378,7 +1378,7 @@ int one_day_rain_unique_index(int theStartHour, int theEndHour)
 /*!
  * \brief Calculates index for rain in the first table at \ref page_rain_twoday
  *
- * \param theStartHour The start hour of the rain
+ *Â \param theStartHour The start hour of the rain
  * \param theEndHour The end hour of the rain
  * \return The index for the rain
  */
@@ -1393,7 +1393,7 @@ int two_day_rain_index(int theStartHour, int theEndHour)
 /*!
  * \brief Calculates index for rain in the second table at \ref page_rain_twoday
  *
- * \param theStartHour The start hour of the rain
+ *Â \param theStartHour The start hour of the rain
  * \param theEndHour The end hour of the rain
  * \return The index for the rain
  */

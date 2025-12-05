@@ -28,7 +28,7 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_range
+ *Â \see page_temperature_range
  */
 // ----------------------------------------------------------------------
 

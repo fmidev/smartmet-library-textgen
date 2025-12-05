@@ -1874,7 +1874,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
             theParameters.theTemperaturePhraseId = VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID;
             intervalStart = 0;
 
-            theParameters.theLog << "PROXIMITY: Vähän nollan alapuolella \n";
+            theParameters.theLog << "PROXIMITY: VÃ¤hÃ¤n nollan alapuolella \n";
           }
           else
           {

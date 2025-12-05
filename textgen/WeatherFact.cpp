@@ -152,7 +152,7 @@ const WeatherResult& WeatherFact::result() const
 /*!
  * \brief Equality comparison for WeatherFact
  *
- * \param theLhs The first fact
+ *Â \param theLhs The first fact
  * \param theRhs The second fact
  * \return True if the facts are equal
  */
@@ -169,7 +169,7 @@ bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& 
 /*!
  * \brief Inequality comparison for WeatherFact
  *
- * \param theLhs The first fact
+ *Â \param theLhs The first fact
  * \param theRhs The second fact
  * \return True if the facts are not equal
  */

@@ -53,7 +53,7 @@ std::shared_ptr<Glyph> Phrase::clone() const
  * \brief Realize using the given dictionary
  *
  * \param theDictionary The dictionary to realize with
- * \return The realized string
+ *Â \return The realized string
  */
 // ----------------------------------------------------------------------
 
