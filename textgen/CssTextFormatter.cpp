@@ -208,7 +208,7 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
 string CssTextFormatter::visit(const Header& theHeader) const
 {
   bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
-  colon = Settings::optional_bool(itsSectionVar + "::header::css:colon", colon);
+  colon = Settings::optional_bool(itsSectionVar + "::header::css::colon", colon);
 
   string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
   text = TextFormatterTools::capitalize(text);
