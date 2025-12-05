@@ -274,8 +274,8 @@ float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
 
   GridForecaster forecaster;
   // 5 days average temperature
-  TextGenPosixTime startTime(thePeriod.localStartTime());
-  TextGenPosixTime endTime(thePeriod.localStartTime());
+  const TextGenPosixTime& startTime = thePeriod.localStartTime();
+  TextGenPosixTime endTime = thePeriod.localStartTime();
   endTime.ChangeByDays(5);
   WeatherPeriod period(startTime, endTime);
 

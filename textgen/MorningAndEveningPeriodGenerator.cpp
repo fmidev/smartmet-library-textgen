@@ -42,17 +42,16 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-MorningAndEveningPeriodGenerator::MorningAndEveningPeriodGenerator(
-    const WeatherPeriod& theMainPeriod,
-    int theMorningStartHour,
-    int theDayStartHour,
-    int theEveningStartHour,
-    int theNightStartHour,
-    int theMorningMaxStartHour,
-    int theDayMaxStartHour,
-    int theEveningMaxStartHour,
-    int theNightMaxStartHour)
-    : itsMainPeriod(theMainPeriod),
+MorningAndEveningPeriodGenerator::MorningAndEveningPeriodGenerator(WeatherPeriod theMainPeriod,
+                                                                   int theMorningStartHour,
+                                                                   int theDayStartHour,
+                                                                   int theEveningStartHour,
+                                                                   int theNightStartHour,
+                                                                   int theMorningMaxStartHour,
+                                                                   int theDayMaxStartHour,
+                                                                   int theEveningMaxStartHour,
+                                                                   int theNightMaxStartHour)
+    : itsMainPeriod(std::move(theMainPeriod)),
       itsMorningStartHour(theMorningStartHour),
       itsDayStartHour(theDayStartHour),
       itsEveningStartHour(theEveningStartHour),

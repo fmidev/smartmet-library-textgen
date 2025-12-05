@@ -604,12 +604,11 @@ WindSpeedId wind_speed_id(float theWindSpeed)
     return KOHTALAINEN;
   if (theWindSpeed >= NAVAKKA_LOWER_LIMIT && theWindSpeed < NAVAKKA_UPPER_LIMIT)
     return NAVAKKA;
-  else if (theWindSpeed >= KOVA_LOWER_LIMIT && theWindSpeed < KOVA_UPPER_LIMIT)
+  if (theWindSpeed >= KOVA_LOWER_LIMIT && theWindSpeed < KOVA_UPPER_LIMIT)
     return KOVA;
-  else if (theWindSpeed >= MYRSKY_LOWER_LIMIT && theWindSpeed < MYRSKY_UPPER_LIMIT)
+  if (theWindSpeed >= MYRSKY_LOWER_LIMIT && theWindSpeed < MYRSKY_UPPER_LIMIT)
     return MYRSKY;
-  else
-    return HIRMUMYRSKY;
+  return HIRMUMYRSKY;
 }
 
 std::string wind_speed_string(const WindSpeedId& theWindSpeedId)

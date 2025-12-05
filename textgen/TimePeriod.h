@@ -18,8 +18,9 @@ class Dictionary;
 class TimePeriod : public Glyph
 {
  public:
+  TimePeriod() = delete;
   ~TimePeriod() override;
-  TimePeriod(const WeatherPeriod& thePeriod);
+  TimePeriod(WeatherPeriod thePeriod);
 #ifdef NO_COMPILER_GENERATED
   TimePeriod(const TimePeriod& thePeriod);
   TimePeriod& operator=(const WeatherPeriod& thePeriod);
@@ -34,7 +35,6 @@ class TimePeriod : public Glyph
   inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
 
  private:
-  TimePeriod() = delete;
   WeatherPeriod itsPeriod;
 
 };  // class TimePeriod

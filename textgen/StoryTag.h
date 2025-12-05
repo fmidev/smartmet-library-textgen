@@ -18,6 +18,7 @@ class TextFormatter;
 class StoryTag : public Glyph
 {
  public:
+  StoryTag() = delete;
   ~StoryTag() override;
   StoryTag(std::string theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
@@ -33,7 +34,6 @@ class StoryTag : public Glyph
   virtual bool isPrefixTag() const;
 
  private:
-  StoryTag() = delete;
   std::string itsName;
   bool itsPrefixTag;
 

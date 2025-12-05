@@ -18,6 +18,7 @@ class TextFormatter;
 class Text : public Glyph
 {
  public:
+  Text() = delete;
   ~Text() override;
   explicit Text(std::string theText);
 
@@ -34,7 +35,6 @@ class Text : public Glyph
   const std::string& value() const;
 
  private:
-  Text() = delete;
   const std::string itsText;
 
 };  // class Text

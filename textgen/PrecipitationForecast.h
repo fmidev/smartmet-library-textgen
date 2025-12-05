@@ -269,12 +269,12 @@ class PrecipitationForecast
 
   wf_story_params& theParameters;
 
-  mutable bool theUseOllaVerbFlag;
-  mutable bool theDryPeriodTautologyFlag;
-  mutable bool theSinglePrecipitationFormFlag;
+  mutable bool theUseOllaVerbFlag = false;
+  mutable bool theDryPeriodTautologyFlag = false;
+  mutable bool theSinglePrecipitationFormFlag = false;
   mutable precipitation_form_id thePrecipitationFormBeforeDryPeriod;
   mutable precipitation_type theCheckHeavyIntensityFlag;
-  mutable bool theUseIcingPhraseFlag;
+  mutable bool theUseIcingPhraseFlag = false;
 };
 
 }  // namespace TextGen

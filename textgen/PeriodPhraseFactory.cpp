@@ -29,8 +29,6 @@
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
 
-using TextGen::WeatherArea;
-using TextGen::WeatherPeriod;
 using namespace TextGen::TimeTools;
 using namespace std;
 
@@ -68,7 +66,7 @@ namespace
 vector<string> reorder_preferences(const string& thePreference, const string& theDefault)
 {
   const vector<string> preferences = NFmiStringTools::Split(thePreference);
-  const vector<string> defaults = NFmiStringTools::Split(theDefault);
+  vector<string> defaults = NFmiStringTools::Split(theDefault);
 
   // fast special case
   if (preferences.empty())
@@ -657,7 +655,7 @@ Sentence days(const string& theVariable,
   {
     TextGenPosixTime nextday(starttime);
     nextday.ChangeByDays(1);
-    for (vector<string>::const_iterator it = order.begin(); it != order.end(); ++it)
+    for (auto it = order.cbegin(); it != order.cend(); ++it)
     {
       if (*it == "none")
       {

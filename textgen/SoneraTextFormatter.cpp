@@ -196,7 +196,7 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
   int lines = 1;
   int words_on_line = 0;
   string ret;
-  for (container_type::const_iterator it = itsParts.begin(); it != itsParts.end(); ++it)
+  for (auto it = itsParts.cbegin(); it != itsParts.cend(); ++it)
   {
     if (!it->empty())
     {

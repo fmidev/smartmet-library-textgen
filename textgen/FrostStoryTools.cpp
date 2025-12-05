@@ -20,8 +20,6 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherPeriod.h>
 
-using TextGen::WeatherPeriod;
-
 namespace TextGen
 {
 namespace FrostStoryTools

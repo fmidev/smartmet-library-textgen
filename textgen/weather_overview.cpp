@@ -1516,8 +1516,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
                            TimeTools::nextDay(day1.localEndTime()));
 
   // the period before the rain
-  const TextGenPosixTime before_rain_start(TimeTools::dayStart(theRainPeriod.localStartTime()));
-  const TextGenPosixTime before_rain_end(theRainPeriod.localStartTime());
+  const TextGenPosixTime before_rain_start = TimeTools::dayStart(theRainPeriod.localStartTime());
+  const TextGenPosixTime& before_rain_end = theRainPeriod.localStartTime();
   const WeatherPeriod before_rain(before_rain_start, before_rain_end);
 
   // the period after the rain
@@ -1765,7 +1765,7 @@ Paragraph WeatherStory::overview() const
   log << "Found " << rainperiods.size() << " rainy periods\n";
 
   {
-    for (RainPeriods::const_iterator it = rainperiods.begin(); it != rainperiods.end(); it++)
+    for (auto it = rainperiods.cbegin(); it != rainperiods.cend(); it++)
     {
       log << "Period: " << it->localStartTime() << " ... " << it->localEndTime() << '\n';
     }

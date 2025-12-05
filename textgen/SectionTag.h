@@ -18,6 +18,7 @@ class TextFormatter;
 class SectionTag : public Glyph
 {
  public:
+  SectionTag() = delete;
   ~SectionTag() override;
   SectionTag(std::string theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
@@ -33,7 +34,6 @@ class SectionTag : public Glyph
   virtual bool isPrefixTag() const;
 
  private:
-  SectionTag() = delete;
   std::string itsName;
   bool itsPrefixTag;
 

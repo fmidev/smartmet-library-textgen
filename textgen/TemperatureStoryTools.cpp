@@ -633,14 +633,13 @@ fractile_id get_fractile(const std::string& theVar,
       return FRACTILE_37;
     if (theTemperature <= f50)
       return FRACTILE_50;
-    else if (theTemperature <= f63)
+    if (theTemperature <= f63)
       return FRACTILE_63;
-    else if (theTemperature <= f88)
+    if (theTemperature <= f88)
       return FRACTILE_88;
-    else if (theTemperature <= f98)
+    if (theTemperature <= f98)
       return FRACTILE_98;
-    else
-      return FRACTILE_UNDEFINED;
+    return FRACTILE_UNDEFINED;
   }
 
   std::string dataName("textgen::fractiles");
@@ -788,14 +787,13 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F37"), 0);
     if (theFractileId == FRACTILE_50)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F50"), 0);
-    else if (theFractileId == FRACTILE_63)
+    if (theFractileId == FRACTILE_63)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F63"), 0);
-    else if (theFractileId == FRACTILE_88)
+    if (theFractileId == FRACTILE_88)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F88"), 0);
-    else if (theFractileId == FRACTILE_98)
+    if (theFractileId == FRACTILE_98)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F98"), 0);
-    else
-      return WeatherResult(kFloatMissing, 0);
+    return WeatherResult(kFloatMissing, 0);
   }
 
   std::string dataName("textgen::fractiles");

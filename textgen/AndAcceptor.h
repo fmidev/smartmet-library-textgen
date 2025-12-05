@@ -15,6 +15,7 @@ namespace TextGen
 class AndAcceptor : public Acceptor
 {
  public:
+  AndAcceptor() = delete;
   AndAcceptor(const AndAcceptor& theOther);
   AndAcceptor(const Acceptor& theLhs, const Acceptor& theRhs);
   ~AndAcceptor() override
@@ -26,8 +27,6 @@ class AndAcceptor : public Acceptor
   Acceptor* clone() const override;
 
  private:
-  AndAcceptor() = delete;
-
   Acceptor* itsLhs;
   Acceptor* itsRhs;
 

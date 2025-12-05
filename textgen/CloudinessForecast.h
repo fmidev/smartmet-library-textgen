@@ -108,9 +108,9 @@ class CloudinessForecast
                                     std::vector<int>& theCloudinessPuolipilvisestaPilviseen) const;
 
   wf_story_params& theParameters;
-  const weather_result_data_item_vector* theCoastalData;
-  const weather_result_data_item_vector* theInlandData;
-  const weather_result_data_item_vector* theFullData;
+  const weather_result_data_item_vector* theCoastalData = nullptr;
+  const weather_result_data_item_vector* theInlandData = nullptr;
+  const weather_result_data_item_vector* theFullData = nullptr;
 
   cloudiness_period_vector theCloudinessPeriodsCoastal;
   cloudiness_period_vector theCloudinessPeriodsInland;
@@ -124,9 +124,9 @@ class CloudinessForecast
   weather_event_id_vector theCloudinessWeatherEventsInland;
   weather_event_id_vector theCloudinessWeatherEventsFull;
 
-  bool theSeparateCoastInlandMorning;
-  bool theSeparateCoastInlandAfternoon;
-  bool theSeparateMorningAfternoon;  // full area
+  bool theSeparateCoastInlandMorning = false;
+  bool theSeparateCoastInlandAfternoon = false;
+  bool theSeparateMorningAfternoon = false;  // full area
 };
 
 std::ostream& operator<<(std::ostream& theOutput,

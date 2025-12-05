@@ -22,7 +22,8 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
  public:
   using size_type = WeatherPeriodGenerator::size_type;
 
-  MorningAndEveningPeriodGenerator(const WeatherPeriod& theMainPeriod,
+  MorningAndEveningPeriodGenerator() = delete;
+  MorningAndEveningPeriodGenerator(WeatherPeriod theMainPeriod,
                                    int theMorningStartHour,
                                    int theDayStartHour,
                                    int theEveningStartHour,
@@ -42,7 +43,6 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
   WeatherPeriod period(size_type thePeriod) const override;
 
  private:
-  MorningAndEveningPeriodGenerator() = delete;
   void init();
 
   const WeatherPeriod itsMainPeriod;

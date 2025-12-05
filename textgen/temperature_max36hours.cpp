@@ -57,7 +57,6 @@ namespace TextGen
 
 namespace TemperatureMax36Hours
 {
-using NFmiStringTools::Convert;
 using namespace TextGen;
 using namespace TextGen::TemperatureStoryTools;
 
@@ -502,34 +501,20 @@ struct t36hparams
         theWeatherArea(weatherArea),
         theAnalysisSources(analysisSources),
         theWeatherResults(weatherResults),
-        theCoastalAndInlandTogetherFlag(false),
         theForecastAreaId(NO_AREA),
         theForecastPeriodId(NO_PERIOD),
         theSubPeriodId(UNDEFINED_SUBPERIOD),
-        theForecastAreaDay1(0x0),
-        theForecastAreaNight(0x0),
-        theForecastAreaDay2(0x0),
-        theForecastSubPeriod(0x0),
         theMaxTemperatureDay1(kFloatMissing),
         theMeanTemperatureDay1(kFloatMissing),
         theMinimum(kFloatMissing),
         theMaximum(kFloatMissing),
         theMean(kFloatMissing),
-        theNightPeriodTautologyFlag(false),
-        theDayPeriodTautologyFlag(false),
-        theTomorrowTautologyFlag(false),
-        theOnCoastalAreaTautologyFlag(false),
-        theOnInlandAreaTautologyFlag(false),
-        theFrostExistsTautologyFlag(false),
         theRangeSeparator("..."),
         theMinInterval(2),
-        theZeroIntervalFlag(false),
         theTemperaturePhraseId(NO_PHRASE_ID),
         theDayAndNightSeparationFlag(true),
-        theUseFrostExistsPhrase(false),
         theFullDayFlag(true),
-        theUseLongPhrase(true),
-        theAddCommaDelimiterFlag(false)
+        theUseLongPhrase(true)
   {
   }
 
@@ -545,35 +530,35 @@ struct t36hparams
   const WeatherArea& theWeatherArea;
   const AnalysisSources& theAnalysisSources;
   weather_result_container_type& theWeatherResults;
-  bool theCoastalAndInlandTogetherFlag;
+  bool theCoastalAndInlandTogetherFlag = false;
   forecast_area_id theForecastAreaId;
   forecast_period_id theForecastPeriodId;
   forecast_subperiod_id theSubPeriodId;
-  unsigned short theForecastAreaDay1;
-  unsigned short theForecastAreaNight;
-  unsigned short theForecastAreaDay2;
-  unsigned short theForecastSubPeriod;
-  double theMaxTemperatureDay1;
-  double theMeanTemperatureDay1;
-  double theMinimum;
-  double theMaximum;
-  double theMean;
-  bool theNightPeriodTautologyFlag;
-  bool theDayPeriodTautologyFlag;
-  bool theTomorrowTautologyFlag;
-  bool theOnCoastalAreaTautologyFlag;
-  bool theOnInlandAreaTautologyFlag;
-  bool theFrostExistsTautologyFlag;
+  unsigned short theForecastAreaDay1 = 0;
+  unsigned short theForecastAreaNight = 0;
+  unsigned short theForecastAreaDay2 = 0;
+  unsigned short theForecastSubPeriod = 0;
+  double theMaxTemperatureDay1 = 0;
+  double theMeanTemperatureDay1 = 0;
+  double theMinimum = 0;
+  double theMaximum = 0;
+  double theMean = 0;
+  bool theNightPeriodTautologyFlag = false;
+  bool theDayPeriodTautologyFlag = false;
+  bool theTomorrowTautologyFlag = false;
+  bool theOnCoastalAreaTautologyFlag = false;
+  bool theOnInlandAreaTautologyFlag = false;
+  bool theFrostExistsTautologyFlag = false;
   string theRangeSeparator;
-  int theMinInterval;
-  bool theZeroIntervalFlag;
+  int theMinInterval = 0;
+  bool theZeroIntervalFlag = false;
   temperature_phrase_id theTemperaturePhraseId;
-  bool theDayAndNightSeparationFlag;
+  bool theDayAndNightSeparationFlag = false;
   Paragraph theOptionalFrostParagraph;
-  bool theUseFrostExistsPhrase;
-  bool theFullDayFlag;
-  bool theUseLongPhrase;
-  bool theAddCommaDelimiterFlag;
+  bool theUseFrostExistsPhrase = false;
+  bool theFullDayFlag = false;
+  bool theUseLongPhrase = false;
+  bool theAddCommaDelimiterFlag = false;
   Sentence theSentenceUnderConstruction;
 
   bool morningAndAfternoonSeparated(forecast_period_id forecastPeriodId = NO_PERIOD) const
@@ -2059,7 +2044,7 @@ void temperature_phrase(t36hparams& theParameters,
           }
         }
         break;
-      };
+      }
     }
   }
   else  // day period
@@ -2132,11 +2117,11 @@ void temperature_phrase(t36hparams& theParameters,
           theDayPhasePhrase << ILTAPAIVALLA_PHRASE;
           if (phrase_id == PIKKUPAKKASTA_PHRASE_ID)
           {
-            ;  // theTemperaturePhrase << ON_WORD;
+            // theTemperaturePhrase << ON_WORD;
           }
           else
           {
-            ;  // no tautology
+            // no tautology
           }
         }
       }
@@ -2410,7 +2395,7 @@ Sentence temperature_phrase(t36hparams& theParameters)
     }
     else
     {
-      ;  // theParameters.theFrostExistsTautologyFlag = false;
+      // theParameters.theFrostExistsTautologyFlag = false;
     }
     sentence << theAreaPhrase;
   }
@@ -3100,7 +3085,7 @@ Sentence construct_final_sentence(t36hparams& theParameters,
     {
     }
     break;
-  };
+  }
 
   if (theParameters.theAddCommaDelimiterFlag && !sentence.empty())
     theParameters.theSentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK) << sentence;
@@ -4377,8 +4362,8 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
 
   log_start_time_and_end_time(theLog, "Whole period: ", itsPeriod);
 
-  TextGenPosixTime periodStartTime(itsPeriod.localStartTime());
-  TextGenPosixTime periodEndTime(itsPeriod.localEndTime());
+  const TextGenPosixTime& periodStartTime = itsPeriod.localStartTime();
+  const TextGenPosixTime& periodEndTime = itsPeriod.localEndTime();
 
   // Period generator
   NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);

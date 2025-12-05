@@ -53,12 +53,12 @@ WeatherFact::WeatherFact(const WeatherFact& theFact)
 
 WeatherFact::WeatherFact(WeatherParameter theParameter,
                          WeatherFunction theFunction,
-                         const WeatherPeriod& thePeriod,
+                         WeatherPeriod thePeriod,
                          const WeatherArea& theArea,
                          const WeatherResult& theResult)
     : itsParameter(theParameter),
       itsFunction(theFunction),
-      itsPeriod(thePeriod),
+      itsPeriod(std::move(thePeriod)),
       itsArea(theArea),
       itsResult(theResult)
 {

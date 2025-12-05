@@ -18,6 +18,7 @@ class Dictionary;
 class WeatherTime : public Glyph
 {
  public:
+  WeatherTime() = delete;
   ~WeatherTime() override;
   WeatherTime(const TextGenPosixTime& theTime);
 #ifdef NO_COMPILER_GENERATED
@@ -32,7 +33,6 @@ class WeatherTime : public Glyph
   inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
 
  private:
-  WeatherTime() = delete;
   TextGenPosixTime itsTime;
 
 };  // class Time

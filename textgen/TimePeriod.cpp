@@ -34,7 +34,7 @@ TimePeriod::~TimePeriod() = default;
  */
 // ----------------------------------------------------------------------
 
-TimePeriod::TimePeriod(const WeatherPeriod& thePeriod) : itsPeriod(thePeriod) {}
+TimePeriod::TimePeriod(WeatherPeriod thePeriod) : itsPeriod(std::move(thePeriod)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone

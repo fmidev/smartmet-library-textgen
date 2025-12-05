@@ -37,14 +37,14 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(const WeatherPeriod& theMainPeriod,
+NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(WeatherPeriod theMainPeriod,
                                                        int theDayStartHour,
                                                        int theDayEndHour,
                                                        int theDayMaxStartHour,
                                                        int theDayMinEndHour,
                                                        int theNightMaxStartHour,
                                                        int theNightMinEndHour)
-    : itsMainPeriod(theMainPeriod),
+    : itsMainPeriod(std::move(theMainPeriod)),
       itsDayStartHour(theDayStartHour),
       itsDayEndHour(theDayEndHour),
       itsDayMaxStartHour(theDayMaxStartHour),
@@ -80,9 +80,9 @@ NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(const WeatherPeriod& theM
  */
 // ----------------------------------------------------------------------
 
-NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(const WeatherPeriod& theMainPeriod,
+NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(WeatherPeriod theMainPeriod,
                                                        const string& theVariable)
-    : itsMainPeriod(theMainPeriod),
+    : itsMainPeriod(std::move(theMainPeriod)),
       itsDayStartHour(Settings::require_hour(theVariable + "::day::starthour")),
       itsDayEndHour(Settings::require_hour(theVariable + "::day::endhour")),
       itsDayMaxStartHour(

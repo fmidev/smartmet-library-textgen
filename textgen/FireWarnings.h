@@ -24,11 +24,11 @@ class FireWarnings
     Undefined = 999
   };
 
+  FireWarnings() = delete;
   FireWarnings(const std::string& theDirectory, const TextGenPosixTime& theTime);
   State state(int theArea) const;
 
  private:
-  FireWarnings() = delete;
   const TextGenPosixTime itsTime;
   std::vector<State> itsWarnings;
 

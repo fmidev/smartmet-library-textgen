@@ -32,7 +32,7 @@ class WeatherForecastStoryItem
 {
  public:
   WeatherForecastStoryItem(WeatherForecastStory& weatherForecastStory,
-                           const WeatherPeriod& period,
+                           WeatherPeriod period,
                            story_part_id storyPartId);
 
   virtual ~WeatherForecastStoryItem() = default;
@@ -66,10 +66,11 @@ class WeatherForecastStoryItem
   WeatherPeriod thePeriod;
   story_part_id theStoryPartId;
   // can be used to control if this item is included in the story
-  bool theIncludeInTheStoryFlag;
+  bool theIncludeInTheStoryFlag = false;
   Sentence theSentence;
-  WeatherForecastStoryItem*
-      thePeriodToMergeWith;  // if periods are merged this points to the megreable period
+
+  // if periods are merged this points to the megreable period
+  WeatherForecastStoryItem* thePeriodToMergeWith = nullptr;
 
   friend class WeatherForecastStory;
 
@@ -94,20 +95,25 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
   unsigned int precipitationForm() const;
 
  private:
-  float theIntensity;
-  float theExtent;
-  unsigned int theForm;
+  float theIntensity = 0;
+  float theExtent = 0;
+  unsigned int theForm = 0;
   precipitation_type theType;
+
   // this flag indicates wheather thunder exists or not during the period
-  bool theThunder;
+  bool theThunder = false;
+
   // this flag indicates if there has been a gap between precipitation periods
-  bool theSadeJatkuuFlag;
+  bool theSadeJatkuuFlag = false;
+
   // this flag indicates whether we tell about
   // ending precipitation period (poutaantuu)
-  bool thePoutaantuuFlag;
+  bool thePoutaantuuFlag = false;
+
   // if precipitation has been weak we dont report ending of it
-  bool theReportPoutaantuuFlag;
-  int theFullDuration;  // includes precipitation period beyond the forecast period
+  bool theReportPoutaantuuFlag = false;
+
+  int theFullDuration = 0;  // includes precipitation period beyond the forecast period
 
   friend class WeatherForecastStory;
   friend class CloudinessForecastStoryItem;
@@ -130,7 +136,7 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
   cloudiness_id theCloudinessId;
   PrecipitationForecastStoryItem* thePreviousPrecipitationStoryItem;
   PrecipitationForecastStoryItem* theNextPrecipitationStoryItem;
-  bool theReportAboutDryWeatherFlag;
+  bool theReportAboutDryWeatherFlag = false;
   Sentence thePoutaantuuSentence;
   Sentence theShortFormSentence;
   Sentence theChangeSentence;
@@ -184,11 +190,11 @@ class WeatherForecastStory
   const FogForecast& theFogForecast;
   const ThunderForecast& theThunderForecast;
   MessageLogger& theLogger;
-  int theStorySize;
-  bool theShortTimePrecipitationReportedFlag;
-  bool theReportTimePhraseFlag;
-  bool theCloudinessReportedFlag;
-  bool theAddAluksiWord;
+  int theStorySize = 0;
+  bool theShortTimePrecipitationReportedFlag = false;
+  bool theReportTimePhraseFlag = false;
+  bool theCloudinessReportedFlag = false;
+  bool theAddAluksiWord = false;
   PeriodPhraseGenerator thePeriodPhraseGenerator;
 
   std::vector<std::shared_ptr<WeatherForecastStoryItem>> theStoryItemVector;

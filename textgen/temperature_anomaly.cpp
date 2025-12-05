@@ -41,7 +41,6 @@
 #include "WeatherForecast.h"
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
-#include <macgyver/Exception.h>
 #include <map>
 
 #include <boost/lexical_cast.hpp>
@@ -53,7 +52,6 @@ namespace TextGen
 {
 namespace TemperatureAnomaly
 {
-using NFmiStringTools::Convert;
 using namespace TextGen;
 using namespace TemperatureStoryTools;
 
@@ -257,23 +255,7 @@ struct temperature_anomaly_params
         theDayAfterDay2Period(dayAfterDay2Period),
         theSeason(season),
         theForecastTime(forecastTime),
-        thePeriodLength(periodLength),
-        theAnomalyPhrase(UNDEFINED_ANOMALY_PHRASE_ID),
-        theShortrunTrend(UNDEFINED_SHORTRUN_TREND_ID),
-
-        theGrowingSeasonUnderway(false),
-        theDayBeforeDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
-        theDayBeforeDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
-        theDayBeforeDay1TemperatureAreaAfternoonMaximum(kFloatMissing, 0),
-        theDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
-        theDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
-        theDay1TemperatureAreaAfternoonMaximum(kFloatMissing, 0),
-        theDay2TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
-        theDay2TemperatureAreaAfternoonMean(kFloatMissing, 0),
-        theDay2TemperatureAreaAfternoonMaximum(kFloatMissing, 0),
-        theDayAfterDay2TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
-        theDayAfterDay2TemperatureAreaAfternoonMean(kFloatMissing, 0),
-        theDayAfterDay2TemperatureAreaAfternoonMaximum(kFloatMissing, 0)
+        thePeriodLength(periodLength)
   {
   }
 
@@ -288,23 +270,23 @@ struct temperature_anomaly_params
   const WeatherPeriod& theDayAfterDay2Period;
   forecast_season_id theSeason;
   const TextGenPosixTime& theForecastTime;
-  short thePeriodLength;
-  anomaly_phrase_id theAnomalyPhrase;
-  shortrun_trend_id theShortrunTrend;
+  short thePeriodLength = 0;
+  anomaly_phrase_id theAnomalyPhrase = UNDEFINED_ANOMALY_PHRASE_ID;
+  shortrun_trend_id theShortrunTrend = UNDEFINED_SHORTRUN_TREND_ID;
   string theFakeVariable;
-  bool theGrowingSeasonUnderway;
-  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMinimum;
-  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMean;
-  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMaximum;
-  WeatherResult theDay1TemperatureAreaAfternoonMinimum;
-  WeatherResult theDay1TemperatureAreaAfternoonMean;
-  WeatherResult theDay1TemperatureAreaAfternoonMaximum;
-  WeatherResult theDay2TemperatureAreaAfternoonMinimum;
-  WeatherResult theDay2TemperatureAreaAfternoonMean;
-  WeatherResult theDay2TemperatureAreaAfternoonMaximum;
-  WeatherResult theDayAfterDay2TemperatureAreaAfternoonMinimum;
-  WeatherResult theDayAfterDay2TemperatureAreaAfternoonMean;
-  WeatherResult theDayAfterDay2TemperatureAreaAfternoonMaximum;
+  bool theGrowingSeasonUnderway = false;
+  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMinimum{kFloatMissing, 0};
+  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMean{kFloatMissing, 0};
+  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMaximum{kFloatMissing, 0};
+  WeatherResult theDay1TemperatureAreaAfternoonMinimum{kFloatMissing, 0};
+  WeatherResult theDay1TemperatureAreaAfternoonMean{kFloatMissing, 0};
+  WeatherResult theDay1TemperatureAreaAfternoonMaximum{kFloatMissing, 0};
+  WeatherResult theDay2TemperatureAreaAfternoonMinimum{kFloatMissing, 0};
+  WeatherResult theDay2TemperatureAreaAfternoonMean{kFloatMissing, 0};
+  WeatherResult theDay2TemperatureAreaAfternoonMaximum{kFloatMissing, 0};
+  WeatherResult theDayAfterDay2TemperatureAreaAfternoonMinimum{kFloatMissing, 0};
+  WeatherResult theDayAfterDay2TemperatureAreaAfternoonMean{kFloatMissing, 0};
+  WeatherResult theDayAfterDay2TemperatureAreaAfternoonMaximum{kFloatMissing, 0};
 };
 
 void log_data(const temperature_anomaly_params& theParameters)
@@ -1320,8 +1302,8 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
   // the anomaly sentence relates always to the upcoming day,
   // so the period is defined to start in the previous day
 
-  TextGenPosixTime periodStartTime(itsPeriod.localStartTime());
-  TextGenPosixTime periodEndTime(itsPeriod.localEndTime());
+  TextGenPosixTime periodStartTime = itsPeriod.localStartTime();
+  const TextGenPosixTime& periodEndTime = itsPeriod.localEndTime();
   int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
   int ndays = HourPeriodGenerator(itsPeriod, itsVar + "::day").size();

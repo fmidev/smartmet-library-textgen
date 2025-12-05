@@ -301,12 +301,7 @@ std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theC
   return theOutput;
 }
 
-CloudinessForecast::CloudinessForecast(wf_story_params& parameters)
-    : theParameters(parameters),
-      theCoastalData(nullptr),
-      theInlandData(nullptr),
-      theFullData(nullptr)
-
+CloudinessForecast::CloudinessForecast(wf_story_params& parameters) : theParameters(parameters)
 {
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     theFullData = ((*theParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA].get());
@@ -482,8 +477,8 @@ void CloudinessForecast::findOutCloudinessWeatherEvents(
 
     if (weatherEventId != MISSING_WEATHER_EVENT)
     {
-      theCloudinessWeatherEvents.push_back(
-          make_pair(theData->at(changeIndex)->thePeriod.localStartTime(), weatherEventId));
+      theCloudinessWeatherEvents.emplace_back(theData->at(changeIndex)->thePeriod.localStartTime(),
+                                              weatherEventId);
       // Note: only one event (pilvistyy/selkenee) during the period.
       // The Original plan was that several events are allowed
       break;
@@ -766,8 +761,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
     if (thePeriod.localStartTime() >= theSourceCloudinessPeriod.first.localStartTime() &&
         thePeriod.localEndTime() <= theSourceCloudinessPeriod.first.localEndTime())
     {
-      TextGenPosixTime startTime(thePeriod.localStartTime());
-      TextGenPosixTime endTime(thePeriod.localEndTime());
+      const TextGenPosixTime& startTime = thePeriod.localStartTime();
+      const TextGenPosixTime& endTime = thePeriod.localEndTime();
       cloudiness_id clid(theSourceCloudinessPeriod.second);
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
@@ -776,8 +771,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
              thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localEndTime() &&
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localEndTime())
     {
-      TextGenPosixTime startTime(thePeriod.localStartTime());
-      TextGenPosixTime endTime(theSourceCloudinessPeriod.first.localEndTime());
+      const TextGenPosixTime& startTime = thePeriod.localStartTime();
+      const TextGenPosixTime& endTime = theSourceCloudinessPeriod.first.localEndTime();
       cloudiness_id clid(theSourceCloudinessPeriod.second);
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);

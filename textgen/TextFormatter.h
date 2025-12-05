@@ -60,7 +60,7 @@ class TextFormatter
 
   void setProductName(const std::string& theProductName) { itsProductName = theProductName; }
   void setAreaName(const std::string& theArea) { itsArea = theArea; }
-  void setForecastTime(const TextGenPosixTime theTime) { itsTime = theTime; }
+  void setForecastTime(const TextGenPosixTime& theTime) { itsTime = theTime; }
 
  protected:
   std::string itsProductName;

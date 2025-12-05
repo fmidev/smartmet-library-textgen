@@ -47,26 +47,7 @@ struct wo_story_params
         theForecastTime(forecastTime),
         theSources(sources),
         theDataPeriod(forecastPeriod),
-        theLog(log),
-        theSplitMethod(NO_SPLITTING),
-        theWindSpeedMaxError(2.0),
-        theWindDirectionMaxError(10.0),
-        theWindSpeedThreshold(4.0),
-        theWindSpeedWarningThreshold(11.0),
-        theWindDirectionThreshold(25.0),
-        theWindDirectionMinSpeed(6.5),
-        theWindCalcTopShare(80.0),
-        theWindCalcTopShareWeak(80.0),
-        theWindSpeedTopCoverage(98.0),
-        theGustyWindTopWindDifference(5.0),
-        theRangeSeparator("-"),
-        theMinIntervalSize(2),
-        theMaxIntervalSize(5),
-        theContextualMaxIntervalSize(5),
-        theMetersPerSecondFormat("SI"),
-        theAlkaenPhraseUsed(false),
-        theWeakTopWind(false),
-        theWeekdaysUsed(true)
+        theLog(log)
   {
   }
 
@@ -78,26 +59,26 @@ struct wo_story_params
   // currently the same as forecast period, but could be longer in both ends
   WeatherPeriod theDataPeriod;
   MessageLogger& theLog;
-  split_method theSplitMethod;
+  split_method theSplitMethod = NO_SPLITTING;
 
-  double theWindSpeedMaxError;
-  double theWindDirectionMaxError;
-  double theWindSpeedThreshold;
-  double theWindSpeedWarningThreshold;
-  double theWindDirectionThreshold;
-  double theWindDirectionMinSpeed;
-  double theWindCalcTopShare;
-  double theWindCalcTopShareWeak;
-  double theWindSpeedTopCoverage;
-  double theGustyWindTopWindDifference;
-  std::string theRangeSeparator;
-  int theMinIntervalSize;
-  int theMaxIntervalSize;
-  int theContextualMaxIntervalSize;
-  std::string theMetersPerSecondFormat;
-  bool theAlkaenPhraseUsed;
-  bool theWeakTopWind;  // if top wind strays under 10 m/s the whole period
-  bool theWeekdaysUsed;
+  double theWindSpeedMaxError = 2;
+  double theWindDirectionMaxError = 10;
+  double theWindSpeedThreshold = 4;
+  double theWindSpeedWarningThreshold = 11;
+  double theWindDirectionThreshold = 25;
+  double theWindDirectionMinSpeed = 6.5;
+  double theWindCalcTopShare = 80;
+  double theWindCalcTopShareWeak = 80;
+  double theWindSpeedTopCoverage = 98;
+  double theGustyWindTopWindDifference = 5;
+  std::string theRangeSeparator = "-";
+  int theMinIntervalSize = 2;
+  int theMaxIntervalSize = 5;
+  int theContextualMaxIntervalSize = 5;
+  std::string theMetersPerSecondFormat = "SI";
+  bool theAlkaenPhraseUsed = false;
+  bool theWeakTopWind = false;  // if top wind strays under 10 m/s the whole period
+  bool theWeekdaysUsed = true;
 
   // contains raw data
   wind_data_item_vector theWindDataVector;
@@ -141,7 +122,7 @@ struct wo_story_params
 
 struct WindDataItemUnit
 {
-  WindDataItemUnit(const WeatherPeriod& period,
+  WindDataItemUnit(WeatherPeriod period,
                    const WeatherResult& windSpeedMin,
                    const WeatherResult& windSpeedMax,
                    const WeatherResult& windSpeedMean,
@@ -149,7 +130,7 @@ struct WindDataItemUnit
                    const WeatherResult& windSpeedTop,
                    const WeatherResult& windDirection,
                    const WeatherResult& gustSpeed)
-      : thePeriod(period),
+      : thePeriod(std::move(period)),
         theWindSpeedMin(windSpeedMin),
         theWindSpeedMax(windSpeedMax),
         theWindSpeedMean(windSpeedMean),
@@ -250,9 +231,8 @@ struct WindDataItemsByArea
 
 struct WindSpeedPeriodDataItem
 {
-  WindSpeedPeriodDataItem(const WeatherPeriod& period,
-                          const WindStoryTools::WindSpeedId& windSpeedId)
-      : thePeriod(period), theWindSpeedId(windSpeedId)
+  WindSpeedPeriodDataItem(WeatherPeriod period, const WindStoryTools::WindSpeedId& windSpeedId)
+      : thePeriod(std::move(period)), theWindSpeedId(windSpeedId)
   {
   }
   WeatherPeriod thePeriod;
@@ -280,8 +260,7 @@ struct WindEventPeriodDataItem
         theWindSpeedChangePeriod(period),
         theWindEvent(windEvent),
         thePeriodBeginDataItem(periodBeginDataItem),
-        thePeriodEndDataItem(periodEndDataItem),
-        theSuccessiveEventFlag(false)
+        thePeriodEndDataItem(periodEndDataItem)
   {
   }
 

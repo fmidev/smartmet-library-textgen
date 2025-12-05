@@ -18,6 +18,7 @@ class Dictionary;
 class RealRange : public Glyph
 {
  public:
+  RealRange() = delete;
   ~RealRange() override;
   explicit RealRange(float theStartValue,
                      float theEndValue,
@@ -44,9 +45,6 @@ class RealRange : public Glyph
   float itsStartValue;
   float itsEndValue;
   int itsPrecision;
-
- private:
-  RealRange() = delete;
 
 };  // class RealRange
 }  // namespace TextGen

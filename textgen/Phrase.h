@@ -17,6 +17,7 @@ class Dictionary;
 class Phrase : public Glyph
 {
  public:
+  Phrase() = delete;
   ~Phrase() override;
   Phrase(std::string theWord);
 #ifdef NO_COMPILER_GENERATED
@@ -29,7 +30,6 @@ class Phrase : public Glyph
   bool isDelimiter() const override;
 
  private:
-  Phrase() = delete;
   std::string itsWord;
 
 };  // class Phrase

@@ -17,6 +17,7 @@ class WesternMaskSource : public MaskSource
   using mask_type = MaskSource::mask_type;
   using masks_type = MaskSource::masks_type;
 
+  WesternMaskSource() = delete;
   WesternMaskSource(const WeatherArea& theArea);
 
   mask_type mask(const WeatherArea& theArea,
@@ -28,8 +29,6 @@ class WesternMaskSource : public MaskSource
                    const WeatherSource& theWeatherSource) const override;
 
  private:
-  WesternMaskSource() = delete;
-
   class Pimple;
   std::shared_ptr<Pimple> itsPimple;
 

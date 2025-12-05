@@ -15,6 +15,7 @@ namespace TextGen
 class OrAcceptor : public Acceptor
 {
  public:
+  OrAcceptor() = delete;
   OrAcceptor(const OrAcceptor& theOther);
   OrAcceptor(const Acceptor& theLhs, const Acceptor& theRhs);
   ~OrAcceptor() override
@@ -26,8 +27,6 @@ class OrAcceptor : public Acceptor
   Acceptor* clone() const override;
 
  private:
-  OrAcceptor() = delete;
-
   Acceptor* itsLhs;
   Acceptor* itsRhs;
 

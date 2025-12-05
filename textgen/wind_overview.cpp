@@ -351,30 +351,30 @@ std::string get_direction_abbreviation(
       return "NE";
     if (direction >= 56.25 && direction < 78.75)
       return "ne-e";
-    else if (direction >= 78.75 && direction < 101.25)
+    if (direction >= 78.75 && direction < 101.25)
       return "E";
-    else if (direction >= 101.25 && direction < 123.75)
+    if (direction >= 101.25 && direction < 123.75)
       return "e-se";
-    else if (direction >= 123.75 && direction < 146.25)
+    if (direction >= 123.75 && direction < 146.25)
       return "SE";
-    else if (direction >= 146.25 && direction < 168.75)
+    if (direction >= 146.25 && direction < 168.75)
       return "se-s";
-    else if (direction >= 168.75 && direction < 191.25)
+    if (direction >= 168.75 && direction < 191.25)
       return "S";
-    else if (direction >= 191.25 && direction < 213.75)
+    if (direction >= 191.25 && direction < 213.75)
       return "s-sw";
-    else if (direction >= 213.75 && direction < 236.25)
+    if (direction >= 213.75 && direction < 236.25)
       return "SW";
-    else if (direction >= 236.25 && direction < 258.75)
+    if (direction >= 236.25 && direction < 258.75)
       return "sw-w";
-    else if (direction >= 258.75 && direction < 281.25)
+    if (direction >= 258.75 && direction < 281.25)
       return "W";
-    else if (direction >= 281.25 && direction < 303.75)
+    if (direction >= 281.25 && direction < 303.75)
       return "w-nw";
-    else if (direction >= 303.75 && direction < 326.25)
+    if (direction >= 303.75 && direction < 326.25)
       return "NW";
-    else
-      return "nw-n";
+
+    return "nw-n";
   }
   else
   {
@@ -386,14 +386,13 @@ std::string get_direction_abbreviation(
       return "E";
     if (direction >= 112.50 && direction < 157.50)
       return "SE";
-    else if (direction >= 157.50 && direction < 202.50)
+    if (direction >= 157.50 && direction < 202.50)
       return "S";
-    else if (direction >= 202.50 && direction < 247.50)
+    if (direction >= 202.50 && direction < 247.50)
       return "SW";
-    else if (direction >= 247.50 && direction < 292.50)
+    if (direction >= 247.50 && direction < 292.50)
       return "W";
-    else
-      return "NW";
+    return "NW";
   }
 }
 
@@ -2350,7 +2349,7 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
   }
   speedDifferenceVector.clear();
 
-  for (auto item : cleanedSpeedDifferenceVector)
+  for (const auto& item : cleanedSpeedDifferenceVector)
   {
     const WindDataItemUnit& begDataItem = get_data_item(storyParams, item.second.localStartTime());
     const WindDataItemUnit& endDataItem = get_data_item(storyParams, item.second.localEndTime());
@@ -2372,7 +2371,7 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
   while (timeIter <= dataItem.thePeriod.localEndTime())
   {
     bool timeIterInside = false;
-    for (auto item : cleanedSpeedDifferenceVector)
+    for (const auto& item : cleanedSpeedDifferenceVector)
     {
       if (is_inside(timeIter, item.second))
       {
@@ -2966,7 +2965,7 @@ bool add_local_min_max_values(vector<unsigned int>& eqIndexVector,
                         : currentItem.theWindSpeedCalc.value());
       }
       break;
-    };
+    }
 
     unsigned localMaxIndex = UINT_MAX;
     unsigned localMinIndex = UINT_MAX;
@@ -2992,7 +2991,7 @@ bool add_local_min_max_values(vector<unsigned int>& eqIndexVector,
         case StatValueType::CALC:
           currentValue = itemK.theWindSpeedCalc.value();
           break;
-      };
+      }
 
       if (currentValue > localMax)
       {

@@ -84,7 +84,6 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
     query.reset();
 
     query << "select keyword, translation from " + translationtable;
-    ;
 
     mysqlpp::StoreQueryResult result2 = query.store();
 

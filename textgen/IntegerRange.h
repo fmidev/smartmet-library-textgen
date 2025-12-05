@@ -18,6 +18,7 @@ class Dictionary;
 class IntegerRange : public Glyph
 {
  public:
+  IntegerRange() = delete;
   ~IntegerRange() override;
   explicit IntegerRange(int theStartValue, int theEndValue, std::string theSeparator = "-");
 #ifdef NO_COMPILER_GENERATED
@@ -39,9 +40,6 @@ class IntegerRange : public Glyph
   std::string itsRangeSeparator;
   int itsStartValue;
   int itsEndValue;
-
- private:
-  IntegerRange() = delete;
 
 };  // class IntegerRange
 }  // namespace TextGen

@@ -107,12 +107,11 @@ frost_category get_frost_category(const double& frostProbability,
     return CAT_3040;
   if (frostProbability >= 45.0 && frostProbability < 65.0)
     return CAT_5060;
-  else if (frostProbability >= 65.0 && frostProbability < 85.0)
+  if (frostProbability >= 65.0 && frostProbability < 85.0)
     return CAT_7080;
-  else if (frostProbability >= 85.0 && frostProbability <= 100.0)
+  if (frostProbability >= 85.0 && frostProbability <= 100.0)
     return CAT_90100;
-  else
-    return CAT_NA;
+  return CAT_NA;
 }
 
 int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
@@ -142,9 +141,9 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return MAHDOLLISESTI_HALLAA;
     if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080)
+    if (categoryInland == CAT_7080)
       return MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_90100)
+    if (categoryInland == CAT_90100)
       return HALLAA_YLEISESTI;
   }
   if (categoryCoastal == CAT_0010)
@@ -157,9 +156,9 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return MAHDOLLISESTI_HALLAA;
     if (categoryInland == CAT_5060)
       return SISAMAASSA_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080)
+    if (categoryInland == CAT_7080)
       return SISAMAASSA_MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_90100)
+    if (categoryInland == CAT_90100)
       return SISAMAASSA_YLEISESTI_HALLAA;
   }
   else if (categoryCoastal == CAT_1020)
@@ -172,11 +171,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return MAHDOLLISESTI_HALLAA;
     if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080)
+    if (categoryInland == CAT_7080)
       return SISAMAASSA_MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_90100)
+    if (categoryInland == CAT_90100)
       return SISAMAASSA_YLEISESTI_HALLAA;
-    else if (categoryInland == CAT_FROST)
+    if (categoryInland == CAT_FROST)
       return EMPTY_STORY;
   }
   else if (categoryCoastal == CAT_3040)
@@ -189,10 +188,9 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return PAIKOIN_HALLAA;
     if (categoryInland == CAT_7080)
       return (SISAMAASSA_MONIN_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_90100)
+    if (categoryInland == CAT_90100)
       return (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA;
-    else if (categoryInland == CAT_FROST)
-
+    if (categoryInland == CAT_FROST)
       return EMPTY_STORY;
   }
   else if (categoryCoastal == CAT_5060)
@@ -205,7 +203,7 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return MONIN_PAIKOIN_HALLAA;
     if (categoryInland == CAT_90100)
       return HALLAA_YLEISESTI;
-    else if (categoryInland == CAT_FROST)
+    if (categoryInland == CAT_FROST)
       return EMPTY_STORY;
   }
   else if (categoryCoastal == CAT_7080)
@@ -218,11 +216,11 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return (RANNIKOLLA_MONIN_PAIKOIN_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA;
     if (categoryInland == CAT_5060)
       return PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080)
+    if (categoryInland == CAT_7080)
       return MONIN_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_90100)
+    if (categoryInland == CAT_90100)
       return HALLAA_YLEISESTI;
-    else if (categoryInland == CAT_FROST)
+    if (categoryInland == CAT_FROST)
       return EMPTY_STORY;
   }
   else if (categoryCoastal == CAT_90100)
@@ -235,9 +233,9 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       return (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA;
     if (categoryInland == CAT_5060)
       return (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_PAIKOIN_HALLAA;
-    else if (categoryInland == CAT_7080 || categoryInland == CAT_90100)
+    if (categoryInland == CAT_7080 || categoryInland == CAT_90100)
       return HALLAA_YLEISESTI;
-    else if (categoryInland == CAT_FROST)
+    if (categoryInland == CAT_FROST)
       return EMPTY_STORY;
   }
   else if (categoryCoastal == CAT_FROST)
@@ -256,23 +254,23 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
     case EMPTY_STORY:
     {
       sentence << "";
+      break;
     }
-    break;
     case ALAVILLA_MAILLA_HALLAN_VAARA:
     {
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << EMPTY_STRING;
+      break;
     }
-    break;
     case MAHDOLLISESTI_HALLAA:
     {
       sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << EMPTY_STRING;
+      break;
     }
-    break;
     case PAIKOIN_HALLAA:
     {
       sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << EMPTY_STRING << PAIKOIN_WORD;
+      break;
     }
-    break;
     case MONIN_PAIKOIN_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -281,8 +279,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
 
       sentence << EMPTY_STRING << MONIN_PAIKOIN_WORD;
+      break;
     }
-    break;
     case HALLAA_YLEISESTI:
     {
       if (tellSevereFrostStory)
@@ -290,28 +288,28 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << EMPTY_STRING << EMPTY_STRING;
+      break;
     }
-    break;
     case YOPAKKASTA:
     {
       sentence << "";
+      break;
     }
-    break;
     case RANNIKOLLA_HALLAN_VAARA:
     {
       sentence << HALLAN_VAARA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     }
-    break;
     case RANNIKOLLA_MAHDOLLISESTI_HALLAA:
     {
       sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     }
-    break;
     case RANNIKOLLA_PAIKOIN_HALLAA:
     {
       sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE << PAIKOIN_WORD;
+      break;
     }
-    break;
     case RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -319,8 +317,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     }
-    break;
     case RANNIKOLLA_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -328,24 +326,24 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << COAST_PHRASE << EMPTY_STRING;
+      break;
     }
-    break;
     case SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA:
     {
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     }
-    break;
     case SISAMAASSA_MAHDOLLISESTI_HALLAA:
     {
       sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     }
-    break;
     case SISAMAASSA_PAIKOIN_HALLAA:
     {
       sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << INLAND_PHRASE << PAIKOIN_WORD;
+      break;
     }
-    break;
     case SISAMAASSA_MONIN_PAIKOIN_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -353,8 +351,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << INLAND_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     }
-    break;
     case SISAMAASSA_YLEISESTI_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -362,8 +360,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << INLAND_PHRASE << EMPTY_STRING;
+      break;
     }
-    break;
     case (SISAMAASSA_MONIN_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -372,8 +370,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << INLAND_PHRASE << MONIN_PAIKOIN_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
                << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     }
-    break;
     case (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -382,15 +380,15 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << INLAND_PHRASE << EMPTY_STRING << Delimiter(COMMA_PUNCTUATION_MARK)
                << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     }
-    break;
     case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_PAIKOIN_HALLAA:
     {
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE
                << Delimiter(COMMA_PUNCTUATION_MARK) << PAIKOIN_HALLAA_COMPOSITE_PHRASE
                << COAST_PHRASE << PAIKOIN_WORD;
+      break;
     }
-    break;
     case (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_PAIKOIN_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -399,8 +397,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << INLAND_PHRASE << EMPTY_STRING << Delimiter(COMMA_PUNCTUATION_MARK)
                << PAIKOIN_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     }
-    break;
     case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
     {
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE
@@ -410,8 +408,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     }
-    break;
     case (RANNIKOLLA_MONIN_PAIKOIN_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -420,8 +418,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
                << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     }
-    break;
     case (SISAMAASSA_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
     {
       sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE << PAIKOIN_WORD
@@ -431,8 +429,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     }
-    break;
     case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_HALLAA:
     {
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE
@@ -442,8 +440,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       else
         sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
       sentence << COAST_PHRASE << EMPTY_STRING;
+      break;
     }
-    break;
     case (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -453,8 +451,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       sentence << COAST_PHRASE << EMPTY_STRING;
       sentence << Delimiter(COMMA_PUNCTUATION_MARK) << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
                << INLAND_PHRASE;
+      break;
     }
-    break;
     case (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_PAIKOIN_HALLAA:
     {
       if (tellSevereFrostStory)
@@ -464,8 +462,8 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
       sentence << COAST_PHRASE << EMPTY_STRING;
       sentence << Delimiter(COMMA_PUNCTUATION_MARK) << PAIKOIN_HALLAA_COMPOSITE_PHRASE
                << INLAND_PHRASE << PAIKOIN_WORD;
+      break;
     }
-    break;
     default:
     {
       sentence << "";

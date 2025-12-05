@@ -1614,7 +1614,7 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
           if (!isi.directionChangesBefore.empty())
           {
             theOutput << "   direction changes before interval at: \n";
-            for (auto direction : isi.directionChangesBefore)
+            for (const auto& direction : isi.directionChangesBefore)
               theOutput << "   " << direction.startTime() << " ("
                         << wind_direction_string(direction.id) << ")\n";
           }
@@ -1625,7 +1625,7 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
           if (!isi.directionChangesAfter.empty())
           {
             theOutput << "   direction changes after interval at: \n";
-            for (auto direction : isi.directionChangesAfter)
+            for (const auto& direction : isi.directionChangesAfter)
               theOutput << "   " << direction.startTime() << " ("
                         << wind_direction_string(direction.id) << ")\n";
           }
@@ -2642,7 +2642,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
 
   std::vector<WindDirectionPeriodInfo> windDirectionPeriodInfo;
 
-  for (auto p : theParameters.theWindDirectionPeriods)
+  for (const auto& p : theParameters.theWindDirectionPeriods)
     windDirectionPeriodInfo.emplace_back(p, get_wind_direction(theParameters, p));
 
   WindSpeedSentenceInfo sentenceInfoVector;
@@ -3276,7 +3276,7 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
 }
 
 Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePeriod*/,
-                                                 interval_info intervalInfo,
+                                                 const interval_info& intervalInfo,
                                                  TimePhraseInfo& timePhraseInfo,
                                                  bool theUseAtItsStrongestPhrase) const
 {
@@ -3349,7 +3349,7 @@ std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges(
 {
   std::vector<sentence_parameter> ret;
 
-  for (auto directionInfo : directionChanges)
+  for (const auto& directionInfo : directionChanges)
   {
     if (directionInfo.empty())
       continue;

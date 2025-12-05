@@ -91,12 +91,12 @@ class FogForecast
 
   wf_story_params& theParameters;
 
-  const weather_result_data_item_vector* theCoastalModerateFogData;
-  const weather_result_data_item_vector* theInlandModerateFogData;
-  const weather_result_data_item_vector* theFullAreaModerateFogData;
-  const weather_result_data_item_vector* theCoastalDenseFogData;
-  const weather_result_data_item_vector* theInlandDenseFogData;
-  const weather_result_data_item_vector* theFullAreaDenseFogData;
+  const weather_result_data_item_vector* theCoastalModerateFogData = nullptr;
+  const weather_result_data_item_vector* theInlandModerateFogData = nullptr;
+  const weather_result_data_item_vector* theFullAreaModerateFogData = nullptr;
+  const weather_result_data_item_vector* theCoastalDenseFogData = nullptr;
+  const weather_result_data_item_vector* theInlandDenseFogData = nullptr;
+  const weather_result_data_item_vector* theFullAreaDenseFogData = nullptr;
 
   fog_period_vector theCoastalFog;
   fog_period_vector theInlandFog;

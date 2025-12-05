@@ -2348,7 +2348,7 @@ void PrecipitationForecast::findOutPrecipitationWeatherEvents(
           precipitationStartTime >= theParameters.theForecastPeriod.localStartTime() &&
           precipitationStartTime <= theParameters.theForecastPeriod.localEndTime())
       {
-        thePrecipitationWeatherEvents.push_back(make_pair(precipitationStartTime, SADE_ALKAA));
+        thePrecipitationWeatherEvents.emplace_back(precipitationStartTime, SADE_ALKAA);
         // check here if type cahanes during the period (from continuous to showers or vice versa)
       }
 
@@ -2368,10 +2368,10 @@ void PrecipitationForecast::findOutPrecipitationWeatherEvents(
         {
           if (getPrecipitationExtent(thePrecipitationPeriods.at(i), theForecastArea) >
               MOSTLY_DRY_WEATHER_LIMIT)
-            thePrecipitationWeatherEvents.push_back(make_pair(precipitationEndTime, POUTAANTUU));
+            thePrecipitationWeatherEvents.emplace_back(precipitationEndTime, POUTAANTUU);
           else
-            thePrecipitationWeatherEvents.push_back(
-                make_pair(precipitationEndTime, POUTAANTUU_WHEN_EXTENT_SMALL));
+            thePrecipitationWeatherEvents.emplace_back(precipitationEndTime,
+                                                       POUTAANTUU_WHEN_EXTENT_SMALL);
         }
       }
     }
@@ -4031,7 +4031,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUUN_ASTI_PHRASE;
       return AAMULLA_WORD;
-      break;
     }
     case AAMUPAIVA:
     {
@@ -4040,7 +4039,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUPAIVAAN_ASTI_PHRASE;
       return AAMUPAIVALLA_WORD;
-      break;
     }
     case KESKIPAIVA:
     case ILTAPAIVA:
@@ -4050,7 +4048,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAPAIVAAN_ASTI_PHRASE;
       return ILTAPAIVALLA_WORD;
-      break;
     }
     case ILTA:
     {
@@ -4059,7 +4056,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAAN_ASTI_PHRASE;
       return ILLALLA_WORD;
-      break;
     }
     case ILTAYO:
     {
@@ -4068,7 +4064,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAYOHON_ASTI_PHRASE;
       return ILTAYOLLA_WORD;
-      break;
     }
     case KESKIYO:
     {
@@ -4077,7 +4072,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return KESKIYOHON_ASTI_PHRASE;
       return KESKIYOLLA_WORD;
-      break;
     }
     case AAMUYO:
     {
@@ -4086,7 +4080,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUYOHON_ASTI_PHRASE;
       return AAMUYOLLA_WORD;
-      break;
     }
     case PAIVA:
     {
@@ -4107,7 +4100,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUPAIVAAN_ASTI_PHRASE;
       return AAMULLA_JA_AAMUPAIVALLA_PHRASE;
-      break;
     }
     case ILTAPAIVA_JA_ILTA:
     {
@@ -4116,7 +4108,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAAN_ASTI_PHRASE;
       return ILTAPAIVALLA_JA_ILLALLA_PHRASE;
-      break;
     }
     case ILTA_JA_ILTAYO:
     {
@@ -4125,7 +4116,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAYOHON_ASTI_PHRASE;
       return ILLALLA_JA_ILTAYOLLA_PHRASE;
-      break;
     }
     case ILTAYO_JA_KESKIYO:
     {
@@ -4134,7 +4124,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return KESKIYOHON_ASTI_PHRASE;
       return ILTAYOLLA_JA_KESKIYOLLA_PHRASE;
-      break;
     }
     case KESKIYO_JA_AAMUYO:
     {
@@ -4143,7 +4132,6 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUYOHON_ASTI_PHRASE;
       return KESKIYOLLA_JA_AAMUYOLLA_PHRASE;
-      break;
     }
     case AAMUYO_JA_AAMU:
     {
@@ -4152,11 +4140,10 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
       if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUUN_ASTI_PHRASE;
       return AAMUYOLLA_JA_AAMULLA_PHRASE;
-      break;
     }
     case MISSING_PART_OF_THE_DAY_ID:
       return "missing part of the day";
-  };
+  }
 
   return "missing part of the day";
 }
@@ -4176,8 +4163,8 @@ bool PrecipitationForecast::shortTermPrecipitationExists(const WeatherPeriod& th
   {
     for (const auto& i : *precipitationPeriodVector)
     {
-      TextGenPosixTime startTime(i.localStartTime());
-      TextGenPosixTime endTime(i.localEndTime());
+      const TextGenPosixTime& startTime = i.localStartTime();
+      const TextGenPosixTime& endTime = i.localEndTime();
 
       if (endTime.DifferenceInHours(startTime) < 6 && is_inside(startTime, thePeriod) &&
           is_inside(endTime, thePeriod))
@@ -4371,9 +4358,9 @@ direction_id PrecipitationForecast::getPrecipitationArrivalDirection(
 {
   direction_id retval(NO_DIRECTION);
 
-  TextGenPosixTime startTime(thePeriod.localStartTime());
+  TextGenPosixTime startTime = thePeriod.localStartTime();
   startTime.ChangeByHours(-1);
-  TextGenPosixTime endTime(thePeriod.localStartTime());
+  const TextGenPosixTime& endTime = thePeriod.localStartTime();
   WeatherPeriod checkPeriod(startTime, endTime);
 
   unsigned int startIndex;
@@ -4588,8 +4575,6 @@ const precipitation_data_vector& PrecipitationForecast::getPrecipitationDataVect
 
 PrecipitationForecast::PrecipitationForecast(wf_story_params& parameters)
     : theParameters(parameters),
-      theUseOllaVerbFlag(false),
-      theDryPeriodTautologyFlag(false),
       theSinglePrecipitationFormFlag(true),
       thePrecipitationFormBeforeDryPeriod(MISSING_PRECIPITATION_FORM),
       theCheckHeavyIntensityFlag(MISSING_PRECIPITATION_TYPE),

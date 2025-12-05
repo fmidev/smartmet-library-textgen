@@ -88,11 +88,6 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
       theFogForecast(fogForecast),
       theThunderForecast(thunderForecast),
       theLogger(logger),
-      theStorySize(0),
-      theShortTimePrecipitationReportedFlag(false),
-      theReportTimePhraseFlag(false),
-      theCloudinessReportedFlag(false),
-      theAddAluksiWord(false),
       thePeriodPhraseGenerator(var)
 {
   addPrecipitationStoryItems();
@@ -1017,13 +1012,12 @@ void WeatherForecastStory::logTheStoryItems() const
 }
 
 WeatherForecastStoryItem::WeatherForecastStoryItem(WeatherForecastStory& weatherForecastStory,
-                                                   const WeatherPeriod& period,
+                                                   WeatherPeriod period,
                                                    story_part_id storyPartId)
     : theWeatherForecastStory(weatherForecastStory),
-      thePeriod(period),
+      thePeriod(std::move(period)),
       theStoryPartId(storyPartId),
-      theIncludeInTheStoryFlag(true),
-      thePeriodToMergeWith(nullptr)
+      theIncludeInTheStoryFlag(true)
 {
 }
 
@@ -1205,7 +1199,7 @@ int get_day_number(part_of_the_day_id id, const WeatherPeriod& period, std::stri
     }
     default:
       break;
-  };
+  }
   if (dayNum > -1)
     dayNumber += (std::to_string(dayNum) + "-");
 
@@ -1374,7 +1368,6 @@ PrecipitationForecastStoryItem::PrecipitationForecastStoryItem(
       theForm(form),
       theType(type),
       theThunder(thunder),
-      theSadeJatkuuFlag(false),
       thePoutaantuuFlag(intensity > WEAK_PRECIPITATION_LIMIT_WATER),
       theReportPoutaantuuFlag(intensity > WEAK_PRECIPITATION_LIMIT_WATER),
       theFullDuration(period.localEndTime().DifferenceInHours(period.localStartTime()))
@@ -1435,8 +1428,6 @@ bool PrecipitationForecastStoryItem::isWeakPrecipitation(const wf_story_params& 
 
   return (get_precipitation_intensity_id(theForm, theIntensity, theParameters) ==
           WEAK_PRECIPITATION);
-
-  return false;
 }
 
 Sentence PrecipitationForecastStoryItem::getStoryItemSentence()

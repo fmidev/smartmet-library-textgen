@@ -35,8 +35,6 @@
 #include <map>
 #include <vector>
 
-#include "DebugTextFormatter.h"
-
 namespace TextGen
 {
 using namespace Settings;
@@ -861,7 +859,7 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
     }
     default:
       break;
-  };
+  }
 
   return retval;
 }
@@ -2081,7 +2079,7 @@ split_method split_the_area(const std::string& theVar,
           boost::trim(valueStr);
           if (!valueStr.empty())
           {
-            double divisionLine = atof(valueStr.c_str());
+            double divisionLine = std::stof(valueStr);
 
             // the division line must be inside area
             if ((retval == HORIZONTAL &&
@@ -2140,7 +2138,7 @@ bool test_temperature_split_criterion(const std::string& theVar,
   float difference = 5.0;
   size_t index = criterion.find(':');
   if (index != string::npos)
-    difference = atof(criterion.substr(index + 1).c_str());
+    difference = std::stof(criterion.substr(index + 1));
 
   if (morningTemperature)
   {

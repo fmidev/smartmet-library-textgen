@@ -17,6 +17,7 @@ class Dictionary;
 class LocationPhrase : public Glyph
 {
  public:
+  LocationPhrase() = delete;
   ~LocationPhrase() override;
   LocationPhrase(std::string theLocation);
 #ifdef NO_COMPILER_GENERATED
@@ -29,7 +30,6 @@ class LocationPhrase : public Glyph
   bool isDelimiter() const override;
 
  private:
-  LocationPhrase() = delete;
   std::string itsLocation;
 
 };  // class LocationPhrase

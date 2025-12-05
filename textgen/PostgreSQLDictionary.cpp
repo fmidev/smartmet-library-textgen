@@ -102,7 +102,7 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
       throw Fmi::Exception(BCP, "Error: Obtained multiple matches for language " + theLanguage);
     }
 
-    std::string translationtable = result_set.at(0).at(0).as<std::string>();
+    auto translationtable = result_set.at(0).at(0).as<std::string>();
     int active = as_int(result_set.at(0).at(1));
 
     if (active != 1)
@@ -116,8 +116,8 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
 
     for (auto row : result_set)
     {
-      std::string keyword = row.at(0).as<std::string>();
-      std::string translation = row.at(1).as<std::string>();
+      auto keyword = row.at(0).as<std::string>();
+      auto translation = row.at(1).as<std::string>();
       if (!keyword.empty())
         theDataStorage.insert(std::make_pair(keyword, translation));
     }

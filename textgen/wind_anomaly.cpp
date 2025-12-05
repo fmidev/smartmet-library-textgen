@@ -36,19 +36,15 @@
 
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
-#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
 #include <map>
 
-#include "WeatherForecast.h"
-
 namespace TextGen
 {
 namespace WindAnomaly
 {
-using NFmiStringTools::Convert;
 using namespace TextGen;
 using namespace WindStoryTools;
 using namespace TemperatureStoryTools;
@@ -57,7 +53,6 @@ using namespace std;
 using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
-using Settings::optional_bool;
 
 #define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE \
   "[iltapaivalla] [rannikolla] on [tuulista]"
@@ -141,7 +136,6 @@ struct wind_anomaly_params
         thePeriodLength(periodLength),
         theSpecifyPartOfTheDayFlag(specifyPartOfTheDayFlag),
 
-        theCoastalAndInlandTogetherFlag(false),
         theTemperatureAreaMorningMinimum(kFloatMissing, 0),
         theTemperatureAreaMorningMean(kFloatMissing, 0),
         theTemperatureAreaMorningMaximum(kFloatMissing, 0),
@@ -196,9 +190,9 @@ struct wind_anomaly_params
   const forecast_season_id& theSeason;
   const TextGenPosixTime& theForecastTime;
   const short& thePeriodLength;
-  bool theSpecifyPartOfTheDayFlag;
+  bool theSpecifyPartOfTheDayFlag = false;
   string theFakeVariable;
-  bool theCoastalAndInlandTogetherFlag;
+  bool theCoastalAndInlandTogetherFlag = false;
   WeatherResult theTemperatureAreaMorningMinimum;
   WeatherResult theTemperatureAreaMorningMean;
   WeatherResult theTemperatureAreaMorningMaximum;

@@ -10,7 +10,8 @@ namespace TextGen
 struct WindDirectionPeriodInfo
 {
   WindDirectionPeriodInfo() : period(TextGenPosixTime(), TextGenPosixTime()) {}
-  WindDirectionPeriodInfo(const WeatherPeriod& p, const WindDirectionInfo& i) : period(p), info(i)
+  WindDirectionPeriodInfo(WeatherPeriod p, const WindDirectionInfo& i)
+      : period(std::move(p)), info(i)
   {
   }
   WeatherPeriod period;
@@ -155,7 +156,7 @@ class WindForecast
                                      TimePhraseInfo& timePhraseInfo,
                                      bool theUseAtItsStrongestPhrase = true) const;
   Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
-                                     interval_info intervalInfo,
+                                     const interval_info& intervalInfo,
                                      TimePhraseInfo& timePhraseInfo,
                                      bool theUseAtItsStrongestPhrase) const;
 

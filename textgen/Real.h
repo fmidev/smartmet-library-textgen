@@ -18,6 +18,7 @@ class TextFormatter;
 class Real : public Glyph
 {
  public:
+  Real() = delete;
   ~Real() override;
   explicit Real(float theReal, int thePrecision = 1, bool theComma = true);
 
@@ -35,10 +36,9 @@ class Real : public Glyph
   bool comma() const;
 
  private:
-  Real() = delete;
-  float itsReal;
-  int itsPrecision;
-  bool itsComma;
+  float itsReal = 0;
+  int itsPrecision = 1;
+  bool itsComma = true;
 
 };  // class Real
 }  // namespace TextGen

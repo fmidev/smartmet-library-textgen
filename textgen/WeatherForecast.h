@@ -514,26 +514,18 @@ struct wf_story_params
 {
   wf_story_params(const std::string& variable,
                   const WeatherArea& weatherArea,
-                  const WeatherPeriod& dataPeriod,
-                  const WeatherPeriod& forecastPeriod,
+                  WeatherPeriod dataPeriod,
+                  WeatherPeriod forecastPeriod,
                   const TextGenPosixTime& forecastTime,
                   const AnalysisSources& analysisSources,
                   MessageLogger& log)
       : theVariable(variable),
         theArea(weatherArea),
-        theDataPeriod(dataPeriod),
-        theForecastPeriod(forecastPeriod),
+        theDataPeriod(std::move(dataPeriod)),
+        theForecastPeriod(std::move(forecastPeriod)),
         theForecastTime(forecastTime),
         theSources(analysisSources),
         theLog(log),
-        theCoastalAndInlandTogetherFlag(false),
-        theShortTextModeFlag(false),
-        thePrecipitationForecast(nullptr),
-        theCloudinessForecast(nullptr),
-        theFogForecast(nullptr),
-        theThunderForecast(nullptr),
-        theHourPeriodCount(0),
-        theOriginalPeriodCount(0),
         theForecastArea(TextGen::AreaTools::NO_AREA)
   {
   }
@@ -545,15 +537,15 @@ struct wf_story_params
   const TextGenPosixTime theForecastTime;
   const AnalysisSources& theSources;
   MessageLogger& theLog;
-  bool theCoastalAndInlandTogetherFlag;
-  bool theShortTextModeFlag;
-  PrecipitationForecast* thePrecipitationForecast;
-  CloudinessForecast* theCloudinessForecast;
-  FogForecast* theFogForecast;
-  ThunderForecast* theThunderForecast;
-  unsigned int theHourPeriodCount;
-  unsigned int theOriginalPeriodCount;
-  unsigned short theForecastArea;
+  bool theCoastalAndInlandTogetherFlag = false;
+  bool theShortTextModeFlag = false;
+  PrecipitationForecast* thePrecipitationForecast = nullptr;
+  CloudinessForecast* theCloudinessForecast = nullptr;
+  FogForecast* theFogForecast = nullptr;
+  ThunderForecast* theThunderForecast = nullptr;
+  unsigned int theHourPeriodCount = 0;
+  unsigned int theOriginalPeriodCount = 0;
+  unsigned short theForecastArea = 0;
   float theDryWeatherLimitWater = 0;
   float theDryWeatherLimitDrizzle = 0;
   float theDryWeatherLimitSleet = 0;
@@ -743,10 +735,10 @@ std::string as_string(const WeatherResult& wr);
 
 struct WeatherResultDataItem
 {
-  WeatherResultDataItem(const WeatherPeriod& period,
+  WeatherResultDataItem(WeatherPeriod period,
                         const WeatherResult& result,
                         part_of_the_day_id partOfTheDay)
-      : thePeriod(period), theResult(result), thePartOfTheDay(partOfTheDay)
+      : thePeriod(std::move(period)), theResult(result), thePartOfTheDay(partOfTheDay)
   {
   }
 
@@ -867,10 +859,6 @@ struct PrecipitationDataItemData
         theWeatherEventId(weatherEventId),
         thePearsonCoefficient(pearsonCoefficient),
         theObservationTime(observationTime),
-        thePrecipitationPercentageNorthEast(0.0),
-        thePrecipitationPercentageSouthEast(0.0),
-        thePrecipitationPercentageSouthWest(0.0),
-        thePrecipitationPercentageNorthWest(0.0),
         thePrecipitationPoint(0.0, 0.0),
         thePrecipitationType(MISSING_PRECIPITATION_TYPE),
         thePrecipitationIntensityId(MISSING_INTENSITY_ID)
@@ -907,23 +895,23 @@ struct PrecipitationDataItemData
   }
 
   precipitation_form_id thePrecipitationForm;
-  float thePrecipitationIntensity;
-  float thePrecipitationMaxIntensity;
-  float thePrecipitationExtent;
-  float thePrecipitationFormWater;
-  float thePrecipitationFormDrizzle;
-  float thePrecipitationFormSleet;
-  float thePrecipitationFormSnow;
-  float thePrecipitationFormFreezingRain;
-  float thePrecipitationFormFreezingDrizzle;
-  float thePrecipitationTypeShowers;
+  float thePrecipitationIntensity = 0;
+  float thePrecipitationMaxIntensity = 0;
+  float thePrecipitationExtent = 0;
+  float thePrecipitationFormWater = 0;
+  float thePrecipitationFormDrizzle = 0;
+  float thePrecipitationFormSleet = 0;
+  float thePrecipitationFormSnow = 0;
+  float thePrecipitationFormFreezingRain = 0;
+  float thePrecipitationFormFreezingDrizzle = 0;
+  float thePrecipitationTypeShowers = 0;
   weather_event_id theWeatherEventId;
-  float thePearsonCoefficient;
+  float thePearsonCoefficient = 0;
   TextGenPosixTime theObservationTime;
-  float thePrecipitationPercentageNorthEast;
-  float thePrecipitationPercentageSouthEast;
-  float thePrecipitationPercentageSouthWest;
-  float thePrecipitationPercentageNorthWest;
+  float thePrecipitationPercentageNorthEast = 0;
+  float thePrecipitationPercentageSouthEast = 0;
+  float thePrecipitationPercentageSouthWest = 0;
+  float thePrecipitationPercentageNorthWest = 0;
   weather_result_data_item_vector thePrecipitationShareNorthEast;
   weather_result_data_item_vector thePrecipitationShareSouthEast;
   weather_result_data_item_vector thePrecipitationShareSouthWest;

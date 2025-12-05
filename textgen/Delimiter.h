@@ -15,6 +15,7 @@ namespace TextGen
 class Delimiter : public Glyph
 {
  public:
+  Delimiter() = delete;
   ~Delimiter() override;
   Delimiter(std::string theSeparator);
 #ifdef NO_COMPILER_GENERATED
@@ -30,8 +31,6 @@ class Delimiter : public Glyph
   const std::string& value() const;
 
  private:
-  Delimiter() = delete;
-
   std::string itsSeparator;
 
 };  // class Delimiter

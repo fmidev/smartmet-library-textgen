@@ -18,13 +18,14 @@ namespace TextGen
 class WeatherFact
 {
  public:
+  WeatherFact() = delete;
   ~WeatherFact();
   WeatherFact(const WeatherFact& theFact);
   WeatherFact& operator=(const WeatherFact& theFact);
 
   WeatherFact(WeatherParameter theParameter,
               WeatherFunction theFunction,
-              const WeatherPeriod& thePeriod,
+              WeatherPeriod thePeriod,
               const WeatherArea& theArea,
               const WeatherResult& theResult);
 
@@ -35,8 +36,6 @@ class WeatherFact
   const WeatherResult& result() const;
 
  private:
-  WeatherFact() = delete;
-
   WeatherParameter itsParameter;
   WeatherFunction itsFunction;
   WeatherPeriod itsPeriod;

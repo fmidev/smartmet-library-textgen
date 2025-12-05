@@ -123,7 +123,7 @@ CoastMaskSource::mask_type CoastMaskSource::Pimple::find(const WeatherId& theID,
 
   WeatherAreaAndID key(theID, theArea);
 
-  mask_storage::const_iterator it = itsMaskStorage.find(key);
+  auto it = itsMaskStorage.find(key);
   if (it == itsMaskStorage.end())
     return dummy;
 

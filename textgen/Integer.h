@@ -18,6 +18,7 @@ class TextFormatter;
 class Integer : public Glyph
 {
  public:
+  Integer() = delete;
   ~Integer() override;
   explicit Integer(int theInteger);
 
@@ -34,7 +35,6 @@ class Integer : public Glyph
   int value() const;
 
  private:
-  Integer() = delete;
   int itsInteger;
 
 };  // class Integer

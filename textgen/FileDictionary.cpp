@@ -187,7 +187,7 @@ const std::string& FileDictionary::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
     throw Fmi::Exception(BCP, "Error: FileDictionary::find() called before init()");
-  Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
+  auto it = itsPimple->itsData.find(theKey);
 
   if (it != itsPimple->itsData.end())
     return it->second;

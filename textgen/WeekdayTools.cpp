@@ -654,8 +654,6 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
 
   theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
   return theNewWeekdayPhrase;
-
-  return "";
 }
 
 std::string on_weekday(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)

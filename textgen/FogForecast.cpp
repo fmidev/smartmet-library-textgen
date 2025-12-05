@@ -180,12 +180,14 @@ fog_type_id get_fog_type(const float& theModerateFog,
   {
     return NO_FOG;
   }
+
   if (totalFog >= IN_SOME_PLACES_LOWER_LIMIT_FOG && totalFog <= IN_SOME_PLACES_UPPER_LIMIT)
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return FOG_IN_SOME_PLACES;
     return FOG_IN_SOME_PLACES_POSSIBLY_DENSE;
   }
+
   if (totalFog > IN_MANY_PLACES_LOWER_LIMIT && totalFog < IN_MANY_PLACES_UPPER_LIMIT)
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
@@ -193,23 +195,14 @@ fog_type_id get_fog_type(const float& theModerateFog,
     return (theReportInManyPlaces ? FOG_IN_MANY_PLACES_POSSIBLY_DENSE
                                   : FOG_IN_SOME_PLACES_POSSIBLY_DENSE);
   }
-  else
-  {
-    if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
-      return FOG;
-    return FOG_POSSIBLY_DENSE;
-  }
+
+  if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
+    return FOG;
+  return FOG_POSSIBLY_DENSE;
 }
 
 FogForecast::FogForecast(wf_story_params& parameters, bool visibilityForecast /*= false*/)
-    : theParameters(parameters),
-      theCoastalModerateFogData(nullptr),
-      theInlandModerateFogData(nullptr),
-      theFullAreaModerateFogData(nullptr),
-      theCoastalDenseFogData(nullptr),
-      theInlandDenseFogData(nullptr),
-      theFullAreaDenseFogData(nullptr),
-      theVisibityForecastAtSea(visibilityForecast)
+    : theParameters(parameters), theVisibityForecastAtSea(visibilityForecast)
 {
   if (theParameters.theForecastArea & FULL_AREA)
   {
@@ -953,7 +946,7 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
         break;
       default:
         break;
-    };
+    }
   }
 
   return sentence;
@@ -1037,7 +1030,7 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
         break;
       default:
         break;
-    };
+    }
     ret.id = fogTypeId;
   }
 
