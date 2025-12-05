@@ -165,7 +165,9 @@ string HtmlTextFormatter::visit(const Paragraph& theParagraph) const
 
 string HtmlTextFormatter::visit(const Header& theHeader) const
 {
-  const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
+  bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
+  colon = Settings::optional_bool(itsSectionVar + "::header::html:colon", colon);
+
   const int level = Settings::optional_int(itsSectionVar + "::header::html::level", 1);
   const string tags = Settings::optional_string(itsSectionVar + "::header::html::tags", "");
 
