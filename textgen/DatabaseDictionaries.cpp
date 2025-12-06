@@ -149,10 +149,10 @@ void DatabaseDictionaries::init(const std::string& theLanguage)
 
   std::shared_ptr<DatabaseDictionary> dict;
   if (itsDictionaryId == "mysql")
-    dict.reset(new MySQLDictionary);
+    dict = std::make_shared<MySQLDictionary>();
   else if (itsDictionaryId == "postgresql")
-    dict.reset(new PostgreSQLDictionary);
-  if (dict.get() == nullptr)
+    dict = std::make_shared<PostgreSQLDictionary>();
+  if (dict == nullptr)
     throw Fmi::Exception(BCP, "Failed to allocate a new DatabaseDictionary");
 
   dict->init(theLanguage);

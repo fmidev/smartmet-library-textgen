@@ -33,6 +33,7 @@
 #include <newbase/NFmiQueryData.h>
 
 #include <map>
+#include <memory>
 
 using namespace std;
 
@@ -192,7 +193,7 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
   {
     const NFmiSvgPath& csvg = itsCoast.path();
     const float cdistance = itsCoast.radius();
-    coastmask.reset(new NFmiIndexMask(MaskDistance(*(qi.Grid()), csvg, cdistance)));
+    coastmask = std::make_shared<NFmiIndexMask>(MaskDistance(*(qi.Grid()), csvg, cdistance));
     insert(id, itsCoast, coastmask);
   }
 
