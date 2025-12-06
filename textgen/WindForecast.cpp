@@ -12,6 +12,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <calculator/Settings.h>
 #include <macgyver/StringConversion.h>
+#include <algorithm>
 
 // #define BOOST_STACKTRACE_USE_ADDR2LINE
 #include <boost/stacktrace.hpp>
@@ -836,12 +837,9 @@ void get_plain_wind_speed_interval(const WeatherPeriod& period,
       }
       else
       {
-        if (windDataItem.theEqualizedMedianWind.value() < minValue)
-          minValue = windDataItem.theEqualizedMedianWind.value();
-        if (windDataItem.theEqualizedTopWind.value() > topValue)
-          topValue = windDataItem.theEqualizedTopWind.value();
-        if (windDataItem.theEqualizedMaxWind.value() > maxValue)
-          maxValue = windDataItem.theEqualizedMaxWind.value();
+        minValue = std::min(windDataItem.theEqualizedMedianWind.value(), minValue);
+        topValue = std::max(windDataItem.theEqualizedTopWind.value(), topValue);
+        maxValue = std::max(windDataItem.theEqualizedMaxWind.value(), maxValue);
       }
     }
   }
@@ -1038,8 +1036,7 @@ ss_log << " distribution interval 50: " << distributionLowerLimit50 << "..."
          << " peak: " << peakWind << '\n';
   */
 
-  if (peakWind < upperLimit)
-    upperLimit = peakWind;
+  upperLimit = std::min<float>(peakWind, upperLimit);
 
   /*
   ss_log << " interval after peak check: " << lowerLimit << "..." << upperLimit << '\n';

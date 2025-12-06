@@ -37,6 +37,7 @@
 #include <newbase/NFmiCombinedParam.h>
 
 #include <boost/lexical_cast.hpp>
+#include <algorithm>
 #include <map>
 #include <vector>
 
@@ -60,8 +61,7 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
         i->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
         i->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
     {
-      if (i->theResult.value() > maxValue)
-        maxValue = i->theResult.value();
+      maxValue = std::max(i->theResult.value(), maxValue);
     }
   }
   return maxValue;

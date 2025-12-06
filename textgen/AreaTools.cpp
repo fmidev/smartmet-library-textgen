@@ -26,6 +26,10 @@
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiSvgTools.h>
 
+#include <algorithm>
+
+#include <algorithm>
+
 using mask_type = TextGen::RegularMaskSource::mask_type;
 
 using namespace std;
@@ -320,14 +324,10 @@ Rect::Rect(const vector<NFmiPoint>& thePointVector)
       yMin = yMax = thePointVector.at(i).Y();
       continue;
     }
-    if (xMin > thePointVector.at(i).X())
-      xMin = thePointVector.at(i).X();
-    if (xMax < thePointVector.at(i).X())
-      xMax = thePointVector.at(i).X();
-    if (yMin > thePointVector.at(i).Y())
-      yMin = thePointVector.at(i).Y();
-    if (yMax < thePointVector.at(i).Y())
-      yMax = thePointVector.at(i).Y();
+    xMin = std::min(xMin, thePointVector.at(i).X());
+    xMax = std::max(xMax, thePointVector.at(i).X());
+    yMin = std::min(yMin, thePointVector.at(i).Y());
+    yMax = std::max(yMax, thePointVector.at(i).Y());
   }
   m_topLeft.X(xMin);
   m_topLeft.Y(yMax);
@@ -395,14 +395,10 @@ Rect::Rect(const AnalysisSources& theSources,
   for (unsigned long it : theIndexMask)
   {
     NFmiPoint point = theQI.LatLon(it);
-    if (lon_min > point.X())
-      lon_min = point.X();
-    if (lon_max < point.X())
-      lon_max = point.X();
-    if (lat_min > point.Y())
-      lat_min = point.Y();
-    if (lat_max < point.Y())
-      lat_max = point.Y();
+    lon_min = std::min(lon_min, point.X());
+    lon_max = std::max(lon_max, point.X());
+    lat_min = std::min(lat_min, point.Y());
+    lat_max = std::max(lat_max, point.Y());
   }
   m_topLeft.X(lon_min);
   m_topLeft.Y(lat_max);

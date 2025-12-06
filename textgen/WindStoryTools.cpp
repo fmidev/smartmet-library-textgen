@@ -24,6 +24,7 @@
 #include <newbase/NFmiGlobals.h>
 
 #include <boost/lexical_cast.hpp>
+#include <algorithm>
 #include <cmath>
 
 using namespace TextGen;
@@ -659,10 +660,8 @@ pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
     }
     else
     {
-      if (theWindSpeedVector[i].first < min_value)
-        min_value = theWindSpeedVector[i].first;
-      if (theWindSpeedVector[i].second < max_value)
-        max_value = theWindSpeedVector[i].second;
+      min_value = std::min(theWindSpeedVector[i].first, min_value);
+      max_value = std::min(theWindSpeedVector[i].second, max_value);
     }
   }
   retval.first = static_cast<int>(round(min_value));

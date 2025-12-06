@@ -1137,10 +1137,8 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, const 
                           : theWindDataItem.getTopWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
                                                                  (k == 0 ? 0.5 : k + 0.5)) > 0.0))
       {
-        if (k < start_index)
-          start_index = k;
-        if (k > end_index)
-          end_index = k;
+        start_index = std::min(k, start_index);
+        end_index = std::max(k, end_index);
       }
     }
   }
@@ -2207,14 +2205,10 @@ void get_calculated_max_min(const wo_story_params& storyParams,
   float begSpeed = calculate_weighted_wind_speed(storyParams, dataItem.thePeriodBeginDataItem);
   float endSpeed = calculate_weighted_wind_speed(storyParams, dataItem.thePeriodEndDataItem);
 
-  if (begSpeed > max)
-    max = begSpeed;
-  if (endSpeed > max)
-    max = endSpeed;
-  if (begSpeed < min)
-    min = begSpeed;
-  if (endSpeed < min)
-    min = endSpeed;
+  max = std::max(begSpeed, max);
+  max = std::max(endSpeed, max);
+  min = std::min(begSpeed, min);
+  min = std::min(endSpeed, min);
 }
 
 // iterate merged event periods and remove short (<= 6h) missing period if it is between

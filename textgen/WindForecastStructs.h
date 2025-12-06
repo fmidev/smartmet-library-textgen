@@ -89,27 +89,27 @@ struct wo_story_params
 
   std::map<WeatherArea::Type, index_vectors*> indexes;
 
-  inline std::vector<unsigned int>& originalWindDataIndexes(WeatherArea::Type type)
+  std::vector<unsigned int>& originalWindDataIndexes(WeatherArea::Type type)
   {
     return indexes[type]->theOriginalWindDataIndexes;
   }
-  inline std::vector<unsigned int>& equalizedWSIndexesMaxWind(WeatherArea::Type type)
+  std::vector<unsigned int>& equalizedWSIndexesMaxWind(WeatherArea::Type type)
   {
     return indexes[type]->theEqualizedWindSpeedIndexesForMaxWind;
   }
-  inline std::vector<unsigned int>& equalizedWSIndexesMedian(WeatherArea::Type type)
+  std::vector<unsigned int>& equalizedWSIndexesMedian(WeatherArea::Type type)
   {
     return indexes[type]->theEqualizedWindSpeedIndexesForMedianWind;
   }
-  inline std::vector<unsigned int>& equalizedWSIndexesTopWind(WeatherArea::Type type)
+  std::vector<unsigned int>& equalizedWSIndexesTopWind(WeatherArea::Type type)
   {
     return indexes[type]->theEqualizedWindSpeedIndexesForTopWind;
   }
-  inline std::vector<unsigned int>& equalizedWSIndexesCalcWind(WeatherArea::Type type)
+  std::vector<unsigned int>& equalizedWSIndexesCalcWind(WeatherArea::Type type)
   {
     return indexes[type]->theEqualizedWindSpeedIndexesForCalcWind;
   }
-  inline std::vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
+  std::vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
   {
     return indexes[type]->theEqualizedWindDirectionIndexes;
   }
