@@ -44,6 +44,9 @@
 
 using namespace std;
 
+namespace
+{
+
 // TextGen is historical code from about 2002, and was not designed
 // for multithreading. This is one way to avert multithreading issues
 // without massive refactoring of code.
@@ -56,8 +59,6 @@ thread_local unsigned int sIndentStep = 2;
 thread_local bool sTimeStampOn = false;
 thread_local TextGen::DebugTextFormatter sFormatter;
 
-namespace
-{
 // ----------------------------------------------------------------------
 /*!
  * \brief Output timestamp if flag is true
