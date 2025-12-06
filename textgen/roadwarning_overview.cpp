@@ -327,6 +327,7 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
   switch (thePrimaryType)
   {
     case ICYRAIN:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -384,7 +385,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case RAIN_TO_ICY:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -438,7 +441,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case SLEET_TO_ICY:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -488,7 +493,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case FASTWORSENING:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -534,7 +541,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case HEAVY_SNOWFALL:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -576,7 +585,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case WHIRLING:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -614,7 +625,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case WINDWARNING:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -648,7 +661,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case FROSTSLIPPERY:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -678,7 +693,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case SNOWY:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -704,7 +721,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case ICING:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -726,7 +745,9 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
           break;
       }
       break;
+    }
     case FROSTY:
+    {
       switch (theSecondaryType)
       {
         case ICYRAIN:
@@ -743,6 +764,8 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
         case NORMAL:
           break;
       }
+      break;
+    }
     case NORMAL:
       break;
   }

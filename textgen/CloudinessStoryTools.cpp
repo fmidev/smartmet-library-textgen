@@ -438,19 +438,19 @@ Sentence cloudiness_phrase(CloudinessType theType)
   {
     case MostlyCloudy:
       sentence << "enimmakseen";
-      // fall through
+      [[fallthrough]];
     case Cloudy:
       sentence << "pilvista";
       break;
     case MostlyPartlyCloudy:
       sentence << "enimmakseen";
-      // fall through
+      [[fallthrough]];
     case PartlyCloudy:
       sentence << "puolipilvista";
       break;
     case MostlyClear:
       sentence << "enimmakseen";
-      // fall through
+      [[fallthrough]];
     case Clear:
       sentence << "selkeaa";
       break;
