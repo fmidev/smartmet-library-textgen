@@ -799,89 +799,87 @@ Paragraph FrostStory::onenight() const
     log << "Night frost both on coastal and inland area!\n";
     return paragraph;
   }
-  else
+
+  // do calculation only if coastal area is included,
+  // growing season has started and there is no night frost
+  if ((forecast_areas & COASTAL_AREA) && (growing_season_started & COASTAL_AREA) &&
+      !(night_frost & COASTAL_AREA))
   {
-    // do calculation only if coastal area is included,
-    // growing season has started and there is no night frost
-    if ((forecast_areas & COASTAL_AREA) && (growing_season_started & COASTAL_AREA) &&
-        !(night_frost & COASTAL_AREA))
+    frostMaxMaxCoastal = forecaster.analyze(itsVar + "::fake::frost_probability::coastal",
+                                            itsSources,
+                                            Frost,
+                                            Maximum,
+                                            Maximum,
+                                            coastalArea,
+                                            night1);
+
+    log << "Frost_Maximum_Maximum Coastal: " << frostMaxMaxCoastal << '\n';
+
+    // if frost probability >= 70%, then examine severe frost probabailty
+    if (frostMaxMaxCoastal.value() >= 70.0)
     {
-      frostMaxMaxCoastal = forecaster.analyze(itsVar + "::fake::frost_probability::coastal",
-                                              itsSources,
-                                              Frost,
-                                              Maximum,
-                                              Maximum,
-                                              coastalArea,
-                                              night1);
+      severeFrostMaxMaxCoastal =
+          forecaster.analyze(itsVar + "::fake::severe_frost_probability::coastal",
+                             itsSources,
+                             SevereFrost,
+                             Maximum,
+                             Maximum,
+                             coastalArea,
+                             night1);
 
-      log << "Frost_Maximum_Maximum Coastal: " << frostMaxMaxCoastal << '\n';
-
-      // if frost probability >= 70%, then examine severe frost probabailty
-      if (frostMaxMaxCoastal.value() >= 70.0)
-      {
-        severeFrostMaxMaxCoastal =
-            forecaster.analyze(itsVar + "::fake::severe_frost_probability::coastal",
-                               itsSources,
-                               SevereFrost,
-                               Maximum,
-                               Maximum,
-                               coastalArea,
-                               night1);
-
-        log << "Severe_Frost_Maximum_Maximum Coastal: " << severeFrostMaxMaxCoastal << '\n';
-      }
+      log << "Severe_Frost_Maximum_Maximum Coastal: " << severeFrostMaxMaxCoastal << '\n';
     }
-
-    // do calculation only if inland area is included,
-    // growing season has started and there is no night frost
-    if ((forecast_areas & INLAND_AREA) && (growing_season_started & INLAND_AREA) &&
-        !(night_frost & INLAND_AREA))
-    {
-      frostMaxMaxInland = forecaster.analyze(itsVar + "::fake::frost_probability::inland",
-                                             itsSources,
-                                             Frost,
-                                             Maximum,
-                                             Maximum,
-                                             inlandArea,
-                                             night1);
-
-      log << "Frost_Maximum_Maximum Inland: " << frostMaxMaxInland << '\n';
-
-      // if frost probability >= 70%, then examine severe frost probabailty
-      if (frostMaxMaxInland.value() >= 70.0)
-      {
-        severeFrostMaxMaxInland =
-            forecaster.analyze(itsVar + "::fake::severe_frost_probability::inland",
-                               itsSources,
-                               SevereFrost,
-                               Maximum,
-                               Maximum,
-                               inlandArea,
-                               night1);
-
-        log << "Severe_Frost_Maximum_Maximum Inland: " << severeFrostMaxMaxInland << '\n';
-      }
-    }
-
-    log << "forecast_areas:  " << forecast_areas << '\n';
-    log << "growing_season_started:  " << growing_season_started << '\n';
-    log << "night_frost:  " << night_frost << '\n';
-
-    bool is_severe_frost_coastal =
-        (severeFrostMaxMaxCoastal.value() > required_severe_frost_probability &&
-         severeFrostMaxMaxCoastal.value() <= 100);
-    bool is_severe_frost_inland =
-        (severeFrostMaxMaxInland.value() > required_severe_frost_probability &&
-         severeFrostMaxMaxInland.value() <= 100);
-
-    paragraph << frost_onenight_sentence(frostMaxMaxCoastal.value(),
-                                         frostMaxMaxInland.value(),
-                                         is_severe_frost_coastal,
-                                         is_severe_frost_inland,
-                                         forecast_areas,
-                                         growing_season_started,
-                                         night_frost);
   }
+
+  // do calculation only if inland area is included,
+  // growing season has started and there is no night frost
+  if ((forecast_areas & INLAND_AREA) && (growing_season_started & INLAND_AREA) &&
+      !(night_frost & INLAND_AREA))
+  {
+    frostMaxMaxInland = forecaster.analyze(itsVar + "::fake::frost_probability::inland",
+                                           itsSources,
+                                           Frost,
+                                           Maximum,
+                                           Maximum,
+                                           inlandArea,
+                                           night1);
+
+    log << "Frost_Maximum_Maximum Inland: " << frostMaxMaxInland << '\n';
+
+    // if frost probability >= 70%, then examine severe frost probabailty
+    if (frostMaxMaxInland.value() >= 70.0)
+    {
+      severeFrostMaxMaxInland =
+          forecaster.analyze(itsVar + "::fake::severe_frost_probability::inland",
+                             itsSources,
+                             SevereFrost,
+                             Maximum,
+                             Maximum,
+                             inlandArea,
+                             night1);
+
+      log << "Severe_Frost_Maximum_Maximum Inland: " << severeFrostMaxMaxInland << '\n';
+    }
+  }
+
+  log << "forecast_areas:  " << forecast_areas << '\n';
+  log << "growing_season_started:  " << growing_season_started << '\n';
+  log << "night_frost:  " << night_frost << '\n';
+
+  bool is_severe_frost_coastal =
+      (severeFrostMaxMaxCoastal.value() > required_severe_frost_probability &&
+       severeFrostMaxMaxCoastal.value() <= 100);
+  bool is_severe_frost_inland =
+      (severeFrostMaxMaxInland.value() > required_severe_frost_probability &&
+       severeFrostMaxMaxInland.value() <= 100);
+
+  paragraph << frost_onenight_sentence(frostMaxMaxCoastal.value(),
+                                       frostMaxMaxInland.value(),
+                                       is_severe_frost_coastal,
+                                       is_severe_frost_inland,
+                                       forecast_areas,
+                                       growing_season_started,
+                                       night_frost);
 
   log << paragraph;
   return paragraph;

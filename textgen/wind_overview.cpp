@@ -376,24 +376,22 @@ std::string get_direction_abbreviation(
 
     return "nw-n";
   }
-  else
-  {
-    if (direction >= 337.50 || direction < 22.50)
-      return "N";
-    if (direction >= 22.50 && direction < 67.50)
-      return "NE";
-    if (direction >= 67.50 && direction < 112.50)
-      return "E";
-    if (direction >= 112.50 && direction < 157.50)
-      return "SE";
-    if (direction >= 157.50 && direction < 202.50)
-      return "S";
-    if (direction >= 202.50 && direction < 247.50)
-      return "SW";
-    if (direction >= 247.50 && direction < 292.50)
-      return "W";
-    return "NW";
-  }
+
+  if (direction >= 337.50 || direction < 22.50)
+    return "N";
+  if (direction >= 22.50 && direction < 67.50)
+    return "NE";
+  if (direction >= 67.50 && direction < 112.50)
+    return "E";
+  if (direction >= 112.50 && direction < 157.50)
+    return "SE";
+  if (direction >= 157.50 && direction < 202.50)
+    return "S";
+  if (direction >= 202.50 && direction < 247.50)
+    return "SW";
+  if (direction >= 247.50 && direction < 292.50)
+    return "W";
+  return "NW";
 }
 
 void printDataItem(std::ostream& theOutput,
