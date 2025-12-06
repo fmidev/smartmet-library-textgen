@@ -38,8 +38,8 @@ RealRange::~RealRange() = default;
 
 RealRange::RealRange(float theStartValue,
                      float theEndValue,
-                     int thePrecision,
-                     std::string theSeparator)
+                     std::string theSeparator,
+                     int thePrecision)
     : itsRangeSeparator(std::move(theSeparator)),
       itsStartValue(theStartValue),
       itsEndValue(theEndValue),

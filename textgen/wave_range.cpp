@@ -105,7 +105,7 @@ Paragraph WaveStory::range() const
   }
   else
   {
-    sentence << "aallonkorkeus on [N...M] [metria]" << RealRange(x, y)
+    sentence << "aallonkorkeus on [N...M] [metria]" << RealRange(x, y, rangeseparator)
              << *UnitFactory::create(Meters);
   }
 

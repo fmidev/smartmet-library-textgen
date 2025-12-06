@@ -22,8 +22,8 @@ class RealRange : public Glyph
   ~RealRange() override;
   explicit RealRange(float theStartValue,
                      float theEndValue,
-                     int thePrecision = 1,
-                     std::string theSeparator = "-");
+                     std::string theSeparator = "-",
+                     int thePrecision = 1);
 #ifdef NO_COMPILER_GENERATED
   RealRange(const RealRange& theRealRange);
   RealRange& operator=(const RealRange& theRealRange);
