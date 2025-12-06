@@ -29,13 +29,11 @@
 #include "WeatherTime.h"
 #include <boost/lexical_cast.hpp>
 #include <calculator/Settings.h>
-#include <set>
 
 using namespace std;
 
 namespace TextGen
 {
-std::set<string> css_class_set;
 
 // ----------------------------------------------------------------------
 /*!
@@ -177,13 +175,14 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
     const string css_class = Settings::optional_string(itsSectionVar + "::content::css::class", "");
 
     // add tag if class is not empty and starting-tag for the class has not been already defined
-    bool addCssTag = !css_class.empty() && !(css_class_set.find(css_class) != css_class_set.end());
+    bool addCssTag =
+        !css_class.empty() && !(itsUsedCssClasses.find(css_class) != itsUsedCssClasses.end());
 
     if (addCssTag)
     {
       out << '<' << css_tag << (" class=\"" + css_class + "\"") << ">\n";
 
-      css_class_set.insert(css_class);
+      itsUsedCssClasses.insert(css_class);
     }
 
     out << text;
@@ -192,7 +191,7 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
     {
       out << "</" << css_tag << ">\n";
 
-      css_class_set.erase(css_class);
+      itsUsedCssClasses.erase(css_class);
     }
   }
 
@@ -278,7 +277,7 @@ string CssTextFormatter::visit(const SectionTag& theSection) const
 
   // if class name not defined or starting-tag for the class already defined but not terminated
   if (css_class.empty() ||
-      (css_class_set.find(css_class) != css_class_set.end() && theSection.isPrefixTag()))
+      (itsUsedCssClasses.find(css_class) != itsUsedCssClasses.end() && theSection.isPrefixTag()))
     return "";
 
   ostringstream out;
@@ -290,13 +289,13 @@ string CssTextFormatter::visit(const SectionTag& theSection) const
     out << " class=\"" << css_class << "\"";
     out << ">\n";
 
-    css_class_set.insert(css_class);
+    itsUsedCssClasses.insert(css_class);
   }
   else
   {
     out << "</" << css_tag << ">\n";
 
-    css_class_set.erase(css_class);
+    itsUsedCssClasses.erase(css_class);
   }
 
   return out.str();

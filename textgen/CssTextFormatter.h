@@ -8,6 +8,7 @@
 #pragma once
 
 #include "TextFormatter.h"
+#include <set>
 
 namespace TextGen
 {
@@ -39,6 +40,7 @@ class CssTextFormatter : public TextFormatter
 
  private:
   std::shared_ptr<Dictionary> itsDictionary;
+  mutable std::set<std::string> itsUsedCssClasses;
   mutable std::string itsSectionVar;
   mutable std::string itsStoryVar;
 
