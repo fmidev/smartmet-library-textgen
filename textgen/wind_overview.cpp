@@ -1368,7 +1368,7 @@ void log_raw_data(wo_story_params& storyParams)
 
 void log_windirection_distribution(wo_story_params& storyParams)
 {
-  std::string areaIdentifier(get_area_type_string(storyParams.theArea.type()));
+  // std::string areaIdentifier = get_area_type_string(storyParams.theArea.type());
   const wind_data_item_vector& theWindDataItemVector(storyParams.theWindDataVector);
   const vector<unsigned int>& theIndexVector(
       storyParams.originalWindDataIndexes(storyParams.theArea.type()));
