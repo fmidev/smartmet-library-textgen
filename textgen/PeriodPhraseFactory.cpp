@@ -34,6 +34,34 @@ using namespace std;
 
 namespace
 {
+
+std::array<const char*, 24> remaining_day_phrases{
+    "",                      // 00
+    "",                      // 01
+    "",                      // 02
+    "aamuyosta alkaen",      // 03
+    "aamuyosta alkaen",      // 04
+    "aamuyosta alkaen",      // 05
+    "aamusta alkaen",        // 06
+    "aamusta alkaen",        // 07
+    "aamusta alkaen",        // 08
+    "aamupaivasta alkaen",   // 09
+    "aamupaivasta alkaen",   // 10
+    "keskipaivasta alkaen",  // 11
+    "keskipaivasta alkaen",  // 12
+    "iltapaivasta alkaen",   // 13
+    "iltapaivasta alkaen",   // 14
+    "iltapaivasta alkaen",   // 15
+    "iltapaivasta alkaen",   // 16
+    "iltapaivasta alkaen",   // 17
+    "illasta alkaen",        // 18
+    "illasta alkaen",        // 19
+    "illasta alkaen",        // 20
+    "illasta alkaen",        // 21
+    "yosta alkaen",          // 22
+    "yosta alkaen"           // 23
+};
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Reorganizes preferred phrases
@@ -533,37 +561,10 @@ Sentence remaining_days(const string& theVariable,
 
 Sentence remaining_day(const WeatherPeriod& thePeriod)
 {
-  static const char* phrases[24] = {
-      "",                      // 00
-      "",                      // 01
-      "",                      // 02
-      "aamuyosta alkaen",      // 03
-      "aamuyosta alkaen",      // 04
-      "aamuyosta alkaen",      // 05
-      "aamusta alkaen",        // 06
-      "aamusta alkaen",        // 07
-      "aamusta alkaen",        // 08
-      "aamupaivasta alkaen",   // 09
-      "aamupaivasta alkaen",   // 10
-      "keskipaivasta alkaen",  // 11
-      "keskipaivasta alkaen",  // 12
-      "iltapaivasta alkaen",   // 13
-      "iltapaivasta alkaen",   // 14
-      "iltapaivasta alkaen",   // 15
-      "iltapaivasta alkaen",   // 16
-      "iltapaivasta alkaen",   // 17
-      "illasta alkaen",        // 18
-      "illasta alkaen",        // 19
-      "illasta alkaen",        // 20
-      "illasta alkaen",        // 21
-      "yosta alkaen",          // 22
-      "yosta alkaen"           // 23
-  };
-
   const int hour = thePeriod.localStartTime().GetHour();
 
   Sentence sentence;
-  sentence << phrases[hour];
+  sentence << remaining_day_phrases[hour];
   return sentence;
 }
 

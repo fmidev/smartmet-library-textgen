@@ -44,9 +44,9 @@ namespace
 
 struct rain_dispatch_data
 {
-  int index;
-  const char* phrase1;
-  const char* phrase2;
+  int index = 0;
+  const char* phrase1 = nullptr;
+  const char* phrase2 = nullptr;
 };
 
 // ----------------------------------------------------------------------
@@ -58,43 +58,44 @@ struct rain_dispatch_data
  */
 // ----------------------------------------------------------------------
 
-rain_dispatch_data one_day_cases[37] = {{0, "", ""},
-                                        {2, "aamulla", "aamupaivasta alkaen"},
-                                        {2, "aamulla", "keskipaivasta alkaen"},
-                                        {3, "aamupaivalla", "iltapaivasta alkaen"},
-                                        {3, "aamupaivasta alkaen", "illalla"},
-                                        {1, "aamupaivasta alkaen", ""},
-                                        {3, "aamusta alkaen", "illalla"},
-                                        {3, "aamusta alkaen", "illasta alkaen"},
-                                        {2, "aamusta alkaen", "iltapaivasta alkaen"},
-                                        {3, "aamusta alkaen", "iltapaivasta alkaen"},
-                                        {1, "aamusta alkaen", ""},
-                                        {2, "aamuyolla", "paivalla"},
-                                        {4, "aamulla", ""},
-                                        {4, "aamupaivalla", ""},
-                                        {4, "illalla", ""},
-                                        {4, "illasta alkaen", ""},
-                                        {4, "iltapaivalla", ""},
-                                        {4, "iltapaivasta alkaen", ""},
-                                        {4, "iltayolla", ""},
-                                        {4, "keskipaivalla", ""},
-                                        {4, "paivalla", ""},
-                                        {1, "iltapaivalla", ""},
-                                        {1, "iltapaivasta alkaen", ""},
-                                        {3, "keskipaivasta alkaen", "illalla"},
-                                        {1, "keskipaivasta alkaen", ""},
-                                        {2, "keskiyolla", "paivalla"},
-                                        {2, "", "aamupaivasta alkaen"},
-                                        {3, "", "illalla"},
-                                        {3, "", "iltapaivasta alkaen"},
-                                        {2, "", "keskipaivasta alkaen"},
-                                        {1, "", ""},
-                                        {3, "paivalla", "iltapaivasta alkaen"},
-                                        {1, "paivalla", ""},
-                                        {2, "yolla", "aamupaivasta alkaen"},
-                                        {2, "yolla", "aamusta alkaen"},
-                                        {2, "yolla", "keskipaivasta alkaen"},
-                                        {2, "yolla", "paivalla"}};
+constexpr std::array<rain_dispatch_data, 37> one_day_cases{
+    {{0, "", ""},
+     {2, "aamulla", "aamupaivasta alkaen"},
+     {2, "aamulla", "keskipaivasta alkaen"},
+     {3, "aamupaivalla", "iltapaivasta alkaen"},
+     {3, "aamupaivasta alkaen", "illalla"},
+     {1, "aamupaivasta alkaen", ""},
+     {3, "aamusta alkaen", "illalla"},
+     {3, "aamusta alkaen", "illasta alkaen"},
+     {2, "aamusta alkaen", "iltapaivasta alkaen"},
+     {3, "aamusta alkaen", "iltapaivasta alkaen"},
+     {1, "aamusta alkaen", ""},
+     {2, "aamuyolla", "paivalla"},
+     {4, "aamulla", ""},
+     {4, "aamupaivalla", ""},
+     {4, "illalla", ""},
+     {4, "illasta alkaen", ""},
+     {4, "iltapaivalla", ""},
+     {4, "iltapaivasta alkaen", ""},
+     {4, "iltayolla", ""},
+     {4, "keskipaivalla", ""},
+     {4, "paivalla", ""},
+     {1, "iltapaivalla", ""},
+     {1, "iltapaivasta alkaen", ""},
+     {3, "keskipaivasta alkaen", "illalla"},
+     {1, "keskipaivasta alkaen", ""},
+     {2, "keskiyolla", "paivalla"},
+     {2, "", "aamupaivasta alkaen"},
+     {3, "", "illalla"},
+     {3, "", "iltapaivasta alkaen"},
+     {2, "", "keskipaivasta alkaen"},
+     {1, "", ""},
+     {3, "paivalla", "iltapaivasta alkaen"},
+     {1, "paivalla", ""},
+     {2, "yolla", "aamupaivasta alkaen"},
+     {2, "yolla", "aamusta alkaen"},
+     {2, "yolla", "keskipaivasta alkaen"},
+     {2, "yolla", "paivalla"}}};
 
 // ----------------------------------------------------------------------
 /*!
@@ -104,7 +105,7 @@ rain_dispatch_data one_day_cases[37] = {{0, "", ""},
  */
 // ----------------------------------------------------------------------
 
-int one_day_forecasts[301] = {
+constexpr std::array<int, 301> one_day_forecasts = {{
     0,   // empty place holder
     25,  // 1. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
     25,  // 2. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
@@ -406,7 +407,7 @@ int one_day_forecasts[301] = {
     30,  // 298. [sadetta]
     30,  // 299. [sadetta]
     30   // 300. [sadetta]
-};
+}};
 
 // ----------------------------------------------------------------------
 /*!
@@ -417,120 +418,122 @@ int one_day_forecasts[301] = {
  */
 // ----------------------------------------------------------------------
 
-rain_dispatch_data two_day_cases[49] = {
-    // empty placeholder to get indices to start from 1
-    {0, "", ""},
-    // 1. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "aamupaivasta alkaen", "aamupaivasta alkaen"},
-    // 2. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
-    {4, "aamupaivasta alkaen", ""},
-    // 3. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
-    {2, "aamupaivasta alkaen", "iltapaivasta alkaen"},
-    // 4. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "aamupaivasta alkaen", "keskipaivasta alkaen"},
-    // 5. Tanaan aamupaivasta alkaen [sadetta]
-    {1, "aamupaivasta alkaen", ""},
-    // 6. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
-    {5, "aamupaivasta alkaen", ""},
-    // 7. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
-    {6, "aamupaivasta alkaen", ""},
-    // 8. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "aamusta alkaen", "aamupaivasta alkaen"},
-    // 9. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
-    {4, "aamusta alkaen", ""},
-    // 10. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
-    {2, "aamusta alkaen", "iltapaivasta alkaen"},
-    // 11. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "aamusta alkaen", "keskipaivasta alkaen"},
-    // 12. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
-    {5, "aamusta alkaen", ""},
-    // 13. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
-    {6, "aamusta alkaen", ""},
-    // 14. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
-    {5, "aamuyosta alkaen", ""},
-    // 15. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
-    {6, "aamuyosta alkaen", ""},
-    // 16. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
-    {7, "illalla", "yolla"},
-    // 17. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen
-    // poutaa, [enimmakseen selkeaa]
-    {10, "illasta alkaen", "aamupaivasta alkaen"},
-    // 18. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen
-    // poutaa
-    {9, "illasta alkaen", "iltapaivasta alkaen"},
-    // 19. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen
-    // poutaa, [enimmakseen selkeaa]
-    {10, "illasta alkaen", "keskipaivasta alkaen"},
-    // 20. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
-    {8, "illasta alkaen", ""},
-    // 21. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
-    {11, "illasta alkaen", ""},
-    // 22. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen
-    // poutaa, [enimmakseen selkeaa]
-    {10, "iltayosta alkaen", "aamupaivasta alkaen"},
-    // 23. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen
-    // poutaa
-    {9, "iltayosta alkaen", "iltapaivasta alkaen"},
-    // 24. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen
-    // poutaa, [enimmakseen selkeaa]
-    {10, "iltayosta alkaen", "keskipaivasta alkaen"},
-    // 25. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
-    {8, "iltayosta alkaen", ""},
-    // 26. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
-    {11, "iltayosta alkaen", ""},
-    // 27. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
-    {7, "yolla", ""},
-    // 28. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "iltapaivasta alkaen", "aamupaivasta alkaen"},
-    // 29. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
-    {4, "iltapaivasta alkaen", ""},
-    // 30. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
-    {2, "iltapaivasta alkaen", "iltapaivasta alkaen"},
-    // 31. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "iltapaivasta alkaen", "keskipaivasta alkaen"},
-    // 32. Tanaan iltapaivasta alkaen [sadetta]
-    {1, "iltapaivasta alkaen", ""},
-    // 33. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
-    {5, "iltapaivasta alkaen", ""},
-    // 34. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
-    {6, "iltapaivasta alkaen", ""},
-    // 35. Tanaan ja huomenna [sadetta]
-    {17, "", ""},
-    // 36. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "keskipaivasta alkaen", "aamupaivasta alkaen"},
-    // 37. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
-    {4, "keskipaivasta alkaen", ""},
-    // 38. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
-    {2, "keskipaivasta alkaen", "iltapaivasta alkaen"},
-    // 39. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
-    // selkeaa]
-    {3, "keskipaivasta alkaen", "keskipaivasta alkaen"},
-    // 40. Tanaan keskipaivasta alkaen [sadetta]
-    {1, "keskipaivasta alkaen", ""},
-    // 41. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen
-    // selkeaa]
-    {5, "keskipaivasta alkaen", ""},
-    // 42. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
-    {6, "keskipaivasta alkaen", ""},
-    // 43. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
-    {15, "aamupaivasta alkaen", ""},
-    // 44. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
-    {15, "aamusta alkaen", ""},
-    // 45. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
-    {16, "", ""},
-    // 46. Tanaan [sadetta], huomenna illalla poutaa
-    {13, "illalla", ""},
-    // 47. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
-    {14, "iltapaivasta alkaen", ""},
-    // 48. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
-    {15, "keskipaivasta alkaen", ""}};
+constexpr std::array<rain_dispatch_data, 49> two_day_cases = {
+    {// empty placeholder to get indices to start from 1
+     {0, "", ""},
+     // 1. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "aamupaivasta alkaen", "aamupaivasta alkaen"},
+     // 2. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+     {4, "aamupaivasta alkaen", ""},
+     // 3. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+     {2, "aamupaivasta alkaen", "iltapaivasta alkaen"},
+     // 4. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "aamupaivasta alkaen", "keskipaivasta alkaen"},
+     // 5. Tanaan aamupaivasta alkaen [sadetta]
+     {1, "aamupaivasta alkaen", ""},
+     // 6. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+     {5, "aamupaivasta alkaen", ""},
+     // 7. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+     {6, "aamupaivasta alkaen", ""},
+     // 8. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "aamusta alkaen", "aamupaivasta alkaen"},
+     // 9. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+     {4, "aamusta alkaen", ""},
+     // 10. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+     {2, "aamusta alkaen", "iltapaivasta alkaen"},
+     // 11. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "aamusta alkaen", "keskipaivasta alkaen"},
+     // 12. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+     {5, "aamusta alkaen", ""},
+     // 13. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+     {6, "aamusta alkaen", ""},
+     // 14. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+     {5, "aamuyosta alkaen", ""},
+     // 15. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+     {6, "aamuyosta alkaen", ""},
+     // 16. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+     {7, "illalla", "yolla"},
+     // 17. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen
+     // poutaa, [enimmakseen selkeaa]
+     {10, "illasta alkaen", "aamupaivasta alkaen"},
+     // 18. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen
+     // poutaa
+     {9, "illasta alkaen", "iltapaivasta alkaen"},
+     // 19. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen
+     // poutaa, [enimmakseen selkeaa]
+     {10, "illasta alkaen", "keskipaivasta alkaen"},
+     // 20. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+     {8, "illasta alkaen", ""},
+     // 21. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+     {11, "illasta alkaen", ""},
+     // 22. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen
+     // poutaa, [enimmakseen selkeaa]
+     {10, "iltayosta alkaen", "aamupaivasta alkaen"},
+     // 23. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen
+     // poutaa
+     {9, "iltayosta alkaen", "iltapaivasta alkaen"},
+     // 24. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen
+     // poutaa, [enimmakseen selkeaa]
+     {10, "iltayosta alkaen", "keskipaivasta alkaen"},
+     // 25. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
+     {8, "iltayosta alkaen", ""},
+     // 26. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+     {11, "iltayosta alkaen", ""},
+     // 27. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+     {7, "yolla", ""},
+     // 28. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "iltapaivasta alkaen", "aamupaivasta alkaen"},
+     // 29. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+     {4, "iltapaivasta alkaen", ""},
+     // 30. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+     {2, "iltapaivasta alkaen", "iltapaivasta alkaen"},
+     // 31. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "iltapaivasta alkaen", "keskipaivasta alkaen"},
+     // 32. Tanaan iltapaivasta alkaen [sadetta]
+     {1, "iltapaivasta alkaen", ""},
+     // 33. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen
+     // selkeaa]
+     {5, "iltapaivasta alkaen", ""},
+     // 34. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+     {6, "iltapaivasta alkaen", ""},
+     // 35. Tanaan ja huomenna [sadetta]
+     {17, "", ""},
+     // 36. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen
+     // selkeaa]
+     {3, "keskipaivasta alkaen", "aamupaivasta alkaen"},
+     // 37. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+     {4, "keskipaivasta alkaen", ""},
+     // 38. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+     {2, "keskipaivasta alkaen", "iltapaivasta alkaen"},
+     // 39. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa,
+     // [enimmakseen
+     // selkeaa]
+     {3, "keskipaivasta alkaen", "keskipaivasta alkaen"},
+     // 40. Tanaan keskipaivasta alkaen [sadetta]
+     {1, "keskipaivasta alkaen", ""},
+     // 41. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen
+     // selkeaa]
+     {5, "keskipaivasta alkaen", ""},
+     // 42. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+     {6, "keskipaivasta alkaen", ""},
+     // 43. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+     {15, "aamupaivasta alkaen", ""},
+     // 44. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+     {15, "aamusta alkaen", ""},
+     // 45. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+     {16, "", ""},
+     // 46. Tanaan [sadetta], huomenna illalla poutaa
+     {13, "illalla", ""},
+     // 47. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+     {14, "iltapaivasta alkaen", ""},
+     // 48. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+     {15, "keskipaivasta alkaen", ""}}};
 
 // ----------------------------------------------------------------------
 /*!
@@ -540,7 +543,7 @@ rain_dispatch_data two_day_cases[49] = {
  */
 // ----------------------------------------------------------------------
 
-int two_day_forecasts[577] = {
+constexpr std::array<int, 577> two_day_forecasts = {
     0,   // place holder to get indices to start from 1
     45,  // 1. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
     45,  // 2. Tanaan [sadetta], huomenna [enimmakseen selkeaa]

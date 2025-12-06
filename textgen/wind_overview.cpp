@@ -520,20 +520,20 @@ void print_csv_table(const WeatherArea& theArea,
     throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
   }
 
-  const char* column_names[] = {"aika",
-                                ", min",
-                                ", max",
-                                ", mediaani",
-                                ", tasoitettu mediaani",
-                                ", ka",
-                                ", nopeuden k-hajonta",
-                                ", puuska",
-                                ", maksimituuli",
-                                ", tasoitettu maksimituuli",
-                                ", suunta",
-                                ", tasoitettu suunta",
-                                ", suunnan k-hajonta",
-                                ", fraasi"};
+  constexpr std::array<const char*, 14> column_names = {{"aika",
+                                                         ", min",
+                                                         ", max",
+                                                         ", mediaani",
+                                                         ", tasoitettu mediaani",
+                                                         ", ka",
+                                                         ", nopeuden k-hajonta",
+                                                         ", puuska",
+                                                         ", maksimituuli",
+                                                         ", tasoitettu maksimituuli",
+                                                         ", suunta",
+                                                         ", tasoitettu suunta",
+                                                         ", suunnan k-hajonta",
+                                                         ", fraasi"}};
 
   const unsigned int number_of_columns = 14;
   for (unsigned int i = 0; i < number_of_columns; i++)
@@ -719,20 +719,20 @@ void print_html_table(const WeatherArea::Type& theAreaType,
   output_file << "<h1>" << get_area_type_string(theAreaType) << "</h1>\n";
   output_file << "<table border=\"1\">\n";
 
-  const char* column_names[] = {"aika",
-                                "min",
-                                "max",
-                                "mediaani",
-                                "tasoitettu mediaani",
-                                "ka",
-                                "nopeuden k-hajonta",
-                                "puuska",
-                                "maksimituuli",
-                                "tasoitettu maksimituuli",
-                                "suunta",
-                                "tasoitettu suunta",
-                                "suunnan k-hajonta",
-                                "fraasi"};
+  constexpr std::array<const char*, 14> column_names = {{"aika",
+                                                         "min",
+                                                         "max",
+                                                         "mediaani",
+                                                         "tasoitettu mediaani",
+                                                         "ka",
+                                                         "nopeuden k-hajonta",
+                                                         "puuska",
+                                                         "maksimituuli",
+                                                         "tasoitettu maksimituuli",
+                                                         "suunta",
+                                                         "tasoitettu suunta",
+                                                         "suunnan k-hajonta",
+                                                         "fraasi"}};
 
   output_file << "<tr>\n";
   const unsigned int number_of_columns = 14;
