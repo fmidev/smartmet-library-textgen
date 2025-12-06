@@ -1025,69 +1025,46 @@ cloudiness_id CloudinessForecast::getCloudinessId(const float& theMin,
                                                   const float& theMax,
                                                   const float& /*theStandardDeviation*/) const
 {
-  cloudiness_id id(MISSING_CLOUDINESS_ID);
-
   if (theMean == -1)
-    return id;
+    return MISSING_CLOUDINESS_ID;
 
   if (theMin > itsParameters.theAlmostClearSkyUpperLimit &&
       theMin <= itsParameters.thePartlyCloudySkyUpperLimit &&
       theMax > itsParameters.theMostlyCloudySkyUpperLimit)
-  {
-    id = PUOLIPILVINEN_JA_PILVINEN;
-  }
-  else if (theMean <= itsParameters.theClearSkyUpperLimit)
-  {
-    id = SELKEA;
-  }
-  else if (theMean <= itsParameters.theAlmostClearSkyUpperLimit)
-  {
-    id = MELKO_SELKEA;
-  }
-  else if (theMean <= itsParameters.thePartlyCloudySkyUpperLimit)
-  {
-    id = PUOLIPILVINEN;
-  }
-  else if (theMean <= itsParameters.theMostlyCloudySkyUpperLimit)
-  {
-    id = VERRATTAIN_PILVINEN;
-  }
-  else
-  {
-    id = PILVINEN;
-  }
+    return PUOLIPILVINEN_JA_PILVINEN;
 
-  return id;
+  if (theMean <= itsParameters.theClearSkyUpperLimit)
+    return SELKEA;
+
+  if (theMean <= itsParameters.theAlmostClearSkyUpperLimit)
+    return MELKO_SELKEA;
+
+  if (theMean <= itsParameters.thePartlyCloudySkyUpperLimit)
+    return PUOLIPILVINEN;
+
+  if (theMean <= itsParameters.theMostlyCloudySkyUpperLimit)
+    return VERRATTAIN_PILVINEN;
+
+  return PILVINEN;
 }
 
 cloudiness_id CloudinessForecast::getCloudinessId(const float& theCloudiness) const
 {
-  cloudiness_id id(MISSING_CLOUDINESS_ID);
-
   if (theCloudiness < 0)
-    return id;
+    return MISSING_CLOUDINESS_ID;
 
   if (theCloudiness <= itsParameters.theClearSkyUpperLimit)
-  {
-    id = SELKEA;
-  }
-  else if (theCloudiness <= itsParameters.theAlmostClearSkyUpperLimit)
-  {
-    id = MELKO_SELKEA;
-  }
-  else if (theCloudiness <= itsParameters.thePartlyCloudySkyUpperLimit)
-  {
-    id = PUOLIPILVINEN;
-  }
-  else if (theCloudiness <= itsParameters.theMostlyCloudySkyUpperLimit)
-  {
-    id = VERRATTAIN_PILVINEN;
-  }
-  else
-  {
-    id = PILVINEN;
-  }
+    return SELKEA;
 
-  return id;
+  if (theCloudiness <= itsParameters.theAlmostClearSkyUpperLimit)
+    return MELKO_SELKEA;
+
+  if (theCloudiness <= itsParameters.thePartlyCloudySkyUpperLimit)
+    return PUOLIPILVINEN;
+
+  if (theCloudiness <= itsParameters.theMostlyCloudySkyUpperLimit)
+    return VERRATTAIN_PILVINEN;
+
+  return PILVINEN;
 }
 }  // namespace TextGen
