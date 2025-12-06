@@ -33,7 +33,7 @@ class StoryTag;
 class TextFormatter
 {
  public:
-  virtual ~TextFormatter() = default;
+  virtual ~TextFormatter();
 #ifdef NO_COMPILER_GENERATED
   TextFormatter() {}
 #endif

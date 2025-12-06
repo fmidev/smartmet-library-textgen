@@ -25,3 +25,8 @@
 // ----------------------------------------------------------------------
 
 #include "Dictionary.h"
+
+namespace TextGen
+{
+Dictionary::~Dictionary() = default;
+}

@@ -12,3 +12,8 @@
 // ======================================================================
 
 #include "TextFormatter.h"
+
+namespace TextGen
+{
+TextFormatter::~TextFormatter() = default;
+}

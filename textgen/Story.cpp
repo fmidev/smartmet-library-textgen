@@ -13,3 +13,8 @@
 // ======================================================================
 
 #include "Story.h"
+
+namespace TextGen
+{
+Story::~Story() = default;
+}

@@ -18,6 +18,9 @@ using namespace std;
 
 namespace TextGen
 {
+
+GlyphContainer::~GlyphContainer() = default;
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the size of the container

@@ -26,7 +26,7 @@ class Dictionary
   // Dictionary(const Dictionary & theDict);
   // Dictionary & operator=(const Dictionary & theDict);
 
-  virtual ~Dictionary() = default;
+  virtual ~Dictionary();
   virtual void init(const std::string& theLanguage) = 0;
   virtual void changeLanguage(const std::string& theLanguage) {}
   virtual const std::string& language() const = 0;

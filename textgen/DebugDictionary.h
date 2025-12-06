@@ -24,7 +24,7 @@ class DebugDictionary : public Dictionary
   // DebugDictionary(const DebugDictionary & theDict);
   // DebugDictionary & operator=(const DebugDictionary & theDict);
 
-  ~DebugDictionary() override = default;
+  ~DebugDictionary() override;
   void init(const std::string& theLanguage) override { itsLanguage = theLanguage; }
   const std::string& language() const override { return itsLanguage; }
   bool contains(const std::string& /*theKey*/) const override { return true; }

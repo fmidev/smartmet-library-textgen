@@ -18,7 +18,7 @@ class TextFormatter;
 class Glyph
 {
  public:
-  virtual ~Glyph() = default;
+  virtual ~Glyph();
   virtual std::shared_ptr<Glyph> clone() const = 0;
   virtual std::string realize(const Dictionary& theDictionary) const = 0;
   virtual std::string realize(const TextFormatter& theFormatter) const = 0;

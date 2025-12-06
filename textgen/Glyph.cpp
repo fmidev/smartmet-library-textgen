@@ -13,3 +13,8 @@
 // ======================================================================
 
 #include "Glyph.h"
+
+namespace TextGen
+{
+Glyph::~Glyph() = default;
+}

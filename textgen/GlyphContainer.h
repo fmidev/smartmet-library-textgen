@@ -15,7 +15,7 @@ namespace TextGen
 class GlyphContainer : public Glyph
 {
  public:
-  ~GlyphContainer() override = default;
+  ~GlyphContainer() override;
   GlyphContainer() = default;
   std::shared_ptr<Glyph> clone() const override = 0;
   std::string realize(const Dictionary& theDictionary) const override = 0;

@@ -17,3 +17,8 @@
 // ======================================================================
 
 #include "DebugDictionary.h"
+
+namespace TextGen
+{
+DebugDictionary::~DebugDictionary() = default;
+}

@@ -34,6 +34,8 @@ namespace TextGen
 {
 namespace AreaTools
 {
+namespace
+{
 // ----------------------------------------------------------------------
 /*!
  * \brief Tests if the are1 is part of are2
@@ -116,6 +118,8 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
 
   return true;
 }
+
+}  // namespace
 
 NFmiPoint getArealDistribution(const AnalysisSources& theSources,
                                const WeatherParameter& theParameter,
