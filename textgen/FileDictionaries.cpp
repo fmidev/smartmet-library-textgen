@@ -147,7 +147,7 @@ void FileDictionaries::init(const std::string& theLanguage)
   // Load new language
 
   std::shared_ptr<FileDictionary> dict(new FileDictionary);
-  if (dict.get() == nullptr)
+  if (dict == nullptr)
     throw Fmi::Exception(BCP, "Failed to allocate a new FileDictionary");
 
   dict->init(theLanguage);

@@ -173,7 +173,7 @@ void MessageLogger::open(const string& theFilename)
 
 void MessageLogger::open()
 {
-  if (sOutputStream.get() == nullptr)
+  if (sOutputStream == nullptr)
     sOutputStream.reset(new ostringstream());
   else
     sOutputStream->str("");
@@ -196,7 +196,7 @@ void MessageLogger::timestamp(bool theFlag)
 
 std::string MessageLogger::str() const
 {
-  if (sOutputStream.get() != nullptr)
+  if (sOutputStream != nullptr)
     return sOutputStream->str();
   return {};
 }
@@ -214,9 +214,9 @@ std::string MessageLogger::str() const
 
 MessageLogger& MessageLogger::operator<<(const TextGen::Glyph& theGlyph)
 {
-  if (sOutputFile.get() != nullptr)
+  if (sOutputFile != nullptr)
     *sOutputFile << "Return: " << sFormatter.format(theGlyph) << '\n';
-  if (sOutputStream.get() != nullptr)
+  if (sOutputStream != nullptr)
     *sOutputStream << "Return: " << sFormatter.format(theGlyph) << '\n';
   return *this;
 }
