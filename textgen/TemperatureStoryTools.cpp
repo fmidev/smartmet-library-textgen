@@ -42,6 +42,81 @@ namespace TextGen
 {
 namespace TemperatureStoryTools
 {
+namespace
+{
+// if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
+// to the nearest number that is divisible by five
+int round_temperature(const int& theTemperatureToRound)
+{
+  int theRoundingLimit = theTemperatureToRound < -15 ? 2 : 1;
+  int theRoundedValue = theTemperatureToRound;
+  int theModuloOfValue = theTemperatureToRound % 5;
+
+  if (theModuloOfValue != 0)
+  {
+    if (theModuloOfValue < 0)
+      theModuloOfValue += 5;
+
+    if (theModuloOfValue <= theRoundingLimit)
+      theRoundedValue -= theModuloOfValue;
+    else if (theModuloOfValue >= (5 - theRoundingLimit))
+      theRoundedValue += (5 - theModuloOfValue);
+  }
+
+  return theRoundedValue;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Calculate Minimum, Mean and Maximum temperatures of the area's Maximum temperatures
+ *
+ * \param theVar The control variable prefix
+ * \param theSources The analysis sources
+ * \param theArea The waether area
+ * \param theMinimum The varible where the  minimum temperature is stored
+ * \param theMean The varible where the  mean temperature is stored
+ * \param theMaximum The varible where the  maximum temperature is stored
+ */
+// ----------------------------------------------------------------------
+
+void min_max_mean_temperature(const string& theVar,
+                              const AnalysisSources& theSources,
+                              const WeatherArea& theArea,
+                              const WeatherPeriod& thePeriod,
+                              const bool& theIsWinterHalf,
+                              WeatherResult& theMin,
+                              WeatherResult& theMax,
+                              WeatherResult& theMean)
+{
+  GridForecaster theForecaster;
+
+  theMin = theForecaster.analyze(theVar + "::min",
+                                 theSources,
+                                 Temperature,
+                                 Minimum,
+                                 theIsWinterHalf ? Mean : Maximum,
+                                 theArea,
+                                 thePeriod);
+
+  theMax = theForecaster.analyze(theVar + "::max",
+                                 theSources,
+                                 Temperature,
+                                 Maximum,
+                                 theIsWinterHalf ? Mean : Maximum,
+                                 theArea,
+                                 thePeriod);
+
+  theMean = theForecaster.analyze(theVar + "::mean",
+                                  theSources,
+                                  Temperature,
+                                  Mean,
+                                  theIsWinterHalf ? Mean : Maximum,
+                                  theArea,
+                                  thePeriod);
+}
+
+}  // namespace
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Return temperature comparison phrase
@@ -137,28 +212,6 @@ TextGen::Sentence temperature_sentence(int theMinimum,
   }
 
   return sentence;
-}
-
-// if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
-// to the nearest number that is divisible by five
-int round_temperature(const int& theTemperatureToRound)
-{
-  int theRoundingLimit = theTemperatureToRound < -15 ? 2 : 1;
-  int theRoundedValue = theTemperatureToRound;
-  int theModuloOfValue = theTemperatureToRound % 5;
-
-  if (theModuloOfValue != 0)
-  {
-    if (theModuloOfValue < 0)
-      theModuloOfValue += 5;
-
-    if (theModuloOfValue <= theRoundingLimit)
-      theRoundedValue -= theModuloOfValue;
-    else if (theModuloOfValue >= (5 - theRoundingLimit))
-      theRoundedValue += (5 - theModuloOfValue);
-  }
-
-  return theRoundedValue;
 }
 
 // changed 6.10.2010
@@ -314,55 +367,6 @@ TextGen::Sentence temperature_sentence2(int theMinimum,
   }
 
   return sentence;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Calculate Minimum, Mean and Maximum temperatures of the area's Maximum temperatures
- *
- * \param theVar The control variable prefix
- * \param theSources The analysis sources
- * \param theArea The waether area
- * \param theMinimum The varible where the  minimum temperature is stored
- * \param theMean The varible where the  mean temperature is stored
- * \param theMaximum The varible where the  maximum temperature is stored
- */
-// ----------------------------------------------------------------------
-
-void min_max_mean_temperature(const string& theVar,
-                              const AnalysisSources& theSources,
-                              const WeatherArea& theArea,
-                              const WeatherPeriod& thePeriod,
-                              const bool& theIsWinterHalf,
-                              WeatherResult& theMin,
-                              WeatherResult& theMax,
-                              WeatherResult& theMean)
-{
-  GridForecaster theForecaster;
-
-  theMin = theForecaster.analyze(theVar + "::min",
-                                 theSources,
-                                 Temperature,
-                                 Minimum,
-                                 theIsWinterHalf ? Mean : Maximum,
-                                 theArea,
-                                 thePeriod);
-
-  theMax = theForecaster.analyze(theVar + "::max",
-                                 theSources,
-                                 Temperature,
-                                 Maximum,
-                                 theIsWinterHalf ? Mean : Maximum,
-                                 theArea,
-                                 thePeriod);
-
-  theMean = theForecaster.analyze(theVar + "::mean",
-                                  theSources,
-                                  Temperature,
-                                  Mean,
-                                  theIsWinterHalf ? Mean : Maximum,
-                                  theArea,
-                                  thePeriod);
 }
 
 void min_max_mean_temperature(const string& theVar,

@@ -20,6 +20,8 @@
 #include "ThunderForecast.h"
 #include "WeatherForecastStory.h"
 
+using namespace std;
+
 #define USE_FROM_SPECIFIER true
 #define DONT_USE_FROM_SPECIFIER false
 #define USE_SHORT_FORM true
@@ -29,9 +31,11 @@
 
 namespace TextGen
 {
-using namespace std;
 using namespace TextGen;
 using namespace Settings;
+
+namespace
+{
 
 std::ostream& operator<<(std::ostream& theOutput, const WeatherForecastStoryItem& theStoryItem)
 {
@@ -53,8 +57,6 @@ std::ostream& operator<<(std::ostream& theOutput, const WeatherForecastStoryItem
   return theOutput;
 }
 
-namespace
-{
 std::vector<unsigned int> get_story_item_indexes(
     const std::vector<std::shared_ptr<WeatherForecastStoryItem>>& storyItems)
 {

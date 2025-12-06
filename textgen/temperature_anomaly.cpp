@@ -48,6 +48,8 @@
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 namespace fs = std::filesystem;
 
+using namespace std;
+
 namespace TextGen
 {
 namespace TemperatureAnomaly
@@ -55,7 +57,6 @@ namespace TemperatureAnomaly
 using namespace TextGen;
 using namespace TemperatureStoryTools;
 
-using namespace std;
 using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
@@ -192,6 +193,8 @@ using namespace AreaTools;
 #define MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE \
   "[1-na] [alueella] saa viilenee huomattavasti"
 
+namespace
+{
 enum anomaly_phrase_id
 {
   SAA_ON_POIKKEUKSELLISEN_KOLEAA,
@@ -334,6 +337,7 @@ std::string period2string(const WeatherPeriod& period)
   return ss.str();
 }
 
+#if 0
 void log_daily_factiles_for_period(MessageLogger& theLog,
                                    const string& theVariable,
                                    const AnalysisSources& theSources,
@@ -386,6 +390,7 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
     endTime.ChangeByDays(1);
   }
 }
+#endif
 
 Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
                                       float fractile02Share,
@@ -1589,6 +1594,8 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
 
   return paragraph;
 }
+
+}  // namespace
 
 }  // namespace TemperatureAnomaly
 

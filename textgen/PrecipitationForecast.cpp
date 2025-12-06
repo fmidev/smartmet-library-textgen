@@ -43,14 +43,14 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 namespace TextGen
 {
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 using namespace TimeTools;
-
-using namespace std;
 
 // pouta
 #define HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE \
@@ -284,6 +284,8 @@ using namespace std;
 #define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
   "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
 
+namespace
+{
 InPlacesPhrase& get_in_places_phrase()
 {
   static boost::thread_specific_ptr<InPlacesPhrase> tls;
@@ -355,6 +357,7 @@ std::ostream& operator<<(std::ostream& theOutput,
   return theOutput;
 }
 
+#if 0
 std::string operator<<(std::string& theDestinationString, const std::string& theSourceString)
 {
   theDestinationString.append(theSourceString);
@@ -362,41 +365,7 @@ std::string operator<<(std::string& theDestinationString, const std::string& the
 
   return theDestinationString;
 }
-
-InPlacesPhrase::InPlacesPhrase()
-
-    = default;
-
-Sentence InPlacesPhrase::getInPlacesPhrase(PhraseType thePhraseType, bool /*useOllaVerbFlag*/)
-{
-  Sentence sentence;
-
-  if (thePreventTautologyFlag && thePreviousPhrase == thePhraseType)
-  {
-    sentence << EMPTY_STRING;
-    return sentence;
-  }
-
-  thePreventTautologyFlag = false;
-
-  if (thePhraseType != NONEXISTENT_PHRASE)
-  {
-    /*
-    if(useOllaVerbFlag)
-      {
-            stringVector.push_back(SAADAAN_WORD);
-      }
-    */
-    thePreviousPhrase = thePhraseType;
-    sentence << (thePhraseType == IN_SOME_PLACES_PHRASE ? PAIKOIN_WORD : MONIN_PAIKOIN_WORD);
-  }
-  else
-  {
-    sentence << EMPTY_STRING;
-  }
-
-  return sentence;
-}
+#endif
 
 bool get_period_start_end_index(const WeatherPeriod& thePeriod,
                                 const precipitation_data_vector& theDataVector,
@@ -548,6 +517,41 @@ bool is_dry_weather(const wf_story_params& theParameters,
   }
 
   return dry_weather;
+}
+
+}  // namespace
+
+InPlacesPhrase::InPlacesPhrase() = default;
+
+Sentence InPlacesPhrase::getInPlacesPhrase(PhraseType thePhraseType, bool /*useOllaVerbFlag*/)
+{
+  Sentence sentence;
+
+  if (thePreventTautologyFlag && thePreviousPhrase == thePhraseType)
+  {
+    sentence << EMPTY_STRING;
+    return sentence;
+  }
+
+  thePreventTautologyFlag = false;
+
+  if (thePhraseType != NONEXISTENT_PHRASE)
+  {
+    /*
+    if(useOllaVerbFlag)
+      {
+            stringVector.push_back(SAADAAN_WORD);
+      }
+    */
+    thePreviousPhrase = thePhraseType;
+    sentence << (thePhraseType == IN_SOME_PLACES_PHRASE ? PAIKOIN_WORD : MONIN_PAIKOIN_WORD);
+  }
+  else
+  {
+    sentence << EMPTY_STRING;
+  }
+
+  return sentence;
 }
 
 void PrecipitationForecast::waterAndSnowShowersPhrase(

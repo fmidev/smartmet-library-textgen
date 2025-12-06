@@ -52,6 +52,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
+#if 0
 bool isPartOfArea(const UserWeatherSource& theWeatherSource,
                   const WeatherArea& theWeatherArea1,
                   const WeatherArea& theWeatherArea2)
@@ -122,6 +123,7 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
 
   return true;
 }
+#endif
 
 }  // namespace
 

@@ -29,6 +29,9 @@ using namespace std;
 
 namespace TextGen
 {
+
+namespace
+{
 // ----------------------------------------------------------------------
 /*!
  * \brief Read file contents
@@ -88,6 +91,8 @@ string execute(const string& cmd)
 #endif
   return result;
 }
+
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

@@ -35,6 +35,10 @@ namespace TextGen
 {
 namespace SeasonTools
 {
+
+namespace
+{
+
 template <class T>
 bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&))
 {
@@ -86,6 +90,70 @@ bool isBetweenDates(
 
   return (compareDate >= startDate && compareDate <= endDate);
 }
+
+float get_GrowthPeriodOnOff_percentage(const WeatherArea& theArea,
+                                       const AnalysisSources& theSources,
+                                       const WeatherPeriod& thePeriod,
+                                       const std::string& theVariable)
+{
+  if (Settings::isset("textgen::effectivetemperaturesum_forecast"))
+  {
+    GridForecaster forecaster;
+    PositiveValueAcceptor acceptor;
+    WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
+                                                               theSources,
+                                                               GrowthPeriodOnOff,
+                                                               Percentage,
+                                                               Mean,
+                                                               theArea,
+                                                               thePeriod,
+                                                               DefaultAcceptor(),
+                                                               DefaultAcceptor(),
+                                                               acceptor);
+
+    return growingSeasonPercentage.value();
+  }
+  return -1.0;
+}
+
+float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
+                                     const AnalysisSources& theSources,
+                                     const WeatherPeriod& thePeriod,
+                                     const std::string& theVariable)
+{
+  string fake_var("onenight::fake::growing_season_percentange");
+  if (theArea.type() == WeatherArea::Inland)
+    fake_var += "::inland";
+  if (theArea.type() == WeatherArea::Coast)
+    fake_var += "::coastal";
+
+  if (Settings::isset(fake_var))
+    return Settings::optional_double(fake_var, 0.0);
+
+  GridForecaster forecaster;
+  // 5 days average temperature
+  const TextGenPosixTime& startTime = thePeriod.localStartTime();
+  TextGenPosixTime endTime = thePeriod.localStartTime();
+  endTime.ChangeByDays(5);
+  WeatherPeriod period(startTime, endTime);
+
+  RangeAcceptor temperatureAcceptor;
+  temperatureAcceptor.lowerLimit(5.0);  // temperatures > 5 degrees
+  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
+                                                               theSources,
+                                                               Temperature,
+                                                               Percentage,
+                                                               Mean,
+                                                               theArea,
+                                                               period,
+                                                               DefaultAcceptor(),
+                                                               DefaultAcceptor(),
+                                                               temperatureAcceptor);
+
+  return meanTemperaturePercentage.value();
+}
+
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!
@@ -213,68 +281,6 @@ bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
 bool isWinterHalf(const TextGenPosixTime& theDate, const string& theVar)
 {
   return !isSummerHalf(theDate, theVar);
-}
-
-float get_GrowthPeriodOnOff_percentage(const WeatherArea& theArea,
-                                       const AnalysisSources& theSources,
-                                       const WeatherPeriod& thePeriod,
-                                       const std::string& theVariable)
-{
-  if (Settings::isset("textgen::effectivetemperaturesum_forecast"))
-  {
-    GridForecaster forecaster;
-    PositiveValueAcceptor acceptor;
-    WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
-                                                               theSources,
-                                                               GrowthPeriodOnOff,
-                                                               Percentage,
-                                                               Mean,
-                                                               theArea,
-                                                               thePeriod,
-                                                               DefaultAcceptor(),
-                                                               DefaultAcceptor(),
-                                                               acceptor);
-
-    return growingSeasonPercentage.value();
-  }
-  return -1.0;
-}
-
-float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
-                                     const AnalysisSources& theSources,
-                                     const WeatherPeriod& thePeriod,
-                                     const std::string& theVariable)
-{
-  string fake_var("onenight::fake::growing_season_percentange");
-  if (theArea.type() == WeatherArea::Inland)
-    fake_var += "::inland";
-  if (theArea.type() == WeatherArea::Coast)
-    fake_var += "::coastal";
-
-  if (Settings::isset(fake_var))
-    return Settings::optional_double(fake_var, 0.0);
-
-  GridForecaster forecaster;
-  // 5 days average temperature
-  const TextGenPosixTime& startTime = thePeriod.localStartTime();
-  TextGenPosixTime endTime = thePeriod.localStartTime();
-  endTime.ChangeByDays(5);
-  WeatherPeriod period(startTime, endTime);
-
-  RangeAcceptor temperatureAcceptor;
-  temperatureAcceptor.lowerLimit(5.0);  // temperatures > 5 degrees
-  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
-                                                               theSources,
-                                                               Temperature,
-                                                               Percentage,
-                                                               Mean,
-                                                               theArea,
-                                                               period,
-                                                               DefaultAcceptor(),
-                                                               DefaultAcceptor(),
-                                                               temperatureAcceptor);
-
-  return meanTemperaturePercentage.value();
 }
 
 float growing_season_percentage(const WeatherArea& theArea,

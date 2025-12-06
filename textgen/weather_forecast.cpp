@@ -54,25 +54,18 @@
 #include <typeinfo>
 #include <vector>
 
+using namespace std;
+
 namespace TextGen
 {
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 
-using namespace std;
-
-void print_out_weather_event_vector(std::ostream& theOutput,
-                                    const weather_event_id_vector& theWeatherEventVector)
+namespace
 {
-  for (const auto& i : theWeatherEventVector)
-  {
-    weather_event_id trid(i.second);
 
-    theOutput << i.first << ": " << weather_event_string(trid) << '\n';
-  }
-}
-
+#if 0
 std::ostream& operator<<(std::ostream& theOutput,
                          const WeatherResultDataItem& theWeatherResultDataItem)
 {
@@ -107,6 +100,7 @@ void get_part_of_the_day_time_series(wf_story_params& theParameters,
                                      weather_result_data_item_vector& theResultVector)
 {
 }
+#endif
 
 void log_start_time_and_end_time(MessageLogger& theLog,
                                  const std::string& theLogMessage,
@@ -116,6 +110,7 @@ void log_start_time_and_end_time(MessageLogger& theLog,
          << thePeriod.localEndTime() << '\n';
 }
 
+#if 0
 void log_weather_result_time_series(MessageLogger& theLog,
                                     const std::string& theLogMessage,
                                     const weather_result_data_item_vector& theTimeSeries)
@@ -276,6 +271,7 @@ void log_subperiods(wf_story_params& theParameters)
     }
   }
 }
+#endif
 
 void populate_precipitation_time_series(const string& theVariable,
                                         const AnalysisSources& theSources,
@@ -1113,6 +1109,7 @@ void init_parameters(wf_story_params& theParameters)
   }
 }
 
+#if 0
 void log_weather_forecast_story(MessageLogger& theLog,
                                 WeatherForecastStory& theWeatherForecastStory)
 {
@@ -1144,6 +1141,7 @@ void log_weather_forecast_story(MessageLogger& theLog,
   theLog << theWeatherForecastStory.getWeatherForecastStory();
   theLog << "THE COMPLETE SENTENCE END\n";
 }
+#endif
 
 Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
                            const TextGen::WeatherPeriod& itsPeriod,
@@ -1409,6 +1407,19 @@ void analyze_sentences(Paragraph& paragraph)
       check_sentences(sentences[i], sentences[i + 1]);
     auto& sen = static_cast<Sentence&>(*(sentences[i]));
     paragraph << sen;
+  }
+}
+
+}  // namespace
+
+void print_out_weather_event_vector(std::ostream& theOutput,
+                                    const weather_event_id_vector& theWeatherEventVector)
+{
+  for (const auto& i : theWeatherEventVector)
+  {
+    weather_event_id trid(i.second);
+
+    theOutput << i.first << ": " << weather_event_string(trid) << '\n';
   }
 }
 

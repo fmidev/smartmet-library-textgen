@@ -25,6 +25,8 @@ namespace TextGen
 {
 namespace WeekdayTools
 {
+namespace
+{
 bool is_midnight_hour(int hour)
 {
   return hour == 0;
@@ -84,6 +86,8 @@ bool is_before_midnight_hour(int hour)
 {
   return hour >= 22;
 }
+
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

@@ -35,6 +35,8 @@ using namespace std;
 
 namespace TextGen
 {
+namespace
+{
 // ----------------------------------------------------------------------
 /*!
  * \brief Calculate area results
@@ -65,6 +67,8 @@ void calculate_mean_min_max(MessageLogger& theLog,
   theLog << "Temperature Min(Maximum) " << theMin << '\n';
   theLog << "Temperature Max(Maximum) " << theMax << '\n';
 }
+
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

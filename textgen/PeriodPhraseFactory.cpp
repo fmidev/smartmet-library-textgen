@@ -767,10 +767,6 @@ Sentence days(const string& theVariable,
   throw Fmi::Exception(BCP, "PeriodPhrasefactory::days run out of options");
 }
 
-}  // namespace
-
-namespace PeriodPhraseFactory
-{
 Sentence create_sentence(const string& theType,
                          const string& theVariable,
                          const TextGenPosixTime& theForecastTime,
@@ -809,6 +805,11 @@ Sentence create_sentence(const string& theType,
 
   throw Fmi::Exception(BCP, "PeriodPhraseFactory::create does not recognize type " + theType);
 }
+
+}  // namespace
+
+namespace PeriodPhraseFactory
+{
 
 // ----------------------------------------------------------------------
 /*!

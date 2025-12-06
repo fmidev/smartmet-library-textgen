@@ -32,19 +32,17 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
-#include <math.h>
-
-#include <boost/lexical_cast.hpp>
+#include <cmath>
 #include <map>
 #include <vector>
+
+using namespace std;
 
 namespace TextGen
 {
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
-
-using namespace std;
 
 #define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
   "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
@@ -77,6 +75,8 @@ using namespace std;
 #define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE \
   "saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
 
+namespace
+{
 const char* cloudiness_string(const cloudiness_id& theCloudinessId)
 {
   const char* retval = "";
@@ -262,6 +262,7 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
   }
   return sentence;
 }
+}  // namespace
 
 std::ostream& operator<<(std::ostream& theOutput,
                          const CloudinessDataItemData& theCloudinessDataItemData)

@@ -38,13 +38,13 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 namespace TextGen
 {
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
-
-using namespace std;
 
 #define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] sumua"
 #define TIME_PLACE_FOG_COMPOSITE_PHRASE "[huomenna] [sisamaassa] sumua"
@@ -64,37 +64,8 @@ using namespace std;
 #define TIME_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] sumua, joka voi olla sakeaa"
 #define INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[paikoin] sumua, joka voi olla sakeaa"
 
-/*
-std::ostream& operator<<(std::ostream & theOutput,
-                                                 const FogIntensityDataItem&
-theFogIntensityDataItem)
+namespace
 {
-      theOutput << "moderate fog=" << theFogIntensityDataItem.moderateFogExtent << " ";
-      theOutput << "dense fog=" << theFogIntensityDataItem.denseFogExtent << " ";
-      return theOutput;
-}
-
-std::ostream& operator<<(std::ostream & theOutput,
-                                                 const CloudinessDataItem& theCloudinessDataItem)
-{
-      if(theCloudinessDataItem.theCoastalData)
-        {
-              theOutput << "  Coastal\n";
-              theOutput << *theCloudinessDataItem.theCoastalData;
-        }
-      if(theCloudinessDataItem.theInlandData)
-        {
-              theOutput << "  Inland\n";
-              theOutput << *theCloudinessDataItem.theInlandData;
-        }
-      if(theCloudinessDataItem.theFullData)
-        {
-              theOutput << "  Full area\n";
-              theOutput << *theCloudinessDataItem.theFullData;
-        }
-      return theOutput;
-}
-*/
 
 pair<WeatherPeriod, FogIntensityDataItem> get_fog_wp(const TextGenPosixTime& theStartTime,
                                                      const TextGenPosixTime& theEndTime,
@@ -200,6 +171,8 @@ fog_type_id get_fog_type(const float& theModerateFog,
     return FOG;
   return FOG_POSSIBLY_DENSE;
 }
+
+}  // namespace
 
 FogForecast::FogForecast(wf_story_params& parameters, bool visibilityForecast /*= false*/)
     : theParameters(parameters), theVisibityForecastAtSea(visibilityForecast)

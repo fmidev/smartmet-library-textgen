@@ -41,6 +41,8 @@
 
 #include <map>
 
+using namespace std;
+
 namespace TextGen
 {
 namespace WindAnomaly
@@ -49,7 +51,6 @@ using namespace TextGen;
 using namespace WindStoryTools;
 using namespace TemperatureStoryTools;
 
-using namespace std;
 using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
@@ -114,6 +115,9 @@ using namespace AreaTools;
 #define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE "tuuli saa saan tuntumaan kylmemmalta"
 #define TANAAN_WORD "tanaan"
 #define HUOMENNA_WORD "huomenna"
+
+namespace
+{
 
 struct wind_anomaly_params
 {
@@ -1685,6 +1689,7 @@ Sentence windchill_sentence(const wind_anomaly_params& theParameters)
   return sentence;
 }
 
+#if 0
 void testWindiness(wind_anomaly_params& parameters, MessageLogger& log)
 {
   Sentence theSpecifiedDay;
@@ -1728,6 +1733,9 @@ void testWindiness(wind_anomaly_params& parameters, MessageLogger& log)
     }
   }
 }
+#endif
+
+}  // namespace
 
 }  // namespace WindAnomaly
 

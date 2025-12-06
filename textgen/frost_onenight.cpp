@@ -38,11 +38,12 @@
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 namespace boostfs = std::filesystem;
 
+using namespace std;
+
 namespace TextGen
 {
 namespace FrostOnenight
 {
-using namespace std;
 using namespace TextGen;
 using namespace AreaTools;
 using namespace SeasonTools;
@@ -54,6 +55,8 @@ using namespace SeasonTools;
 #define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE \
   "[rannikolla] [paikoin] hallaa, joka voi olla ankaraa"
 
+namespace
+{
 enum frost_category
 {
   CAT_NA,
@@ -578,7 +581,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
 
   return growingSeasonGoingOn;
 }
-
+}  // namespace
 }  // namespace FrostOnenight
 
 // ----------------------------------------------------------------------
