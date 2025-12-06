@@ -211,7 +211,7 @@ string ExtendedDebugTextFormatter::visit(const WeatherTime& theTime) const
 string ExtendedDebugTextFormatter::visit(const TimePeriod& thePeriod) const
 {
   auto txt = TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
-  return "<timeperiod var=\"" + itsSectionVar + "\"</timeperiod>";
+  return "<timeperiod var=\"" + txt + "\"</timeperiod>";
 }
 }  // namespace TextGen
 
