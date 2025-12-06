@@ -32,6 +32,7 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
+#include <math.h>
 
 #include <boost/lexical_cast.hpp>
 #include <map>
@@ -335,8 +336,9 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
       continue;
     }
 
-    weather_event_id trid(cloudinessWeatherEvent.second);
-    std::string timePhrase(get_time_phrase(weatherEventTimestamp, itsParameters.theVariable, true));
+    weather_event_id trid = cloudinessWeatherEvent.second;
+    std::string timePhrase =
+        get_time_phrase(weatherEventTimestamp, itsParameters.theVariable, true);
     if (timePhrase.empty())
       timePhrase = EMPTY_STRING;
 
@@ -351,7 +353,7 @@ float CloudinessForecast::getMeanCloudiness(
     const WeatherPeriod& theWeatherPeriod,
     const weather_result_data_item_vector& theDataVector) const
 {
-  float cloudinessSum(0.0);
+  float cloudinessSum = 0;
   unsigned int count = 0;
   for (const auto& i : theDataVector)
   {
@@ -429,8 +431,8 @@ void CloudinessForecast::findOutCloudinessWeatherEvents(
 
     float meanCloudinessInTheFirstHalf = get_mean(theFirstHalfData);
     float meanCloudinessInTheSecondHalf = get_mean(theSecondHalfData);
-    weather_event_id weatherEventId(MISSING_WEATHER_EVENT);
-    unsigned int changeIndex(0);
+    weather_event_id weatherEventId = MISSING_WEATHER_EVENT;
+    unsigned int changeIndex = 0;
 
     if (meanCloudinessInTheFirstHalf >= PILVISTYVAA_UPPER_LIMIT &&
         meanCloudinessInTheSecondHalf <= PILVISTYVAA_LOWER_LIMIT)
@@ -503,7 +505,7 @@ void CloudinessForecast::findOutCloudinessPeriods(const weather_result_data_item
   {
     TextGenPosixTime previousStartTime;
     TextGenPosixTime previousEndTime;
-    cloudiness_id previousCloudinessId(MISSING_CLOUDINESS_ID);
+    cloudiness_id previousCloudinessId = MISSING_CLOUDINESS_ID;
     for (unsigned int i = 0; i < theData->size(); i++)
     {
       if (i == 0)
@@ -592,7 +594,7 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
   vector<int> theCloudinessPuolipilvisestaPilviseen;
 
   int periodStartIndex = 0;
-  cloudiness_id clidPrevious(theCloudinessPeriodsSource.at(0).second);
+  cloudiness_id clidPrevious = theCloudinessPeriodsSource.at(0).second;
 
   for (unsigned int i = 1; i < theCloudinessPeriodsSource.size(); i++)
   {
@@ -685,7 +687,7 @@ void CloudinessForecast::printOutCloudinessPeriods(
   {
     WeatherPeriod period(theCloudinessPeriod.first.localStartTime(),
                          theCloudinessPeriod.first.localEndTime());
-    cloudiness_id clid(theCloudinessPeriod.second);
+    cloudiness_id clid = theCloudinessPeriod.second;
     theOutput << period.localStartTime() << "..." << period.localEndTime() << ": "
               << cloudiness_string(clid) << '\n';
   }
@@ -763,7 +765,7 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
     {
       const TextGenPosixTime& startTime = thePeriod.localStartTime();
       const TextGenPosixTime& endTime = thePeriod.localEndTime();
-      cloudiness_id clid(theSourceCloudinessPeriod.second);
+      cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
     }
@@ -773,7 +775,7 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
     {
       const TextGenPosixTime& startTime = thePeriod.localStartTime();
       const TextGenPosixTime& endTime = theSourceCloudinessPeriod.first.localEndTime();
-      cloudiness_id clid(theSourceCloudinessPeriod.second);
+      cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
     }
@@ -781,18 +783,18 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localStartTime() &&
              thePeriod.localEndTime() <= theSourceCloudinessPeriod.first.localEndTime())
     {
-      TextGenPosixTime startTime(theSourceCloudinessPeriod.first.localStartTime());
-      TextGenPosixTime endTime(thePeriod.localEndTime());
-      cloudiness_id clid(theSourceCloudinessPeriod.second);
+      TextGenPosixTime startTime = theSourceCloudinessPeriod.first.localStartTime();
+      TextGenPosixTime endTime = thePeriod.localEndTime();
+      cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
     }
     else if (thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localStartTime() &&
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localEndTime())
     {
-      TextGenPosixTime startTime(theSourceCloudinessPeriod.first.localStartTime());
-      TextGenPosixTime endTime(theSourceCloudinessPeriod.first.localEndTime());
-      cloudiness_id clid(theSourceCloudinessPeriod.second);
+      TextGenPosixTime startTime = theSourceCloudinessPeriod.first.localStartTime();
+      TextGenPosixTime endTime = theSourceCloudinessPeriod.first.localEndTime();
+      cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
     }
