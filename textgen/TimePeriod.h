@@ -30,9 +30,9 @@ class TimePeriod : public Glyph
   std::string realize(const TextFormatter& theFormatter) const override;
   bool isDelimiter() const override;
 
-  inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
-  inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
-  inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
+  const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
+  const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
+  const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
 
  private:
   WeatherPeriod itsPeriod;
