@@ -384,7 +384,7 @@ unsigned int get_peak_wind(const WeatherPeriod& thePeriod,
         totalShareAtTimestep += shareToAdd.value();
         if (totalShareAtTimestep >= theParameters.theWindSpeedTopCoverage)
         {
-          if (!upper_index_updated || k > static_cast<unsigned int>(upper_index))
+          if (!upper_index_updated || k > upper_index)
           {
             upper_index = k;
             upper_index_updated = true;
