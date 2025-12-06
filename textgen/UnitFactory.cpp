@@ -217,23 +217,21 @@ std::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNumb
   {
     if (withoutNumber)
     {
-      if (value == 0)
-        *sentence << "metria sekunnissa";
-      else if (value == 1)
+      if (value == 1)
         *sentence << "metri sekunnissa";
       else if (abs(value) % 10 == 1 && abs(value) != 11)
         *sentence << "metria sekunnissa (mod 10=1)";
       else
-        *sentence << "metria sekunnissa";
+        *sentence << "metria sekunnissa";  // including 0 m/s
     }
     else
     {
-      if (value == 0)
-        *sentence << "0 metria sekunnissa";
-      else if (value == 1)
+      if (value == 1)
         *sentence << "1 metri sekunnissa";
       else if (abs(value) % 10 == 1 && abs(value) != 11)
         *sentence << TextGen::Integer(value) << "metria sekunnissa (mod 10=1)";
+      else if (value == 0)
+        *sentence << "0 metria sekunnissa";
       else
         *sentence << TextGen::Integer(value) << "metria sekunnissa";
     }
@@ -331,14 +329,12 @@ std::shared_ptr<TextGen::Sentence> millimeters(int value, bool withoutNumber = f
   {
     if (withoutNumber)
     {
-      if (value == 0)
-        *sentence << "millimetria";
-      else if (value == 1)
+      if (value == 1)
         *sentence << "millimetri";
       else if (abs(value) % 10 == 1 && abs(value) != 11)
         *sentence << "millimetria (mod 10=1)";
       else
-        *sentence << "millimetria";
+        *sentence << "millimetria";  // including 0 mm
     }
     else
     {
@@ -504,14 +500,12 @@ std::shared_ptr<TextGen::Sentence> percent(int value, bool withoutNumber = false
   {
     if (withoutNumber)
     {
-      if (value == 0)
-        *sentence << "prosenttia";
-      else if (value == 1)
+      if (value == 1)
         *sentence << "prosentti";
       else if (abs(value) % 10 == 1 && abs(value) != 11)
         *sentence << "prosenttia (mod 10=1)";
       else
-        *sentence << "prosenttia";
+        *sentence << "prosenttia";  // including 0%
     }
     else
     {
@@ -589,14 +583,12 @@ std::shared_ptr<TextGen::Sentence> hectopascal(int value, bool withoutNumber = f
   {
     if (withoutNumber)
     {
-      if (value == 0)
-        *sentence << "hehtopascalia";
-      else if (value == 1)
+      if (value == 1)
         *sentence << "hehtopascal";
       else if (abs(value) % 10 == 1 && abs(value) != 11)
         *sentence << "hehtopascalia (mod 10=1)";
       else
-        *sentence << "hehtopascalia";
+        *sentence << "hehtopascalia";  // including 0 hPa
     }
     else
     {

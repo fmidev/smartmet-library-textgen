@@ -119,10 +119,7 @@ Paragraph SpecialStory::text() const
 
   Paragraph paragraph;
 
-  if (default_text.empty())
-  {
-  }
-  else if (default_text[0] != '@')
+  if (default_text.empty() || default_text[0] != '@')
   {
     // text is set in formatter, since you must be able to give format-specific text
     //	paragraph << Text(default_text);

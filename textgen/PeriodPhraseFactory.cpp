@@ -735,9 +735,7 @@ Sentence days(const string& theVariable,
     {
       if (it == "none")
         return sentence;
-      if (it == "today")
-        ;
-      else if (it == "tomorrow")
+      if (it == "today" || it == "tomorrow")
       {
         // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
         // if(isNextDay(theForecastTime, starttime))

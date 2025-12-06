@@ -504,12 +504,18 @@ bool is_dry_weather(const wf_story_params& theParameters,
     case WATER_FREEZING_FORM:
     case FREEZING_FORM:
     case WATER_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-        dry_weather = true;
-      break;
     case SLEET_FREEZING_FORM:
     case SLEET_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet)
+    case WATER_DRIZZLE_FREEZING_FORM:
+    case WATER_DRIZZLE_FORM:
+    case WATER_DRIZZLE_SLEET_FORM:
+    case WATER_SLEET_FREEZING_FORM:
+    case WATER_SLEET_FORM:
+    case WATER_SNOW_FREEZING_FORM:
+    case WATER_SNOW_FORM:
+    case WATER_DRIZZLE_SNOW_FORM:
+    case WATER_SLEET_SNOW_FORM:
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
         dry_weather = true;
       break;
     case SNOW_FORM:
@@ -519,49 +525,16 @@ bool is_dry_weather(const wf_story_params& theParameters,
       break;
     case DRIZZLE_FORM:
     case DRIZZLE_FREEZING_FORM:
+    case DRIZZLE_SNOW_FREEZING_FORM:
+    case DRIZZLE_SNOW_FORM:
+    case DRIZZLE_SLEET_SNOW_FORM:
       if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
-        dry_weather = true;
-      break;
-    case WATER_DRIZZLE_FREEZING_FORM:
-    case WATER_DRIZZLE_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
         dry_weather = true;
       break;
     case DRIZZLE_SLEET_FORM:
     case DRIZZLE_SLEET_FREEZING_FORM:
       if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle &&
           thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet)
-        dry_weather = true;
-      break;
-    case WATER_DRIZZLE_SLEET_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-        dry_weather = true;
-      break;
-    case WATER_SLEET_FREEZING_FORM:
-    case WATER_SLEET_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-        dry_weather = true;
-      break;
-    case WATER_SNOW_FREEZING_FORM:
-    case WATER_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-        dry_weather = true;
-      break;
-    case DRIZZLE_SNOW_FREEZING_FORM:
-    case DRIZZLE_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
-        dry_weather = true;
-      break;
-    case WATER_DRIZZLE_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-        dry_weather = true;
-      break;
-    case WATER_SLEET_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-        dry_weather = true;
-      break;
-    case DRIZZLE_SLEET_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
         dry_weather = true;
       break;
     case SLEET_SNOW_FREEZING_FORM:

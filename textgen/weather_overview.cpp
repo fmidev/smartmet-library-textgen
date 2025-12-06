@@ -1648,13 +1648,6 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
     }
     // Tanaan [sadetta], huomenna [aamulla] poutaa
     case 13:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa";
-      break;
-    }
     // Tanaan [sadetta], huomenna [aamusta alkaen] poutaa
     case 14:
     {

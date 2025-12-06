@@ -2011,21 +2011,13 @@ void temperature_phrase(t36hparams& theParameters,
         case PIKKUPAKKASTA_PHRASE_ID:
         case HIEMAN_LAUHEMPAA_PHRASE_ID:
         case HIEMAN_KYLMEMPAA_PHRASE_ID:
-        {
-          theDayPhasePhrase << YOLLA_PHRASE;
-        }
-        break;
         case HIEMAN_HEIKOMPAA_PHRASE_ID:
         case HIEMAN_KIREAMPAA_PHRASE_ID:
-        {
-          theDayPhasePhrase << YOLLA_PHRASE;
-        }
-        break;
         case LAMPOTILA_NOUSEE_PHRASE_ID:
         {
           theDayPhasePhrase << YOLLA_PHRASE;
+          break;
         }
-        break;
         default:
         {
           if (season_id == SUMMER_SEASON)
@@ -2115,6 +2107,7 @@ void temperature_phrase(t36hparams& theParameters,
         else
         {
           theDayPhasePhrase << ILTAPAIVALLA_PHRASE;
+#if 0          
           if (phrase_id == PIKKUPAKKASTA_PHRASE_ID)
           {
             // theTemperaturePhrase << ON_WORD;
@@ -2123,6 +2116,7 @@ void temperature_phrase(t36hparams& theParameters,
           {
             // no tautology
           }
+#endif
         }
       }
     }

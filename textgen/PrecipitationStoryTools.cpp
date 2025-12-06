@@ -359,10 +359,10 @@ Sentence type_phrase(const AnalysisSources& theSources,
       log << "Rain type is SNOW\n";
       if (has_showers)
       {
-        if (strength.value() < weak_limit)
-          sentence << "lumikuuroja";  // Sopiva prompti "vahaisia lumikuuroja" puuttuu!
-        else if (strength.value() >= hard_limit)
+        if (strength.value() >= hard_limit)
           sentence << "sakeita lumikuuroja";
+        // else if (strength.value() < weak_limit)
+        // sentence << "lumikuuroja";  // Sopiva prompti "vahaisia lumikuuroja" puuttuu!
         else
           sentence << "lumikuuroja";
       }
@@ -387,14 +387,14 @@ Sentence type_phrase(const AnalysisSources& theSources,
 
       if (has_showers)
       {
-        if (strength.value() < weak_limit)
-          sentence << "vesi-"
-                   << "tai"
-                   << "lumikuuroja";
-        else if (strength.value() >= hard_limit)
+        if (strength.value() >= hard_limit)
           sentence << "voimakkaita kuuroja"
                    << "tai"
                    << "sakeita lumikuuroja";
+        // else if (strength.value() < weak_limit)
+        //    sentence << "vesi-"
+        //             << "tai"
+        //             << "lumikuuroja";
         else
           sentence << "vesi-"
                    << "tai"
@@ -422,14 +422,14 @@ Sentence type_phrase(const AnalysisSources& theSources,
       log << "Rain type is SNOW_SLEET\n";
       if (has_showers)
       {
-        if (strength.value() < weak_limit)
-          sentence << "ranta-"
-                   << "tai"
-                   << "lumikuuroja";
-        else if (strength.value() >= hard_limit)
+        if (strength.value() >= hard_limit)
           sentence << "sakeita lumikuuroja"
                    << "tai"
                    << "rantasadetta";
+        // else if (strength.value() < weak_limit)
+        //    sentence << "ranta-"
+        //             << "tai"
+        //             << "lumikuuroja";
         else
           sentence << "ranta-"
                    << "tai"
