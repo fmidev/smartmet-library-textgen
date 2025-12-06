@@ -469,7 +469,7 @@ enum area_specific_sentence_id
 enum precipitation_type
 {
   CONTINUOUS = 1,
-  SHOWERS = 2,
+  SHOWERS,
   MISSING_PRECIPITATION_TYPE
 };
 
