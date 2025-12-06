@@ -690,7 +690,7 @@ WindDirectionId direction_between_id(float theWindDirection)
   else if (theWindDirection > 270.0 && theWindDirection <= 315.0)
     retval = LANSI_LUODE;
   else if (theWindDirection > 315.0 && theWindDirection <= 360.0)
-    retval = LANSI_LUODE;
+    retval = POHJOINEN_LUODE;
 
   return retval;
 }
