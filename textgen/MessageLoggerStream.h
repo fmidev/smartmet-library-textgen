@@ -37,11 +37,6 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   using pos_type = typename CharTraits::pos_type;
   using off_type = typename CharTraits::off_type;
 
-  enum
-  {
-    _BADOFF = -1  // bad offset - for positioning functions
-  };
-
  protected:
   // only for output, not for input
   int_type pbackfail(int_type /*unused*/ = CharTraits::eof()) override
