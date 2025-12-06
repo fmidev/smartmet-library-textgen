@@ -46,32 +46,14 @@ bool is_parameter_valid(int theMonth, int theDay)
 {
   if (theMonth < 1 || theMonth > 12)
     return false;
+  if (theDay < 1)
+    return false;
 
-  bool retval = true;
-
-  switch (theMonth)
-  {
-    case 1:
-    case 3:
-    case 5:
-    case 7:
-    case 8:
-    case 10:
-    case 12:
-      retval = theDay >= 1 && theDay <= 31;
-      break;
-    case 2:
-      retval = theDay >= 1 && theDay <= 29;
-      break;
-    case 4:
-    case 6:
-    case 9:
-    case 11:
-      retval = theDay >= 1 && theDay <= 31;
-      break;
-  }
-
-  return retval;
+  if (theMonth == 2)
+    return theDay <= 29;
+  if (theMonth == 4 || theMonth == 6 || theMonth == 9 || theMonth == 11)
+    return theDay <= 30;
+  return theDay <= 31;
 }
 
 void read_date_variable(const std::string& theVariableName,
