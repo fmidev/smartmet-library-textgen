@@ -74,7 +74,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-const std::string& NullDictionary::find(const std::string& /*theKey*/) const
+std::string NullDictionary::find(const std::string& /*theKey*/) const
 {
   throw Fmi::Exception(BCP, "NullDictionary find is disabled");
 }

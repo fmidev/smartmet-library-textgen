@@ -183,7 +183,7 @@ bool FileDictionary::contains(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionary::find(const std::string& theKey) const
+std::string FileDictionary::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
     throw Fmi::Exception(BCP, "Error: FileDictionary::find() called before init()");

@@ -192,7 +192,7 @@ bool DatabaseDictionaries::contains(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-const std::string& DatabaseDictionaries::find(const std::string& theKey) const
+std::string DatabaseDictionaries::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
     throw Fmi::Exception(BCP, "Error: DatabaseDictionaries::find() called before init()");

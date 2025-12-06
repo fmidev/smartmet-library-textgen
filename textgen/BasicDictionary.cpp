@@ -77,7 +77,7 @@ bool BasicDictionary::contains(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-const std::string& BasicDictionary::find(const std::string& theKey) const
+std::string BasicDictionary::find(const std::string& theKey) const
 {
   auto it = itsData.find(theKey);
   if (it != itsData.end())

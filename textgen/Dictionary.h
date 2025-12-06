@@ -31,7 +31,7 @@ class Dictionary
   virtual void changeLanguage(const std::string& theLanguage) {}
   virtual const std::string& language() const = 0;
   virtual bool contains(const std::string& theKey) const = 0;
-  virtual const std::string& find(const std::string& theKey) const = 0;
+  virtual std::string find(const std::string& theKey) const = 0;
   virtual void insert(const std::string& theKey, const std::string& thePhrase) = 0;
 
   virtual void geoinit(void* theReactor) {}
