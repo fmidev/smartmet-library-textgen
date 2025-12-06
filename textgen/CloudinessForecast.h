@@ -15,29 +15,29 @@ class CloudinessForecast
   ~CloudinessForecast() = default;
   void setCoastalData(const weather_result_data_item_vector* coastalData)
   {
-    theCoastalData = coastalData;
-    findOutCloudinessPeriods(theCoastalData, theCloudinessPeriodsCoastal);
-    joinPeriods(theCoastalData, theCloudinessPeriodsCoastal, theCloudinessPeriodsCoastalJoined);
-    findOutCloudinessWeatherEvents(theCoastalData, theCloudinessWeatherEventsCoastal);
+    itsCoastalData = coastalData;
+    findOutCloudinessPeriods(itsCoastalData, itsCloudinessPeriodsCoastal);
+    joinPeriods(itsCoastalData, itsCloudinessPeriodsCoastal, itsCloudinessPeriodsCoastalJoined);
+    findOutCloudinessWeatherEvents(itsCoastalData, itsCloudinessWeatherEventsCoastal);
   }
   void setInlandData(const weather_result_data_item_vector* inlandData)
   {
-    theInlandData = inlandData;
-    findOutCloudinessPeriods(theInlandData, theCloudinessPeriodsInland);
-    joinPeriods(theInlandData, theCloudinessPeriodsInland, theCloudinessPeriodsInlandJoined);
-    findOutCloudinessWeatherEvents(theInlandData, theCloudinessWeatherEventsInland);
+    itsInlandData = inlandData;
+    findOutCloudinessPeriods(itsInlandData, itsCloudinessPeriodsInland);
+    joinPeriods(itsInlandData, itsCloudinessPeriodsInland, itsCloudinessPeriodsInlandJoined);
+    findOutCloudinessWeatherEvents(itsInlandData, itsCloudinessWeatherEventsInland);
   }
   void setFullData(const weather_result_data_item_vector* fullData)
   {
-    theFullData = fullData;
-    findOutCloudinessPeriods(theFullData, theCloudinessPeriodsFull);
-    joinPeriods(theFullData, theCloudinessPeriodsFull, theCloudinessPeriodsFullJoined);
-    findOutCloudinessWeatherEvents(theFullData, theCloudinessWeatherEventsFull);
+    itsFullData = fullData;
+    findOutCloudinessPeriods(itsFullData, itsCloudinessPeriodsFull);
+    joinPeriods(itsFullData, itsCloudinessPeriodsFull, itsCloudinessPeriodsFullJoined);
+    findOutCloudinessWeatherEvents(itsFullData, itsCloudinessWeatherEventsFull);
   }
 
-  const weather_result_data_item_vector* getCoastalData() const { return theCoastalData; }
-  const weather_result_data_item_vector* getInlandData() const { return theInlandData; }
-  const weather_result_data_item_vector* getFullData() const { return theFullData; }
+  const weather_result_data_item_vector* getCoastalData() const { return itsCoastalData; }
+  const weather_result_data_item_vector* getInlandData() const { return itsInlandData; }
+  const weather_result_data_item_vector* getFullData() const { return itsFullData; }
   Sentence cloudinessSentence(const WeatherPeriod& thePeriod, const bool& theShortForm) const;
   Sentence cloudinessSentence(const WeatherPeriod& thePeriod,
                               const bool& thePoutainenFlag,
@@ -107,26 +107,26 @@ class CloudinessForecast
   void joinPuolipilvisestaPilviseen(const weather_result_data_item_vector* theData,
                                     std::vector<int>& theCloudinessPuolipilvisestaPilviseen) const;
 
-  wf_story_params& theParameters;
-  const weather_result_data_item_vector* theCoastalData = nullptr;
-  const weather_result_data_item_vector* theInlandData = nullptr;
-  const weather_result_data_item_vector* theFullData = nullptr;
+  wf_story_params& itsParameters;
+  const weather_result_data_item_vector* itsCoastalData = nullptr;
+  const weather_result_data_item_vector* itsInlandData = nullptr;
+  const weather_result_data_item_vector* itsFullData = nullptr;
 
-  cloudiness_period_vector theCloudinessPeriodsCoastal;
-  cloudiness_period_vector theCloudinessPeriodsInland;
-  cloudiness_period_vector theCloudinessPeriodsFull;
+  cloudiness_period_vector itsCloudinessPeriodsCoastal;
+  cloudiness_period_vector itsCloudinessPeriodsInland;
+  cloudiness_period_vector itsCloudinessPeriodsFull;
 
-  cloudiness_period_vector theCloudinessPeriodsCoastalJoined;
-  cloudiness_period_vector theCloudinessPeriodsInlandJoined;
-  cloudiness_period_vector theCloudinessPeriodsFullJoined;
+  cloudiness_period_vector itsCloudinessPeriodsCoastalJoined;
+  cloudiness_period_vector itsCloudinessPeriodsInlandJoined;
+  cloudiness_period_vector itsCloudinessPeriodsFullJoined;
 
-  weather_event_id_vector theCloudinessWeatherEventsCoastal;
-  weather_event_id_vector theCloudinessWeatherEventsInland;
-  weather_event_id_vector theCloudinessWeatherEventsFull;
+  weather_event_id_vector itsCloudinessWeatherEventsCoastal;
+  weather_event_id_vector itsCloudinessWeatherEventsInland;
+  weather_event_id_vector itsCloudinessWeatherEventsFull;
 
-  bool theSeparateCoastInlandMorning = false;
-  bool theSeparateCoastInlandAfternoon = false;
-  bool theSeparateMorningAfternoon = false;  // full area
+  bool itsSeparateCoastInlandMorning = false;
+  bool itsSeparateCoastInlandAfternoon = false;
+  bool itsSeparateMorningAfternoon = false;  // full area
 };
 
 std::ostream& operator<<(std::ostream& theOutput,

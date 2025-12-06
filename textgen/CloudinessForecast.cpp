@@ -301,14 +301,14 @@ std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theC
   return theOutput;
 }
 
-CloudinessForecast::CloudinessForecast(wf_story_params& parameters) : theParameters(parameters)
+CloudinessForecast::CloudinessForecast(wf_story_params& parameters) : itsParameters(parameters)
 {
-  if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-    theFullData = ((*theParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA].get());
-  if (theParameters.theForecastArea & COASTAL_AREA)
-    theCoastalData = ((*theParameters.theCompleteData[COASTAL_AREA])[CLOUDINESS_DATA].get());
-  if (theParameters.theForecastArea & INLAND_AREA)
-    theInlandData = ((*theParameters.theCompleteData[INLAND_AREA])[CLOUDINESS_DATA].get());
+  if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
+    itsFullData = ((*itsParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA].get());
+  if (itsParameters.theForecastArea & COASTAL_AREA)
+    itsCoastalData = ((*itsParameters.theCompleteData[COASTAL_AREA])[CLOUDINESS_DATA].get());
+  if (itsParameters.theForecastArea & INLAND_AREA)
+    itsInlandData = ((*itsParameters.theCompleteData[INLAND_AREA])[CLOUDINESS_DATA].get());
 
   findOutCloudinessPeriods();
   joinPeriods();
@@ -320,10 +320,10 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
   Sentence sentence;
 
   const weather_event_id_vector& cloudinessWeatherEvents =
-      ((theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-           ? theCloudinessWeatherEventsFull
-           : ((theParameters.theForecastArea & INLAND_AREA) ? theCloudinessWeatherEventsInland
-                                                            : theCloudinessWeatherEventsCoastal));
+      ((itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
+           ? itsCloudinessWeatherEventsFull
+           : ((itsParameters.theForecastArea & INLAND_AREA) ? itsCloudinessWeatherEventsInland
+                                                            : itsCloudinessWeatherEventsCoastal));
 
   for (const auto& cloudinessWeatherEvent : cloudinessWeatherEvents)
   {
@@ -336,7 +336,7 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
     }
 
     weather_event_id trid(cloudinessWeatherEvent.second);
-    std::string timePhrase(get_time_phrase(weatherEventTimestamp, theParameters.theVariable, true));
+    std::string timePhrase(get_time_phrase(weatherEventTimestamp, itsParameters.theVariable, true));
     if (timePhrase.empty())
       timePhrase = EMPTY_STRING;
 
@@ -369,17 +369,17 @@ float CloudinessForecast::getMeanCloudiness(
 
 bool CloudinessForecast::separateCoastInlandCloudiness(const WeatherPeriod& theWeatherPeriod) const
 {
-  if (theParameters.theCoastalAndInlandTogetherFlag)
+  if (itsParameters.theCoastalAndInlandTogetherFlag)
     return false;
 
   weather_result_data_item_vector theInterestingDataCoastal;
   weather_result_data_item_vector theInterestingDataInland;
 
-  get_sub_time_series(theWeatherPeriod, *theCoastalData, theInterestingDataCoastal);
+  get_sub_time_series(theWeatherPeriod, *itsCoastalData, theInterestingDataCoastal);
 
   float mean_coastal = get_mean(theInterestingDataCoastal);
 
-  get_sub_time_series(theWeatherPeriod, *theInlandData, theInterestingDataInland);
+  get_sub_time_series(theWeatherPeriod, *itsInlandData, theInterestingDataInland);
 
   float mean_inland = get_mean(theInterestingDataInland);
 
@@ -488,12 +488,12 @@ void CloudinessForecast::findOutCloudinessWeatherEvents(
 
 void CloudinessForecast::findOutCloudinessWeatherEvents()
 {
-  if (theCoastalData)
-    findOutCloudinessWeatherEvents(theCoastalData, theCloudinessWeatherEventsCoastal);
-  if (theInlandData)
-    findOutCloudinessWeatherEvents(theInlandData, theCloudinessWeatherEventsInland);
-  if (theFullData)
-    findOutCloudinessWeatherEvents(theFullData, theCloudinessWeatherEventsFull);
+  if (itsCoastalData)
+    findOutCloudinessWeatherEvents(itsCoastalData, itsCloudinessWeatherEventsCoastal);
+  if (itsInlandData)
+    findOutCloudinessWeatherEvents(itsInlandData, itsCloudinessWeatherEventsInland);
+  if (itsFullData)
+    findOutCloudinessWeatherEvents(itsFullData, itsCloudinessWeatherEventsFull);
 }
 
 void CloudinessForecast::findOutCloudinessPeriods(const weather_result_data_item_vector* theData,
@@ -541,9 +541,9 @@ void CloudinessForecast::findOutCloudinessPeriods(const weather_result_data_item
 
 void CloudinessForecast::findOutCloudinessPeriods()
 {
-  findOutCloudinessPeriods(theCoastalData, theCloudinessPeriodsCoastal);
-  findOutCloudinessPeriods(theInlandData, theCloudinessPeriodsInland);
-  findOutCloudinessPeriods(theFullData, theCloudinessPeriodsFull);
+  findOutCloudinessPeriods(itsCoastalData, itsCloudinessPeriodsCoastal);
+  findOutCloudinessPeriods(itsInlandData, itsCloudinessPeriodsInland);
+  findOutCloudinessPeriods(itsFullData, itsCloudinessPeriodsFull);
 }
 
 void CloudinessForecast::joinPuolipilvisestaPilviseen(
@@ -643,28 +643,28 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
 
 void CloudinessForecast::joinPeriods()
 {
-  joinPeriods(theCoastalData, theCloudinessPeriodsCoastal, theCloudinessPeriodsCoastalJoined);
-  joinPeriods(theInlandData, theCloudinessPeriodsInland, theCloudinessPeriodsInlandJoined);
-  joinPeriods(theFullData, theCloudinessPeriodsFull, theCloudinessPeriodsFullJoined);
+  joinPeriods(itsCoastalData, itsCloudinessPeriodsCoastal, itsCloudinessPeriodsCoastalJoined);
+  joinPeriods(itsInlandData, itsCloudinessPeriodsInland, itsCloudinessPeriodsInlandJoined);
+  joinPeriods(itsFullData, itsCloudinessPeriodsFull, itsCloudinessPeriodsFullJoined);
 }
 
 void CloudinessForecast::printOutCloudinessData(std::ostream& theOutput) const
 {
   theOutput << "** CLOUDINESS DATA **\n";
-  if (theCoastalData)
+  if (itsCoastalData)
   {
     theOutput << "Coastal cloudiness: \n";
-    printOutCloudinessData(theOutput, theCoastalData);
+    printOutCloudinessData(theOutput, itsCoastalData);
   }
-  if (theInlandData)
+  if (itsInlandData)
   {
     theOutput << "Inland cloudiness: \n";
-    printOutCloudinessData(theOutput, theInlandData);
+    printOutCloudinessData(theOutput, itsInlandData);
   }
-  if (theFullData)
+  if (itsFullData)
   {
     theOutput << "Full area cloudiness: \n";
-    printOutCloudinessData(theOutput, theFullData);
+    printOutCloudinessData(theOutput, itsFullData);
   }
 }
 
@@ -695,22 +695,22 @@ void CloudinessForecast::printOutCloudinessWeatherEvents(std::ostream& theOutput
 {
   theOutput << "** CLOUDINESS WEATHER EVENTS **\n";
   bool isWeatherEvents = false;
-  if (!theCloudinessWeatherEventsCoastal.empty())
+  if (!itsCloudinessWeatherEventsCoastal.empty())
   {
     theOutput << "Coastal weather events: \n";
-    print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsCoastal);
+    print_out_weather_event_vector(theOutput, itsCloudinessWeatherEventsCoastal);
     isWeatherEvents = true;
   }
-  if (!theCloudinessWeatherEventsInland.empty())
+  if (!itsCloudinessWeatherEventsInland.empty())
   {
     theOutput << "Inland weather events: \n";
-    print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsInland);
+    print_out_weather_event_vector(theOutput, itsCloudinessWeatherEventsInland);
     isWeatherEvents = true;
   }
-  if (!theCloudinessWeatherEventsFull.empty())
+  if (!itsCloudinessWeatherEventsFull.empty())
   {
     theOutput << "Full area weather events: \n";
-    print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsFull);
+    print_out_weather_event_vector(theOutput, itsCloudinessWeatherEventsFull);
     isWeatherEvents = true;
   }
 
@@ -722,32 +722,32 @@ void CloudinessForecast::printOutCloudinessPeriods(std::ostream& theOutput) cons
 {
   theOutput << "** CLOUDINESS PERIODS **\n";
 
-  if (theCoastalData)
+  if (itsCoastalData)
   {
     theOutput << "Coastal cloudiness: \n";
-    printOutCloudinessPeriods(theOutput, theCloudinessPeriodsCoastal);
+    printOutCloudinessPeriods(theOutput, itsCloudinessPeriodsCoastal);
     theOutput << "Coastal cloudiness joined: \n";
-    printOutCloudinessPeriods(theOutput, theCloudinessPeriodsCoastalJoined);
+    printOutCloudinessPeriods(theOutput, itsCloudinessPeriodsCoastalJoined);
     vector<int> theCloudinessPuolipilvisestaPilviseen;
-    joinPuolipilvisestaPilviseen(theCoastalData, theCloudinessPuolipilvisestaPilviseen);
+    joinPuolipilvisestaPilviseen(itsCoastalData, theCloudinessPuolipilvisestaPilviseen);
   }
-  if (theInlandData)
+  if (itsInlandData)
   {
     theOutput << "Inland cloudiness: \n";
-    printOutCloudinessPeriods(theOutput, theCloudinessPeriodsInland);
+    printOutCloudinessPeriods(theOutput, itsCloudinessPeriodsInland);
     theOutput << "Inland cloudiness joined: \n";
-    printOutCloudinessPeriods(theOutput, theCloudinessPeriodsInlandJoined);
+    printOutCloudinessPeriods(theOutput, itsCloudinessPeriodsInlandJoined);
     vector<int> theCloudinessPuolipilvisestaPilviseen;
-    joinPuolipilvisestaPilviseen(theInlandData, theCloudinessPuolipilvisestaPilviseen);
+    joinPuolipilvisestaPilviseen(itsInlandData, theCloudinessPuolipilvisestaPilviseen);
   }
-  if (theFullData)
+  if (itsFullData)
   {
     theOutput << "Full area cloudiness: \n";
-    printOutCloudinessPeriods(theOutput, theCloudinessPeriodsFull);
+    printOutCloudinessPeriods(theOutput, itsCloudinessPeriodsFull);
     theOutput << "Full area cloudiness joined: \n";
-    printOutCloudinessPeriods(theOutput, theCloudinessPeriodsFullJoined);
+    printOutCloudinessPeriods(theOutput, itsCloudinessPeriodsFullJoined);
     vector<int> theCloudinessPuolipilvisestaPilviseen;
-    joinPuolipilvisestaPilviseen(theFullData, theCloudinessPuolipilvisestaPilviseen);
+    joinPuolipilvisestaPilviseen(itsFullData, theCloudinessPuolipilvisestaPilviseen);
   }
 }
 
@@ -806,11 +806,11 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
 
   Sentence cloudinessSentence;
 
-  cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, theCoastalData);
-  cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, theInlandData);
-  cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, theFullData);
+  cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, itsCoastalData);
+  cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, itsInlandData);
+  cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, itsFullData);
 
-  if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
+  if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
   {
     if (separateCoastInlandCloudiness(thePeriod))
     {
@@ -825,11 +825,11 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
       cloudinessSentence << cloudiness_sentence(fullAreaCloudinessId, theShortForm);
     }
   }
-  else if (theParameters.theForecastArea & INLAND_AREA)
+  else if (itsParameters.theForecastArea & INLAND_AREA)
   {
     cloudinessSentence << cloudiness_sentence(inlandCloudinessId, theShortForm);
   }
-  else if (theParameters.theForecastArea & COASTAL_AREA)
+  else if (itsParameters.theForecastArea & COASTAL_AREA)
   {
     cloudinessSentence << cloudiness_sentence(coastalCloudinessId, theShortForm);
   }
@@ -861,11 +861,11 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
 
   Sentence cloudinessSentence;
 
-  cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, theCoastalData);
-  cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, theInlandData);
-  cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, theFullData);
+  cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, itsCoastalData);
+  cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, itsInlandData);
+  cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, itsFullData);
 
-  if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
+  if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
   {
     if (separateCoastInlandCloudiness(thePeriod))
     {
@@ -883,12 +883,12 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
           fullAreaCloudinessId, thePoutainenFlag, thePeriodPhrase, EMPTY_STRING, theShortForm);
     }
   }
-  else if (theParameters.theForecastArea & INLAND_AREA)
+  else if (itsParameters.theForecastArea & INLAND_AREA)
   {
     cloudinessSentence << cloudiness_sentence(
         inlandCloudinessId, thePoutainenFlag, thePeriodPhrase, EMPTY_STRING, theShortForm);
   }
-  else if (theParameters.theForecastArea & COASTAL_AREA)
+  else if (itsParameters.theForecastArea & COASTAL_AREA)
   {
     cloudinessSentence << cloudiness_sentence(
         coastalCloudinessId, thePoutainenFlag, thePeriodPhrase, EMPTY_STRING, theShortForm);
@@ -930,12 +930,12 @@ cloudiness_id CloudinessForecast::getCloudinessId(const WeatherPeriod& thePeriod
 {
   const weather_result_data_item_vector* theCloudinessDataVector = nullptr;
 
-  if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-    theCloudinessDataVector = theFullData;
-  else if (theParameters.theForecastArea & INLAND_AREA)
-    theCloudinessDataVector = theInlandData;
-  else if (theParameters.theForecastArea & COASTAL_AREA)
-    theCloudinessDataVector = theCoastalData;
+  if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
+    theCloudinessDataVector = itsFullData;
+  else if (itsParameters.theForecastArea & INLAND_AREA)
+    theCloudinessDataVector = itsInlandData;
+  else if (itsParameters.theForecastArea & COASTAL_AREA)
+    theCloudinessDataVector = itsCoastalData;
 
   return getCloudinessId(thePeriod, theCloudinessDataVector);
 }
@@ -967,12 +967,12 @@ void CloudinessForecast::getWeatherEventIdVector(
 {
   const weather_event_id_vector* vectorToClone = nullptr;
 
-  if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-    vectorToClone = &theCloudinessWeatherEventsFull;
-  else if (theParameters.theForecastArea & COASTAL_AREA)
-    vectorToClone = &theCloudinessWeatherEventsCoastal;
-  else if (theParameters.theForecastArea & INLAND_AREA)
-    vectorToClone = &theCloudinessWeatherEventsInland;
+  if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
+    vectorToClone = &itsCloudinessWeatherEventsFull;
+  else if (itsParameters.theForecastArea & COASTAL_AREA)
+    vectorToClone = &itsCloudinessWeatherEventsCoastal;
+  else if (itsParameters.theForecastArea & INLAND_AREA)
+    vectorToClone = &itsCloudinessWeatherEventsInland;
 
   if (vectorToClone)
     theCloudinessWeatherEvents = *vectorToClone;
@@ -1030,25 +1030,25 @@ cloudiness_id CloudinessForecast::getCloudinessId(const float& theMin,
   if (theMean == -1)
     return id;
 
-  if (theMin > theParameters.theAlmostClearSkyUpperLimit &&
-      theMin <= theParameters.thePartlyCloudySkyUpperLimit &&
-      theMax > theParameters.theMostlyCloudySkyUpperLimit)
+  if (theMin > itsParameters.theAlmostClearSkyUpperLimit &&
+      theMin <= itsParameters.thePartlyCloudySkyUpperLimit &&
+      theMax > itsParameters.theMostlyCloudySkyUpperLimit)
   {
     id = PUOLIPILVINEN_JA_PILVINEN;
   }
-  else if (theMean <= theParameters.theClearSkyUpperLimit)
+  else if (theMean <= itsParameters.theClearSkyUpperLimit)
   {
     id = SELKEA;
   }
-  else if (theMean <= theParameters.theAlmostClearSkyUpperLimit)
+  else if (theMean <= itsParameters.theAlmostClearSkyUpperLimit)
   {
     id = MELKO_SELKEA;
   }
-  else if (theMean <= theParameters.thePartlyCloudySkyUpperLimit)
+  else if (theMean <= itsParameters.thePartlyCloudySkyUpperLimit)
   {
     id = PUOLIPILVINEN;
   }
-  else if (theMean <= theParameters.theMostlyCloudySkyUpperLimit)
+  else if (theMean <= itsParameters.theMostlyCloudySkyUpperLimit)
   {
     id = VERRATTAIN_PILVINEN;
   }
@@ -1067,19 +1067,19 @@ cloudiness_id CloudinessForecast::getCloudinessId(const float& theCloudiness) co
   if (theCloudiness < 0)
     return id;
 
-  if (theCloudiness <= theParameters.theClearSkyUpperLimit)
+  if (theCloudiness <= itsParameters.theClearSkyUpperLimit)
   {
     id = SELKEA;
   }
-  else if (theCloudiness <= theParameters.theAlmostClearSkyUpperLimit)
+  else if (theCloudiness <= itsParameters.theAlmostClearSkyUpperLimit)
   {
     id = MELKO_SELKEA;
   }
-  else if (theCloudiness <= theParameters.thePartlyCloudySkyUpperLimit)
+  else if (theCloudiness <= itsParameters.thePartlyCloudySkyUpperLimit)
   {
     id = PUOLIPILVINEN;
   }
-  else if (theCloudiness <= theParameters.theMostlyCloudySkyUpperLimit)
+  else if (theCloudiness <= itsParameters.theMostlyCloudySkyUpperLimit)
   {
     id = VERRATTAIN_PILVINEN;
   }
