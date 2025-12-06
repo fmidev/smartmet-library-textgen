@@ -1122,7 +1122,7 @@ void log_weather_forecast_story(MessageLogger& theLog,
   const std::vector<std::shared_ptr<WeatherForecastStoryItem> > storyItemVector =
       theWeatherForecastStory.getStoryItemVector();
 
-  for (auto& i : storyItemVector)
+  for (const auto& i : storyItemVector)
   {
     WeatherForecastStoryItem& storyItem = *i;
 
