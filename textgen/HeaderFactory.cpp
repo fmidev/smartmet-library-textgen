@@ -52,7 +52,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_none(const WeatherPeriod& thePeriod, const string& theVariable)
+TextGen::Header header_none()
 {
   MessageLogger log("header_none");
   using namespace TextGen;
@@ -95,7 +95,8 @@ TextGen::Header header_until_weekday(const TextGenPosixTime& theForecastTime,
   using namespace TextGen;
   Header header;
 
-  header << "odotettavissa" << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
+  header << "odotettavissa"
+         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
   log << header;
   return header;
@@ -502,7 +503,7 @@ Header create(const TextGenPosixTime& theForecastTime,
   const string type = Settings::require_string(theVariable + "::type");
 
   if (type == "none")
-    return header_none(thePeriod, theVariable);
+    return header_none();
   if (type == "until")
     return header_until(theForecastTime, thePeriod);
   if (type == "until_weekday")
