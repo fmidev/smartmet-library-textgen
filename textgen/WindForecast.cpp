@@ -3244,7 +3244,7 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
     if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO)
       return true;
   }
-  else if (id1 == AAMUPAIVA)
+  else if (id1 == AAMUPAIVA || id1 == PAIVA)
   {
     if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU)
       return true;
@@ -3264,11 +3264,6 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
   {
     if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA ||
         id2 == KESKIPAIVA || id2 == ILTAPAIVA)
-      return true;
-  }
-  else if (id1 == PAIVA)
-  {
-    if (id2 == KESKIYO || id2 == YO || id2 == AAMUYO || id2 == AAMU)
       return true;
   }
 
@@ -3293,9 +3288,9 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePerio
 
     if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
     {
-      if (timePhraseInfo.starttime.GetDay() != intervalInfo.peakWindTime.GetDay())
-        timePhraseInfo = tpi;
-      else if (is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
+      bool different_days =
+          (timePhraseInfo.starttime.GetDay() != intervalInfo.peakWindTime.GetDay());
+      if (different_days || is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
         timePhraseInfo = tpi;
       else
         timePhrase.clear();
@@ -3327,9 +3322,9 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
 
     if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
     {
-      if (timePhraseInfo.starttime.GetDay() != intervalInfo.peakWindTime.GetDay())
-        timePhraseInfo = tpi;
-      else if (is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
+      bool different_days =
+          (timePhraseInfo.starttime.GetDay() != intervalInfo.peakWindTime.GetDay());
+      if (different_days || is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
         timePhraseInfo = tpi;
       else
         timePhrase.clear();

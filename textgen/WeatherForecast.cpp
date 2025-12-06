@@ -915,66 +915,14 @@ Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
            is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
   {
     if (theSpecifyDayFlag)
-    {
       oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";
-    }
     else
-    {
       oss << YOLLA_WORD;
-    }
+
     sentence << oss.str();
     thePhraseString = oss.str();
     thePartOfTheDay = YO;
   }
-  /*
-  else if (is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO))
-  {
-    if (theSpecifyDayFlag)
-    {
-      if (theWeatherPeriod.localStartTime().GetHour() >= 23)
-      {
-        if (theSpecifyDayFlag) oss << weekday << "-";
-        oss << KESKIYOLLA_WORD;
-
-        thePhraseString = oss.str();
-        sentence << oss.str();
-      }
-      else
-      {
-        // iltayo
-        if (theSpecifyDayFlag) oss << weekday << "-";
-        oss << ILTAYOLLA_WORD;
-
-        thePhraseString = oss.str();
-        sentence << oss.str();
-      }
-    }
-    else
-    {
-      oss << ILTAYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << KESKIYOLLA_WORD;
-      sentence << oss.str();
-      thePhraseString = oss.str();
-    }
-  }
-  else if (is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
-  {
-    if (theSpecifyDayFlag)
-    {
-      oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";
-      sentence << oss.str();
-      thePhraseString = oss.str();
-    }
-    else
-    {
-      thePhraseString = KESKIYOLLA_WORD;
-      thePhraseString += SPACE_STRING;
-      thePhraseString += JA_WORD;
-      thePhraseString += SPACE_STRING;
-      thePhraseString += AAMUYOLLA_WORD;
-      sentence << thePhraseString;
-    }
-  }
-  */
   else if (is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
   {
     if (theSpecifyDayFlag)
@@ -990,13 +938,10 @@ Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
   else if (is_inside(theWeatherPeriod, YO))
   {
     if (theSpecifyDayFlag)
-    {
       oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";
-    }
     else
-    {
       oss << YOLLA_WORD;
-    }
+
     sentence << oss.str();
     thePhraseString = oss.str();
     thePartOfTheDay = YO;

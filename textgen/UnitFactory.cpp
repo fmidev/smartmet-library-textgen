@@ -414,14 +414,12 @@ std::shared_ptr<TextGen::Sentence> meters(int value, bool withoutNumber = false)
   {
     if (withoutNumber)
     {
-      if (value == 0)
-        *sentence << "metria";
-      else if (value == 1)
+      if (value == 1)
         *sentence << "metri";
       else if (abs(value) % 10 == 1 && abs(value) != 11)
         *sentence << "metri (mod 10=1)";
       else
-        *sentence << "metria";
+        *sentence << "metria";  // including 0 m
     }
     else
     {
