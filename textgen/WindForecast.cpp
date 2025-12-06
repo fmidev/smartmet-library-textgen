@@ -19,8 +19,7 @@
 
 namespace TextGen
 {
-namespace WindForecastPhrases
-{
+
 #define USE_AT_ITS_STRONGEST_PHRASE true
 #define DONT_USE_AT_ITS_STRONGEST_PHRASE false
 #define USE_ALKAEN_PHRASE true
@@ -209,10 +208,6 @@ namespace WindForecastPhrases
   "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
 #define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
   "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
-
-}  // namespace WindForecastPhrases
-
-using namespace WindForecastPhrases;
 
 part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
 
