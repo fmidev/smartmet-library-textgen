@@ -1327,7 +1327,7 @@ WeatherResult mode_wind_direction(const AnalysisSources& theSources,
 
   std::sort(directionDistribution.begin(), directionDistribution.end(), wind_direction_item_sort);
 
-  return WeatherResult(calculate_wind_direction_from_distribution(directionDistribution), error);
+  return {calculate_wind_direction_from_distribution(directionDistribution), error};
 }
 
 }  // namespace WindStoryTools

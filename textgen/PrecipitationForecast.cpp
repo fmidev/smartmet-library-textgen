@@ -3131,7 +3131,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
 
   if (heavyIndex >= 0)
     return mergedHeavyPrecipitationPeriods[heavyIndex];
-  return WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime());
+  return {thePeriod.localStartTime(), thePeriod.localStartTime()};
 }
 
 void PrecipitationForecast::calculatePrecipitationParameters(
@@ -4273,13 +4273,13 @@ Rect PrecipitationForecast::getPrecipitationRect(const TextGenPosixTime& theTime
               precipitationlimits,
               indexMask);
 
-  return Rect(theParameters.theSources, Precipitation, indexMask);
+  return {theParameters.theSources, Precipitation, indexMask};
 }
 
 direction_id PrecipitationForecast::getPrecipitationLeavingDirection(
     const WeatherPeriod& thePeriod) const
 {
-  direction_id retval(NO_DIRECTION);
+  direction_id retval = NO_DIRECTION;
 
   TextGenPosixTime startTime(thePeriod.localEndTime());
   TextGenPosixTime endTime(thePeriod.localEndTime());
@@ -4287,8 +4287,8 @@ direction_id PrecipitationForecast::getPrecipitationLeavingDirection(
   startTime.ChangeByHours(1);
   WeatherPeriod checkPeriod(startTime, endTime);
 
-  unsigned int startIndex;
-  unsigned int endIndex;
+  unsigned int startIndex = 0;
+  unsigned int endIndex = 0;
   weather_result_data_item_vector* northeast_data =
       get_data_vector(theParameters, PRECIPITATION_NORTHEAST_SHARE_DATA);
   weather_result_data_item_vector* southeast_data =

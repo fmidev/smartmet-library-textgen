@@ -597,7 +597,7 @@ NFmiPoint Rect::getCenter() const
   double xCoord = m_topLeft.X() + (m_bottomRight.X() - m_topLeft.X()) / 2.0;
   double yCoord = m_bottomRight.Y() + (m_topLeft.Y() - m_bottomRight.Y()) / 2.0;
 
-  return NFmiPoint(xCoord, yCoord);
+  return {xCoord, yCoord};
 }
 
 }  // namespace AreaTools

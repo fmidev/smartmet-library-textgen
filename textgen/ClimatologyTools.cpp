@@ -52,7 +52,7 @@ WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
   TextGenPosixTime t2 = thePeriod.localEndTime();
   t1.SetYear(year);
   t2.SetYear(year);
-  return WeatherPeriod(t1, t2);
+  return {t1, t2};
 }
 
 }  // namespace ClimatologyTools

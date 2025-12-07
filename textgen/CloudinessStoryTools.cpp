@@ -118,13 +118,13 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
       switch (theType2)
       {
         case Cloudy:
-          return CommonCloudiness(Cloudy, true);
+          return {Cloudy, true};
         case MostlyCloudy:
-          return CommonCloudiness(MostlyCloudy, true);
+          return {MostlyCloudy, true};
         case CloudyOrPartlyCloudy:
         case MostlyPartlyCloudy:
         case PartlyCloudy:
-          return CommonCloudiness(CloudyOrPartlyCloudy, true);
+          return {CloudyOrPartlyCloudy, true};
         case Clear:
         case MostlyClear:
         case ClearOrPartlyCloudy:
@@ -142,9 +142,9 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case Cloudy:
         case MostlyCloudy:
-          return CommonCloudiness(IncreasingCloudiness, true);
+          return {IncreasingCloudiness, true};
         case VariableCloudiness:
-          return CommonCloudiness(VariableCloudiness, true);
+          return {VariableCloudiness, true};
         case PartlyCloudy:
         case Clear:
         case MostlyPartlyCloudy:
@@ -162,11 +162,11 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
       {
         case MostlyCloudy:
         case Cloudy:
-          return CommonCloudiness(MostlyCloudy, true);
+          return {MostlyCloudy, true};
         case CloudyOrPartlyCloudy:
         case MostlyPartlyCloudy:
         case PartlyCloudy:
-          return CommonCloudiness(CloudyOrPartlyCloudy, true);
+          return {CloudyOrPartlyCloudy, true};
         case Clear:
         case MostlyClear:
         case ClearOrPartlyCloudy:
@@ -186,10 +186,10 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case MostlyCloudy:
         case MostlyPartlyCloudy:
         case PartlyCloudy:
-          return CommonCloudiness(CloudyOrPartlyCloudy, true);
+          return {CloudyOrPartlyCloudy, true};
         case VariableCloudiness:
         case ClearOrPartlyCloudy:
-          return CommonCloudiness(VariableCloudiness, true);
+          return {VariableCloudiness, true};
         case Clear:
         case MostlyClear:
         case DecreasingCloudiness:
@@ -204,17 +204,17 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
       {
         case MostlyPartlyCloudy:
         case PartlyCloudy:
-          return CommonCloudiness(MostlyPartlyCloudy, true);
+          return {MostlyPartlyCloudy, true};
         case Cloudy:
         case MostlyCloudy:
-          return CommonCloudiness(CloudyOrPartlyCloudy, true);
+          return {CloudyOrPartlyCloudy, true};
         case CloudyOrPartlyCloudy:
         case VariableCloudiness:
-          return CommonCloudiness(VariableCloudiness, true);
+          return {VariableCloudiness, true};
         case ClearOrPartlyCloudy:
         case MostlyClear:
         case Clear:
-          return CommonCloudiness(ClearOrPartlyCloudy, true);
+          return {ClearOrPartlyCloudy, true};
         case DecreasingCloudiness:
         case IncreasingCloudiness:
         default:
@@ -232,7 +232,7 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case MostlyPartlyCloudy:
         case PartlyCloudy:
         case ClearOrPartlyCloudy:
-          return CommonCloudiness(VariableCloudiness, true);
+          return {VariableCloudiness, true};
         case Cloudy:
         case Clear:
         case MostlyClear:
@@ -246,19 +246,19 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
       switch (theType2)
       {
         case PartlyCloudy:
-          return CommonCloudiness(PartlyCloudy, true);
+          return {PartlyCloudy, true};
         case Cloudy:
         case MostlyCloudy:
         case CloudyOrPartlyCloudy:
-          return CommonCloudiness(CloudyOrPartlyCloudy, true);
+          return {CloudyOrPartlyCloudy, true};
         case MostlyPartlyCloudy:
-          return CommonCloudiness(MostlyPartlyCloudy, true);
+          return {MostlyPartlyCloudy, true};
         case VariableCloudiness:
-          return CommonCloudiness(VariableCloudiness, true);
+          return {VariableCloudiness, true};
         case ClearOrPartlyCloudy:
         case MostlyClear:
         case Clear:
-          return CommonCloudiness(ClearOrPartlyCloudy, true);
+          return {ClearOrPartlyCloudy, true};
         case DecreasingCloudiness:
         case IncreasingCloudiness:
         default:
@@ -274,11 +274,11 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case PartlyCloudy:
         case MostlyClear:
         case Clear:
-          return CommonCloudiness(ClearOrPartlyCloudy, true);
+          return {ClearOrPartlyCloudy, true};
         case MostlyCloudy:
         case CloudyOrPartlyCloudy:
         case VariableCloudiness:
-          return CommonCloudiness(VariableCloudiness, true);
+          return {VariableCloudiness, true};
         case Cloudy:
         case DecreasingCloudiness:
         case IncreasingCloudiness:
@@ -292,11 +292,11 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
       {
         case MostlyClear:
         case Clear:
-          return CommonCloudiness(MostlyClear, true);
+          return {MostlyClear, true};
         case MostlyPartlyCloudy:
         case PartlyCloudy:
         case ClearOrPartlyCloudy:
-          return CommonCloudiness(ClearOrPartlyCloudy, true);
+          return {ClearOrPartlyCloudy, true};
         case Cloudy:
         case MostlyCloudy:
         case CloudyOrPartlyCloudy:
@@ -314,7 +314,7 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case MostlyClear:
         case Clear:
-          return CommonCloudiness(DecreasingCloudiness, true);
+          return {DecreasingCloudiness, true};
         case Cloudy:
         case PartlyCloudy:
         case MostlyCloudy:
@@ -332,13 +332,13 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
       switch (theType2)
       {
         case Clear:
-          return CommonCloudiness(Clear, true);
+          return {Clear, true};
         case MostlyPartlyCloudy:
         case PartlyCloudy:
         case ClearOrPartlyCloudy:
-          return CommonCloudiness(ClearOrPartlyCloudy, true);
+          return {ClearOrPartlyCloudy, true};
         case MostlyClear:
-          return CommonCloudiness(MostlyClear, true);
+          return {MostlyClear, true};
         case CloudyOrPartlyCloudy:
         case Cloudy:
         case MostlyCloudy:
@@ -396,11 +396,11 @@ CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes,
 {
   // handle zero types case
   if (theTypes.empty() || theEnd < theStart)
-    return CommonCloudiness(VariableCloudiness, false);
+    return {VariableCloudiness, false};
 
   // handle a single type case
   if (theStart == theEnd)
-    return CommonCloudiness(theTypes[theStart], true);
+    return {theTypes[theStart], true};
 
   // handle two type case
   if (theEnd == theStart + 1)
@@ -414,7 +414,7 @@ CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes,
   {
     CommonCloudiness tmp = similar_type(theTypes[i], theTypes[i + 1]);
     if (!tmp.second)
-      return CommonCloudiness(VariableCloudiness, false);
+      return {VariableCloudiness, false};
     similar_types.push_back(tmp.first);
   }
 

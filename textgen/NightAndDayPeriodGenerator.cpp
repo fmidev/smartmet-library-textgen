@@ -166,7 +166,7 @@ NightAndDayPeriodGenerator::size_type NightAndDayPeriodGenerator::size() const
 
 WeatherPeriod NightAndDayPeriodGenerator::period() const
 {
-  return WeatherPeriod(itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime());
+  return {itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime()};
 }
 
 // ----------------------------------------------------------------------

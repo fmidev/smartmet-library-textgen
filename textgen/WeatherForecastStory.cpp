@@ -1168,7 +1168,7 @@ WeatherPeriod get_part_of_day_period(const TextGenPosixTime& t, const std::strin
     endtime.ChangeByDays(1);
   }
 
-  return WeatherPeriod(starttime, endtime);
+  return {starttime, endtime};
 }
 
 int get_day_number(part_of_the_day_id id, const WeatherPeriod& period, std::string& dayNumber)

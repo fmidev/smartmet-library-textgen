@@ -547,7 +547,7 @@ WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
 {
   if (theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localStartTime() ||
       theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localEndTime())
-    return WeatherPeriod(TextGenPosixTime(1970, 1, 1), TextGenPosixTime(1970, 1, 1));
+    return {TextGenPosixTime(1970, 1, 1), TextGenPosixTime(1970, 1, 1)};
 
   if (is_inside(theWeatherPeriod1.localStartTime(), theWeatherPeriod2) &&
       is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2))
@@ -564,7 +564,7 @@ WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
                                ? theWeatherPeriod1.localEndTime()
                                : theWeatherPeriod2.localEndTime());
 
-  return WeatherPeriod(startTime, endTime);
+  return {startTime, endTime};
 }
 
 WeatherPeriod get_period_for_id(part_of_the_day_id& id, const WeatherPeriod& thePeriod)

@@ -491,7 +491,7 @@ WeatherPeriod get_afternoon_period(const string& theVar, const TextGenPosixTime&
   TextGenPosixTime time1(year, month, day, afternoon_starthour, 0, 0);
   TextGenPosixTime time2(year, month, day, afternoon_endhour, 0, 0);
 
-  return WeatherPeriod(time1, time2);
+  return {time1, time2};
 }
 
 // ----------------------------------------------------------------------
@@ -784,20 +784,20 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
   if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
   {
     if (theFractileId == FRACTILE_02)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F02"), 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F02"), 0};
     if (theFractileId == FRACTILE_12)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F12"), 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F12"), 0};
     if (theFractileId == FRACTILE_37)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F37"), 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F37"), 0};
     if (theFractileId == FRACTILE_50)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F50"), 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F50"), 0};
     if (theFractileId == FRACTILE_63)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F63"), 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F63"), 0};
     if (theFractileId == FRACTILE_88)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F88"), 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F88"), 0};
     if (theFractileId == FRACTILE_98)
-      return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F98"), 0);
-    return WeatherResult(kFloatMissing, 0);
+      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F98"), 0};
+    return {kFloatMissing, 0};
   }
 
   std::string dataName("textgen::fractiles");

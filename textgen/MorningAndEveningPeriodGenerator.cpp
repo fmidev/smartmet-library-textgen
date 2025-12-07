@@ -245,7 +245,7 @@ MorningAndEveningPeriodGenerator::size_type MorningAndEveningPeriodGenerator::si
 
 WeatherPeriod MorningAndEveningPeriodGenerator::period() const
 {
-  return WeatherPeriod(itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime());
+  return {itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime()};
 }
 
 // ----------------------------------------------------------------------

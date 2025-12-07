@@ -39,7 +39,7 @@ class WeatherForecastStoryItem
   Sentence getSentence();
   // if periods are merged this must be overwritten
   virtual WeatherPeriod getStoryItemPeriod() const;
-  virtual Sentence getStoryItemSentence() { return Sentence(); }
+  virtual Sentence getStoryItemSentence() { return {}; }
   unsigned int getPeriodLength() const;
   int forecastPeriodLength() const;
   int storyItemPeriodLength() const;
