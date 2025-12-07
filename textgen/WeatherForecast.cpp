@@ -1195,7 +1195,7 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
   }
   else
   {
-    const char* which_day = "";
+    const char* which_day = nullptr;
     if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
       which_day = "today";
     else
