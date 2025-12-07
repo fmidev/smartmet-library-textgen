@@ -271,10 +271,10 @@ class PrecipitationForecast
 
   mutable bool theUseOllaVerbFlag = false;
   mutable bool theDryPeriodTautologyFlag = false;
-  mutable bool theSinglePrecipitationFormFlag = false;
-  mutable precipitation_form_id thePrecipitationFormBeforeDryPeriod;
-  mutable precipitation_type theCheckHeavyIntensityFlag;
-  mutable bool theUseIcingPhraseFlag = false;
+  mutable bool theSinglePrecipitationFormFlag = true;
+  mutable precipitation_form_id thePrecipitationFormBeforeDryPeriod = MISSING_PRECIPITATION_FORM;
+  mutable precipitation_type theCheckHeavyIntensityFlag = MISSING_PRECIPITATION_TYPE;
+  mutable bool theUseIcingPhraseFlag = true;
 };
 
 }  // namespace TextGen

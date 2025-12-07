@@ -500,21 +500,7 @@ struct t36hparams
         theWeatherPeriod(weatherPeriod),
         theWeatherArea(weatherArea),
         theAnalysisSources(analysisSources),
-        theWeatherResults(weatherResults),
-        theForecastAreaId(NO_AREA),
-        theForecastPeriodId(NO_PERIOD),
-        theSubPeriodId(UNDEFINED_SUBPERIOD),
-        theMaxTemperatureDay1(kFloatMissing),
-        theMeanTemperatureDay1(kFloatMissing),
-        theMinimum(kFloatMissing),
-        theMaximum(kFloatMissing),
-        theMean(kFloatMissing),
-        theRangeSeparator("..."),
-        theMinInterval(2),
-        theTemperaturePhraseId(NO_PHRASE_ID),
-        theDayAndNightSeparationFlag(true),
-        theFullDayFlag(true),
-        theUseLongPhrase(true)
+        theWeatherResults(weatherResults)
   {
   }
 
@@ -522,8 +508,8 @@ struct t36hparams
   MessageLogger& theLog;
   const NightAndDayPeriodGenerator& theGenerator;
   forecast_season_id& theSeasonId;
-  unsigned short theForecastArea;
-  unsigned short theForecastPeriod;
+  unsigned short theForecastArea = 0;
+  unsigned short theForecastPeriod = 0;
   const TextGenPosixTime& theForecastTime;
   const WeatherPeriod& theFullPeriod;
   WeatherPeriod& theWeatherPeriod;
@@ -531,33 +517,33 @@ struct t36hparams
   const AnalysisSources& theAnalysisSources;
   weather_result_container_type& theWeatherResults;
   bool theCoastalAndInlandTogetherFlag = false;
-  forecast_area_id theForecastAreaId;
-  forecast_period_id theForecastPeriodId;
-  forecast_subperiod_id theSubPeriodId;
+  forecast_area_id theForecastAreaId = NO_AREA;
+  forecast_period_id theForecastPeriodId = NO_PERIOD;
+  forecast_subperiod_id theSubPeriodId = UNDEFINED_SUBPERIOD;
   unsigned short theForecastAreaDay1 = 0;
   unsigned short theForecastAreaNight = 0;
   unsigned short theForecastAreaDay2 = 0;
   unsigned short theForecastSubPeriod = 0;
-  double theMaxTemperatureDay1 = 0;
-  double theMeanTemperatureDay1 = 0;
-  double theMinimum = 0;
-  double theMaximum = 0;
-  double theMean = 0;
+  double theMaxTemperatureDay1 = kFloatMissing;
+  double theMeanTemperatureDay1 = kFloatMissing;
+  double theMinimum = kFloatMissing;
+  double theMaximum = kFloatMissing;
+  double theMean = kFloatMissing;
   bool theNightPeriodTautologyFlag = false;
   bool theDayPeriodTautologyFlag = false;
   bool theTomorrowTautologyFlag = false;
   bool theOnCoastalAreaTautologyFlag = false;
   bool theOnInlandAreaTautologyFlag = false;
   bool theFrostExistsTautologyFlag = false;
-  string theRangeSeparator;
-  int theMinInterval = 0;
+  string theRangeSeparator = "...";
+  int theMinInterval = 2;
   bool theZeroIntervalFlag = false;
-  temperature_phrase_id theTemperaturePhraseId;
-  bool theDayAndNightSeparationFlag = false;
+  temperature_phrase_id theTemperaturePhraseId = NO_PHRASE_ID;
+  bool theDayAndNightSeparationFlag = true;
   Paragraph theOptionalFrostParagraph;
   bool theUseFrostExistsPhrase = false;
-  bool theFullDayFlag = false;
-  bool theUseLongPhrase = false;
+  bool theFullDayFlag = true;
+  bool theUseLongPhrase = true;
   bool theAddCommaDelimiterFlag = false;
   Sentence theSentenceUnderConstruction;
 

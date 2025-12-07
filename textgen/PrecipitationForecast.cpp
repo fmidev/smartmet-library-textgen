@@ -4515,11 +4515,7 @@ const precipitation_data_vector& PrecipitationForecast::getPrecipitationDataVect
 }
 
 PrecipitationForecast::PrecipitationForecast(wf_story_params& parameters)
-    : theParameters(parameters),
-      theSinglePrecipitationFormFlag(true),
-      thePrecipitationFormBeforeDryPeriod(MISSING_PRECIPITATION_FORM),
-      theCheckHeavyIntensityFlag(MISSING_PRECIPITATION_TYPE),
-      theUseIcingPhraseFlag(true)
+    : theParameters(parameters)
 {
   gatherPrecipitationData();
   findOutPrecipitationPeriods();
