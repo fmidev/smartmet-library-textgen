@@ -944,7 +944,7 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
   }
 
   // Make sure that there is enough values (coverage) inside the interval
-  int lower_index = static_cast<int>(round(upperLimit));
+  int lower_index = std::lround(upperLimit);
   if (lower_index >= static_cast<int>(windSpeedDistributionVector.size()))
     lower_index = windSpeedDistributionVector.size() - 1;
 
@@ -2363,8 +2363,8 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
         if (((direction1.value() > direction2.value() && direction2.value() > direction3.value()) ||
              (direction1.value() < direction2.value() &&
               direction2.value() < direction3.value())) &&
-            fabs(direction3.value() - direction1.value()) >= 90.0 &&
-            fabs(direction3.value() - direction1.value()) < 180)
+            std::abs(direction3.value() - direction1.value()) >= 90.0 &&
+            std::abs(direction3.value() - direction1.value()) < 180)
         {
           *(directionChanges[i + 1]) = WindDirectionInfo();  // reset
         }
@@ -3135,10 +3135,10 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
                                                bool& gradualChange,
                                                bool& fastChange) const
 {
-  float begLowerLimit(kFloatMissing);
-  float begUpperLimit(kFloatMissing);
-  float endLowerLimit(kFloatMissing);
-  float endUpperLimit(kFloatMissing);
+  float begLowerLimit = kFloatMissing;
+  float begUpperLimit = kFloatMissing;
+  float endLowerLimit = kFloatMissing;
+  float endUpperLimit = kFloatMissing;
 
   smallChange = gradualChange = fastChange = false;
 
@@ -3156,10 +3156,10 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
     return false;
   }
 
-  begLowerLimit = round(begLowerLimit);
-  begUpperLimit = round(begUpperLimit);
-  endLowerLimit = round(endLowerLimit);
-  endUpperLimit = round(endUpperLimit);
+  begLowerLimit = std::round(begLowerLimit);
+  begUpperLimit = std::round(begUpperLimit);
+  endLowerLimit = std::round(endLowerLimit);
+  endUpperLimit = std::round(endUpperLimit);
 
   float changeThreshold(5.0);
   int periodLength(get_period_length(changePeriod));
@@ -3191,16 +3191,16 @@ interval_info WindForecast::windSpeedIntervalInfo(const WeatherPeriod& thePeriod
 {
   interval_info ret;
 
-  float intervalLowerLimit(kFloatMissing);
-  float intervalUpperLimit(kFloatMissing);
+  float intervalLowerLimit = kFloatMissing;
+  float intervalUpperLimit = kFloatMissing;
 
   get_wind_speed_interval(
       thePeriod, theParameters, intervalLowerLimit, intervalUpperLimit, ret.peakWindTime);
 
   ret.startTime = thePeriod.localStartTime();
   ret.endTime = thePeriod.localEndTime();
-  ret.lowerLimit = round(intervalLowerLimit);
-  ret.upperLimit = round(intervalUpperLimit);
+  ret.lowerLimit = std::round(intervalLowerLimit);
+  ret.upperLimit = std::round(intervalUpperLimit);
 
   /*
   theParameters.theLog << " rounded interval: " << ret.lowerLimit << "..." << ret.upperLimit
