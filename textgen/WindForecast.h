@@ -10,8 +10,8 @@ namespace TextGen
 struct WindDirectionPeriodInfo
 {
   WindDirectionPeriodInfo() : period(TextGenPosixTime(), TextGenPosixTime()) {}
-  WindDirectionPeriodInfo(WeatherPeriod p, const WindDirectionInfo& i)
-      : period(std::move(p)), info(i)
+  WindDirectionPeriodInfo(WeatherPeriod p, WindDirectionInfo i)
+      : period(std::move(p)), info(std::move(i))
   {
   }
   WeatherPeriod period;

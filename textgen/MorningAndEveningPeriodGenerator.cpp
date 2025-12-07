@@ -89,9 +89,9 @@ MorningAndEveningPeriodGenerator::MorningAndEveningPeriodGenerator(WeatherPeriod
  */
 // ----------------------------------------------------------------------
 
-MorningAndEveningPeriodGenerator::MorningAndEveningPeriodGenerator(
-    const WeatherPeriod& theMainPeriod, const string& theVariable)
-    : itsMainPeriod(theMainPeriod),
+MorningAndEveningPeriodGenerator::MorningAndEveningPeriodGenerator(WeatherPeriod theMainPeriod,
+                                                                   const string& theVariable)
+    : itsMainPeriod(std::move(theMainPeriod)),
       itsMorningStartHour(Settings::require_hour(theVariable + "::morning::starthour")),
       itsDayStartHour(Settings::require_hour(theVariable + "::day::starthour")),
       itsEveningStartHour(Settings::require_hour(theVariable + "::evening::starthour")),

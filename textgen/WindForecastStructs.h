@@ -241,9 +241,8 @@ struct WindSpeedPeriodDataItem
 
 struct WindDirectionPeriodDataItem
 {
-  WindDirectionPeriodDataItem(const WeatherPeriod& period,
-                              WindStoryTools::WindDirectionId windDirection)
-      : thePeriod(period), theWindDirection(windDirection)
+  WindDirectionPeriodDataItem(WeatherPeriod period, WindStoryTools::WindDirectionId windDirection)
+      : thePeriod(std::move(period)), theWindDirection(windDirection)
   {
   }
   WeatherPeriod thePeriod;
@@ -286,8 +285,8 @@ struct WindDirectionInfo
 
   {
   }
-  WindDirectionInfo(const WeatherPeriod& p, const WeatherResult& d, WindDirectionId i)
-      : period(p), direction(d), id(i)
+  WindDirectionInfo(WeatherPeriod p, const WeatherResult& d, WindDirectionId i)
+      : period(std::move(p)), direction(d), id(i)
   {
   }
 

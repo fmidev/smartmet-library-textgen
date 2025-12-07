@@ -33,8 +33,7 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
                                    int theEveningMaxStartHour,
                                    int theNightMaxStartHour);
 
-  MorningAndEveningPeriodGenerator(const WeatherPeriod& theMainPeriod,
-                                   const std::string& theVariable);
+  MorningAndEveningPeriodGenerator(WeatherPeriod theMainPeriod, const std::string& theVariable);
 
   ~MorningAndEveningPeriodGenerator() override = default;
   bool undivided() const override;
