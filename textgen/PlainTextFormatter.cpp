@@ -214,7 +214,7 @@ string PlainTextFormatter::visit(const StoryTag& theStory) const
 
 string PlainTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "plain");
+  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "plain");
 }
 
 // ----------------------------------------------------------------------

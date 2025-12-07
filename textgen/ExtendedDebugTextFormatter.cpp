@@ -198,7 +198,7 @@ string ExtendedDebugTextFormatter::visit(const StoryTag& theStory) const
 
 string ExtendedDebugTextFormatter::visit(const WeatherTime& theTime) const
 {
-  auto txt = TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "debug");
+  auto txt = TextFormatterTools::format_time(theTime.time(), itsStoryVar, "debug");
   return "<time var=\"" + txt + "\"</time>";
 }
 

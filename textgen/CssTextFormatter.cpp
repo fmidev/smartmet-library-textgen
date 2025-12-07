@@ -344,7 +344,7 @@ string CssTextFormatter::visit(const StoryTag& theStory) const
 
 string CssTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "css");
+  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "css");
 }
 
 // ----------------------------------------------------------------------

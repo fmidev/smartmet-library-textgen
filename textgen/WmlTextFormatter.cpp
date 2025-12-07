@@ -232,7 +232,7 @@ string WmlTextFormatter::visit(const StoryTag& theStory) const
 
 string WmlTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "wml");
+  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "wml");
 }
 
 // ----------------------------------------------------------------------

@@ -221,7 +221,7 @@ string SpeechTextFormatter::visit(const StoryTag& theStory) const
 
 string SpeechTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "speech");
+  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "speech");
 }
 
 // ----------------------------------------------------------------------

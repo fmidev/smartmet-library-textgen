@@ -29,8 +29,7 @@ class WeatherTime : public Glyph
   std::string realize(const Dictionary& theDictionary) const override;
   std::string realize(const TextFormatter& theFormatter) const override;
   bool isDelimiter() const override;
-
-  inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
+  const TextGenPosixTime& time() const { return itsTime; }
 
  private:
   TextGenPosixTime itsTime;

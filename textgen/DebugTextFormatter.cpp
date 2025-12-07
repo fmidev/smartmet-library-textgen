@@ -200,7 +200,7 @@ string DebugTextFormatter::visit(const StoryTag& theStory) const
 
 string DebugTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "debug");
+  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "debug");
 }
 
 // ----------------------------------------------------------------------

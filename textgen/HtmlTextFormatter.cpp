@@ -244,7 +244,7 @@ string HtmlTextFormatter::visit(const StoryTag& theStory) const
 
 string HtmlTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "html");
+  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "html");
 }
 
 // ----------------------------------------------------------------------
