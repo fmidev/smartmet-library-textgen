@@ -1304,7 +1304,7 @@ temperature_phrase_id around_zero_phrase(const t36hparams& theParameters)
 bool separate_day_and_night(const t36hparams& theParameters, forecast_area_id theForecastAreaId)
 {
   // Shorthand alias to make code more readable
-  auto& p = theParameters;
+  const auto& p = theParameters;
 
   // if only one day or one night is included ==> nothing to separate
   if (p.theForecastPeriod == DAY1_PERIOD || p.theForecastPeriod == NIGHT_PERIOD ||
