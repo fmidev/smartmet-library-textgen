@@ -2219,7 +2219,7 @@ void PrecipitationForecast::findOutPrecipitationPeriods(forecast_area_id theArea
         if (periodStartIndex == 0)
           startTime.SetDate(1970, 1, 1);  // precipitation starts before forecast period
         TextGenPosixTime endTime((*dataSourceVector)[i - 1]->theObservationTime);
-        dataDestinationVector->push_back(WeatherPeriod(startTime, endTime));
+        dataDestinationVector->emplace_back(startTime, endTime);
       }
       periodStartIndex = i;
     }
