@@ -480,272 +480,141 @@ std::string to_string(const GlyphContainer& gc)
 
 std::string weather_result_string(const std::string& areaName, weather_result_id id, bool isWinter)
 {
-  std::string retval;
-
-  std::string timeFunSummerDay("maximum");
-  std::string timeFunSummerNight("minimum");
-  std::string timeFunWinterDay("mean");
-  std::string timeFunWinterNight("mean");
+  std::string timeFunDay = (isWinter ? "mean" : "maximum");
+  std::string timeFunNight = (isWinter ? "mean" : "minimum");
 
   switch (id)
   {
     case AREA_MIN_DAY1:
-      retval = areaName + " - area day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(minimum): ";
-      break;
+      return areaName + " - area day1 " + timeFunDay + "(minimum): ";
     case AREA_MAX_DAY1:
-      retval = areaName + " - area day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(maximum): ";
-      break;
+      return areaName + " - area day1 " + timeFunDay + "(maximum): ";
     case AREA_MEAN_DAY1:
-      retval = areaName + " - area day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(mean): ";
-      break;
+      return areaName + " - area day1 " + timeFunDay + "(mean): ";
     case AREA_MIN_NIGHT:
-      retval = areaName + " - area night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) +
-               "(minimum): ";
-      break;
+      return areaName + " - area night " + timeFunNight + "(minimum): ";
     case AREA_MAX_NIGHT:
-      retval = areaName + " - area night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) +
-               "(maximum): ";
-      break;
+      return areaName + " - area night " + timeFunNight + "(maximum): ";
     case AREA_MEAN_NIGHT:
-      retval = areaName + " - area night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) +
-               "(mean): ";
-      break;
+      return areaName + " - area night " + timeFunNight + "(mean): ";
     case AREA_MIN_DAY2:
-      retval = areaName + " - area day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(minimum): ";
-      break;
+      return areaName + " - area day2 " + timeFunDay + "(minimum): ";
     case AREA_MAX_DAY2:
-      retval = areaName + " - area day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(maximum): ";
-      break;
+      return areaName + " - area day2 " + timeFunDay + "(maximum): ";
     case AREA_MEAN_DAY2:
-      retval = areaName + " - area day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(mean): ";
-      break;
+      return areaName + " - area day2 " + timeFunDay + "(mean): ";
     case AREA_MIN_DAY1_MORNING:
-      retval = areaName + " - area day1 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - area day1 morning " + timeFunDay + "(minimum): ";
     case AREA_MAX_DAY1_MORNING:
-      retval = areaName + " - area day1 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - area day1 morning " + timeFunDay + "(maximum): ";
     case AREA_MEAN_DAY1_MORNING:
-      retval = areaName + " - area day1  morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - area day1  morning " + timeFunDay + "(mean): ";
     case AREA_MIN_DAY2_MORNING:
-      retval = areaName + " - area day2  morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - area day2  morning " + timeFunDay + "(minimum): ";
     case AREA_MAX_DAY2_MORNING:
-      retval = areaName + " - area day2 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - area day2 morning " + timeFunDay + "(maximum): ";
     case AREA_MEAN_DAY2_MORNING:
-      retval = areaName + " - area day2 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - area day2 morning " + timeFunDay + "(mean): ";
     case AREA_MIN_DAY1_AFTERNOON:
-      retval = areaName + " - area day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - area day1 afternoon " + timeFunDay + "(minimum): ";
     case AREA_MAX_DAY1_AFTERNOON:
-      retval = areaName + " - area day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - area day1 afternoon " + timeFunDay + "(maximum): ";
     case AREA_MEAN_DAY1_AFTERNOON:
-      retval = areaName + " - area day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - area day1 afternoon " + timeFunDay + "(mean): ";
     case AREA_MIN_DAY2_AFTERNOON:
-      retval = areaName + " - area day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - area day2 afternoon " + timeFunDay + "(minimum): ";
     case AREA_MAX_DAY2_AFTERNOON:
-      retval = areaName + " - area day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - area day2 afternoon " + timeFunDay + "(maximum): ";
     case AREA_MEAN_DAY2_AFTERNOON:
-      retval = areaName + " - area day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - area day2 afternoon " + timeFunDay + "(mean): ";
     case INLAND_MIN_DAY1:
-      retval = areaName + " - inland day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(minimum): ";
-      break;
+      return areaName + " - inland day1 " + timeFunDay + "(minimum): ";
     case INLAND_MAX_DAY1:
-      retval = areaName + " - inland day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(maximum): ";
-      break;
+      return areaName + " - inland day1 " + timeFunDay + "(maximum): ";
     case INLAND_MEAN_DAY1:
-      retval = areaName + " - inland day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(mean): ";
-      break;
+      return areaName + " - inland day1 " + timeFunDay + "(mean): ";
     case INLAND_MIN_NIGHT:
-      retval = areaName + " - inland night " +
-               (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(minimum): ";
-      break;
+      return areaName + " - inland night " + timeFunNight + "(minimum): ";
     case INLAND_MAX_NIGHT:
-      retval = areaName + " - inland night " +
-               (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(maximum): ";
-      break;
+      return areaName + " - inland night " + timeFunNight + "(maximum): ";
     case INLAND_MEAN_NIGHT:
-      retval = areaName + " - inland night " +
-               (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(mean): ";
-      break;
+      return areaName + " - inland night " + timeFunNight + "(mean): ";
     case INLAND_MIN_DAY2:
-      retval = areaName + " - inland day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(minimum): ";
-      break;
+      return areaName + " - inland day2 " + timeFunDay + "(minimum): ";
     case INLAND_MAX_DAY2:
-      retval = areaName + " - inland day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(maximum): ";
-      break;
+      return areaName + " - inland day2 " + timeFunDay + "(maximum): ";
     case INLAND_MEAN_DAY2:
-      retval = areaName + " - inland day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(mean): ";
-      break;
+      return areaName + " - inland day2 " + timeFunDay + "(mean): ";
     case INLAND_MIN_DAY1_MORNING:
-      retval = areaName + " - inland day1 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - inland day1 morning " + timeFunDay + "(minimum): ";
     case INLAND_MAX_DAY1_MORNING:
-      retval = areaName + " - inland day1 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - inland day1 morning " + timeFunDay + "(maximum): ";
     case INLAND_MEAN_DAY1_MORNING:
-      retval = areaName + " - inland day1  morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - inland day1  morning " + timeFunDay + "(mean): ";
     case INLAND_MIN_DAY2_MORNING:
-      retval = areaName + " - inland day2  morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - inland day2  morning " + timeFunDay + "(minimum): ";
     case INLAND_MAX_DAY2_MORNING:
-      retval = areaName + " - inland day2 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - inland day2 morning " + timeFunDay + "(maximum): ";
     case INLAND_MEAN_DAY2_MORNING:
-      retval = areaName + " - inland day2 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - inland day2 morning " + timeFunDay + "(mean): ";
     case INLAND_MIN_DAY1_AFTERNOON:
-      retval = areaName + " - inland day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - inland day1 afternoon " + timeFunDay + "(minimum): ";
     case INLAND_MAX_DAY1_AFTERNOON:
-      retval = areaName + " - inland day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - inland day1 afternoon " + timeFunDay + "(maximum): ";
     case INLAND_MEAN_DAY1_AFTERNOON:
-      retval = areaName + " - inland day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - inland day1 afternoon " + timeFunDay + "(mean): ";
     case INLAND_MIN_DAY2_AFTERNOON:
-      retval = areaName + " - inland day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - inland day2 afternoon " + timeFunDay + "(minimum): ";
     case INLAND_MAX_DAY2_AFTERNOON:
-      retval = areaName + " - inland day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - inland day2 afternoon " + timeFunDay + "(maximum): ";
     case INLAND_MEAN_DAY2_AFTERNOON:
-      retval = areaName + " - inland day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - inland day2 afternoon " + timeFunDay + "(mean): ";
     case COAST_MIN_DAY1:
-      retval = areaName + " - coast day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(minimum): ";
-      break;
+      return areaName + " - coast day1 " + timeFunDay + "(minimum): ";
     case COAST_MAX_DAY1:
-      retval = areaName + " - coast day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(maximum): ";
-      break;
+      return areaName + " - coast day1 " + timeFunDay + "(maximum): ";
     case COAST_MEAN_DAY1:
-      retval = areaName + " - coast day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(mean): ";
-      break;
+      return areaName + " - coast day1 " + timeFunDay + "(mean): ";
     case COAST_MIN_NIGHT:
-      retval = areaName + " - coast night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) +
-               "(minimum): ";
-      break;
+      return areaName + " - coast night " + timeFunNight + "(minimum): ";
     case COAST_MAX_NIGHT:
-      retval = areaName + " - coast night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) +
-               "(maximum): ";
-      break;
+      return areaName + " - coast night " + timeFunNight + "(maximum): ";
     case COAST_MEAN_NIGHT:
-      retval = areaName + " - coast night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) +
-               "(mean): ";
-      break;
+      return areaName + " - coast night " + timeFunNight + "(mean): ";
     case COAST_MIN_DAY2:
-      retval = areaName + " - coast day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(minimum): ";
-      break;
+      return areaName + " - coast day2 " + timeFunDay + "(minimum): ";
     case COAST_MAX_DAY2:
-      retval = areaName + " - coast day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(maximum): ";
-      break;
+      return areaName + " - coast day2 " + timeFunDay + "(maximum): ";
     case COAST_MEAN_DAY2:
-      retval = areaName + " - coast day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) +
-               "(mean): ";
-      break;
+      return areaName + " - coast day2 " + timeFunDay + "(mean): ";
     case COAST_MIN_DAY1_MORNING:
-      retval = areaName + " - coast day1 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - coast day1 morning " + timeFunDay + "(minimum): ";
     case COAST_MAX_DAY1_MORNING:
-      retval = areaName + " - coast day1 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - coast day1 morning " + timeFunDay + "(maximum): ";
     case COAST_MEAN_DAY1_MORNING:
-      retval = areaName + " - coast day1  morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - coast day1  morning " + timeFunDay + "(mean): ";
     case COAST_MIN_DAY2_MORNING:
-      retval = areaName + " - coast day2  morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - coast day2  morning " + timeFunDay + "(minimum): ";
     case COAST_MAX_DAY2_MORNING:
-      retval = areaName + " - coast day2 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - coast day2 morning " + timeFunDay + "(maximum): ";
     case COAST_MEAN_DAY2_MORNING:
-      retval = areaName + " - coast day2 morning " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - coast day2 morning " + timeFunDay + "(mean): ";
     case COAST_MIN_DAY1_AFTERNOON:
-      retval = areaName + " - coast day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - coast day1 afternoon " + timeFunDay + "(minimum): ";
     case COAST_MAX_DAY1_AFTERNOON:
-      retval = areaName + " - coast day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - coast day1 afternoon " + timeFunDay + "(maximum): ";
     case COAST_MEAN_DAY1_AFTERNOON:
-      retval = areaName + " - coast day1 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - coast day1 afternoon " + timeFunDay + "(mean): ";
     case COAST_MIN_DAY2_AFTERNOON:
-      retval = areaName + " - coast day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
-      break;
+      return areaName + " - coast day2 afternoon " + timeFunDay + "(minimum): ";
     case COAST_MAX_DAY2_AFTERNOON:
-      retval = areaName + " - coast day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
-      break;
+      return areaName + " - coast day2 afternoon " + timeFunDay + "(maximum): ";
     case COAST_MEAN_DAY2_AFTERNOON:
-      retval = areaName + " - coast day2 afternoon " +
-               (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
-      break;
+      return areaName + " - coast day2 afternoon " + timeFunDay + "(mean): ";
     case UNDEFINED_WEATHER_RESULT_ID:
-      break;
+    default:
+      return {};
   }
-
-  return retval;
 }
 }  // namespace
 
