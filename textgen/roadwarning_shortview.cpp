@@ -732,22 +732,6 @@ Sentence second_places_sentence(RoadWarningType thePrimaryType, RoadWarningType 
       }
       break;
     case FROSTY:
-      switch (theSecondaryType)
-      {
-        case ICYRAIN:
-        case RAIN_TO_ICY:
-        case SLEET_TO_ICY:
-        case FASTWORSENING:
-        case HEAVY_SNOWFALL:
-        case WHIRLING:
-        case WINDWARNING:
-        case FROSTSLIPPERY:
-        case SNOWY:
-        case ICING:
-        case FROSTY:
-        case NORMAL:
-          break;
-      }
     case NORMAL:
       break;
   }
