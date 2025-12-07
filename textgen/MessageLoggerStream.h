@@ -38,60 +38,6 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   using off_type = typename CharTraits::off_type;
 
  protected:
-  // only for output, not for input
-  int_type pbackfail(int_type /*unused*/ = CharTraits::eof()) override
-  {
-    throw std::runtime_error("MessageLoggerStream::pbackfail not available");
-    return 0;
-  }
-
-  // only for output, not for input
-  std::streamsize showmanyc() override
-  {
-    throw std::runtime_error("MessageLoggerStream::showmanyc not available");
-    return 0;
-  }
-
-  // only for output, not for input
-  int_type underflow() override
-  {
-    throw std::runtime_error("MessageLoggerStream::underflow not available");
-    return 0;
-  }
-
-  // only for output, not for input
-  int_type uflow() override
-  {
-    throw std::runtime_error("MessageLoggerStream::uflow not available");
-    return 0;
-  }
-
-  // only for output, not for input
-  std::streamsize xsgetn(char_type* /* _S */, std::streamsize /* _N */) override
-  {
-    throw std::runtime_error("MessageLoggerStream::xsgetn not available");
-    return 0;
-  }
-
-  // we don't allow positioning
-  pos_type seekoff(off_type /*unused*/,
-                   std::ios_base::seekdir /*unused*/,
-                   std::ios_base::openmode /*unused*/ = std::ios_base::in |
-                                                        std::ios_base::out) override
-  {
-    throw std::runtime_error("MessageLoggerStream::seekoff not available");
-    return 0;
-  }
-
-  // we don't allow positioning
-  pos_type seekpos(pos_type /*unused*/,
-                   std::ios_base::openmode /*unused*/ = std::ios_base::in |
-                                                        std::ios_base::out) override
-  {
-    throw std::runtime_error("MessageLoggerStream::seekpos not available");
-    return 0;
-  }
-
   // output functions
 
   // called to write out from the internal buffer, into the external buffer
