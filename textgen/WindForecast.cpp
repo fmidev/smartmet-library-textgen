@@ -1455,7 +1455,7 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
     // iterate reporting periods
     for (unsigned int i = 0; i < windSpeedReportingPeriods.size(); i++)
     {
-      WeatherPeriod period = windSpeedReportingPeriods[i];
+      const WeatherPeriod& period = windSpeedReportingPeriods[i];
       interval_sentence_info isi;
       isi.period = period;
       isi.intervalInfo = windSpeedIntervalInfo(period);
