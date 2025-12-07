@@ -472,7 +472,7 @@ Sentence condition_sentence(const ConditionPercentages& thePercentages, const st
   // List all "someplaces" types that occur in order of importance
   // The set may include firsttype, if no condition occurs in many places
 
-  map<int, RoadConditionType, std::greater<int> > someplacestypes;
+  map<int, RoadConditionType, std::greater<> > someplacestypes;
 
   for (int i = min_condition; i <= max_condition; i++)
   {

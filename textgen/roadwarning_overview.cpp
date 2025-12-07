@@ -806,7 +806,7 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
   // List all "someplaces" types that occur in order of importance
   // The set may include firsttype, if no condition occurs in many places
 
-  map<int, RoadWarningType, std::greater<int> > someplacestypes;
+  map<int, RoadWarningType, std::greater<> > someplacestypes;
 
   for (int i = min_warning; i <= max_warning; i++)
   {
