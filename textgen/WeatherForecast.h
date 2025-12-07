@@ -858,10 +858,7 @@ struct PrecipitationDataItemData
         thePrecipitationTypeShowers(precipitationTypeShowers),
         theWeatherEventId(weatherEventId),
         thePearsonCoefficient(pearsonCoefficient),
-        theObservationTime(observationTime),
-        thePrecipitationPoint(0.0, 0.0),
-        thePrecipitationType(MISSING_PRECIPITATION_TYPE),
-        thePrecipitationIntensityId(MISSING_INTENSITY_ID)
+        theObservationTime(observationTime)
   {
     if (precipitationTypeShowers != kFloatMissing)
       thePrecipitationType = precipitationTypeShowers >= MAJORITY_LIMIT ? SHOWERS : CONTINUOUS;
@@ -916,9 +913,9 @@ struct PrecipitationDataItemData
   weather_result_data_item_vector thePrecipitationShareSouthEast;
   weather_result_data_item_vector thePrecipitationShareSouthWest;
   weather_result_data_item_vector thePrecipitationShareNorthWest;
-  NFmiPoint thePrecipitationPoint;
-  precipitation_type thePrecipitationType;
-  precipitation_intesity_id thePrecipitationIntensityId;
+  NFmiPoint thePrecipitationPoint{0, 0};
+  precipitation_type thePrecipitationType = MISSING_PRECIPITATION_TYPE;
+  precipitation_intesity_id thePrecipitationIntensityId = MISSING_INTENSITY_ID;
 
   float precipitationPercentageNorth() const
   {
