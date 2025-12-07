@@ -1761,9 +1761,10 @@ Paragraph WeatherStory::overview() const
   log << "Found " << rainperiods.size() << " rainy periods\n";
 
   {
-    for (auto it = rainperiods.cbegin(); it != rainperiods.cend(); it++)
+    for (const auto& rainperiod : rainperiods)
     {
-      log << "Period: " << it->localStartTime() << " ... " << it->localEndTime() << '\n';
+      log << "Period: " << rainperiod.localStartTime() << " ... " << rainperiod.localEndTime()
+          << '\n';
     }
   }
 

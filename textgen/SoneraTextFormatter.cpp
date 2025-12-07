@@ -196,9 +196,9 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
   int lines = 1;
   int words_on_line = 0;
   string ret;
-  for (auto it = itsParts.cbegin(); it != itsParts.cend(); ++it)
+  for (const auto& itsPart : itsParts)
   {
-    if (!it->empty())
+    if (!itsPart.empty())
     {
       if (words_on_line >= max_words_on_line)
       {
@@ -208,7 +208,7 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
       }
       if (words_on_line == 0)
         ret += 'r' + std::to_string(lines) + ',';
-      ret += padzeros(*it, 3);
+      ret += padzeros(itsPart, 3);
       ret += ',';
       ++words_on_line;
     }
