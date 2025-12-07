@@ -230,7 +230,7 @@ SouthernMaskSource::mask_type SouthernMaskSource::mask(const WeatherArea& theAre
     return areamask;
 
   // Calculate new mask and cache it
-  areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
+  areamask = Pimple::create_mask(theArea, theData, theWeatherSource);
   itsPimple->insert(id, theArea, areamask);
 
   return areamask;
