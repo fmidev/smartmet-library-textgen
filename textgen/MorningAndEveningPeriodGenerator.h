@@ -44,15 +44,15 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
  private:
   void init();
 
-  const WeatherPeriod itsMainPeriod;
-  const int itsMorningStartHour;
-  const int itsDayStartHour;
-  const int itsEveningStartHour;
-  const int itsNightStartHour;
-  const int itsMorningMaxStartHour;
-  const int itsDayMaxStartHour;
-  const int itsEveningMaxStartHour;
-  const int itsNightMaxStartHour;
+  WeatherPeriod itsMainPeriod;
+  int itsMorningStartHour;
+  int itsDayStartHour;
+  int itsEveningStartHour;
+  int itsNightStartHour;
+  int itsMorningMaxStartHour;
+  int itsDayMaxStartHour;
+  int itsEveningMaxStartHour;
+  int itsNightMaxStartHour;
 
   std::vector<WeatherPeriod> itsPeriods;
 
