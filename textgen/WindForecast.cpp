@@ -2633,6 +2633,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
                          << get_wind_event_string(item->theWindEvent) << '\n';
 
   std::vector<WindDirectionPeriodInfo> windDirectionPeriodInfo;
+  windDirectionPeriodInfo.reserve(theParameters.theWindDirectionPeriods.size());
 
   for (const auto& p : theParameters.theWindDirectionPeriods)
     windDirectionPeriodInfo.emplace_back(p, get_wind_direction(theParameters, p));
