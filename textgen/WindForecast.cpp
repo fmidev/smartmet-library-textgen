@@ -275,31 +275,10 @@ std::ostream& operator<<(std::ostream& os, const interval_info& info)
 std::ostream& operator<<(std::ostream& os, const TimePhraseInfo& tpi)
 {
   os << tpi.starttime << "..." << tpi.endtime << " -> ";
-  switch (tpi.day_number)
-  {
-    case 1:
-      os << "maanantai";
-      break;
-    case 2:
-      os << "tiistai";
-      break;
-    case 3:
-      os << "keskiviikko";
-      break;
-    case 4:
-      os << "torstai";
-      break;
-    case 5:
-      os << "perjantai";
-      break;
-    case 6:
-      os << "lauantai";
-      break;
-    case 7:
-      os << "sunnuntai";
-      break;
-  }
-  os << part_of_the_day_string(tpi.part_of_the_day) << '\n';
+  std::array<const char*, 7> weekdays = {
+      "maanantai", "tiistai", "keskiviikko", "rorstai", "perjantai", "lauantai", "sunnuntai"};
+
+  os << weekdays[tpi.day_number - 1] << part_of_the_day_string(tpi.part_of_the_day) << '\n';
 
   return os;
 }
