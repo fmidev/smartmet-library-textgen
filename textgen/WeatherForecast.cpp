@@ -1,22 +1,20 @@
 #include "WeatherForecast.h"
-
 #include "AreaTools.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
 #include "DebugTextFormatter.h"
-#include "Delimiter.h"
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
-#include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "PrecipitationStoryTools.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
 #include "SubMaskExtractor.h"
 #include "TemperatureStoryTools.h"
-#include "ValueAcceptor.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
@@ -29,20 +27,15 @@
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <macgyver/TimeFormatter.h>
-
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-#include <map>
 #include <vector>
+
+using namespace std;
 
 namespace TextGen
 {
 using namespace Settings;
-using namespace TextGen;
 using namespace TemperatureStoryTools;
 using namespace AreaTools;
-
-using namespace std;
 
 std::string as_string(const GlyphContainer& gc)
 {
@@ -708,8 +701,8 @@ bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& th
 
 bool is_inside(const TextGenPosixTime& theTimeStamp, part_of_the_day_id thePartOfTheDayId)
 {
-  int startHour;
-  int endHour;
+  int startHour = 0;
+  int endHour = 0;
   int timestampHour(theTimeStamp.GetHour());
   get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 
@@ -749,8 +742,8 @@ bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePart
       is_inside(theWeatherPeriod.localEndTime(), ILTAYO_JA_KESKIYO))
     return true;
 
-  int startHour;
-  int endHour;
+  int startHour = 0;
+  int endHour = 0;
   get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
   TextGenPosixTime startTimeCompare(theWeatherPeriod.localStartTime());
   TextGenPosixTime endTimeCompare(theWeatherPeriod.localStartTime());
@@ -777,91 +770,45 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
                                     const std::string& theVar,
                                     bool theAlkaenPhrase)
 {
-  std::string retval;
-
   bool specify_part_of_the_day =
       Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
 
   if (!specify_part_of_the_day)
-    return retval;
+    return {};
 
   switch (thePartOfTheDayId)
   {
     case AAMU:
-    {
-      retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
     case AAMUPAIVA:
-    {
-      retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
     case KESKIPAIVA:
-    {
-      retval = (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
     case ILTA:
-    {
-      retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
     case ILTAPAIVA:
-    {
-      retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
     case ILTAYO:
-    {
-      retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
     case KESKIYO:
-    {
-      retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
     case AAMUYO:
-    {
-      retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
-      break;
-    }
+      return (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
     case AAMU_JA_AAMUPAIVA:
-    {
-      retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_JA_AAMUPAIVALLA_PHRASE);
-      break;
-    }
+      return (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_JA_AAMUPAIVALLA_PHRASE);
     case ILTAPAIVA_JA_ILTA:
-    {
-      retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_JA_ILLALLA_PHRASE);
-      break;
-    }
+      return (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_JA_ILLALLA_PHRASE);
     case ILTA_JA_ILTAYO:
-    {
-      retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_JA_ILTAYOLLA_PHRASE);
-      break;
-    }
+      return (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_JA_ILTAYOLLA_PHRASE);
     case ILTAYO_JA_KESKIYO:
-    {
-      retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_JA_KESKIYOLLA_PHRASE);
-      break;
-    }
+      return (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_JA_KESKIYOLLA_PHRASE);
     case KESKIYO_JA_AAMUYO:
-    {
-      retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_JA_AAMUYOLLA_PHRASE);
-      break;
-    }
+      return (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_JA_AAMUYOLLA_PHRASE);
     case AAMUYO_JA_AAMU:
-    {
-      retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_JA_AAMULLA_PHRASE);
-      break;
-    }
+      return (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_JA_AAMULLA_PHRASE);
     default:
-      break;
+      return {};
   }
-
-  return retval;
 }
 
 std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
@@ -1103,56 +1050,50 @@ std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
                             const std::string& theVar,
                             bool theAlkaenPhrase /*= false*/)
 {
-  std::string retval;
-
   bool specify_part_of_the_day =
       Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
 
   if (!specify_part_of_the_day)
-    return retval;
+    return {};
 
   if (is_inside(theTimestamp, AAMU))
   {
     if (is_inside(theTimestamp, AAMUPAIVA))
-      retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
-    else
-      retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
-  }
-  else if (is_inside(theTimestamp, AAMUPAIVA))
-  {
-    if (is_inside(theTimestamp, ILTAPAIVA))
-      retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-    else
-      retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
-  }
-  else if (is_inside(theTimestamp, ILTA))
-  {
-    if (is_inside(theTimestamp, ILTAYO))
-      retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
-    else
-      retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
-  }
-  else if (is_inside(theTimestamp, ILTAPAIVA))
-  {
-    retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-  }
-  else if (is_inside(theTimestamp, ILTAYO))
-  {
-    retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
-  }
-  else if (is_inside(theTimestamp, KESKIYO))
-  {
-    if (is_inside(theTimestamp, AAMUYO))
-      retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
-    else
-      retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
-  }
-  else if (is_inside(theTimestamp, AAMUYO))
-  {
-    retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+      return (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+    return (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
   }
 
-  return retval;
+  if (is_inside(theTimestamp, AAMUPAIVA))
+  {
+    if (is_inside(theTimestamp, ILTAPAIVA))
+      return (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+    return (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+  }
+
+  if (is_inside(theTimestamp, ILTA))
+  {
+    if (is_inside(theTimestamp, ILTAYO))
+      return (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
+    return (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+  }
+
+  if (is_inside(theTimestamp, ILTAPAIVA))
+    return (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+
+  if (is_inside(theTimestamp, ILTAYO))
+    return (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
+
+  if (is_inside(theTimestamp, KESKIYO))
+  {
+    if (is_inside(theTimestamp, AAMUYO))
+      return (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+    return (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+  }
+
+  if (is_inside(theTimestamp, AAMUYO))
+    return (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+
+  return {};
 }
 
 Sentence get_direction_phrase(direction_id theDirectionId, bool theAlkaenPhrase /*= false*/)
@@ -1294,31 +1235,31 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
         {
           theLowerLimit = 0;
           theUpperLimit = theParameters.theDryWeatherLimitWater;
+          break;
         }
-        break;
         case WEAK_PRECIPITATION:
         {
           theLowerLimit = theParameters.theDryWeatherLimitWater;
           theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
+          break;
         }
-        break;
         case MODERATE_PRECIPITATION:
         {
           theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
           theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
+          break;
         }
-        break;
         case HEAVY_PRECIPITATION:
         {
           theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
           theUpperLimit = 1000.0;
+          break;
         }
-        break;
         default:
           break;
       }
+      break;
     }
-    break;
     case SLEET_FREEZING_FORM:
     case SLEET_FORM:
     case SLEET_SNOW_FREEZING_FORM:
@@ -1330,31 +1271,31 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
         {
           theLowerLimit = 0;
           theUpperLimit = theParameters.theDryWeatherLimitSleet;
+          break;
         }
-        break;
         case WEAK_PRECIPITATION:
         {
           theLowerLimit = theParameters.theDryWeatherLimitSleet;
           theUpperLimit = theParameters.theWeakPrecipitationLimitSleet;
+          break;
         }
-        break;
         case MODERATE_PRECIPITATION:
         {
           theLowerLimit = theParameters.theWeakPrecipitationLimitSleet;
           theUpperLimit = theParameters.theHeavyPrecipitationLimitSleet;
+          break;
         }
-        break;
         case HEAVY_PRECIPITATION:
         {
           theLowerLimit = theParameters.theHeavyPrecipitationLimitSleet;
           theUpperLimit = 1000.0;
+          break;
         }
-        break;
         default:
           break;
       }
+      break;
     }
-    break;
     case SNOW_FORM:
     case SNOW_FREEZING_FORM:
     {
@@ -1364,31 +1305,31 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
         {
           theLowerLimit = 0;
           theUpperLimit = theParameters.theDryWeatherLimitSnow;
+          break;
         }
-        break;
         case WEAK_PRECIPITATION:
         {
           theLowerLimit = theParameters.theDryWeatherLimitSnow;
           theUpperLimit = theParameters.theWeakPrecipitationLimitSnow;
+          break;
         }
-        break;
         case MODERATE_PRECIPITATION:
         {
           theLowerLimit = theParameters.theWeakPrecipitationLimitSnow;
           theUpperLimit = theParameters.theHeavyPrecipitationLimitSnow;
+          break;
         }
-        break;
         case HEAVY_PRECIPITATION:
         {
           theLowerLimit = theParameters.theHeavyPrecipitationLimitSnow;
           theUpperLimit = 1000.0;
+          break;
         }
-        break;
         default:
           break;
       }
+      break;
     }
-    break;
     case DRIZZLE_FORM:
     case DRIZZLE_FREEZING_FORM:
     case DRIZZLE_SLEET_FORM:
@@ -1403,32 +1344,33 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
         {
           theLowerLimit = 0;
           theUpperLimit = theParameters.theDryWeatherLimitDrizzle;
+          break;
         }
-        break;
         case WEAK_PRECIPITATION:
         {
           theLowerLimit = theParameters.theDryWeatherLimitWater;
           theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
+          break;
         }
-        break;
         case MODERATE_PRECIPITATION:
         {
           theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
           theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
+          break;
         }
-        break;
         case HEAVY_PRECIPITATION:
         {
           theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
           theUpperLimit = 1000.0;
+          break;
         }
-        break;
         default:
           break;
       }
+      break;
     }
-    break;
     case MISSING_PRECIPITATION_FORM:
+    default:
       break;
   }
 }
@@ -1446,22 +1388,22 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
     {
       theDryWeatherLimit = theParameters.theDryWeatherLimitWater;
       theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
+      break;
     }
-    break;
     case SLEET_FREEZING_FORM:
     case SLEET_FORM:
     {
       theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
       theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
+      break;
     }
-    break;
     case SNOW_FORM:
     case SNOW_FREEZING_FORM:
     {
       theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
       theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
+      break;
     }
-    break;
     case DRIZZLE_FORM:
     case DRIZZLE_FREEZING_FORM:
     case WATER_DRIZZLE_FREEZING_FORM:
@@ -1469,8 +1411,8 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
     {
       theDryWeatherLimit = theParameters.theDryWeatherLimitDrizzle;
       theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
+      break;
     }
-    break;
     case DRIZZLE_SLEET_FORM:
     case DRIZZLE_SLEET_FREEZING_FORM:
     case WATER_DRIZZLE_SLEET_FORM:
@@ -1479,8 +1421,8 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
     {
       theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
       theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
+      break;
     }
-    break;
     case WATER_SNOW_FREEZING_FORM:
     case WATER_SNOW_FORM:
     case DRIZZLE_SNOW_FREEZING_FORM:
@@ -1493,9 +1435,10 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
     {
       theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
       theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
+      break;
     }
-    break;
     case MISSING_PRECIPITATION_FORM:
+    default:
       break;
   }
 }
@@ -1504,57 +1447,54 @@ precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipi
                                                          float thePrecipitationIntensity,
                                                          const wf_story_params& theParameters)
 {
-  precipitation_intesity_id ret = MISSING_INTENSITY_ID;
-
   if (thePrecipitationForm & SNOW_FORM)
   {
     if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSnow)
-      ret = DRY_WEATHER;
-    else if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow &&
-             thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-      ret = WEAK_PRECIPITATION;
-    else if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitSnow &&
-             thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitSnow)
-      ret = MODERATE_PRECIPITATION;
-    else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-      ret = HEAVY_PRECIPITATION;
+      return DRY_WEATHER;
+    if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow &&
+        thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
+      return WEAK_PRECIPITATION;
+    if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitSnow &&
+        thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitSnow)
+      return MODERATE_PRECIPITATION;
+    if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
+      return HEAVY_PRECIPITATION;
   }
   else if (thePrecipitationForm & SLEET_FORM)
   {
     if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet)
-      ret = DRY_WEATHER;
-    else if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet &&
-             thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSleet)
-      ret = WEAK_PRECIPITATION;
-    else if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitSleet &&
-             thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitSleet)
-      ret = MODERATE_PRECIPITATION;
-    else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSleet)
-      ret = HEAVY_PRECIPITATION;
+      return DRY_WEATHER;
+    if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet &&
+        thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSleet)
+      return WEAK_PRECIPITATION;
+    if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitSleet &&
+        thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitSleet)
+      return MODERATE_PRECIPITATION;
+    if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSleet)
+      return HEAVY_PRECIPITATION;
   }
   else if (thePrecipitationForm != WATER_DRIZZLE_FORM &&
            (thePrecipitationForm & DRIZZLE_FORM || thePrecipitationForm & FREEZING_FORM))
   {
     if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
-      ret = DRY_WEATHER;
-    else
-      ret = MODERATE_PRECIPITATION;
+      return DRY_WEATHER;
+    return MODERATE_PRECIPITATION;
   }
   else  // water
   {
     if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
-      ret = DRY_WEATHER;
-    else if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitWater &&
-             thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater)
-      ret = WEAK_PRECIPITATION;
-    else if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitWater &&
-             thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitWater)
-      ret = MODERATE_PRECIPITATION;
-    else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
-      ret = HEAVY_PRECIPITATION;
+      return DRY_WEATHER;
+    if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitWater &&
+        thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater)
+      return WEAK_PRECIPITATION;
+    if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitWater &&
+        thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitWater)
+      return MODERATE_PRECIPITATION;
+    if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
+      return HEAVY_PRECIPITATION;
   }
 
-  return ret;
+  return MISSING_INTENSITY_ID;
 }
 
 precipitation_form_id get_complete_precipitation_form(const string& /*theVariable*/,
@@ -1751,43 +1691,43 @@ Sentence area_specific_sentence(float north,
     case ALUEEN_POHJOISOSASSA:
     {
       sentence << ALUEEN_POHJOISOSASSA_PHRASE;
+      break;
     }
-    break;
     case ALUEEN_ETELAOSASSA:
     {
       sentence << ALUEEN_ETELAOSASSA_PHRASE;
+      break;
     }
-    break;
     case ALUEEN_ITAOSASSA:
     {
       sentence << ALUEEN_ITAOSASSA_PHRASE;
+      break;
     }
-    break;
     case ALUEEN_LANSIOSASSA:
     {
       sentence << ALUEEN_LANSIOSASSA_PHRASE;
+      break;
     }
-    break;
     case ENIMMAKSEEN_ALUEEN_POHJOISOSASSA:
     {
       sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSASSA_PHRASE;
+      break;
     }
-    break;
     case ENIMMAKSEEN_ALUEEN_ETELAOSASSA:
     {
       sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSASSA_PHRASE;
+      break;
     }
-    break;
     case ENIMMAKSEEN_ALUEEN_ITAOSASSA:
     {
       sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSASSA_PHRASE;
+      break;
     }
-    break;
     case ENIMMAKSEEN_ALUEEN_LANSIOSASSA:
     {
       sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSASSA_PHRASE;
+      break;
     }
-    break;
     default:
       break;
   }
@@ -1805,41 +1745,24 @@ area_specific_sentence_id get_area_specific_sentence_id(float north,
                                                         float /*northWest*/,
                                                         bool mostlyFlag /*= true*/)
 {
-  area_specific_sentence_id retval(MISSING_AREA_SPECIFIC_SENTENCE_ID);
-
   if (north >= 98.0)
-  {
-    retval = ALUEEN_POHJOISOSASSA;
-  }
-  else if (north >= 95.0 && mostlyFlag)
-  {
-    retval = ENIMMAKSEEN_ALUEEN_POHJOISOSASSA;
-  }
-  else if (south >= 98.0)
-  {
-    retval = ALUEEN_ETELAOSASSA;
-  }
-  else if (south >= 95.0 && mostlyFlag)
-  {
-    retval = ENIMMAKSEEN_ALUEEN_ETELAOSASSA;
-  }
-  else if (east >= 98.0)
-  {
-    retval = ALUEEN_ITAOSASSA;
-  }
-  else if (east >= 95.0 && mostlyFlag)
-  {
-    retval = ENIMMAKSEEN_ALUEEN_ITAOSASSA;
-  }
-  else if (west >= 98.0)
-  {
-    retval = ALUEEN_LANSIOSASSA;
-  }
-  else if (west >= 95.0 && mostlyFlag)
-  {
-    retval = ENIMMAKSEEN_ALUEEN_LANSIOSASSA;
-  }
-  return retval;
+    return ALUEEN_POHJOISOSASSA;
+  if (north >= 95.0 && mostlyFlag)
+    return ENIMMAKSEEN_ALUEEN_POHJOISOSASSA;
+  if (south >= 98.0)
+    return ALUEEN_ETELAOSASSA;
+  if (south >= 95.0 && mostlyFlag)
+    return ENIMMAKSEEN_ALUEEN_ETELAOSASSA;
+  if (east >= 98.0)
+    return ALUEEN_ITAOSASSA;
+  if (east >= 95.0 && mostlyFlag)
+    return ENIMMAKSEEN_ALUEEN_ITAOSASSA;
+  if (west >= 98.0)
+    return ALUEEN_LANSIOSASSA;
+  if (west >= 95.0 && mostlyFlag)
+    return ENIMMAKSEEN_ALUEEN_LANSIOSASSA;
+
+  return MISSING_AREA_SPECIFIC_SENTENCE_ID;
 }
 
 float get_area_percentage(const std::string& theVar,
@@ -1914,14 +1837,14 @@ WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
                                       const WeatherPeriod& thePeriod2,
                                       bool& theIntersectionPeriodFound)
 {
-  int start_year(0);
-  int start_month(0);
-  int start_day(0);
-  int start_hour(0);
-  int end_year(0);
-  int end_month(0);
-  int end_day(0);
-  int end_hour(0);
+  int start_year = 0;
+  int start_month = 0;
+  int start_day = 0;
+  int start_hour = 0;
+  int end_year = 0;
+  int end_month = 0;
+  int end_day = 0;
+  int end_hour = 0;
   theIntersectionPeriodFound = false;
 
   if (is_inside(thePeriod1.localStartTime(), thePeriod2) &&
@@ -2110,10 +2033,10 @@ bool test_temperature_split_criterion(const std::string& theVar,
   int theMaximumIntAreaTwo = static_cast<int>(round(maxAreaTwo.value()));
   const int mininterval = optional_int(theVar + "::mininterval", 2);
   const bool interval_zero = optional_bool(theVar + "::always_interval_zero", false);
-  int intervalStartAreaOne;
-  int intervalEndAreaOne;
-  int intervalStartAreaTwo;
-  int intervalEndAreaTwo;
+  int intervalStartAreaOne = 0;
+  int intervalEndAreaOne = 0;
+  int intervalStartAreaTwo = 0;
+  int intervalEndAreaTwo = 0;
 
   clamp_temperature(
       theVar,
