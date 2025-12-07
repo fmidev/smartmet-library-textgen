@@ -183,19 +183,15 @@ TextGen::Sentence temperature_sentence(int theMinimum,
 {
   Sentence sentence;
 
-  bool range(false);
-
   // theMaximum can contain lower value than the theMinimum
   int diff = abs(theMaximum - theMinimum);
 
-  if (theMinimum == theMaximum)
-    range = false;
-  else if (diff >= theMinInterval)
-    range = true;
-  else if (theMinimum <= 0 && theMaximum >= 0)
-    range = true;
-  else
-    range = false;
+  bool range = false;
+  if (theMinimum != theMaximum)
+  {
+    if ((diff >= theMinInterval) || (theMinimum <= 0 && theMaximum >= 0))
+      range = true;
+  }
 
   if (range)
   {
@@ -266,19 +262,17 @@ bool sort_out_temperature_interval(int theMinimum,
                                    int& intervalEnd,
                                    const bool& theRoundTheNumber)
 {
-  bool interval_used(true);
-
-  bool range = false;
+  bool interval_used = true;
 
   // in winter theMaximum contains the lower value than the theMinimum
   int diff = abs(theMaximum - theMinimum);
 
-  if (theMinimum == theMaximum)
-    range = false;
-  else if (diff >= theMinInterval)
-    range = true;
-  else if (theMinimum <= 0 && theMaximum >= 0)
-    range = true;
+  bool range = false;
+  if (theMinimum != theMaximum)
+  {
+    if ((diff >= theMinInterval) || (theMinimum <= 0 && theMaximum >= 0))
+      range = true;
+  }
 
   if (range)
   {

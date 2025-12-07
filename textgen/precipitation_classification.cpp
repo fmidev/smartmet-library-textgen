@@ -278,8 +278,6 @@ Paragraph PrecipitationStory::classification() const
     const string variable1 = itsVar + "::some_places";
     const string variable2 = itsVar + "::many_places";
 
-    int phrase = 1;
-
     RangeAcceptor percentagelimits;
     percentagelimits.lowerLimit(hilimit);
 
@@ -299,14 +297,15 @@ Paragraph PrecipitationStory::classification() const
     const int limit1 = Settings::optional_int(variable1, -1);
     const int limit2 = Settings::optional_int(variable2, -1);
 
-    if (probresult.value() == kFloatMissing)
-      phrase = 1;
-    else if (probresult.value() >= limit2)
-      phrase = 3;
-    else if (probresult.value() >= limit1)
-      phrase = 2;
-    else
-      phrase = 1;
+    int phrase = 1;
+
+    if (probresult.value() != kFloatMissing)
+    {
+      if (probresult.value() >= limit2)
+        phrase = 3;
+      else if (probresult.value() >= limit1)
+        phrase = 2;
+    }
 
     if (phrase == 2)
       sentence << Delimiter(",") << "paikoin enemman";

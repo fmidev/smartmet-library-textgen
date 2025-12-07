@@ -1517,10 +1517,11 @@ bool PrecipitationForecast::getIntensityFormExtent(const WeatherPeriod& theWeath
         i->theObservationTime <= theWeatherPeriod.localEndTime() &&
         i->thePrecipitationForm != MISSING_PRECIPITATION_FORM)
     {
-      if (precipitationForm == MISSING_PRECIPITATION_FORM)
+      if ((precipitationForm == MISSING_PRECIPITATION_FORM) ||
+          (i->thePrecipitationForm < precipitationForm))
+      {
         precipitationForm = i->thePrecipitationForm;
-      else if (i->thePrecipitationForm < precipitationForm)
-        precipitationForm = i->thePrecipitationForm;
+      }
     }
 
   theForm = precipitationForm;
