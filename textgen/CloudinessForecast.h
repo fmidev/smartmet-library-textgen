@@ -123,10 +123,6 @@ class CloudinessForecast
   weather_event_id_vector itsCloudinessWeatherEventsCoastal;
   weather_event_id_vector itsCloudinessWeatherEventsInland;
   weather_event_id_vector itsCloudinessWeatherEventsFull;
-
-  bool itsSeparateCoastInlandMorning = false;
-  bool itsSeparateCoastInlandAfternoon = false;
-  bool itsSeparateMorningAfternoon = false;  // full area
 };
 
 std::ostream& operator<<(std::ostream& theOutput,
