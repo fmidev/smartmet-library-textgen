@@ -210,11 +210,12 @@ RoadWarningType find_most_general_warning(const WarningPercentages& thePercentag
   int ibest = min_warning;
   for (int i = min_warning + 1; i <= max_warning; i++)
   {
-    if (thePercentages[i] > thePercentages[ibest])
+    if ((thePercentages[i] > thePercentages[ibest]) ||
+        (thePercentages[i] == thePercentages[ibest] &&
+         warning_importance(i) > warning_importance(ibest)))
+    {
       ibest = i;
-    else if (thePercentages[i] == thePercentages[ibest] &&
-             warning_importance(i) > warning_importance(ibest))
-      ibest = i;
+    }
   }
   return RoadWarningType(ibest);
 }

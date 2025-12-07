@@ -190,11 +190,12 @@ RoadConditionType find_most_general_condition(const ConditionPercentages& thePer
   int ibest = min_condition;
   for (int i = min_condition + 1; i <= max_condition; i++)
   {
-    if (thePercentages[i] > thePercentages[ibest])
+    if ((thePercentages[i] > thePercentages[ibest]) ||
+        (thePercentages[i] == thePercentages[ibest] &&
+         condition_importance(i) > condition_importance(ibest)))
+    {
       ibest = i;
-    else if (thePercentages[i] == thePercentages[ibest] &&
-             condition_importance(i) > condition_importance(ibest))
-      ibest = i;
+    }
   }
   return RoadConditionType(ibest);
 }

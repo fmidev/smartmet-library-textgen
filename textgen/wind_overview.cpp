@@ -2608,11 +2608,8 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
     // even if wind speed strenghtens/weakens on merged period, there can be MISSING period in the
     // beginning
     bool modifyPeriod = false;
-    if (newWindEvent == TUULI_HEIKKENEE && maxSpeedDataItem != nextDataItem)
-    {
-      modifyPeriod = true;
-    }
-    else if (newWindEvent == TUULI_VOIMISTUU && minSpeedDataItem != nextDataItem)
+    if ((newWindEvent == TUULI_HEIKKENEE && maxSpeedDataItem != nextDataItem) ||
+        (newWindEvent == TUULI_VOIMISTUU && minSpeedDataItem != nextDataItem))
     {
       modifyPeriod = true;
     }
