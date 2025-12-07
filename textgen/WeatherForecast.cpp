@@ -366,7 +366,7 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
       thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
   {
     if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-        thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
+        thePeriod.localEndTime().GetHour() <= ILTAYO_END)
       return ILTAYO;
     return ILTA;
   }
@@ -383,7 +383,7 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
       thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
   {
     if (thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START &&
-        thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
+        thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END)
       return AAMUPAIVA;
     return AAMU;
   }
@@ -396,7 +396,7 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
       thePeriod.localEndTime().GetHour() <= KESKIYO_END && insideSameDay)
   {
     if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
-        thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
+        thePeriod.localEndTime().GetHour() <= AAMUYO_END)
       return AAMUYO;
     return KESKIYO;
   }
