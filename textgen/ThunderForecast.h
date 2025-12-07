@@ -16,8 +16,8 @@ class ThunderForecast
 
  private:
   Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
-  float getMaxValue(const WeatherPeriod& theWeatherPeriod,
-                    const weather_result_data_item_vector& theDataVector) const;
+  static float getMaxValue(const WeatherPeriod& theWeatherPeriod,
+                           const weather_result_data_item_vector& theDataVector);
 
   wf_story_params& theParameters;
 };

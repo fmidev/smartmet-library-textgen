@@ -19,7 +19,6 @@ class PlainLinesTextFormatter : public PlainTextFormatter
   using PlainTextFormatter::visit;
   std::string visit(const Paragraph& theParagraph) const override;
 
-  std::string name() const { return "plainlines"; }
 };  // class PlainLinesTextFormatter
 }  // namespace TextGen
 

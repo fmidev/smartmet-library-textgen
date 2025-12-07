@@ -339,9 +339,8 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
   return sentence;
 }
 
-float CloudinessForecast::getMeanCloudiness(
-    const WeatherPeriod& theWeatherPeriod,
-    const weather_result_data_item_vector& theDataVector) const
+float CloudinessForecast::getMeanCloudiness(const WeatherPeriod& theWeatherPeriod,
+                                            const weather_result_data_item_vector& theDataVector)
 {
   float cloudinessSum = 0;
   unsigned int count = 0;
@@ -661,7 +660,7 @@ void CloudinessForecast::printOutCloudinessData(std::ostream& theOutput) const
 }
 
 void CloudinessForecast::printOutCloudinessData(
-    std::ostream& theOutput, const weather_result_data_item_vector* theDataVector) const
+    std::ostream& theOutput, const weather_result_data_item_vector* theDataVector)
 {
   for (const auto& i : *theDataVector)
   {
@@ -671,7 +670,7 @@ void CloudinessForecast::printOutCloudinessData(
 }
 
 void CloudinessForecast::printOutCloudinessPeriods(
-    std::ostream& theOutput, const cloudiness_period_vector& theCloudinessPeriods) const
+    std::ostream& theOutput, const cloudiness_period_vector& theCloudinessPeriods)
 {
   for (const auto& theCloudinessPeriod : theCloudinessPeriods)
   {
@@ -746,7 +745,7 @@ void CloudinessForecast::printOutCloudinessPeriods(std::ostream& theOutput) cons
 void CloudinessForecast::getWeatherPeriodCloudiness(
     const WeatherPeriod& thePeriod,
     const cloudiness_period_vector& theSourceCloudinessPeriods,
-    cloudiness_period_vector& theWeatherPeriodCloudiness) const
+    cloudiness_period_vector& theWeatherPeriodCloudiness)
 {
   for (const auto& theSourceCloudinessPeriod : theSourceCloudinessPeriods)
   {
@@ -906,7 +905,7 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
 
 cloudiness_id CloudinessForecast::getCloudinessPeriodId(
     const TextGenPosixTime& theObservationTime,
-    const cloudiness_period_vector& theCloudinessPeriodVector) const
+    const cloudiness_period_vector& theCloudinessPeriodVector)
 {
   for (const auto& i : theCloudinessPeriodVector)
   {
@@ -970,7 +969,7 @@ void CloudinessForecast::getWeatherEventIdVector(
     theCloudinessWeatherEvents = *vectorToClone;
 }
 
-Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& /*thePeriod*/) const
+Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& /*thePeriod*/)
 {
   Sentence sentence;
 

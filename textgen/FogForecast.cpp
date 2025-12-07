@@ -316,7 +316,7 @@ void FogForecast::findOutFogTypePeriods()
 }
 
 void FogForecast::printOutFogPeriods(std::ostream& theOutput,
-                                     const fog_period_vector& theFogPeriods) const
+                                     const fog_period_vector& theFogPeriods)
 {
   for (const auto& theFogPeriod : theFogPeriods)
   {
@@ -332,7 +332,7 @@ void FogForecast::printOutFogPeriods(std::ostream& theOutput,
 
 void FogForecast::printOutFogData(std::ostream& theOutput,
                                   const std::string& theLinePrefix,
-                                  const weather_result_data_item_vector& theFogData) const
+                                  const weather_result_data_item_vector& theFogData)
 {
   for (const auto& i : theFogData)
   {
@@ -413,7 +413,7 @@ void FogForecast::printOutFogPeriods(std::ostream& theOutput) const
 }
 
 void FogForecast::printOutFogTypePeriods(std::ostream& theOutput,
-                                         const fog_type_period_vector& theFogTypePeriods) const
+                                         const fog_type_period_vector& theFogTypePeriods)
 {
   for (const auto& theFogTypePeriod : theFogTypePeriods)
   {
@@ -447,7 +447,7 @@ void FogForecast::printOutFogTypePeriods(std::ostream& theOutput) const
 }
 
 float FogForecast::getMean(const fog_period_vector& theFogPeriods,
-                           const WeatherPeriod& theWeatherPeriod) const
+                           const WeatherPeriod& theWeatherPeriod)
 {
   float sum(0.0);
   unsigned int count(0);
@@ -469,7 +469,7 @@ float FogForecast::getMean(const fog_period_vector& theFogPeriods,
   return (count > 0 ? sum / count : 0);
 }
 
-Sentence FogForecast::getFogPhrase(const fog_type_id& theFogTypeId) const
+Sentence FogForecast::getFogPhrase(const fog_type_id& theFogTypeId)
 {
   Sentence sentence;
 
@@ -740,7 +740,7 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
 Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
                                            const std::string& theAreaString,
                                            const std::string& theInPlacesString,
-                                           bool thePossiblyDenseFlag) const
+                                           bool thePossiblyDenseFlag)
 {
   Sentence sentence;
 

@@ -27,7 +27,7 @@ class MessageLogger : public MessageLoggerStream<>
   MessageLogger(std::string theFunction);
 
   void onNewMessage(const string_type& theMessage) override;
-  std::string str() const;
+  static std::string str();
   MessageLogger& operator<<(const TextGen::Glyph& theGlyph);
 
   static void open(const std::string& theFilename);

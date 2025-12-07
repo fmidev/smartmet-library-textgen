@@ -50,8 +50,9 @@ using namespace AreaTools;
 using namespace std;
 
 ThunderForecast::ThunderForecast(wf_story_params& parameters) : theParameters(parameters) {}
+
 float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
-                                   const weather_result_data_item_vector& theDataVector) const
+                                   const weather_result_data_item_vector& theDataVector)
 {
   float maxValue(0.0);
   for (const auto& i : theDataVector)

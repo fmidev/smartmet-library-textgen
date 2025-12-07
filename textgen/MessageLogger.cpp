@@ -194,7 +194,7 @@ void MessageLogger::timestamp(bool theFlag)
   sTimeStampOn = theFlag;
 }
 
-std::string MessageLogger::str() const
+std::string MessageLogger::str()
 {
   if (sOutputStream != nullptr)
     return sOutputStream->str();

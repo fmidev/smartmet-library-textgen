@@ -19,8 +19,6 @@ class SingleLineTextFormatter : public PlainTextFormatter
   using PlainTextFormatter::visit;
   std::string visit(const Document& theDocument) const override;
 
-  std::string name() const { return "singleline"; }
-
 };  // class SingleLineTextFormatter
 }  // namespace TextGen
 

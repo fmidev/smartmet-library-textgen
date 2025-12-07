@@ -43,9 +43,9 @@ class WeatherForecastStoryItem
   unsigned int getPeriodLength() const;
   int forecastPeriodLength() const;
   int storyItemPeriodLength() const;
-  Sentence getTodayVectorSentence(const std::vector<Sentence*>& todayVector,
-                                  unsigned int theBegIndex,
-                                  unsigned int theEndIndex);
+  static Sentence getTodayVectorSentence(const std::vector<Sentence*>& todayVector,
+                                         unsigned int theBegIndex,
+                                         unsigned int theEndIndex);
   Sentence getPeriodPhrase();
   Sentence getPeriodPhrase(bool theFromSpecifier,
                            const WeatherPeriod* thePhrasePeriod = nullptr,

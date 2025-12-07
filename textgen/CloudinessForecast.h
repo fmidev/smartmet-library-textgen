@@ -66,8 +66,8 @@ class CloudinessForecast
   void printOutCloudinessPeriods(std::ostream& theOutput) const;
 
  private:
-  float getMeanCloudiness(const WeatherPeriod& theWeatherPeriod,
-                          const weather_result_data_item_vector& theDataVector) const;
+  static float getMeanCloudiness(const WeatherPeriod& theWeatherPeriod,
+                                 const weather_result_data_item_vector& theDataVector);
   bool separateCoastInlandCloudiness(const WeatherPeriod& theWeatherPeriod) const;
   // e.g. separate morning afternoon
   bool separateWeatherPeriodCloudiness(
@@ -75,30 +75,30 @@ class CloudinessForecast
       const WeatherPeriod& theWeatherPeriod2,
       const weather_result_data_item_vector& theCloudinessData) const;
 
-  void printOutCloudinessData(std::ostream& theOutput,
-                              const weather_result_data_item_vector* theDataVector) const;
-  void getWeatherPeriodCloudiness(const WeatherPeriod& thePeriod,
-                                  const cloudiness_period_vector& theSourceCloudinessPeriods,
-                                  cloudiness_period_vector& theWeatherPeriodCloudiness) const;
+  static void printOutCloudinessData(std::ostream& theOutput,
+                                     const weather_result_data_item_vector* theDataVector);
+  static void getWeatherPeriodCloudiness(const WeatherPeriod& thePeriod,
+                                         const cloudiness_period_vector& theSourceCloudinessPeriods,
+                                         cloudiness_period_vector& theWeatherPeriodCloudiness);
 
-  void printOutCloudinessPeriods(std::ostream& theOutput,
-                                 const cloudiness_period_vector& theCloudinessPeriods) const;
+  static void printOutCloudinessPeriods(std::ostream& theOutput,
+                                        const cloudiness_period_vector& theCloudinessPeriods);
 
   void findOutCloudinessPeriods(const weather_result_data_item_vector* theData,
                                 cloudiness_period_vector& theCloudinessPeriods);
   void findOutCloudinessPeriods();
-  void findOutCloudinessWeatherEvents(const weather_result_data_item_vector* theData,
-                                      weather_event_id_vector& theCloudinessWeatherEvents);
+  static void findOutCloudinessWeatherEvents(const weather_result_data_item_vector* theData,
+                                             weather_event_id_vector& theCloudinessWeatherEvents);
   void findOutCloudinessWeatherEvents();
 
   void joinPeriods(const weather_result_data_item_vector* theCloudinessDataSource,
                    const cloudiness_period_vector& theCloudinessPeriodsSource,
                    cloudiness_period_vector& theCloudinessPeriodsDestination);
   void joinPeriods();
-  cloudiness_id getCloudinessPeriodId(
+  static cloudiness_id getCloudinessPeriodId(
       const TextGenPosixTime& theObservationTime,
-      const cloudiness_period_vector& theCloudinessPeriodVector) const;
-  Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
+      const cloudiness_period_vector& theCloudinessPeriodVector);
+  static Sentence areaSpecificSentence(const WeatherPeriod& thePeriod);
   cloudiness_id getCloudinessId(const float& theMin,
                                 const float& theMean,
                                 const float& theMax,

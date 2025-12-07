@@ -81,11 +81,11 @@ class PostGISDataSource
   using GDALData = GDALDataset;
 #endif
 
-  GDALData* connect(const std::string& host,
-                    const std::string& port,
-                    const std::string& dbname,
-                    const std::string& user,
-                    const std::string& password);
+  static GDALData* connect(const std::string& host,
+                           const std::string& port,
+                           const std::string& dbname,
+                           const std::string& user,
+                           const std::string& password);
 
   std::map<std::string, std::string> polygonmap;
   std::map<std::string, std::string> linemap;

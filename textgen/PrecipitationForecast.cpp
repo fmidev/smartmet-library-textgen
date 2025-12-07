@@ -1564,7 +1564,7 @@ bool PrecipitationForecast::isDryPeriod(const WeatherPeriod& theWeatherPeriod,
 float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
                                      weather_result_data_id theDataId,
                                      const WeatherPeriod& theWeatherPeriod,
-                                     stat_func_id theStatFunc) const
+                                     stat_func_id theStatFunc)
 {
   float cumulativeSum = 0.0;
   float minValue = 0.0;
@@ -1728,21 +1728,21 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
 
 float PrecipitationForecast::getMin(const precipitation_data_vector& theData,
                                     weather_result_data_id theDataId,
-                                    const WeatherPeriod& theWeatherPeriod) const
+                                    const WeatherPeriod& theWeatherPeriod)
 {
   return getStat(theData, theDataId, theWeatherPeriod, MIN);
 }
 
 float PrecipitationForecast::getMax(const precipitation_data_vector& theData,
                                     weather_result_data_id theDataId,
-                                    const WeatherPeriod& theWeatherPeriod) const
+                                    const WeatherPeriod& theWeatherPeriod)
 {
   return getStat(theData, theDataId, theWeatherPeriod, MAX);
 }
 
 float PrecipitationForecast::getMean(const precipitation_data_vector& theData,
                                      weather_result_data_id theDataId,
-                                     const WeatherPeriod& theWeatherPeriod) const
+                                     const WeatherPeriod& theWeatherPeriod)
 {
   return getStat(theData, theDataId, theWeatherPeriod, MEAN);
 }
@@ -1924,7 +1924,7 @@ unsigned int PrecipitationForecast::getPrecipitationCategory(float thePrecipitat
 
 // this should be more detailed
 bool PrecipitationForecast::reportPrecipitationFormsSeparately(precipitation_form_id form1,
-                                                               precipitation_form_id form2) const
+                                                               precipitation_form_id form2)
 {
   if ((form1 == WATER_FORM &&
        (form2 == SLEET_FORM || form2 == SNOW_FORM || form2 == FREEZING_FORM)) ||
@@ -1992,7 +1992,7 @@ bool PrecipitationForecast::separateCoastInlandPrecipitation(
 }
 
 void PrecipitationForecast::printOutPrecipitationVector(
-    std::ostream& theOutput, const precipitation_data_vector& thePrecipitationDataVector) const
+    std::ostream& theOutput, const precipitation_data_vector& thePrecipitationDataVector)
 {
   for (const auto& i : thePrecipitationDataVector)
   {
@@ -2421,7 +2421,7 @@ void PrecipitationForecast::printOutPrecipitationDistribution(std::ostream& theO
 }
 
 void PrecipitationForecast::printOutPrecipitationDistribution(
-    std::ostream& theOutput, const precipitation_data_vector& theDataVector) const
+    std::ostream& theOutput, const precipitation_data_vector& theDataVector)
 {
   for (const auto& i : theDataVector)
   {
@@ -3110,7 +3110,7 @@ void PrecipitationForecast::calculatePrecipitationParameters(
     float& thePrecipitationFormSleet,
     float& thePrecipitationFormSnow,
     float& thePrecipitationFormFreezingRain,
-    float& thePrecipitationFormFreezingDrizzle) const
+    float& thePrecipitationFormFreezingDrizzle)
 {
   // thePrecipitationIntensity contains mean of the maximum and mean precipitation
   thePrecipitationIntensity = getMean(theDataVector, PRECIPITATION_MEAN_DATA, thePeriod);
@@ -3962,7 +3962,7 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 }
 
 string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId,
-                                            time_phrase_format theTimePhraseFormat) const
+                                            time_phrase_format theTimePhraseFormat)
 {
   switch (thePartOfTheDayId)
   {

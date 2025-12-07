@@ -139,7 +139,7 @@ class WindForecast
   void checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVector) const;
   interval_info windSpeedIntervalInfo(const WeatherPeriod& thePeriod) const;
   void checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) const;
-  void checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector) const;
+  static void checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector);
 
   bool negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
                           WeatherPeriod& period1,

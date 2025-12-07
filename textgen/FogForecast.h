@@ -54,16 +54,16 @@ class FogForecast
  private:
   void findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
                              fog_type_period_vector& theFogTypePeriods) const;
-  void findOutFogPeriods(const weather_result_data_item_vector* theModerateFogData,
-                         const weather_result_data_item_vector* theDenseFogData,
-                         fog_period_vector& theFogPeriods);
-  void printOutFogPeriods(std::ostream& theOutput, const fog_period_vector& theFogPeriods) const;
-  void printOutFogTypePeriods(std::ostream& theOutput,
-                              const fog_type_period_vector& theFogTypePeriods) const;
-  void printOutFogData(std::ostream& theOutput,
-                       const std::string& theLinePrefix,
-                       const weather_result_data_item_vector& theFogData) const;
-  Sentence getFogPhrase(const fog_type_id& theFogTypeId);
+  static void findOutFogPeriods(const weather_result_data_item_vector* theModerateFogData,
+                                const weather_result_data_item_vector* theDenseFogData,
+                                fog_period_vector& theFogPeriods);
+  static void printOutFogPeriods(std::ostream& theOutput, const fog_period_vector& theFogPeriods);
+  static void printOutFogTypePeriods(std::ostream& theOutput,
+                                     const fog_type_period_vector& theFogTypePeriods);
+  static void printOutFogData(std::ostream& theOutput,
+                              const std::string& theLinePrefix,
+                              const weather_result_data_item_vector& theFogData);
+  static Sentence getFogPhrase(const fog_type_id& theFogTypeId);
   void findOutFogPeriods();
   void findOutFogTypePeriods();
   Sentence fogSentence(const WeatherPeriod& thePeriod,
@@ -73,10 +73,9 @@ class FogForecast
                   const fog_type_period_vector& theFogTypePeriods,
                   const std::string& theAreaString) const;
 
-  Sentence getFogPhrase(const fog_type_id& theFogTypeId) const;
   Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
-  float getMean(const fog_period_vector& theFogPeriods,
-                const WeatherPeriod& theWeatherPeriod) const;
+  static float getMean(const fog_period_vector& theFogPeriods,
+                       const WeatherPeriod& theWeatherPeriod);
   WeatherPeriod getActualFogPeriod(const WeatherPeriod& theForecastPeriod,
                                    const WeatherPeriod& theFogPeriod,
                                    bool& theFogPeriodOkFlag) const;
@@ -84,10 +83,10 @@ class FogForecast
                          const fog_type_period_vector& theFogTypePeriods,
                          WeatherPeriod& theResultPeriod,
                          fog_type_id& theFogTypeId) const;
-  Sentence constructFogSentence(const std::string& theDayPhasePhrase,
-                                const std::string& theAreaString,
-                                const std::string& theInPlacesString,
-                                bool thePossiblyDenseFlag) const;
+  static Sentence constructFogSentence(const std::string& theDayPhasePhrase,
+                                       const std::string& theAreaString,
+                                       const std::string& theInPlacesString,
+                                       bool thePossiblyDenseFlag);
 
   wf_story_params& theParameters;
 

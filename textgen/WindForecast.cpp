@@ -2299,7 +2299,7 @@ void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) c
 
 // check that wind direction changes  are not reported too often if direction changes
 // a lot at once
-void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector) const
+void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector)
 {
   for (auto& si : sentenceInfoVector)
   {

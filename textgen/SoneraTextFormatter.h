@@ -39,8 +39,6 @@ class SoneraTextFormatter : public TextFormatter
   std::string visit(const SectionTag& theSectionTag) const override;
   std::string visit(const StoryTag& theStoryTag) const override;
 
-  std::string name() const { return "sonera"; }
-
  private:
   using container_type = std::list<std::string>;
   mutable container_type itsParts;

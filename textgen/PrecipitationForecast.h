@@ -58,8 +58,8 @@ class PrecipitationForecast
 
   void getWeatherEventIdVector(weather_event_id_vector& thePrecipitationWeatherEvents) const;
 
-  void printOutPrecipitationVector(
-      std::ostream& theOutput, const precipitation_data_vector& thePrecipitationDataVector) const;
+  static void printOutPrecipitationVector(
+      std::ostream& theOutput, const precipitation_data_vector& thePrecipitationDataVector);
   void printOutPrecipitationData(std::ostream& theOutput) const;
   void printOutPrecipitationPeriods(std::ostream& theOutput, bool isPoint) const;
   void printOutPrecipitationWeatherEvents(std::ostream& theOutput) const;
@@ -94,8 +94,8 @@ class PrecipitationForecast
                                      const WeatherPeriod& period) const;
 
  private:
-  std::string getTimePhrase(part_of_the_day_id thePartOfTheDayId,
-                            time_phrase_format theTimePhraseFormat) const;
+  static std::string getTimePhrase(part_of_the_day_id thePartOfTheDayId,
+                                   time_phrase_format theTimePhraseFormat);
   WeatherPeriod getHeavyPrecipitationPeriod(const WeatherPeriod& thePeriod,
                                             const precipitation_data_vector& theDataVector) const;
 
@@ -124,8 +124,8 @@ class PrecipitationForecast
                                     const std::vector<WeatherPeriod>& thePrecipitationPeriods,
                                     const precipitation_data_vector& theDataVector,
                                     bool isPoint) const;
-  void printOutPrecipitationDistribution(std::ostream& theOutput,
-                                         const precipitation_data_vector& theDataVector) const;
+  static void printOutPrecipitationDistribution(std::ostream& theOutput,
+                                                const precipitation_data_vector& theDataVector);
   void printOutPrecipitationDistribution(std::ostream& theOutput, const WeatherPeriod& thePeriod);
   void getPrecipitationDistribution(const WeatherPeriod& thePeriod,
                                     float& theNorthPercentage,
@@ -136,20 +136,21 @@ class PrecipitationForecast
                                     float& theSouthEastPercentage,
                                     float& theSouthWestPercentage,
                                     float& theNorthWestPercentage) const;
-  void cleanUpPrecipitationWeatherEvents(weather_event_id_vector& thePrecipitationWeatherEvents);
-  void removeRedundantWeatherEvents(weather_event_id_vector& thePrecipitationWeatherEvents,
-                                    const std::vector<int>& theRemoveIndexes);
-  void removeDuplicatePrecipitationWeatherEvents(
+  static void cleanUpPrecipitationWeatherEvents(
       weather_event_id_vector& thePrecipitationWeatherEvents);
-  float getMin(const precipitation_data_vector& theData,
-               weather_result_data_id theDataId,
-               const WeatherPeriod& theWeatherPeriod) const;
-  float getMax(const precipitation_data_vector& theData,
-               weather_result_data_id theDataId,
-               const WeatherPeriod& theWeatherPeriod) const;
-  float getMean(const precipitation_data_vector& theData,
-                weather_result_data_id theDataId,
-                const WeatherPeriod& theWeatherPeriod) const;
+  static void removeRedundantWeatherEvents(weather_event_id_vector& thePrecipitationWeatherEvents,
+                                           const std::vector<int>& theRemoveIndexes);
+  static void removeDuplicatePrecipitationWeatherEvents(
+      weather_event_id_vector& thePrecipitationWeatherEvents);
+  static float getMin(const precipitation_data_vector& theData,
+                      weather_result_data_id theDataId,
+                      const WeatherPeriod& theWeatherPeriod);
+  static float getMax(const precipitation_data_vector& theData,
+                      weather_result_data_id theDataId,
+                      const WeatherPeriod& theWeatherPeriod);
+  static float getMean(const precipitation_data_vector& theData,
+                       weather_result_data_id theDataId,
+                       const WeatherPeriod& theWeatherPeriod);
 
   unsigned int getPrecipitationCategory(float thePrecipitation, unsigned int theType) const;
   bool separateCoastInlandPrecipitation(const WeatherPeriod& theWeatherPeriod) const;
@@ -233,25 +234,25 @@ class PrecipitationForecast
       const std::string& theAreaPhrase,
       std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const;
 
-  void calculatePrecipitationParameters(const WeatherPeriod& thePeriod,
-                                        const precipitation_data_vector& theDataVector,
-                                        float& thePrecipitationIntensity,
-                                        float& thePrecipitationAbsoluteMaxIntensity,
-                                        float& thePrecipitationExtent,
-                                        float& thePrecipitationFormWater,
-                                        float& thePrecipitationFormDrizzle,
-                                        float& thePrecipitationFormSleet,
-                                        float& thePrecipitationFormSnow,
-                                        float& thePrecipitationFormFreezingRain,
-                                        float& thePrecipitationFormFreezingDrizzle) const;
+  static void calculatePrecipitationParameters(const WeatherPeriod& thePeriod,
+                                               const precipitation_data_vector& theDataVector,
+                                               float& thePrecipitationIntensity,
+                                               float& thePrecipitationAbsoluteMaxIntensity,
+                                               float& thePrecipitationExtent,
+                                               float& thePrecipitationFormWater,
+                                               float& thePrecipitationFormDrizzle,
+                                               float& thePrecipitationFormSleet,
+                                               float& thePrecipitationFormSnow,
+                                               float& thePrecipitationFormFreezingRain,
+                                               float& thePrecipitationFormFreezingDrizzle);
 
-  float getStat(const precipitation_data_vector& theData,
-                weather_result_data_id theDataId,
-                const WeatherPeriod& theWeatherPeriod,
-                stat_func_id theStatFunc) const;
+  static float getStat(const precipitation_data_vector& theData,
+                       weather_result_data_id theDataId,
+                       const WeatherPeriod& theWeatherPeriod,
+                       stat_func_id theStatFunc);
 
-  bool reportPrecipitationFormsSeparately(precipitation_form_id form1,
-                                          precipitation_form_id form2) const;
+  static bool reportPrecipitationFormsSeparately(precipitation_form_id form1,
+                                                 precipitation_form_id form2);
 
   precipitation_form_id getPoutaantuuPrecipitationForm() const;
 

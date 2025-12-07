@@ -89,9 +89,9 @@ class EasternMaskSource::Pimple
 
   void insert(const WeatherId& theID, const WeatherArea& theArea, const mask_type& theMask) const;
 
-  mask_type create_mask(const WeatherArea& theArea,
-                        const std::string& theData,
-                        const WeatherSource& theWeatherSource) const;
+  static mask_type create_mask(const WeatherArea& theArea,
+                               const std::string& theData,
+                               const WeatherSource& theWeatherSource);
 
 };  // class EasternMaskSource::Pimple
 
@@ -187,9 +187,7 @@ void EasternMaskSource::Pimple::insert(const WeatherId& theID,
 // ----------------------------------------------------------------------
 
 EasternMaskSource::mask_type EasternMaskSource::Pimple::create_mask(
-    const WeatherArea& theArea,
-    const std::string& theData,
-    const WeatherSource& theWeatherSource) const
+    const WeatherArea& theArea, const std::string& theData, const WeatherSource& theWeatherSource)
 {
   // Establish the grid which to mask
 
