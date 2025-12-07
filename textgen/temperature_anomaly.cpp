@@ -970,9 +970,8 @@ Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParam
                dayBeforeDay1Temperature > veryColdTemperature &&
                dayBeforeDay1Temperature < MILD_TEMPERATURE_LOWER_LIMIT &&
                day1Temperature > veryColdTemperature &&
-               day1Temperature < MILD_TEMPERATURE_LOWER_LIMIT && day2Temperature < ZERO_DEGREES &&
-               day2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && day2Temperature < ZERO_DEGREES &&
-               day2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT)
+               day1Temperature < MILD_TEMPERATURE_LOWER_LIMIT && day1Temperature < ZERO_DEGREES &&
+               day2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && day2Temperature < ZERO_DEGREES)
       {
         // redundant: this will never happen, because "saa lauhtuu" is tested before
         sentence << get_shortruntrend_sentence(
@@ -1247,8 +1246,7 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
   if (theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSELLISEN_KOLEAA ||
       theParameters.theAnomalyPhrase == SAA_ON_HARVINAISEN_LAMMINTA ||
       theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSLLISEN_LAMMINTA ||
-      theParameters.theAnomalyPhrase == SAA_ON_HYVIN_LEUTOA ||
-      theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSLLISEN_LAMMINTA)
+      theParameters.theAnomalyPhrase == SAA_ON_HYVIN_LEUTOA)
   {
     sentence << anomalySentence;
   }
