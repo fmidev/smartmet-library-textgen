@@ -36,8 +36,6 @@ class ExtendedDebugTextFormatter : public TextFormatter
   std::string visit(const SectionTag& theSectionTag) const override;
   std::string visit(const StoryTag& theStoryTag) const override;
 
-  std::string name() const { return "debug"; }
-
  private:
   DebugDictionary itsDictionary;
   mutable std::string itsSectionVar;

@@ -36,8 +36,6 @@ class CssTextFormatter : public TextFormatter
   std::string visit(const SectionTag& theSectionTag) const override;
   std::string visit(const StoryTag& theStoryTag) const override;
 
-  std::string name() const { return "css"; }
-
  private:
   std::shared_ptr<Dictionary> itsDictionary;
   mutable std::set<std::string> itsUsedCssClasses;
