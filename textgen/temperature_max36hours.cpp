@@ -25,6 +25,7 @@
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
 #include "WeekdayTools.h"
+#include <boost/lexical_cast.hpp>
 #include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
@@ -36,7 +37,6 @@
 #include <calculator/WeatherResultTools.h>
 #include <calculator/WeatherSource.h>
 #include <macgyver/Exception.h>
-
 #include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
@@ -44,12 +44,11 @@
 #include <newbase/NFmiIndexMaskTools.h>
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiStringTools.h>
-
-#include <boost/lexical_cast.hpp>
-
 #include <cstdio>
 #include <map>
 #include <vector>
+
+using namespace std;
 
 namespace TextGen
 {
@@ -57,10 +56,8 @@ namespace TextGen
 
 namespace TemperatureMax36Hours
 {
-using namespace TextGen;
 using namespace TextGen::TemperatureStoryTools;
 
-using namespace std;
 using namespace Settings;
 using namespace AreaTools;
 using namespace SeasonTools;
@@ -472,147 +469,8 @@ enum weather_result_id
   UNDEFINED_WEATHER_RESULT_ID
 };
 
-using weather_result_container_type = map<int, WeatherResult*>;
-using value_type = weather_result_container_type::value_type;
-
-struct t36hparams
+namespace
 {
-  t36hparams(const string& variable,
-             MessageLogger& log,
-             const NightAndDayPeriodGenerator& generator,
-             forecast_season_id& seasonId,
-             unsigned short forecastArea,
-             unsigned short forecastPeriod,
-             const TextGenPosixTime& forecastTime,
-             const WeatherPeriod& fullPeriod,
-             WeatherPeriod& weatherPeriod,
-             const WeatherArea& weatherArea,
-             const AnalysisSources& analysisSources,
-             weather_result_container_type& weatherResults)
-      : theVariable(variable),
-        theLog(log),
-        theGenerator(generator),
-        theSeasonId(seasonId),
-        theForecastArea(forecastArea),
-        theForecastPeriod(forecastPeriod),
-        theForecastTime(forecastTime),
-        theFullPeriod(fullPeriod),
-        theWeatherPeriod(weatherPeriod),
-        theWeatherArea(weatherArea),
-        theAnalysisSources(analysisSources),
-        theWeatherResults(weatherResults)
-  {
-  }
-
-  const string& theVariable;
-  MessageLogger& theLog;
-  const NightAndDayPeriodGenerator& theGenerator;
-  forecast_season_id& theSeasonId;
-  unsigned short theForecastArea = 0;
-  unsigned short theForecastPeriod = 0;
-  const TextGenPosixTime& theForecastTime;
-  const WeatherPeriod& theFullPeriod;
-  WeatherPeriod& theWeatherPeriod;
-  const WeatherArea& theWeatherArea;
-  const AnalysisSources& theAnalysisSources;
-  weather_result_container_type& theWeatherResults;
-  bool theCoastalAndInlandTogetherFlag = false;
-  forecast_area_id theForecastAreaId = NO_AREA;
-  forecast_period_id theForecastPeriodId = NO_PERIOD;
-  forecast_subperiod_id theSubPeriodId = UNDEFINED_SUBPERIOD;
-  unsigned short theForecastAreaDay1 = 0;
-  unsigned short theForecastAreaNight = 0;
-  unsigned short theForecastAreaDay2 = 0;
-  unsigned short theForecastSubPeriod = 0;
-  double theMaxTemperatureDay1 = kFloatMissing;
-  double theMeanTemperatureDay1 = kFloatMissing;
-  double theMinimum = kFloatMissing;
-  double theMaximum = kFloatMissing;
-  double theMean = kFloatMissing;
-  bool theNightPeriodTautologyFlag = false;
-  bool theDayPeriodTautologyFlag = false;
-  bool theTomorrowTautologyFlag = false;
-  bool theOnCoastalAreaTautologyFlag = false;
-  bool theOnInlandAreaTautologyFlag = false;
-  bool theFrostExistsTautologyFlag = false;
-  string theRangeSeparator = "...";
-  int theMinInterval = 2;
-  bool theZeroIntervalFlag = false;
-  temperature_phrase_id theTemperaturePhraseId = NO_PHRASE_ID;
-  bool theDayAndNightSeparationFlag = true;
-  Paragraph theOptionalFrostParagraph;
-  bool theUseFrostExistsPhrase = false;
-  bool theFullDayFlag = true;
-  bool theUseLongPhrase = true;
-  bool theAddCommaDelimiterFlag = false;
-  Sentence theSentenceUnderConstruction;
-
-  bool morningAndAfternoonSeparated(forecast_period_id forecastPeriodId = NO_PERIOD) const
-  {
-    if (forecastPeriodId == NO_PERIOD)
-    {
-      if (theForecastPeriodId == DAY1_PERIOD)
-        return theForecastSubPeriod & DAY1_MORNING_PERIOD;
-      if (theForecastPeriodId == NIGHT_PERIOD)
-        return false;
-      if (theForecastPeriodId == DAY2_PERIOD)
-        return theForecastSubPeriod & DAY2_MORNING_PERIOD;
-    }
-    else if (forecastPeriodId == DAY1_PERIOD)
-    {
-      return theForecastSubPeriod & DAY1_MORNING_PERIOD;
-    }
-    else if (forecastPeriodId == NIGHT_PERIOD)
-    {
-      return false;
-    }
-    else if (forecastPeriodId == DAY2_PERIOD)
-    {
-      return theForecastSubPeriod & DAY2_MORNING_PERIOD;
-    }
-
-    return false;
-  }
-
-  bool inlandAndCoastSeparated(forecast_period_id forecastPeriodId = NO_PERIOD) const
-  {
-    if (forecastPeriodId == NO_PERIOD)
-    {
-      if (theForecastPeriodId == DAY1_PERIOD)
-        return (theForecastAreaDay1 & COASTAL_AREA) && (theForecastAreaDay1 & INLAND_AREA);
-      if (theForecastPeriodId == NIGHT_PERIOD)
-        return (theForecastAreaNight & COASTAL_AREA) && (theForecastAreaNight & INLAND_AREA);
-      if (theForecastPeriodId == DAY2_PERIOD)
-        return (theForecastAreaDay2 & COASTAL_AREA) && (theForecastAreaDay2 & INLAND_AREA);
-    }
-    else if (forecastPeriodId == DAY1_PERIOD)
-    {
-      return (theForecastAreaDay1 & COASTAL_AREA) && (theForecastAreaDay1 & INLAND_AREA);
-    }
-    else if (forecastPeriodId == NIGHT_PERIOD)
-    {
-      return (theForecastAreaNight & COASTAL_AREA) && (theForecastAreaNight & INLAND_AREA);
-    }
-    else if (forecastPeriodId == DAY2_PERIOD)
-    {
-      return (theForecastAreaDay2 & COASTAL_AREA) && (theForecastAreaDay2 & INLAND_AREA);
-    }
-
-    return false;
-  }
-
-  unsigned int numberOfPeriods() const
-  {
-    unsigned int retval(0);
-
-    retval += (theForecastPeriod & DAY1_PERIOD ? 1 : 0);
-    retval += (theForecastPeriod & NIGHT_PERIOD ? 1 : 0);
-    retval += (theForecastPeriod & DAY2_PERIOD ? 1 : 0);
-
-    return retval;
-  }
-};
-
 std::string to_string(const GlyphContainer& gc)
 {
   DebugTextFormatter dtf;
@@ -889,6 +747,148 @@ std::string weather_result_string(const std::string& areaName, weather_result_id
 
   return retval;
 }
+}  // namespace
+
+using weather_result_container_type = map<int, WeatherResult*>;
+using value_type = weather_result_container_type::value_type;
+
+struct t36hparams
+{
+  t36hparams(const string& variable,
+             MessageLogger& log,
+             const NightAndDayPeriodGenerator& generator,
+             forecast_season_id& seasonId,
+             unsigned short forecastArea,
+             unsigned short forecastPeriod,
+             const TextGenPosixTime& forecastTime,
+             const WeatherPeriod& fullPeriod,
+             WeatherPeriod& weatherPeriod,
+             const WeatherArea& weatherArea,
+             const AnalysisSources& analysisSources,
+             weather_result_container_type& weatherResults)
+      : theVariable(variable),
+        theLog(log),
+        theGenerator(generator),
+        theSeasonId(seasonId),
+        theForecastArea(forecastArea),
+        theForecastPeriod(forecastPeriod),
+        theForecastTime(forecastTime),
+        theFullPeriod(fullPeriod),
+        theWeatherPeriod(weatherPeriod),
+        theWeatherArea(weatherArea),
+        theAnalysisSources(analysisSources),
+        theWeatherResults(weatherResults)
+  {
+  }
+
+  const string& theVariable;
+  MessageLogger& theLog;
+  const NightAndDayPeriodGenerator& theGenerator;
+  forecast_season_id& theSeasonId;
+  unsigned short theForecastArea = 0;
+  unsigned short theForecastPeriod = 0;
+  const TextGenPosixTime& theForecastTime;
+  const WeatherPeriod& theFullPeriod;
+  WeatherPeriod& theWeatherPeriod;
+  const WeatherArea& theWeatherArea;
+  const AnalysisSources& theAnalysisSources;
+  weather_result_container_type& theWeatherResults;
+  bool theCoastalAndInlandTogetherFlag = false;
+  forecast_area_id theForecastAreaId = NO_AREA;
+  forecast_period_id theForecastPeriodId = NO_PERIOD;
+  forecast_subperiod_id theSubPeriodId = UNDEFINED_SUBPERIOD;
+  unsigned short theForecastAreaDay1 = 0;
+  unsigned short theForecastAreaNight = 0;
+  unsigned short theForecastAreaDay2 = 0;
+  unsigned short theForecastSubPeriod = 0;
+  double theMaxTemperatureDay1 = kFloatMissing;
+  double theMeanTemperatureDay1 = kFloatMissing;
+  double theMinimum = kFloatMissing;
+  double theMaximum = kFloatMissing;
+  double theMean = kFloatMissing;
+  bool theNightPeriodTautologyFlag = false;
+  bool theDayPeriodTautologyFlag = false;
+  bool theTomorrowTautologyFlag = false;
+  bool theOnCoastalAreaTautologyFlag = false;
+  bool theOnInlandAreaTautologyFlag = false;
+  bool theFrostExistsTautologyFlag = false;
+  string theRangeSeparator = "...";
+  int theMinInterval = 2;
+  bool theZeroIntervalFlag = false;
+  temperature_phrase_id theTemperaturePhraseId = NO_PHRASE_ID;
+  bool theDayAndNightSeparationFlag = true;
+  Paragraph theOptionalFrostParagraph;
+  bool theUseFrostExistsPhrase = false;
+  bool theFullDayFlag = true;
+  bool theUseLongPhrase = true;
+  bool theAddCommaDelimiterFlag = false;
+  Sentence theSentenceUnderConstruction;
+
+  bool morningAndAfternoonSeparated(forecast_period_id forecastPeriodId = NO_PERIOD) const
+  {
+    if (forecastPeriodId == NO_PERIOD)
+    {
+      if (theForecastPeriodId == DAY1_PERIOD)
+        return theForecastSubPeriod & DAY1_MORNING_PERIOD;
+      if (theForecastPeriodId == NIGHT_PERIOD)
+        return false;
+      if (theForecastPeriodId == DAY2_PERIOD)
+        return theForecastSubPeriod & DAY2_MORNING_PERIOD;
+    }
+    else if (forecastPeriodId == DAY1_PERIOD)
+    {
+      return theForecastSubPeriod & DAY1_MORNING_PERIOD;
+    }
+    else if (forecastPeriodId == NIGHT_PERIOD)
+    {
+      return false;
+    }
+    else if (forecastPeriodId == DAY2_PERIOD)
+    {
+      return theForecastSubPeriod & DAY2_MORNING_PERIOD;
+    }
+
+    return false;
+  }
+
+  bool inlandAndCoastSeparated(forecast_period_id forecastPeriodId = NO_PERIOD) const
+  {
+    if (forecastPeriodId == NO_PERIOD)
+    {
+      if (theForecastPeriodId == DAY1_PERIOD)
+        return (theForecastAreaDay1 & COASTAL_AREA) && (theForecastAreaDay1 & INLAND_AREA);
+      if (theForecastPeriodId == NIGHT_PERIOD)
+        return (theForecastAreaNight & COASTAL_AREA) && (theForecastAreaNight & INLAND_AREA);
+      if (theForecastPeriodId == DAY2_PERIOD)
+        return (theForecastAreaDay2 & COASTAL_AREA) && (theForecastAreaDay2 & INLAND_AREA);
+    }
+    else if (forecastPeriodId == DAY1_PERIOD)
+    {
+      return (theForecastAreaDay1 & COASTAL_AREA) && (theForecastAreaDay1 & INLAND_AREA);
+    }
+    else if (forecastPeriodId == NIGHT_PERIOD)
+    {
+      return (theForecastAreaNight & COASTAL_AREA) && (theForecastAreaNight & INLAND_AREA);
+    }
+    else if (forecastPeriodId == DAY2_PERIOD)
+    {
+      return (theForecastAreaDay2 & COASTAL_AREA) && (theForecastAreaDay2 & INLAND_AREA);
+    }
+
+    return false;
+  }
+
+  unsigned int numberOfPeriods() const
+  {
+    unsigned int retval(0);
+
+    retval += (theForecastPeriod & DAY1_PERIOD ? 1 : 0);
+    retval += (theForecastPeriod & NIGHT_PERIOD ? 1 : 0);
+    retval += (theForecastPeriod & DAY2_PERIOD ? 1 : 0);
+
+    return retval;
+  }
+};
 
 void construct_optional_frost_story(t36hparams& theParameters)
 {

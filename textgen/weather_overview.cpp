@@ -31,6 +31,8 @@ using namespace TextGen;
 
 using namespace std;
 
+namespace TextGen
+{
 namespace
 {
 // ----------------------------------------------------------------------
@@ -1407,10 +1409,7 @@ int two_day_rain_unique_index(int theStartHour, int theEndHour)
   const int tmp = two_day_rain_index(theStartHour, theEndHour);
   return two_day_forecasts[tmp];
 }
-}  // namespace
 
-namespace TextGen
-{
 // ----------------------------------------------------------------------
 /*!
  * \brief Generator story on a day with a single inclusive rain
@@ -1586,7 +1585,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
          << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
       break;
     }
-    // Tanaan [enimmakseen selkeaa], [aamulla] ja [yolla] [sadetta]. Huomenna [enimmakseen selkeaa]
+    // Tanaan [enimmakseen selkeaa], [aamulla] ja [yolla] [sadetta]. Huomenna [enimmakseen
+    // selkeaa]
     case 7:
     {
       s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1695,6 +1695,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
   return paragraph;
 }
 
+}  // namespace
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Generate story on a day with many inclusive rains
@@ -1726,7 +1728,6 @@ Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
  * \todo Much missing
  */
 // ----------------------------------------------------------------------
-
 Paragraph WeatherStory::overview() const
 {
   MessageLogger log("WeatherStory::overview");
