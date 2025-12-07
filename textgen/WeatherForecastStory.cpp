@@ -300,9 +300,9 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
                         << as_string(previousPrecipitationStoryItem->getStoryItemPeriod())
                         << " and " << as_string(precipitationPeriod)
                         << " because they are close to each other\n";
-              TextGenPosixTime startTime =
+              const auto startTime =
                   previousPrecipitationStoryItem->getStoryItemPeriod().localStartTime();
-              TextGenPosixTime endTime = precipitationPeriod.localEndTime();
+              const auto& endTime = precipitationPeriod.localEndTime();
               previousPrecipitationStoryItem->thePeriod = WeatherPeriod(startTime, endTime);
               mergeDone = true;
             }

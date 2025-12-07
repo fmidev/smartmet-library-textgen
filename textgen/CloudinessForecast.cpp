@@ -764,8 +764,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
     if (thePeriod.localStartTime() >= theSourceCloudinessPeriod.first.localStartTime() &&
         thePeriod.localEndTime() <= theSourceCloudinessPeriod.first.localEndTime())
     {
-      const TextGenPosixTime& startTime = thePeriod.localStartTime();
-      const TextGenPosixTime& endTime = thePeriod.localEndTime();
+      const auto& startTime = thePeriod.localStartTime();
+      const auto& endTime = thePeriod.localEndTime();
       cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
@@ -774,8 +774,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
              thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localEndTime() &&
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localEndTime())
     {
-      const TextGenPosixTime& startTime = thePeriod.localStartTime();
-      const TextGenPosixTime& endTime = theSourceCloudinessPeriod.first.localEndTime();
+      const auto& startTime = thePeriod.localStartTime();
+      const auto& endTime = theSourceCloudinessPeriod.first.localEndTime();
       cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
@@ -784,8 +784,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localStartTime() &&
              thePeriod.localEndTime() <= theSourceCloudinessPeriod.first.localEndTime())
     {
-      TextGenPosixTime startTime = theSourceCloudinessPeriod.first.localStartTime();
-      TextGenPosixTime endTime = thePeriod.localEndTime();
+      const auto& startTime = theSourceCloudinessPeriod.first.localStartTime();
+      const auto& endTime = thePeriod.localEndTime();
       cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);
@@ -793,8 +793,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
     else if (thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localStartTime() &&
              thePeriod.localEndTime() > theSourceCloudinessPeriod.first.localEndTime())
     {
-      TextGenPosixTime startTime = theSourceCloudinessPeriod.first.localStartTime();
-      TextGenPosixTime endTime = theSourceCloudinessPeriod.first.localEndTime();
+      const auto& startTime = theSourceCloudinessPeriod.first.localStartTime();
+      const auto& endTime = theSourceCloudinessPeriod.first.localEndTime();
       cloudiness_id clid = theSourceCloudinessPeriod.second;
       pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
       theWeatherPeriodCloudiness.push_back(item);

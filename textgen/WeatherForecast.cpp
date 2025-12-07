@@ -1229,7 +1229,7 @@ int get_today_vector(const string& theVariable,
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const string& theVariable,
                           const WeatherArea& theArea,
-                          const WeatherPeriod thePeriod,
+                          const WeatherPeriod& thePeriod,
                           const TextGenPosixTime& theForecastTime)
 {
   Sentence sentence;

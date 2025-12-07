@@ -3079,7 +3079,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
     // find the highest / lowest point and report  period from there to the end
     for (unsigned int i = 2; i < resultVector.size(); i++)
     {
-      WeatherPeriod periodCompare(resultVector[i]);
+      const WeatherPeriod& periodCompare = resultVector[i];
       interval_info intervalInfoCompare = windSpeedIntervalInfo(periodCompare);
       if (eventPeriodDataItem.theWindEvent == TUULI_VOIMISTUU)
       {
@@ -3102,7 +3102,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
         }
       }
     }
-    WeatherPeriod lastPeriod(resultVector[selectedIndex]);
+    const WeatherPeriod& lastPeriod = resultVector[selectedIndex];
     retVector.push_back(lastPeriod);
     theParameters.theLog << "Actual last reporting period " << as_string(lastPeriod) << '\n';
   }

@@ -102,15 +102,15 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
   {
     if (i < changeTimes.size() - 1)
     {
-      TextGenPosixTime startTime = changeTimes[i];
-      TextGenPosixTime endTime = changeTimes[i + 1];
+      const auto& startTime = changeTimes[i];
+      auto endTime = changeTimes[i + 1];
       endTime.ChangeByHours(-1);
       newPeriod = WeatherPeriod(startTime, endTime);
     }
     else
     {
-      TextGenPosixTime startTime = changeTimes[i];
-      TextGenPosixTime endTime = storyParams.theForecastPeriod.localEndTime();
+      const auto& startTime = changeTimes[i];
+      const auto& endTime = storyParams.theForecastPeriod.localEndTime();
       newPeriod = WeatherPeriod(startTime, endTime);
     }
 
@@ -145,9 +145,9 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
   {
     if (indexesToRemove.find(i) != indexesToRemove.end())
       continue;
-    WeatherPeriod previousPeriod = directionPeriods[i - 1];
-    WeatherPeriod currentPeriod = directionPeriods[i];
-    WeatherPeriod nextPeriod = directionPeriods[i + 1];
+    const WeatherPeriod& previousPeriod = directionPeriods[i - 1];
+    const WeatherPeriod& currentPeriod = directionPeriods[i];
+    const WeatherPeriod& nextPeriod = directionPeriods[i + 1];
     WindDirectionInfo previousId = get_wind_direction(storyParams, previousPeriod);
     WindDirectionInfo currentId = get_wind_direction(storyParams, currentPeriod);
     WindDirectionInfo nextId = get_wind_direction(storyParams, nextPeriod);
@@ -212,7 +212,7 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     if (indexesToRemove.find(i) != indexesToRemove.end())
       continue;
 
-    WeatherPeriod period = cleanedPeriods[i];
+    const WeatherPeriod& period = cleanedPeriods[i];
     WindDirectionId id = get_wind_direction(storyParams, period).id;
 
     // dont report short varying wind if it is not the first/last one
