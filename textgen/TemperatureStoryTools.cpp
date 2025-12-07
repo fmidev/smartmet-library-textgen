@@ -784,19 +784,33 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
   if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
   {
     if (theFractileId == FRACTILE_02)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F02"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F02")),
+          0};
     if (theFractileId == FRACTILE_12)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F12"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F12")),
+          0};
     if (theFractileId == FRACTILE_37)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F37"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F37")),
+          0};
     if (theFractileId == FRACTILE_50)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F50"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F50")),
+          0};
     if (theFractileId == FRACTILE_63)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F63"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F63")),
+          0};
     if (theFractileId == FRACTILE_88)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F88"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F88")),
+          0};
     if (theFractileId == FRACTILE_98)
-      return {require_double(theVar + "::fake::fractile::" + seasonStr + "::F98"), 0};
+      return {
+          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F98")),
+          0};
     return {kFloatMissing, 0};
   }
 
