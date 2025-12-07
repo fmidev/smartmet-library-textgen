@@ -64,7 +64,6 @@ class Rect
 {
  public:
   Rect() : m_topLeft(NFmiPoint(0.0, 0.0)), m_bottomRight(NFmiPoint(0.0, 0.0)) {}
-  Rect(const Rect& theRect) = default;
   Rect(const double& topLeftX,
        const double& topLeftY,
        const double& bottomRightX,
