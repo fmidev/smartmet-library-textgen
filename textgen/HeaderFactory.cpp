@@ -250,9 +250,7 @@ TextGen::Header header_report_area(const TextGenPosixTime& theForecastTime,
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_report_location(const WeatherArea& theArea,
-                                       const WeatherPeriod& thePeriod,
-                                       const string& theVariable)
+TextGen::Header header_report_location(const WeatherArea& theArea)
 {
   MessageLogger log("header_report_location");
   using namespace TextGen;
@@ -519,7 +517,7 @@ Header create(const TextGenPosixTime& theForecastTime,
   if (type == "report_time")
     return header_report_time(theForecastTime, thePeriod);
   if (type == "report_location")
-    return header_report_location(theArea, thePeriod, theVariable);
+    return header_report_location(theArea);
   if (type == "morning")
     return header_morning(thePeriod, theVariable);
   if (type == "forenoon")

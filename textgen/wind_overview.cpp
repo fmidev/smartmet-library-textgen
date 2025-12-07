@@ -2735,7 +2735,6 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
   // in the end merge successive strenghtening/weakening periods if there are any
   size_t vectorOriginalSize = cleanedEventPeriods.size();
-  size_t removedElements = 0;
   for (size_t i = vectorOriginalSize - 1; i > 0; i--)
   {
     WindEventPeriodDataItem* prevItem = cleanedEventPeriods[i - 1];
@@ -2752,7 +2751,6 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
       cleanedEventPeriods[i] = nullptr;
       delete cleanedEventPeriods[i - 1];
       cleanedEventPeriods[i - 1] = newWindEventPeriodDataItem;
-      removedElements++;
     }
   }
   storyParams.theWindSpeedEventPeriodVector.clear();
@@ -3247,9 +3245,9 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
   {
     const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-    unsigned int index1;
-    unsigned int index2;
-    unsigned int index3;
+    unsigned int index1 = 0;
+    unsigned int index2 = 0;
+    unsigned int index3 = 0;
     WeatherArea::Type areaType(weatherArea.type());
 
     vector<unsigned int>& eqIndexVector = storyParams.equalizedWDIndexes(areaType);
@@ -3323,11 +3321,10 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
         break;
       }
 
-      unsigned int remove_index = eqIndexVector[minErrorIndex];
-
-      const WindDataItemUnit& iii = (*storyParams.theWindDataVector[remove_index])(areaType);
-      WeatherPeriod per(iii.thePeriod);
-      WeatherResult res(iii.theEqualizedWindDirection);
+      // unsigned int remove_index = eqIndexVector[minErrorIndex];
+      // const WindDataItemUnit& iii = (*storyParams.theWindDataVector[remove_index])(areaType);
+      // WeatherPeriod per = iii.thePeriod;
+      // WeatherResult res(iii.theEqualizedWindDirection);
 
       eqIndexVector.erase(eqIndexVector.begin() + minErrorIndex);
 

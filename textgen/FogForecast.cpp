@@ -85,59 +85,40 @@ pair<WeatherPeriod, fog_type_id> get_fog_type_wp(const TextGenPosixTime& theStar
 
 const char* get_fog_type_string(const fog_type_id& theFogTypeId)
 {
-  const char* retval = "";
-
 #if ENABLE_DENSE_FOG
   switch (theFogTypeId)
   {
     case FOG:
-      retval = "sumua";
-      break;
+      return "sumua";
     case FOG_POSSIBLY_DENSE:
-      retval = "sumua, joka voi olla sakeaa";
-      break;
-
+      return "sumua, joka voi olla sakeaa";
     case FOG_IN_SOME_PLACES:
-      retval = "paikoin sumua";
-      break;
+      return "paikoin sumua";
     case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
-      retval = "paikoin sumua, joka voi olla sakeaa";
-      break;
-
+      return "paikoin sumua, joka voi olla sakeaa";
     case FOG_IN_MANY_PLACES:
-      retval = "monin paikoin sumua";
-      break;
+      return "monin paikoin sumua";
     case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
-      retval = "monin paikoin sumua, joka voi olla sakeaa";
-      break;
+      return "monin paikoin sumua, joka voi olla sakeaa";
     default:
-      retval = "ei sumua";
-      break;
+      return "ei sumua";
   }
 #else
   switch (theFogTypeId)
   {
     case FOG:
     case FOG_POSSIBLY_DENSE:
-      retval = "sumua";
-      break;
-
+      return "sumua";
     case FOG_IN_SOME_PLACES:
     case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
-      retval = "paikoin sumua";
-      break;
-
+      return "paikoin sumua";
     case FOG_IN_MANY_PLACES:
     case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
-      retval = "monin paikoin sumua";
-      break;
+      return "monin paikoin sumua";
     default:
-      retval = "ei sumua";
-      break;
+      return "ei sumua";
   }
 #endif
-
-  return retval;
 }
 
 fog_type_id get_fog_type(const float& theModerateFog,

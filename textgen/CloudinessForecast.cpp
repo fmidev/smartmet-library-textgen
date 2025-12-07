@@ -79,34 +79,23 @@ namespace
 {
 const char* cloudiness_string(const cloudiness_id& theCloudinessId)
 {
-  const char* retval = "";
-
   switch (theCloudinessId)
   {
     case SELKEA:
-      retval = SELKEA_WORD;
-      break;
+      return SELKEA_WORD;
     case MELKO_SELKEA:
-      retval = MELKO_SELKEA_PHRASE;
-      break;
+      return MELKO_SELKEA_PHRASE;
     case PUOLIPILVINEN:
-      retval = PUOLIPILVINEN_WORD;
-      break;
+      return PUOLIPILVINEN_WORD;
     case VERRATTAIN_PILVINEN:
-      retval = VERRATTAIN_PILVINEN_PHRASE;
-      break;
+      return VERRATTAIN_PILVINEN_PHRASE;
     case PILVINEN:
-      retval = PILVINEN_WORD;
-      break;
+      return PILVINEN_WORD;
     case PUOLIPILVINEN_JA_PILVINEN:
-      retval = VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-      break;
+      return VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
     default:
-      retval = "missing cloudiness id";
-      break;
+      return "missing cloudiness id";
   }
-
-  return retval;
 }
 
 Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, const bool& theShortForm)

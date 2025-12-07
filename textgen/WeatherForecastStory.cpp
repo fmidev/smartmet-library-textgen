@@ -698,12 +698,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
   {
     WeatherPeriod cloudinessPeriod(theForecastPeriod);
     auto item = std::make_shared<CloudinessForecastStoryItem>(
-        *this,
-        cloudinessPeriod,
-        CLOUDINESS_STORY_PART,
-        theCloudinessForecast.getCloudinessId(cloudinessPeriod),
-        nullptr,
-        nullptr);
+        *this, cloudinessPeriod, CLOUDINESS_STORY_PART, nullptr, nullptr);
 
     item->theReportAboutDryWeatherFlag = true;
 
@@ -779,13 +774,12 @@ void WeatherForecastStory::addCloudinessStoryItems()
     {
       WeatherForecastStoryItem* placeholder = theStoryItemVector[i].get();
 
-      auto cloudinessStoryItem = std::make_shared<CloudinessForecastStoryItem>(
-          *this,
-          placeholder->thePeriod,
-          CLOUDINESS_STORY_PART,
-          theCloudinessForecast.getCloudinessId(placeholder->thePeriod),
-          previousPrecipitationStoryItem,
-          nullptr);
+      auto cloudinessStoryItem =
+          std::make_shared<CloudinessForecastStoryItem>(*this,
+                                                        placeholder->thePeriod,
+                                                        CLOUDINESS_STORY_PART,
+                                                        previousPrecipitationStoryItem,
+                                                        nullptr);
 
       if (!previousPrecipitationStoryItem)
       {
@@ -1514,11 +1508,9 @@ CloudinessForecastStoryItem::CloudinessForecastStoryItem(
     WeatherForecastStory& weatherForecastStory,
     const WeatherPeriod& period,
     story_part_id storyPartId,
-    cloudiness_id cloudinessId,
     PrecipitationForecastStoryItem* previousPrecipitationStoryItem,
     PrecipitationForecastStoryItem* nextPrecipitationStoryItem)
     : WeatherForecastStoryItem(weatherForecastStory, period, storyPartId),
-      theCloudinessId(cloudinessId),
       thePreviousPrecipitationStoryItem(previousPrecipitationStoryItem),
       theNextPrecipitationStoryItem(nextPrecipitationStoryItem),
       theReportAboutDryWeatherFlag(true)

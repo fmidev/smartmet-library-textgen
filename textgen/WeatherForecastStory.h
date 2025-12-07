@@ -103,9 +103,6 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
   // this flag indicates wheather thunder exists or not during the period
   bool theThunder = false;
 
-  // this flag indicates if there has been a gap between precipitation periods
-  bool theSadeJatkuuFlag = false;
-
   // this flag indicates whether we tell about
   // ending precipitation period (poutaantuu)
   bool thePoutaantuuFlag = false;
@@ -125,7 +122,6 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
   CloudinessForecastStoryItem(WeatherForecastStory& weatherForecastStory,
                               const WeatherPeriod& period,
                               story_part_id storyPartId,
-                              cloudiness_id cloudinessId,
                               PrecipitationForecastStoryItem* previousPrecipitationStoryItem,
                               PrecipitationForecastStoryItem* nextPrecipitationStoryItem);
 
@@ -133,7 +129,6 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
   Sentence cloudinessChangeSentence();
 
  private:
-  cloudiness_id theCloudinessId;
   PrecipitationForecastStoryItem* thePreviousPrecipitationStoryItem;
   PrecipitationForecastStoryItem* theNextPrecipitationStoryItem;
   bool theReportAboutDryWeatherFlag = false;

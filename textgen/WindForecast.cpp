@@ -2880,7 +2880,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
   if (begIndex < theParameters.theWindDataVector.size())
   {
     std::vector<unsigned int> reportingIndexes;
-    float previousTopWind(kFloatMissing);
+    float previousTopWind = kFloatMissing;
     TextGenPosixTime previousTime;
     for (unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
     {
@@ -3136,9 +3136,9 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
     return false;
   }
 
-  begLowerLimit = std::round(begLowerLimit);
+  // begLowerLimit = std::round(begLowerLimit);
   begUpperLimit = std::round(begUpperLimit);
-  endLowerLimit = std::round(endLowerLimit);
+  // endLowerLimit = std::round(endLowerLimit);
   endUpperLimit = std::round(endUpperLimit);
 
   float changeThreshold(5.0);

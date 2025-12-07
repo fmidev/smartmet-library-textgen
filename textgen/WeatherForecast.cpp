@@ -1243,7 +1243,7 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
 
   if (partOfTheDayId == KESKIYO || partOfTheDayId == AAMUYO)
   {
-    const char* which_day = "";
+    const char* which_day = nullptr;
     if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
       which_day = "tonight";
     else
