@@ -357,42 +357,6 @@ std::ostream& operator<<(std::ostream& theOutput,
   return theOutput;
 }
 
-#if 0
-std::string operator<<(std::string& theDestinationString, const std::string& theSourceString)
-{
-  theDestinationString.append(theSourceString);
-  //	theDestinationString.append(" ");
-
-  return theDestinationString;
-}
-#endif
-
-bool get_period_start_end_index(const WeatherPeriod& thePeriod,
-                                const precipitation_data_vector& theDataVector,
-                                unsigned int& theStartIndex,
-                                unsigned int& theEndIndex)
-{
-  theStartIndex = 0;
-  theEndIndex = 0;
-
-  bool startFound = false;
-  for (unsigned int i = 0; i < theDataVector.size(); i++)
-  {
-    if (theDataVector.at(i)->theObservationTime >= thePeriod.localStartTime() &&
-        theDataVector.at(i)->theObservationTime <= thePeriod.localEndTime())
-    {
-      if (!startFound)
-      {
-        startFound = true;
-        theStartIndex = i;
-      }
-      if (startFound)
-        theEndIndex = i;
-    }
-  }
-  return startFound;
-}
-
 weather_result_data_item_vector* get_data_vector(wf_story_params& theParameters,
                                                  weather_result_data_id theDataId)
 {
