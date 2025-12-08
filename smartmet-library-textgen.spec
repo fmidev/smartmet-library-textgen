@@ -111,7 +111,7 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-* Fri Dec  5 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.8-1.fmi
+* Mon Dec  8 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.8-1.fmi
 - Fixed error in wind direction deductions (QDTOOLS-276)
 - Fixed CssTextFormatter not to use a global variable, was not thread safe
 - Fixed an incorrect comparison in temperature_anomaly story
