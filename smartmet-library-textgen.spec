@@ -111,6 +111,17 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+- Fixed error in wind direction deductions (QDTOOLS-276)
+- Fixed CssTextFormatter not to use a global variable, was not thread safe
+- Fixed an incorrect comparison in temperature_anomaly story
+- Fixed wave_range story to use the configured range separator string
+- Fixed bug in date verification: there can be only 30 days in months 4,6,9 and 11
+- Fixed Dictionary API to be safe for temporary string inputs
+- Added extended debug formatter
+- Improved "until" headers to generate "tomorrow" instead of a weekday when possible
+- Removed unused methods and functions
+- Silenced hundreds of CodeChecker warnings on efficiency, readability, const correctness etc
+
 * Fri Dec  5 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.5-2.fmi
 - Fixed syntax errors in configuration variable names
 
