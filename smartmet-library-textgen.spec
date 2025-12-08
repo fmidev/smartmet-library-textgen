@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.12.5
-Release: 2%{?dist}.fmi
+Version: 25.12.8
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -25,13 +25,13 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 25.11.7
-BuildRequires: smartmet-library-macgyver-devel >= 25.11.20
+BuildRequires: smartmet-library-calculator-devel >= 25.12.5
+BuildRequires: smartmet-library-macgyver-devel >= 25.12.2
 BuildRequires: smartmet-library-newbase-devel >= 25.3.20
-BuildRequires: smartmet-library-gis-devel >= 25.9.15
+BuildRequires: smartmet-library-gis-devel >= 25.12.2
 Requires: gdal310-libs
-Requires: smartmet-library-calculator >= 25.11.7
-Requires: smartmet-library-macgyver >= 25.11.20
+Requires: smartmet-library-calculator >= 25.12.5
+Requires: smartmet-library-macgyver >= 25.12.2
 Requires: smartmet-library-newbase >= 25.3.20
 
 %if 0%{?rhel} && 0%{rhel} == 8
@@ -62,10 +62,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 25.11.7
-#TestRequires: smartmet-library-macgyver-devel >= 25.11.20
+#TestRequires: smartmet-library-calculator-devel >= 25.12.5
+#TestRequires: smartmet-library-macgyver-devel >= 25.12.2
 #TestRequires: smartmet-library-newbase-devel >= 25.3.20
-#TestRequires: smartmet-library-gis-devel >= 25.9.15
+#TestRequires: smartmet-library-gis-devel >= 25.12.2
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -111,6 +111,7 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Dec  5 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.8-1.fmi
 - Fixed error in wind direction deductions (QDTOOLS-276)
 - Fixed CssTextFormatter not to use a global variable, was not thread safe
 - Fixed an incorrect comparison in temperature_anomaly story
