@@ -25,6 +25,7 @@ class SpeechTextFormatter : public TextFormatter
   std::string visit(const Integer& theInteger) const override;
   std::string visit(const Real& theReal) const override;
   std::string visit(const IntegerRange& theRange) const override;
+  std::string visit(const PositiveRange& theRange) const override;
   std::string visit(const TimePhrase& theTime) const override;
   std::string visit(const Sentence& theSentence) const override;
   std::string visit(const Paragraph& theParagraph) const override;

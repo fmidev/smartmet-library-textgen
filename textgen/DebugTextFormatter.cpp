@@ -19,6 +19,7 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "PositiveRange.h"
 #include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
@@ -90,6 +91,17 @@ string DebugTextFormatter::visit(const Real& theReal) const
 // ----------------------------------------------------------------------
 
 string DebugTextFormatter::visit(const IntegerRange& theRange) const
+{
+  return theRange.realize(itsDictionary);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a positive integer range
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const PositiveRange& theRange) const
 {
   return theRange.realize(itsDictionary);
 }

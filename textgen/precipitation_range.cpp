@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "Integer.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
@@ -95,7 +95,7 @@ Paragraph PrecipitationStory::range() const
   else
   {
     sentence << "sadesumma"
-             << "on" << IntegerRange(minrain, maxrain, rangeseparator)
+             << "on" << PositiveRange(minrain, maxrain, rangeseparator)
              << *UnitFactory::create(Millimeters);
   }
 

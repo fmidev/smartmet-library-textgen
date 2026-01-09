@@ -14,7 +14,7 @@
 
 #include "WindStoryTools.h"
 #include "Integer.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
@@ -406,7 +406,7 @@ Sentence speed_range_sentence(const WeatherResult& theMinSpeed,
     }
     else
     {
-      sentence << IntegerRange(minvalue, maxvalue, rangeseparator);
+      sentence << PositiveRange(minvalue, maxvalue, rangeseparator);
     }
     sentence << *UnitFactory::create(MetersPerSecond);
   }

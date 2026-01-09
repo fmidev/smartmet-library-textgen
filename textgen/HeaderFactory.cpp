@@ -20,7 +20,7 @@
 #include "HeaderFactory.h"
 #include "Header.h"
 #include "Integer.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "LocationPhrase.h"
 #include "MessageLogger.h"
 #include "TimePhrase.h"
@@ -454,12 +454,12 @@ TextGen::Header header_clock_range(const WeatherPeriod& thePeriod, const string&
   if (!weekdays)
   {
     header << "odotettavissa"
-           << "kello" << IntegerRange(starthour, endhour, "-") << "o'clock";
+           << "kello" << PositiveRange(starthour, endhour, "-") << "o'clock";
   }
   else
   {
     header << "odotettavissa" << WeekdayTools::on_weekday(thePeriod.localStartTime()) << "kello"
-           << IntegerRange(starthour, endhour, "-") << "o'clock";
+           << PositiveRange(starthour, endhour, "-") << "o'clock";
   }
 
   log << header;

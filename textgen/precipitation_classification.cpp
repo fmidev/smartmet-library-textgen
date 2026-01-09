@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "Delimiter.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
@@ -268,7 +268,7 @@ Paragraph PrecipitationStory::classification() const
   const int lolimit = it->first;
   const int hilimit = it->second;
 
-  sentence << "sadesumma" << IntegerRange(lolimit, hilimit, rangeseparator)
+  sentence << "sadesumma" << PositiveRange(lolimit, hilimit, rangeseparator)
            << *UnitFactory::create(Millimeters);
 
   // Lisaa tarvittaessa "paikoin enemman" tai "monin paikoin enemman" peraan

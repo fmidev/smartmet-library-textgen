@@ -19,6 +19,7 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "PositiveRange.h"
 #include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
@@ -104,6 +105,17 @@ string SpeechTextFormatter::visit(const Real& theReal) const
 // ----------------------------------------------------------------------
 
 string SpeechTextFormatter::visit(const IntegerRange& theRange) const
+{
+  return theRange.realize(*itsDictionary);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a positive integer range
+ */
+// ----------------------------------------------------------------------
+
+string SpeechTextFormatter::visit(const PositiveRange& theRange) const
 {
   return theRange.realize(*itsDictionary);
 }
