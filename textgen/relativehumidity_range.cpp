@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "Integer.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "RelativeHumidityStory.h"
@@ -76,7 +76,7 @@ Paragraph RelativeHumidityStory::range() const
   else
   {
     sentence << "suhteellinen kosteus"
-             << "on" << IntegerRange(rhmin, rhmax, rangeseparator) << *UnitFactory::create(Percent);
+             << "on" << PositiveRange(rhmin, rhmax, rangeseparator) << *UnitFactory::create(Percent);
   }
 
   paragraph << sentence;

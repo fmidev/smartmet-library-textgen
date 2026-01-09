@@ -21,6 +21,7 @@ class Header;
 class Integer;
 class Real;
 class IntegerRange;
+class PositiveRange;
 class Paragraph;
 class Sentence;
 class TimePeriod;
@@ -47,6 +48,7 @@ class TextFormatter
   virtual std::string visit(const Integer& theInteger) const = 0;
   virtual std::string visit(const Real& theReal) const = 0;
   virtual std::string visit(const IntegerRange& theRange) const = 0;
+  virtual std::string visit(const PositiveRange& theRange) const = 0;
   virtual std::string visit(const TimePhrase& theTime) const = 0;
   virtual std::string visit(const Sentence& theSentence) const = 0;
   virtual std::string visit(const Paragraph& theParagraph) const = 0;

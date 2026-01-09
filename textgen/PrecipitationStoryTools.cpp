@@ -18,7 +18,7 @@
 
 #include "PrecipitationStoryTools.h"
 #include "Integer.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
@@ -501,7 +501,7 @@ Sentence sum_phrase(const WeatherResult& theMinimum,
   }
   else
   {
-    sentence << IntegerRange(minimum, maximum, theRangeSeparator);
+    sentence << PositiveRange(minimum, maximum, theRangeSeparator);
   }
 
   sentence << *UnitFactory::create(Millimeters);

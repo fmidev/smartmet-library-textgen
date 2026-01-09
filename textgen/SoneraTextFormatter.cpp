@@ -29,6 +29,7 @@
 #include "IntegerRange.h"
 #include "Paragraph.h"
 #include "Phrase.h"
+#include "PositiveRange.h"
 #include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
@@ -272,6 +273,27 @@ string SoneraTextFormatter::visit(const Real& /*theReal*/) const
 string SoneraTextFormatter::visit(const IntegerRange& theRange) const
 {
   static string dummy("integerrange");
+
+  static Phrase viiva("viiva");
+  sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
+  if (theRange.startValue() != theRange.endValue())
+  {
+    viiva.realize(*this);
+    sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
+  }
+
+  return dummy;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a positive integer range
+ */
+// ----------------------------------------------------------------------
+
+string SoneraTextFormatter::visit(const PositiveRange& theRange) const
+{
+  static string dummy("positiverange");
 
   static Phrase viiva("viiva");
   sonera_realize(theRange.startValue(), itsParts, *itsDictionary);

@@ -7,7 +7,7 @@
 
 #include "WindForecast.h"
 #include "Delimiter.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "UnitFactory.h"
 #include <boost/algorithm/string/case_conv.hpp>
 #include <calculator/Settings.h>
@@ -1242,7 +1242,7 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
   {
     if (theUseAtItsStrongestPhrase)
     {
-      sentence << IntegerRange(intervalInfo.lowerLimit,
+      sentence << PositiveRange(intervalInfo.lowerLimit,
                                intervalInfo.upperLimit,
                                theParameters.theRangeSeparator)
                << *UnitFactory::create(MetersPerSecond);
@@ -1251,7 +1251,7 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
     }
     else
     {
-      sentence << IntegerRange(intervalInfo.peakWind - theParameters.theContextualMaxIntervalSize,
+      sentence << PositiveRange(intervalInfo.peakWind - theParameters.theContextualMaxIntervalSize,
                                intervalInfo.peakWind,
                                theParameters.theRangeSeparator)
                << *UnitFactory::create(MetersPerSecond);
@@ -1259,7 +1259,7 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
   }
   else
   {
-    sentence << IntegerRange(intervalInfo.lowerLimit,
+    sentence << PositiveRange(intervalInfo.lowerLimit,
                              intervalInfo.upperLimit,
                              theParameters.theRangeSeparator)
              << *UnitFactory::create(MetersPerSecond);

@@ -7,7 +7,7 @@
 
 #include "FrostStory.h"
 #include "FrostStoryTools.h"
-#include "IntegerRange.h"
+#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
@@ -117,14 +117,14 @@ Paragraph FrostStory::range() const
   if (severe_frost_max >= severelimit)
   {
     sentence << "ankaran hallan todennakoisyys"
-             << "on" << IntegerRange(severe_frost_min, severe_frost_max, rangeseparator)
+             << "on" << PositiveRange(severe_frost_min, severe_frost_max, rangeseparator)
              << *UnitFactory::create(Percent);
     paragraph << sentence;
   }
   else if (frost_max >= normallimit)
   {
     sentence << "hallan todennakoisyys"
-             << "on" << IntegerRange(frost_min, frost_max, rangeseparator)
+             << "on" << PositiveRange(frost_min, frost_max, rangeseparator)
              << *UnitFactory::create(Percent);
     paragraph << sentence;
   }
