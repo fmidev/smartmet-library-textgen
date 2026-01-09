@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 25.12.9
+Version: 26.1.9
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -26,13 +26,13 @@ BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 25.12.9
-BuildRequires: smartmet-library-macgyver-devel >= 25.12.2
-BuildRequires: smartmet-library-newbase-devel >= 25.3.20
-BuildRequires: smartmet-library-gis-devel >= 25.12.2
+BuildRequires: smartmet-library-macgyver-devel >= 26.1.8
+BuildRequires: smartmet-library-newbase-devel >= 26.1.7
+BuildRequires: smartmet-library-gis-devel >= 25.12.299
 Requires: gdal310-libs
 Requires: smartmet-library-calculator >= 25.12.9
-Requires: smartmet-library-macgyver >= 25.12.2
-Requires: smartmet-library-newbase >= 25.3.20
+Requires: smartmet-library-macgyver >= 26.1.8
+Requires: smartmet-library-newbase >= 26.1.7
 
 %if 0%{?rhel} && 0%{rhel} == 8
 Requires: libpqxx >= 1:7.7.0, libpqxx < 1:7.8.0
@@ -63,9 +63,9 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 25.12.9
-#TestRequires: smartmet-library-macgyver-devel >= 25.12.2
-#TestRequires: smartmet-library-newbase-devel >= 25.3.20
-#TestRequires: smartmet-library-gis-devel >= 25.12.2
+#TestRequires: smartmet-library-macgyver-devel >= 26.1.8
+#TestRequires: smartmet-library-newbase-devel >= 26.1.7
+#TestRequires: smartmet-library-gis-devel >= 25.12.299
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Jan  9 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.1-1.fmi
+- Added PositiveRange which throws if wind, precipitation etc ranges get negative values
+
 * Tue Dec  9 2025 Mika Heiskanen <mika.heiskanen@fmi.fi> - 25.12.9-1.fmi
 - Repackaged due to calculator API changes
 
