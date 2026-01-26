@@ -20,7 +20,7 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: gcc-c++
-BuildRequires: gdal310-devel
+BuildRequires: gdal312-devel
 BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
@@ -29,7 +29,7 @@ BuildRequires: smartmet-library-calculator-devel >= 25.12.9
 BuildRequires: smartmet-library-macgyver-devel >= 26.1.8
 BuildRequires: smartmet-library-newbase-devel >= 26.1.7
 BuildRequires: smartmet-library-gis-devel >= 25.12.299
-Requires: gdal310-libs
+Requires: gdal312-libs
 Requires: smartmet-library-calculator >= 25.12.9
 Requires: smartmet-library-macgyver >= 26.1.8
 Requires: smartmet-library-newbase >= 26.1.7
