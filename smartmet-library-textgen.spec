@@ -20,19 +20,19 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: %{smartmet_boost}-devel
 BuildRequires: gcc-c++
-BuildRequires: gdal310-devel
+BuildRequires: gdal312-devel
 BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 25.12.9
-BuildRequires: smartmet-library-macgyver-devel >= 26.1.8
-BuildRequires: smartmet-library-newbase-devel >= 26.1.7
-BuildRequires: smartmet-library-gis-devel >= 25.12.299
-Requires: gdal310-libs
-Requires: smartmet-library-calculator >= 25.12.9
-Requires: smartmet-library-macgyver >= 26.1.8
-Requires: smartmet-library-newbase >= 26.1.7
+BuildRequires: smartmet-library-calculator-devel >= 26.2.4
+BuildRequires: smartmet-library-macgyver-devel >= 26.2.4
+BuildRequires: smartmet-library-newbase-devel >= 26.2.4
+BuildRequires: smartmet-library-gis-devel >= 26.2.4
+Requires: gdal312-libs
+Requires: smartmet-library-calculator >= 26.2.4
+Requires: smartmet-library-macgyver >= 26.2.4
+Requires: smartmet-library-newbase >= 26.2.4
 
 %if 0%{?rhel} && 0%{rhel} == 8
 Requires: libpqxx >= 1:7.7.0, libpqxx < 1:7.8.0
@@ -62,10 +62,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 25.12.9
-#TestRequires: smartmet-library-macgyver-devel >= 26.1.8
-#TestRequires: smartmet-library-newbase-devel >= 26.1.7
-#TestRequires: smartmet-library-gis-devel >= 25.12.299
+#TestRequires: smartmet-library-calculator-devel >= 26.2.4
+#TestRequires: smartmet-library-macgyver-devel >= 26.2.4
+#TestRequires: smartmet-library-newbase-devel >= 26.2.4
+#TestRequires: smartmet-library-gis-devel >= 26.2.4
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
