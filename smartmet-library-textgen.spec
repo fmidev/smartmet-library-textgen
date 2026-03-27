@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.2.4
+Version: 26.3.27
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -28,7 +28,7 @@ BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 26.2.4
 BuildRequires: smartmet-library-macgyver-devel >= 26.2.4
 BuildRequires: smartmet-library-newbase-devel >= 26.2.4
-BuildRequires: smartmet-library-gis-devel >= 26.2.4
+BuildRequires: smartmet-library-gis-devel >= 26.3.26
 Requires: gdal312-libs
 Requires: smartmet-library-calculator >= 26.2.4
 Requires: smartmet-library-macgyver >= 26.2.4
@@ -65,7 +65,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: smartmet-library-calculator-devel >= 26.2.4
 #TestRequires: smartmet-library-macgyver-devel >= 26.2.4
 #TestRequires: smartmet-library-newbase-devel >= 26.2.4
-#TestRequires: smartmet-library-gis-devel >= 26.2.4
+#TestRequires: smartmet-library-gis-devel >= 26.3.26
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Mar 27 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.3.27-1.fmi
+- Added exception tracing
+
 * Wed Feb  4 2026 Andris Pavēnis <andris.pavenis@fmi.fi> 26.2.4-1.fmi
 - Update to proj-9.7, gdal-3.12, fmt-12
 
