@@ -68,19 +68,26 @@ FrostStory::FrostStory(const TextGenPosixTime& theForecastTime,
 
 bool FrostStory::hasStory(const string& theName)
 {
-  if (theName == "frost_mean")
-    return true;
-  if (theName == "frost_maximum")
-    return true;
-  if (theName == "frost_range")
-    return true;
-  if (theName == "frost_twonights")
-    return true;
-  if (theName == "frost_onenight")
-    return true;
-  if (theName == "frost_day")
-    return true;
-  return false;
+  try
+  {
+    if (theName == "frost_mean")
+      return true;
+    if (theName == "frost_maximum")
+      return true;
+    if (theName == "frost_range")
+      return true;
+    if (theName == "frost_twonights")
+      return true;
+    if (theName == "frost_onenight")
+      return true;
+    if (theName == "frost_day")
+      return true;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -96,20 +103,27 @@ bool FrostStory::hasStory(const string& theName)
 
 Paragraph FrostStory::makeStory(const string& theName) const
 {
-  if (theName == "frost_mean")
-    return mean();
-  if (theName == "frost_maximum")
-    return maximum();
-  if (theName == "frost_range")
-    return range();
-  if (theName == "frost_twonights")
-    return twonights();
-  if (theName == "frost_day")
-    return day();
-  if (theName == "frost_onenight")
-    return onenight();
+  try
+  {
+    if (theName == "frost_mean")
+      return mean();
+    if (theName == "frost_maximum")
+      return maximum();
+    if (theName == "frost_range")
+      return range();
+    if (theName == "frost_twonights")
+      return twonights();
+    if (theName == "frost_day")
+      return day();
+    if (theName == "frost_onenight")
+      return onenight();
 
-  throw Fmi::Exception(BCP, "FrostStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "FrostStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

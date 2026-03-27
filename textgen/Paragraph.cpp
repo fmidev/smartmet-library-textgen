@@ -36,8 +36,15 @@ namespace TextGen
 
 std::shared_ptr<Glyph> Paragraph::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Paragraph(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Paragraph(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -51,7 +58,14 @@ std::shared_ptr<Glyph> Paragraph::clone() const
 
 std::string Paragraph::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw Fmi::Exception(BCP, "Paragraph::realize(Dictionary) should not be called");
+  try
+  {
+    throw Fmi::Exception(BCP, "Paragraph::realize(Dictionary) should not be called");
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -65,7 +79,14 @@ std::string Paragraph::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Paragraph::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -76,7 +97,14 @@ std::string Paragraph::realize(const TextFormatter& theFormatter) const
 
 bool Paragraph::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -89,16 +117,23 @@ bool Paragraph::isDelimiter() const
 
 Paragraph& Paragraph::operator<<(const Paragraph& theParagraph)
 {
-  if (this != &theParagraph)
+  try
   {
-    copy(theParagraph.itsData.begin(), theParagraph.itsData.end(), back_inserter(itsData));
+    if (this != &theParagraph)
+    {
+      copy(theParagraph.itsData.begin(), theParagraph.itsData.end(), back_inserter(itsData));
+    }
+    else
+    {
+      storage_type tmp(itsData);
+      copy(tmp.begin(), tmp.end(), back_inserter(itsData));
+    }
+    return *this;
   }
-  else
+  catch(...)
   {
-    storage_type tmp(itsData);
-    copy(tmp.begin(), tmp.end(), back_inserter(itsData));
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  return *this;
 }
 
 // ----------------------------------------------------------------------
@@ -112,8 +147,15 @@ Paragraph& Paragraph::operator<<(const Paragraph& theParagraph)
 
 Paragraph& Paragraph::operator<<(const Glyph& theGlyph)
 {
-  itsData.push_back(theGlyph.clone());
-  return *this;
+  try
+  {
+    itsData.push_back(theGlyph.clone());
+    return *this;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

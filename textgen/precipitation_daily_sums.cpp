@@ -42,137 +42,144 @@ namespace TextGen
 
 Paragraph PrecipitationStory::daily_sums() const
 {
-  MessageLogger log("PrecipitationStory::daily_sums");
-
-  const double minrain = Settings::optional_double(itsVar + "::minrain", 0);
-  const int mininterval = Settings::optional_int(itsVar + "::mininterval", 1);
-  const bool ignore_fair_days = Settings::optional_bool(itsVar + "::ignore_fair_days", true);
-  const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");
-
-  Paragraph paragraph;
-
-  GridForecaster forecaster;
-
-  // All the days
-
-  HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
-
-  // Filter out too small hourly precipitation from the sum
-
-  RangeAcceptor rainlimits;
-  rainlimits.lowerLimit(minrain);
-
-  // Calculate daily results
-
-  vector<WeatherPeriod> periods;
-  vector<WeatherResult> minima;
-  vector<WeatherResult> maxima;
-  vector<WeatherResult> means;
-
-  const unsigned int ndays = generator.size();
-
-  for (unsigned int day = 1; day <= ndays; day++)
+  try
   {
-    WeatherPeriod period = generator.period(day);
+    MessageLogger log("PrecipitationStory::daily_sums");
 
-    const string fake = itsVar + "::fake::day" + std::to_string(day);
+    const double minrain = Settings::optional_double(itsVar + "::minrain", 0);
+    const int mininterval = Settings::optional_int(itsVar + "::mininterval", 1);
+    const bool ignore_fair_days = Settings::optional_bool(itsVar + "::ignore_fair_days", true);
+    const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");
 
-    WeatherResult minresult = forecaster.analyze(fake + "::minimum",
-                                                 itsSources,
-                                                 Precipitation,
-                                                 Minimum,
-                                                 Sum,
-                                                 itsArea,
-                                                 period,
-                                                 DefaultAcceptor(),
-                                                 rainlimits);
+    Paragraph paragraph;
 
-    WeatherResult maxresult = forecaster.analyze(fake + "::maximum",
-                                                 itsSources,
-                                                 Precipitation,
-                                                 Maximum,
-                                                 Sum,
-                                                 itsArea,
-                                                 period,
-                                                 DefaultAcceptor(),
-                                                 rainlimits);
+    GridForecaster forecaster;
 
-    WeatherResult meanresult = forecaster.analyze(fake + "::mean",
-                                                  itsSources,
-                                                  Precipitation,
-                                                  Mean,
-                                                  Sum,
-                                                  itsArea,
-                                                  period,
-                                                  DefaultAcceptor(),
-                                                  rainlimits);
+    // All the days
 
-    log << "Precipitation Minimum(Sum) for day " << day << " = " << minresult << '\n';
-    log << "Precipitation Maximum(Sum) for day " << day << " = " << maxresult << '\n';
-    log << "Precipitation Mean(Sum) for day " << day << " = " << meanresult << '\n';
+    HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
 
-    WeatherResultTools::checkMissingValue(
-        "precipitation_daily_sums", Precipitation, {minresult, maxresult, meanresult});
+    // Filter out too small hourly precipitation from the sum
 
-    periods.push_back(period);
-    minima.push_back(minresult);
-    maxima.push_back(maxresult);
-    means.push_back(meanresult);
-  }
+    RangeAcceptor rainlimits;
+    rainlimits.lowerLimit(minrain);
 
-  // Generate a single sentence from the results
+    // Calculate daily results
 
-  Sentence sentence;
+    vector<WeatherPeriod> periods;
+    vector<WeatherResult> minima;
+    vector<WeatherResult> maxima;
+    vector<WeatherResult> means;
 
-  bool same_enabled = true;
-  unsigned int last = 99999;
+    const unsigned int ndays = generator.size();
 
-  for (unsigned int i = 0; i < periods.size(); i++)
-  {
-    if (!ignore_fair_days || round(maxima[i].value()) > 0)
+    for (unsigned int day = 1; day <= ndays; day++)
     {
-      const bool empty = sentence.empty();
-      if (i == 0)
-      {
-        sentence << "sadesumma"
-                 << "on"
-                 << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, periods[i])
-                 << PeriodPhraseFactory::create(
-                        "remaining_day", itsVar, itsForecastTime, periods[i])
-                 << PrecipitationStoryTools::sum_phrase(
-                        minima[i], maxima[i], means[i], mininterval, rangeseparator);
-      }
-      else
-      {
-        if (empty)
-          sentence << "sadesumma"
-                   << "on";
-        else
-          sentence << Delimiter(",");
-        sentence << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[i]);
+      WeatherPeriod period = generator.period(day);
 
-        if (same_enabled && !empty &&
-            WeatherResultTools::isSimilarRange(
-                minima[last], maxima[last], minima[i], maxima[i], itsVar))
-        {
-          sentence << "sama";
-          same_enabled = false;
-        }
-        else
-        {
-          sentence << PrecipitationStoryTools::sum_phrase(
-              minima[i], maxima[i], means[i], mininterval, rangeseparator);
-        }
-      }
+      const string fake = itsVar + "::fake::day" + std::to_string(day);
 
-      last = i;
+      WeatherResult minresult = forecaster.analyze(fake + "::minimum",
+                                                   itsSources,
+                                                   Precipitation,
+                                                   Minimum,
+                                                   Sum,
+                                                   itsArea,
+                                                   period,
+                                                   DefaultAcceptor(),
+                                                   rainlimits);
+
+      WeatherResult maxresult = forecaster.analyze(fake + "::maximum",
+                                                   itsSources,
+                                                   Precipitation,
+                                                   Maximum,
+                                                   Sum,
+                                                   itsArea,
+                                                   period,
+                                                   DefaultAcceptor(),
+                                                   rainlimits);
+
+      WeatherResult meanresult = forecaster.analyze(fake + "::mean",
+                                                    itsSources,
+                                                    Precipitation,
+                                                    Mean,
+                                                    Sum,
+                                                    itsArea,
+                                                    period,
+                                                    DefaultAcceptor(),
+                                                    rainlimits);
+
+      log << "Precipitation Minimum(Sum) for day " << day << " = " << minresult << '\n';
+      log << "Precipitation Maximum(Sum) for day " << day << " = " << maxresult << '\n';
+      log << "Precipitation Mean(Sum) for day " << day << " = " << meanresult << '\n';
+
+      WeatherResultTools::checkMissingValue(
+          "precipitation_daily_sums", Precipitation, {minresult, maxresult, meanresult});
+
+      periods.push_back(period);
+      minima.push_back(minresult);
+      maxima.push_back(maxresult);
+      means.push_back(meanresult);
     }
+
+    // Generate a single sentence from the results
+
+    Sentence sentence;
+
+    bool same_enabled = true;
+    unsigned int last = 99999;
+
+    for (unsigned int i = 0; i < periods.size(); i++)
+    {
+      if (!ignore_fair_days || round(maxima[i].value()) > 0)
+      {
+        const bool empty = sentence.empty();
+        if (i == 0)
+        {
+          sentence << "sadesumma"
+                   << "on"
+                   << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, periods[i])
+                   << PeriodPhraseFactory::create(
+                          "remaining_day", itsVar, itsForecastTime, periods[i])
+                   << PrecipitationStoryTools::sum_phrase(
+                          minima[i], maxima[i], means[i], mininterval, rangeseparator);
+        }
+        else
+        {
+          if (empty)
+            sentence << "sadesumma"
+                     << "on";
+          else
+            sentence << Delimiter(",");
+          sentence << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[i]);
+
+          if (same_enabled && !empty &&
+              WeatherResultTools::isSimilarRange(
+                  minima[last], maxima[last], minima[i], maxima[i], itsVar))
+          {
+            sentence << "sama";
+            same_enabled = false;
+          }
+          else
+          {
+            sentence << PrecipitationStoryTools::sum_phrase(
+                minima[i], maxima[i], means[i], mininterval, rangeseparator);
+          }
+        }
+
+        last = i;
+      }
+    }
+
+    paragraph << sentence;
+
+    log << paragraph;
+    return paragraph;
   }
-
-  paragraph << sentence;
-
-  log << paragraph;
-  return paragraph;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

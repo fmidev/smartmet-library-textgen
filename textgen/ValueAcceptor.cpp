@@ -15,6 +15,7 @@
 // ======================================================================
 
 #include "ValueAcceptor.h"
+#include <macgyver/Exception.h>
 #include <newbase/NFmiGlobals.h>
 
 namespace TextGen
@@ -34,7 +35,14 @@ ValueAcceptor::ValueAcceptor() : itsValue(kFloatMissing) {}
 
 Acceptor* ValueAcceptor::clone() const
 {
-  return new ValueAcceptor(*this);
+  try
+  {
+    return new ValueAcceptor(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -42,16 +50,23 @@ Acceptor* ValueAcceptor::clone() const
  *
  * The value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ * \param theValue The value to be accepted
  * \return True if the value is accepted
  */
 // ----------------------------------------------------------------------
 
 bool ValueAcceptor::accept(float theValue) const
 {
-  if (theValue == kFloatMissing)
-    return false;
-  return (theValue == itsValue);
+  try
+  {
+    if (theValue == kFloatMissing)
+      return false;
+    return (theValue == itsValue);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -64,7 +79,14 @@ bool ValueAcceptor::accept(float theValue) const
 
 void ValueAcceptor::value(float theValue)
 {
-  itsValue = theValue;
+  try
+  {
+    itsValue = theValue;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

@@ -35,35 +35,42 @@ namespace TextGen
 
 Paragraph PrecipitationStory::total() const
 {
-  MessageLogger log("PrecipitationStory::total");
+  try
+  {
+    MessageLogger log("PrecipitationStory::total");
 
-  Paragraph paragraph;
-  Sentence sentence;
+    Paragraph paragraph;
+    Sentence sentence;
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  RangeAcceptor rainlimits;
-  rainlimits.lowerLimit(Settings::optional_double(itsVar + "::minrain", 0));
+    RangeAcceptor rainlimits;
+    rainlimits.lowerLimit(Settings::optional_double(itsVar + "::minrain", 0));
 
-  WeatherResult result = forecaster.analyze(itsVar + "::fake::mean",
-                                            itsSources,
-                                            Precipitation,
-                                            Mean,
-                                            Sum,
-                                            itsArea,
-                                            itsPeriod,
-                                            DefaultAcceptor(),
-                                            rainlimits);
+    WeatherResult result = forecaster.analyze(itsVar + "::fake::mean",
+                                              itsSources,
+                                              Precipitation,
+                                              Mean,
+                                              Sum,
+                                              itsArea,
+                                              itsPeriod,
+                                              DefaultAcceptor(),
+                                              rainlimits);
 
-  WeatherResultTools::checkMissingValue("precipitation_totsl", Precipitation, result);
+    WeatherResultTools::checkMissingValue("precipitation_totsl", Precipitation, result);
 
-  log << "Precipitation Mean(Sum) " << result << '\n';
+    log << "Precipitation Mean(Sum) " << result << '\n';
 
-  sentence << "sadesumma" << Integer(static_cast<int>(round(result.value())))
-           << *UnitFactory::create(Millimeters);
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    sentence << "sadesumma" << Integer(static_cast<int>(round(result.value())))
+             << *UnitFactory::create(Millimeters);
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

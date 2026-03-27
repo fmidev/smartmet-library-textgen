@@ -85,7 +85,16 @@ DatabaseDictionary::~DatabaseDictionary() = default;
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionary::DatabaseDictionary() : itsPimple(new Pimple()) {}
+DatabaseDictionary::DatabaseDictionary() : itsPimple(new Pimple())
+{
+  try
+  {
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -98,7 +107,14 @@ DatabaseDictionary::DatabaseDictionary() : itsPimple(new Pimple()) {}
 
 const std::string& DatabaseDictionary::language() const
 {
-  return itsPimple->itsLanguage;
+  try
+  {
+    return itsPimple->itsLanguage;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -132,8 +148,7 @@ void DatabaseDictionary::init(const std::string& theLanguage)
   }
   catch (...)
   {
-    throw Fmi::Exception(
-        BCP, "Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("database", itsDictionaryId);
   }
 }
 
@@ -148,7 +163,14 @@ void DatabaseDictionary::init(const std::string& theLanguage)
 
 bool DatabaseDictionary::contains(const std::string& theKey) const
 {
-  return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
+  try
+  {
+    return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -165,16 +187,23 @@ bool DatabaseDictionary::contains(const std::string& theKey) const
 
 std::string DatabaseDictionary::find(const std::string& theKey) const
 {
-  if (!itsPimple->itsInitialized)
-    throw Fmi::Exception(BCP, "Error: DatabaseDictionary::find() called before init()");
+  try
+  {
+    if (!itsPimple->itsInitialized)
+      throw Fmi::Exception(BCP, "Error: DatabaseDictionary::find() called before init()");
 
-  auto it = itsPimple->itsData.find(theKey);
+    auto it = itsPimple->itsData.find(theKey);
 
-  if (it != itsPimple->itsData.end())
-    return it->second;
-  throw Fmi::Exception(BCP,
-                       "Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
-                           itsPimple->itsLanguage);
+    if (it != itsPimple->itsData.end())
+      return it->second;
+    throw Fmi::Exception(BCP,
+                         "Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
+                             itsPimple->itsLanguage);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -191,7 +220,14 @@ std::string DatabaseDictionary::find(const std::string& theKey) const
 
 void DatabaseDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw Fmi::Exception(BCP, "Error: DatabaseDictionary::insert() is not allowed");
+  try
+  {
+    throw Fmi::Exception(BCP, "Error: DatabaseDictionary::insert() is not allowed");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -204,7 +240,14 @@ void DatabaseDictionary::insert(const std::string& /*theKey*/, const std::string
 
 DatabaseDictionary::size_type DatabaseDictionary::size() const
 {
-  return itsPimple->itsData.size();
+  try
+  {
+    return itsPimple->itsData.size();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -216,7 +259,14 @@ DatabaseDictionary::size_type DatabaseDictionary::size() const
 
 bool DatabaseDictionary::empty() const
 {
-  return itsPimple->itsData.empty();
+  try
+  {
+    return itsPimple->itsData.empty();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -228,7 +278,14 @@ bool DatabaseDictionary::empty() const
 
 void DatabaseDictionary::changeLanguage(const std::string& theLanguage)
 {
-  init(theLanguage);
+  try
+  {
+    init(theLanguage);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("language", theLanguage);
+  }
 }
 
 }  // namespace TextGen

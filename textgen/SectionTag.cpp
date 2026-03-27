@@ -50,8 +50,15 @@ SectionTag::SectionTag(std::string theName, const bool& prefixTag /*= true*/)
 
 std::shared_ptr<Glyph> SectionTag::clone() const
 {
-  std::shared_ptr<Glyph> ret(new SectionTag(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new SectionTag(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -65,7 +72,14 @@ std::shared_ptr<Glyph> SectionTag::clone() const
 
 std::string SectionTag::realize(const Dictionary& /*theDictionary*/) const
 {
-  return itsName;
+  try
+  {
+    return itsName;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -78,7 +92,14 @@ std::string SectionTag::realize(const Dictionary& /*theDictionary*/) const
 
 std::string SectionTag::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -89,7 +110,14 @@ std::string SectionTag::realize(const TextFormatter& theFormatter) const
 
 bool SectionTag::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -99,7 +127,14 @@ bool SectionTag::isDelimiter() const
 
 bool SectionTag::isPrefixTag() const
 {
-  return itsPrefixTag;
+  try
+  {
+    return itsPrefixTag;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

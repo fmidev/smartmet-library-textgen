@@ -28,53 +28,60 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_range
+ * \see page_temperature_range
  */
 // ----------------------------------------------------------------------
 
 Paragraph TemperatureStory::range() const
 {
-  MessageLogger log("TemperatureStory::range");
+  try
+  {
+    MessageLogger log("TemperatureStory::range");
 
-  using namespace Settings;
+    using namespace Settings;
 
-  const int mininterval = optional_int(itsVar + "::mininterval", 2);
-  const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
-  const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
+    const int mininterval = optional_int(itsVar + "::mininterval", 2);
+    const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
+    const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
 
-  Paragraph paragraph;
-  Sentence sentence;
+    Paragraph paragraph;
+    Sentence sentence;
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  WeatherResult minresult = forecaster.analyze(
-      itsVar + "::fake::minimum", itsSources, Temperature, Mean, Minimum, itsArea, itsPeriod);
+    WeatherResult minresult = forecaster.analyze(
+        itsVar + "::fake::minimum", itsSources, Temperature, Mean, Minimum, itsArea, itsPeriod);
 
-  WeatherResult maxresult = forecaster.analyze(
-      itsVar + "::fake::maximum", itsSources, Temperature, Mean, Maximum, itsArea, itsPeriod);
+    WeatherResult maxresult = forecaster.analyze(
+        itsVar + "::fake::maximum", itsSources, Temperature, Mean, Maximum, itsArea, itsPeriod);
 
-  WeatherResult meanresult = forecaster.analyze(
-      itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
+    WeatherResult meanresult = forecaster.analyze(
+        itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
 
-  WeatherResultTools::checkMissingValue(
-      "temperature_range", Temperature, {minresult, maxresult, meanresult});
+    WeatherResultTools::checkMissingValue(
+        "temperature_range", Temperature, {minresult, maxresult, meanresult});
 
-  log << "Temperature Mean(Min(Maximum())) = " << minresult << '\n'
-      << "Temperature Mean(Mean(Maximum())) = " << meanresult << '\n'
-      << "Temperature Mean(Max(Maximum())) = " << maxresult << '\n';
+    log << "Temperature Mean(Min(Maximum())) = " << minresult << '\n'
+        << "Temperature Mean(Mean(Maximum())) = " << meanresult << '\n'
+        << "Temperature Mean(Max(Maximum())) = " << maxresult << '\n';
 
-  const int tmin = static_cast<int>(round(minresult.value()));
-  const int tmax = static_cast<int>(round(maxresult.value()));
-  const int tmean = static_cast<int>(round(meanresult.value()));
+    const int tmin = static_cast<int>(round(minresult.value()));
+    const int tmax = static_cast<int>(round(maxresult.value()));
+    const int tmean = static_cast<int>(round(meanresult.value()));
 
-  sentence << "lampotila"
-           << "on"
-           << TemperatureStoryTools::temperature_sentence(
-                  tmin, tmean, tmax, mininterval, interval_zero, rangeseparator);
+    sentence << "lampotila"
+             << "on"
+             << TemperatureStoryTools::temperature_sentence(
+                    tmin, tmean, tmax, mininterval, interval_zero, rangeseparator);
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

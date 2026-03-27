@@ -4,6 +4,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 #include <iostream>
+#include <macgyver/Exception.h>
 #include <ogrsf_frmts.h>
 #include <sstream>
 #include <stdexcept>
@@ -15,16 +16,23 @@ namespace BrainStorm
 bool PostGISDataSource::readData(const postgis_identifier& postGISIdentifier,
                                  std::string& log_message)
 {
-  return readData(postGISIdentifier.postGISHost,
-                  postGISIdentifier.postGISPort,
-                  postGISIdentifier.postGISDatabase,
-                  postGISIdentifier.postGISUsername,
-                  postGISIdentifier.postGISPassword,
-                  postGISIdentifier.postGISSchema,
-                  postGISIdentifier.postGISTable,
-                  postGISIdentifier.postGISField,
-                  postGISIdentifier.postGISClientEncoding,
-                  log_message);
+  try
+  {
+    return readData(postGISIdentifier.postGISHost,
+                    postGISIdentifier.postGISPort,
+                    postGISIdentifier.postGISDatabase,
+                    postGISIdentifier.postGISUsername,
+                    postGISIdentifier.postGISPassword,
+                    postGISIdentifier.postGISSchema,
+                    postGISIdentifier.postGISTable,
+                    postGISIdentifier.postGISField,
+                    postGISIdentifier.postGISClientEncoding,
+                    log_message);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool PostGISDataSource::readData(const std::string& host,
@@ -289,7 +297,13 @@ bool PostGISDataSource::readData(const std::string& host,
   }
   catch (...)
   {
-    throw;
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("host", host)
+        .addParameter("port", port)
+        .addParameter("dbname", dbname)
+        .addParameter("schema", schema)
+        .addParameter("table", table)
+        .addParameter("fieldname", fieldname);
   }
 
   return true;
@@ -297,18 +311,32 @@ bool PostGISDataSource::readData(const std::string& host,
 
 std::string PostGISDataSource::getSVGPath(const std::string& name) const
 {
-  if (polygonmap.find(name) != polygonmap.end())
-    return polygonmap.at(name);
-  if (linemap.find(name) != linemap.end())
-    return linemap.at(name);
-  return "";
+  try
+  {
+    if (polygonmap.find(name) != polygonmap.end())
+      return polygonmap.at(name);
+    if (linemap.find(name) != linemap.end())
+      return linemap.at(name);
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("name", name);
+  }
 }
 
 std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) const
 {
-  if (pointmap.find(name) != pointmap.end())
-    return pointmap.at(name);
-  return make_pair(32700.0, 32700.0);
+  try
+  {
+    if (pointmap.find(name) != pointmap.end())
+      return pointmap.at(name);
+    return make_pair(32700.0, 32700.0);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("name", name);
+  }
 }
 
 PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,
@@ -317,53 +345,78 @@ PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,
                                                         const std::string& user,
                                                         const std::string& password)
 {
-  OGRRegisterAll();
-
-#if GDAL_VERSION_MAJOR < 2
-  auto* pDriver(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL"));
-#else
-  auto* pDriver = GetGDALDriverManager()->GetDriverByName("PostgreSQL");
-#endif
-
-  if (!pDriver)
+  try
   {
-    throw std::runtime_error("Error: PostgreSQL driver not found!");
-  }
-
-  std::stringstream ss;
-
-  ss << "PG:host='" << host << "' port='" << port << "' dbname='" << dbname << "' user='" << user
-     << "' password='" << password << "'";
+    OGRRegisterAll();
 
 #if GDAL_VERSION_MAJOR < 2
-  return pDriver->Open(ss.str().c_str());
+    auto* pDriver(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL"));
 #else
-  GDALOpenInfo info(ss.str().c_str(), GA_ReadOnly);
-  return pDriver->pfnOpen(&info);
+    auto* pDriver = GetGDALDriverManager()->GetDriverByName("PostgreSQL");
 #endif
+
+    if (!pDriver)
+    {
+      throw std::runtime_error("Error: PostgreSQL driver not found!");
+    }
+
+    std::stringstream ss;
+
+    ss << "PG:host='" << host << "' port='" << port << "' dbname='" << dbname << "' user='" << user
+       << "' password='" << password << "'";
+
+#if GDAL_VERSION_MAJOR < 2
+    return pDriver->Open(ss.str().c_str());
+#else
+    GDALOpenInfo info(ss.str().c_str(), GA_ReadOnly);
+    return pDriver->pfnOpen(&info);
+#endif
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("host", host)
+        .addParameter("port", port)
+        .addParameter("dbname", dbname)
+        .addParameter("user", user);
+  }
 }
 
 bool PostGISDataSource::geoObjectExists(const std::string& name) const
 {
-  return (isPolygon(name) || isLine(name) || isPoint(name));
+  try
+  {
+    return (isPolygon(name) || isLine(name) || isPoint(name));
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("name", name);
+  }
 }
 
 std::list<string> PostGISDataSource::areaNames() const
 {
-  std::list<string> return_list;
-  using polygonmap_t = std::map<std::string, std::string>;
-  using pointmap_t = std::map<std::string, std::pair<double, double>>;
-
-  for (const polygonmap_t::value_type& vt : polygonmap)
+  try
   {
-    return_list.push_back(vt.first);
-  }
-  for (const pointmap_t::value_type& vt : pointmap)
-  {
-    return_list.push_back(vt.first);
-  }
+    std::list<string> return_list;
+    using polygonmap_t = std::map<std::string, std::string>;
+    using pointmap_t = std::map<std::string, std::pair<double, double>>;
 
-  return return_list;
+    for (const polygonmap_t::value_type& vt : polygonmap)
+    {
+      return_list.push_back(vt.first);
+    }
+    for (const pointmap_t::value_type& vt : pointmap)
+    {
+      return_list.push_back(vt.first);
+    }
+
+    return return_list;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace BrainStorm

@@ -67,20 +67,27 @@ RoadStory::RoadStory(const TextGenPosixTime& theForecastTime,
 
 bool RoadStory::hasStory(const string& theName)
 {
-  if (theName == "roadtemperature_daynightranges")
-    return true;
-  if (theName == "roadcondition_overview")
-    return true;
-  if (theName == "roadwarning_overview")
-    return true;
-  if (theName == "roadcondition_shortview")
-    return true;
-  if (theName == "roadwarning_shortview")
-    return true;
-  if (theName == "roadtemperature_shortrange")
-    return true;
+  try
+  {
+    if (theName == "roadtemperature_daynightranges")
+      return true;
+    if (theName == "roadcondition_overview")
+      return true;
+    if (theName == "roadwarning_overview")
+      return true;
+    if (theName == "roadcondition_shortview")
+      return true;
+    if (theName == "roadwarning_shortview")
+      return true;
+    if (theName == "roadtemperature_shortrange")
+      return true;
 
-  return false;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -96,20 +103,27 @@ bool RoadStory::hasStory(const string& theName)
 
 Paragraph RoadStory::makeStory(const string& theName) const
 {
-  if (theName == "roadtemperature_daynightranges")
-    return daynightranges();
-  if (theName == "roadtemperature_shortrange")
-    return shortrange();
-  if (theName == "roadcondition_overview")
-    return condition_overview();
-  if (theName == "roadwarning_overview")
-    return warning_overview();
-  if (theName == "roadwarning_shortview")
-    return warning_shortview();
-  if (theName == "roadcondition_shortview")
-    return condition_shortview();
+  try
+  {
+    if (theName == "roadtemperature_daynightranges")
+      return daynightranges();
+    if (theName == "roadtemperature_shortrange")
+      return shortrange();
+    if (theName == "roadcondition_overview")
+      return condition_overview();
+    if (theName == "roadwarning_overview")
+      return warning_overview();
+    if (theName == "roadwarning_shortview")
+      return warning_shortview();
+    if (theName == "roadcondition_shortview")
+      return condition_shortview();
 
-  throw Fmi::Exception(BCP, "RoadStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "RoadStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

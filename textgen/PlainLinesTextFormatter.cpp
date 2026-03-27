@@ -14,6 +14,7 @@
 #include "PlainLinesTextFormatter.h"
 #include "Paragraph.h"
 #include "TextFormatterTools.h"
+#include <macgyver/Exception.h>
 
 using namespace std;
 
@@ -27,9 +28,16 @@ namespace TextGen
 
 string PlainLinesTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  string ret =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "\n", "");
-  return ret;
+  try
+  {
+    string ret =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "\n", "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

@@ -38,43 +38,50 @@ namespace TextGen
 
 Paragraph PrecipitationStory::pop_max() const
 {
-  MessageLogger log("PrecipitationStory::pop_max");
-
-  using MathTools::to_precision;
-
-  Paragraph paragraph;
-
-  const int minimum = Settings::optional_percentage(itsVar + "::minimum", 10);
-  const int maximum = Settings::optional_percentage(itsVar + "::maximum", 100);
-  const int precision = Settings::optional_percentage(itsVar + "::precision", 10);
-
-  GridForecaster forecaster;
-
-  WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::max",
-                                               itsSources,
-                                               PrecipitationProbability,
-                                               Mean,
-                                               Maximum,
-                                               itsArea,
-                                               itsPeriod);
-
-  WeatherResultTools::checkMissingValue("pop_max", PrecipitationProbability, maxresult);
-
-  log << "PoP Mean(Max) " << maxresult << '\n';
-
-  const int pop = to_precision(maxresult.value(), precision);
-
-  Sentence sentence;
-
-  if (pop >= minimum && pop <= maximum)
+  try
   {
-    sentence << "sateen todennakoisyys"
-             << "on" << Integer(pop) << *UnitFactory::create(Percent);
-  }
+    MessageLogger log("PrecipitationStory::pop_max");
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    using MathTools::to_precision;
+
+    Paragraph paragraph;
+
+    const int minimum = Settings::optional_percentage(itsVar + "::minimum", 10);
+    const int maximum = Settings::optional_percentage(itsVar + "::maximum", 100);
+    const int precision = Settings::optional_percentage(itsVar + "::precision", 10);
+
+    GridForecaster forecaster;
+
+    WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::max",
+                                                 itsSources,
+                                                 PrecipitationProbability,
+                                                 Mean,
+                                                 Maximum,
+                                                 itsArea,
+                                                 itsPeriod);
+
+    WeatherResultTools::checkMissingValue("pop_max", PrecipitationProbability, maxresult);
+
+    log << "PoP Mean(Max) " << maxresult << '\n';
+
+    const int pop = to_precision(maxresult.value(), precision);
+
+    Sentence sentence;
+
+    if (pop >= minimum && pop <= maximum)
+    {
+      sentence << "sateen todennakoisyys"
+               << "on" << Integer(pop) << *UnitFactory::create(Percent);
+    }
+
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

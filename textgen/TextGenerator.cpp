@@ -38,6 +38,7 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
 
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
@@ -72,22 +73,29 @@ Paragraph make_contents(const string& theContents,
                         const WeatherArea& theArea,
                         const WeatherPeriod& thePeriod)
 {
-  const vector<string> contents = NFmiStringTools::Split(theContents);
-
-  Paragraph paragraph;
-
-  for (const auto& content : contents)
+  try
   {
-    const string storyvar = theVar + "::story::" + content;
+    const vector<string> contents = NFmiStringTools::Split(theContents);
 
-    paragraph << StoryTag(storyvar, true);
-    Paragraph p =
-        StoryFactory::create(theForecastTime, theSources, theArea, thePeriod, content, storyvar);
-    paragraph << p;
-    paragraph << StoryTag(storyvar, false);
+    Paragraph paragraph;
+
+    for (const auto& content : contents)
+    {
+      const string storyvar = theVar + "::story::" + content;
+
+      paragraph << StoryTag(storyvar, true);
+      Paragraph p =
+          StoryFactory::create(theForecastTime, theSources, theArea, thePeriod, content, storyvar);
+      paragraph << p;
+      paragraph << StoryTag(storyvar, false);
+    }
+
+    return paragraph;
   }
-
-  return paragraph;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("contents", theContents);
+  }
 }
 
 }  // namespace
@@ -120,44 +128,51 @@ class TextGenerator::Pimple
 
 TextGenerator::Pimple::Pimple()
 {
-  std::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
-  itsSources.setWeatherSource(weathersource);
-
-  using mask_source = std::shared_ptr<MaskSource>;
-
-  mask_source masksource(new RegularMaskSource());
-  itsSources.setMaskSource(masksource);
-
-  // land mask is optional - by default the area is land so the source can be shared
-  const string land_name = Settings::optional_string("textgen::mask::land", "");
-  if (land_name.empty())
-    itsSources.setLandMaskSource(masksource);
-  else
-    itsSources.setLandMaskSource(mask_source(new LandMaskSource(WeatherArea(land_name))));
-
-  // coast mask is optional - by default there is no coast
-  const string coast_name = Settings::optional_string("textgen::mask::coast", "");
-  if (coast_name.empty())
+  try
   {
-    mask_source nullsource(new NullMaskSource);
-    itsSources.setCoastMaskSource(nullsource);
-    itsSources.setInlandMaskSource(nullsource);
+    std::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+    itsSources.setWeatherSource(weathersource);
+
+    using mask_source = std::shared_ptr<MaskSource>;
+
+    mask_source masksource(new RegularMaskSource());
+    itsSources.setMaskSource(masksource);
+
+    // land mask is optional - by default the area is land so the source can be shared
+    const string land_name = Settings::optional_string("textgen::mask::land", "");
+    if (land_name.empty())
+      itsSources.setLandMaskSource(masksource);
+    else
+      itsSources.setLandMaskSource(mask_source(new LandMaskSource(WeatherArea(land_name))));
+
+    // coast mask is optional - by default there is no coast
+    const string coast_name = Settings::optional_string("textgen::mask::coast", "");
+    if (coast_name.empty())
+    {
+      mask_source nullsource(new NullMaskSource);
+      itsSources.setCoastMaskSource(nullsource);
+      itsSources.setInlandMaskSource(nullsource);
+    }
+    else
+    {
+      const WeatherArea coast(coast_name);
+      itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(coast)));
+      itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(coast)));
+    }
+
+    // mask sources for split areas
+    NFmiPoint point(0.0, 0.0);
+    WeatherArea theArea(point);
+
+    itsSources.setNorthernMaskSource(std::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
+    itsSources.setSouthernMaskSource(std::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
+    itsSources.setEasternMaskSource(std::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
+    itsSources.setWesternMaskSource(std::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
   }
-  else
+  catch (...)
   {
-    const WeatherArea coast(coast_name);
-    itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(coast)));
-    itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(coast)));
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  // mask sources for split areas
-  NFmiPoint point(0.0, 0.0);
-  WeatherArea theArea(point);
-
-  itsSources.setNorthernMaskSource(std::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
-  itsSources.setSouthernMaskSource(std::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
-  itsSources.setEasternMaskSource(std::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
-  itsSources.setWesternMaskSource(std::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
 }
 
 // ----------------------------------------------------------------------
@@ -172,39 +187,46 @@ TextGenerator::Pimple::Pimple()
 TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
                               const WeatherArea& theCoastMaskArea)
 {
-  std::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
-  itsSources.setWeatherSource(weathersource);
-
-  using mask_source = std::shared_ptr<MaskSource>;
-
-  mask_source masksource(new RegularMaskSource());
-  itsSources.setMaskSource(masksource);
-
-  if (!theLandMaskArea.isPoint() && !theLandMaskArea.path().empty())
-    itsSources.setLandMaskSource(mask_source(new LandMaskSource(theLandMaskArea)));
-  else
-    itsSources.setLandMaskSource(masksource);
-
-  if (!theCoastMaskArea.isPoint() && !theCoastMaskArea.path().empty())
+  try
   {
-    itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(theCoastMaskArea)));
-    itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(theCoastMaskArea)));
+    std::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+    itsSources.setWeatherSource(weathersource);
+
+    using mask_source = std::shared_ptr<MaskSource>;
+
+    mask_source masksource(new RegularMaskSource());
+    itsSources.setMaskSource(masksource);
+
+    if (!theLandMaskArea.isPoint() && !theLandMaskArea.path().empty())
+      itsSources.setLandMaskSource(mask_source(new LandMaskSource(theLandMaskArea)));
+    else
+      itsSources.setLandMaskSource(masksource);
+
+    if (!theCoastMaskArea.isPoint() && !theCoastMaskArea.path().empty())
+    {
+      itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(theCoastMaskArea)));
+      itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(theCoastMaskArea)));
+    }
+    else
+    {
+      mask_source nullsource(new NullMaskSource);
+      itsSources.setCoastMaskSource(nullsource);
+      itsSources.setInlandMaskSource(nullsource);
+    }
+
+    // mask sources for split areas
+    NFmiPoint point(0.0, 0.0);
+    WeatherArea theArea(point);
+
+    itsSources.setNorthernMaskSource(std::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
+    itsSources.setSouthernMaskSource(std::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
+    itsSources.setEasternMaskSource(std::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
+    itsSources.setWesternMaskSource(std::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
   }
-  else
+  catch (...)
   {
-    mask_source nullsource(new NullMaskSource);
-    itsSources.setCoastMaskSource(nullsource);
-    itsSources.setInlandMaskSource(nullsource);
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  // mask sources for split areas
-  NFmiPoint point(0.0, 0.0);
-  WeatherArea theArea(point);
-
-  itsSources.setNorthernMaskSource(std::shared_ptr<MaskSource>(new NorthernMaskSource(theArea)));
-  itsSources.setSouthernMaskSource(std::shared_ptr<MaskSource>(new SouthernMaskSource(theArea)));
-  itsSources.setEasternMaskSource(std::shared_ptr<MaskSource>(new EasternMaskSource(theArea)));
-  itsSources.setWesternMaskSource(std::shared_ptr<MaskSource>(new WesternMaskSource(theArea)));
 }
 
 // ----------------------------------------------------------------------
@@ -215,6 +237,13 @@ TextGenerator::TextGenerator(const WeatherArea& theLandMaskArea,
                              const WeatherArea& theCoastMaskArea)
     : itsPimple(new Pimple(theLandMaskArea, theCoastMaskArea))
 {
+  try
+  {
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -223,7 +252,16 @@ TextGenerator::TextGenerator(const WeatherArea& theLandMaskArea,
  */
 // ----------------------------------------------------------------------
 
-TextGenerator::TextGenerator() : itsPimple(new Pimple()) {}
+TextGenerator::TextGenerator() : itsPimple(new Pimple())
+{
+  try
+  {
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the forecast time
@@ -234,7 +272,14 @@ TextGenerator::TextGenerator() : itsPimple(new Pimple()) {}
 
 const TextGenPosixTime& TextGenerator::time() const
 {
-  return itsPimple->itsForecastTime;
+  try
+  {
+    return itsPimple->itsForecastTime;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -250,7 +295,14 @@ const TextGenPosixTime& TextGenerator::time() const
 
 void TextGenerator::time(const TextGenPosixTime& theForecastTime)
 {
-  itsPimple->itsForecastTime = theForecastTime;
+  try
+  {
+    itsPimple->itsForecastTime = theForecastTime;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -284,74 +336,81 @@ void TextGenerator::time(const TextGenPosixTime& theForecastTime)
 
 Document TextGenerator::generate(const WeatherArea& theArea) const
 {
-  MessageLogger log("TextGenerator::generate");
-
-  const vector<string> paragraphs =
-      NFmiStringTools::Split(Settings::require_string("textgen::sections"));
-
-  Document doc;
-  for (const auto& paragraph : paragraphs)
+  try
   {
-    doc << SectionTag("textgen::" + paragraph, true);
+    MessageLogger log("TextGenerator::generate");
 
-    const string periodvar = "textgen::" + paragraph + "::period";
-    const WeatherPeriod period =
-        WeatherPeriodFactory::create(itsPimple->itsForecastTime, periodvar);
+    const vector<string> paragraphs =
+        NFmiStringTools::Split(Settings::require_string("textgen::sections"));
 
-    const string headervar = "textgen::" + paragraph + "::header";
-
-    log << "TextGenerator::generate periodvar " << periodvar << '\n'
-        << "TextGenerator::generate headervar " << headervar << '\n'
-        << "TextGenerator::generate period : " << period.localStartTime() << '\n'
-        << " -  " << period.localEndTime() << '\n';
-
-    Header header = HeaderFactory::create(itsPimple->itsForecastTime, theArea, period, headervar);
-    if (!header.empty())
-      doc << header;
-
-    const bool subs = Settings::optional_bool("textgen::" + paragraph + "::subperiods", false);
-
-    if (!subs)
+    Document doc;
+    for (const auto& paragraph : paragraphs)
     {
-      const string contents = Settings::require("textgen::" + paragraph + "::content");
-      log << "TextGenerator::generate contents " << contents << '\n';
-      doc << make_contents(contents,
-                           "textgen::" + paragraph,
-                           itsPimple->itsForecastTime,
-                           itsPimple->itsSources,
-                           theArea,
-                           period);
-    }
-    else
-    {
-      // Generate subparagraphs for each day
-      HourPeriodGenerator generator(period, "textgen::" + paragraph + "::subperiod::day");
+      doc << SectionTag("textgen::" + paragraph, true);
 
-      const string defaultvar = "textgen::" + paragraph;
+      const string periodvar = "textgen::" + paragraph + "::period";
+      const WeatherPeriod period =
+          WeatherPeriodFactory::create(itsPimple->itsForecastTime, periodvar);
 
-      for (HourPeriodGenerator::size_type day = 1; day <= generator.size(); day++)
+      const string headervar = "textgen::" + paragraph + "::header";
+
+      log << "TextGenerator::generate periodvar " << periodvar << '\n'
+          << "TextGenerator::generate headervar " << headervar << '\n'
+          << "TextGenerator::generate period : " << period.localStartTime() << '\n'
+          << " -  " << period.localEndTime() << '\n';
+
+      Header header = HeaderFactory::create(itsPimple->itsForecastTime, theArea, period, headervar);
+      if (!header.empty())
+        doc << header;
+
+      const bool subs = Settings::optional_bool("textgen::" + paragraph + "::subperiods", false);
+
+      if (!subs)
       {
-        const WeatherPeriod subperiod = generator.period(day);
-
-        log << "TextGenerator::generate subperiod: " << subperiod.localStartTime() << " - "
-            << subperiod.localEndTime() << '\n';
-
-        const string dayvar = defaultvar + "::day" + NFmiStringTools::Convert(day);
-
-        const bool hasday = Settings::isset(dayvar + "::content");
-
-        doc << make_contents(hasday ? Settings::require_string(dayvar + "::content")
-                                    : Settings::require_string(defaultvar + "::content"),
-                             hasday ? dayvar : defaultvar,
+        const string contents = Settings::require("textgen::" + paragraph + "::content");
+        log << "TextGenerator::generate contents " << contents << '\n';
+        doc << make_contents(contents,
+                             "textgen::" + paragraph,
                              itsPimple->itsForecastTime,
                              itsPimple->itsSources,
                              theArea,
-                             subperiod);
+                             period);
       }
+      else
+      {
+        // Generate subparagraphs for each day
+        HourPeriodGenerator generator(period, "textgen::" + paragraph + "::subperiod::day");
+
+        const string defaultvar = "textgen::" + paragraph;
+
+        for (HourPeriodGenerator::size_type day = 1; day <= generator.size(); day++)
+        {
+          const WeatherPeriod subperiod = generator.period(day);
+
+          log << "TextGenerator::generate subperiod: " << subperiod.localStartTime() << " - "
+              << subperiod.localEndTime() << '\n';
+
+          const string dayvar = defaultvar + "::day" + NFmiStringTools::Convert(day);
+
+          const bool hasday = Settings::isset(dayvar + "::content");
+
+          doc << make_contents(hasday ? Settings::require_string(dayvar + "::content")
+                                      : Settings::require_string(defaultvar + "::content"),
+                               hasday ? dayvar : defaultvar,
+                               itsPimple->itsForecastTime,
+                               itsPimple->itsSources,
+                               theArea,
+                               subperiod);
+        }
+      }
+      doc << SectionTag("textgen::" + paragraph, false);
     }
-    doc << SectionTag("textgen::" + paragraph, false);
+    return doc;
   }
-  return doc;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -363,12 +422,26 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
 // ----------------------------------------------------------------------
 void TextGenerator::sources(const AnalysisSources& theSources)
 {
-  itsPimple->itsSources = theSources;
+  try
+  {
+    itsPimple->itsSources = theSources;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string TextGenerator::version()
 {
-  return VERSION_STRING;
+  try
+  {
+    return VERSION_STRING;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

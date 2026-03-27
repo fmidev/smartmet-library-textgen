@@ -45,8 +45,15 @@ Integer::Integer(int theInteger) : itsInteger(theInteger) {}
 
 std::shared_ptr<Glyph> Integer::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Integer(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Integer(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -60,9 +67,16 @@ std::shared_ptr<Glyph> Integer::clone() const
 
 std::string Integer::realize(const Dictionary& /*theDictionary*/) const
 {
-  ostringstream os;
-  os << itsInteger;
-  return os.str();
+  try
+  {
+    ostringstream os;
+    os << itsInteger;
+    return os.str();
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -76,7 +90,14 @@ std::string Integer::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Integer::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -87,7 +108,14 @@ std::string Integer::realize(const TextFormatter& theFormatter) const
 
 bool Integer::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -99,7 +127,14 @@ bool Integer::isDelimiter() const
 
 int Integer::value() const
 {
-  return itsInteger;
+  try
+  {
+    return itsInteger;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

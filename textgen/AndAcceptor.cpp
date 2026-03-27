@@ -13,6 +13,7 @@
 // ======================================================================
 
 #include "AndAcceptor.h"
+#include <macgyver/Exception.h>
 #include <newbase/NFmiGlobals.h>
 
 namespace TextGen
@@ -52,7 +53,14 @@ AndAcceptor::AndAcceptor(const Acceptor& theLhs, const Acceptor& theRhs)
 
 Acceptor* AndAcceptor::clone() const
 {
-  return new AndAcceptor(*this);
+  try
+  {
+    return new AndAcceptor(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -60,14 +68,21 @@ Acceptor* AndAcceptor::clone() const
  *
  * The value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ * \param theValue The value to be accepted
  * \return True if the value is accepted
  */
 // ----------------------------------------------------------------------
 
 bool AndAcceptor::accept(float theValue) const
 {
-  return itsLhs->accept(theValue) && itsRhs->accept(theValue);
+  try
+  {
+    return itsLhs->accept(theValue) && itsRhs->accept(theValue);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

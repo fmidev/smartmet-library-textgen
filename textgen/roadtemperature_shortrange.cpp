@@ -16,6 +16,7 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -36,73 +37,80 @@ namespace TextGen
 
 Paragraph RoadStory::shortrange() const
 {
-  MessageLogger log("RoadStory::shortrange");
-
-  using namespace Settings;
-
-  const unsigned int maxperiods = optional_int(itsVar + "::maxperiods", 3);
-  const unsigned int mininterval = optional_int(itsVar + "::mininterval", 2);
-  const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
-  const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
-
-  Paragraph paragraph;
-
-  HourPeriodGenerator generator(itsPeriod, itsVar);
-
-  GridForecaster forecaster;
-
-  Sentence sentence;
-
-  int day = 0;
-  int night = 0;
-
-  for (unsigned int p = 1; p <= maxperiods && p <= generator.size(); p++)
+  try
   {
-    WeatherPeriod period = generator.period(p);
+    MessageLogger log("RoadStory::shortrange");
 
-    const bool isday = (period.localEndTime().GetHour() >= period.localStartTime().GetHour());
+    using namespace Settings;
 
-    const string periodstr =
-        (isday ? "day" + std::to_string(day) : "night" + std::to_string(night));
+    const unsigned int maxperiods = optional_int(itsVar + "::maxperiods", 3);
+    const unsigned int mininterval = optional_int(itsVar + "::mininterval", 2);
+    const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
+    const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
 
-    const string fake = itsVar + "::fake::" + periodstr;
+    Paragraph paragraph;
 
-    WeatherResult minresult = forecaster.analyze(
-        fake + "::minimum", itsSources, RoadTemperature, Minimum, Minimum, itsArea, period);
+    HourPeriodGenerator generator(itsPeriod, itsVar);
 
-    WeatherResult meanresult = forecaster.analyze(
-        fake + "::mean", itsSources, RoadTemperature, Mean, Mean, itsArea, period);
+    GridForecaster forecaster;
 
-    WeatherResult maxresult = forecaster.analyze(
-        fake + "::maximum", itsSources, RoadTemperature, Maximum, Maximum, itsArea, period);
+    Sentence sentence;
 
-    // abort generating further periods if the forecast runs out of data
-    if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-        meanresult.value() == kFloatMissing)
+    int day = 0;
+    int night = 0;
+
+    for (unsigned int p = 1; p <= maxperiods && p <= generator.size(); p++)
     {
-      Sentence s;
-      s << "tieto puuttuu";
-      paragraph << s;
-      log << paragraph;
-      return paragraph;
+      WeatherPeriod period = generator.period(p);
+
+      const bool isday = (period.localEndTime().GetHour() >= period.localStartTime().GetHour());
+
+      const string periodstr =
+          (isday ? "day" + std::to_string(day) : "night" + std::to_string(night));
+
+      const string fake = itsVar + "::fake::" + periodstr;
+
+      WeatherResult minresult = forecaster.analyze(
+          fake + "::minimum", itsSources, RoadTemperature, Minimum, Minimum, itsArea, period);
+
+      WeatherResult meanresult = forecaster.analyze(
+          fake + "::mean", itsSources, RoadTemperature, Mean, Mean, itsArea, period);
+
+      WeatherResult maxresult = forecaster.analyze(
+          fake + "::maximum", itsSources, RoadTemperature, Maximum, Maximum, itsArea, period);
+
+      // abort generating further periods if the forecast runs out of data
+      if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
+          meanresult.value() == kFloatMissing)
+      {
+        Sentence s;
+        s << "tieto puuttuu";
+        paragraph << s;
+        log << paragraph;
+        return paragraph;
+      }
+      //	  break;
+
+      log << "Troad Minimum(Minimum) " << periodstr << " = " << minresult << '\n';
+      log << "Troad Mean(Minimum) " << periodstr << " = " << meanresult << '\n';
+      log << "Troad Maximum(Minimum) " << periodstr << " = " << maxresult << '\n';
+
+      const int tmin = static_cast<int>(round(minresult.value()));
+      const int tmax = static_cast<int>(round(maxresult.value()));
+      const int tmean = static_cast<int>(round(meanresult.value()));
+
+      sentence << TemperatureStoryTools::temperature_sentence(
+          tmin, tmean, tmax, mininterval, interval_zero, rangeseparator);
     }
-    //	  break;
 
-    log << "Troad Minimum(Minimum) " << periodstr << " = " << minresult << '\n';
-    log << "Troad Mean(Minimum) " << periodstr << " = " << meanresult << '\n';
-    log << "Troad Maximum(Minimum) " << periodstr << " = " << maxresult << '\n';
-
-    const int tmin = static_cast<int>(round(minresult.value()));
-    const int tmax = static_cast<int>(round(maxresult.value()));
-    const int tmean = static_cast<int>(round(meanresult.value()));
-
-    sentence << TemperatureStoryTools::temperature_sentence(
-        tmin, tmean, tmax, mininterval, interval_zero, rangeseparator);
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
   }
-
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

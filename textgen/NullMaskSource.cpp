@@ -48,7 +48,14 @@ NullMaskSource::mask_type NullMaskSource::mask(const WeatherArea& /*theArea*/,
                                                const std::string& /*theData*/,
                                                const WeatherSource& /*theWeatherSource*/) const
 {
-  return itsData;
+  try
+  {
+    return itsData;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -65,7 +72,14 @@ NullMaskSource::masks_type NullMaskSource::masks(const WeatherArea& /*theArea*/,
                                                  const std::string& /*theData*/,
                                                  const WeatherSource& /*theWeatherSource*/) const
 {
-  throw Fmi::Exception(BCP, "NullMaskSource::masks not implemented");
+  try
+  {
+    throw Fmi::Exception(BCP, "NullMaskSource::masks not implemented");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

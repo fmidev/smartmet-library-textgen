@@ -52,8 +52,15 @@ Real::Real(float theReal, int thePrecision, bool theComma)
 
 std::shared_ptr<Glyph> Real::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Real(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Real(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -67,12 +74,19 @@ std::shared_ptr<Glyph> Real::clone() const
 
 std::string Real::realize(const Dictionary& /*theDictionary*/) const
 {
-  ostringstream os;
-  os << fixed << setprecision(itsPrecision) << itsReal;
-  string result = os.str();
-  if (!itsComma)
-    NFmiStringTools::ReplaceChars(result, '.', ',');
-  return result;
+  try
+  {
+    ostringstream os;
+    os << fixed << setprecision(itsPrecision) << itsReal;
+    string result = os.str();
+    if (!itsComma)
+      NFmiStringTools::ReplaceChars(result, '.', ',');
+    return result;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -86,7 +100,14 @@ std::string Real::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Real::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -97,7 +118,14 @@ std::string Real::realize(const TextFormatter& theFormatter) const
 
 bool Real::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -109,7 +137,14 @@ bool Real::isDelimiter() const
 
 float Real::value() const
 {
-  return itsReal;
+  try
+  {
+    return itsReal;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -121,7 +156,14 @@ float Real::value() const
 
 int Real::precision() const
 {
-  return itsPrecision;
+  try
+  {
+    return itsPrecision;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -133,7 +175,14 @@ int Real::precision() const
 
 bool Real::comma() const
 {
-  return itsComma;
+  try
+  {
+    return itsComma;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

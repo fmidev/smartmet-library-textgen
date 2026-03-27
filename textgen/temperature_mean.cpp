@@ -29,32 +29,39 @@ namespace TextGen
  *
  * \todo Is throwing the best way to handle missing results?
  *
- * \see page_temperature_mean
+ * \see page_temperature_mean
  */
 // ----------------------------------------------------------------------
 
 Paragraph TemperatureStory::mean() const
 {
-  MessageLogger log("TemperatureStory::mean");
+  try
+  {
+    MessageLogger log("TemperatureStory::mean");
 
-  Paragraph paragraph;
-  Sentence sentence;
+    Paragraph paragraph;
+    Sentence sentence;
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  WeatherResult result = forecaster.analyze(
-      itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
+    WeatherResult result = forecaster.analyze(
+        itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
 
-  WeatherResultTools::checkMissingValue("temperature_mean", Temperature, result);
+    WeatherResultTools::checkMissingValue("temperature_mean", Temperature, result);
 
-  log << "Temperature Mean(Mean) = " << result << '\n';
+    log << "Temperature Mean(Mean) = " << result << '\n';
 
-  sentence << "keskilampotila" << Integer(static_cast<int>(round(result.value())))
-           << *UnitFactory::create(DegreesCelsius);
+    sentence << "keskilampotila" << Integer(static_cast<int>(round(result.value())))
+             << *UnitFactory::create(DegreesCelsius);
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

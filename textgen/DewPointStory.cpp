@@ -67,7 +67,14 @@ DewPointStory::DewPointStory(const TextGenPosixTime& theForecastTime,
 
 bool DewPointStory::hasStory(const string& theName)
 {
-  return theName == "dewpoint_range";
+  try
+  {
+    return theName == "dewpoint_range";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -83,10 +90,17 @@ bool DewPointStory::hasStory(const string& theName)
 
 Paragraph DewPointStory::makeStory(const string& theName) const
 {
-  if (theName == "dewpoint_range")
-    return range();
+  try
+  {
+    if (theName == "dewpoint_range")
+      return range();
 
-  throw Fmi::Exception(BCP, "DewPointStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "DewPointStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

@@ -67,19 +67,26 @@ WeatherStory::WeatherStory(const TextGenPosixTime& theForecastTime,
 
 bool WeatherStory::hasStory(const string& theName)
 {
-  if (theName == "weather_overview")
-    return true;
-  if (theName == "weather_forecast")
-    return true;
-  if (theName == "weather_forecast_at_sea")
-    return true;
-  if (theName == "weather_shortoverview")
-    return true;
-  if (theName == "weather_thunderprobability")
-    return true;
-  if (theName == "weather_thunderprobability_simplified")
-    return true;
-  return false;
+  try
+  {
+    if (theName == "weather_overview")
+      return true;
+    if (theName == "weather_forecast")
+      return true;
+    if (theName == "weather_forecast_at_sea")
+      return true;
+    if (theName == "weather_shortoverview")
+      return true;
+    if (theName == "weather_thunderprobability")
+      return true;
+    if (theName == "weather_thunderprobability_simplified")
+      return true;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -95,19 +102,26 @@ bool WeatherStory::hasStory(const string& theName)
 
 Paragraph WeatherStory::makeStory(const string& theName) const
 {
-  if (theName == "weather_overview")
-    return overview();
-  if (theName == "weather_forecast")
-    return forecast();
-  if (theName == "weather_forecast_at_sea")
-    return forecast_at_sea();
-  if (theName == "weather_shortoverview")
-    return shortoverview();
-  if (theName == "weather_thunderprobability")
-    return thunderprobability();
-  if (theName == "weather_thunderprobability_simplified")
-    return thunderprobability_simplified();
-  throw Fmi::Exception(BCP, "WeatherStory cannot make story " + theName);
+  try
+  {
+    if (theName == "weather_overview")
+      return overview();
+    if (theName == "weather_forecast")
+      return forecast();
+    if (theName == "weather_forecast_at_sea")
+      return forecast_at_sea();
+    if (theName == "weather_shortoverview")
+      return shortoverview();
+    if (theName == "weather_thunderprobability")
+      return thunderprobability();
+    if (theName == "weather_thunderprobability_simplified")
+      return thunderprobability_simplified();
+    throw Fmi::Exception(BCP, "WeatherStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

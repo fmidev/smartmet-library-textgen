@@ -13,6 +13,7 @@
 // ======================================================================
 
 #include "ComparativeAcceptor.h"
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -37,7 +38,14 @@ ComparativeAcceptor::ComparativeAcceptor(
 
 Acceptor* ComparativeAcceptor::clone() const
 {
-  return new ComparativeAcceptor(*this);
+  try
+  {
+    return new ComparativeAcceptor(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -45,41 +53,48 @@ Acceptor* ComparativeAcceptor::clone() const
  *
  * The value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ * \param theValue The value to be accepted
  * \return True if the comparison returns true
  */
 // ----------------------------------------------------------------------
 
 bool ComparativeAcceptor::accept(float theValue) const
 {
-  if (itsLimit == kFloatMissing)
-    return false;
-
-  bool retval = false;
-
-  switch (itsOperator)
+  try
   {
-    case LESS_THAN:
-      retval = (theValue < itsLimit);
-      break;
-    case LESS_OR_EQUAL:
-      retval = (theValue <= itsLimit);
-      break;
-    case EQUAL:
-      retval = (theValue == itsLimit);
-      break;
-    case GREATER_OR_EQUAL:
-      retval = (theValue >= itsLimit);
-      break;
-    case GREATER_THAN:
-      retval = (theValue > itsLimit);
-      break;
-    case VOID_OPERATOR:
-      retval = true;
-      break;
-  }
+    if (itsLimit == kFloatMissing)
+      return false;
 
-  return retval;
+    bool retval = false;
+
+    switch (itsOperator)
+    {
+      case LESS_THAN:
+        retval = (theValue < itsLimit);
+        break;
+      case LESS_OR_EQUAL:
+        retval = (theValue <= itsLimit);
+        break;
+      case EQUAL:
+        retval = (theValue == itsLimit);
+        break;
+      case GREATER_OR_EQUAL:
+        retval = (theValue >= itsLimit);
+        break;
+      case GREATER_THAN:
+        retval = (theValue > itsLimit);
+        break;
+      case VOID_OPERATOR:
+        retval = true;
+        break;
+    }
+
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -92,7 +107,14 @@ bool ComparativeAcceptor::accept(float theValue) const
 
 void ComparativeAcceptor::setLimit(float theLimit)
 {
-  itsLimit = theLimit;
+  try
+  {
+    itsLimit = theLimit;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -104,7 +126,14 @@ void ComparativeAcceptor::setLimit(float theLimit)
 
 void ComparativeAcceptor::setOperator(const comparative_operator& theOperator)
 {
-  itsOperator = theOperator;
+  try
+  {
+    itsOperator = theOperator;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

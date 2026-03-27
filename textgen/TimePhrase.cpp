@@ -35,8 +35,15 @@ namespace TextGen
 
 std::shared_ptr<Glyph> TimePhrase::clone() const
 {
-  std::shared_ptr<Glyph> ret(new TimePhrase(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new TimePhrase(*this));
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -50,7 +57,14 @@ std::shared_ptr<Glyph> TimePhrase::clone() const
 
 std::string TimePhrase::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw Fmi::Exception(BCP, "TimePhrase::realize(Dictionary) should not be called");
+  try
+  {
+    throw Fmi::Exception(BCP, "TimePhrase::realize(Dictionary) should not be called");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -64,7 +78,14 @@ std::string TimePhrase::realize(const Dictionary& /*theDictionary*/) const
 
 std::string TimePhrase::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -75,7 +96,14 @@ std::string TimePhrase::realize(const TextFormatter& theFormatter) const
 
 bool TimePhrase::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -89,8 +117,15 @@ bool TimePhrase::isDelimiter() const
 
 TimePhrase& TimePhrase::operator<<(const Glyph& theGlyph)
 {
-  itsData.push_back(theGlyph.clone());
-  return *this;
+  try
+  {
+    itsData.push_back(theGlyph.clone());
+    return *this;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -104,12 +139,19 @@ TimePhrase& TimePhrase::operator<<(const Glyph& theGlyph)
 
 TimePhrase& TimePhrase::operator<<(const string& thePhrase)
 {
-  if (!thePhrase.empty())
+  try
   {
-    std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
-    itsData.push_back(phrase);
+    if (!thePhrase.empty())
+    {
+      std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+      itsData.push_back(phrase);
+    }
+    return *this;
   }
-  return *this;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -123,8 +165,15 @@ TimePhrase& TimePhrase::operator<<(const string& thePhrase)
 
 TimePhrase& TimePhrase::operator<<(int theNumber)
 {
-  *this << Integer(theNumber);
-  return *this;
+  try
+  {
+    *this << Integer(theNumber);
+    return *this;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

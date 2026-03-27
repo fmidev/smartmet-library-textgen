@@ -66,7 +66,14 @@ CloudinessStory::CloudinessStory(const TextGenPosixTime& theForecastTime,
 
 bool CloudinessStory::hasStory(const string& theName)
 {
-  return theName == "cloudiness_overview";
+  try
+  {
+    return theName == "cloudiness_overview";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -82,10 +89,17 @@ bool CloudinessStory::hasStory(const string& theName)
 
 Paragraph CloudinessStory::makeStory(const string& theName) const
 {
-  if (theName == "cloudiness_overview")
-    return overview();
+  try
+  {
+    if (theName == "cloudiness_overview")
+      return overview();
 
-  throw Fmi::Exception(BCP, "CloudinessStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "CloudinessStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

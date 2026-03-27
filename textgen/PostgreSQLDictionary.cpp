@@ -26,20 +26,34 @@ namespace
 {
 [[maybe_unused]] inline double as_double(const pqxx::field& obj)
 {
+  try
+  {
 #if PQXX_VERSION_MAJOR > 5
-  return obj.as<double>();
+    return obj.as<double>();
 #else
-  return Fmi::stod(obj.as<std::string>());
+    return Fmi::stod(obj.as<std::string>());
 #endif
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 inline int as_int(const pqxx::field& obj)
 {
+  try
+  {
 #if PQXX_VERSION_MAJOR > 5
-  return obj.as<int>();
+    return obj.as<int>();
 #else
-  return Fmi::stoi(obj.as<std::string>());
+    return Fmi::stoi(obj.as<std::string>());
 #endif
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace
 
@@ -126,8 +140,7 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
   }
   catch (...)
   {
-    // Handle any query errors
-    throw Fmi::Exception(BCP, "Query error: ");
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 

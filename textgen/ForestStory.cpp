@@ -66,13 +66,20 @@ ForestStory::ForestStory(const TextGenPosixTime& theForecastTime,
 
 bool ForestStory::hasStory(const string& theName)
 {
-  if (theName == "forestfireindex_twodays")
-    return true;
-  if (theName == "evaporation_day")
-    return true;
-  if (theName == "forestfirewarning_county")
-    return true;
-  return false;
+  try
+  {
+    if (theName == "forestfireindex_twodays")
+      return true;
+    if (theName == "evaporation_day")
+      return true;
+    if (theName == "forestfirewarning_county")
+      return true;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -88,14 +95,21 @@ bool ForestStory::hasStory(const string& theName)
 
 Paragraph ForestStory::makeStory(const string& theName) const
 {
-  if (theName == "forestfireindex_twodays")
-    return forestfireindex_twodays();
-  if (theName == "evaporation_day")
-    return evaporation_day();
-  if (theName == "forestfirewarning_county")
-    return forestfirewarning_county();
+  try
+  {
+    if (theName == "forestfireindex_twodays")
+      return forestfireindex_twodays();
+    if (theName == "evaporation_day")
+      return evaporation_day();
+    if (theName == "forestfirewarning_county")
+      return forestfirewarning_county();
 
-  throw Fmi::Exception(BCP, "ForestStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "ForestStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

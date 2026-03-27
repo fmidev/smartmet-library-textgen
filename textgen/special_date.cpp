@@ -12,6 +12,7 @@
 #include "TimePeriod.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 #include <boost/locale.hpp>
 #include <filesystem>
@@ -50,13 +51,20 @@ namespace TextGen
 
 Paragraph SpecialStory::date() const
 {
-  MessageLogger log("SpecialStory::date");
+  try
+  {
+    MessageLogger log("SpecialStory::date");
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  paragraph << TimePeriod(itsPeriod);
+    paragraph << TimePeriod(itsPeriod);
 
-  return paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

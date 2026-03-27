@@ -41,143 +41,150 @@ namespace TextGen
 
 Paragraph PrecipitationStory::pop_days() const
 {
-  MessageLogger log("PrecipitationStory::pop_days");
-
-  using MathTools::to_precision;
-
-  Paragraph paragraph;
-
-  const int minimum = Settings::optional_percentage(itsVar + "::minimum", 10);
-  const int maximum = Settings::optional_percentage(itsVar + "::maximum", 100);
-  const int precision = Settings::optional_percentage(itsVar + "::precision", 10);
-  const bool negate = Settings::optional_bool(itsVar + "::negate", false);
-
-  const int limit_significantly_greater =
-      Settings::require_percentage(itsVar + "::comparison::significantly_greater");
-  const int limit_significantly_smaller =
-      Settings::require_percentage(itsVar + "::comparison::significantly_smaller");
-  const int limit_greater = Settings::require_percentage(itsVar + "::comparison::greater");
-  const int limit_smaller = Settings::require_percentage(itsVar + "::comparison::smaller");
-  const int limit_somewhat_greater =
-      Settings::require_percentage(itsVar + "::comparison::somewhat_greater");
-  const int limit_somewhat_smaller =
-      Settings::require_percentage(itsVar + "::comparison::somewhat_smaller");
-
-  HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
-
-  const int days = generator.size();
-
-  if (days <= 0)
+  try
   {
-    log << paragraph;
-    return paragraph;
-  }
+    MessageLogger log("PrecipitationStory::pop_days");
 
-  WeatherPeriod firstperiod = generator.period(1);
+    using MathTools::to_precision;
 
-  GridForecaster forecaster;
+    Paragraph paragraph;
 
-  WeatherResult pop1max = forecaster.analyze(itsVar + "::fake::day1::meanmax",
-                                             itsSources,
-                                             PrecipitationProbability,
-                                             Mean,
-                                             Maximum,
-                                             itsArea,
-                                             firstperiod);
+    const int minimum = Settings::optional_percentage(itsVar + "::minimum", 10);
+    const int maximum = Settings::optional_percentage(itsVar + "::maximum", 100);
+    const int precision = Settings::optional_percentage(itsVar + "::precision", 10);
+    const bool negate = Settings::optional_bool(itsVar + "::negate", false);
 
-  WeatherResult pop1mean = forecaster.analyze(itsVar + "::fake::day1::meanmean",
-                                              itsSources,
-                                              PrecipitationProbability,
-                                              Mean,
-                                              Mean,
-                                              itsArea,
-                                              firstperiod);
+    const int limit_significantly_greater =
+        Settings::require_percentage(itsVar + "::comparison::significantly_greater");
+    const int limit_significantly_smaller =
+        Settings::require_percentage(itsVar + "::comparison::significantly_smaller");
+    const int limit_greater = Settings::require_percentage(itsVar + "::comparison::greater");
+    const int limit_smaller = Settings::require_percentage(itsVar + "::comparison::smaller");
+    const int limit_somewhat_greater =
+        Settings::require_percentage(itsVar + "::comparison::somewhat_greater");
+    const int limit_somewhat_smaller =
+        Settings::require_percentage(itsVar + "::comparison::somewhat_smaller");
 
-  WeatherResultTools::checkMissingValue("pop_days", PrecipitationProbability, {pop1max, pop1mean});
+    HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
 
-  WeatherResult result1 = WeatherResultTools::mean(pop1max, pop1mean);
+    const int days = generator.size();
 
-  log << "PoP Mean(Mean) for day 1 " << pop1mean << '\n'
-      << "PoP Mean(Max) for day 1 " << pop1max << '\n'
-      << "Pop for day 1 is the mean value " << result1 << '\n';
+    if (days <= 0)
+    {
+      log << paragraph;
+      return paragraph;
+    }
 
-  const int pop1 = to_precision(result1.value(), precision);
+    WeatherPeriod firstperiod = generator.period(1);
 
-  Sentence sentence;
+    GridForecaster forecaster;
 
-  if (pop1 >= minimum && pop1 <= maximum)
-  {
-    sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
-             << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, firstperiod)
-             << (negate ? Integer(100 - pop1) : Integer(pop1)) << *UnitFactory::create(Percent);
-  }
-
-  if (days >= 2)
-  {
-    WeatherPeriod secondperiod = generator.period(2);
-
-    WeatherResult pop2max = forecaster.analyze(itsVar + "::fake::day2::meanmax",
+    WeatherResult pop1max = forecaster.analyze(itsVar + "::fake::day1::meanmax",
                                                itsSources,
                                                PrecipitationProbability,
                                                Mean,
                                                Maximum,
                                                itsArea,
-                                               secondperiod);
+                                               firstperiod);
 
-    WeatherResult pop2mean = forecaster.analyze(itsVar + "::fake::day2::meanmean",
+    WeatherResult pop1mean = forecaster.analyze(itsVar + "::fake::day1::meanmean",
                                                 itsSources,
                                                 PrecipitationProbability,
                                                 Mean,
                                                 Mean,
                                                 itsArea,
-                                                secondperiod);
+                                                firstperiod);
 
-    WeatherResultTools::checkMissingValue(
-        "pop_days", PrecipitationProbability, {pop2max, pop2mean});
+    WeatherResultTools::checkMissingValue("pop_days", PrecipitationProbability, {pop1max, pop1mean});
 
-    WeatherResult result2 = WeatherResultTools::mean(pop2max, pop2mean);
+    WeatherResult result1 = WeatherResultTools::mean(pop1max, pop1mean);
 
-    log << "PoP Mean(Mean) for day 2 " << pop2mean << '\n'
-        << "PoP Mean(Max) for day 2 " << pop2max << '\n'
-        << "Pop for day 2 is the mean value " << result2 << '\n';
+    log << "PoP Mean(Mean) for day 1 " << pop1mean << '\n'
+        << "PoP Mean(Max) for day 1 " << pop1max << '\n'
+        << "Pop for day 1 is the mean value " << result1 << '\n';
 
-    const int pop2 = to_precision(result2.value(), precision);
+    const int pop1 = to_precision(result1.value(), precision);
 
-    if (pop2 >= minimum && pop2 <= maximum)
+    Sentence sentence;
+
+    if (pop1 >= minimum && pop1 <= maximum)
     {
-      if (sentence.empty())
-      {
-        sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
-                 << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, secondperiod)
-                 << (negate ? Integer(100 - pop2) : Integer(pop2)) << *UnitFactory::create(Percent);
-      }
-      else
-      {
-        sentence << Delimiter(",")
-                 << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
-        int difference = (negate ? (100 - pop2) - (100 - pop1) : (pop2 - pop1));
+      sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
+               << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, firstperiod)
+               << (negate ? Integer(100 - pop1) : Integer(pop1)) << *UnitFactory::create(Percent);
+    }
 
-        if (difference >= limit_significantly_greater)
-          sentence << "huomattavasti suurempi";
-        else if (difference >= limit_greater)
-          sentence << "suurempi";
-        else if (difference >= limit_somewhat_greater)
-          sentence << "hieman suurempi";
-        else if (-difference >= limit_significantly_smaller)
-          sentence << "huomattavasti pienempi";
-        else if (-difference >= limit_smaller)
-          sentence << "pienempi";
-        else if (-difference >= limit_somewhat_smaller)
-          sentence << "hieman pienempi";
+    if (days >= 2)
+    {
+      WeatherPeriod secondperiod = generator.period(2);
+
+      WeatherResult pop2max = forecaster.analyze(itsVar + "::fake::day2::meanmax",
+                                                 itsSources,
+                                                 PrecipitationProbability,
+                                                 Mean,
+                                                 Maximum,
+                                                 itsArea,
+                                                 secondperiod);
+
+      WeatherResult pop2mean = forecaster.analyze(itsVar + "::fake::day2::meanmean",
+                                                  itsSources,
+                                                  PrecipitationProbability,
+                                                  Mean,
+                                                  Mean,
+                                                  itsArea,
+                                                  secondperiod);
+
+      WeatherResultTools::checkMissingValue(
+          "pop_days", PrecipitationProbability, {pop2max, pop2mean});
+
+      WeatherResult result2 = WeatherResultTools::mean(pop2max, pop2mean);
+
+      log << "PoP Mean(Mean) for day 2 " << pop2mean << '\n'
+          << "PoP Mean(Max) for day 2 " << pop2max << '\n'
+          << "Pop for day 2 is the mean value " << result2 << '\n';
+
+      const int pop2 = to_precision(result2.value(), precision);
+
+      if (pop2 >= minimum && pop2 <= maximum)
+      {
+        if (sentence.empty())
+        {
+          sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
+                   << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, secondperiod)
+                   << (negate ? Integer(100 - pop2) : Integer(pop2)) << *UnitFactory::create(Percent);
+        }
         else
-          sentence << "sama";
+        {
+          sentence << Delimiter(",")
+                   << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
+          int difference = (negate ? (100 - pop2) - (100 - pop1) : (pop2 - pop1));
+
+          if (difference >= limit_significantly_greater)
+            sentence << "huomattavasti suurempi";
+          else if (difference >= limit_greater)
+            sentence << "suurempi";
+          else if (difference >= limit_somewhat_greater)
+            sentence << "hieman suurempi";
+          else if (-difference >= limit_significantly_smaller)
+            sentence << "huomattavasti pienempi";
+          else if (-difference >= limit_smaller)
+            sentence << "pienempi";
+          else if (-difference >= limit_somewhat_smaller)
+            sentence << "hieman pienempi";
+          else
+            sentence << "sama";
+        }
       }
     }
-  }
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

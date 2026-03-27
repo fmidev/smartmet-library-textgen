@@ -13,6 +13,7 @@
 // ======================================================================
 
 #include "OrAcceptor.h"
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -51,7 +52,14 @@ OrAcceptor::OrAcceptor(const OrAcceptor& theOther)
 
 Acceptor* OrAcceptor::clone() const
 {
-  return new OrAcceptor(*this);
+  try
+  {
+    return new OrAcceptor(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -59,14 +67,21 @@ Acceptor* OrAcceptor::clone() const
  *
  * The value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ * \param theValue The value to be accepted
  * \return True if the value is accepted
  */
 // ----------------------------------------------------------------------
 
 bool OrAcceptor::accept(float theValue) const
 {
-  return itsLhs->accept(theValue) || itsRhs->accept(theValue);
+  try
+  {
+    return itsLhs->accept(theValue) || itsRhs->accept(theValue);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

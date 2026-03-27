@@ -37,53 +37,60 @@ namespace TextGen
 
 Paragraph WindStory::range() const
 {
-  MessageLogger log("WindStory::range");
+  try
+  {
+    MessageLogger log("WindStory::range");
 
-  // Establish options
+    // Establish options
 
-  using namespace Settings;
+    using namespace Settings;
 
-  // Generate the story
+    // Generate the story
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  // Calculate wind speeds
+    // Calculate wind speeds
 
-  const WeatherResult minresult = forecaster.analyze(
-      itsVar + "::fake::speed::minimum", itsSources, WindSpeed, Mean, Minimum, itsArea, itsPeriod);
+    const WeatherResult minresult = forecaster.analyze(
+        itsVar + "::fake::speed::minimum", itsSources, WindSpeed, Mean, Minimum, itsArea, itsPeriod);
 
-  const WeatherResult maxresult = forecaster.analyze(
-      itsVar + "::fake::speed::maximum", itsSources, WindSpeed, Mean, Maximum, itsArea, itsPeriod);
+    const WeatherResult maxresult = forecaster.analyze(
+        itsVar + "::fake::speed::maximum", itsSources, WindSpeed, Mean, Maximum, itsArea, itsPeriod);
 
-  const WeatherResult meanresult = forecaster.analyze(
-      itsVar + "::fake::speed::mean", itsSources, WindSpeed, Mean, Mean, itsArea, itsPeriod);
+    const WeatherResult meanresult = forecaster.analyze(
+        itsVar + "::fake::speed::mean", itsSources, WindSpeed, Mean, Mean, itsArea, itsPeriod);
 
-  const WeatherResult dirresult = forecaster.analyze(itsVar + "::fake::direction::mean",
-                                                     itsSources,
-                                                     WindDirection,
-                                                     Mean,
-                                                     Mean,
-                                                     itsArea,
-                                                     itsPeriod);
+    const WeatherResult dirresult = forecaster.analyze(itsVar + "::fake::direction::mean",
+                                                       itsSources,
+                                                       WindDirection,
+                                                       Mean,
+                                                       Mean,
+                                                       itsArea,
+                                                       itsPeriod);
 
-  log << "WindSpeed Minimum(Mean)  = " << minresult << '\n';
-  log << "WindSpeed Maximum(Mean)  = " << maxresult << '\n';
-  log << "WindSpeed Mean(Mean)     = " << meanresult << '\n';
+    log << "WindSpeed Minimum(Mean)  = " << minresult << '\n';
+    log << "WindSpeed Maximum(Mean)  = " << maxresult << '\n';
+    log << "WindSpeed Mean(Mean)     = " << meanresult << '\n';
 
-  WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxresult);
-  WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minresult);
-  WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanresult);
-  WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, dirresult);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxresult);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minresult);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanresult);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, dirresult);
 
-  Sentence sentence;
-  sentence << WindStoryTools::directed_speed_sentence(
-      minresult, maxresult, meanresult, dirresult, itsVar);
-  paragraph << sentence;
+    Sentence sentence;
+    sentence << WindStoryTools::directed_speed_sentence(
+        minresult, maxresult, meanresult, dirresult, itsVar);
+    paragraph << sentence;
 
-  log << paragraph;
-  return paragraph;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

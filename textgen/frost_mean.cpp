@@ -34,73 +34,80 @@ namespace TextGen
 
 Paragraph FrostStory::mean() const
 {
-  MessageLogger log("FrostStory::mean");
-
-  using MathTools::to_precision;
-
-  Paragraph paragraph;
-
-  if (!FrostStoryTools::is_frost_season())
+  try
   {
-    log << "Frost season is not on";
-    return paragraph;
-  }
+    MessageLogger log("FrostStory::mean");
 
-  Sentence sentence;
+    using MathTools::to_precision;
 
-  const string var1 = itsVar + "::precision";
-  const string var2 = itsVar + "::severe_frost_limit";
-  const string var3 = itsVar + "::frost_limit";
+    Paragraph paragraph;
 
-  const int precision = Settings::require_percentage(var1);
-  const int severelimit = Settings::require_percentage(var2);
-  const int normallimit = Settings::require_percentage(var3);
+    if (!FrostStoryTools::is_frost_season())
+    {
+      log << "Frost season is not on";
+      return paragraph;
+    }
 
-  GridForecaster forecaster;
+    Sentence sentence;
 
-  WeatherResult frost = forecaster.analyze(
-      itsVar + "::fake::mean", itsSources, Frost, Mean, Maximum, itsArea, itsPeriod);
+    const string var1 = itsVar + "::precision";
+    const string var2 = itsVar + "::severe_frost_limit";
+    const string var3 = itsVar + "::frost_limit";
 
-  WeatherResultTools::checkMissingValue("frost_mean", Frost, frost);
+    const int precision = Settings::require_percentage(var1);
+    const int severelimit = Settings::require_percentage(var2);
+    const int normallimit = Settings::require_percentage(var3);
 
-  log << "Frost Mean(Maximum) is " << frost << '\n';
+    GridForecaster forecaster;
 
-  // Quick exit if the mean is zero
+    WeatherResult frost = forecaster.analyze(
+        itsVar + "::fake::mean", itsSources, Frost, Mean, Maximum, itsArea, itsPeriod);
 
-  if (frost.value() == 0)
-  {
+    WeatherResultTools::checkMissingValue("frost_mean", Frost, frost);
+
+    log << "Frost Mean(Maximum) is " << frost << '\n';
+
+    // Quick exit if the mean is zero
+
+    if (frost.value() == 0)
+    {
+      log << paragraph;
+      return paragraph;
+    }
+
+    // Severe frost
+
+    WeatherResult severefrost = forecaster.analyze(
+        itsVar + "::fake::severe_mean", itsSources, SevereFrost, Mean, Maximum, itsArea, itsPeriod);
+
+    log << "SevereFrost Mean(Maximum) is " << severefrost << '\n';
+
+    WeatherResultTools::checkMissingValue("frost_mean", Frost, severefrost);
+
+    const int frost_value = to_precision(frost.value(), precision);
+
+    const int severe_frost_value = to_precision(severefrost.value(), precision);
+
+    if (severe_frost_value >= severelimit)
+    {
+      sentence << "ankaran hallan todennakoisyys"
+               << "on" << Integer(severe_frost_value) << *UnitFactory::create(Percent);
+      paragraph << sentence;
+    }
+    else if (frost_value >= normallimit)
+    {
+      sentence << "hallan todennakoisyys"
+               << "on" << Integer(frost_value) << *UnitFactory::create(Percent);
+      paragraph << sentence;
+    }
+
     log << paragraph;
     return paragraph;
   }
-
-  // Severe frost
-
-  WeatherResult severefrost = forecaster.analyze(
-      itsVar + "::fake::severe_mean", itsSources, SevereFrost, Mean, Maximum, itsArea, itsPeriod);
-
-  log << "SevereFrost Mean(Maximum) is " << severefrost << '\n';
-
-  WeatherResultTools::checkMissingValue("frost_mean", Frost, severefrost);
-
-  const int frost_value = to_precision(frost.value(), precision);
-
-  const int severe_frost_value = to_precision(severefrost.value(), precision);
-
-  if (severe_frost_value >= severelimit)
+  catch (...)
   {
-    sentence << "ankaran hallan todennakoisyys"
-             << "on" << Integer(severe_frost_value) << *UnitFactory::create(Percent);
-    paragraph << sentence;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  else if (frost_value >= normallimit)
-  {
-    sentence << "hallan todennakoisyys"
-             << "on" << Integer(frost_value) << *UnitFactory::create(Percent);
-    paragraph << sentence;
-  }
-
-  log << paragraph;
-  return paragraph;
 }
 
 }  // namespace TextGen

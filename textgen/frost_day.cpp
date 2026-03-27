@@ -43,11 +43,18 @@ Sentence plain_frost_sentence(bool isSevere,
                               const TextGenPosixTime& theForecastTime,
                               const WeatherPeriod& thePeriod)
 {
-  Sentence sentence;
-  sentence << (isSevere ? "ankaran hallan todennakoisyys" : "hallan todennakoisyys") << "on"
-           << PeriodPhraseFactory::create("tonight", theVar, theForecastTime, thePeriod)
-           << Integer(theValue) << *UnitFactory::create(Percent);
-  return sentence;
+  try
+  {
+    Sentence sentence;
+    sentence << (isSevere ? "ankaran hallan todennakoisyys" : "hallan todennakoisyys") << "on"
+             << PeriodPhraseFactory::create("tonight", theVar, theForecastTime, thePeriod)
+             << Integer(theValue) << *UnitFactory::create(Percent);
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace
@@ -62,157 +69,164 @@ Sentence plain_frost_sentence(bool isSevere,
 
 Paragraph FrostStory::day() const
 {
-  MessageLogger log("FrostStory::day");
-
-  Paragraph paragraph;
-
-  if (!FrostStoryTools::is_frost_season())
+  try
   {
-    log << "Frost season is not on";
-    return paragraph;
-  }
+    MessageLogger log("FrostStory::day");
 
-  using MathTools::to_precision;
+    Paragraph paragraph;
 
-  HourPeriodGenerator generator(itsPeriod, itsVar + "::night");
+    if (!FrostStoryTools::is_frost_season())
+    {
+      log << "Frost season is not on";
+      return paragraph;
+    }
 
-  // Too late for this night? Return empty story then
+    using MathTools::to_precision;
 
-  if (generator.size() == 0)
-    return paragraph;
+    HourPeriodGenerator generator(itsPeriod, itsVar + "::night");
 
-  // Too many days is an error
+    // Too late for this night? Return empty story then
 
-  if (generator.size() != 1)
-    throw Fmi::Exception(BCP, "Cannot use frost_day story for periods longer than 1 day");
+    if (generator.size() == 0)
+      return paragraph;
 
-  // Exactly one period is fine
+    // Too many days is an error
 
-  WeatherPeriod period = generator.period(1);
+    if (generator.size() != 1)
+      throw Fmi::Exception(BCP, "Cannot use frost_day story for periods longer than 1 day");
 
-  // The options
+    // Exactly one period is fine
 
-  const int precision = Settings::optional_percentage(itsVar + "::precision", 10);
-  const int severelimit = Settings::optional_percentage(itsVar + "::severe_frost_limit", 10);
-  const int normallimit = Settings::optional_percentage(itsVar + "::frost_limit", 10);
-  const int obvious_frost = Settings::optional_percentage(itsVar + "::obvious_frost_limit", 90);
-  const int coastlimit = Settings::optional_percentage(itsVar + "::coastlimit", 20);
+    WeatherPeriod period = generator.period(1);
 
-  // Calculate frost probability for the area
+    // The options
 
-  GridForecaster forecaster;
+    const int precision = Settings::optional_percentage(itsVar + "::precision", 10);
+    const int severelimit = Settings::optional_percentage(itsVar + "::severe_frost_limit", 10);
+    const int normallimit = Settings::optional_percentage(itsVar + "::frost_limit", 10);
+    const int obvious_frost = Settings::optional_percentage(itsVar + "::obvious_frost_limit", 90);
+    const int coastlimit = Settings::optional_percentage(itsVar + "::coastlimit", 20);
 
-  WeatherResult areafrost = forecaster.analyze(
-      itsVar + "::fake::area::frost", itsSources, Frost, Mean, Maximum, itsArea, period);
+    // Calculate frost probability for the area
 
-  WeatherResult areasevere = forecaster.analyze(
-      itsVar + "::fake::area::severe_frost", itsSources, Frost, Mean, Maximum, itsArea, period);
+    GridForecaster forecaster;
 
-  WeatherResultTools::checkMissingValue("frost_day", Frost, {areafrost, areasevere});
+    WeatherResult areafrost = forecaster.analyze(
+        itsVar + "::fake::area::frost", itsSources, Frost, Mean, Maximum, itsArea, period);
 
-  log << "Frost Mean(Maximum) for area " << areafrost << '\n';
-  log << "SevereFrost Mean(Maximum) for area " << areasevere << '\n';
+    WeatherResult areasevere = forecaster.analyze(
+        itsVar + "::fake::area::severe_frost", itsSources, Frost, Mean, Maximum, itsArea, period);
 
-  // Rounded values
+    WeatherResultTools::checkMissingValue("frost_day", Frost, {areafrost, areasevere});
 
-  const int areaf = to_precision(areafrost.value(), precision);
-  const int areasf = to_precision(areasevere.value(), precision);
+    log << "Frost Mean(Maximum) for area " << areafrost << '\n';
+    log << "SevereFrost Mean(Maximum) for area " << areasevere << '\n';
 
-  // Abort if the story is meaningless
+    // Rounded values
 
-  if (areaf < normallimit)
-  {
-    log << "Frost probability is below the required minimum - no story";
-    return paragraph;
-  }
+    const int areaf = to_precision(areafrost.value(), precision);
+    const int areasf = to_precision(areasevere.value(), precision);
 
-  if (areasf >= obvious_frost)
-  {
-    log << "Severe frost probability is above the preset maximum - no story";
-    return paragraph;
-  }
+    // Abort if the story is meaningless
 
-  // Deduce frost type
+    if (areaf < normallimit)
+    {
+      log << "Frost probability is below the required minimum - no story";
+      return paragraph;
+    }
 
-  const bool issevere = (areasf >= severelimit);
-  const WeatherParameter param = (issevere ? SevereFrost : Frost);
+    if (areasf >= obvious_frost)
+    {
+      log << "Severe frost probability is above the preset maximum - no story";
+      return paragraph;
+    }
 
-  if (issevere)
-    log << "Forecast is severe frost";
-  else
-    log << "Forecast is not severe frost";
+    // Deduce frost type
 
-  // Calculate coastal values
+    const bool issevere = (areasf >= severelimit);
+    const WeatherParameter param = (issevere ? SevereFrost : Frost);
 
-  WeatherArea coast = itsArea;
-  coast.type(WeatherArea::Coast);
+    if (issevere)
+      log << "Forecast is severe frost";
+    else
+      log << "Forecast is not severe frost";
 
-  WeatherResult coastfrost = forecaster.analyze(
-      itsVar + "::fake::coast::value", itsSources, param, Mean, Maximum, coast, period);
+    // Calculate coastal values
 
-  // Done if there is no coast
+    WeatherArea coast = itsArea;
+    coast.type(WeatherArea::Coast);
 
-  if (coastfrost.value() == kFloatMissing)
-  {
-    log << "There is no coastal area";
+    WeatherResult coastfrost = forecaster.analyze(
+        itsVar + "::fake::coast::value", itsSources, param, Mean, Maximum, coast, period);
 
-    paragraph << plain_frost_sentence(
-        issevere, issevere ? areasf : areaf, itsVar, itsForecastTime, period);
+    // Done if there is no coast
+
+    if (coastfrost.value() == kFloatMissing)
+    {
+      log << "There is no coastal area";
+
+      paragraph << plain_frost_sentence(
+          issevere, issevere ? areasf : areaf, itsVar, itsForecastTime, period);
+      log << paragraph;
+      return paragraph;
+    }
+
+    // Calculate inland values
+    WeatherArea inland = itsArea;
+    inland.type(WeatherArea::Inland);
+
+    WeatherResult inlandfrost = forecaster.analyze(
+        itsVar + "::fake::inland::value", itsSources, param, Mean, Maximum, inland, period);
+
+    // Done if there is no inland
+
+    if (inlandfrost.value() == kFloatMissing)
+    {
+      log << "There is no inland area";
+
+      paragraph << plain_frost_sentence(
+          issevere, issevere ? areasf : areaf, itsVar, itsForecastTime, period);
+      log << paragraph;
+      return paragraph;
+    }
+
+    // We have a coast and inland
+
+    log << "Mean(Maximum) for coast " << coastfrost << '\n';
+    log << "Mean(Maximum) for inland " << inlandfrost << '\n';
+
+    // What's the difference between coast and inland?
+
+    const int inlandvalue = to_precision(inlandfrost.value(), precision);
+    const int coastvalue = to_precision(coastfrost.value(), precision);
+
+    // No significant difference
+    if (abs(inlandvalue - coastvalue) < coastlimit)
+    {
+      log << "Difference between coast and inland is small";
+
+      paragraph << plain_frost_sentence(
+          issevere, issevere ? areasf : areaf, itsVar, itsForecastTime, period);
+      log << paragraph;
+      return paragraph;
+    }
+
+    // Report probabilities separately
+
+    log << "Difference between coast and inland is significant";
+
+    Sentence sentence = plain_frost_sentence(issevere, inlandvalue, itsVar, itsForecastTime, period);
+    sentence << Delimiter(",") << "rannikolla" << Integer(coastvalue)
+             << *UnitFactory::create(Percent);
+    paragraph << sentence;
+
     log << paragraph;
     return paragraph;
   }
-
-  // Calculate inland values
-  WeatherArea inland = itsArea;
-  inland.type(WeatherArea::Inland);
-
-  WeatherResult inlandfrost = forecaster.analyze(
-      itsVar + "::fake::inland::value", itsSources, param, Mean, Maximum, inland, period);
-
-  // Done if there is no inland
-
-  if (inlandfrost.value() == kFloatMissing)
+  catch (...)
   {
-    log << "There is no inland area";
-
-    paragraph << plain_frost_sentence(
-        issevere, issevere ? areasf : areaf, itsVar, itsForecastTime, period);
-    log << paragraph;
-    return paragraph;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  // We have a coast and inland
-
-  log << "Mean(Maximum) for coast " << coastfrost << '\n';
-  log << "Mean(Maximum) for inland " << inlandfrost << '\n';
-
-  // What's the difference between coast and inland?
-
-  const int inlandvalue = to_precision(inlandfrost.value(), precision);
-  const int coastvalue = to_precision(coastfrost.value(), precision);
-
-  // No significant difference
-  if (abs(inlandvalue - coastvalue) < coastlimit)
-  {
-    log << "Difference between coast and inland is small";
-
-    paragraph << plain_frost_sentence(
-        issevere, issevere ? areasf : areaf, itsVar, itsForecastTime, period);
-    log << paragraph;
-    return paragraph;
-  }
-
-  // Report probabilities separately
-
-  log << "Difference between coast and inland is significant";
-
-  Sentence sentence = plain_frost_sentence(issevere, inlandvalue, itsVar, itsForecastTime, period);
-  sentence << Delimiter(",") << "rannikolla" << Integer(coastvalue)
-           << *UnitFactory::create(Percent);
-  paragraph << sentence;
-
-  log << paragraph;
-  return paragraph;
 }
 
 }  // namespace TextGen

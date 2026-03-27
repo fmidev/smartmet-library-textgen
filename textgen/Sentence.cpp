@@ -38,8 +38,15 @@ namespace TextGen
 
 std::shared_ptr<Glyph> Sentence::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Sentence(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Sentence(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -53,7 +60,14 @@ std::shared_ptr<Glyph> Sentence::clone() const
 
 std::string Sentence::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw Fmi::Exception(BCP, "Sentence::realize(Dictionary) should not be called");
+  try
+  {
+    throw Fmi::Exception(BCP, "Sentence::realize(Dictionary) should not be called");
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -67,7 +81,14 @@ std::string Sentence::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Sentence::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -78,7 +99,14 @@ std::string Sentence::realize(const TextFormatter& theFormatter) const
 
 bool Sentence::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -91,16 +119,23 @@ bool Sentence::isDelimiter() const
 
 Sentence& Sentence::operator<<(const Sentence& theSentence)
 {
-  if (this != &theSentence)
+  try
   {
-    copy(theSentence.itsData.begin(), theSentence.itsData.end(), back_inserter(itsData));
+    if (this != &theSentence)
+    {
+      copy(theSentence.itsData.begin(), theSentence.itsData.end(), back_inserter(itsData));
+    }
+    else
+    {
+      storage_type tmp(itsData);
+      copy(tmp.begin(), tmp.end(), back_inserter(itsData));
+    }
+    return *this;
   }
-  else
+  catch(...)
   {
-    storage_type tmp(itsData);
-    copy(tmp.begin(), tmp.end(), back_inserter(itsData));
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  return *this;
 }
 
 // ----------------------------------------------------------------------
@@ -114,8 +149,15 @@ Sentence& Sentence::operator<<(const Sentence& theSentence)
 
 Sentence& Sentence::operator<<(const Glyph& theGlyph)
 {
-  itsData.push_back(theGlyph.clone());
-  return *this;
+  try
+  {
+    itsData.push_back(theGlyph.clone());
+    return *this;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -129,12 +171,19 @@ Sentence& Sentence::operator<<(const Glyph& theGlyph)
 
 Sentence& Sentence::operator<<(const string& thePhrase)
 {
-  if (!thePhrase.empty())
+  try
   {
-    std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
-    itsData.push_back(phrase);
+    if (!thePhrase.empty())
+    {
+      std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+      itsData.push_back(phrase);
+    }
+    return *this;
   }
-  return *this;
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePhrase", thePhrase);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -148,8 +197,15 @@ Sentence& Sentence::operator<<(const string& thePhrase)
 
 Sentence& Sentence::operator<<(int theNumber)
 {
-  *this << Integer(theNumber);
-  return *this;
+  try
+  {
+    *this << Integer(theNumber);
+    return *this;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theNumber", std::to_string(theNumber));
+  }
 }
 
 }  // namespace TextGen
