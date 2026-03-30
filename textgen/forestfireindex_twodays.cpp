@@ -40,97 +40,104 @@ namespace TextGen
 
 Paragraph ForestStory::forestfireindex_twodays() const
 {
-  MessageLogger log("ForestStory::forestfireindex_twodays");
-
-  using MathTools::to_precision;
-
-  Paragraph paragraph;
-
-  HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
-
-  const int days = generator.size();
-
-  if (days <= 0)
+  try
   {
-    log << paragraph;
-    return paragraph;
-  }
+    MessageLogger log("ForestStory::forestfireindex_twodays");
 
-  WeatherPeriod firstperiod = generator.period(1);
+    using MathTools::to_precision;
 
-  GridForecaster forecaster;
+    Paragraph paragraph;
 
-  WeatherResult result = forecaster.analyze(itsVar + "::fake::day1::maximum",
-                                            itsSources,
-                                            ForestFireIndex,
-                                            Maximum,
-                                            Maximum,
-                                            itsArea,
-                                            firstperiod);
+    HourPeriodGenerator generator(itsPeriod, itsVar + "::day");
 
-  if (result.value() == kFloatMissing)
-  {
-    log << "ForestFireIndex Maximum(Maximum) for day 1 is missing\n";
-    return paragraph;
-  }
+    const int days = generator.size();
 
-  log << "ForestFirewarning Maximum(Maximum) for day 1 " << result << '\n';
-
-  const float index1 = result.value();
-
-  Sentence sentence;
-
-  sentence << "metsapaloindeksi"
-           << "on" << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, firstperiod)
-           << Real(index1);
-
-  if (days >= 2)
-  {
-    WeatherPeriod secondperiod = generator.period(2);
-
-    WeatherResult result2 = forecaster.analyze(itsVar + "::fake::day2::maximum",
-                                               itsSources,
-                                               ForestFireIndex,
-                                               Maximum,
-                                               Maximum,
-                                               itsArea,
-                                               secondperiod);
-
-    // Note: The model may not reach the second day. Hence a missing
-    // value is not an error, we simply omit a story if day2 is missing
-    if (result2.value() == kFloatMissing)
+    if (days <= 0)
     {
-      log << "ForestFireIndex Maximum(Maximum) for day 2 is missing\n";
+      log << paragraph;
+      return paragraph;
     }
-    else
+
+    WeatherPeriod firstperiod = generator.period(1);
+
+    GridForecaster forecaster;
+
+    WeatherResult result = forecaster.analyze(itsVar + "::fake::day1::maximum",
+                                              itsSources,
+                                              ForestFireIndex,
+                                              Maximum,
+                                              Maximum,
+                                              itsArea,
+                                              firstperiod);
+
+    if (result.value() == kFloatMissing)
     {
-      log << "ForestFireIndex Maximum(Maximum) for day 2 " << result2 << '\n';
+      log << "ForestFireIndex Maximum(Maximum) for day 1 is missing\n";
+      return paragraph;
+    }
 
-      const float index2 = result2.value();
+    log << "ForestFirewarning Maximum(Maximum) for day 1 " << result << '\n';
 
-      if (sentence.empty())
+    const float index1 = result.value();
+
+    Sentence sentence;
+
+    sentence << "metsapaloindeksi"
+             << "on" << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, firstperiod)
+             << Real(index1);
+
+    if (days >= 2)
+    {
+      WeatherPeriod secondperiod = generator.period(2);
+
+      WeatherResult result2 = forecaster.analyze(itsVar + "::fake::day2::maximum",
+                                                 itsSources,
+                                                 ForestFireIndex,
+                                                 Maximum,
+                                                 Maximum,
+                                                 itsArea,
+                                                 secondperiod);
+
+      // Note: The model may not reach the second day. Hence a missing
+      // value is not an error, we simply omit a story if day2 is missing
+      if (result2.value() == kFloatMissing)
       {
-        sentence << "metsapaloindeksi"
-                 << "on"
-                 << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, secondperiod)
-                 << Real(index2);
+        log << "ForestFireIndex Maximum(Maximum) for day 2 is missing\n";
       }
       else
       {
-        sentence << Delimiter(",")
-                 << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
+        log << "ForestFireIndex Maximum(Maximum) for day 2 " << result2 << '\n';
 
-        if (index1 == index2)
-          sentence << "sama";
+        const float index2 = result2.value();
+
+        if (sentence.empty())
+        {
+          sentence << "metsapaloindeksi"
+                   << "on"
+                   << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, secondperiod)
+                   << Real(index2);
+        }
         else
-          sentence << Real(index2);
+        {
+          sentence << Delimiter(",")
+                   << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
+
+          if (index1 == index2)
+            sentence << "sama";
+          else
+            sentence << Real(index2);
+        }
       }
     }
-  }
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

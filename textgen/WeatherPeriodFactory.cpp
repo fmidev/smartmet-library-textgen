@@ -45,12 +45,19 @@ namespace
 
 TextGenPosixTime round_up(const TextGenPosixTime& theTime)
 {
-  TextGenPosixTime ret(theTime);
-  if (ret.GetMin() > 0 || ret.GetSec() > 0)
-    ret.ChangeByHours(1);
-  ret.SetMin(0);
-  ret.SetSec(0);
-  return ret;
+  try
+  {
+    TextGenPosixTime ret(theTime);
+    if (ret.GetMin() > 0 || ret.GetSec() > 0)
+      ret.ChangeByHours(1);
+    ret.SetMin(0);
+    ret.SetSec(0);
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -67,8 +74,15 @@ TextGenPosixTime round_up(const TextGenPosixTime& theTime)
 
 WeatherPeriod period_now(const TextGenPosixTime& theTime)
 {
-  WeatherPeriod period(theTime, theTime);
-  return period;
+  try
+  {
+    WeatherPeriod period(theTime, theTime);
+    return period;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -99,20 +113,27 @@ WeatherPeriod period_now(const TextGenPosixTime& theTime)
 
 WeatherPeriod period_until(const TextGenPosixTime& theTime, const string& theVariable)
 {
-  const int days = Settings::require_days(theVariable + "::days");
-  const int endhour = Settings::require_hour(theVariable + "::endhour");
-  const int switchhour = Settings::require_hour(theVariable + "::switchhour");
+  try
+  {
+    const int days = Settings::require_days(theVariable + "::days");
+    const int endhour = Settings::require_hour(theVariable + "::endhour");
+    const int switchhour = Settings::require_hour(theVariable + "::switchhour");
 
-  TextGenPosixTime start(round_up(theTime));
+    TextGenPosixTime start(round_up(theTime));
 
-  TextGenPosixTime end(start);
-  end.ChangeByDays(days);
-  end.SetHour(endhour);
-  if (switchhour > 0 && start.GetHour() >= switchhour)
-    end.ChangeByDays(1);
+    TextGenPosixTime end(start);
+    end.ChangeByDays(days);
+    end.SetHour(endhour);
+    if (switchhour > 0 && start.GetHour() >= switchhour)
+      end.ChangeByDays(1);
 
-  WeatherPeriod period(start, end);
-  return period;
+    WeatherPeriod period(start, end);
+    return period;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -149,24 +170,31 @@ WeatherPeriod period_until(const TextGenPosixTime& theTime, const string& theVar
 
 WeatherPeriod period_from_until(const TextGenPosixTime& theTime, const string& theVariable)
 {
-  const int startday = Settings::require_days(theVariable + "::startday");
-  const int starthour = Settings::require_hour(theVariable + "::starthour");
-  const int switchhour = Settings::require_hour(theVariable + "::switchhour");
-  const int days = Settings::require_days(theVariable + "::days");
-  const int endhour = Settings::require_hour(theVariable + "::endhour");
+  try
+  {
+    const int startday = Settings::require_days(theVariable + "::startday");
+    const int starthour = Settings::require_hour(theVariable + "::starthour");
+    const int switchhour = Settings::require_hour(theVariable + "::switchhour");
+    const int days = Settings::require_days(theVariable + "::days");
+    const int endhour = Settings::require_hour(theVariable + "::endhour");
 
-  TextGenPosixTime start(round_up(theTime));
-  start.ChangeByDays(startday);
-  if (switchhour > 0 && start.GetHour() >= switchhour)
-    start.ChangeByDays(1);
-  start.SetHour(starthour);
+    TextGenPosixTime start(round_up(theTime));
+    start.ChangeByDays(startday);
+    if (switchhour > 0 && start.GetHour() >= switchhour)
+      start.ChangeByDays(1);
+    start.SetHour(starthour);
 
-  TextGenPosixTime end(start);
-  end.ChangeByDays(days);
-  end.SetHour(endhour);
+    TextGenPosixTime end(start);
+    end.ChangeByDays(days);
+    end.SetHour(endhour);
 
-  WeatherPeriod period(start, end);
-  return period;
+    WeatherPeriod period(start, end);
+    return period;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 }  // namespace
@@ -197,16 +225,23 @@ namespace WeatherPeriodFactory
 
 WeatherPeriod create(const TextGenPosixTime& theTime, const std::string& theVariable)
 {
-  const string var = theVariable + "::type";
-  const string type = Settings::require_string(var);
-  if (type == "now")
-    return period_now(theTime);
-  if (type == "until")
-    return period_until(theTime, theVariable);
-  if (type == "from_until")
-    return period_from_until(theTime, theVariable);
+  try
+  {
+    const string var = theVariable + "::type";
+    const string type = Settings::require_string(var);
+    if (type == "now")
+      return period_now(theTime);
+    if (type == "until")
+      return period_until(theTime, theVariable);
+    if (type == "from_until")
+      return period_from_until(theTime, theVariable);
 
-  throw Fmi::Exception(BCP, "WeatherPeriodFactory does not recognize period name " + type);
+    throw Fmi::Exception(BCP, "WeatherPeriodFactory does not recognize period name " + type);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 }  // namespace WeatherPeriodFactory
 }  // namespace TextGen

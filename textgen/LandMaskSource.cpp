@@ -119,15 +119,22 @@ LandMaskSource::Pimple::Pimple(const WeatherArea& theLand) : itsLand(theLand) {}
 LandMaskSource::mask_type LandMaskSource::Pimple::find(const WeatherId& theID,
                                                        const WeatherArea& theArea) const
 {
-  static std::shared_ptr<NFmiIndexMask> dummy;
+  try
+  {
+    static std::shared_ptr<NFmiIndexMask> dummy;
 
-  WeatherAreaAndID key(theID, theArea);
+    WeatherAreaAndID key(theID, theArea);
 
-  auto it = itsMaskStorage.find(key);
-  if (it == itsMaskStorage.end())
-    return dummy;
+    auto it = itsMaskStorage.find(key);
+    if (it == itsMaskStorage.end())
+      return dummy;
 
-  return it->second;
+    return it->second;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -144,14 +151,21 @@ void LandMaskSource::Pimple::insert(const WeatherId& theID,
                                     const WeatherArea& theArea,
                                     const mask_type& theMask)
 {
-  using value_type = mask_storage::value_type;
+  try
+  {
+    using value_type = mask_storage::value_type;
 
-  WeatherAreaAndID key(theID, theArea);
+    WeatherAreaAndID key(theID, theArea);
 
-  itsMaskStorage.insert(value_type(key, theMask));
+    itsMaskStorage.insert(value_type(key, theMask));
 
-  if (itsMaskStorage.insert(value_type(key, theMask)).second)
-    throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
+    if (itsMaskStorage.insert(value_type(key, theMask)).second)
+      throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -169,32 +183,39 @@ LandMaskSource::mask_type LandMaskSource::Pimple::create_mask(const WeatherArea&
                                                               const std::string& theData,
                                                               const WeatherSource& theWeatherSource)
 {
-  // Establish the grid which to mask
+  try
+  {
+    // Establish the grid which to mask
 
-  std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
-  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
-  if (!qi.IsGrid())
-    throw Fmi::Exception(
-        BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
+    std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+    NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+    if (!qi.IsGrid())
+      throw Fmi::Exception(
+          BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
 
-  // First build the area mask
+    // First build the area mask
 
-  const NFmiSvgPath& svg = theArea.path();
-  const float radius = theArea.radius();
+    const NFmiSvgPath& svg = theArea.path();
+    const float radius = theArea.radius();
 
-  mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
+    mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
 
-  // Then build the land mask
+    // Then build the land mask
 
-  const NFmiSvgPath& lsvg = itsLand.path();
-  const float ldistance = itsLand.radius();
-  mask_type landmask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), lsvg, ldistance)));
+    const NFmiSvgPath& lsvg = itsLand.path();
+    const float ldistance = itsLand.radius();
+    mask_type landmask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), lsvg, ldistance)));
 
-  // The intersection is the land area
+    // The intersection is the land area
 
-  *areamask &= *landmask;
+    *areamask &= *landmask;
 
-  return areamask;
+    return areamask;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -220,26 +241,33 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
                                                const std::string& theData,
                                                const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint())
-    throw Fmi::Exception(BCP, "Trying to generate mask for point");
+  try
+  {
+    if (theArea.isPoint())
+      throw Fmi::Exception(BCP, "Trying to generate mask for point");
 
-  // Establish the ID for the data
+    // Establish the ID for the data
 
-  WeatherId id = theWeatherSource.id(theData);
+    WeatherId id = theWeatherSource.id(theData);
 
-  // Try to find cached mask first
+    // Try to find cached mask first
 
-  mask_type areamask = itsPimple->find(id, theArea);
+    mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != nullptr)
+    if (areamask.get() != nullptr)
+      return areamask;
+
+    // Calculate new mask and cache it
+
+    areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
+    itsPimple->insert(id, theArea, areamask);
+
     return areamask;
-
-  // Calculate new mask and cache it
-
-  areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
-  itsPimple->insert(id, theArea, areamask);
-
-  return areamask;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -256,7 +284,14 @@ LandMaskSource::masks_type LandMaskSource::masks(const WeatherArea& /*theArea*/,
                                                  const std::string& /*theData*/,
                                                  const WeatherSource& /*theWeatherSource*/) const
 {
-  throw Fmi::Exception(BCP, "LandMaskSource::masks not implemented");
+  try
+  {
+    throw Fmi::Exception(BCP, "LandMaskSource::masks not implemented");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

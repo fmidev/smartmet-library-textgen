@@ -61,11 +61,18 @@ RainPeriods analyze(const AnalysisSources& theSources,
                     const WeatherPeriod& thePeriod,
                     const std::string& theVar)
 {
-  RainTimes times = findRainTimes(theSources, theArea, thePeriod, theVar);
-  RainPeriods periods1 = findRainPeriods(times, theVar);
-  RainPeriods periods2 = mergeNightlyRainPeriods(periods1, theVar);
-  RainPeriods periods3 = mergeLargeRainPeriods(periods2, theVar);
-  return periods3;
+  try
+  {
+    RainTimes times = findRainTimes(theSources, theArea, thePeriod, theVar);
+    RainPeriods periods1 = findRainPeriods(times, theVar);
+    RainPeriods periods2 = mergeNightlyRainPeriods(periods1, theVar);
+    RainPeriods periods3 = mergeLargeRainPeriods(periods2, theVar);
+    return periods3;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -80,16 +87,23 @@ RainPeriods analyze(const AnalysisSources& theSources,
 
 RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
-  RainPeriods out;
-  for (const auto& it : thePeriods)
+  try
   {
-    if (it.localStartTime() < thePeriod.localEndTime() &&
-        it.localEndTime() > thePeriod.localStartTime())
+    RainPeriods out;
+    for (const auto& it : thePeriods)
     {
-      out.push_back(it);
+      if (it.localStartTime() < thePeriod.localEndTime() &&
+          it.localEndTime() > thePeriod.localStartTime())
+      {
+        out.push_back(it);
+      }
     }
+    return out;
   }
-  return out;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -104,16 +118,23 @@ RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPerio
 
 RainPeriods inclusivePeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
-  RainPeriods out;
-  for (const auto& it : thePeriods)
+  try
   {
-    if (it.localStartTime() >= thePeriod.localStartTime() &&
-        it.localEndTime() <= thePeriod.localEndTime())
+    RainPeriods out;
+    for (const auto& it : thePeriods)
     {
-      out.push_back(it);
+      if (it.localStartTime() >= thePeriod.localStartTime() &&
+          it.localEndTime() <= thePeriod.localEndTime())
+      {
+        out.push_back(it);
+      }
     }
+    return out;
   }
-  return out;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -144,88 +165,95 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
                         const WeatherPeriod& thePeriod,
                         const std::string& theVar)
 {
-  // Establish the settings
-
-  const double minimum_rain = Settings::optional_double(theVar + "::rainytime::minimum_rain", 0.1);
-  const double minimum_area = Settings::optional_double(theVar + "::rainytime::minimum_area", 10);
-
-  // Establish the data
-  const string datavar = "textgen::precipitation_forecast";
-  const string dataname = Settings::require_string(datavar);
-
-  // Get the data into use
-
-  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
-
-  // Try activating the parameter
-
-  if (!qi.Param(kFmiPrecipitation1h))
-    throw Fmi::Exception(BCP, "Precipitation1h is not available in " + dataname);
-
-  // Handle points and areas separately
-
-  if (!QueryDataTools::firstTime(qi, thePeriod.utcStartTime(), thePeriod.utcEndTime()))
-    throw Fmi::Exception(BCP, "The required time period is not available in " + dataname);
-
-  RainTimes times;
-
-  if (!theArea.isPoint())
+  try
   {
-    std::shared_ptr<MaskSource> msource = theSources.getMaskSource();
-    MaskSource::mask_type mask = msource->mask(theArea, dataname, *wsource);
-    RangeAcceptor acceptor;
-    acceptor.lowerLimit(minimum_rain);
-    PercentageCalculator calculator;
-    calculator.condition(acceptor);
-    do
+    // Establish the settings
+
+    const double minimum_rain = Settings::optional_double(theVar + "::rainytime::minimum_rain", 0.1);
+    const double minimum_area = Settings::optional_double(theVar + "::rainytime::minimum_area", 10);
+
+    // Establish the data
+    const string datavar = "textgen::precipitation_forecast";
+    const string dataname = Settings::require_string(datavar);
+
+    // Get the data into use
+
+    std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+    std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+    NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
+
+    // Try activating the parameter
+
+    if (!qi.Param(kFmiPrecipitation1h))
+      throw Fmi::Exception(BCP, "Precipitation1h is not available in " + dataname);
+
+    // Handle points and areas separately
+
+    if (!QueryDataTools::firstTime(qi, thePeriod.utcStartTime(), thePeriod.utcEndTime()))
+      throw Fmi::Exception(BCP, "The required time period is not available in " + dataname);
+
+    RainTimes times;
+
+    if (!theArea.isPoint())
     {
-      const float tmp = QueryDataIntegrator::Integrate(qi, *mask, calculator);
-      if (tmp != kFloatMissing && tmp >= minimum_area)
+      std::shared_ptr<MaskSource> msource = theSources.getMaskSource();
+      MaskSource::mask_type mask = msource->mask(theArea, dataname, *wsource);
+      RangeAcceptor acceptor;
+      acceptor.lowerLimit(minimum_rain);
+      PercentageCalculator calculator;
+      calculator.condition(acceptor);
+      do
       {
-        const NFmiMetTime& metTime(qi.Time());
-        TextGenPosixTime textgenTime(metTime.GetYear(),
-                                     metTime.GetMonth(),
-                                     metTime.GetDay(),
-                                     metTime.GetHour(),
-                                     metTime.GetMin(),
-                                     metTime.GetSec());
-        times.push_back(TextGenPosixTime::LocalTime(textgenTime));
-      }
-    } while (qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
-  }
-  else
-  {
-    if (!(qi.Location(theArea.point())))
+        const float tmp = QueryDataIntegrator::Integrate(qi, *mask, calculator);
+        if (tmp != kFloatMissing && tmp >= minimum_area)
+        {
+          const NFmiMetTime& metTime(qi.Time());
+          TextGenPosixTime textgenTime(metTime.GetYear(),
+                                       metTime.GetMonth(),
+                                       metTime.GetDay(),
+                                       metTime.GetHour(),
+                                       metTime.GetMin(),
+                                       metTime.GetSec());
+          times.push_back(TextGenPosixTime::LocalTime(textgenTime));
+        }
+      } while (qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
+    }
+    else
     {
-      ostringstream msg;
-      msg << "Could not set desired coordinate (" << theArea.point().X() << ','
-          << theArea.point().Y() << ')';
-      if (theArea.isNamed())
-        msg << " named " << theArea.name();
-      msg << " in " << dataname;
-      throw Fmi::Exception(BCP, msg.str());
+      if (!(qi.Location(theArea.point())))
+      {
+        ostringstream msg;
+        msg << "Could not set desired coordinate (" << theArea.point().X() << ','
+            << theArea.point().Y() << ')';
+        if (theArea.isNamed())
+          msg << " named " << theArea.name();
+        msg << " in " << dataname;
+        throw Fmi::Exception(BCP, msg.str());
+      }
+
+      do
+      {
+        const float tmp = qi.FloatValue();
+        if (tmp != kFloatMissing && tmp >= minimum_rain)
+        {
+          const NFmiMetTime& metTime(qi.Time());
+          TextGenPosixTime textgenTime(metTime.GetYear(),
+                                       metTime.GetMonth(),
+                                       metTime.GetDay(),
+                                       metTime.GetHour(),
+                                       metTime.GetMin(),
+                                       metTime.GetSec());
+          times.push_back(TextGenPosixTime::LocalTime(textgenTime));
+        }
+      } while (qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
     }
 
-    do
-    {
-      const float tmp = qi.FloatValue();
-      if (tmp != kFloatMissing && tmp >= minimum_rain)
-      {
-        const NFmiMetTime& metTime(qi.Time());
-        TextGenPosixTime textgenTime(metTime.GetYear(),
-                                     metTime.GetMonth(),
-                                     metTime.GetDay(),
-                                     metTime.GetHour(),
-                                     metTime.GetMin(),
-                                     metTime.GetSec());
-        times.push_back(TextGenPosixTime::LocalTime(textgenTime));
-      }
-    } while (qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
+    return times;
   }
-
-  return times;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -251,40 +279,47 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
 
 RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar)
 {
-  RainPeriods periods;
-
-  // Establish the settings
-
-  const int maximum_interval =
-      Settings::optional_int(theVar + "::rainyperiod::maximum_interval", 1);
-
-  // Handle special cases
-
-  if (theTimes.empty())
-    return periods;
-
-  // Initialize current period to consist of first time only
-  auto it = theTimes.begin();
-  TextGenPosixTime first_time = *it;
-  TextGenPosixTime last_time = first_time;
-
-  // Then append new times until interval becomes too long,
-  // at which point we save the period and start a new one.
-
-  for (++it; it != theTimes.end(); ++it)
+  try
   {
-    if (it->DifferenceInHours(last_time) > maximum_interval)
-    {
-      WeatherPeriod period(first_time, last_time);
-      periods.push_back(period);
-      first_time = *it;
-    }
-    last_time = *it;
-  }
-  WeatherPeriod period(first_time, last_time);
-  periods.push_back(period);
+    RainPeriods periods;
 
-  return periods;
+    // Establish the settings
+
+    const int maximum_interval =
+        Settings::optional_int(theVar + "::rainyperiod::maximum_interval", 1);
+
+    // Handle special cases
+
+    if (theTimes.empty())
+      return periods;
+
+    // Initialize current period to consist of first time only
+    auto it = theTimes.begin();
+    TextGenPosixTime first_time = *it;
+    TextGenPosixTime last_time = first_time;
+
+    // Then append new times until interval becomes too long,
+    // at which point we save the period and start a new one.
+
+    for (++it; it != theTimes.end(); ++it)
+    {
+      if (it->DifferenceInHours(last_time) > maximum_interval)
+      {
+        WeatherPeriod period(first_time, last_time);
+        periods.push_back(period);
+        first_time = *it;
+      }
+      last_time = *it;
+    }
+    WeatherPeriod period(first_time, last_time);
+    periods.push_back(period);
+
+    return periods;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -324,43 +359,50 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
 
 RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::string& theVar)
 {
-  // Quick exit if there are no no-rain periods between rain periods
-  if (thePeriods.size() <= 1)
-    return thePeriods;
-
-  // Establish the settings
-
-  const string var = theVar + "::rainyperiod::night::";
-  const int starthour = Settings::optional_hour(var + "starthour", 21);
-  const int endhour = Settings::optional_hour(var + "endhour", 9);
-  const int maximum_interval = Settings::optional_int(var + "maximum_interval", 1);
-  RainPeriods periods;
-
-  // We start with the first period, then merge the next one
-  // to it if possible. When it is no longer possible to merge,
-  // we move on to the next period and continue.
-
-  auto it = thePeriods.begin();
-  WeatherPeriod lastperiod = *it;
-
-  for (++it; it != thePeriods.end(); ++it)
+  try
   {
-    WeatherPeriod norain(lastperiod.localEndTime(), it->localStartTime());
-    const int length = WeatherPeriodTools::hours(norain);
-    if (length <= maximum_interval &&
-        WeatherPeriodTools::countPeriods(norain, starthour, endhour) == 1)
-    {
-      lastperiod = WeatherPeriod(lastperiod.localStartTime(), it->localEndTime());
-    }
-    else
-    {
-      periods.push_back(lastperiod);
-      lastperiod = *it;
-    }
-  }
-  periods.push_back(lastperiod);
+    // Quick exit if there are no no-rain periods between rain periods
+    if (thePeriods.size() <= 1)
+      return thePeriods;
 
-  return periods;
+    // Establish the settings
+
+    const string var = theVar + "::rainyperiod::night::";
+    const int starthour = Settings::optional_hour(var + "starthour", 21);
+    const int endhour = Settings::optional_hour(var + "endhour", 9);
+    const int maximum_interval = Settings::optional_int(var + "maximum_interval", 1);
+    RainPeriods periods;
+
+    // We start with the first period, then merge the next one
+    // to it if possible. When it is no longer possible to merge,
+    // we move on to the next period and continue.
+
+    auto it = thePeriods.begin();
+    WeatherPeriod lastperiod = *it;
+
+    for (++it; it != thePeriods.end(); ++it)
+    {
+      WeatherPeriod norain(lastperiod.localEndTime(), it->localStartTime());
+      const int length = WeatherPeriodTools::hours(norain);
+      if (length <= maximum_interval &&
+          WeatherPeriodTools::countPeriods(norain, starthour, endhour) == 1)
+      {
+        lastperiod = WeatherPeriod(lastperiod.localStartTime(), it->localEndTime());
+      }
+      else
+      {
+        periods.push_back(lastperiod);
+        lastperiod = *it;
+      }
+    }
+    periods.push_back(lastperiod);
+
+    return periods;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -398,7 +440,14 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
 
 RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string& /*theVar*/)
 {
-  return thePeriods;
+  try
+  {
+    return thePeriods;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace PrecipitationPeriodTools

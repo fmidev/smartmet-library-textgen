@@ -34,30 +34,37 @@ namespace TextGen
 
 Paragraph PressureStory::mean() const
 {
-  MessageLogger log("PressureStory::range");
+  try
+  {
+    MessageLogger log("PressureStory::range");
 
-  using namespace Settings;
+    using namespace Settings;
 
-  Paragraph paragraph;
-  Sentence sentence;
+    Paragraph paragraph;
+    Sentence sentence;
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  WeatherResult meanresult = forecaster.analyze(
-      itsVar + "::fake::mean", itsSources, Pressure, Mean, Mean, itsArea, itsPeriod);
+    WeatherResult meanresult = forecaster.analyze(
+        itsVar + "::fake::mean", itsSources, Pressure, Mean, Mean, itsArea, itsPeriod);
 
-  WeatherResultTools::checkMissingValue("pressure_mean", Pressure, meanresult);
+    WeatherResultTools::checkMissingValue("pressure_mean", Pressure, meanresult);
 
-  log << "Pressure Mean(Mean(Maximum())) = " << meanresult << '\n';
+    log << "Pressure Mean(Mean(Maximum())) = " << meanresult << '\n';
 
-  const int pmean = static_cast<int>(round(meanresult.value()));
+    const int pmean = static_cast<int>(round(meanresult.value()));
 
-  sentence << "paine"
-           << "on" << Integer(pmean) << *UnitFactory::create(HectoPascal);
+    sentence << "paine"
+             << "on" << Integer(pmean) << *UnitFactory::create(HectoPascal);
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

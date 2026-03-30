@@ -48,181 +48,188 @@ namespace TextGen
 
 Paragraph WeatherStory::shortoverview() const
 {
-  MessageLogger log("WeatherStory::shortoverview");
-
-  using namespace Settings;
-  using namespace WeatherPeriodTools;
-
-  Paragraph paragraph;
-  Sentence c_sentence;
-  Sentence r_sentence;
-
-  const bool c_fullrange = optional_bool(itsVar + "::cloudiness::fullrange", true);
-  const int c_starthour = optional_hour(itsVar + "::cloudiness::day::starthour", 0);
-  const int c_endhour = optional_hour(itsVar + "::cloudiness::day::endhour", 0);
-  const int c_maxstarthour = optional_hour(itsVar + "::cloudiness::day::maxstarthour", c_starthour);
-  const int c_minendhour = optional_hour(itsVar + "::cloudiness::day::minendhour", c_endhour);
-
-  const int c_clear = optional_percentage(itsVar + "::cloudiness::clear", 40);
-  const int c_cloudy = optional_percentage(itsVar + "::cloudiness::cloudy", 70);
-
-  const int c_single_limit = optional_percentage(itsVar + "::cloudiness::single_limit", 60);
-  const int c_double_limit = optional_percentage(itsVar + "::cloudiness::double_limit", 20);
-
-  const int r_starthour = optional_hour(itsVar + "::precipitation::day::starthour", 0);
-  const int r_endhour = optional_hour(itsVar + "::precipitation::day::endhour", 0);
-  const int r_maxstarthour =
-      optional_hour(itsVar + "::precipitation::day::maxstarthour", r_starthour);
-  const int r_minendhour = optional_hour(itsVar + "::precipitation::day::minendhour", r_endhour);
-
-  const double r_rainy = optional_double(itsVar + "::precipitation::rainy", 1);
-  const double r_partly_rainy = optional_double(itsVar + "::precipitation::partly_rainy", 0.1);
-  const int r_unstable = optional_percentage(itsVar + "::precipitation::unstable", 50);
-
-  GridForecaster forecaster;
-
-  // Generate cloudiness story first
-
+  try
   {
-    RangeAcceptor n1limits;
-    RangeAcceptor n3limits;
-    n1limits.upperLimit(c_clear);
-    n3limits.lowerLimit(c_cloudy);
+    MessageLogger log("WeatherStory::shortoverview");
 
-    std::shared_ptr<WeatherPeriodGenerator> periods;
-    if (c_fullrange)
-      periods = std::shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
-    else
-      periods = std::shared_ptr<WeatherPeriodGenerator>(
-          new HourPeriodGenerator(itsPeriod, c_starthour, c_endhour, c_maxstarthour, c_minendhour));
+    using namespace Settings;
+    using namespace WeatherPeriodTools;
 
-    const WeatherResult n1result = forecaster.analyze(itsVar + "::fake::clear_percentage",
-                                                      itsSources,
-                                                      Cloudiness,
-                                                      Mean,
-                                                      (c_fullrange ? Percentage : Mean),
-                                                      (c_fullrange ? NullFunction : Percentage),
-                                                      itsArea,
-                                                      *periods,
-                                                      DefaultAcceptor(),
-                                                      DefaultAcceptor(),
-                                                      n1limits);
+    Paragraph paragraph;
+    Sentence c_sentence;
+    Sentence r_sentence;
 
-    const WeatherResult n3result = forecaster.analyze(itsVar + "::fake::cloudy_percentage",
-                                                      itsSources,
-                                                      Cloudiness,
-                                                      Mean,
-                                                      (c_fullrange ? Percentage : Mean),
-                                                      (c_fullrange ? NullFunction : Percentage),
-                                                      itsArea,
-                                                      *periods,
-                                                      DefaultAcceptor(),
-                                                      DefaultAcceptor(),
-                                                      n3limits);
-    WeatherResultTools::checkMissingValue(
-        "weather_shortoverview", Cloudiness, {n1result, n3result});
+    const bool c_fullrange = optional_bool(itsVar + "::cloudiness::fullrange", true);
+    const int c_starthour = optional_hour(itsVar + "::cloudiness::day::starthour", 0);
+    const int c_endhour = optional_hour(itsVar + "::cloudiness::day::endhour", 0);
+    const int c_maxstarthour = optional_hour(itsVar + "::cloudiness::day::maxstarthour", c_starthour);
+    const int c_minendhour = optional_hour(itsVar + "::cloudiness::day::minendhour", c_endhour);
 
-    log << "Cloudiness clear  Mean(Mean) = " << n1result << '\n';
-    log << "Cloudiness cloudy Mean(Mean) = " << n3result << '\n';
+    const int c_clear = optional_percentage(itsVar + "::cloudiness::clear", 40);
+    const int c_cloudy = optional_percentage(itsVar + "::cloudiness::cloudy", 70);
 
-    // n1+n2+n3 = 100
-    const float n1 = n1result.value();
-    const float n3 = n3result.value();
-    const float n2 = 100 - n1 - n3;
+    const int c_single_limit = optional_percentage(itsVar + "::cloudiness::single_limit", 60);
+    const int c_double_limit = optional_percentage(itsVar + "::cloudiness::double_limit", 20);
 
-    if (n1 >= c_single_limit)
-      c_sentence << "enimmakseen"
-                 << "selkeaa";
-    else if (n2 >= c_single_limit)
-      c_sentence << "enimmakseen"
-                 << "puolipilvista";
-    else if (n3 >= c_single_limit)
-      c_sentence << "enimmakseen"
-                 << "pilvista";
-    else if (n1 < c_double_limit)
-      c_sentence << "enimmakseen"
-                 << "pilvista"
-                 << "tai"
-                 << "puolipilvista";
-    else if (n3 < c_double_limit)
-      c_sentence << "enimmakseen"
-                 << "selkeaa"
-                 << "tai"
-                 << "puolipilvista";
-    else
-      c_sentence << "vaihtelevaa pilvisyytta";
-  }
+    const int r_starthour = optional_hour(itsVar + "::precipitation::day::starthour", 0);
+    const int r_endhour = optional_hour(itsVar + "::precipitation::day::endhour", 0);
+    const int r_maxstarthour =
+        optional_hour(itsVar + "::precipitation::day::maxstarthour", r_starthour);
+    const int r_minendhour = optional_hour(itsVar + "::precipitation::day::minendhour", r_endhour);
 
-  // Sentence on rain
+    const double r_rainy = optional_double(itsVar + "::precipitation::rainy", 1);
+    const double r_partly_rainy = optional_double(itsVar + "::precipitation::partly_rainy", 0.1);
+    const int r_unstable = optional_percentage(itsVar + "::precipitation::unstable", 50);
 
-  bool unstable_weather = false;
+    GridForecaster forecaster;
 
-  {
-    using container = vector<WeatherResult>;
-    container results;
-    HourPeriodGenerator generator(itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
+    // Generate cloudiness story first
 
-    WeatherPeriod last_rainy_period = generator.period(1);
-    WeatherPeriod last_partly_rainy_period = generator.period(1);
-
-    const int days = generator.size();
-    int rainy_days = 0;
-    int partly_rainy_days = 0;
-
-    for (HourPeriodGenerator::size_type i = 1; i <= generator.size(); i++)
     {
-      WeatherPeriod period = generator.period(i);
+      RangeAcceptor n1limits;
+      RangeAcceptor n3limits;
+      n1limits.upperLimit(c_clear);
+      n3limits.lowerLimit(c_cloudy);
 
-      const string day = "day" + std::to_string(i);
-      const string var = itsVar + "::fake::" + day + "::precipitation";
+      std::shared_ptr<WeatherPeriodGenerator> periods;
+      if (c_fullrange)
+        periods = std::shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
+      else
+        periods = std::shared_ptr<WeatherPeriodGenerator>(
+            new HourPeriodGenerator(itsPeriod, c_starthour, c_endhour, c_maxstarthour, c_minendhour));
 
-      const WeatherResult result =
-          forecaster.analyze(var, itsSources, Precipitation, Mean, Sum, itsArea, period);
+      const WeatherResult n1result = forecaster.analyze(itsVar + "::fake::clear_percentage",
+                                                        itsSources,
+                                                        Cloudiness,
+                                                        Mean,
+                                                        (c_fullrange ? Percentage : Mean),
+                                                        (c_fullrange ? NullFunction : Percentage),
+                                                        itsArea,
+                                                        *periods,
+                                                        DefaultAcceptor(),
+                                                        DefaultAcceptor(),
+                                                        n1limits);
 
-      WeatherResultTools::checkMissingValue("weather_shortoverview", Precipitation, result);
+      const WeatherResult n3result = forecaster.analyze(itsVar + "::fake::cloudy_percentage",
+                                                        itsSources,
+                                                        Cloudiness,
+                                                        Mean,
+                                                        (c_fullrange ? Percentage : Mean),
+                                                        (c_fullrange ? NullFunction : Percentage),
+                                                        itsArea,
+                                                        *periods,
+                                                        DefaultAcceptor(),
+                                                        DefaultAcceptor(),
+                                                        n3limits);
+      WeatherResultTools::checkMissingValue(
+          "weather_shortoverview", Cloudiness, {n1result, n3result});
 
-      log << "Precipitation Mean(Sum) day " << i << " = " << result << '\n';
+      log << "Cloudiness clear  Mean(Mean) = " << n1result << '\n';
+      log << "Cloudiness cloudy Mean(Mean) = " << n3result << '\n';
 
-      if (result.value() >= r_rainy)
-      {
-        ++rainy_days;
-        last_rainy_period = period;
-      }
-      if (result.value() >= r_partly_rainy)
-      {
-        ++partly_rainy_days;
-        last_partly_rainy_period = period;
-      }
+      // n1+n2+n3 = 100
+      const float n1 = n1result.value();
+      const float n3 = n3result.value();
+      const float n2 = 100 - n1 - n3;
 
-      results.push_back(result);
+      if (n1 >= c_single_limit)
+        c_sentence << "enimmakseen"
+                   << "selkeaa";
+      else if (n2 >= c_single_limit)
+        c_sentence << "enimmakseen"
+                   << "puolipilvista";
+      else if (n3 >= c_single_limit)
+        c_sentence << "enimmakseen"
+                   << "pilvista";
+      else if (n1 < c_double_limit)
+        c_sentence << "enimmakseen"
+                   << "pilvista"
+                   << "tai"
+                   << "puolipilvista";
+      else if (n3 < c_double_limit)
+        c_sentence << "enimmakseen"
+                   << "selkeaa"
+                   << "tai"
+                   << "puolipilvista";
+      else
+        c_sentence << "vaihtelevaa pilvisyytta";
     }
 
-    if (rainy_days == 0 && partly_rainy_days == 0)
-      r_sentence << "poutaa";
-    else if (rainy_days == 1 && partly_rainy_days == 1)
-      r_sentence << WeekdayTools::on_weekday(last_rainy_period.localStartTime()) << "sadetta";
-    else if (rainy_days == 0 && partly_rainy_days == 1)
-      r_sentence << WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime()) << "paikoin"
-                 << "sadetta";
-    else if (100 * static_cast<float>(rainy_days) / days >= r_unstable)
+    // Sentence on rain
+
+    bool unstable_weather = false;
+
     {
-      r_sentence << "saa on epavakaista";
-      unstable_weather = true;
+      using container = vector<WeatherResult>;
+      container results;
+      HourPeriodGenerator generator(itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
+
+      WeatherPeriod last_rainy_period = generator.period(1);
+      WeatherPeriod last_partly_rainy_period = generator.period(1);
+
+      const int days = generator.size();
+      int rainy_days = 0;
+      int partly_rainy_days = 0;
+
+      for (HourPeriodGenerator::size_type i = 1; i <= generator.size(); i++)
+      {
+        WeatherPeriod period = generator.period(i);
+
+        const string day = "day" + std::to_string(i);
+        const string var = itsVar + "::fake::" + day + "::precipitation";
+
+        const WeatherResult result =
+            forecaster.analyze(var, itsSources, Precipitation, Mean, Sum, itsArea, period);
+
+        WeatherResultTools::checkMissingValue("weather_shortoverview", Precipitation, result);
+
+        log << "Precipitation Mean(Sum) day " << i << " = " << result << '\n';
+
+        if (result.value() >= r_rainy)
+        {
+          ++rainy_days;
+          last_rainy_period = period;
+        }
+        if (result.value() >= r_partly_rainy)
+        {
+          ++partly_rainy_days;
+          last_partly_rainy_period = period;
+        }
+
+        results.push_back(result);
+      }
+
+      if (rainy_days == 0 && partly_rainy_days == 0)
+        r_sentence << "poutaa";
+      else if (rainy_days == 1 && partly_rainy_days == 1)
+        r_sentence << WeekdayTools::on_weekday(last_rainy_period.localStartTime()) << "sadetta";
+      else if (rainy_days == 0 && partly_rainy_days == 1)
+        r_sentence << WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime()) << "paikoin"
+                   << "sadetta";
+      else if (100 * static_cast<float>(rainy_days) / days >= r_unstable)
+      {
+        r_sentence << "saa on epavakaista";
+        unstable_weather = true;
+      }
+      else
+        r_sentence << "ajoittain sateista";
     }
+
+    if (unstable_weather)
+      paragraph << r_sentence;
     else
-      r_sentence << "ajoittain sateista";
-  }
+    {
+      c_sentence << Delimiter(",") << r_sentence;
+      paragraph << c_sentence;
+    }
 
-  if (unstable_weather)
-    paragraph << r_sentence;
-  else
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
   {
-    c_sentence << Delimiter(",") << r_sentence;
-    paragraph << c_sentence;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  log << paragraph;
-  return paragraph;
 }
 
 }  // namespace TextGen

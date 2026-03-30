@@ -32,8 +32,15 @@ namespace TextGen
 
 std::shared_ptr<Glyph> Header::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Header(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Header(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -47,7 +54,14 @@ std::shared_ptr<Glyph> Header::clone() const
 
 std::string Header::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw Fmi::Exception(BCP, "Header::realize(Dictionary) should not be called");
+  try
+  {
+    throw Fmi::Exception(BCP, "Header::realize(Dictionary) should not be called");
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -61,7 +75,14 @@ std::string Header::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Header::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -72,7 +93,14 @@ std::string Header::realize(const TextFormatter& theFormatter) const
 
 bool Header::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -85,8 +113,15 @@ bool Header::isDelimiter() const
 
 Header& Header::operator<<(const Glyph& theGlyph)
 {
-  itsData.push_back(theGlyph.clone());
-  return *this;
+  try
+  {
+    itsData.push_back(theGlyph.clone());
+    return *this;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -100,12 +135,19 @@ Header& Header::operator<<(const Glyph& theGlyph)
 
 Header& Header::operator<<(const string& thePhrase)
 {
-  if (!thePhrase.empty())
+  try
   {
-    std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
-    itsData.push_back(phrase);
+    if (!thePhrase.empty())
+    {
+      std::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+      itsData.push_back(phrase);
+    }
+    return *this;
   }
-  return *this;
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePhrase", thePhrase);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -119,9 +161,16 @@ Header& Header::operator<<(const string& thePhrase)
 
 Header& Header::operator<<(int theNumber)
 {
-  std::shared_ptr<Integer> number(new Integer(theNumber));
-  itsData.push_back(number);
-  return *this;
+  try
+  {
+    std::shared_ptr<Integer> number(new Integer(theNumber));
+    itsData.push_back(number);
+    return *this;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theNumber", std::to_string(theNumber));
+  }
 }
 
 }  // namespace TextGen

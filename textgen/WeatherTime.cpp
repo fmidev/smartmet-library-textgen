@@ -14,6 +14,7 @@
 #include "Dictionary.h"
 #include "TextFormatter.h"
 #include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 
@@ -43,8 +44,15 @@ WeatherTime::WeatherTime(const TextGenPosixTime& theTime) : itsTime(theTime) {}
 
 std::shared_ptr<Glyph> WeatherTime::clone() const
 {
-  std::shared_ptr<Glyph> ret(new WeatherTime(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new WeatherTime(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -52,13 +60,20 @@ std::shared_ptr<Glyph> WeatherTime::clone() const
  * \brief Realize using the given dictionary
  *
  * \param theDictionary The dictionary to realize with
- * \return The realized string
+ * \return The realized string
  */
 // ----------------------------------------------------------------------
 
 std::string WeatherTime::realize(const Dictionary& /*theDictionary*/) const
 {
-  return "";
+  try
+  {
+    return "";
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -71,7 +86,14 @@ std::string WeatherTime::realize(const Dictionary& /*theDictionary*/) const
 
 std::string WeatherTime::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -82,7 +104,14 @@ std::string WeatherTime::realize(const TextFormatter& theFormatter) const
 
 bool WeatherTime::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

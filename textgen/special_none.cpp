@@ -8,6 +8,7 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "SpecialStory.h"
+#include <macgyver/Exception.h>
 
 using namespace TextGen;
 using namespace std;
@@ -24,10 +25,17 @@ namespace TextGen
 
 Paragraph SpecialStory::none() const
 {
-  MessageLogger log("SpecialStory::none");
+  try
+  {
+    MessageLogger log("SpecialStory::none");
 
-  Paragraph paragraph;
-  return paragraph;
+    Paragraph paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

@@ -29,57 +29,64 @@ const int MaxAreaCode = 46;
 FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& theTime)
     : itsTime(theTime), itsWarnings(MaxAreaCode + 1, Undefined)
 {
-  if (!NFmiFileSystem::DirectoryExists(theDirectory))
-    throw Fmi::Exception(
-        BCP, "Directory '" + theDirectory + "' required by class FireWarnings does not exist");
-
-  // Form the expected filename of form YYYYMMDD.palot_koodina
-  // If we cannot find the file, an exception is thrown
-
-  string filename = (theDirectory + '/' + theTime.ToStr(kYYYYMMDD) + ".palot_koodina");
-  if (!NFmiFileSystem::FileExists(filename))
+  try
   {
-    TextGenPosixTime tmp = theTime;
-    tmp.ChangeByDays(-1);
-    filename = (theDirectory + '/' + tmp.ToStr(kYYYYMMDD) + ".palot_koodina");
+    if (!NFmiFileSystem::DirectoryExists(theDirectory))
+      throw Fmi::Exception(
+          BCP, "Directory '" + theDirectory + "' required by class FireWarnings does not exist");
+
+    // Form the expected filename of form YYYYMMDD.palot_koodina
+    // If we cannot find the file, an exception is thrown
+
+    string filename = (theDirectory + '/' + theTime.ToStr(kYYYYMMDD) + ".palot_koodina");
     if (!NFmiFileSystem::FileExists(filename))
-      throw Fmi::Exception(BCP, "Cannot find warnings from '" + theDirectory + "'");
-  }
-
-  // Read the file
-
-  ifstream input(filename.c_str(), ios::in);
-  if (!input)
-    throw Fmi::Exception(BCP, "Failed to open '" + filename + "' for reading");
-
-  // Skip the date
-  string tmp;
-  input >> tmp;
-
-  // Read the areacode - state pairs
-
-  int areacode;
-  int areastate;
-  while (input >> areacode >> areastate)
-  {
-    if (areacode < 1 || areacode > MaxAreaCode)
-      throw Fmi::Exception(BCP,
-                           "File '" + filename + "' contains invalid areacode " +
-                               NFmiStringTools::Convert(areacode));
-    switch (State(areastate))
     {
-      case None:
-      case GrassFireWarning:
-      case FireWarning:
-        itsWarnings[areacode] = State(areastate);
-        break;
-      default:
-        throw Fmi::Exception(BCP,
-                             "File '" + filename + "' contains invalid warningcode " +
-                                 NFmiStringTools::Convert(areastate));
+      TextGenPosixTime tmp = theTime;
+      tmp.ChangeByDays(-1);
+      filename = (theDirectory + '/' + tmp.ToStr(kYYYYMMDD) + ".palot_koodina");
+      if (!NFmiFileSystem::FileExists(filename))
+        throw Fmi::Exception(BCP, "Cannot find warnings from '" + theDirectory + "'");
     }
+
+    // Read the file
+
+    ifstream input(filename.c_str(), ios::in);
+    if (!input)
+      throw Fmi::Exception(BCP, "Failed to open '" + filename + "' for reading");
+
+    // Skip the date
+    string tmp;
+    input >> tmp;
+
+    // Read the areacode - state pairs
+
+    int areacode;
+    int areastate;
+    while (input >> areacode >> areastate)
+    {
+      if (areacode < 1 || areacode > MaxAreaCode)
+        throw Fmi::Exception(BCP,
+                             "File '" + filename + "' contains invalid areacode " +
+                                 NFmiStringTools::Convert(areacode));
+      switch (State(areastate))
+      {
+        case None:
+        case GrassFireWarning:
+        case FireWarning:
+          itsWarnings[areacode] = State(areastate);
+          break;
+        default:
+          throw Fmi::Exception(BCP,
+                               "File '" + filename + "' contains invalid warningcode " +
+                                   NFmiStringTools::Convert(areastate));
+      }
+    }
+    input.close();
   }
-  input.close();
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theDirectory", theDirectory);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -93,9 +100,16 @@ FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& t
 
 FireWarnings::State FireWarnings::state(int theArea) const
 {
-  if (theArea < 1 || theArea > MaxAreaCode)
-    throw Fmi::Exception(BCP, "Only area codes 1...46 are allowed in FireWarnings");
-  return itsWarnings[theArea];
+  try
+  {
+    if (theArea < 1 || theArea > MaxAreaCode)
+      throw Fmi::Exception(BCP, "Only area codes 1...46 are allowed in FireWarnings");
+    return itsWarnings[theArea];
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theArea", std::to_string(theArea));
+  }
 }
 
 }  // namespace TextGen

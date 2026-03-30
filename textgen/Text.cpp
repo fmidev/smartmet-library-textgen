@@ -46,8 +46,15 @@ Text::Text(std::string theText) : itsText(std::move(theText)) {}
 
 std::shared_ptr<Glyph> Text::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Text(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Text(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -61,7 +68,14 @@ std::shared_ptr<Glyph> Text::clone() const
 
 std::string Text::realize(const Dictionary& /*theDictionary*/) const
 {
-  return itsText;
+  try
+  {
+    return itsText;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -74,7 +88,14 @@ std::string Text::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Text::realize(const TextFormatter& /*theFormatter*/) const
 {
-  return itsText;
+  try
+  {
+    return itsText;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -84,7 +105,14 @@ std::string Text::realize(const TextFormatter& /*theFormatter*/) const
 
 bool Text::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -96,7 +124,14 @@ bool Text::isDelimiter() const
 
 const std::string& Text::value() const
 {
-  return itsText;
+  try
+  {
+    return itsText;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

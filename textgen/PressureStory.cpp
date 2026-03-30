@@ -67,7 +67,14 @@ PressureStory::PressureStory(const TextGenPosixTime& theForecastTime,
 
 bool PressureStory::hasStory(const string& theName)
 {
-  return theName == "pressure_mean";
+  try
+  {
+    return theName == "pressure_mean";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -83,10 +90,17 @@ bool PressureStory::hasStory(const string& theName)
 
 Paragraph PressureStory::makeStory(const string& theName) const
 {
-  if (theName == "pressure_mean")
-    return mean();
+  try
+  {
+    if (theName == "pressure_mean")
+      return mean();
 
-  throw Fmi::Exception(BCP, "PressureStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "PressureStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

@@ -67,13 +67,20 @@ RelativeHumidityStory::RelativeHumidityStory(const TextGenPosixTime& theForecast
 
 bool RelativeHumidityStory::hasStory(const string& theName)
 {
-  if (theName == "relativehumidity_lowest")
-    return true;
-  if (theName == "relativehumidity_day")
-    return true;
-  if (theName == "relativehumidity_range")
-    return true;
-  return false;
+  try
+  {
+    if (theName == "relativehumidity_lowest")
+      return true;
+    if (theName == "relativehumidity_day")
+      return true;
+    if (theName == "relativehumidity_range")
+      return true;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -89,14 +96,21 @@ bool RelativeHumidityStory::hasStory(const string& theName)
 
 Paragraph RelativeHumidityStory::makeStory(const string& theName) const
 {
-  if (theName == "relativehumidity_lowest")
-    return lowest();
-  if (theName == "relativehumidity_day")
-    return day();
-  if (theName == "relativehumidity_range")
-    return range();
+  try
+  {
+    if (theName == "relativehumidity_lowest")
+      return lowest();
+    if (theName == "relativehumidity_day")
+      return day();
+    if (theName == "relativehumidity_range")
+      return range();
 
-  throw Fmi::Exception(BCP, "RelativeHumidityStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "RelativeHumidityStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

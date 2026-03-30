@@ -30,94 +30,101 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_weekly_averages
+ * \see page_temperature_weekly_averages
  *
  */
 // ----------------------------------------------------------------------
 
 Paragraph TemperatureStory::weekly_averages() const
 {
-  MessageLogger log("TemperatureStory::weekly_averages");
+  try
+  {
+    MessageLogger log("TemperatureStory::weekly_averages");
 
-  using namespace Settings;
+    using namespace Settings;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  const int daymininterval = optional_int(itsVar + "::day::mininterval", 2);
-  const int nightmininterval = optional_int(itsVar + "::night::mininterval", 2);
-  const bool day_interval_zero = optional_bool(itsVar + "::day::always_interval_zero", false);
-  const bool night_interval_zero = optional_bool(itsVar + "::night::always_interval_zero", false);
+    const int daymininterval = optional_int(itsVar + "::day::mininterval", 2);
+    const int nightmininterval = optional_int(itsVar + "::night::mininterval", 2);
+    const bool day_interval_zero = optional_bool(itsVar + "::day::always_interval_zero", false);
+    const bool night_interval_zero = optional_bool(itsVar + "::night::always_interval_zero", false);
 
-  const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
+    const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
 
-  const HourPeriodGenerator days(itsPeriod, itsVar + "::day");
-  const HourPeriodGenerator nights(itsPeriod, itsVar + "::night");
+    const HourPeriodGenerator days(itsPeriod, itsVar + "::day");
+    const HourPeriodGenerator nights(itsPeriod, itsVar + "::night");
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  const WeatherResult dayminresult = forecaster.analyze(
-      itsVar + "::fake::day::minimum", itsSources, Temperature, Minimum, Mean, Mean, itsArea, days);
+    const WeatherResult dayminresult = forecaster.analyze(
+        itsVar + "::fake::day::minimum", itsSources, Temperature, Minimum, Mean, Mean, itsArea, days);
 
-  const WeatherResult daymaxresult = forecaster.analyze(
-      itsVar + "::fake::day::maximum", itsSources, Temperature, Maximum, Mean, Mean, itsArea, days);
+    const WeatherResult daymaxresult = forecaster.analyze(
+        itsVar + "::fake::day::maximum", itsSources, Temperature, Maximum, Mean, Mean, itsArea, days);
 
-  const WeatherResult daymeanresult = forecaster.analyze(
-      itsVar + "::fake::day::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, days);
+    const WeatherResult daymeanresult = forecaster.analyze(
+        itsVar + "::fake::day::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, days);
 
-  const WeatherResult nightminresult = forecaster.analyze(itsVar + "::fake::night::minimum",
-                                                          itsSources,
-                                                          Temperature,
-                                                          Minimum,
-                                                          Mean,
-                                                          Mean,
-                                                          itsArea,
-                                                          nights);
+    const WeatherResult nightminresult = forecaster.analyze(itsVar + "::fake::night::minimum",
+                                                            itsSources,
+                                                            Temperature,
+                                                            Minimum,
+                                                            Mean,
+                                                            Mean,
+                                                            itsArea,
+                                                            nights);
 
-  const WeatherResult nightmaxresult = forecaster.analyze(itsVar + "::fake::night::maximum",
-                                                          itsSources,
-                                                          Temperature,
-                                                          Maximum,
-                                                          Mean,
-                                                          Mean,
-                                                          itsArea,
-                                                          nights);
+    const WeatherResult nightmaxresult = forecaster.analyze(itsVar + "::fake::night::maximum",
+                                                            itsSources,
+                                                            Temperature,
+                                                            Maximum,
+                                                            Mean,
+                                                            Mean,
+                                                            itsArea,
+                                                            nights);
 
-  const WeatherResult nightmeanresult = forecaster.analyze(
-      itsVar + "::fake::night::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, nights);
+    const WeatherResult nightmeanresult = forecaster.analyze(
+        itsVar + "::fake::night::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, nights);
 
-  WeatherResultTools::checkMissingValue(
-      "temperature_weekly_minmax",
-      Temperature,
-      {dayminresult, daymaxresult, daymeanresult, nightminresult, nightmaxresult, nightmeanresult});
+    WeatherResultTools::checkMissingValue(
+        "temperature_weekly_minmax",
+        Temperature,
+        {dayminresult, daymaxresult, daymeanresult, nightminresult, nightmaxresult, nightmeanresult});
 
-  log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << '\n';
-  log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << '\n';
-  log << "Temperature Maximum(Mean(Maximum)) = " << daymaxresult << '\n';
+    log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << '\n';
+    log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << '\n';
+    log << "Temperature Maximum(Mean(Maximum)) = " << daymaxresult << '\n';
 
-  log << "Temperature Minimum(Mean(Minimum)) = " << nightminresult << '\n';
-  log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << '\n';
-  log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << '\n';
+    log << "Temperature Minimum(Mean(Minimum)) = " << nightminresult << '\n';
+    log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << '\n';
+    log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << '\n';
 
-  const int daymin = static_cast<int>(round(dayminresult.value()));
-  const int daymax = static_cast<int>(round(daymaxresult.value()));
-  const int daymean = static_cast<int>(round(daymeanresult.value()));
-  const int nightmin = static_cast<int>(round(nightminresult.value()));
-  const int nightmax = static_cast<int>(round(nightmaxresult.value()));
-  const int nightmean = static_cast<int>(round(nightmeanresult.value()));
+    const int daymin = static_cast<int>(round(dayminresult.value()));
+    const int daymax = static_cast<int>(round(daymaxresult.value()));
+    const int daymean = static_cast<int>(round(daymeanresult.value()));
+    const int nightmin = static_cast<int>(round(nightminresult.value()));
+    const int nightmax = static_cast<int>(round(nightmaxresult.value()));
+    const int nightmean = static_cast<int>(round(nightmeanresult.value()));
 
-  Sentence sentence;
-  sentence
-      << "paivalampotila"
-      << "on"
-      << temperature_sentence(
-             daymin, daymean, daymax, daymininterval, day_interval_zero, rangeseparator)
-      << Delimiter(",") << "yolampotila"
-      << temperature_sentence(
-             nightmin, nightmean, nightmax, nightmininterval, night_interval_zero, rangeseparator);
+    Sentence sentence;
+    sentence
+        << "paivalampotila"
+        << "on"
+        << temperature_sentence(
+               daymin, daymean, daymax, daymininterval, day_interval_zero, rangeseparator)
+        << Delimiter(",") << "yolampotila"
+        << temperature_sentence(
+               nightmin, nightmean, nightmax, nightmininterval, night_interval_zero, rangeseparator);
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

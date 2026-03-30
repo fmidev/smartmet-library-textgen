@@ -31,33 +31,40 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_meanmin
+ * \see page_temperature_meanmin
  */
 // ----------------------------------------------------------------------
 
 Paragraph TemperatureStory::meanmin() const
 {
-  MessageLogger log("TemperatureStory::meanmin");
+  try
+  {
+    MessageLogger log("TemperatureStory::meanmin");
 
-  Paragraph paragraph;
-  Sentence sentence;
+    Paragraph paragraph;
+    Sentence sentence;
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  HourPeriodGenerator periods(itsPeriod, 18, 06, 18, 06);
+    HourPeriodGenerator periods(itsPeriod, 18, 06, 18, 06);
 
-  WeatherResult result = forecaster.analyze(
-      itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, Minimum, itsArea, periods);
+    WeatherResult result = forecaster.analyze(
+        itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, Minimum, itsArea, periods);
 
-  WeatherResultTools::checkMissingValue("temperature_meanmin", Temperature, result);
+    WeatherResultTools::checkMissingValue("temperature_meanmin", Temperature, result);
 
-  log << "Temperature Mean(Mean(Minimum())) = " << result << '\n';
+    log << "Temperature Mean(Mean(Minimum())) = " << result << '\n';
 
-  sentence << "keskimaarainen alin lampotila" << Integer(static_cast<int>(round(result.value())))
-           << *UnitFactory::create(DegreesCelsius);
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    sentence << "keskimaarainen alin lampotila" << Integer(static_cast<int>(round(result.value())))
+             << *UnitFactory::create(DegreesCelsius);
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

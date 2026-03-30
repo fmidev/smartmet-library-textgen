@@ -14,6 +14,7 @@
 #include "Dictionary.h"
 #include "TextFormatter.h"
 #include "TextFormatterTools.h"
+#include <macgyver/Exception.h>
 #include <boost/locale.hpp>
 #include <newbase/NFmiStringTools.h>
 #include <utility>
@@ -46,8 +47,15 @@ LocationPhrase::LocationPhrase(std::string theLocation) : itsLocation(std::move(
 
 std::shared_ptr<Glyph> LocationPhrase::clone() const
 {
-  std::shared_ptr<Glyph> ret(new LocationPhrase(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new LocationPhrase(*this));
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -59,32 +67,34 @@ std::shared_ptr<Glyph> LocationPhrase::clone() const
  * in the location name separated either by spaces or by hyphens.
  *
  * \param theDictionary The dictionary to realize with
- * \return The realized string
+ * \return The realized string
  */
 // ----------------------------------------------------------------------
 
 std::string LocationPhrase::realize(const Dictionary& theDictionary) const
 {
-  using namespace boost::locale;
-  using namespace boost::locale::boundary;
-
-  std::string location(itsLocation);
-  if (theDictionary.contains(location))
-    return theDictionary.find(location);
-
-  if (location.size() > 4)
+  try
   {
-    string ending = location.substr(location.size() - 4);
-    if (ending == ":lle")
-      location = location.substr(0, location.size() - 4);
-  }
-  std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
-  if (theDictionary.geocontains(location))
-    return theDictionary.geofind(location);
+    using namespace boost::locale;
+    using namespace boost::locale::boundary;
 
-  generator gen;
-  std::locale loc(gen("fi_FI.UTF-8"));
-  return to_title(location, loc);
+    std::string location(itsLocation);
+    if (theDictionary.contains(location))
+      return theDictionary.find(location);
+
+    if (location.size() > 4)
+    {
+      string ending = location.substr(location.size() - 4);
+      if (ending == ":lle")
+        location = location.substr(0, location.size() - 4);
+    }
+    std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
+    if (theDictionary.geocontains(location))
+      return theDictionary.geofind(location);
+
+    generator gen;
+    std::locale loc(gen("fi_FI.UTF-8"));
+    return to_title(location, loc);
 
 #if 0
 	// Capitalize space-separated words
@@ -99,6 +109,11 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
 	name = NFmiStringTools::Join(words,"-");
 	return name;
 #endif
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -112,7 +127,14 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
 
 std::string LocationPhrase::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -123,7 +145,14 @@ std::string LocationPhrase::realize(const TextFormatter& theFormatter) const
 
 bool LocationPhrase::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

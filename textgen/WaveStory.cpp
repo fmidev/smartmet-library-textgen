@@ -67,7 +67,14 @@ WaveStory::WaveStory(const TextGenPosixTime& theForecastTime,
 
 bool WaveStory::hasStory(const string& theName)
 {
-  return theName == "wave_range";
+  try
+  {
+    return theName == "wave_range";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -83,10 +90,17 @@ bool WaveStory::hasStory(const string& theName)
 
 Paragraph WaveStory::makeStory(const string& theName) const
 {
-  if (theName == "wave_range")
-    return range();
+  try
+  {
+    if (theName == "wave_range")
+      return range();
 
-  throw Fmi::Exception(BCP, "WaveStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "WaveStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

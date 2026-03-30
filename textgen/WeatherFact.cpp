@@ -17,6 +17,7 @@
 // ======================================================================
 
 #include "WeatherFact.h"
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -75,15 +76,22 @@ WeatherFact::WeatherFact(WeatherParameter theParameter,
 
 WeatherFact& WeatherFact::operator=(const WeatherFact& theFact)
 {
-  if (this != &theFact)
+  try
   {
-    itsParameter = theFact.itsParameter;
-    itsFunction = theFact.itsFunction;
-    itsPeriod = theFact.itsPeriod;
-    itsArea = theFact.itsArea;
-    itsResult = theFact.itsResult;
+    if (this != &theFact)
+    {
+      itsParameter = theFact.itsParameter;
+      itsFunction = theFact.itsFunction;
+      itsPeriod = theFact.itsPeriod;
+      itsArea = theFact.itsArea;
+      itsResult = theFact.itsResult;
+    }
+    return *this;
   }
-  return *this;
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -96,7 +104,14 @@ WeatherFact& WeatherFact::operator=(const WeatherFact& theFact)
 
 WeatherParameter WeatherFact::parameter() const
 {
-  return itsParameter;
+  try
+  {
+    return itsParameter;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -108,7 +123,14 @@ WeatherParameter WeatherFact::parameter() const
 
 WeatherFunction WeatherFact::function() const
 {
-  return itsFunction;
+  try
+  {
+    return itsFunction;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -120,7 +142,14 @@ WeatherFunction WeatherFact::function() const
 
 const WeatherPeriod& WeatherFact::period() const
 {
-  return itsPeriod;
+  try
+  {
+    return itsPeriod;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -132,7 +161,14 @@ const WeatherPeriod& WeatherFact::period() const
 
 const WeatherArea& WeatherFact::area() const
 {
-  return itsArea;
+  try
+  {
+    return itsArea;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -144,7 +180,14 @@ const WeatherArea& WeatherFact::area() const
 
 const WeatherResult& WeatherFact::result() const
 {
-  return itsResult;
+  try
+  {
+    return itsResult;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 
@@ -152,7 +195,7 @@ const WeatherResult& WeatherFact::result() const
 /*!
  * \brief Equality comparison for WeatherFact
  *
- * \param theLhs The first fact
+ * \param theLhs The first fact
  * \param theRhs The second fact
  * \return True if the facts are equal
  */
@@ -160,16 +203,23 @@ const WeatherResult& WeatherFact::result() const
 
 bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs)
 {
-  return (theLhs.parameter() == theRhs.parameter() && theLhs.function() == theRhs.function() &&
-          theLhs.period() == theRhs.period() && theLhs.area() == theRhs.area() &&
-          theLhs.result() == theRhs.result());
+  try
+  {
+    return (theLhs.parameter() == theRhs.parameter() && theLhs.function() == theRhs.function() &&
+            theLhs.period() == theRhs.period() && theLhs.area() == theRhs.area() &&
+            theLhs.result() == theRhs.result());
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
 /*!
  * \brief Inequality comparison for WeatherFact
  *
- * \param theLhs The first fact
+ * \param theLhs The first fact
  * \param theRhs The second fact
  * \return True if the facts are not equal
  */
@@ -177,7 +227,14 @@ bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& 
 
 bool operator!=(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs)
 {
-  return !(theLhs == theRhs);
+  try
+  {
+    return !(theLhs == theRhs);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ======================================================================

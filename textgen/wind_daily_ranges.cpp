@@ -40,6 +40,8 @@ namespace TextGen
 
 Paragraph WindStory::daily_ranges() const
 {
+  try
+  {
   MessageLogger log("WindStory::daily_ranges");
 
   using WeekdayTools::from_weekday;
@@ -517,6 +519,11 @@ Paragraph WindStory::daily_ranges() const
 
   log << paragraph;
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

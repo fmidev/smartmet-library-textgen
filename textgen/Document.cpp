@@ -32,8 +32,15 @@ namespace TextGen
 
 std::shared_ptr<Glyph> Document::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Document(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Document(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -47,7 +54,14 @@ std::shared_ptr<Glyph> Document::clone() const
 
 std::string Document::realize(const Dictionary& /*theDictionary*/) const
 {
-  throw Fmi::Exception(BCP, "Document::realize(Dictionary) should not be called");
+  try
+  {
+    throw Fmi::Exception(BCP, "Document::realize(Dictionary) should not be called");
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -61,7 +75,14 @@ std::string Document::realize(const Dictionary& /*theDictionary*/) const
 
 std::string Document::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -72,7 +93,14 @@ std::string Document::realize(const TextFormatter& theFormatter) const
 
 bool Document::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -85,16 +113,23 @@ bool Document::isDelimiter() const
 
 Document& Document::operator<<(const Document& theDocument)
 {
-  if (this != &theDocument)
+  try
   {
-    copy(theDocument.itsData.begin(), theDocument.itsData.end(), back_inserter(itsData));
+    if (this != &theDocument)
+    {
+      copy(theDocument.itsData.begin(), theDocument.itsData.end(), back_inserter(itsData));
+    }
+    else
+    {
+      storage_type tmp(itsData);
+      copy(tmp.begin(), tmp.end(), back_inserter(itsData));
+    }
+    return *this;
   }
-  else
+  catch(...)
   {
-    storage_type tmp(itsData);
-    copy(tmp.begin(), tmp.end(), back_inserter(itsData));
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  return *this;
 }
 
 // ----------------------------------------------------------------------
@@ -108,8 +143,15 @@ Document& Document::operator<<(const Document& theDocument)
 
 Document& Document::operator<<(const Glyph& theGlyph)
 {
-  itsData.push_back(theGlyph.clone());
-  return *this;
+  try
+  {
+    itsData.push_back(theGlyph.clone());
+    return *this;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

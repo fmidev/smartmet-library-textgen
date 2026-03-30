@@ -36,37 +36,44 @@ namespace TextGen
 
 Paragraph WeatherStory::thunderprobability() const
 {
-  MessageLogger log("WeatherStory::thunderprobability");
-
-  using namespace Settings;
-  using namespace WeatherPeriodTools;
-
-  Paragraph paragraph;
-
-  const int precision = optional_percentage(itsVar + "::precision", 10);
-  const int limit = optional_percentage(itsVar + "::limit", 10);
-
-  GridForecaster forecaster;
-
-  WeatherResult result = forecaster.analyze(
-      itsVar + "::fake::probability", itsSources, Thunder, Maximum, Maximum, itsArea, itsPeriod);
-
-  WeatherResultTools::checkMissingValue("weather_thunderprobability", Thunder, result);
-
-  log << "Thunder Maximum(Maximum) = " << result << '\n';
-
-  const int probability = MathTools::to_precision(result.value(), precision);
-
-  if (probability >= limit)
+  try
   {
-    Sentence sentence;
-    sentence << "ukkosen todennakoisyys"
-             << "on" << Integer(probability) << *UnitFactory::create(Percent);
-    paragraph << sentence;
-  }
+    MessageLogger log("WeatherStory::thunderprobability");
 
-  log << paragraph;
-  return paragraph;
+    using namespace Settings;
+    using namespace WeatherPeriodTools;
+
+    Paragraph paragraph;
+
+    const int precision = optional_percentage(itsVar + "::precision", 10);
+    const int limit = optional_percentage(itsVar + "::limit", 10);
+
+    GridForecaster forecaster;
+
+    WeatherResult result = forecaster.analyze(
+        itsVar + "::fake::probability", itsSources, Thunder, Maximum, Maximum, itsArea, itsPeriod);
+
+    WeatherResultTools::checkMissingValue("weather_thunderprobability", Thunder, result);
+
+    log << "Thunder Maximum(Maximum) = " << result << '\n';
+
+    const int probability = MathTools::to_precision(result.value(), precision);
+
+    if (probability >= limit)
+    {
+      Sentence sentence;
+      sentence << "ukkosen todennakoisyys"
+               << "on" << Integer(probability) << *UnitFactory::create(Percent);
+      paragraph << sentence;
+    }
+
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

@@ -35,6 +35,8 @@ namespace TextGen
 
 Paragraph WindStory::simple_overview() const
 {
+  try
+  {
   MessageLogger log("WeatherStory::simple_overview");
 
   // Establish options
@@ -278,6 +280,11 @@ Paragraph WindStory::simple_overview() const
 
   log << paragraph;
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

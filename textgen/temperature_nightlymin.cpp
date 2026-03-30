@@ -34,131 +34,138 @@ namespace TextGen
  *
  * \return The story
  *
- * \see page_temperature_nightlymin
+ * \see page_temperature_nightlymin
  */
 // ----------------------------------------------------------------------
 
 Paragraph TemperatureStory::nightlymin() const
 {
-  MessageLogger log("TemperatureStory::nightlymin");
-
-  using namespace Settings;
-  using namespace WeatherPeriodTools;
-
-  Paragraph paragraph;
-
-  const int starthour = require_hour(itsVar + "::night::starthour");
-  const int endhour = require_hour(itsVar + "::night::endhour");
-  const int maxstarthour = optional_hour(itsVar + "::night::maxstarthour", starthour);
-  const int minendhour = optional_hour(itsVar + "::night::minendhour", endhour);
-
-  const int mininterval = optional_int(itsVar + "::mininterval", 2);
-  const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
-
-  const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
-
-  const int nights = countPeriods(itsPeriod, starthour, endhour, maxstarthour, minendhour);
-
-  if (nights == 0)
+  try
   {
-    log << "No night periods!\n";
-    return paragraph;
-  }
+    MessageLogger log("TemperatureStory::nightlymin");
 
-  WeatherPeriod period = getPeriod(itsPeriod, 1, starthour, endhour, maxstarthour, minendhour);
+    using namespace Settings;
+    using namespace WeatherPeriodTools;
 
-  GridForecaster forecaster;
+    Paragraph paragraph;
 
-  WeatherResult minresult = forecaster.analyze(itsVar + "::fake::night1::minimum",
-                                               itsSources,
-                                               Temperature,
-                                               Minimum,
-                                               Minimum,
-                                               itsArea,
-                                               period);
+    const int starthour = require_hour(itsVar + "::night::starthour");
+    const int endhour = require_hour(itsVar + "::night::endhour");
+    const int maxstarthour = optional_hour(itsVar + "::night::maxstarthour", starthour);
+    const int minendhour = optional_hour(itsVar + "::night::minendhour", endhour);
 
-  WeatherResult meanresult = forecaster.analyze(
-      itsVar + "::fake::night1::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
+    const int mininterval = optional_int(itsVar + "::mininterval", 2);
+    const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
 
-  WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::night1::maximum",
-                                               itsSources,
-                                               Temperature,
-                                               Maximum,
-                                               Minimum,
-                                               itsArea,
-                                               period);
+    const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
 
-  WeatherResultTools::checkMissingValue(
-      "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
+    const int nights = countPeriods(itsPeriod, starthour, endhour, maxstarthour, minendhour);
 
-  log << "Temperature Minimum(Minimum) night 1 = " << minresult << '\n';
-  log << "Temperature Mean(Minimum) night 1 = " << meanresult << '\n';
-  log << "Temperature Maximum(Minimum) night 1 = " << maxresult << '\n';
+    if (nights == 0)
+    {
+      log << "No night periods!\n";
+      return paragraph;
+    }
 
-  const int min1 = static_cast<int>(round(minresult.value()));
-  const int max1 = static_cast<int>(round(maxresult.value()));
-  const int mean1 = static_cast<int>(round(meanresult.value()));
+    WeatherPeriod period = getPeriod(itsPeriod, 1, starthour, endhour, maxstarthour, minendhour);
 
-  Sentence sentence;
-  sentence << "yon alin lampotila"
-           << "on" << PeriodPhraseFactory::create("tonight", itsVar, itsForecastTime, period)
-           << temperature_sentence(min1, mean1, max1, mininterval, interval_zero, rangeseparator);
+    GridForecaster forecaster;
 
-  // Remaining nights
+    WeatherResult minresult = forecaster.analyze(itsVar + "::fake::night1::minimum",
+                                                 itsSources,
+                                                 Temperature,
+                                                 Minimum,
+                                                 Minimum,
+                                                 itsArea,
+                                                 period);
 
-  for (int p = 2; p <= nights; p++)
-  {
-    period = getPeriod(itsPeriod, p, starthour, endhour, maxstarthour, minendhour);
+    WeatherResult meanresult = forecaster.analyze(
+        itsVar + "::fake::night1::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
 
-    const string var = (itsVar + "::fake::night" + std::to_string(p));
-
-    minresult = forecaster.analyze(
-        var + "::minimum", itsSources, Temperature, Minimum, Minimum, itsArea, period);
-
-    maxresult = forecaster.analyze(
-        var + "::maximum", itsSources, Temperature, Maximum, Minimum, itsArea, period);
-
-    meanresult =
-        forecaster.analyze(var + "::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
+    WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::night1::maximum",
+                                                 itsSources,
+                                                 Temperature,
+                                                 Maximum,
+                                                 Minimum,
+                                                 itsArea,
+                                                 period);
 
     WeatherResultTools::checkMissingValue(
         "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
 
-    log << "Temperature Minimum(Minimum) night " << p << " = " << minresult << '\n';
-    log << "Temperature Mean(Minimum) night " << p << " = " << meanresult << '\n';
-    log << "Temperature Maximum(Minimum) night " << p << " = " << maxresult << '\n';
+    log << "Temperature Minimum(Minimum) night 1 = " << minresult << '\n';
+    log << "Temperature Mean(Minimum) night 1 = " << meanresult << '\n';
+    log << "Temperature Maximum(Minimum) night 1 = " << maxresult << '\n';
 
-    const int min2 = static_cast<int>(round(minresult.value()));
-    const int max2 = static_cast<int>(round(maxresult.value()));
-    const int mean2 = static_cast<int>(round(meanresult.value()));
+    const int min1 = static_cast<int>(round(minresult.value()));
+    const int max1 = static_cast<int>(round(maxresult.value()));
+    const int mean1 = static_cast<int>(round(meanresult.value()));
 
-    // For second night:
-    //
-    // "seuraavana yona [komparatiivi]" tai
-    // "[viikonpaivan vastaisena yona] [komparatiivi]"
-    //
-    // For third and so on
-    //
-    // "[viikonpaivan vastaisena yona] [noin x|x...y] astetta"
+    Sentence sentence;
+    sentence << "yon alin lampotila"
+             << "on" << PeriodPhraseFactory::create("tonight", itsVar, itsForecastTime, period)
+             << temperature_sentence(min1, mean1, max1, mininterval, interval_zero, rangeseparator);
 
-    sentence << Delimiter(",");
+    // Remaining nights
 
-    if (p == 2)
+    for (int p = 2; p <= nights; p++)
     {
-      sentence << PeriodPhraseFactory::create("next_night", itsVar, itsForecastTime, period);
-      sentence << temperature_comparison_phrase(mean1, mean2, itsVar);
+      period = getPeriod(itsPeriod, p, starthour, endhour, maxstarthour, minendhour);
+
+      const string var = (itsVar + "::fake::night" + std::to_string(p));
+
+      minresult = forecaster.analyze(
+          var + "::minimum", itsSources, Temperature, Minimum, Minimum, itsArea, period);
+
+      maxresult = forecaster.analyze(
+          var + "::maximum", itsSources, Temperature, Maximum, Minimum, itsArea, period);
+
+      meanresult =
+          forecaster.analyze(var + "::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
+
+      WeatherResultTools::checkMissingValue(
+          "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
+
+      log << "Temperature Minimum(Minimum) night " << p << " = " << minresult << '\n';
+      log << "Temperature Mean(Minimum) night " << p << " = " << meanresult << '\n';
+      log << "Temperature Maximum(Minimum) night " << p << " = " << maxresult << '\n';
+
+      const int min2 = static_cast<int>(round(minresult.value()));
+      const int max2 = static_cast<int>(round(maxresult.value()));
+      const int mean2 = static_cast<int>(round(meanresult.value()));
+
+      // For second night:
+      //
+      // "seuraavana yona [komparatiivi]" tai
+      // "[viikonpaivan vastaisena yona] [komparatiivi]"
+      //
+      // For third and so on
+      //
+      // "[viikonpaivan vastaisena yona] [noin x|x...y] astetta"
+
+      sentence << Delimiter(",");
+
+      if (p == 2)
+      {
+        sentence << PeriodPhraseFactory::create("next_night", itsVar, itsForecastTime, period);
+        sentence << temperature_comparison_phrase(mean1, mean2, itsVar);
+      }
+      else
+      {
+        sentence << WeekdayTools::night_against_weekday(period.localEndTime())
+                 << temperature_sentence(
+                        min2, mean2, max2, mininterval, interval_zero, rangeseparator);
+      }
     }
-    else
-    {
-      sentence << WeekdayTools::night_against_weekday(period.localEndTime())
-               << temperature_sentence(
-                      min2, mean2, max2, mininterval, interval_zero, rangeseparator);
-    }
+
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
   }
-
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

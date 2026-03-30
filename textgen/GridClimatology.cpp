@@ -25,6 +25,7 @@
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherPeriodGenerator.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
 
 #include <memory>
 
@@ -59,18 +60,25 @@ WeatherResult GridClimatology::analyze(const AnalysisSources& theSources,
                                        const Acceptor& theTimeAcceptor,
                                        const Acceptor& theTester) const
 {
-  std::shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
+  try
+  {
+    std::shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
 
-  return analyzer->analyze(theSources,
-                           Climatology,
-                           theAreaFunction,
-                           theTimeFunction,
-                           theSubTimeFunction,
-                           theArea,
-                           thePeriods,
-                           theAreaAcceptor,
-                           theTimeAcceptor,
-                           theTester);
+    return analyzer->analyze(theSources,
+                             Climatology,
+                             theAreaFunction,
+                             theTimeFunction,
+                             theSubTimeFunction,
+                             theArea,
+                             thePeriods,
+                             theAreaAcceptor,
+                             theTimeAcceptor,
+                             theTester);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

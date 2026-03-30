@@ -67,18 +67,25 @@ WindStory::WindStory(const TextGenPosixTime& theForecastTime,
 
 bool WindStory::hasStory(const string& theName)
 {
-  if (theName == "wind_overview")
-    return true;
-  if (theName == "wind_simple_overview")
-    return true;
-  if (theName == "wind_daily_ranges")
-    return true;
-  if (theName == "wind_range")
-    return true;
-  if (theName == "wind_anomaly")
-    return true;
+  try
+  {
+    if (theName == "wind_overview")
+      return true;
+    if (theName == "wind_simple_overview")
+      return true;
+    if (theName == "wind_daily_ranges")
+      return true;
+    if (theName == "wind_range")
+      return true;
+    if (theName == "wind_anomaly")
+      return true;
 
-  return false;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -94,18 +101,25 @@ bool WindStory::hasStory(const string& theName)
 
 Paragraph WindStory::makeStory(const string& theName) const
 {
-  if (theName == "wind_overview")
-    return overview();
-  if (theName == "wind_simple_overview")
-    return simple_overview();
-  if (theName == "wind_daily_ranges")
-    return daily_ranges();
-  if (theName == "wind_range")
-    return range();
-  if (theName == "wind_anomaly")
-    return anomaly();
+  try
+  {
+    if (theName == "wind_overview")
+      return overview();
+    if (theName == "wind_simple_overview")
+      return simple_overview();
+    if (theName == "wind_daily_ranges")
+      return daily_ranges();
+    if (theName == "wind_range")
+      return range();
+    if (theName == "wind_anomaly")
+      return anomaly();
 
-  throw Fmi::Exception(BCP, "WindStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "WindStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

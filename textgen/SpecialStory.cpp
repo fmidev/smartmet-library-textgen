@@ -67,17 +67,24 @@ SpecialStory::SpecialStory(const TextGenPosixTime& theForecastTime,
 
 bool SpecialStory::hasStory(const string& theName)
 {
-  if (theName == "none")
-    return true;
-  if (theName.substr(0, 4) == "text")  // Allows more flexible definitions
-    return true;
-  if (theName == "date")
-    return true;
+  try
+  {
+    if (theName == "none")
+      return true;
+    if (theName.substr(0, 4) == "text")  // Allows more flexible definitions
+      return true;
+    if (theName == "date")
+      return true;
 #if 0
 	if(theName == "table")
 	  return true;
 #endif
-  return false;
+    return false;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -93,18 +100,25 @@ bool SpecialStory::hasStory(const string& theName)
 
 Paragraph SpecialStory::makeStory(const string& theName) const
 {
-  if (theName == "none")
-    return none();
-  if (theName.substr(0, 4) == "text")  // Allows more flexible definitions
-    return text();
-  if (theName == "date")
-    return date();
+  try
+  {
+    if (theName == "none")
+      return none();
+    if (theName.substr(0, 4) == "text")  // Allows more flexible definitions
+      return text();
+    if (theName == "date")
+      return date();
 #if 0
 	if(theName == "table")
 	  return table();
 #endif
 
-  throw Fmi::Exception(BCP, "SpecialStory cannot make story " + theName);
+    throw Fmi::Exception(BCP, "SpecialStory cannot make story " + theName);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theName", theName);
+  }
 }
 
 }  // namespace TextGen

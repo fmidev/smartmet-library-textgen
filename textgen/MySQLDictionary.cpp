@@ -120,7 +120,7 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
   }
   catch (...)
   {
-    throw;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 

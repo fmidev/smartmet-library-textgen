@@ -19,6 +19,7 @@
 #include "WeekdayTools.h"
 #include <calculator/Settings.h>
 #include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
 
 namespace TextGen
 {
@@ -32,7 +33,14 @@ namespace FrostStoryTools
 
 bool is_frost_season()
 {
-  return Settings::require_bool("textgen::frostseason");
+  try
+  {
+    return Settings::require_bool("textgen::frostseason");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -46,11 +54,18 @@ bool is_frost_season()
 
 Sentence severe_frost_sentence(const WeatherPeriod& thePeriod, int theProbability)
 {
-  Sentence sentence;
-  sentence << "ankaran hallan todennakoisyys"
-           << "on" << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-           << Integer(theProbability) << *UnitFactory::create(Percent);
-  return sentence;
+  try
+  {
+    Sentence sentence;
+    sentence << "ankaran hallan todennakoisyys"
+             << "on" << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
+             << Integer(theProbability) << *UnitFactory::create(Percent);
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theProbability", std::to_string(theProbability));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -65,11 +80,18 @@ Sentence severe_frost_sentence(const WeatherPeriod& thePeriod, int theProbabilit
 
 Sentence frost_sentence(const WeatherPeriod& thePeriod, int theProbability)
 {
-  Sentence sentence;
-  sentence << "hallan todennakoisyys"
-           << "on" << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-           << Integer(theProbability) << *UnitFactory::create(Percent);
-  return sentence;
+  try
+  {
+    Sentence sentence;
+    sentence << "hallan todennakoisyys"
+             << "on" << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
+             << Integer(theProbability) << *UnitFactory::create(Percent);
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theProbability", std::to_string(theProbability));
+  }
 }
 
 }  // namespace FrostStoryTools

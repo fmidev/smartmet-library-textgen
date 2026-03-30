@@ -13,6 +13,7 @@
 // ======================================================================
 
 #include "PositiveValueAcceptor.h"
+#include <macgyver/Exception.h>
 #include <newbase/NFmiGlobals.h>
 
 namespace TextGen
@@ -25,7 +26,14 @@ namespace TextGen
 
 Acceptor* PositiveValueAcceptor::clone() const
 {
-  return new PositiveValueAcceptor(*this);
+  try
+  {
+    return new PositiveValueAcceptor(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -33,14 +41,21 @@ Acceptor* PositiveValueAcceptor::clone() const
  *
  * Only positive value is accepted, , but value kFloatMissing is never accepted.
 
- * \param theValue The value to be accepted
+ * \param theValue The value to be accepted
  * \return True if the value is accepted
  */
 // ----------------------------------------------------------------------
 
 bool PositiveValueAcceptor::accept(float theValue) const
 {
-  return (theValue != kFloatMissing && theValue > 0.0);
+  try
+  {
+    return (theValue != kFloatMissing && theValue > 0.0);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

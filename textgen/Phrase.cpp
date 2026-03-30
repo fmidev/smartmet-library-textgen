@@ -14,6 +14,7 @@
 
 #include "Dictionary.h"
 #include "TextFormatter.h"
+#include <macgyver/Exception.h>
 #include <utility>
 
 using namespace std;
@@ -44,8 +45,15 @@ Phrase::Phrase(std::string theWord) : itsWord(std::move(theWord)) {}
 
 std::shared_ptr<Glyph> Phrase::clone() const
 {
-  std::shared_ptr<Glyph> ret(new Phrase(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new Phrase(*this));
+    return ret;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -53,13 +61,20 @@ std::shared_ptr<Glyph> Phrase::clone() const
  * \brief Realize using the given dictionary
  *
  * \param theDictionary The dictionary to realize with
- * \return The realized string
+ * \return The realized string
  */
 // ----------------------------------------------------------------------
 
 std::string Phrase::realize(const Dictionary& theDictionary) const
 {
-  return theDictionary.find(itsWord);
+  try
+  {
+    return theDictionary.find(itsWord);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -73,7 +88,14 @@ std::string Phrase::realize(const Dictionary& theDictionary) const
 
 std::string Phrase::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -84,7 +106,14 @@ std::string Phrase::realize(const TextFormatter& theFormatter) const
 
 bool Phrase::isDelimiter() const
 {
-  return false;
+  try
+  {
+    return false;
+  }
+  catch(...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

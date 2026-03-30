@@ -89,7 +89,14 @@ FileDictionary::~FileDictionary() = default;
 
 FileDictionary::FileDictionary() : itsPimple(new Pimple())
 {
-  itsDictionaryId = "file";
+  try
+  {
+    itsDictionaryId = "file";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -103,7 +110,14 @@ FileDictionary::FileDictionary() : itsPimple(new Pimple())
 
 const std::string& FileDictionary::language() const
 {
-  return itsPimple->itsLanguage;
+  try
+  {
+    return itsPimple->itsLanguage;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -124,37 +138,44 @@ const std::string& FileDictionary::language() const
 
 void FileDictionary::init(const std::string& theLanguage)
 {
-  // clear possible earlier language
-  itsPimple->itsLanguage = theLanguage;
-  itsPimple->itsInitialized = false;
-  itsPimple->itsData.clear();
-
-  // Establish the settings for TextGen
-
-  std::string database = Settings::require_string("textgen::filedictionaries");
-  // Read the file one line at a time
-
-  std::string filename = database + '/' + theLanguage + ".txt";
-
-  if (!NFmiFileSystem::FileExists(filename))
-    throw Fmi::Exception(BCP, "Error: Could not find dictionary '" + filename + "'");
-
-  std::ifstream in(filename.c_str());
-  if (!in)
-    throw Fmi::Exception(BCP, "Error: Could not open dictionary '" + filename + "' for reading");
-
-  std::string line;
-  while (getline(in, line))
+  try
   {
-    std::vector<std::string> parts = NFmiStringTools::Split(line, "|");
-    if (parts.size() != 2)
-      throw Fmi::Exception(
-          BCP, "Error: Dictionary '" + filename + "' contains invalid line '" + line + "'");
-    if (!parts[0].empty())
-      itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
-  }
+    // clear possible earlier language
+    itsPimple->itsLanguage = theLanguage;
+    itsPimple->itsInitialized = false;
+    itsPimple->itsData.clear();
 
-  itsPimple->itsInitialized = true;
+    // Establish the settings for TextGen
+
+    std::string database = Settings::require_string("textgen::filedictionaries");
+    // Read the file one line at a time
+
+    std::string filename = database + '/' + theLanguage + ".txt";
+
+    if (!NFmiFileSystem::FileExists(filename))
+      throw Fmi::Exception(BCP, "Error: Could not find dictionary '" + filename + "'");
+
+    std::ifstream in(filename.c_str());
+    if (!in)
+      throw Fmi::Exception(BCP, "Error: Could not open dictionary '" + filename + "' for reading");
+
+    std::string line;
+    while (getline(in, line))
+    {
+      std::vector<std::string> parts = NFmiStringTools::Split(line, "|");
+      if (parts.size() != 2)
+        throw Fmi::Exception(
+            BCP, "Error: Dictionary '" + filename + "' contains invalid line '" + line + "'");
+      if (!parts[0].empty())
+        itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
+    }
+
+    itsPimple->itsInitialized = true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("language", theLanguage);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -168,7 +189,14 @@ void FileDictionary::init(const std::string& theLanguage)
 
 bool FileDictionary::contains(const std::string& theKey) const
 {
-  return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
+  try
+  {
+    return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -185,15 +213,22 @@ bool FileDictionary::contains(const std::string& theKey) const
 
 std::string FileDictionary::find(const std::string& theKey) const
 {
-  if (!itsPimple->itsInitialized)
-    throw Fmi::Exception(BCP, "Error: FileDictionary::find() called before init()");
-  auto it = itsPimple->itsData.find(theKey);
+  try
+  {
+    if (!itsPimple->itsInitialized)
+      throw Fmi::Exception(BCP, "Error: FileDictionary::find() called before init()");
+    auto it = itsPimple->itsData.find(theKey);
 
-  if (it != itsPimple->itsData.end())
-    return it->second;
-  throw Fmi::Exception(
-      BCP,
-      "Error: FileDictionary::find(" + theKey + ") failed in language " + itsPimple->itsLanguage);
+    if (it != itsPimple->itsData.end())
+      return it->second;
+    throw Fmi::Exception(
+        BCP,
+        "Error: FileDictionary::find(" + theKey + ") failed in language " + itsPimple->itsLanguage);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -210,7 +245,14 @@ std::string FileDictionary::find(const std::string& theKey) const
 
 void FileDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
 {
-  throw Fmi::Exception(BCP, "Error: FileDictionary::insert() is not allowed");
+  try
+  {
+    throw Fmi::Exception(BCP, "Error: FileDictionary::insert() is not allowed");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -223,7 +265,14 @@ void FileDictionary::insert(const std::string& /*theKey*/, const std::string& /*
 
 FileDictionary::size_type FileDictionary::size() const
 {
-  return itsPimple->itsData.size();
+  try
+  {
+    return itsPimple->itsData.size();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -235,7 +284,14 @@ FileDictionary::size_type FileDictionary::size() const
 
 bool FileDictionary::empty() const
 {
-  return itsPimple->itsData.empty();
+  try
+  {
+    return itsPimple->itsData.empty();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -247,7 +303,14 @@ bool FileDictionary::empty() const
 
 void FileDictionary::changeLanguage(const std::string& theLanguage)
 {
-  init(theLanguage);
+  try
+  {
+    init(theLanguage);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("language", theLanguage);
+  }
 }
 
 }  // namespace TextGen

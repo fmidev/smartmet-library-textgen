@@ -35,7 +35,14 @@ BasicDictionary::~BasicDictionary() = default;
 
 void BasicDictionary::init(const std::string& theLanguage)
 {
-  itsLanguage = theLanguage;
+  try
+  {
+    itsLanguage = theLanguage;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("language", theLanguage);
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -49,7 +56,14 @@ void BasicDictionary::init(const std::string& theLanguage)
 
 const std::string& BasicDictionary::language() const
 {
-  return itsLanguage;
+  try
+  {
+    return itsLanguage;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -62,7 +76,14 @@ const std::string& BasicDictionary::language() const
 
 bool BasicDictionary::contains(const std::string& theKey) const
 {
-  return (itsData.find(theKey) != itsData.end());
+  try
+  {
+    return (itsData.find(theKey) != itsData.end());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -79,10 +100,17 @@ bool BasicDictionary::contains(const std::string& theKey) const
 
 std::string BasicDictionary::find(const std::string& theKey) const
 {
-  auto it = itsData.find(theKey);
-  if (it != itsData.end())
-    return it->second;
-  throw Fmi::Exception(BCP, "Dictionary does not contain phrase '" + theKey + "'");
+  try
+  {
+    auto it = itsData.find(theKey);
+    if (it != itsData.end())
+      return it->second;
+    throw Fmi::Exception(BCP, "Dictionary does not contain phrase '" + theKey + "'");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -100,7 +128,14 @@ std::string BasicDictionary::find(const std::string& theKey) const
 
 void BasicDictionary::insert(const std::string& theKey, const std::string& thePhrase)
 {
-  itsData.insert(StorageType::value_type(theKey, thePhrase));
+  try
+  {
+    itsData.insert(StorageType::value_type(theKey, thePhrase));
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey).addParameter("phrase", thePhrase);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -113,7 +148,14 @@ void BasicDictionary::insert(const std::string& theKey, const std::string& thePh
 
 BasicDictionary::size_type BasicDictionary::size() const
 {
-  return itsData.size();
+  try
+  {
+    return itsData.size();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -125,7 +167,14 @@ BasicDictionary::size_type BasicDictionary::size() const
 
 bool BasicDictionary::empty() const
 {
-  return itsData.empty();
+  try
+  {
+    return itsData.empty();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

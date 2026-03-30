@@ -11,6 +11,7 @@
 #include "Paragraph.h"
 #include "Sentence.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 using namespace TextGen;
 
@@ -28,51 +29,58 @@ namespace TextGen
 
 Paragraph ForestStory::forestfirewarning_county() const
 {
-  MessageLogger log("ForestStory::forestfirewarning_county");
-
-  Paragraph paragraph;
-
-  // Establish area name and respective area code
-
-  const string& areaname = itsArea.name();
-  const int areacode = Settings::require_int("qdtext::forestfirewarning::areacodes::" + areaname);
-
-  log << "Area code for " << areaname << ' ' << " is " << areacode << '\n';
-
-  // Read the file containing the warnings
-
-  const string datadir = Settings::require_string("qdtext::forestfirewarning::directory");
-
   try
   {
-    FireWarnings warnings(datadir, itsForecastTime);
+    MessageLogger log("ForestStory::forestfirewarning_county");
 
-    Sentence sentence;
-    switch (warnings.state(areacode))
+    Paragraph paragraph;
+
+    // Establish area name and respective area code
+
+    const string& areaname = itsArea.name();
+    const int areacode = Settings::require_int("qdtext::forestfirewarning::areacodes::" + areaname);
+
+    log << "Area code for " << areaname << ' ' << " is " << areacode << '\n';
+
+    // Read the file containing the warnings
+
+    const string datadir = Settings::require_string("qdtext::forestfirewarning::directory");
+
+    try
     {
-      case FireWarnings::Undefined:
-        log << "Warning: warning state for given area is undefined!\n"
-            << "Returning an empty story\n";
-        break;
-      case FireWarnings::None:
-      case FireWarnings::GrassFireWarning:
-        sentence << "metsapalovaroitus ei ole voimassa";
-        paragraph << sentence;
-        break;
-      case FireWarnings::FireWarning:
-        sentence << "metsapalovaroitus on voimassa";
-        paragraph << sentence;
-        break;
+      FireWarnings warnings(datadir, itsForecastTime);
+
+      Sentence sentence;
+      switch (warnings.state(areacode))
+      {
+        case FireWarnings::Undefined:
+          log << "Warning: warning state for given area is undefined!\n"
+              << "Returning an empty story\n";
+          break;
+        case FireWarnings::None:
+        case FireWarnings::GrassFireWarning:
+          sentence << "metsapalovaroitus ei ole voimassa";
+          paragraph << sentence;
+          break;
+        case FireWarnings::FireWarning:
+          sentence << "metsapalovaroitus on voimassa";
+          paragraph << sentence;
+          break;
+      }
     }
+    catch (...)
+    {
+      log << "Failed to read forest fire warning data from directory '" << datadir << "'\n"
+          << "Returning an empty story\n";
+    }
+
+    log << paragraph;
+    return paragraph;
   }
   catch (...)
   {
-    log << "Failed to read forest fire warning data from directory '" << datadir << "'\n"
-        << "Returning an empty story\n";
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  log << paragraph;
-  return paragraph;
 }
 
 }  // namespace TextGen
