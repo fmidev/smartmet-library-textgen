@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.3.27
+Version: 26.3.31
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Mar 31 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.3.31-1.fmi
+- Refactored large methods to smaller ones for readability
+
 * Fri Mar 27 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.3.27-1.fmi
 - Added exception tracing
 
