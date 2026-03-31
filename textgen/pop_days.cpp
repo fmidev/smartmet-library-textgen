@@ -29,6 +29,56 @@ using namespace TextGen;
 
 using namespace std;
 
+namespace
+{
+// Build a pop sentence for comparing pop2 with pop1
+TextGen::Sentence pop_comparison_sentence(const string& itsVar,
+                                          const TextGenPosixTime& itsForecastTime,
+                                          const WeatherPeriod& secondperiod,
+                                          int pop1, int pop2, bool negate,
+                                          int limit_significantly_greater,
+                                          int limit_significantly_smaller,
+                                          int limit_greater, int limit_smaller,
+                                          int limit_somewhat_greater, int limit_somewhat_smaller)
+{
+  using namespace TextGen;
+  Sentence sentence;
+  sentence << Delimiter(",")
+           << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
+  int difference = (negate ? (100 - pop2) - (100 - pop1) : (pop2 - pop1));
+
+  if (difference >= limit_significantly_greater)
+    sentence << "huomattavasti suurempi";
+  else if (difference >= limit_greater)
+    sentence << "suurempi";
+  else if (difference >= limit_somewhat_greater)
+    sentence << "hieman suurempi";
+  else if (-difference >= limit_significantly_smaller)
+    sentence << "huomattavasti pienempi";
+  else if (-difference >= limit_smaller)
+    sentence << "pienempi";
+  else if (-difference >= limit_somewhat_smaller)
+    sentence << "hieman pienempi";
+  else
+    sentence << "sama";
+  return sentence;
+}
+
+// Build a basic pop sentence for one period
+TextGen::Sentence pop_basic_sentence(const string& itsVar,
+                                     const TextGenPosixTime& itsForecastTime,
+                                     const WeatherPeriod& period,
+                                     int pop, bool negate)
+{
+  using namespace TextGen;
+  Sentence sentence;
+  sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
+           << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period)
+           << (negate ? Integer(100 - pop) : Integer(pop)) << *UnitFactory::create(Percent);
+  return sentence;
+}
+}  // namespace
+
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -108,11 +158,7 @@ Paragraph PrecipitationStory::pop_days() const
     Sentence sentence;
 
     if (pop1 >= minimum && pop1 <= maximum)
-    {
-      sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
-               << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, firstperiod)
-               << (negate ? Integer(100 - pop1) : Integer(pop1)) << *UnitFactory::create(Percent);
-    }
+      sentence << pop_basic_sentence(itsVar, itsForecastTime, firstperiod, pop1, negate);
 
     if (days >= 2)
     {
@@ -148,32 +194,12 @@ Paragraph PrecipitationStory::pop_days() const
       if (pop2 >= minimum && pop2 <= maximum)
       {
         if (sentence.empty())
-        {
-          sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys") << "on"
-                   << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, secondperiod)
-                   << (negate ? Integer(100 - pop2) : Integer(pop2)) << *UnitFactory::create(Percent);
-        }
+          sentence << pop_basic_sentence(itsVar, itsForecastTime, secondperiod, pop2, negate);
         else
-        {
-          sentence << Delimiter(",")
-                   << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
-          int difference = (negate ? (100 - pop2) - (100 - pop1) : (pop2 - pop1));
-
-          if (difference >= limit_significantly_greater)
-            sentence << "huomattavasti suurempi";
-          else if (difference >= limit_greater)
-            sentence << "suurempi";
-          else if (difference >= limit_somewhat_greater)
-            sentence << "hieman suurempi";
-          else if (-difference >= limit_significantly_smaller)
-            sentence << "huomattavasti pienempi";
-          else if (-difference >= limit_smaller)
-            sentence << "pienempi";
-          else if (-difference >= limit_somewhat_smaller)
-            sentence << "hieman pienempi";
-          else
-            sentence << "sama";
-        }
+          sentence << pop_comparison_sentence(
+              itsVar, itsForecastTime, secondperiod, pop1, pop2, negate,
+              limit_significantly_greater, limit_significantly_smaller,
+              limit_greater, limit_smaller, limit_somewhat_greater, limit_somewhat_smaller);
       }
     }
 

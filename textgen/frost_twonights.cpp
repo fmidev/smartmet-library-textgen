@@ -27,6 +27,75 @@ using namespace TextGen::FrostStoryTools;
 
 namespace TextGen
 {
+namespace
+{
+// Build sentence for severe frost night followed by a second night outcome
+Sentence severe_plus_next(const WeatherPeriod& night1,
+                          int severevalue1,
+                          int severevalue2,
+                          int value2,
+                          int severelimit,
+                          int normallimit)
+{
+  Sentence sentence;
+  sentence << severe_frost_sentence(night1, severevalue1) << Delimiter(",");
+  if (severevalue2 >= severelimit)
+  {
+    sentence << "seuraavana yona";
+    if (severevalue1 == severevalue2)
+      sentence << "sama";
+    else
+      sentence << Integer(severevalue2) << *UnitFactory::create(Percent);
+  }
+  else if (value2 >= normallimit)
+  {
+    sentence << "seuraavana yona"
+             << "hallan todennakoisyys"
+             << "on" << Integer(value2) << *UnitFactory::create(Percent);
+  }
+  else
+  {
+    sentence << "seuraava yo"
+             << "on"
+             << "huomattavasti lampimampi";
+  }
+  return sentence;
+}
+
+// Build sentence for (normal) frost night followed by a second night outcome
+Sentence frost_plus_next(const WeatherPeriod& night1,
+                         int value1,
+                         int severevalue2,
+                         int value2,
+                         int severelimit,
+                         int normallimit)
+{
+  Sentence sentence;
+  sentence << frost_sentence(night1, value1) << Delimiter(",");
+  if (severevalue2 >= severelimit)
+  {
+    sentence << "seuraavana yona"
+             << "ankaran hallan todennakoisyys"
+             << "on" << Integer(severevalue2) << *UnitFactory::create(Percent);
+  }
+  else if (value2 >= normallimit)
+  {
+    sentence << "seuraavana yona";
+    if (value1 == value2)
+      sentence << "sama";
+    else
+      sentence << Integer(value2) << *UnitFactory::create(Percent);
+  }
+  else
+  {
+    sentence << "seuraava yo"
+             << "on"
+             << "lampimampi";
+  }
+  return sentence;
+}
+}  // namespace
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Generate story on 1/2 night frost
@@ -157,57 +226,13 @@ Paragraph FrostStory::twonights() const
       }
       else if (severevalue1 >= severelimit)  // severe + ?
       {
-        Sentence sentence;
-        sentence << severe_frost_sentence(night1, severevalue1) << Delimiter(",");
-
-        if (severevalue2 >= severelimit)
-        {
-          sentence << "seuraavana yona";
-          if (severevalue1 == severevalue2)
-            sentence << "sama";
-          else
-            sentence << Integer(severevalue2) << *UnitFactory::create(Percent);
-        }
-        else if (value2 >= normallimit)
-        {
-          sentence << "seuraavana yona"
-                   << "hallan todennakoisyys"
-                   << "on" << Integer(value2) << *UnitFactory::create(Percent);
-        }
-        else
-        {
-          sentence << "seuraava yo"
-                   << "on"
-                   << "huomattavasti lampimampi";
-        }
-        paragraph << sentence;
+        paragraph << severe_plus_next(
+            night1, severevalue1, severevalue2, value2, severelimit, normallimit);
       }
       else if (value1 >= normallimit)  // frost + ?
       {
-        Sentence sentence;
-        sentence << frost_sentence(night1, value1) << Delimiter(",");
-
-        if (severevalue2 >= severelimit)
-        {
-          sentence << "seuraavana yona"
-                   << "ankaran hallan todennakoisyys"
-                   << "on" << Integer(severevalue2) << *UnitFactory::create(Percent);
-        }
-        else if (value2 >= normallimit)
-        {
-          sentence << "seuraavana yona";
-          if (value1 == value2)
-            sentence << "sama";
-          else
-            sentence << Integer(value2) << *UnitFactory::create(Percent);
-        }
-        else
-        {
-          sentence << "seuraava yo"
-                   << "on"
-                   << "lampimampi";
-        }
-        paragraph << sentence;
+        paragraph << frost_plus_next(
+            night1, value1, severevalue2, value2, severelimit, normallimit);
       }
       else  // nada + ?
       {

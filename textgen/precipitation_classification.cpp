@@ -42,6 +42,18 @@ namespace
  */
 // ----------------------------------------------------------------------
 
+// Determine phrase id (1-4) from probability result and limits
+int classify_prob_phrase(double probValue, int limit1, int limit2)
+{
+  if (probValue == kFloatMissing)
+    return 1;
+  if (probValue >= limit2)
+    return 3;
+  if (probValue >= limit1)
+    return 2;
+  return 4;
+}
+
 list<pair<int, int> > parse_classes(const std::string& theVariable)
 {
   using namespace TextGen;
@@ -190,18 +202,16 @@ Paragraph PrecipitationStory::classification() const
     return paragraph;
   }
 
-  // Handle the case when maximum rain exceeds the biggest
-  // rain amount class
+  // Handle the case when maximum rain exceeds the biggest rain amount class
 
   if (maxresult.value() > maxrainlimit)
   {
-    const string variable1 = itsVar + "::max_some_places";
-    const string variable2 = itsVar + "::max_many_places";
-
     int phrase = 1;
 
     if (minresult.value() < maxrainlimit)
     {
+      const string variable1 = itsVar + "::max_some_places";
+      const string variable2 = itsVar + "::max_many_places";
       RangeAcceptor percentagelimits;
       percentagelimits.lowerLimit(maxrainlimit);
 
@@ -218,17 +228,9 @@ Paragraph PrecipitationStory::classification() const
 
       log << "Precipitation Percentage(Sum) " << probresult << '\n';
 
-      const int limit1 = Settings::optional_int(variable1, -1);
-      const int limit2 = Settings::optional_int(variable2, -1);
-
-      if (probresult.value() == kFloatMissing)
-        phrase = 1;
-      else if (probresult.value() >= limit2)
-        phrase = 3;
-      else if (probresult.value() >= limit1)
-        phrase = 2;
-      else
-        phrase = 4;
+      phrase = classify_prob_phrase(probresult.value(),
+                                    Settings::optional_int(variable1, -1),
+                                    Settings::optional_int(variable2, -1));
     }
 
     if (phrase < 4)
@@ -245,10 +247,7 @@ Paragraph PrecipitationStory::classification() const
     }
 
     // FALLTHROUGH FOR PHRASE 4, WE RETURN N...M INSTEAD!
-
-    // here we forge result to be back within the largest
-    // available rain class
-
+    // here we forge result to be back within the largest available rain class
     if (meanresult.value() > maxrainlimit)
       meanresult = WeatherResult(maxrainlimit, 1);
   }
@@ -294,18 +293,9 @@ Paragraph PrecipitationStory::classification() const
 
     log << "Precipitation Percentage(Sum) " << probresult << '\n';
 
-    const int limit1 = Settings::optional_int(variable1, -1);
-    const int limit2 = Settings::optional_int(variable2, -1);
-
-    int phrase = 1;
-
-    if (probresult.value() != kFloatMissing)
-    {
-      if (probresult.value() >= limit2)
-        phrase = 3;
-      else if (probresult.value() >= limit1)
-        phrase = 2;
-    }
+    const int phrase = classify_prob_phrase(probresult.value(),
+                                            Settings::optional_int(variable1, -1),
+                                            Settings::optional_int(variable2, -1));
 
     if (phrase == 2)
       sentence << Delimiter(",") << "paikoin enemman";

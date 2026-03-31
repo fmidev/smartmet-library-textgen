@@ -588,6 +588,66 @@ void clamp_temperature(
   }
 }
 
+namespace
+{
+// Helper: select WeatherParameter for a fractile level based on fractile type
+WeatherParameter fractile_weather_parameter(const fractile_type_id& theFractileType,
+                                            WeatherParameter minParam,
+                                            WeatherParameter meanParam,
+                                            WeatherParameter maxParam)
+{
+  if (theFractileType == MIN_FRACTILE)
+    return minParam;
+  if (theFractileType == MEAN_FRACTILE)
+    return meanParam;
+  return maxParam;
+}
+
+// Helper: get fake fractile value for a given level suffix
+float fake_fractile_value(const std::string& theVar,
+                          const std::string& seasonStr,
+                          const std::string& level)
+{
+  return static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::" + level));
+}
+
+// Helper: classify temperature against fake fractile thresholds
+fractile_id classify_fake_fractile(const float& theTemperature,
+                                   const std::string& theVar,
+                                   const std::string& seasonStr)
+{
+  const std::array<std::pair<std::string, fractile_id>, 7> levels = {{
+      {"F02", FRACTILE_02}, {"F12", FRACTILE_12}, {"F37", FRACTILE_37}, {"F50", FRACTILE_50},
+      {"F63", FRACTILE_63}, {"F88", FRACTILE_88}, {"F98", FRACTILE_98}}};
+  for (const auto& lv : levels)
+  {
+    if (theTemperature <= fake_fractile_value(theVar, seasonStr, lv.first))
+      return lv.second;
+  }
+  return FRACTILE_UNDEFINED;
+}
+
+// Helper: analyze a single fractile level and check if temperature falls in it
+fractile_id check_grid_fractile(GridClimatology& gc,
+                                const std::string& theVar,
+                                const AnalysisSources& theSources,
+                                const WeatherArea& theArea,
+                                const WeatherPeriod& climatePeriod,
+                                const fractile_type_id& theFractileType,
+                                WeatherParameter minParam,
+                                WeatherParameter meanParam,
+                                WeatherParameter maxParam,
+                                const float& theTemperature,
+                                fractile_id resultId)
+{
+  WeatherParameter param = fractile_weather_parameter(theFractileType, minParam, meanParam, maxParam);
+  WeatherResult result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return resultId;
+  return FRACTILE_UNDEFINED;
+}
+}  // namespace
+
 // ----------------------------------------------------------------------
 /*!
  * \brief determines the fractile of the given temperature
@@ -615,138 +675,34 @@ fractile_id get_fractile(const std::string& theVar,
 
   // fake variables are just for rough testing purposes
   if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
-  {
-    float f02 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F02");
-    float f12 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F12");
-    float f37 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F37");
-    float f50 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F50");
-    float f63 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F63");
-    float f88 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F88");
-    float f98 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F98");
-    if (theTemperature <= f02)
-      return FRACTILE_02;
-    if (theTemperature <= f12)
-      return FRACTILE_12;
-    if (theTemperature <= f37)
-      return FRACTILE_37;
-    if (theTemperature <= f50)
-      return FRACTILE_50;
-    if (theTemperature <= f63)
-      return FRACTILE_63;
-    if (theTemperature <= f88)
-      return FRACTILE_88;
-    if (theTemperature <= f98)
-      return FRACTILE_98;
-    return FRACTILE_UNDEFINED;
-  }
+    return classify_fake_fractile(theTemperature, theVar, seasonStr);
 
   std::string dataName("textgen::fractiles");
-
   WeatherPeriod climatePeriod =
       ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
-
   GridClimatology gc;
 
-  WeatherResult result(kFloatMissing, 0.0);
+  using FP = std::tuple<WeatherParameter, WeatherParameter, WeatherParameter, fractile_id>;
+  const std::array<FP, 7> levels = {{
+      {NormalMinTemperatureF02, NormalMeanTemperatureF02, NormalMaxTemperatureF02, FRACTILE_02},
+      {NormalMinTemperatureF12, NormalMeanTemperatureF12, NormalMaxTemperatureF12, FRACTILE_12},
+      {NormalMinTemperatureF37, NormalMeanTemperatureF37, NormalMaxTemperatureF37, FRACTILE_37},
+      {NormalMinTemperatureF50, NormalMeanTemperatureF50, NormalMaxTemperatureF50, FRACTILE_50},
+      {NormalMinTemperatureF63, NormalMeanTemperatureF63, NormalMaxTemperatureF63, FRACTILE_63},
+      {NormalMinTemperatureF88, NormalMeanTemperatureF88, NormalMaxTemperatureF88, FRACTILE_88},
+      {NormalMinTemperatureF98, NormalMeanTemperatureF98, NormalMaxTemperatureF98, FRACTILE_98},
+  }};
 
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF02
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF02
-                                                               : NormalMaxTemperatureF02)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_02;
-
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF12
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF12
-                                                               : NormalMaxTemperatureF12)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_12;
-
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF37
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF37
-                                                               : NormalMaxTemperatureF37)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_37;
-
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF50
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF50
-                                                               : NormalMaxTemperatureF50)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_50;
-
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF63
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF63
-                                                               : NormalMaxTemperatureF63)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_63;
-
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF88
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF88
-                                                               : NormalMaxTemperatureF88)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_88;
-
-  result = gc.analyze(theVar,
-                      theSources,
-                      (theFractileType == MIN_FRACTILE
-                           ? NormalMinTemperatureF98
-                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF98
-                                                               : NormalMaxTemperatureF98)),
-                      Mean,
-                      Mean,
-                      theArea,
-                      climatePeriod);
-
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return FRACTILE_98;
-  if (result.value() != kFloatMissing)
+  WeatherResult lastResult(kFloatMissing, 0.0);
+  for (const auto& lv : levels)
+  {
+    WeatherParameter param = fractile_weather_parameter(
+        theFractileType, std::get<0>(lv), std::get<1>(lv), std::get<2>(lv));
+    lastResult = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
+    if (lastResult.value() != kFloatMissing && theTemperature <= lastResult.value())
+      return std::get<3>(lv);
+  }
+  if (lastResult.value() != kFloatMissing)
     return FRACTILE_100;
   return FRACTILE_UNDEFINED;
 }
@@ -764,6 +720,35 @@ fractile_id get_fractile(const std::string& theVar,
  *
  */
 // ----------------------------------------------------------------------
+namespace
+{
+// Lookup table mapping fractile_id -> (minParam, meanParam, maxParam)
+using FractileParams = std::tuple<WeatherParameter, WeatherParameter, WeatherParameter>;
+const std::map<fractile_id, FractileParams>& fractile_param_map()
+{
+  static const std::map<fractile_id, FractileParams> table = {
+      {FRACTILE_02, {NormalMinTemperatureF02, NormalMeanTemperatureF02, NormalMaxTemperatureF02}},
+      {FRACTILE_12, {NormalMinTemperatureF12, NormalMeanTemperatureF12, NormalMaxTemperatureF12}},
+      {FRACTILE_37, {NormalMinTemperatureF37, NormalMeanTemperatureF37, NormalMaxTemperatureF37}},
+      {FRACTILE_50, {NormalMinTemperatureF50, NormalMeanTemperatureF50, NormalMaxTemperatureF50}},
+      {FRACTILE_63, {NormalMinTemperatureF63, NormalMeanTemperatureF63, NormalMaxTemperatureF63}},
+      {FRACTILE_88, {NormalMinTemperatureF88, NormalMeanTemperatureF88, NormalMaxTemperatureF88}},
+      {FRACTILE_98, {NormalMinTemperatureF98, NormalMeanTemperatureF98, NormalMaxTemperatureF98}},
+  };
+  return table;
+}
+
+// Lookup table mapping fractile_id -> fake variable suffix
+const std::map<fractile_id, std::string>& fractile_fake_suffix_map()
+{
+  static const std::map<fractile_id, std::string> table = {
+      {FRACTILE_02, "F02"}, {FRACTILE_12, "F12"}, {FRACTILE_37, "F37"}, {FRACTILE_50, "F50"},
+      {FRACTILE_63, "F63"}, {FRACTILE_88, "F88"}, {FRACTILE_98, "F98"},
+  };
+  return table;
+}
+}  // namespace
+
 WeatherResult get_fractile_temperature(const std::string& theVar,
                                        const fractile_id& theFractileId,
                                        const AnalysisSources& theSources,
@@ -777,101 +762,27 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
   // fake variables are just for rough testing purposes
   if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
   {
-    if (theFractileId == FRACTILE_02)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F02")),
-          0};
-    if (theFractileId == FRACTILE_12)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F12")),
-          0};
-    if (theFractileId == FRACTILE_37)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F37")),
-          0};
-    if (theFractileId == FRACTILE_50)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F50")),
-          0};
-    if (theFractileId == FRACTILE_63)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F63")),
-          0};
-    if (theFractileId == FRACTILE_88)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F88")),
-          0};
-    if (theFractileId == FRACTILE_98)
-      return {
-          static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::F98")),
-          0};
-    return {kFloatMissing, 0};
+    const auto& suffixMap = fractile_fake_suffix_map();
+    auto it = suffixMap.find(theFractileId);
+    if (it == suffixMap.end())
+      return {kFloatMissing, 0};
+    return {fake_fractile_value(theVar, seasonStr, it->second), 0};
   }
 
   std::string dataName("textgen::fractiles");
-
   WeatherPeriod climatePeriod =
       ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
-
   GridClimatology gc;
-
   WeatherResult result(kFloatMissing, 0.0);
 
-  // Initialize with a value (Fog) that can not be returned here
-  WeatherParameter theWeatherParameter = Fog;
+  const auto& paramMap = fractile_param_map();
+  auto it = paramMap.find(theFractileId);
+  if (it == paramMap.end())
+    return result;
 
-  switch (theFractileId)
-  {
-    case FRACTILE_02:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF02
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF02
-                                                                     : NormalMaxTemperatureF02));
-      break;
-    case FRACTILE_12:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF12
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF12
-                                                                     : NormalMaxTemperatureF12));
-      break;
-    case FRACTILE_37:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF37
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF37
-                                                                     : NormalMaxTemperatureF37));
-      break;
-    case FRACTILE_50:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF50
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF50
-                                                                     : NormalMaxTemperatureF50));
-      break;
-    case FRACTILE_63:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF63
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF63
-                                                                     : NormalMaxTemperatureF63));
-      break;
-    case FRACTILE_88:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF88
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF88
-                                                                     : NormalMaxTemperatureF88));
-      break;
-    case FRACTILE_98:
-      theWeatherParameter = (theFractileType == MIN_FRACTILE
-                                 ? NormalMinTemperatureF98
-                                 : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF98
-                                                                     : NormalMaxTemperatureF98));
-      break;
-    default:
-      break;
-  }
-
-  if (theWeatherParameter != Fog)
-    result =
-        gc.analyze(theVar, theSources, theWeatherParameter, Mean, Mean, theArea, climatePeriod);
-
+  WeatherParameter param = fractile_weather_parameter(
+      theFractileType, std::get<0>(it->second), std::get<1>(it->second), std::get<2>(it->second));
+  result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
   return result;
 }
 

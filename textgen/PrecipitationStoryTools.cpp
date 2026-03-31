@@ -71,6 +71,109 @@ RainType raintype(bool water, bool sleet, bool snow)
 {
   return RainType(snow << 2 | sleet << 1 | water);
 }
+
+// Build WATER rain phrase based on strength and shower flag
+Sentence water_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit)
+{
+  Sentence s;
+  if (has_showers)
+  {
+    if (strength < weak_limit)
+      s << "vahaisia kuuroja";
+    else if (strength >= hard_limit)
+      s << "voimakkaita kuuroja";
+    else
+      s << "sadetta";  // "sadekuuroja" prompti puuttuu!
+  }
+  else
+  {
+    if (strength < weak_limit)
+      s << "heikkoa sadetta";
+    else if (strength >= hard_limit)
+      s << "runsasta sadetta";
+    else
+      s << "sadetta";
+  }
+  return s;
+}
+
+// Build SNOW rain phrase based on strength and shower flag
+Sentence snow_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit)
+{
+  Sentence s;
+  if (has_showers)
+  {
+    if (strength >= hard_limit)
+      s << "sakeita lumikuuroja";
+    else
+      s << "lumikuuroja";
+  }
+  else
+  {
+    if (strength < weak_limit)
+      s << "vahaista lumisadetta";
+    else if (strength >= hard_limit)
+      s << "sakeaa lumisadetta";
+    else
+      s << "lumisadetta";
+  }
+  return s;
+}
+
+// Build SNOW_WATER or SNOW_SLEET_WATER phrase
+Sentence snow_water_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit,
+                                double water_val, double snow_val)
+{
+  Sentence s;
+  if (has_showers)
+  {
+    if (strength >= hard_limit)
+      s << "voimakkaita kuuroja" << "tai" << "sakeita lumikuuroja";
+    else
+      s << "vesi-" << "tai" << "lumikuuroja";
+  }
+  else
+  {
+    if (strength < weak_limit)
+      s << "heikkoa";
+    else if (strength >= hard_limit)
+      s << "kovaa";
+    if (water_val >= snow_val)
+      s << "vesi-" << "tai" << "lumisadetta";
+    else
+      s << "lumi-" << "tai" << "vesisadetta";
+  }
+  return s;
+}
+
+// Build SNOW_SLEET phrase
+Sentence snow_sleet_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit,
+                                double snow_val, double sleet_val)
+{
+  Sentence s;
+  if (has_showers)
+  {
+    if (strength >= hard_limit)
+      s << "sakeita lumikuuroja" << "tai" << "rantasadetta";
+    else
+      s << "ranta-" << "tai" << "lumikuuroja";
+  }
+  else
+  {
+    if (strength < weak_limit)
+      s << "vahaista lumisadetta" << "tai" << "rantasadetta";
+    else if (strength >= hard_limit)
+      s << "sakeaa lumisadetta" << "tai" << "rantasadetta";
+    else
+    {
+      if (snow_val >= sleet_val)
+        s << "lumi-" << "tai" << "rantasadetta";
+      else
+        s << "ranta-" << "tai" << "lumisadetta";
+    }
+  }
+  return s;
+}
 }  // namespace
 
 namespace PrecipitationStoryTools
@@ -304,161 +407,43 @@ Sentence type_phrase(const AnalysisSources& theSources,
 
   const bool has_showers = (showers.value() != kFloatMissing && showers.value() >= shower_limit);
 
-  switch (raintype(has_water, has_sleet, has_snow))
+  const RainType rt = raintype(has_water, has_sleet, has_snow);
+  switch (rt)
   {
     case NONE:
-    {
       log << "Rain type is NONE\n";
       sentence << "sadetta";
       break;
-    }
     case WATER:
-    {
       log << "Rain type is WATER\n";
-      if (has_showers)
-      {
-        if (strength.value() < weak_limit)
-          sentence << "vahaisia kuuroja";
-        else if (strength.value() >= hard_limit)
-          sentence << "voimakkaita kuuroja";
-        else
-          sentence << "sadetta";  // "sadekuuroja" prompti puuttuu!
-      }
-      else
-      {
-        if (strength.value() < weak_limit)
-          sentence << "heikkoa sadetta";
-        else if (strength.value() >= hard_limit)
-          sentence << "runsasta sadetta";
-        else
-          sentence << "sadetta";
-      }
+      sentence << water_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit);
       break;
-    }
     case SLEET:
-    {
       log << "Rain type is SLEET\n";
       sentence << "rantasadetta";
       break;
-    }
     case WATER_SLEET:
-    {
       log << "Rain type is WATER_SLEET\n";
       if (water.value() >= sleet.value())
-        sentence << "vesi-"
-                 << "tai"
-                 << "rantasadetta";
+        sentence << "vesi-" << "tai" << "rantasadetta";
       else
-        sentence << "ranta-"
-                 << "tai"
-                 << "vesisadetta";
+        sentence << "ranta-" << "tai" << "vesisadetta";
       break;
-    }
     case SNOW:
-    {
       log << "Rain type is SNOW\n";
-      if (has_showers)
-      {
-        if (strength.value() >= hard_limit)
-          sentence << "sakeita lumikuuroja";
-        // else if (strength.value() < weak_limit)
-        // sentence << "lumikuuroja";  // Sopiva prompti "vahaisia lumikuuroja" puuttuu!
-        else
-          sentence << "lumikuuroja";
-      }
-      else
-      {
-        if (strength.value() < weak_limit)
-          sentence << "vahaista lumisadetta";
-        else if (strength.value() >= hard_limit)
-          sentence << "sakeaa lumisadetta";
-        else
-          sentence << "lumisadetta";
-      }
+      sentence << snow_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit);
       break;
-    }
     case SNOW_WATER:
     case SNOW_SLEET_WATER:
-    {
-      if (raintype(has_water, has_sleet, has_snow) == SNOW_WATER)
-        log << "Rain type is SNOW_WATER\n";
-      else
-        log << "Rain type is SNOW_SLEET_WATER\n";
-
-      if (has_showers)
-      {
-        if (strength.value() >= hard_limit)
-          sentence << "voimakkaita kuuroja"
-                   << "tai"
-                   << "sakeita lumikuuroja";
-        // else if (strength.value() < weak_limit)
-        //    sentence << "vesi-"
-        //             << "tai"
-        //             << "lumikuuroja";
-        else
-          sentence << "vesi-"
-                   << "tai"
-                   << "lumikuuroja";
-      }
-      else
-      {
-        if (strength.value() < weak_limit)
-          sentence << "heikkoa";
-        else if (strength.value() >= hard_limit)
-          sentence << "kovaa";
-        if (water.value() >= snow.value())
-          sentence << "vesi-"
-                   << "tai"
-                   << "lumisadetta";
-        else
-          sentence << "lumi-"
-                   << "tai"
-                   << "vesisadetta";
-      }
+      log << (rt == SNOW_WATER ? "Rain type is SNOW_WATER\n" : "Rain type is SNOW_SLEET_WATER\n");
+      sentence << snow_water_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit,
+                                        water.value(), snow.value());
       break;
-    }
     case SNOW_SLEET:
-    {
       log << "Rain type is SNOW_SLEET\n";
-      if (has_showers)
-      {
-        if (strength.value() >= hard_limit)
-          sentence << "sakeita lumikuuroja"
-                   << "tai"
-                   << "rantasadetta";
-        // else if (strength.value() < weak_limit)
-        //    sentence << "ranta-"
-        //             << "tai"
-        //             << "lumikuuroja";
-        else
-          sentence << "ranta-"
-                   << "tai"
-                   << "lumikuuroja";
-      }
-      else
-      {
-        if (strength.value() < weak_limit)
-          sentence << "vahaista lumisadetta"
-                   << "tai"
-                   << "rantasadetta";
-        else if (strength.value() >= hard_limit)
-          sentence << "sakeaa lumisadetta"
-                   << "tai"
-                   << "rantasadetta";
-        else
-        {
-          if (snow.value() >= sleet.value())
-            sentence << "lumi-"
-                     << "tai"
-                     << "rantasadetta";
-          else
-            sentence << "ranta-"
-                     << "tai"
-                     << "lumisadetta";
-        }
-      }
+      sentence << snow_sleet_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit,
+                                        snow.value(), sleet.value());
       break;
-    }
   }
 
   log << sentence;

@@ -215,31 +215,62 @@ if (i > 0 &&
   return paragraph;
 }
 
-Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
+void WeatherForecastStory::collectPrecipitationSeaStoryItem(unsigned int i,
+                                                            SeaStoryItems& storyItems)
 {
-  theLogger << "Start processing weather forcast at sea\n";
+  WeatherForecastStoryItem* item = theStoryItemVector[i].get();
+  auto* precipitationStoryItem = static_cast<PrecipitationForecastStoryItem*>(item);
+  bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
+                      precipitationStoryItem->theForm & SNOW_FORM);
+  bool weakPrecipitation = precipitationStoryItem->isWeakPrecipitation(theParameters);
+  float precipitationExtent = precipitationStoryItem->precipitationExtent();
+  WeatherPeriod precipitationPeriod = precipitationStoryItem->getStoryItemPeriod();
 
-  thePrecipitationForecast.setUseIcingPhraseFlag(false);
-  thePeriodPhraseGenerator.reset();
+  theLogger << "Precipitation period (At Sea): " << as_string(precipitationPeriod) << ": "
+            << (weakPrecipitation ? "weak!!, " : "not weak, ")
+            << " extent: " << precipitationExtent << (sleetOrSnow ? ", sleet or snow" : "")
+            << '\n';
 
-  Paragraph paragraph;
-  std::vector<Sentence> weatherForecastSentences;
+  if (!(sleetOrSnow || !weakPrecipitation) || precipitationExtent <= 10)
+    return;
 
-  unsigned int forecastPeriodLength = get_period_length(theForecastPeriod);
-  unsigned int precipitationPeriodLength = 0;
-  unsigned int precipitationAndFogPeriodLength = 0;
-  bool inManyPlaces = false;
-  bool badVisibility = false;
-  unsigned int badVisibilityPeriodLength = 0;
-  unsigned int badVisibilityPeriodLengthWater = 0;
-  bool snowPrecipitationFormInvolved = false;
+  if (storyItems.empty())
+  {
+    storyItems.emplace_back(item->theStoryPartId, i);
+    return;
+  }
 
-  thePrecipitationForecast.setDryPeriodTautologyFlag(false);
-  theShortTimePrecipitationReportedFlag = false;
-  theCloudinessReportedFlag = false;
-  theStorySize = 0;
+  WeatherForecastStoryItem* previousItem = theStoryItemVector[storyItems.back().second].get();
+  if (previousItem->theStoryPartId != PRECIPITATION_STORY_PART ||
+      precipitationStoryItem->theStoryPartId != PRECIPITATION_STORY_PART)
+  {
+    storyItems.emplace_back(item->theStoryPartId, i);
+    return;
+  }
 
-  std::vector<std::pair<story_part_id, unsigned int>> storyItems;
+  auto* previousPr = static_cast<PrecipitationForecastStoryItem*>(previousItem);
+  bool canMerge = previousPr->precipitationExtent() >= IN_SOME_PLACES_LOWER_LIMIT &&
+                  previousPr->precipitationExtent() <= IN_MANY_PLACES_UPPER_LIMIT &&
+                  precipitationExtent >= IN_SOME_PLACES_LOWER_LIMIT &&
+                  precipitationExtent <= IN_MANY_PLACES_UPPER_LIMIT &&
+                  precipitationPeriod.localStartTime().DifferenceInHours(
+                      previousPr->getStoryItemPeriod().localEndTime()) <= 2;
+  if (canMerge)
+  {
+    theLogger << "Merging periods  " << as_string(previousPr->getStoryItemPeriod()) << " and "
+              << as_string(precipitationPeriod) << " because they are close to each other\n";
+    previousPr->thePeriod = WeatherPeriod(previousPr->getStoryItemPeriod().localStartTime(),
+                                          precipitationPeriod.localEndTime());
+  }
+  else
+  {
+    storyItems.emplace_back(item->theStoryPartId, i);
+  }
+}
+
+WeatherForecastStory::SeaStoryItems WeatherForecastStory::collectSeaStoryItems()
+{
+  SeaStoryItems storyItems;
 
   for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
   {
@@ -249,379 +280,321 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
 
     Sentence storyItemSentence;
     storyItemSentence << item->getSentence();
-
     if (storyItemSentence.empty())
       continue;
 
-    // report only precipitation
     if (item->theStoryPartId == PRECIPITATION_STORY_PART ||
         item->theStoryPartId == PRECIPITATION_TYPE_CHANGE_STORY_PART)
     {
       theLogger << "Precipitation story item: " << as_string(item->getStoryItemPeriod()) << '\n';
-
-      auto* precipitationStoryItem = static_cast<PrecipitationForecastStoryItem*>(item);
-
-      bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
-                          precipitationStoryItem->theForm & SNOW_FORM);
-
-      bool weakPrecipitation = precipitationStoryItem->isWeakPrecipitation(theParameters);
-      float precipitationExtent = precipitationStoryItem->precipitationExtent();
-      WeatherPeriod precipitationPeriod = precipitationStoryItem->getStoryItemPeriod();
-
-      theLogger << "Precipitation period (At Sea): " << as_string(precipitationPeriod) << ": "
-                << (weakPrecipitation ? "weak!!, " : "not weak, ")
-                << " extent: " << precipitationExtent << (sleetOrSnow ? ", sleet or snow" : "")
-                << '\n';
-
-      // if precipitation form is sleet or snow, report it even if it is weak
-      // and extent of precipitation area must be over 10 %
-      if ((sleetOrSnow || !weakPrecipitation) && precipitationExtent > 10)
-      {
-        bool mergeDone = false;
-        if (!storyItems.empty())
-        {
-          WeatherForecastStoryItem* previousItem =
-              theStoryItemVector[storyItems.back().second].get();
-          if (previousItem->theStoryPartId == PRECIPITATION_STORY_PART &&
-              precipitationStoryItem->theStoryPartId == PRECIPITATION_STORY_PART)
-          {
-            auto* previousPrecipitationStoryItem =
-                static_cast<PrecipitationForecastStoryItem*>(previousItem);
-            if (previousPrecipitationStoryItem->precipitationExtent() >=
-                    IN_SOME_PLACES_LOWER_LIMIT &&
-                previousPrecipitationStoryItem->precipitationExtent() <=
-                    IN_MANY_PLACES_UPPER_LIMIT &&
-                precipitationExtent >= IN_SOME_PLACES_LOWER_LIMIT &&
-                precipitationExtent <= IN_MANY_PLACES_UPPER_LIMIT &&
-                precipitationPeriod.localStartTime().DifferenceInHours(
-                    previousPrecipitationStoryItem->getStoryItemPeriod().localEndTime()) <= 2)
-            {
-              theLogger << "Merging periods  "
-                        << as_string(previousPrecipitationStoryItem->getStoryItemPeriod())
-                        << " and " << as_string(precipitationPeriod)
-                        << " because they are close to each other\n";
-              const auto startTime =
-                  previousPrecipitationStoryItem->getStoryItemPeriod().localStartTime();
-              const auto& endTime = precipitationPeriod.localEndTime();
-              previousPrecipitationStoryItem->thePeriod = WeatherPeriod(startTime, endTime);
-              mergeDone = true;
-            }
-          }
-        }
-        if (!mergeDone)
-          storyItems.emplace_back(item->theStoryPartId, i);
-      }
+      collectPrecipitationSeaStoryItem(i, storyItems);
     }
-
-    // possible fog sentence after
-    if (item->theStoryPartId == CLOUDINESS_STORY_PART)
+    else if (item->theStoryPartId == CLOUDINESS_STORY_PART)
     {
       theLogger << "Cloudiness story item: " << as_string(item->getStoryItemPeriod()) << '\n';
-      FogInfo fogInfo = theFogForecast.fogInfo(item->getStoryItemPeriod());
-
       auto* cloudinessStoryItem = static_cast<CloudinessForecastStoryItem*>(item);
-
       FogInfo fi = theFogForecast.fogInfo(item->getStoryItemPeriod());
-
-      // if (storyItems.size() > 0)
       if (fi.id != NO_FOG)
-      {
         storyItems.emplace_back(cloudinessStoryItem->theStoryPartId, i);
-      }
     }
   }
+
+  return storyItems;
+}
+
+void WeatherForecastStory::mergeSuccessiveSeaPrecipitationPeriods(SeaStoryItems& storyItems)
+{
+  if (storyItems.size() <= 1)
+    return;
+
+  unsigned int firstIndex = 0;
+  for (unsigned int i = 1; i < storyItems.size(); i++)
+  {
+    if (storyItems[firstIndex].first != CLOUDINESS_STORY_PART &&
+        storyItems[i].first != CLOUDINESS_STORY_PART)
+    {
+      auto* previousItem = static_cast<PrecipitationForecastStoryItem*>(
+          theStoryItemVector[storyItems[firstIndex].second].get());
+      auto* currentItem = static_cast<PrecipitationForecastStoryItem*>(
+          theStoryItemVector[storyItems[i].second].get());
+      if (previousItem->theType == currentItem->theType &&
+          previousItem->theForm == currentItem->theForm)
+      {
+        storyItems[i].first = MISSING_STORY_PART;
+        float prevLen = get_period_length(previousItem->getStoryItemPeriod());
+        float currLen = get_period_length(currentItem->getStoryItemPeriod());
+        previousItem->getStoryItemPeriod() =
+            WeatherPeriod(previousItem->getStoryItemPeriod().localStartTime(),
+                          currentItem->getStoryItemPeriod().localEndTime());
+        previousItem->theIntensity =
+            ((previousItem->theIntensity * prevLen) + (currentItem->theIntensity * currLen)) /
+            (prevLen + currLen);
+        previousItem->theExtent =
+            ((previousItem->theExtent * prevLen) + (currentItem->theExtent * currLen)) /
+            (prevLen + currLen);
+      }
+    }
+    else
+      firstIndex = i;
+  }
+}
+
+void WeatherForecastStory::processMergedFogItems(WeatherForecastStoryItem* first,
+                                                  WeatherForecastStoryItem* second,
+                                                  std::vector<Sentence>& sentences,
+                                                  SeaStoryStats& stats)
+{
+  FogInfo firstFI = theFogForecast.fogInfo(first->getStoryItemPeriod());
+  FogInfo secondFI = theFogForecast.fogInfo(second->getStoryItemPeriod());
+
+  Sentence fogSentence;
+  if (!firstFI.sentence.empty() && !secondFI.sentence.empty())
+    fogSentence << firstFI.timePhrase << "ja" << secondFI.timePhrase
+                << (get_period_length(firstFI.period) > get_period_length(secondFI.period)
+                        ? firstFI.sentence
+                        : secondFI.sentence);
+  else if (!firstFI.sentence.empty())
+    fogSentence << firstFI.timePhrase << firstFI.sentence;
+  else if (!secondFI.sentence.empty())
+    fogSentence << secondFI.timePhrase << secondFI.sentence;
+
+  if (!fogSentence.empty())
+  {
+    sentences.push_back(fogSentence);
+    theStorySize += fogSentence.size();
+    if (!firstFI.sentence.empty() && !secondFI.sentence.empty())
+      theLogger << "Fog periods: " << as_string(firstFI.period) << " and "
+                << as_string(secondFI.period) << " -> " << as_string(fogSentence) << '\n';
+    else if (!firstFI.sentence.empty())
+      theLogger << "Fog period (first): " << as_string(firstFI.period) << " -> "
+                << as_string(fogSentence) << '\n';
+    else if (!secondFI.sentence.empty())
+      theLogger << "Fog period (second): " << as_string(secondFI.period) << " -> "
+                << as_string(fogSentence) << '\n';
+  }
+
+  if (firstFI.id == FOG || firstFI.id == FOG_POSSIBLY_DENSE)
+    stats.precipitationAndFogPeriodLength += get_period_length(first->thePeriod);
+  if (secondFI.id == FOG || secondFI.id == FOG_POSSIBLY_DENSE)
+    stats.precipitationAndFogPeriodLength += get_period_length(second->thePeriod);
+}
+
+void WeatherForecastStory::processSingleFogItem(WeatherForecastStoryItem* item,
+                                                std::vector<Sentence>& sentences,
+                                                SeaStoryStats& stats)
+{
+  FogInfo fi = theFogForecast.fogInfo(item->thePeriod);
+  Sentence fogSentence;
+  fogSentence << fi.timePhrase << fi.sentence;
+  if (!fogSentence.empty())
+  {
+    sentences.push_back(fogSentence);
+    theLogger << "Fog period: " << as_string(fi.period) << " -> " << as_string(fogSentence)
+              << '\n';
+    theStorySize += fogSentence.size();
+    if (fi.id == FOG || fi.id == FOG_POSSIBLY_DENSE)
+      stats.precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
+  }
+}
+
+void WeatherForecastStory::processFogItem(unsigned int i,
+                                          const SeaStoryItems& storyItems,
+                                          WeatherForecastStoryItem*& previousCloudinessPeriod,
+                                          std::vector<Sentence>& sentences,
+                                          SeaStoryStats& stats)
+{
+  WeatherForecastStoryItem* item = theStoryItemVector[storyItems[i].second].get();
+
+  // accumulate successive fog items
+  if (i < storyItems.size() - 1 && storyItems[i + 1].first == CLOUDINESS_STORY_PART)
+  {
+    FogInfo fogInfo = theFogForecast.fogInfo(item->getStoryItemPeriod());
+    if (fogInfo.id != NO_FOG && !previousCloudinessPeriod)
+      previousCloudinessPeriod = item;
+    return;
+  }
+
+  if (previousCloudinessPeriod)
+    processMergedFogItems(previousCloudinessPeriod, item, sentences, stats);
+  else
+    processSingleFogItem(item, sentences, stats);
+
+  previousCloudinessPeriod = nullptr;
+}
+
+void WeatherForecastStory::processPrecipitationItem(WeatherForecastStoryItem* item,
+                                                    std::vector<Sentence>& sentences,
+                                                    SeaStoryStats& stats)
+{
+  auto* precipitationItem = static_cast<PrecipitationForecastStoryItem*>(item);
+  float precipitationExtent = precipitationItem->precipitationExtent();
+
+  if (precipitationExtent <= 10)
+  {
+    theLogger << "Precipitation extent at period " << as_string(precipitationItem->thePeriod)
+              << " is less than 10% (" << precipitationExtent << ") -> dont report" << '\n';
+    return;
+  }
+
+  bool weakPrecipitation = precipitationItem->isWeakPrecipitation(theParameters);
+
+  if (!weakPrecipitation)
+  {
+    unsigned int moderatePrecipitationHours = thePrecipitationForecast.getPrecipitationHours(
+        MODERATE_PRECIPITATION, precipitationItem->thePeriod);
+    unsigned int heavyPrecipitationHours = thePrecipitationForecast.getPrecipitationHours(
+        HEAVY_PRECIPITATION, precipitationItem->thePeriod);
+    unsigned int preciptationForm = precipitationItem->precipitationForm();
+
+    if (((preciptationForm & SNOW_FORM) || (preciptationForm & SLEET_FORM) ||
+         (preciptationForm & FREEZING_FORM)) &&
+        precipitationExtent >= theParameters.theInManyPlacesLowerLimit)
+    {
+      // sateen olomuoto = LUMI, räntä, jäätävä, sateen tyyppi kuuro tai jatkuva (eli kaikki) ja
+      // sateen intensiteetti > heikko ainakin 3 tuntia laajuus > ja monin paikoin
+      stats.badVisibilityPeriodLength += (moderatePrecipitationHours + heavyPrecipitationHours);
+      stats.badVisibility = true;
+    }
+    else if (((preciptationForm & WATER_FORM) || (preciptationForm & SLEET_FORM) ||
+              (preciptationForm & DRIZZLE_FORM)) &&
+             precipitationItem->theType == SHOWERS &&
+             precipitationExtent >= theParameters.theInManyPlacesLowerLimit)
+    {
+      // sateen olomuoto = VESI, räntä, tihku, sateen tyyppi KUURO ja sateen intensiteetti >=
+      // rankka ainakin kolme tuntia ja laajuus > monin paikoin
+      // Elokuussa 2017 Kiira-myrskyn jälkeen päätettiin, että wesisateella ei raportoida huonoa
+      // näkyvyyttä
+      //          stats.badVisibilityPeriodLengthWater += heavyPrecipitationHours;
+      //          stats.badVisibility = true;
+    }
+  }
+
+  Sentence precipitationSentence;
+  precipitationSentence << precipitationItem->getSentence();
+  theStorySize += precipitationSentence.size();
+  theLogger << "Precipitation story item: "
+            << as_string(precipitationItem->getStoryItemPeriod())
+            << (precipitationSentence.empty() ? ", empty sentence" : " not empty sentence")
+            << ", "
+            << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
+                                                     : "poutaantuu = false")
+            << '\n';
+
+  if (!precipitationSentence.empty() || precipitationItem->thePoutaantuuFlag)
+  {
+    sentences.push_back(precipitationSentence);
+    if (!stats.inManyPlaces)
+      stats.inManyPlaces = (precipitationExtent > theParameters.theInManyPlacesLowerLimit &&
+                            precipitationExtent <= theParameters.theInManyPlacesUpperLimit);
+    if (precipitationItem->theType == CONTINUOUS &&
+        precipitationExtent >= IN_MANY_PLACES_UPPER_LIMIT)
+      stats.precipitationAndFogPeriodLength += get_period_length(precipitationItem->thePeriod);
+    stats.precipitationPeriodLength += get_period_length(precipitationItem->thePeriod);
+    stats.snowPrecipitationFormInvolved = (precipitationItem->precipitationForm() & SNOW_FORM);
+    theLogger << "Precipitation period: " << as_string(precipitationItem->thePeriod) << " -> "
+              << as_string(precipitationSentence) << '\n';
+  }
+}
+
+void WeatherForecastStory::appendVisibilitySentence(std::vector<Sentence>& sentences,
+                                                    const SeaStoryStats& stats)
+{
+  if (sentences.empty())
+  {
+    Sentence s;
+    s << HYVA_NAKYVYYS_PHRASE;
+    sentences.push_back(s);
+    return;
+  }
+
+  if (theParameters.theShortTextModeFlag || stats.precipitationPeriodLength == 0)
+    return;
+
+  float precipitationPeriodShare = static_cast<float>(stats.precipitationPeriodLength) /
+                                   static_cast<float>(stats.forecastPeriodLength);
+  float heavyRainPeriodShare = static_cast<float>(stats.badVisibilityPeriodLengthWater) /
+                               static_cast<float>(stats.forecastPeriodLength);
+
+  if (stats.badVisibility && precipitationPeriodShare > 0.50 &&
+      (stats.badVisibilityPeriodLength >= 3 || heavyRainPeriodShare > 0.50))
+  {
+    Sentence s;
+    s << HUONO_NAKYVYYS_PHRASE;
+    sentences.push_back(s);
+  }
+  else if (precipitationPeriodShare <= 0.50 && !stats.inManyPlaces)
+  {
+    sentences.back() << Delimiter(COMMA_PUNCTUATION_MARK) << ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE;
+  }
+  else if (!stats.snowPrecipitationFormInvolved &&
+           (static_cast<float>(stats.precipitationAndFogPeriodLength) <
+                static_cast<float>(stats.forecastPeriodLength) ||
+            stats.inManyPlaces))
+  {
+    sentences.back() << Delimiter(COMMA_PUNCTUATION_MARK) << MUUTEN_HYVA_NAKYVYYS_PHRASE;
+  }
+}
+
+Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
+{
+  theLogger << "Start processing weather forcast at sea\n";
+
+  thePrecipitationForecast.setUseIcingPhraseFlag(false);
+  thePeriodPhraseGenerator.reset();
+  thePrecipitationForecast.setDryPeriodTautologyFlag(false);
+  theShortTimePrecipitationReportedFlag = false;
+  theCloudinessReportedFlag = false;
+  theStorySize = 0;
+
+  SeaStoryStats stats;
+  stats.forecastPeriodLength = get_period_length(theForecastPeriod);
+
+  SeaStoryItems storyItems = collectSeaStoryItems();
 
   // if precipitation/fog lasts whole period
   if (!storyItems.empty())
   {
     WeatherForecastStoryItem* firstItemOfForecast = theStoryItemVector[0].get();
     WeatherForecastStoryItem* firstItemOfStory = theStoryItemVector[storyItems[0].second].get();
-    // theStorySize is set in order to obtain time phrase for the first sentence
-    // even if it does not start from the beginning of forecast period
     if (firstItemOfStory->getStoryItemPeriod().localStartTime() >
         firstItemOfForecast->getStoryItemPeriod().localStartTime())
       theStorySize += 1;
   }
 
-  // if the successive periods of precipitation have
-  // same type, form and extent report them together
-  if (storyItems.size() > 1)
-  {
-    unsigned int firstIndex = 0;
-    for (unsigned int i = 1; i < storyItems.size(); i++)
-    {
-      if (storyItems[firstIndex].first != CLOUDINESS_STORY_PART &&
-          storyItems[i].first != CLOUDINESS_STORY_PART)
-      {
-        // successive precipitation periods
-        auto* previousItem = static_cast<PrecipitationForecastStoryItem*>(
-            theStoryItemVector[storyItems[firstIndex].second].get());
-        auto* currentItem = static_cast<PrecipitationForecastStoryItem*>(
-            theStoryItemVector[storyItems[i].second].get());
-        if (previousItem->theType == currentItem->theType &&
-            previousItem->theForm == currentItem->theForm)
-        {
-          // mark as missing
-          storyItems[i].first = MISSING_STORY_PART;
-          // merge periods
-          previousItem->getStoryItemPeriod() =
-              WeatherPeriod(previousItem->getStoryItemPeriod().localStartTime(),
-                            currentItem->getStoryItemPeriod().localEndTime());
-          // new the extent and intensity is time weighted average of both periods
-          float previousPeriodLength = get_period_length(previousItem->getStoryItemPeriod());
-          float currentPeriodLength = get_period_length(currentItem->getStoryItemPeriod());
-          previousItem->theIntensity = (((previousItem->theIntensity * previousPeriodLength) +
-                                         (currentItem->theIntensity * currentPeriodLength)) /
-                                        (previousPeriodLength + currentPeriodLength));
-          previousItem->theExtent = (((previousItem->theExtent * previousPeriodLength) +
-                                      (currentItem->theExtent * currentPeriodLength)) /
-                                     (previousPeriodLength + currentPeriodLength));
-        }
-      }
-      else
-        firstIndex = i;
-    }
-  }
+  mergeSuccessiveSeaPrecipitationPeriods(storyItems);
 
+  Paragraph paragraph;
+  std::vector<Sentence> weatherForecastSentences;
   WeatherForecastStoryItem* previousCloudinessPeriod = nullptr;
-  //  int previousStoryItemIndex = -1;
+
   for (unsigned int i = 0; i < storyItems.size(); i++)
   {
     if (storyItems[i].first == MISSING_STORY_PART)
       continue;
-    int currentStoryItemIndex = storyItems[i].second;
-    WeatherForecastStoryItem* item = theStoryItemVector[currentStoryItemIndex].get();
+
+    WeatherForecastStoryItem* item = theStoryItemVector[storyItems[i].second].get();
 
     if (storyItems[i].first == CLOUDINESS_STORY_PART)
-    {
-      // there can possibly be several successive fog sentences -> report them togethermerge them
-      if (i < storyItems.size() - 1 && storyItems[i + 1].first == CLOUDINESS_STORY_PART)
-      {
-        FogInfo fogInfo = theFogForecast.fogInfo(item->getStoryItemPeriod());
-
-        if (fogInfo.id != NO_FOG)
-          if (!previousCloudinessPeriod)
-            previousCloudinessPeriod = item;
-        continue;
-      }
-      // report fog periods together
-      if (previousCloudinessPeriod)
-      {
-        Sentence fogSentence;
-        FogInfo firstFI = theFogForecast.fogInfo(previousCloudinessPeriod->getStoryItemPeriod());
-        FogInfo secondFI = theFogForecast.fogInfo(item->getStoryItemPeriod());
-
-        // take the sentence from longest period
-        if (!firstFI.sentence.empty() && !secondFI.sentence.empty())
-          fogSentence << firstFI.timePhrase << "ja" << secondFI.timePhrase
-                      << (get_period_length(firstFI.period) > get_period_length(secondFI.period)
-                              ? firstFI.sentence
-                              : secondFI.sentence);
-        else if (!firstFI.sentence.empty())
-          fogSentence << firstFI.timePhrase << firstFI.sentence;
-        else if (!secondFI.sentence.empty())
-          fogSentence << secondFI.timePhrase << secondFI.sentence;
-
-        if (!fogSentence.empty())
-        {
-          weatherForecastSentences.push_back(fogSentence);
-          theStorySize += fogSentence.size();
-
-          if (!firstFI.sentence.empty() && !secondFI.sentence.empty())
-            theLogger << "Fog periods: " << as_string(firstFI.period) << " and "
-                      << as_string(secondFI.period) << " -> " << as_string(fogSentence) << '\n';
-          else if (!firstFI.sentence.empty())
-            theLogger << "Fog period (first): " << as_string(firstFI.period) << " -> "
-                      << as_string(fogSentence) << '\n';
-          else if (!secondFI.sentence.empty())
-            theLogger << "Fog period (second): " << as_string(secondFI.period) << " -> "
-                      << as_string(fogSentence) << '\n';
-        }
-
-        if (firstFI.id == FOG || firstFI.id == FOG_POSSIBLY_DENSE)
-          precipitationAndFogPeriodLength += get_period_length(previousCloudinessPeriod->thePeriod);
-        if (secondFI.id == FOG || secondFI.id == FOG_POSSIBLY_DENSE)
-          precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
-      }
-      else
-      {
-        FogInfo fi = theFogForecast.fogInfo(item->thePeriod);
-        Sentence fogSentence;
-        fogSentence << fi.timePhrase << fi.sentence;
-        if (!fogSentence.empty())
-        {
-          weatherForecastSentences.push_back(fogSentence);
-          theLogger << "Fog period: " << as_string(fi.period) << " -> " << as_string(fogSentence)
-                    << '\n';
-          theStorySize += fogSentence.size();
-          // only extensive fog counted here
-          if (fi.id == FOG || fi.id == FOG_POSSIBLY_DENSE)
-            precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
-        }
-      }
-      previousCloudinessPeriod = nullptr;
-    }
+      processFogItem(i, storyItems, previousCloudinessPeriod, weatherForecastSentences, stats);
     else
-    {
-      auto* precipitationItem = static_cast<PrecipitationForecastStoryItem*>(item);
-
-      float precipitationExtent = precipitationItem->precipitationExtent();
-
-      if (precipitationExtent <= 10)
-      {
-        theLogger << "Precipitation extent at period " << as_string(precipitationItem->thePeriod)
-                  << " is less than 10% (" << precipitationExtent << ") -> dont report" << '\n';
-        continue;
-      }
-
-      bool weakPrecipitation = precipitationItem->isWeakPrecipitation(theParameters);
-
-      if (!weakPrecipitation)
-      {
-        unsigned int moderatePrecipitationHours = thePrecipitationForecast.getPrecipitationHours(
-            MODERATE_PRECIPITATION, precipitationItem->thePeriod);
-        unsigned int heavyPrecipitationHours = thePrecipitationForecast.getPrecipitationHours(
-            HEAVY_PRECIPITATION, precipitationItem->thePeriod);
-
-        unsigned int preciptationForm = precipitationItem->precipitationForm();
-
-        if (((preciptationForm & SNOW_FORM) || (preciptationForm & SLEET_FORM) ||
-             (preciptationForm & FREEZING_FORM)) &&
-            precipitationExtent >= theParameters.theInManyPlacesLowerLimit)
-        {
-          // sateen olomuoto = LUMI, räntä, jäätävä, sateen tyyppi kuuro tai jatkuva (eli kaikki) ja
-          // sateen intensiteetti > heikko ainakin 3 tuntia laajuus > ja monin paikoin
-          badVisibilityPeriodLength += (moderatePrecipitationHours + heavyPrecipitationHours);
-          badVisibility = true;
-        }
-        else if (((preciptationForm & WATER_FORM) || (preciptationForm & SLEET_FORM) ||
-                  (preciptationForm & DRIZZLE_FORM)) &&
-                 precipitationItem->theType == SHOWERS &&
-                 precipitationExtent >= theParameters.theInManyPlacesLowerLimit)
-        {
-          // sateen olomuoto = VESI, räntä, tihku, sateen tyyppi KUURO ja sateen intensiteetti >=
-          // rankka ainakin kolme tuntia ja laajuus > monin paikoin
-          // Elokuussa 2017 Kiira-myrskyn jälkeen päätettiin, että wesisateella ei raportoida huonoa
-          // näkyvyyttä
-          //          badVisibilityPeriodLengthWater += heavyPrecipitationHours;
-          //          badVisibility = true;
-        }
-      }
-
-      Sentence precipitationSentence;
-      precipitationSentence << precipitationItem->getSentence();
-      theStorySize += precipitationSentence.size();
-      theLogger << "Precipitation story item: "
-                << as_string(precipitationItem->getStoryItemPeriod())
-                << (precipitationSentence.empty() ? ", empty sentence" : " not empty sentence")
-                << ", "
-                << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
-                                                         : "poutaantuu = false")
-                << '\n';
-
-      if (!precipitationSentence.empty() || precipitationItem->thePoutaantuuFlag)
-      {
-        weatherForecastSentences.push_back(precipitationSentence);
-        if (!inManyPlaces)
-        {
-          inManyPlaces = (precipitationExtent > theParameters.theInManyPlacesLowerLimit &&
-                          precipitationExtent <= theParameters.theInManyPlacesUpperLimit);
-        }
-        // only continuous precipitation with large extent is counted here
-        if (precipitationItem->theType == CONTINUOUS &&
-            precipitationExtent >= IN_MANY_PLACES_UPPER_LIMIT)
-          precipitationAndFogPeriodLength += get_period_length(precipitationItem->thePeriod);
-        precipitationPeriodLength += get_period_length(precipitationItem->thePeriod);
-        snowPrecipitationFormInvolved = (precipitationItem->precipitationForm() & SNOW_FORM);
-        theLogger << "Precipitation period: " << as_string(precipitationItem->thePeriod) << " -> "
-                  << as_string(precipitationSentence) << '\n';
-      }
-    }
-    // reset the today phrase when day changes
-    /*
-if (previousStoryItemIndex > -1 &&
-    theStoryItemVector[previousStoryItemIndex]->thePeriod.localEndTime().GetJulianDay() !=
-        theStoryItemVector[currentStoryItemIndex]->thePeriod.localEndTime().GetJulianDay() &&
-    get_period_length(theForecastPeriod) > 24)
-  const_cast<WeatherHistory&>(theWeatherArea.history())
-      .updateTimePhrase("", "", TextGenPosixTime(1970, 1, 1));
-    */
-
-    //    previousStoryItemIndex = currentStoryItemIndex;
-  }
-#ifdef LATER
-  // turha?: jos ei yksittäisiä sade/sumuperiodeja, ei reportoida koko ennustejaksoa kerralla
-  if (weatherForecastSentences.empty())
-  {
-    if (!thePrecipitationForecast.isDryPeriod(theForecastPeriod, theParameters.theForecastArea))
-
-    {
-      Sentence precipitationSentence;
-      Sentence periodPhrase;
-      std::vector<std::pair<WeatherPeriod, Sentence>> theAdditionalSentences;
-      precipitationSentence << thePrecipitationForecast.precipitationSentence(
-          theForecastPeriod, periodPhrase, theAdditionalSentences);
-
-      if (!precipitationSentence.empty())
-      {
-        weatherForecastSentences.push_back(precipitationSentence);
-        theStorySize += precipitationSentence.size();
-      }
-    }
-  }
-#endif
-
-  Sentence visibilitySentence;
-  if (weatherForecastSentences.empty())
-  {
-    visibilitySentence << HYVA_NAKYVYYS_PHRASE;
-  }
-  else if (!theParameters.theShortTextModeFlag && precipitationPeriodLength != 0)
-  {
-    float precipitationPeriodShare =
-        (static_cast<float>(precipitationPeriodLength) / static_cast<float>(forecastPeriodLength));
-
-    float heavyRainPeriodShare = (static_cast<float>(badVisibilityPeriodLengthWater) /
-                                  static_cast<float>(forecastPeriodLength));
-
-    // sateen kesto > 50 % jakson pituudesta, huono näkyvyys vähintään 3h (lumi, räntä jäätävä)
-    // tai yli 50% (vesi, räntä, tihku)
-    if (badVisibility && precipitationPeriodShare > 0.50 &&
-        (badVisibilityPeriodLength >= 3 || heavyRainPeriodShare > 0.50))
-    {
-      Sentence badVisibilitySentence;
-      badVisibilitySentence << HUONO_NAKYVYYS_PHRASE;
-      weatherForecastSentences.push_back(badVisibilitySentence);
-    }
-    else if (precipitationPeriodShare <= 0.50 && !inManyPlaces)
-    {
-      weatherForecastSentences.back()
-          << Delimiter(COMMA_PUNCTUATION_MARK) << ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE;
-    }
-    else if (!snowPrecipitationFormInvolved &&
-             (static_cast<float>(precipitationAndFogPeriodLength) <
-                  static_cast<float>(forecastPeriodLength) ||
-              inManyPlaces))
-    {
-      weatherForecastSentences.back()
-          << Delimiter(COMMA_PUNCTUATION_MARK) << MUUTEN_HYVA_NAKYVYYS_PHRASE;
-    }
+      processPrecipitationItem(item, weatherForecastSentences, stats);
   }
 
-  if (!visibilitySentence.empty())
-    weatherForecastSentences.push_back(visibilitySentence);
+  appendVisibilitySentence(weatherForecastSentences, stats);
 
   for (const auto& s : weatherForecastSentences)
     paragraph << s;
 
   theLogger << "Weather Forecast At Sea: \n"
             << " length of continuous precipitation or extensive fog: "
-            << precipitationAndFogPeriodLength << '\n'
-            << " forecats period length: " << forecastPeriodLength << '\n'
-            << " precipitation period length: " << precipitationPeriodLength << '\n'
-            << " bad visibility period length: " << badVisibilityPeriodLength << '\n'
-            << " bad visibility period length for water: " << badVisibilityPeriodLengthWater << '\n'
-            << " precipitation or fog in many places: " << (inManyPlaces ? "yes" : "no") << '\n'
+            << stats.precipitationAndFogPeriodLength << '\n'
+            << " forecats period length: " << stats.forecastPeriodLength << '\n'
+            << " precipitation period length: " << stats.precipitationPeriodLength << '\n'
+            << " bad visibility period length: " << stats.badVisibilityPeriodLength << '\n'
+            << " bad visibility period length for water: " << stats.badVisibilityPeriodLengthWater
+            << '\n'
+            << " precipitation or fog in many places: " << (stats.inManyPlaces ? "yes" : "no")
+            << '\n'
             << " length of forecast text: " << paragraph.size() << '\n';
   if (!paragraph.empty())
     theLogger << " forecast text: " << as_string(paragraph) << '\n';
@@ -805,10 +778,48 @@ void WeatherForecastStory::addCloudinessStoryItems()
   }
 }
 
+// Try to merge two consecutive precipitation items; returns true if types differ (skip merge)
+bool WeatherForecastStory::tryMergePrecipitationItems(
+    PrecipitationForecastStoryItem* prev,
+    PrecipitationForecastStoryItem* curr,
+    WeatherForecastStoryItem* prevStoryItem)
+{
+  if (curr->thePeriod.localStartTime().DifferenceInHours(prev->thePeriod.localEndTime()) <= 2)
+    prev->theReportPoutaantuuFlag = false;
+
+  // if the type is different don't merge, except when thunder exists on both periods
+  bool typesDiffer = (prev->theType != curr->theType);
+  bool bothHaveThunder = (prev->theThunder && curr->theThunder);
+  if (typesDiffer && !bothHaveThunder)
+  {
+    // if the dry period between precipitation periods is short don't mention it
+    if (prevStoryItem != prev && prevStoryItem->storyItemPeriodLength() <= 1)
+      prevStoryItem->theIncludeInTheStoryFlag = false;
+    return true;  // types differ, don't merge
+  }
+
+  TextGenPosixTime gapStart(prev->thePeriod.localEndTime());
+  gapStart.ChangeByHours(+1);
+  TextGenPosixTime gapEnd(curr->thePeriod.localStartTime());
+  if (gapStart < gapEnd)
+    gapEnd.ChangeByHours(-1);
+  WeatherPeriod gapPeriod(gapStart, gapEnd);
+
+  if (get_period_length(gapPeriod) <= 3 &&
+      get_period_length(gapPeriod) <=
+          curr->storyItemPeriodLength() + prev->storyItemPeriodLength() + 2)
+  {
+    prev->thePeriodToMergeWith = curr;
+    curr->theIncludeInTheStoryFlag = false;
+    if (prevStoryItem->theStoryPartId == CLOUDINESS_STORY_PART)
+      prevStoryItem->theIncludeInTheStoryFlag = false;
+  }
+  return false;  // types compatible, merge attempted
+}
+
 void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
 {
   PrecipitationForecastStoryItem* previousPrecipitationStoryItem = nullptr;
-  PrecipitationForecastStoryItem* currentPrecipitationStoryItem = nullptr;
   std::vector<unsigned int> indexes = get_story_item_indexes(theStoryItemVector);
 
   for (unsigned int i = 0; i < indexes.size(); i++)
@@ -816,60 +827,30 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
     WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]].get();
     WeatherForecastStoryItem* previousStoryItem =
         (i > 0 ? theStoryItemVector[indexes[i - 1]].get() : nullptr);
+
     if (!currentStoryItem->theIncludeInTheStoryFlag)
       continue;
+    if (currentStoryItem->theStoryPartId != PRECIPITATION_STORY_PART)
+      continue;
 
-    if (currentStoryItem->theStoryPartId == PRECIPITATION_STORY_PART)
+    auto* currentPrecipitationStoryItem =
+        static_cast<PrecipitationForecastStoryItem*>(currentStoryItem);
+
+    if (previousPrecipitationStoryItem)
     {
-      currentPrecipitationStoryItem =
-          static_cast<PrecipitationForecastStoryItem*>(currentStoryItem);
-      if (previousPrecipitationStoryItem)
+      bool typesDiffer = tryMergePrecipitationItems(
+          previousPrecipitationStoryItem, currentPrecipitationStoryItem, previousStoryItem);
+      if (typesDiffer)
       {
-        if (currentPrecipitationStoryItem->thePeriod.localStartTime().DifferenceInHours(
-                previousPrecipitationStoryItem->thePeriod.localEndTime()) <= 2)
-          previousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
-
-        // if the type is different don't merge, except when thunder exists on both periods
-        if (previousPrecipitationStoryItem->theType != currentPrecipitationStoryItem->theType &&
-            !(previousPrecipitationStoryItem->theThunder &&
-              currentPrecipitationStoryItem->theThunder))
-        {
-          // if the dry period between precpitation periods is short don't mention it
-          if (previousStoryItem != previousPrecipitationStoryItem &&
-              previousStoryItem->storyItemPeriodLength() <= 1)
-            previousStoryItem->theIncludeInTheStoryFlag = false;
-          previousPrecipitationStoryItem = currentPrecipitationStoryItem;
-          continue;
-        }
-
-        TextGenPosixTime gapPeriodStartTime(
-            previousPrecipitationStoryItem->thePeriod.localEndTime());
-        gapPeriodStartTime.ChangeByHours(+1);
-        TextGenPosixTime gapPeriodEndTime(
-            currentPrecipitationStoryItem->thePeriod.localStartTime());
-        if (gapPeriodStartTime < gapPeriodEndTime)
-          gapPeriodEndTime.ChangeByHours(-1);
-        WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
-
-        // merge periods
-        if (get_period_length(gapPeriod) <= 3 &&
-            (get_period_length(gapPeriod) <=
-             currentPrecipitationStoryItem->storyItemPeriodLength() +
-                 previousPrecipitationStoryItem->storyItemPeriodLength() + 2))
-        {
-          // merge two precipitation periods
-          previousPrecipitationStoryItem->thePeriodToMergeWith = currentPrecipitationStoryItem;
-          currentPrecipitationStoryItem->theIncludeInTheStoryFlag = false;
-          if (previousStoryItem->theStoryPartId == CLOUDINESS_STORY_PART)
-            previousStoryItem->theIncludeInTheStoryFlag = false;
-        }
+        previousPrecipitationStoryItem = currentPrecipitationStoryItem;
+        continue;
       }
-      previousPrecipitationStoryItem = currentPrecipitationStoryItem;
     }
+    previousPrecipitationStoryItem = currentPrecipitationStoryItem;
   }
 
   indexes = get_story_item_indexes(theStoryItemVector);
-  int storyItemCount = indexes.size();
+  int storyItemCount = static_cast<int>(indexes.size());
   if (storyItemCount > 1)
   {
     unsigned int firstIndex = indexes[0];
@@ -883,7 +864,7 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
 
     unsigned int lastIndex = indexes[storyItemCount - 1];
     unsigned int beforeLastIndex = indexes[storyItemCount - 2];
-    // short precipitation period in the end after coudiness period is not reported
+    // short precipitation period in the end after cloudiness period is not reported
     if (theStoryItemVector[lastIndex]->theStoryPartId == PRECIPITATION_STORY_PART &&
         theStoryItemVector[lastIndex]->getPeriodLength() <= 1 &&
         theStoryItemVector[beforeLastIndex]->theStoryPartId == CLOUDINESS_STORY_PART &&
@@ -1426,82 +1407,93 @@ bool PrecipitationForecastStoryItem::isWeakPrecipitation(const wf_story_params& 
           WEAK_PRECIPITATION);
 }
 
-Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
+Sentence PrecipitationForecastStoryItem::getLongPeriodPrecipitationSentence(
+    const PrecipitationForecast& prForecast,
+    const WeatherPeriod& forecastPeriod,
+    const WeatherPeriod& storyItemPeriod)
 {
   Sentence sentence;
+  Sentence thePeriodPhrase;
 
+  if (storyItemPeriod.localStartTime() != forecastPeriod.localStartTime())
+  {
+    if (storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
+      thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
+    if (thePeriodPhrase.empty())
+      thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+
+    sentence << prForecast.precipitationChangeSentence(
+        storyItemPeriod, thePeriodPhrase, SADE_ALKAA, theAdditionalSentences);
+  }
+  else
+  {
+    if (storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
+      thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
+    if (thePeriodPhrase.empty())
+      thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+
+    sentence << prForecast.precipitationSentence(
+        storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
+  }
+
+  if (storyItemPeriod.localEndTime() != forecastPeriod.localEndTime() && theReportPoutaantuuFlag)
+  {
+    WeatherPeriod poutaantuuPeriod(storyItemPeriod.localEndTime(), storyItemPeriod.localEndTime());
+    Sentence poutaantuuPhrase;
+    poutaantuuPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.empty());
+    theWeatherForecastStory.theLogger << poutaantuuPhrase;
+    if (poutaantuuPhrase.empty())
+      poutaantuuPhrase << theWeatherForecastStory.getTimePhrase();
+
+    if (!sentence.empty())
+      sentence << Delimiter(",");
+    sentence << prForecast.precipitationChangeSentence(
+        storyItemPeriod, poutaantuuPhrase, POUTAANTUU, theAdditionalSentences);
+  }
+
+  theWeatherForecastStory.theShortTimePrecipitationReportedFlag = false;
+  return sentence;
+}
+
+Sentence PrecipitationForecastStoryItem::getShortPeriodPrecipitationSentence(
+    const PrecipitationForecast& prForecast,
+    const WeatherPeriod& forecastPeriod,
+    const WeatherPeriod& storyItemPeriod)
+{
+  Sentence sentence;
+  Sentence thePeriodPhrase;
+
+  if (thePeriod.localStartTime() > forecastPeriod.localStartTime())
+    thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
+  if (thePeriodPhrase.empty())
+    thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+
+  if (prForecast.shortTermPrecipitationExists(thePeriod))
+  {
+    sentence << prForecast.shortTermPrecipitationSentence(thePeriod, thePeriodPhrase);
+    theWeatherForecastStory.theShortTimePrecipitationReportedFlag = true;
+  }
+  else
+  {
+    sentence << prForecast.precipitationSentence(storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
+  }
+
+  return sentence;
+}
+
+Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
+{
   if (!theIncludeInTheStoryFlag)
-    return sentence;
+    return {};
 
   const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
   WeatherPeriod forecastPeriod = theWeatherForecastStory.theForecastPeriod;
   WeatherPeriod storyItemPeriod(getStoryItemPeriod());
-  Sentence thePeriodPhrase;
 
   if (storyItemPeriodLength() >= 6)
-  {
-    if (storyItemPeriod.localStartTime() != forecastPeriod.localStartTime())
-    {
-      if (storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
-        thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
-      if (thePeriodPhrase.empty())
-        thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+    return getLongPeriodPrecipitationSentence(prForecast, forecastPeriod, storyItemPeriod);
 
-      sentence << prForecast.precipitationChangeSentence(
-          storyItemPeriod, thePeriodPhrase, SADE_ALKAA, theAdditionalSentences);
-    }
-    else
-    {
-      if (storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
-        thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
-      if (thePeriodPhrase.empty())
-        thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
-
-      sentence << prForecast.precipitationSentence(
-          storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
-    }
-
-    if (storyItemPeriod.localEndTime() != forecastPeriod.localEndTime() && theReportPoutaantuuFlag)
-    {
-      WeatherPeriod poutaantuuPeriod(storyItemPeriod.localEndTime(),
-                                     storyItemPeriod.localEndTime());
-      thePeriodPhrase << getPeriodPhrase(
-          DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.empty());
-      theWeatherForecastStory.theLogger << thePeriodPhrase;
-      if (thePeriodPhrase.empty())
-        thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
-
-      if (!sentence.empty())
-        sentence << Delimiter(",");
-      sentence << prForecast.precipitationChangeSentence(
-          storyItemPeriod, thePeriodPhrase, POUTAANTUU, theAdditionalSentences);
-    }
-    theWeatherForecastStory.theShortTimePrecipitationReportedFlag = false;
-  }
-  else
-  {
-    if (thePeriod.localStartTime() > forecastPeriod.localStartTime())
-    {
-      thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
-    }
-    if (thePeriodPhrase.empty())
-    {
-      thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
-    }
-
-    if (prForecast.shortTermPrecipitationExists(thePeriod))
-    {
-      sentence << prForecast.shortTermPrecipitationSentence(thePeriod, thePeriodPhrase);
-      theWeatherForecastStory.theShortTimePrecipitationReportedFlag = true;
-    }
-    else
-    {
-      sentence << prForecast.precipitationSentence(
-          storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
-    }
-  }
-
-  return sentence;
+  return getShortPeriodPrecipitationSentence(prForecast, forecastPeriod, storyItemPeriod);
 }
 
 CloudinessForecastStoryItem::CloudinessForecastStoryItem(
@@ -1557,25 +1549,96 @@ Sentence CloudinessForecastStoryItem::cloudinessChangeSentence()
   return sentence;
 }
 
-Sentence CloudinessForecastStoryItem::getStoryItemSentence()
+bool CloudinessForecastStoryItem::shouldSkipShortEndPeriod(const WeatherPeriod& storyItemPeriod) const
+{
+  if (storyItemPeriod.localEndTime() != theWeatherForecastStory.theForecastPeriod.localEndTime())
+    return false;
+  if (storyItemPeriodLength() > 2)
+    return false;
+  if (!thePreviousPrecipitationStoryItem || !thePreviousPrecipitationStoryItem->isIncluded())
+    return false;
+  return (thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6 ||
+          get_part_of_the_day_id_narrow(thePreviousPrecipitationStoryItem->getStoryItemPeriod()) ==
+              get_part_of_the_day_id_narrow(getStoryItemPeriod()));
+}
+
+void CloudinessForecastStoryItem::buildPoutaantuuSentence(
+    const CloudinessForecast& clForecast, const PrecipitationForecast& prForecast)
+{
+  if (!thePreviousPrecipitationStoryItem || !thePreviousPrecipitationStoryItem->isIncluded())
+    return;
+  if (!thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
+    return;
+
+  cloudiness_id cloudinessId = clForecast.getCloudinessId(getStoryItemPeriod());
+  WeatherPeriod poutaantuuPeriod(
+      thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime(),
+      thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
+
+  // ARE 22.02.2011: The missing period-phrase added
+  Sentence thePeriodPhrase(getPeriodPhrase(USE_FROM_SPECIFIER, &poutaantuuPeriod));
+  if (thePeriodPhrase.empty())
+    thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+  thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase, cloudinessId);
+  thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
+  theReportAboutDryWeatherFlag = false;
+}
+
+Sentence CloudinessForecastStoryItem::buildCloudinessSentence(
+    const CloudinessForecast& clForecast,
+    const PrecipitationForecast& prForecast,
+    const WeatherPeriod& storyItemPeriod)
 {
   Sentence sentence;
+  Sentence thePeriodPhrase;
 
+  if (storyItemPeriod.localStartTime() > theWeatherForecastStory.theForecastPeriod.localStartTime())
+  {
+    if (storyItemPeriodLength() >= 6)
+    {
+      if (theWeatherForecastStory.theStorySize > 0)
+        thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
+    }
+    else
+    {
+      thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
+    }
+  }
+  if (thePeriodPhrase.empty())
+    thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+
+  bool reportDry = theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag();
+
+  if (!theChangeSentence.empty())
+  {
+    WeatherPeriod clPeriod(storyItemPeriod.localStartTime(), theCloudinessChangeTimestamp);
+    sentence << clForecast.cloudinessSentence(clPeriod, reportDry, thePeriodPhrase, DONT_USE_SHORT_FORM);
+  }
+  else
+  {
+    sentence << clForecast.cloudinessSentence(storyItemPeriod, reportDry, thePeriodPhrase, DONT_USE_SHORT_FORM);
+  }
+  prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);
+
+  // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
+  if (!theChangeSentence.empty() && clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+  {
+    sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+    sentence << theChangeSentence;
+  }
+  return sentence;
+}
+
+Sentence CloudinessForecastStoryItem::getStoryItemSentence()
+{
   if (!theIncludeInTheStoryFlag)
-    return sentence;
+    return {};
 
   WeatherPeriod storyItemPeriod(getStoryItemPeriod());
   // if the cloudiness period is max 2 hours and it is in the end of the forecast period and
   // the previous precipitation period is long > 6h -> don't report cloudiness
-  if (storyItemPeriod.localEndTime() == theWeatherForecastStory.theForecastPeriod.localEndTime() &&
-      storyItemPeriodLength() <= 2)
-  {
-    if (thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->isIncluded() &&
-        (thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6 ||
-         get_part_of_the_day_id_narrow(thePreviousPrecipitationStoryItem->getStoryItemPeriod()) ==
-             get_part_of_the_day_id_narrow(getStoryItemPeriod())))
-      return sentence;
-  }
+  if (shouldSkipShortEndPeriod(storyItemPeriod))
+    return {};
 
   const CloudinessForecast& clForecast = theWeatherForecastStory.theCloudinessForecast;
   const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
@@ -1586,32 +1649,12 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
   thePoutaantuuSentence.clear();
 
   theChangeSentence << cloudinessChangeSentence();
+  buildPoutaantuuSentence(clForecast, prForecast);
 
-  if (thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->isIncluded())
-  {
-    if (thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
-    {
-      cloudiness_id cloudinessId = clForecast.getCloudinessId(getStoryItemPeriod());
-
-      WeatherPeriod poutaantuuPeriod(
-          thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime(),
-          thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
-
-      // ARE 22.02.2011: The missing period-phrase added
-      Sentence thePeriodPhrase(getPeriodPhrase(USE_FROM_SPECIFIER, &poutaantuuPeriod));
-      if (thePeriodPhrase.empty())
-        thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
-      thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
-                                                                               cloudinessId);
-      thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
-      theReportAboutDryWeatherFlag = false;
-    }
-  }
-
+  Sentence sentence;
   if (!thePoutaantuuSentence.empty())
   {
     sentence << thePoutaantuuSentence;
-
     // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
     if (!theChangeSentence.empty() && clForecast.getCloudinessId(storyItemPeriod) > MELKO_SELKEA)
     {
@@ -1621,49 +1664,7 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
   }
   else
   {
-    Sentence thePeriodPhrase;
-    if (storyItemPeriod.localStartTime() >
-        theWeatherForecastStory.theForecastPeriod.localStartTime())
-    {
-      if (storyItemPeriodLength() >= 6)
-      {
-        if (theWeatherForecastStory.theStorySize > 0)
-          thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
-      }
-      else
-      {
-        thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
-      }
-    }
-    if (thePeriodPhrase.empty())
-      thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
-
-    if (!theChangeSentence.empty())
-    {
-      WeatherPeriod clPeriod(storyItemPeriod.localStartTime(), theCloudinessChangeTimestamp);
-      sentence << clForecast.cloudinessSentence(
-          clPeriod,
-          theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
-          thePeriodPhrase,
-          DONT_USE_SHORT_FORM);
-    }
-    else
-    {
-      sentence << clForecast.cloudinessSentence(
-          storyItemPeriod,
-          theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
-          thePeriodPhrase,
-          DONT_USE_SHORT_FORM);
-    }
-    prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);
-
-    // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-    if (!theChangeSentence.empty() &&
-        clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
-    {
-      sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-      sentence << theChangeSentence;
-    }
+    sentence << buildCloudinessSentence(clForecast, prForecast, storyItemPeriod);
   }
   theWeatherForecastStory.theCloudinessReportedFlag = true;
 

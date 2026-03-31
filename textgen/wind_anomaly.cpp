@@ -385,32 +385,93 @@ void log_data(const wind_anomaly_params& theParameters)
   }
 }
 
-void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
-                                   const TextGen::WeatherArea::Type& theType,
-                                   const bool& theMorningPeriod,
-                                   const bool& theWindspeed)
+struct WindResultTriple
 {
-  GridForecaster theForecaster;
+  WeatherResult* minimum;
+  WeatherResult* mean;
+  WeatherResult* maximum;
+};
 
-  WeatherArea theArea(theParameters.theArea);
-  theArea.type(theParameters.theCoastalAndInlandTogetherFlag ? WeatherArea::Full : theType);
+WindResultTriple select_inland_wind_results(wind_anomaly_params& p,
+                                            const bool& theMorningPeriod,
+                                            const bool& theWindspeed)
+{
+  WindResultTriple r{nullptr, nullptr, nullptr};
+  if (theMorningPeriod)
+  {
+    r.minimum =
+        theWindspeed ? &p.theWindspeedInlandMorningMinimum : &p.theWindchillInlandMorningMinimum;
+    r.mean =
+        theWindspeed ? &p.theWindspeedInlandMorningMean : &p.theWindchillInlandMorningMean;
+    r.maximum =
+        theWindspeed ? &p.theWindspeedInlandMorningMaximum : &p.theWindchillInlandMorningMaximum;
+  }
+  else
+  {
+    r.minimum = theWindspeed ? &p.theWindspeedInlandAfternoonMinimum
+                             : &p.theWindchillInlandAfternoonMinimum;
+    r.mean =
+        theWindspeed ? &p.theWindspeedInlandAfternoonMean : &p.theWindchillInlandAfternoonMean;
+    r.maximum = theWindspeed ? &p.theWindspeedInlandAfternoonMaximum
+                             : &p.theWindchillInlandAfternoonMaximum;
+  }
+  return r;
+}
 
-  std::string theFakeVariable;
-  std::string postfix_string(theWindspeed ? "::fake::windspeed" : "::fake::windchill");
-  postfix_string += (theMorningPeriod ? "::morning" : "::afternoon");
+WindResultTriple select_coastal_wind_results(wind_anomaly_params& p,
+                                             const bool& theMorningPeriod,
+                                             const bool& theWindspeed)
+{
+  WindResultTriple r{nullptr, nullptr, nullptr};
+  if (theMorningPeriod)
+  {
+    r.minimum = theWindspeed ? &p.theWindspeedCoastalMorningMinimum
+                             : &p.theWindchillCoastalMorningMinimum;
+    r.mean =
+        theWindspeed ? &p.theWindspeedCoastalMorningMean : &p.theWindchillCoastalMorningMean;
+    r.maximum = theWindspeed ? &p.theWindspeedCoastalMorningMaximum
+                             : &p.theWindchillCoastalMorningMaximum;
+  }
+  else
+  {
+    r.minimum = theWindspeed ? &p.theWindspeedCoastalAfternoonMinimum
+                             : &p.theWindchillCoastalAfternoonMinimum;
+    r.mean =
+        theWindspeed ? &p.theWindspeedCoastalAfternoonMean : &p.theWindchillCoastalAfternoonMean;
+    r.maximum = theWindspeed ? &p.theWindspeedCoastalAfternoonMaximum
+                             : &p.theWindchillCoastalAfternoonMaximum;
+  }
+  return r;
+}
+
+WindResultTriple select_wind_results(wind_anomaly_params& p,
+                                     const TextGen::WeatherArea::Type& theType,
+                                     const bool& theMorningPeriod,
+                                     const bool& theWindspeed)
+{
   if (theType == WeatherArea::Inland)
-  {
-    postfix_string += "::inland";
-  }
+    return select_inland_wind_results(p, theMorningPeriod, theWindspeed);
+  if (theType == WeatherArea::Coast)
+    return select_coastal_wind_results(p, theMorningPeriod, theWindspeed);
+  return WindResultTriple{nullptr, nullptr, nullptr};
+}
+
+std::string build_wind_postfix(const TextGen::WeatherArea::Type& theType,
+                               const bool& theMorningPeriod,
+                               const bool& theWindspeed)
+{
+  std::string postfix(theWindspeed ? "::fake::windspeed" : "::fake::windchill");
+  postfix += (theMorningPeriod ? "::morning" : "::afternoon");
+  if (theType == WeatherArea::Inland)
+    postfix += "::inland";
   else if (theType == WeatherArea::Coast)
-  {
-    postfix_string += "::coast";
-  }
+    postfix += "::coast";
+  return postfix;
+}
 
-  theFakeVariable = theParameters.theVariable + postfix_string;
-
-  WeatherPeriod theCompletePeriod(theParameters.thePeriod);
-
+WeatherPeriod build_wind_period(const WeatherPeriod& theCompletePeriod,
+                                const bool& theMorningPeriod)
+{
   int noonHour = (theMorningPeriod ? (theCompletePeriod.localEndTime().GetHour() < 12
                                           ? theCompletePeriod.localEndTime().GetHour()
                                           : 12)
@@ -428,97 +489,55 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
   TextGenPosixTime theStartTime(theMorningPeriod ? theCompletePeriod.localStartTime() : noonTime);
   TextGenPosixTime theEndTime(theMorningPeriod ? noonTime : theCompletePeriod.localEndTime());
 
-  WeatherPeriod thePeriod(
-      theStartTime > theEndTime ? theParameters.thePeriod.localStartTime() : theStartTime,
-      theStartTime > theEndTime ? theParameters.thePeriod.localEndTime() : theEndTime);
+  return WeatherPeriod(
+      theStartTime > theEndTime ? theCompletePeriod.localStartTime() : theStartTime,
+      theStartTime > theEndTime ? theCompletePeriod.localEndTime() : theEndTime);
+}
 
-  WeatherResult* theMinimum = nullptr;
-  WeatherResult* theMean = nullptr;
-  WeatherResult* theMaximum = nullptr;
-
-  if (theType == WeatherArea::Inland)
-  {
-    if (theMorningPeriod)
-    {
-      theMinimum = &(theWindspeed ? theParameters.theWindspeedInlandMorningMinimum
-                                  : theParameters.theWindchillInlandMorningMinimum);
-      theMean = &(theWindspeed ? theParameters.theWindspeedInlandMorningMean
-                               : theParameters.theWindchillInlandMorningMean);
-      theMaximum = &(theWindspeed ? theParameters.theWindspeedInlandMorningMaximum
-                                  : theParameters.theWindchillInlandMorningMaximum);
-    }
-    else
-    {
-      theMinimum = &(theWindspeed ? theParameters.theWindspeedInlandAfternoonMinimum
-                                  : theParameters.theWindchillInlandAfternoonMinimum);
-      theMean = &(theWindspeed ? theParameters.theWindspeedInlandAfternoonMean
-                               : theParameters.theWindchillInlandAfternoonMean);
-      theMaximum = &(theWindspeed ? theParameters.theWindspeedInlandAfternoonMaximum
-                                  : theParameters.theWindchillInlandAfternoonMaximum);
-    }
-  }
-  else if (theType == WeatherArea::Coast)
-  {
-    if (theMorningPeriod)
-    {
-      theMinimum = &(theWindspeed ? theParameters.theWindspeedCoastalMorningMinimum
-                                  : theParameters.theWindchillCoastalMorningMinimum);
-      theMean = &(theWindspeed ? theParameters.theWindspeedCoastalMorningMean
-                               : theParameters.theWindchillCoastalMorningMean);
-      theMaximum = &(theWindspeed ? theParameters.theWindspeedCoastalMorningMaximum
-                                  : theParameters.theWindchillCoastalMorningMaximum);
-    }
-    else
-    {
-      theMinimum = &(theWindspeed ? theParameters.theWindspeedCoastalAfternoonMinimum
-                                  : theParameters.theWindchillCoastalAfternoonMinimum);
-      theMean = &(theWindspeed ? theParameters.theWindspeedCoastalAfternoonMean
-                               : theParameters.theWindchillCoastalAfternoonMean);
-      theMaximum = &(theWindspeed ? theParameters.theWindspeedCoastalAfternoonMaximum
-                                  : theParameters.theWindchillCoastalAfternoonMaximum);
-    }
-  }
-
-  if (theMinimum != nullptr)
-  {
-    *theMinimum = theForecaster.analyze(theFakeVariable + "::min",
-                                        theParameters.theSources,
-                                        theWindspeed ? WindSpeed : WindChill,
-                                        Minimum,
-                                        Maximum,
-                                        theArea,
-                                        thePeriod);
-
-    if (theWindspeed && theArea.type() == WeatherArea::Full)
-      WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *theMinimum);
-  }
-
-  if (theMaximum != nullptr)
-  {
-    *theMaximum = theForecaster.analyze(theFakeVariable + "::max",
-                                        theParameters.theSources,
-                                        theWindspeed ? WindSpeed : WindChill,
-                                        Maximum,
-                                        Maximum,
-                                        theArea,
-                                        thePeriod);
-
-    if (theWindspeed && theArea.type() == WeatherArea::Full)
-      WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *theMaximum);
-  }
-
-  if (theMean != nullptr)
-  {
-    *theMean = theForecaster.analyze(theFakeVariable + "::mean",
+void analyze_wind_result(WeatherResult* result,
+                         const std::string& fakeVar,
+                         const std::string& statSuffix,
+                         const wind_anomaly_params& theParameters,
+                         const WeatherArea& theArea,
+                         const WeatherPeriod& thePeriod,
+                         const bool& theWindspeed,
+                         WeatherFunction stat,
+                         WeatherFunction areastat)
+{
+  if (result == nullptr)
+    return;
+  *result = GridForecaster().analyze(fakeVar + statSuffix,
                                      theParameters.theSources,
                                      theWindspeed ? WindSpeed : WindChill,
-                                     Mean,
-                                     Maximum,
+                                     stat,
+                                     areastat,
                                      theArea,
                                      thePeriod);
-    if (theWindspeed && theArea.type() == WeatherArea::Full)
-      WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *theMean);
-  }
+  if (theWindspeed && theArea.type() == WeatherArea::Full)
+    WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *result);
+}
+
+void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
+                                   const TextGen::WeatherArea::Type& theType,
+                                   const bool& theMorningPeriod,
+                                   const bool& theWindspeed)
+{
+  WeatherArea theArea(theParameters.theArea);
+  theArea.type(theParameters.theCoastalAndInlandTogetherFlag ? WeatherArea::Full : theType);
+
+  const std::string fakeVariable =
+      theParameters.theVariable + build_wind_postfix(theType, theMorningPeriod, theWindspeed);
+
+  WeatherPeriod thePeriod = build_wind_period(theParameters.thePeriod, theMorningPeriod);
+
+  WindResultTriple res = select_wind_results(theParameters, theType, theMorningPeriod, theWindspeed);
+
+  analyze_wind_result(
+      res.minimum, fakeVariable, "::min", theParameters, theArea, thePeriod, theWindspeed, Minimum, Maximum);
+  analyze_wind_result(
+      res.maximum, fakeVariable, "::max", theParameters, theArea, thePeriod, theWindspeed, Maximum, Maximum);
+  analyze_wind_result(
+      res.mean, fakeVariable, "::mean", theParameters, theArea, thePeriod, theWindspeed, Mean, Maximum);
 }
 
 void log_start_time_and_end_time(MessageLogger& theLog,
@@ -807,6 +826,421 @@ else
   return sentence;
 }
 
+// Helper: emit sentence based on presence of time/area specifiers
+void emit_windy_sentence(Sentence& sentence,
+                         bool specifiedDayEmpty,
+                         const Sentence& specifiedDay,
+                         const std::string& phrase_plain,
+                         const std::string& phrase_windy)
+{
+  if (specifiedDayEmpty)
+    sentence << phrase_plain;
+  else
+    sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay << phrase_windy;
+}
+
+void emit_coastal_windy_sentence(Sentence& sentence,
+                                 bool specifiedDayEmpty,
+                                 const Sentence& specifiedDay,
+                                 const std::string& phrase_windy)
+{
+  if (specifiedDayEmpty)
+    sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD << phrase_windy;
+  else
+    sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
+             << RANNIKOLLA_WORD << phrase_windy;
+}
+
+// Helper for coast-morning-very-windy branch in both-areas morning+afternoon case
+Sentence cws_coast_morning_extreme_afternoon_extreme(int windspeedMorningInland,
+                                                     int windspeedAfternoonInland,
+                                                     float ewl,
+                                                     bool specifiedDayEmpty,
+                                                     const Sentence& specifiedDay)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 || windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else
+    emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, HYVIN_TUULISTA_PHRASE);
+  return s;
+}
+
+Sentence cws_coast_morning_extreme_afternoon_windy(int windspeedMorningInland,
+                                                   int windspeedAfternoonInland,
+                                                   float wl,
+                                                   float ewl,
+                                                   bool specifiedDayEmpty,
+                                                   const Sentence& specifiedDay,
+                                                   short dayNumber,
+                                                   const std::string& iltapaivalla)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedMorningInland >= wl - 0.5 || windspeedAfternoonInland >= wl - 0.5)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  else
+    s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
+  return s;
+}
+
+Sentence cws_coast_morning_extreme_afternoon_calm(int windspeedMorningInland,
+                                                  int windspeedAfternoonInland,
+                                                  float ewl,
+                                                  bool specifiedDayEmpty,
+                                                  const Sentence& specifiedDay,
+                                                  short dayNumber,
+                                                  const std::string& aamupaivalla)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedMorningInland >= ewl - 1.0)
+    s << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, aamupaivalla) << HYVIN_TUULINEN_PHRASE;
+  else
+    s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, aamupaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
+  return s;
+}
+
+Sentence cws_coast_morning_extreme(int windspeedMorningInland,
+                                   int windspeedAfternoonInland,
+                                   int windspeedAfternoonCoastal,
+                                   float wl,
+                                   float ewl,
+                                   bool specifiedDayEmpty,
+                                   const Sentence& specifiedDay,
+                                   short dayNumber,
+                                   const std::string& aamupaivalla,
+                                   const std::string& iltapaivalla)
+{
+  if (windspeedAfternoonCoastal >= ewl)
+    return cws_coast_morning_extreme_afternoon_extreme(
+        windspeedMorningInland, windspeedAfternoonInland, ewl, specifiedDayEmpty, specifiedDay);
+  if (windspeedAfternoonCoastal >= wl)
+    return cws_coast_morning_extreme_afternoon_windy(windspeedMorningInland,
+                                                     windspeedAfternoonInland,
+                                                     wl,
+                                                     ewl,
+                                                     specifiedDayEmpty,
+                                                     specifiedDay,
+                                                     dayNumber,
+                                                     iltapaivalla);
+  return cws_coast_morning_extreme_afternoon_calm(windspeedMorningInland,
+                                                  windspeedAfternoonInland,
+                                                  ewl,
+                                                  specifiedDayEmpty,
+                                                  specifiedDay,
+                                                  dayNumber,
+                                                  aamupaivalla);
+}
+
+Sentence cws_coast_morning_windy_afternoon_extreme(int windspeedMorningInland,
+                                                   int windspeedAfternoonInland,
+                                                   float wl,
+                                                   float ewl,
+                                                   bool specifiedDayEmpty,
+                                                   const Sentence& specifiedDay,
+                                                   short dayNumber,
+                                                   const std::string& iltapaivalla)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 || windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedMorningInland >= wl - 0.5 || windspeedAfternoonInland >= wl - 0.5)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  else
+    s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
+  return s;
+}
+
+Sentence cws_coast_morning_windy_afternoon_windy(int windspeedMorningInland,
+                                                 int windspeedAfternoonInland,
+                                                 float wl,
+                                                 float ewl,
+                                                 bool specifiedDayEmpty,
+                                                 const Sentence& specifiedDay)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedMorningInland >= wl - 0.5 || windspeedAfternoonInland >= wl - 0.5)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  else
+    emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, TUULISTA_WORD);
+  return s;
+}
+
+Sentence cws_coast_morning_windy_afternoon_calm(int windspeedMorningInland,
+                                                int windspeedAfternoonInland,
+                                                float wl,
+                                                float ewl,
+                                                bool specifiedDayEmpty,
+                                                const Sentence& specifiedDay,
+                                                short dayNumber,
+                                                const std::string& aamupaivalla)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedMorningInland >= wl - 0.5 && windspeedAfternoonInland >= wl - 0.5)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  else if (windspeedMorningInland >= wl - 0.5)
+    s << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, aamupaivalla) << TUULISTA_WORD;
+  else
+    s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, aamupaivalla) << RANNIKOLLA_WORD << TUULISTA_WORD;
+  return s;
+}
+
+Sentence cws_coast_morning_windy(int windspeedMorningInland,
+                                 int windspeedAfternoonInland,
+                                 int windspeedAfternoonCoastal,
+                                 float wl,
+                                 float ewl,
+                                 bool specifiedDayEmpty,
+                                 const Sentence& specifiedDay,
+                                 short dayNumber,
+                                 const std::string& aamupaivalla,
+                                 const std::string& iltapaivalla)
+{
+  if (windspeedAfternoonCoastal >= ewl)
+    return cws_coast_morning_windy_afternoon_extreme(windspeedMorningInland,
+                                                     windspeedAfternoonInland,
+                                                     wl,
+                                                     ewl,
+                                                     specifiedDayEmpty,
+                                                     specifiedDay,
+                                                     dayNumber,
+                                                     iltapaivalla);
+  if (windspeedAfternoonCoastal >= wl)
+    return cws_coast_morning_windy_afternoon_windy(windspeedMorningInland,
+                                                   windspeedAfternoonInland,
+                                                   wl,
+                                                   ewl,
+                                                   specifiedDayEmpty,
+                                                   specifiedDay);
+  return cws_coast_morning_windy_afternoon_calm(windspeedMorningInland,
+                                                windspeedAfternoonInland,
+                                                wl,
+                                                ewl,
+                                                specifiedDayEmpty,
+                                                specifiedDay,
+                                                dayNumber,
+                                                aamupaivalla);
+}
+
+Sentence cws_coast_morning_calm_afternoon_extreme(int windspeedMorningInland,
+                                                  int windspeedAfternoonInland,
+                                                  float wl,
+                                                  float ewl,
+                                                  bool specifiedDayEmpty,
+                                                  const Sentence& specifiedDay,
+                                                  short dayNumber,
+                                                  const std::string& iltapaivalla)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedAfternoonInland >= ewl - 1.0)
+    s << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, iltapaivalla) << HYVIN_TUULINEN_PHRASE;
+  else if (windspeedMorningInland >= wl - 0.5 && windspeedAfternoonInland >= wl - 0.5)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  else
+    s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
+  return s;
+}
+
+Sentence cws_coast_morning_calm_afternoon_windy(int windspeedMorningInland,
+                                                int windspeedAfternoonInland,
+                                                float wl,
+                                                float ewl,
+                                                bool specifiedDayEmpty,
+                                                const Sentence& specifiedDay,
+                                                short dayNumber,
+                                                const std::string& iltapaivalla)
+{
+  Sentence s;
+  if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+  else if (windspeedMorningInland >= wl - 0.5 && windspeedAfternoonInland >= wl - 0.5)
+    emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  else if (windspeedAfternoonInland >= wl - 0.5)
+    s << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, iltapaivalla) << TUULISTA_WORD;
+  else
+    s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+      << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << TUULISTA_WORD;
+  return s;
+}
+
+Sentence cws_coast_morning_calm(int windspeedMorningInland,
+                                int windspeedAfternoonInland,
+                                int windspeedAfternoonCoastal,
+                                float wl,
+                                float ewl,
+                                const Sentence& theSpecifiedDay,
+                                bool specifiedDayEmpty,
+                                const Sentence& specifiedDay,
+                                short dayNumber,
+                                const std::string& aamupaivalla,
+                                const std::string& iltapaivalla)
+{
+  if (windspeedAfternoonCoastal >= ewl)
+    return cws_coast_morning_calm_afternoon_extreme(windspeedMorningInland,
+                                                    windspeedAfternoonInland,
+                                                    wl,
+                                                    ewl,
+                                                    specifiedDayEmpty,
+                                                    specifiedDay,
+                                                    dayNumber,
+                                                    iltapaivalla);
+  if (windspeedAfternoonCoastal >= wl)
+    return cws_coast_morning_calm_afternoon_windy(windspeedMorningInland,
+                                                  windspeedAfternoonInland,
+                                                  wl,
+                                                  ewl,
+                                                  specifiedDayEmpty,
+                                                  specifiedDay,
+                                                  dayNumber,
+                                                  iltapaivalla);
+  return construct_windiness_sentence_for_area(windspeedMorningInland,
+                                               windspeedAfternoonInland,
+                                               wl,
+                                               ewl,
+                                               theSpecifiedDay,
+                                               dayNumber,
+                                               EMPTY_STRING,
+                                               aamupaivalla,
+                                               iltapaivalla);
+}
+
+// Both inland and coast included, both morning and afternoon included
+Sentence cws_both_morning_and_afternoon(int windspeedMorningInland,
+                                        int windspeedAfternoonInland,
+                                        int windspeedMorningCoastal,
+                                        int windspeedAfternoonCoastal,
+                                        float wl,
+                                        float ewl,
+                                        const Sentence& theSpecifiedDay,
+                                        bool specifiedDayEmpty,
+                                        const Sentence& specifiedDay,
+                                        short dayNumber,
+                                        const std::string& aamupaivalla,
+                                        const std::string& iltapaivalla)
+{
+  if (windspeedMorningCoastal >= ewl)
+    return cws_coast_morning_extreme(windspeedMorningInland,
+                                     windspeedAfternoonInland,
+                                     windspeedAfternoonCoastal,
+                                     wl,
+                                     ewl,
+                                     specifiedDayEmpty,
+                                     specifiedDay,
+                                     dayNumber,
+                                     aamupaivalla,
+                                     iltapaivalla);
+  if (windspeedMorningCoastal >= wl)
+    return cws_coast_morning_windy(windspeedMorningInland,
+                                   windspeedAfternoonInland,
+                                   windspeedAfternoonCoastal,
+                                   wl,
+                                   ewl,
+                                   specifiedDayEmpty,
+                                   specifiedDay,
+                                   dayNumber,
+                                   aamupaivalla,
+                                   iltapaivalla);
+  return cws_coast_morning_calm(windspeedMorningInland,
+                                windspeedAfternoonInland,
+                                windspeedAfternoonCoastal,
+                                wl,
+                                ewl,
+                                theSpecifiedDay,
+                                specifiedDayEmpty,
+                                specifiedDay,
+                                dayNumber,
+                                aamupaivalla,
+                                iltapaivalla);
+}
+
+// Both inland and coast included, only morning included
+Sentence cws_both_morning_only(int windspeedMorningInland,
+                               int windspeedMorningCoastal,
+                               float wl,
+                               float ewl,
+                               bool specifiedDayEmpty,
+                               const Sentence& specifiedDay)
+{
+  Sentence s;
+  if (windspeedMorningCoastal >= ewl)
+  {
+    if (windspeedMorningInland >= ewl - 1.0)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+    else
+      emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, HYVIN_TUULISTA_PHRASE);
+  }
+  else if (windspeedMorningCoastal >= wl)
+  {
+    if (windspeedMorningInland >= ewl)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+    else if (windspeedMorningInland >= wl - 0.5)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+    else
+      emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, TUULISTA_WORD);
+  }
+  else
+  {
+    if (windspeedMorningInland >= ewl)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+    else if (windspeedMorningInland >= wl - 0.5)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  }
+  return s;
+}
+
+// Both inland and coast included, only afternoon included
+Sentence cws_both_afternoon_only(int windspeedAfternoonInland,
+                                 int windspeedAfternoonCoastal,
+                                 float wl,
+                                 float ewl,
+                                 bool specifiedDayEmpty,
+                                 const Sentence& specifiedDay)
+{
+  Sentence s;
+  if (windspeedAfternoonCoastal >= ewl)
+  {
+    if (windspeedAfternoonInland >= ewl - 1.0)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+    else
+      emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, HYVIN_TUULISTA_PHRASE);
+  }
+  else if (windspeedAfternoonCoastal >= wl)
+  {
+    if (windspeedAfternoonInland >= ewl)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+    else if (windspeedAfternoonInland >= wl - 0.5)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+    else
+      emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, TUULISTA_WORD);
+  }
+  else
+  {
+    if (windspeedAfternoonInland >= ewl)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_HYVIN_TUULINEN_PHRASE, HYVIN_TUULINEN_PHRASE);
+    else if (windspeedAfternoonInland >= wl - 0.5)
+      emit_windy_sentence(s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
+  }
+  return s;
+}
+
 Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
                                       const Sentence& theSpecifiedDay,
                                       const short& dayNumber)
@@ -818,13 +1252,13 @@ Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
   bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing ||
                        theParameters.theWindspeedCoastalAfternoonMinimum.value() != kFloatMissing;
 
-  float windy_weather_limit = Settings::optional_double(
+  float wl = Settings::optional_double(
       theParameters.theVariable + "::windy_weather_limit", WINDY_WEATER_LIMIT);
-  float extremely_windy_weather_limit = Settings::optional_double(
+  float ewl = Settings::optional_double(
       theParameters.theVariable + "::extremely_windy_weather_limit", EXTREMELY_WINDY_WEATHER_LIMIT);
 
-  std::string aamupaivalla(theParameters.theMorningWord);
-  std::string iltapaivalla(theParameters.theAfternoonWord);
+  const std::string& aamupaivalla = theParameters.theMorningWord;
+  const std::string& iltapaivalla = theParameters.theAfternoonWord;
 
   int windspeedMorningInland =
       static_cast<int>(round(theParameters.theWindspeedInlandMorningMean.value()));
@@ -837,7 +1271,7 @@ Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
 
   bool specifiedDayEmpty(theSpecifiedDay.empty());
   Sentence specifiedDay;
-  if (theSpecifiedDay.empty())
+  if (specifiedDayEmpty)
     specifiedDay << EMPTY_STRING;
   else
     specifiedDay << theSpecifiedDay;
@@ -848,411 +1282,39 @@ Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
     bool afternoonIncluded = windspeedAfternoonInland != kFloatMissing;
 
     if (morningIncluded && afternoonIncluded)
-    {
-      // rannikolla aamulla tuulista
-      if (windspeedMorningCoastal >= extremely_windy_weather_limit)
-      {
-        // rannikolla iltapaivalla hyvin tuulista
-        if (windspeedAfternoonCoastal >= extremely_windy_weather_limit)
-        {
-          // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 ||
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else
-          {
-            if (specifiedDayEmpty)
-              sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD
-                       << HYVIN_TUULISTA_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
-          }
-        }
-        else if (windspeedAfternoonCoastal >=
-                 windy_weather_limit)  // rannikolla on iltapaivalla tuulista
-        {
-          // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 &&
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5 ||
-                   windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << TUULISTA_WORD;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD
-                     << HYVIN_TUULISTA_PHRASE;
-          }
-        }
-        else  // rannikolla ei tuule paljoa iltapaivalla
-        {
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 &&
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0)
-          {
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, aamupaivalla) << HYVIN_TUULINEN_PHRASE;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, aamupaivalla) << RANNIKOLLA_WORD
-                     << HYVIN_TUULISTA_PHRASE;
-          }
-        }
-      }
-      else if (windspeedMorningCoastal >= windy_weather_limit)
-      {  // rannikolla on aamupaivalla tuulista
-        // rannikolla on iltapaivalla erittain tuulista
-        if (windspeedAfternoonCoastal >= extremely_windy_weather_limit)
-        {
-          // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 ||
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5 ||
-                   windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << TUULISTA_WORD;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD
-                     << HYVIN_TUULISTA_PHRASE;
-          }
-        }
-        else if (windspeedAfternoonCoastal >=
-                 windy_weather_limit)  // rannikolla on iltapaivalla tuulista
-        {
-          // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 &&
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5 ||
-                   windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << TUULISTA_WORD;
-          }
-          else
-          {
-            if (specifiedDayEmpty)
-              sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD
-                       << TUULISTA_WORD;
-            else
-              sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << RANNIKOLLA_WORD << TUULISTA_WORD;
-          }
-        }
-        else  // rannikolla ei tuule paljoa iltapaivalla
-        {
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 &&
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5 &&
-                   windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << TUULISTA_WORD;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5)
-          {
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, aamupaivalla) << TUULISTA_WORD;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, aamupaivalla) << RANNIKOLLA_WORD
-                     << TUULISTA_WORD;
-          }
-        }
-      }
-      else
-      {  // rannikolla ei juuri tuule aamupaivalla
-        // rannikolla on iltapaivalla erittain tuulista
-        if (windspeedAfternoonCoastal >= extremely_windy_weather_limit)
-        {
-          // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 &&
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, iltapaivalla) << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5 &&
-                   windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << TUULISTA_WORD;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD
-                     << HYVIN_TUULISTA_PHRASE;
-          }
-        }
-        else if (windspeedAfternoonCoastal >=
-                 windy_weather_limit)  // rannikolla on iltapaivalla tuulista
-        {
-          // sisamaassa aamulla ja iltapaivalla hyvin tuulista tai lahella sita
-          if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0 &&
-              windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << HYVIN_TUULINEN_PHRASE;
-          }
-          else if (windspeedMorningInland >= windy_weather_limit - 0.5 &&
-                   windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            if (specifiedDayEmpty)
-              sentence << SAA_ON_TUULINEN_PHRASE;
-            else
-              sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                       << TUULISTA_WORD;
-          }
-          else if (windspeedAfternoonInland >= windy_weather_limit - 0.5)
-          {
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, iltapaivalla) << TUULISTA_WORD;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
-                     << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD
-                     << TUULISTA_WORD;
-          }
-        }
-        else  // rannikolla ei juuri tuule iltapaivalla
-        {
-          sentence << construct_windiness_sentence_for_area(windspeedMorningInland,
-                                                            windspeedAfternoonInland,
-                                                            windy_weather_limit,
-                                                            extremely_windy_weather_limit,
-                                                            theSpecifiedDay,
-                                                            dayNumber,
-                                                            EMPTY_STRING,
-                                                            aamupaivalla,
-                                                            iltapaivalla);
-        }
-      }
-    }
+      sentence << cws_both_morning_and_afternoon(windspeedMorningInland,
+                                                 windspeedAfternoonInland,
+                                                 windspeedMorningCoastal,
+                                                 windspeedAfternoonCoastal,
+                                                 wl,
+                                                 ewl,
+                                                 theSpecifiedDay,
+                                                 specifiedDayEmpty,
+                                                 specifiedDay,
+                                                 dayNumber,
+                                                 aamupaivalla,
+                                                 iltapaivalla);
     else if (morningIncluded)
-    {
-      // rannikolla aamulla hyvin tuulista
-      if (windspeedMorningCoastal >= extremely_windy_weather_limit)
-      {
-        // sisamaassa on aamulla hyvin tuulista
-        if (windspeedMorningInland >= extremely_windy_weather_limit - 1.0)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << HYVIN_TUULINEN_PHRASE;
-        }
-        else
-        {
-          if (specifiedDayEmpty)
-            sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD
-                     << HYVIN_TUULISTA_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
-        }
-      }
-      else if (windspeedMorningCoastal >= windy_weather_limit)
-      {  // rannikolla aamulla tuulista
-        if (windspeedMorningInland >= extremely_windy_weather_limit)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << HYVIN_TUULINEN_PHRASE;
-        }
-        else if (windspeedMorningInland >= windy_weather_limit - 0.5)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay << TUULISTA_WORD;
-        }
-        else
-        {
-          if (specifiedDayEmpty)
-            sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD << TUULISTA_WORD;
-          else
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << RANNIKOLLA_WORD << TUULISTA_WORD;
-        }
-      }
-      else
-      {  // rannikolla ei ole aamulla erityisen tuulista
-        if (windspeedMorningInland >= extremely_windy_weather_limit)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << HYVIN_TUULINEN_PHRASE;
-        }
-        else if (windspeedMorningInland >= windy_weather_limit - 0.5)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay << TUULISTA_WORD;
-        }
-      }
-    }
+      sentence << cws_both_morning_only(windspeedMorningInland,
+                                        windspeedMorningCoastal,
+                                        wl,
+                                        ewl,
+                                        specifiedDayEmpty,
+                                        specifiedDay);
     else if (afternoonIncluded)
-    {
-      // rannikolla iltapaivalla hyvin tuulista
-      if (windspeedAfternoonCoastal >= extremely_windy_weather_limit)
-      {
-        // sisamaassa on iltapaivalla hyvin tuulista
-        if (windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << HYVIN_TUULINEN_PHRASE;
-        }
-        else
-        {
-          if (specifiedDayEmpty)
-            sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD
-                     << HYVIN_TUULISTA_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
-        }
-      }
-      else if (windspeedAfternoonCoastal >= windy_weather_limit)
-      {  // rannikolla iltapaivalla tuulista
-        if (windspeedAfternoonInland >= extremely_windy_weather_limit)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << HYVIN_TUULINEN_PHRASE;
-        }
-        else if (windspeedAfternoonInland >= windy_weather_limit - 0.5)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay << TUULISTA_WORD;
-        }
-        else
-        {
-          if (specifiedDayEmpty)
-            sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD << TUULISTA_WORD;
-          else
-            sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << RANNIKOLLA_WORD << TUULISTA_WORD;
-        }
-      }
-      else
-      {  // rannikolla ei ole iltapaivalla erityisen tuulista
-        if (windspeedAfternoonInland >= extremely_windy_weather_limit)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
-                     << HYVIN_TUULINEN_PHRASE;
-        }
-        else if (windspeedAfternoonInland >= windy_weather_limit - 0.5)
-        {
-          if (specifiedDayEmpty)
-            sentence << SAA_ON_TUULINEN_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay << TUULISTA_WORD;
-        }
-      }
-    }
+      sentence << cws_both_afternoon_only(windspeedAfternoonInland,
+                                          windspeedAfternoonCoastal,
+                                          wl,
+                                          ewl,
+                                          specifiedDayEmpty,
+                                          specifiedDay);
   }
   else if (inlandIncluded)
   {
     sentence << construct_windiness_sentence_for_area(windspeedMorningInland,
                                                       windspeedAfternoonInland,
-                                                      windy_weather_limit,
-                                                      extremely_windy_weather_limit,
+                                                      wl,
+                                                      ewl,
                                                       theSpecifiedDay,
                                                       dayNumber,
                                                       EMPTY_STRING,
@@ -1263,8 +1325,8 @@ Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
   {
     sentence << construct_windiness_sentence_for_area(windspeedMorningCoastal,
                                                       windspeedAfternoonCoastal,
-                                                      windy_weather_limit,
-                                                      extremely_windy_weather_limit,
+                                                      wl,
+                                                      ewl,
                                                       theSpecifiedDay,
                                                       dayNumber,
                                                       EMPTY_STRING,
@@ -1273,6 +1335,173 @@ Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
   }
 
   return sentence;
+}
+
+struct WindCoolingContext
+{
+  float temperature{-1.0};
+  std::string areaString{EMPTY_STRING};
+  std::string part_of_the_day;
+};
+
+WindCoolingContext determine_wind_cooling_both_areas(bool windCoolingInlandMorning,
+                                                     bool windCoolingCoastalMorning,
+                                                     bool windCoolingInlandAfternoon,
+                                                     bool windCoolingCoastalAfternoon,
+                                                     int tempInlandMorning,
+                                                     int tempInlandAfternoon,
+                                                     int tempCoastalMorning,
+                                                     int tempCoastalAfternoon,
+                                                     const std::string& aamupaivalla,
+                                                     const std::string& iltapaivalla)
+{
+  WindCoolingContext ctx;
+  if (windCoolingInlandMorning && windCoolingCoastalMorning && windCoolingInlandAfternoon &&
+      windCoolingCoastalAfternoon)
+  {
+    float morningMax = std::max(tempInlandMorning, tempCoastalMorning);
+    float afternoonMax = std::max(tempInlandAfternoon, tempCoastalAfternoon);
+    ctx.temperature = std::max(morningMax, afternoonMax);
+  }
+  else if (!windCoolingInlandMorning && windCoolingCoastalMorning && !windCoolingInlandAfternoon &&
+           windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = std::max(tempCoastalAfternoon, tempCoastalMorning);
+    ctx.areaString = RANNIKOLLA_WORD;
+  }
+  else if (!windCoolingInlandMorning && windCoolingCoastalMorning && !windCoolingInlandAfternoon &&
+           !windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = tempCoastalMorning;
+    ctx.part_of_the_day = aamupaivalla;
+    ctx.areaString = RANNIKOLLA_WORD;
+  }
+  else if (!windCoolingInlandMorning && !windCoolingCoastalMorning && !windCoolingInlandAfternoon &&
+           windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = tempCoastalAfternoon;
+    ctx.part_of_the_day = iltapaivalla;
+    ctx.areaString = RANNIKOLLA_WORD;
+  }
+  else if (windCoolingInlandMorning && !windCoolingCoastalMorning && windCoolingInlandAfternoon &&
+           !windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = std::max(tempInlandAfternoon, tempInlandMorning);
+    ctx.areaString = SISAMAASSA_WORD;
+  }
+  else if (windCoolingInlandMorning && !windCoolingCoastalMorning && !windCoolingInlandAfternoon &&
+           !windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = tempInlandMorning;
+    ctx.part_of_the_day = aamupaivalla;
+    ctx.areaString = SISAMAASSA_WORD;
+  }
+  else if (!windCoolingInlandMorning && !windCoolingCoastalMorning && windCoolingInlandAfternoon &&
+           !windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = tempInlandAfternoon;
+    ctx.part_of_the_day = iltapaivalla;
+    ctx.areaString = SISAMAASSA_WORD;
+  }
+  else if (windCoolingInlandMorning && windCoolingCoastalMorning)
+  {
+    ctx.temperature = std::max(tempCoastalMorning, tempInlandMorning);
+    ctx.part_of_the_day = aamupaivalla;
+  }
+  else if (windCoolingInlandAfternoon && windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = std::max(tempCoastalAfternoon, tempInlandAfternoon);
+    ctx.part_of_the_day = iltapaivalla;
+  }
+  return ctx;
+}
+
+WindCoolingContext determine_wind_cooling_coast_only(bool windCoolingCoastalMorning,
+                                                     bool windCoolingCoastalAfternoon,
+                                                     int tempCoastalMorning,
+                                                     int tempCoastalAfternoon,
+                                                     const std::string& aamupaivalla,
+                                                     const std::string& iltapaivalla)
+{
+  WindCoolingContext ctx;
+  if (windCoolingCoastalMorning && !windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = tempCoastalMorning;
+    ctx.part_of_the_day = aamupaivalla;
+  }
+  else if (!windCoolingCoastalMorning && windCoolingCoastalAfternoon)
+  {
+    ctx.temperature = tempCoastalAfternoon;
+    ctx.part_of_the_day = iltapaivalla;
+  }
+  else
+  {
+    ctx.temperature = std::max(tempCoastalAfternoon, tempCoastalMorning);
+  }
+  return ctx;
+}
+
+WindCoolingContext determine_wind_cooling_inland_only(bool windCoolingInlandMorning,
+                                                      bool windCoolingInlandAfternoon,
+                                                      int tempInlandMorning,
+                                                      int tempInlandAfternoon,
+                                                      const std::string& aamupaivalla,
+                                                      const std::string& iltapaivalla)
+{
+  WindCoolingContext ctx;
+  if (windCoolingInlandMorning && !windCoolingInlandAfternoon)
+  {
+    ctx.temperature = tempInlandMorning;
+    ctx.part_of_the_day = aamupaivalla;
+  }
+  else if (!windCoolingInlandMorning && windCoolingInlandAfternoon)
+  {
+    ctx.temperature = tempInlandAfternoon;
+    ctx.part_of_the_day = iltapaivalla;
+  }
+  else
+  {
+    ctx.temperature = std::max(tempInlandAfternoon, tempInlandMorning);
+  }
+  return ctx;
+}
+
+void emit_wind_cooling_sentence(Sentence& sentence,
+                                float temperature,
+                                const std::string& areaString,
+                                const std::string& timePhrase,
+                                const std::string& part_of_the_day,
+                                short dayNumber)
+{
+  bool hasArea = (areaString != EMPTY_STRING);
+  bool hasTime = (timePhrase != EMPTY_STRING);
+
+  if (temperature > TUULI_KYLMENTAA_SAATA_LOWER_LIMIT &&
+      temperature <= TUULI_KYLMENTAA_SAATA_UPPER_LIMIT)
+  {
+    if (!hasArea && !hasTime)
+      sentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE;
+    else if (hasArea && !hasTime)
+      sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE << areaString;
+    else if (!hasArea && hasTime)
+      sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE << timePhrase;
+    else
+      sentence << ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
+               << parse_weekday_phrase(dayNumber, part_of_the_day) << areaString;
+  }
+  else if (temperature > TUULI_VIILENTAA_SAATA_LOWER_LIMIT &&
+           temperature <= TUULI_VIILENTAA_SAATA_UPPER_LIMIT)
+  {
+    if (!hasArea && !hasTime)
+      sentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;
+    else if (hasArea && !hasTime)
+      sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE << areaString;
+    else if (!hasArea && hasTime)
+      sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE << timePhrase;
+    else
+      sentence << ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
+               << parse_weekday_phrase(dayNumber, part_of_the_day) << areaString;
+  }
 }
 
 Sentence windiness_sentence(const wind_anomaly_params& theParameters)
@@ -1284,16 +1513,8 @@ Sentence windiness_sentence(const wind_anomaly_params& theParameters)
   bool generate_wind_cooling_sentence =
       Settings::optional_bool(theParameters.theVariable + "::generate_wind_cooling_sentence", true);
 
-  /*
-  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing ||
-        theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing;
-  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing ||
-        theParameters.theWindspeedCoastalAfternoonMinimum.value() != kFloatMissing;
-  */
-  std::string aamupaivalla(theParameters.theMorningWord);
-  std::string iltapaivalla(theParameters.theAfternoonWord);
-  std::string part_of_the_day;
-  std::string areaString;
+  const std::string& aamupaivalla = theParameters.theMorningWord;
+  const std::string& iltapaivalla = theParameters.theAfternoonWord;
 
   Sentence theSpecifiedDay;
   short dayNumber = 0;
@@ -1312,198 +1533,213 @@ Sentence windiness_sentence(const wind_anomaly_params& theParameters)
                                 WIND_COOLING_THE_WEATHER_LIMIT);
 
   if (generate_windiness_sentence)
-  {
     sentence << construct_windiness_sentence(theParameters, theSpecifiedDay, dayNumber);
-  }
+
+  if (!sentence.empty() || !generate_wind_cooling_sentence)
+    return sentence;
 
   // handle the wind cooling effect
-  if (sentence.empty() && generate_wind_cooling_sentence)
-  {
-    areaString = EMPTY_STRING;
-    float temperature = -1.0;
+  bool windCoolingInlandMorning =
+      (theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
+       static_cast<int>(round(theParameters.theWindspeedInlandMorningMean.value())) >=
+           wind_cooling_the_weather_limit);
+  bool windCoolingCoastalMorning =
+      (theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
+       static_cast<int>(round(theParameters.theWindspeedCoastalMorningMean.value())) >=
+           wind_cooling_the_weather_limit);
+  bool windCoolingInlandAfternoon =
+      (theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
+       static_cast<int>(round(theParameters.theWindspeedInlandAfternoonMean.value())) >=
+           wind_cooling_the_weather_limit);
+  bool windCoolingCoastalAfternoon =
+      (theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
+       static_cast<int>(round(theParameters.theWindspeedCoastalAfternoonMean.value())) >=
+           wind_cooling_the_weather_limit);
 
-    bool windCoolingTheWeatherInlandMorning =
-        (theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
-         static_cast<int>(round(theParameters.theWindspeedInlandMorningMean.value())) >=
-             wind_cooling_the_weather_limit);
-    bool windCoolingTheWeatherCoastalMorning =
-        (theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
-         static_cast<int>(round(theParameters.theWindspeedCoastalMorningMean.value())) >=
-             wind_cooling_the_weather_limit);
-    bool windCoolingTheWeatherInlandAfternoon =
-        (theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
-         static_cast<int>(round(theParameters.theWindspeedInlandAfternoonMean.value())) >=
-             wind_cooling_the_weather_limit);
-    bool windCoolingTheWeatherCoastalAfternoon =
-        (theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
-         static_cast<int>(round(theParameters.theWindspeedCoastalAfternoonMean.value())) >=
-             wind_cooling_the_weather_limit);
+  bool inlandIncluded = windCoolingInlandMorning || windCoolingInlandAfternoon;
+  bool coastIncluded = windCoolingCoastalMorning || windCoolingCoastalAfternoon;
 
-    int temperatureInlandMorning =
-        static_cast<int>(round(theParameters.theTemperatureInlandMorningMean.value()));
-    int temperatureInlandAfternoon =
-        static_cast<int>(round(theParameters.theTemperatureInlandAfternoonMean.value()));
-    int temperatureCoastalMorning =
-        static_cast<int>(round(theParameters.theTemperatureCoastalMorningMean.value()));
-    int temperatureCoastalAfternoon =
-        static_cast<int>(round(theParameters.theTemperatureCoastalAfternoonMean.value()));
+  if (!inlandIncluded && !coastIncluded)
+    return sentence;
 
-    bool inlandIncluded =
-        windCoolingTheWeatherInlandMorning || windCoolingTheWeatherInlandAfternoon;
-    bool coastIncluded =
-        windCoolingTheWeatherCoastalMorning || windCoolingTheWeatherCoastalAfternoon;
+  int tempInlandMorning =
+      static_cast<int>(round(theParameters.theTemperatureInlandMorningMean.value()));
+  int tempInlandAfternoon =
+      static_cast<int>(round(theParameters.theTemperatureInlandAfternoonMean.value()));
+  int tempCoastalMorning =
+      static_cast<int>(round(theParameters.theTemperatureCoastalMorningMean.value()));
+  int tempCoastalAfternoon =
+      static_cast<int>(round(theParameters.theTemperatureCoastalAfternoonMean.value()));
 
-    if (inlandIncluded && coastIncluded)
-    {
-      if (windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
-          windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-      {
-        float morningWind = temperatureInlandMorning > temperatureCoastalMorning
-                                ? temperatureInlandMorning
-                                : temperatureCoastalMorning;
-        float afternoonWind = temperatureInlandAfternoon > temperatureCoastalAfternoon
-                                  ? temperatureInlandAfternoon
-                                  : temperatureCoastalAfternoon;
-        temperature = afternoonWind > morningWind ? afternoonWind : morningWind;
-      }
-      else if (!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
-               !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureCoastalAfternoon > temperatureCoastalMorning
-                          ? temperatureCoastalAfternoon
-                          : temperatureCoastalMorning;
-        areaString = RANNIKOLLA_WORD;
-      }
-      else if (!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
-               !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureCoastalMorning;
-        part_of_the_day = aamupaivalla;
-        areaString = RANNIKOLLA_WORD;
-      }
-      else if (!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-               !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureCoastalAfternoon;
-        part_of_the_day = iltapaivalla;
-        areaString = RANNIKOLLA_WORD;
-      }
-      else if (windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-               windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureInlandAfternoon > temperatureInlandMorning
-                          ? temperatureInlandAfternoon
-                          : temperatureInlandMorning;
-        areaString = SISAMAASSA_WORD;
-      }
-      else if (windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-               !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureInlandMorning;
-        part_of_the_day = aamupaivalla;
-        areaString = SISAMAASSA_WORD;
-      }
-      else if (!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-               windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureInlandAfternoon;
-        part_of_the_day = iltapaivalla;
-        areaString = SISAMAASSA_WORD;
-      }
-      else if (windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning)
-      {
-        temperature = temperatureCoastalMorning > temperatureInlandMorning
-                          ? temperatureCoastalMorning
-                          : temperatureInlandMorning;
-        part_of_the_day = aamupaivalla;
-      }
-      else if (windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureCoastalAfternoon > temperatureInlandAfternoon
-                          ? temperatureCoastalAfternoon
-                          : temperatureInlandAfternoon;
-        part_of_the_day = iltapaivalla;
-      }
-    }
-    else if (!inlandIncluded && coastIncluded)
-    {
-      if (windCoolingTheWeatherCoastalMorning && !windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureCoastalMorning;
-        part_of_the_day = aamupaivalla;
-      }
-      else if (!windCoolingTheWeatherCoastalMorning && windCoolingTheWeatherCoastalAfternoon)
-      {
-        temperature = temperatureCoastalAfternoon;
-        part_of_the_day = iltapaivalla;
-      }
-      else
-      {
-        temperature = temperatureCoastalAfternoon > temperatureCoastalMorning
-                          ? temperatureCoastalAfternoon
-                          : temperatureCoastalMorning;
-      }
-    }
-    else if (inlandIncluded && !coastIncluded)
-    {
-      if (windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherInlandAfternoon)
-      {
-        temperature = temperatureInlandMorning;
-        part_of_the_day = aamupaivalla;
-      }
-      else if (!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherInlandAfternoon)
-      {
-        temperature = temperatureInlandAfternoon;
-        part_of_the_day = iltapaivalla;
-      }
-      else
-      {
-        temperature = temperatureInlandAfternoon > temperatureInlandMorning
-                          ? temperatureInlandAfternoon
-                          : temperatureInlandMorning;
-      }
-    }
+  WindCoolingContext ctx;
+  if (inlandIncluded && coastIncluded)
+    ctx = determine_wind_cooling_both_areas(windCoolingInlandMorning,
+                                            windCoolingCoastalMorning,
+                                            windCoolingInlandAfternoon,
+                                            windCoolingCoastalAfternoon,
+                                            tempInlandMorning,
+                                            tempInlandAfternoon,
+                                            tempCoastalMorning,
+                                            tempCoastalAfternoon,
+                                            aamupaivalla,
+                                            iltapaivalla);
+  else if (coastIncluded)
+    ctx = determine_wind_cooling_coast_only(windCoolingCoastalMorning,
+                                            windCoolingCoastalAfternoon,
+                                            tempCoastalMorning,
+                                            tempCoastalAfternoon,
+                                            aamupaivalla,
+                                            iltapaivalla);
+  else
+    ctx = determine_wind_cooling_inland_only(windCoolingInlandMorning,
+                                             windCoolingInlandAfternoon,
+                                             tempInlandMorning,
+                                             tempInlandAfternoon,
+                                             aamupaivalla,
+                                             iltapaivalla);
 
-    if (inlandIncluded || coastIncluded)
-    {
-      if (areaString.empty())
-        areaString = EMPTY_STRING;
-      std::string timePhrase(parse_weekday_phrase(dayNumber, part_of_the_day));
-
-      if (temperature > TUULI_KYLMENTAA_SAATA_LOWER_LIMIT &&
-          temperature <= TUULI_KYLMENTAA_SAATA_UPPER_LIMIT)
-      {
-        if (areaString == EMPTY_STRING && timePhrase == EMPTY_STRING)
-          sentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE;
-        else if (areaString != EMPTY_STRING && timePhrase == EMPTY_STRING)
-          sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
-                   << areaString;
-        else if (areaString == EMPTY_STRING && timePhrase != EMPTY_STRING)
-          sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
-                   << timePhrase;
-        else
-          sentence << ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
-                   << parse_weekday_phrase(dayNumber, part_of_the_day) << areaString;
-      }
-      else if (temperature > TUULI_VIILENTAA_SAATA_LOWER_LIMIT &&
-               temperature <= TUULI_VIILENTAA_SAATA_UPPER_LIMIT)
-      {
-        if (areaString == EMPTY_STRING && timePhrase == EMPTY_STRING)
-          sentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;
-        else if (areaString != EMPTY_STRING && timePhrase == EMPTY_STRING)
-          sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
-                   << areaString;
-        else if (areaString == EMPTY_STRING && timePhrase != EMPTY_STRING)
-          sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
-                   << timePhrase;
-        else
-          sentence << ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
-                   << parse_weekday_phrase(dayNumber, part_of_the_day) << areaString;
-      }
-    }
-  }
+  std::string timePhrase(parse_weekday_phrase(dayNumber, ctx.part_of_the_day));
+  emit_wind_cooling_sentence(
+      sentence, ctx.temperature, ctx.areaString, timePhrase, ctx.part_of_the_day, dayNumber);
 
   return sentence;
+}
+
+std::string windchill_area_word(forecast_area_id area)
+{
+  if (area == INLAND_AREA)
+    return SISAMAASSA_WORD;
+  if (area == COASTAL_AREA)
+    return RANNIKOLLA_WORD;
+  return EMPTY_STRING;
+}
+
+struct windchill_context
+{
+  WeatherResult morningMean{kFloatMissing, 0};
+  WeatherResult afternoonMean{kFloatMissing, 0};
+  float tempDiffMorning = 0.0;
+  float tempDiffAfternoon = 0.0;
+  forecast_area_id areaMorning = FULL_AREA;
+  forecast_area_id areaAfternoon = FULL_AREA;
+};
+
+windchill_context select_windchill_context_both(const wind_anomaly_params& p)
+{
+  windchill_context ctx;
+  if (p.theWindchillInlandMorningMean.value() != kFloatMissing)
+  {
+    ctx.morningMean = p.theWindchillInlandMorningMean;
+    ctx.areaMorning = INLAND_AREA;
+    ctx.tempDiffMorning =
+        abs(p.theTemperatureInlandMorningMean.value() - ctx.morningMean.value());
+  }
+  else
+  {
+    ctx.morningMean = p.theWindchillCoastalMorningMean;
+    ctx.areaMorning = COASTAL_AREA;
+    ctx.tempDiffMorning =
+        abs(p.theTemperatureCoastalMorningMean.value() - ctx.morningMean.value());
+  }
+
+  if (p.theWindchillInlandAfternoonMean.value() > p.theWindchillCoastalAfternoonMean.value())
+  {
+    ctx.afternoonMean = p.theWindchillInlandAfternoonMean;
+    ctx.areaAfternoon = INLAND_AREA;
+    ctx.tempDiffAfternoon =
+        abs(p.theTemperatureInlandAfternoonMean.value() - ctx.afternoonMean.value());
+  }
+  else
+  {
+    ctx.afternoonMean = p.theWindchillCoastalAfternoonMean;
+    ctx.areaAfternoon = COASTAL_AREA;
+    ctx.tempDiffAfternoon =
+        abs(p.theTemperatureCoastalAfternoonMean.value() - ctx.afternoonMean.value());
+  }
+  return ctx;
+}
+
+windchill_context select_windchill_context(const wind_anomaly_params& p,
+                                           bool inlandIncluded,
+                                           bool coastIncluded)
+{
+  if (inlandIncluded && coastIncluded)
+    return select_windchill_context_both(p);
+
+  windchill_context ctx;
+  if (inlandIncluded)
+  {
+    ctx.morningMean = p.theWindchillInlandMorningMean;
+    ctx.afternoonMean = p.theWindchillInlandAfternoonMean;
+    ctx.tempDiffMorning =
+        abs(p.theTemperatureInlandMorningMean.value() - ctx.morningMean.value());
+    ctx.tempDiffAfternoon =
+        abs(p.theTemperatureInlandAfternoonMean.value() - ctx.afternoonMean.value());
+  }
+  else if (coastIncluded)
+  {
+    ctx.morningMean = p.theWindchillCoastalMorningMean;
+    ctx.afternoonMean = p.theWindchillCoastalAfternoonMean;
+    ctx.tempDiffMorning =
+        abs(p.theTemperatureCoastalMorningMean.value() - ctx.morningMean.value());
+    ctx.tempDiffAfternoon =
+        abs(p.theTemperatureCoastalAfternoonMean.value() - ctx.afternoonMean.value());
+  }
+  return ctx;
+}
+
+void emit_windchill_partial_sentence(Sentence& sentence,
+                                     bool extreme,
+                                     forecast_area_id area,
+                                     short dayNumber,
+                                     const std::string& timeWord)
+{
+  const char* phraseWithArea = extreme
+      ? ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
+      : ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE;
+  const char* phraseNoArea = extreme
+      ? ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
+      : ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE;
+
+  std::string areaStr = windchill_area_word(area);
+  if (areaStr.empty())
+    sentence << phraseNoArea << parse_weekday_phrase(dayNumber, timeWord);
+  else
+    sentence << phraseWithArea << parse_weekday_phrase(dayNumber, timeWord) << areaStr;
+}
+
+void emit_windchill_mild_sentences(Sentence& sentence,
+                                   bool wcMorning,
+                                   bool wcAfternoon,
+                                   const windchill_context& ctx,
+                                   short dayNumber,
+                                   const std::string& aamupaivalla,
+                                   const std::string& iltapaivalla)
+{
+  if (wcMorning && wcAfternoon)
+    sentence << PAKKANEN_ON_PUREVAA_PHRASE;
+  else if (wcMorning)
+    emit_windchill_partial_sentence(sentence, false, ctx.areaMorning, dayNumber, aamupaivalla);
+  else if (wcAfternoon)
+    emit_windchill_partial_sentence(sentence, false, ctx.areaAfternoon, dayNumber, iltapaivalla);
+}
+
+void emit_windchill_extreme_sentences(Sentence& sentence,
+                                      bool wcMorning,
+                                      bool wcAfternoon,
+                                      bool extremeMorning,
+                                      bool extremeAfternoon,
+                                      const windchill_context& ctx,
+                                      short dayNumber,
+                                      const std::string& aamupaivalla,
+                                      const std::string& iltapaivalla)
+{
+  if (wcMorning && wcAfternoon)
+    sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
+  if (extremeMorning && !extremeAfternoon)
+    emit_windchill_partial_sentence(sentence, true, ctx.areaMorning, dayNumber, aamupaivalla);
+  else if (!extremeMorning && extremeAfternoon)
+    emit_windchill_partial_sentence(sentence, true, ctx.areaAfternoon, dayNumber, iltapaivalla);
 }
 
 Sentence windchill_sentence(const wind_anomaly_params& theParameters)
@@ -1514,177 +1750,48 @@ Sentence windchill_sentence(const wind_anomaly_params& theParameters)
                         theParameters.theWindchillInlandAfternoonMinimum.value() != kFloatMissing;
   bool coastIncluded = theParameters.theWindchillCoastalMorningMinimum.value() != kFloatMissing ||
                        theParameters.theWindchillCoastalAfternoonMinimum.value() != kFloatMissing;
-  std::string aamupaivalla(theParameters.theMorningWord);
-  std::string iltapaivalla(theParameters.theAfternoonWord);
+  const std::string& aamupaivalla = theParameters.theMorningWord;
+  const std::string& iltapaivalla = theParameters.theAfternoonWord;
 
-  WeatherResult windChillMorningMean = theParameters.theWindchillInlandMorningMinimum;
-  WeatherResult windChillAfternoonMean = theParameters.theWindchillInlandMorningMinimum;
-  float windChillAndTemperatureDifferenceMorning = 0.0;
-  float windChillAndTemperatureDifferenceAfternoon = 0.0;
-
-  forecast_area_id areaMorning = FULL_AREA;
-  forecast_area_id areaAfternoon = FULL_AREA;
-  Sentence theSpecifiedDay;
   short dayNumber = 0;
   if (theParameters.thePeriodLength > 24)
-  {
-    theSpecifiedDay << PeriodPhraseFactory::create("today",
-                                                   theParameters.theVariable,
-                                                   theParameters.theForecastTime,
-                                                   theParameters.thePeriod,
-                                                   theParameters.theArea);
     dayNumber = theParameters.thePeriod.localStartTime().GetWeekday();
-  }
 
-  if (inlandIncluded && coastIncluded)
-  {
-    if (theParameters.theWindchillInlandMorningMean.value() != kFloatMissing)
-    {
-      windChillMorningMean = theParameters.theWindchillInlandMorningMean;
-      areaMorning = INLAND_AREA;
-      windChillAndTemperatureDifferenceMorning =
-          abs(theParameters.theTemperatureInlandMorningMean.value() - windChillMorningMean.value());
-    }
-    else
-    {
-      windChillMorningMean = theParameters.theWindchillCoastalMorningMean;
-      areaMorning = COASTAL_AREA;
-      windChillAndTemperatureDifferenceMorning = abs(
-          theParameters.theTemperatureCoastalMorningMean.value() - windChillMorningMean.value());
-    }
+  windchill_context ctx = select_windchill_context(theParameters, inlandIncluded, coastIncluded);
 
-    if (theParameters.theWindchillInlandAfternoonMean.value() >
-        theParameters.theWindchillCoastalAfternoonMean.value())
-    {
-      windChillAfternoonMean = theParameters.theWindchillInlandAfternoonMean;
-      areaAfternoon = INLAND_AREA;
-      windChillAndTemperatureDifferenceAfternoon = abs(
-          theParameters.theTemperatureInlandAfternoonMean.value() - windChillAfternoonMean.value());
-    }
-    else
-    {
-      windChillAfternoonMean = theParameters.theWindchillCoastalAfternoonMean;
-      areaAfternoon = COASTAL_AREA;
-      windChillAndTemperatureDifferenceAfternoon =
-          abs(theParameters.theTemperatureCoastalAfternoonMean.value() -
-              windChillAfternoonMean.value());
-    }
-  }
-  else if (inlandIncluded)
-  {
-    windChillMorningMean = theParameters.theWindchillInlandMorningMean;
-    windChillAfternoonMean = theParameters.theWindchillInlandAfternoonMean;
-    windChillAndTemperatureDifferenceMorning =
-        abs(theParameters.theTemperatureInlandMorningMean.value() - windChillMorningMean.value());
-    windChillAndTemperatureDifferenceAfternoon = abs(
-        theParameters.theTemperatureInlandAfternoonMean.value() - windChillAfternoonMean.value());
-  }
-  else if (coastIncluded)
-  {
-    windChillMorningMean = theParameters.theWindchillCoastalMorningMean;
-    windChillAfternoonMean = theParameters.theWindchillCoastalAfternoonMean;
-    windChillAndTemperatureDifferenceMorning =
-        abs(theParameters.theTemperatureCoastalMorningMean.value() - windChillMorningMean.value());
-    windChillAndTemperatureDifferenceAfternoon = abs(
-        theParameters.theTemperatureCoastalAfternoonMean.value() - windChillAfternoonMean.value());
-  }
-
-  bool morningIncluded = windChillMorningMean.value() != kFloatMissing;
-  bool afternoonIncluded = windChillAfternoonMean.value() != kFloatMissing;
+  bool morningIncluded = ctx.morningMean.value() != kFloatMissing;
+  bool afternoonIncluded = ctx.afternoonMean.value() != kFloatMissing;
 
   float windChill = 0.0;
-
   if (morningIncluded && afternoonIncluded)
-    windChill = windChillMorningMean.value() < windChillAfternoonMean.value()
-                    ? windChillMorningMean.value()
-                    : windChillAfternoonMean.value();
+    windChill = std::min(ctx.morningMean.value(), ctx.afternoonMean.value());
   else if (morningIncluded)
-    windChill = windChillMorningMean.value();
+    windChill = ctx.morningMean.value();
   else if (afternoonIncluded)
-    windChill = windChillAfternoonMean.value();
+    windChill = ctx.afternoonMean.value();
 
   bool windChillMorning =
-      (morningIncluded && windChillMorningMean.value() >= EXTREME_WINDCHILL_LIMIT &&
-       windChillMorningMean.value() <= MILD_WINDCHILL_LIMIT &&
-       windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+      morningIncluded && ctx.morningMean.value() >= EXTREME_WINDCHILL_LIMIT &&
+      ctx.morningMean.value() <= MILD_WINDCHILL_LIMIT &&
+      ctx.tempDiffMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT;
   bool windChillAfternoon =
-      (afternoonIncluded && windChillAfternoonMean.value() >= EXTREME_WINDCHILL_LIMIT &&
-       windChillAfternoonMean.value() <= MILD_WINDCHILL_LIMIT &&
-       windChillAndTemperatureDifferenceAfternoon >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+      afternoonIncluded && ctx.afternoonMean.value() >= EXTREME_WINDCHILL_LIMIT &&
+      ctx.afternoonMean.value() <= MILD_WINDCHILL_LIMIT &&
+      ctx.tempDiffAfternoon >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT;
   bool extremelyWindChillMorning =
-      (morningIncluded && windChillMorningMean.value() < EXTREME_WINDCHILL_LIMIT &&
-       windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+      morningIncluded && ctx.morningMean.value() < EXTREME_WINDCHILL_LIMIT &&
+      ctx.tempDiffMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT;
   bool extremelyWindChillAfternoon =
-      (afternoonIncluded && windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT &&
-       windChillAndTemperatureDifferenceAfternoon >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+      afternoonIncluded && ctx.afternoonMean.value() < EXTREME_WINDCHILL_LIMIT &&
+      ctx.tempDiffAfternoon >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT;
 
   if (windChill >= EXTREME_WINDCHILL_LIMIT && windChill <= MILD_WINDCHILL_LIMIT)
-  {
-    if (windChillMorning && windChillAfternoon)
-    {
-      sentence << PAKKANEN_ON_PUREVAA_PHRASE;
-    }
-    else if (windChillMorning && !windChillAfternoon)
-    {
-      std::string areaString(
-          (areaMorning == INLAND_AREA
-               ? SISAMAASSA_WORD
-               : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
-      if (areaString.empty())
-        sentence << ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, aamupaivalla);
-      else
-        sentence << ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, aamupaivalla) << areaString;
-    }
-    else if (!windChillMorning && windChillAfternoon)
-    {
-      std::string areaString(
-          (areaAfternoon == INLAND_AREA
-               ? SISAMAASSA_WORD
-               : (areaAfternoon == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
-      if (areaString.empty())
-        sentence << ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, iltapaivalla);
-      else
-        sentence << ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, iltapaivalla) << areaString;
-    }
-  }
+    emit_windchill_mild_sentences(sentence, windChillMorning, windChillAfternoon,
+                                  ctx, dayNumber, aamupaivalla, iltapaivalla);
   else if (windChill < EXTREME_WINDCHILL_LIMIT)
-  {
-    if (windChillMorning && windChillAfternoon)
-    {
-      sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
-    }
-    if (extremelyWindChillMorning && !extremelyWindChillAfternoon)
-    {
-      std::string areaString(
-          (areaMorning == INLAND_AREA
-               ? SISAMAASSA_WORD
-               : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
-
-      if (areaString.empty())
-        sentence << ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, aamupaivalla);
-      else
-        sentence << ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, aamupaivalla) << areaString;
-    }
-    else if (!extremelyWindChillMorning && extremelyWindChillAfternoon)
-    {
-      std::string areaString(
-          (areaAfternoon == INLAND_AREA
-               ? SISAMAASSA_WORD
-               : (areaAfternoon == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
-      if (areaString.empty())
-        sentence << ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, iltapaivalla);
-      else
-        sentence << ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
-                 << parse_weekday_phrase(dayNumber, iltapaivalla) << areaString;
-    }
-  }
+    emit_windchill_extreme_sentences(sentence, windChillMorning, windChillAfternoon,
+                                     extremelyWindChillMorning, extremelyWindChillAfternoon,
+                                     ctx, dayNumber, aamupaivalla, iltapaivalla);
 
   return sentence;
 }

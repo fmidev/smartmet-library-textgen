@@ -209,6 +209,62 @@ std::shared_ptr<TextGen::Sentence> meters_per_second()
   }
 }
 
+namespace
+{
+// Build SI-format meters per second sentence
+void mps_si(TextGen::Sentence& sentence, int value, bool withoutNumber)
+{
+  using namespace TextGen;
+  if (withoutNumber)
+    sentence << "m/s";
+  else
+    sentence << Integer(value) << "m/s";
+}
+
+// Build phrase-format meters per second sentence
+void mps_phrase(TextGen::Sentence& sentence, int value, bool withoutNumber)
+{
+  using namespace TextGen;
+  if (withoutNumber)
+  {
+    if (value == 1)
+      sentence << "metri sekunnissa";
+    else if (abs(value) % 10 == 1 && abs(value) != 11)
+      sentence << "metria sekunnissa (mod 10=1)";
+    else
+      sentence << "metria sekunnissa";  // including 0 m/s
+  }
+  else
+  {
+    if (value == 1)
+      sentence << "1 metri sekunnissa";
+    else if (abs(value) % 10 == 1 && abs(value) != 11)
+      sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
+    else if (value == 0)
+      sentence << "0 metria sekunnissa";
+    else
+      sentence << Integer(value) << "metria sekunnissa";
+  }
+}
+
+// Build textphrase-format meters per second sentence
+void mps_textphrase(TextGen::Sentence& sentence, int value)
+{
+  if (value >= 1 && value <= 3)
+    sentence << "heikkoa";
+  else if (value >= 4 && value <= 7)
+    sentence << "kohtalaista";
+  else if (value >= 8 && value <= 13)
+    sentence << "navakkaa";
+  else if (value >= 14 && value <= 20)
+    sentence << "kovaa";
+  else if (value >= 21 && value <= 32)
+    sentence << "myrskya";
+  else if (value > 32)
+    sentence << "hirmumyrskya";
+}
+}  // namespace
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the MetersPerSecond sentence
@@ -230,62 +286,11 @@ std::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNumb
     std::shared_ptr<Sentence> sentence(new Sentence);
 
     if (opt == "SI")
-    {
-      if (withoutNumber)
-        *sentence << "m/s";
-      else
-        *sentence << TextGen::Integer(value) << "m/s";
-    }
+      mps_si(*sentence, value, withoutNumber);
     else if (opt == "phrase")
-    {
-      if (withoutNumber)
-      {
-        if (value == 1)
-          *sentence << "metri sekunnissa";
-        else if (abs(value) % 10 == 1 && abs(value) != 11)
-          *sentence << "metria sekunnissa (mod 10=1)";
-        else
-          *sentence << "metria sekunnissa";  // including 0 m/s
-      }
-      else
-      {
-        if (value == 1)
-          *sentence << "1 metri sekunnissa";
-        else if (abs(value) % 10 == 1 && abs(value) != 11)
-          *sentence << TextGen::Integer(value) << "metria sekunnissa (mod 10=1)";
-        else if (value == 0)
-          *sentence << "0 metria sekunnissa";
-        else
-          *sentence << TextGen::Integer(value) << "metria sekunnissa";
-      }
-    }
+      mps_phrase(*sentence, value, withoutNumber);
     else if (opt == "textphrase")
-    {
-      if (value >= 1 && value <= 3)
-      {
-        *sentence << "heikkoa";
-      }
-      else if (value >= 4 && value <= 7)
-      {
-        *sentence << "kohtalaista";
-      }
-      else if (value >= 8 && value <= 13)
-      {
-        *sentence << "navakkaa";
-      }
-      else if (value >= 14 && value <= 20)
-      {
-        *sentence << "kovaa";
-      }
-      else if (value >= 21 && value <= 32)
-      {
-        *sentence << "myrskya";
-      }
-      else if (value > 32)
-      {
-        *sentence << "hirmumyrskya";
-      }
-    }
+      mps_textphrase(*sentence, value);
     else if (opt == "none")
       ;
     else

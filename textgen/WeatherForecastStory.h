@@ -95,6 +95,12 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
   unsigned int precipitationForm() const;
 
  private:
+  Sentence getLongPeriodPrecipitationSentence(const PrecipitationForecast& prForecast,
+                                              const WeatherPeriod& forecastPeriod,
+                                              const WeatherPeriod& storyItemPeriod);
+  Sentence getShortPeriodPrecipitationSentence(const PrecipitationForecast& prForecast,
+                                               const WeatherPeriod& forecastPeriod,
+                                               const WeatherPeriod& storyItemPeriod);
   float theIntensity = 0;
   float theExtent = 0;
   unsigned int theForm = 0;
@@ -129,6 +135,12 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
   Sentence cloudinessChangeSentence();
 
  private:
+  bool shouldSkipShortEndPeriod(const WeatherPeriod& storyItemPeriod) const;
+  void buildPoutaantuuSentence(const CloudinessForecast& clForecast,
+                               const PrecipitationForecast& prForecast);
+  Sentence buildCloudinessSentence(const CloudinessForecast& clForecast,
+                                   const PrecipitationForecast& prForecast,
+                                   const WeatherPeriod& storyItemPeriod);
   PrecipitationForecastStoryItem* thePreviousPrecipitationStoryItem;
   PrecipitationForecastStoryItem* theNextPrecipitationStoryItem;
   bool theReportAboutDryWeatherFlag = false;
@@ -174,6 +186,44 @@ class WeatherForecastStory
   Sentence getTimePhrase() const;
   void mergePrecipitationPeriodsWhenFeasible();
   void mergeCloudinessPeriodsWhenFeasible();
+  bool tryMergePrecipitationItems(PrecipitationForecastStoryItem* prev,
+                                  PrecipitationForecastStoryItem* curr,
+                                  WeatherForecastStoryItem* prevStoryItem);
+
+  // Helpers for getWeatherForecastStoryAtSea
+  struct SeaStoryStats
+  {
+    unsigned int forecastPeriodLength = 0;
+    unsigned int precipitationPeriodLength = 0;
+    unsigned int precipitationAndFogPeriodLength = 0;
+    unsigned int badVisibilityPeriodLength = 0;
+    unsigned int badVisibilityPeriodLengthWater = 0;
+    bool inManyPlaces = false;
+    bool badVisibility = false;
+    bool snowPrecipitationFormInvolved = false;
+  };
+
+  using SeaStoryItems = std::vector<std::pair<story_part_id, unsigned int>>;
+
+  SeaStoryItems collectSeaStoryItems();
+  void collectPrecipitationSeaStoryItem(unsigned int i, SeaStoryItems& storyItems);
+  void mergeSuccessiveSeaPrecipitationPeriods(SeaStoryItems& storyItems);
+  void processFogItem(unsigned int i,
+                      const SeaStoryItems& storyItems,
+                      WeatherForecastStoryItem*& previousCloudinessPeriod,
+                      std::vector<Sentence>& sentences,
+                      SeaStoryStats& stats);
+  void processMergedFogItems(WeatherForecastStoryItem* first,
+                             WeatherForecastStoryItem* second,
+                             std::vector<Sentence>& sentences,
+                             SeaStoryStats& stats);
+  void processSingleFogItem(WeatherForecastStoryItem* item,
+                            std::vector<Sentence>& sentences,
+                            SeaStoryStats& stats);
+  void processPrecipitationItem(WeatherForecastStoryItem* item,
+                                std::vector<Sentence>& sentences,
+                                SeaStoryStats& stats);
+  void appendVisibilitySentence(std::vector<Sentence>& sentences, const SeaStoryStats& stats);
 
   const std::string theVar;
   const WeatherPeriod& theForecastPeriod;

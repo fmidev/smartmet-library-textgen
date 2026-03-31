@@ -144,6 +144,72 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, const bool& t
   return sentence;
 }
 
+Sentence cloudiness_sentence_variable(const bool thePoutainenFlag,
+                                      const Sentence& thePeriodPhrase,
+                                      const std::string& theAreaString)
+{
+  // PUOLIPILVINEN_JA_PILVINEN case with period/area phrases
+  bool periodPhraseEmpty = thePeriodPhrase.empty();
+  bool areaPhraseEmpty = (theAreaString.empty() || theAreaString == EMPTY_STRING);
+  Sentence sentence;
+
+  if (periodPhraseEmpty && !areaPhraseEmpty)
+  {
+    sentence << (thePoutainenFlag
+                     ? SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+                     : SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE)
+             << theAreaString;
+  }
+  else if (!periodPhraseEmpty && areaPhraseEmpty)
+  {
+    sentence << (thePoutainenFlag
+                     ? HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+                     : HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE)
+             << thePeriodPhrase;
+  }
+  else
+  {
+    sentence << (thePoutainenFlag
+                     ? HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+                     : HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE)
+             << thePeriodPhrase << theAreaString;
+  }
+  return sentence;
+}
+
+Sentence cloudiness_sentence_normal(const cloudiness_id theCloudinessId,
+                                    const bool thePoutainenFlag,
+                                    const Sentence& thePeriodPhrase,
+                                    const std::string& theAreaString,
+                                    const Sentence& cloudinessSentence)
+{
+  bool periodPhraseEmpty = thePeriodPhrase.empty();
+  bool areaPhraseEmpty = (theAreaString.empty() || theAreaString == EMPTY_STRING);
+  bool poutainenAndNotSelkea = thePoutainenFlag && theCloudinessId != SELKEA;
+  Sentence sentence;
+
+  if (periodPhraseEmpty && !areaPhraseEmpty)
+  {
+    sentence << (poutainenAndNotSelkea ? SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+                                       : SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE)
+             << theAreaString << cloudinessSentence;
+  }
+  else if (!periodPhraseEmpty && areaPhraseEmpty)
+  {
+    sentence << (poutainenAndNotSelkea ? HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+                                       : HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE)
+             << thePeriodPhrase << cloudinessSentence;
+  }
+  else
+  {
+    sentence << (poutainenAndNotSelkea
+                     ? HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+                     : HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE)
+             << thePeriodPhrase << theAreaString << cloudinessSentence;
+  }
+  return sentence;
+}
+
 Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
                              const bool& thePoutainenFlag,
                              const Sentence& thePeriodPhrase,
@@ -151,9 +217,6 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
                              const bool& theShortForm)
 {
   Sentence sentence;
-  Sentence cloudinessSentence;
-  bool periodPhraseEmpty(thePeriodPhrase.empty());
-  bool areaPhraseEmpty(theAreaString.empty() || theAreaString == EMPTY_STRING);
 
   if (thePeriodPhrase.empty() && theAreaString == EMPTY_STRING)
   {
@@ -171,85 +234,20 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
     {
       sentence << cloudiness_sentence(theCloudinessId, theShortForm);
     }
-
     return sentence;
   }
 
+  Sentence cloudinessSentence;
   cloudinessSentence << cloudiness_sentence(theCloudinessId, true);
 
   if (theShortForm)
-  {
-    sentence << cloudinessSentence;
-  }
-  else
-  {
-    if (theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-    {
-      if ((periodPhraseEmpty && !areaPhraseEmpty) || (!periodPhraseEmpty && areaPhraseEmpty))
-      {
-        if (periodPhraseEmpty)
-        {
-          if (thePoutainenFlag)
-            sentence << SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
-                     << theAreaString;
-          else
-            sentence << SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE << theAreaString;
-        }
-        else
-        {
-          if (thePoutainenFlag)
-            sentence << HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
-                     << thePeriodPhrase;
-          else
-            sentence << HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE << thePeriodPhrase;
-        }
-      }
-      else
-      {
-        if (thePoutainenFlag)
-          sentence << HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
-                   << thePeriodPhrase << theAreaString;
-        else
-          sentence << HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE
-                   << thePeriodPhrase << theAreaString;
-      }
-    }
-    else
-    {
-      if ((periodPhraseEmpty && !areaPhraseEmpty) || (!periodPhraseEmpty && areaPhraseEmpty))
-      {
-        if (periodPhraseEmpty)
-        {
-          if (thePoutainenFlag && theCloudinessId != SELKEA)
+    return cloudinessSentence;
 
-            sentence << SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE << theAreaString
-                     << cloudinessSentence;
-          else
-            sentence << SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE << theAreaString
-                     << cloudinessSentence;
-        }
-        else
-        {
-          if (thePoutainenFlag && theCloudinessId != SELKEA)
-            sentence << HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE << thePeriodPhrase
-                     << cloudinessSentence;
-          else
-            sentence << HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase
-                     << cloudinessSentence;
-        }
-      }
-      else
-      {
-        if (thePoutainenFlag && theCloudinessId != SELKEA)
-          sentence << HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
-                   << thePeriodPhrase << theAreaString << cloudinessSentence;
-        else
-          sentence << HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase
-                   << theAreaString << cloudinessSentence;
-      }
-    }
-  }
-  return sentence;
+  if (theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+    return cloudiness_sentence_variable(thePoutainenFlag, thePeriodPhrase, theAreaString);
+
+  return cloudiness_sentence_normal(theCloudinessId, thePoutainenFlag, thePeriodPhrase,
+                                    theAreaString, cloudinessSentence);
 }
 }  // namespace
 
@@ -400,6 +398,42 @@ bool CloudinessForecast::separateWeatherPeriodCloudiness(
   return (abs(cloudinessId1 - cloudinessId2) >= 2);
 }
 
+// Returns {event_id, changeIndex} for a split at position i, or {MISSING_WEATHER_EVENT, 0}
+static std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
+    const weather_result_data_item_vector* theData,
+    unsigned int i,
+    float meanFirst,
+    float meanSecond)
+{
+  if (meanFirst >= PILVISTYVAA_UPPER_LIMIT && meanSecond <= PILVISTYVAA_LOWER_LIMIT)
+  {
+    for (unsigned int k = i + 1; k < theData->size(); k++)
+      if (theData->at(k)->theResult.value() > PILVISTYVAA_LOWER_LIMIT)
+        return {MISSING_WEATHER_EVENT, 0};
+
+    unsigned int changeIndex = i + 1;
+    while (changeIndex >= 1 &&
+           theData->at(changeIndex - 1)->theResult.value() <= PILVISTYVAA_LOWER_LIMIT)
+      changeIndex--;
+    return {SELKENEE, changeIndex};
+  }
+
+  if (meanFirst <= PILVISTYVAA_LOWER_LIMIT && meanSecond >= PILVISTYVAA_UPPER_LIMIT)
+  {
+    for (unsigned int k = i + 1; k < theData->size(); k++)
+      if (theData->at(k)->theResult.value() < PILVISTYVAA_UPPER_LIMIT)
+        return {MISSING_WEATHER_EVENT, 0};
+
+    unsigned int changeIndex = i + 1;
+    while (changeIndex >= 1 &&
+           theData->at(changeIndex - 1)->theResult.value() >= PILVISTYVAA_UPPER_LIMIT)
+      changeIndex--;
+    return {PILVISTYY, changeIndex};
+  }
+
+  return {MISSING_WEATHER_EVENT, 0};
+}
+
 void CloudinessForecast::findOutCloudinessWeatherEvents(
     const weather_result_data_item_vector* theData,
     weather_event_id_vector& theCloudinessWeatherEvents)
@@ -413,65 +447,19 @@ void CloudinessForecast::findOutCloudinessWeatherEvents(
 
     weather_result_data_item_vector theFirstHalfData;
     weather_result_data_item_vector theSecondHalfData;
-
     get_sub_time_series(firstHalfPeriod, *theData, theFirstHalfData);
-
     get_sub_time_series(secondHalfPeriod, *theData, theSecondHalfData);
 
-    float meanCloudinessInTheFirstHalf = get_mean(theFirstHalfData);
-    float meanCloudinessInTheSecondHalf = get_mean(theSecondHalfData);
-    weather_event_id weatherEventId = MISSING_WEATHER_EVENT;
-    unsigned int changeIndex = 0;
+    float meanFirst = get_mean(theFirstHalfData);
+    float meanSecond = get_mean(theSecondHalfData);
 
-    if (meanCloudinessInTheFirstHalf >= PILVISTYVAA_UPPER_LIMIT &&
-        meanCloudinessInTheSecondHalf <= PILVISTYVAA_LOWER_LIMIT)
+    auto [eventId, changeIndex] = detect_cloudiness_event(theData, i, meanFirst, meanSecond);
+
+    if (eventId != MISSING_WEATHER_EVENT)
     {
-      bool selkeneeReally = true;
-      // check that cloudiness stays under the limit for the rest of the forecast period
-      for (unsigned int k = i + 1; k < theData->size(); k++)
-        if (theData->at(k)->theResult.value() > PILVISTYVAA_LOWER_LIMIT)
-        {
-          selkeneeReally = false;
-          break;
-        }
-      if (!selkeneeReally)
-        continue;
-
-      changeIndex = i + 1;
-      while (changeIndex >= 1 &&
-             theData->at(changeIndex - 1)->theResult.value() <= PILVISTYVAA_LOWER_LIMIT)
-        changeIndex--;
-
-      weatherEventId = SELKENEE;
-    }
-    else if (meanCloudinessInTheFirstHalf <= PILVISTYVAA_LOWER_LIMIT &&
-             meanCloudinessInTheSecondHalf >= PILVISTYVAA_UPPER_LIMIT)
-    {
-      bool pilvistyyReally = true;
-      // check that cloudiness stays above the limit for the rest of the forecast period
-      for (unsigned int k = i + 1; k < theData->size(); k++)
-        if (theData->at(k)->theResult.value() < PILVISTYVAA_UPPER_LIMIT)
-        {
-          pilvistyyReally = false;
-          break;
-        }
-      if (!pilvistyyReally)
-        continue;
-
-      changeIndex = i + 1;
-      while (changeIndex >= 1 &&
-             theData->at(changeIndex - 1)->theResult.value() >= PILVISTYVAA_UPPER_LIMIT)
-        changeIndex--;
-
-      weatherEventId = PILVISTYY;
-    }
-
-    if (weatherEventId != MISSING_WEATHER_EVENT)
-    {
-      theCloudinessWeatherEvents.emplace_back(theData->at(changeIndex)->thePeriod.localStartTime(),
-                                              weatherEventId);
+      theCloudinessWeatherEvents.emplace_back(
+          theData->at(changeIndex)->thePeriod.localStartTime(), eventId);
       // Note: only one event (pilvistyy/selkenee) during the period.
-      // The Original plan was that several events are allowed
       break;
     }
   }

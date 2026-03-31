@@ -616,6 +616,36 @@ void PrecipitationForecast::mostlyDryWeatherPhrase(
   theDryPeriodTautologyFlag = true;
 }
 
+namespace
+{
+struct TransformPhrases
+{
+  const char* startWord;
+  const char* jokaMuuttuu;
+};
+
+// Returns phrase pair for a given transformation, or nullptr if special case / unknown
+const TransformPhrases* getTransformPhrases(precipitation_form_transformation_id id)
+{
+  static const std::map<precipitation_form_transformation_id, TransformPhrases> table = {
+      {WATER_TO_SNOW, {VESISADETTA_WORD, JOKA_MUUTTUU_LUMISATEEKSI_PHRASE}},
+      {WATER_TO_DRIZZLE, {VESISADETTA_WORD, JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE}},
+      {WATER_TO_SLEET, {VESISADETTA_WORD, JOKA_MUUTTUU_RANTASATEEKSI_PHRASE}},
+      {SNOW_TO_WATER, {LUMISADETTA_WORD, JOKA_MUUTTUU_VESISATEEKSI_PHRASE}},
+      {SNOW_TO_DRIZZLE, {LUMISADETTA_WORD, JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE}},
+      {SNOW_TO_SLEET, {LUMISADETTA_WORD, JOKA_MUUTTUU_RANTASATEEKSI_PHRASE}},
+      {DRIZZLE_TO_WATER, {TIHKUSADETTA_WORD, JOKA_MUUTTUU_VESISATEEKSI_PHRASE}},
+      {DRIZZLE_TO_SNOW, {TIHKUSADETTA_WORD, JOKA_MUUTTUU_LUMISATEEKSI_PHRASE}},
+      {DRIZZLE_TO_SLEET, {TIHKUSADETTA_WORD, JOKA_MUUTTUU_RANTASATEEKSI_PHRASE}},
+      {SLEET_TO_WATER, {RANTASADETTA_WORD, JOKA_MUUTTUU_VESISATEEKSI_PHRASE}},
+      {SLEET_TO_DRIZZLE, {RANTASADETTA_WORD, JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE}},
+      {SLEET_TO_SNOW, {RANTASADETTA_WORD, JOKA_MUUTTUU_LUMISATEEKSI_PHRASE}},
+  };
+  auto it = table.find(id);
+  return (it != table.end()) ? &it->second : nullptr;
+}
+}  // anonymous namespace
+
 void PrecipitationForecast::getTransformationPhraseElements(
     const WeatherPeriod& /*thePeriod*/,
     float thePrecipitationExtent,
@@ -641,91 +671,384 @@ void PrecipitationForecast::getTransformationPhraseElements(
   theCompositePhraseElements[IN_PLACES_PARAMETER]
       << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 
-  std::string jokaMuuttuuString;
-
-  switch (theTransformId)
+  // Special shower cases: snow/sleet transitioning to sleet/snow showers
+  if (theTransformId == SNOW_TO_SLEET && thePrecipitationType == SHOWERS)
   {
-    case WATER_TO_SNOW:
-    case WATER_TO_DRIZZLE:
-    case WATER_TO_SLEET:
-    {
-      if (theTransformId == WATER_TO_SNOW)
-        jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
-      else if (theTransformId == WATER_TO_DRIZZLE)
-        jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-      else
-        jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
-
-      theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-          << VESISADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
-    }
-    break;
-    case SNOW_TO_WATER:
-    case SNOW_TO_DRIZZLE:
-    case SNOW_TO_SLEET:
-    {
-      if (theTransformId == SNOW_TO_SLEET && thePrecipitationType == SHOWERS)
-      {
-        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-            << LUMIKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
-            << JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE;
-      }
-      else
-      {
-        if (theTransformId == SNOW_TO_WATER)
-          jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-        else if (theTransformId == SNOW_TO_DRIZZLE)
-          jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-        else
-          jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
-
-        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-            << LUMISADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
-      }
-    }
-    break;
-    case DRIZZLE_TO_WATER:
-    case DRIZZLE_TO_SNOW:
-    case DRIZZLE_TO_SLEET:
-    {
-      if (theTransformId == DRIZZLE_TO_WATER)
-        jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-      else if (theTransformId == DRIZZLE_TO_SNOW)
-        jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
-      else
-        jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
-
-      theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-          << TIHKUSADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
-    }
-    break;
-    case SLEET_TO_WATER:
-    case SLEET_TO_DRIZZLE:
-    case SLEET_TO_SNOW:
-    {
-      if (theTransformId == SLEET_TO_SNOW && thePrecipitationType == SHOWERS)
-      {
-        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-            << RANTAKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
-            << JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE;
-      }
-      else
-      {
-        if (theTransformId == SLEET_TO_WATER)
-          jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-        else if (theTransformId == SLEET_TO_DRIZZLE)
-          jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-        else
-          jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
-
-        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-            << RANTASADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
-      }
-    }
-    break;
-    default:
-      break;
+    theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+        << LUMIKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
+        << JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE;
+    return;
   }
+  if (theTransformId == SLEET_TO_SNOW && thePrecipitationType == SHOWERS)
+  {
+    theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+        << RANTAKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
+        << JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE;
+    return;
+  }
+
+  const TransformPhrases* tp = getTransformPhrases(theTransformId);
+  if (tp)
+  {
+    theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+        << tp->startWord << Delimiter(COMMA_PUNCTUATION_MARK) << tp->jokaMuuttuu;
+  }
+}
+
+void PrecipitationForecast::setPhraseElementsDry(map<string, Sentence>& elems) const
+{
+  elems[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
+  theDryPeriodTautologyFlag = true;
+}
+
+void PrecipitationForecast::handleWaterFormShowersPhrase(const PrecipPhraseContext& ctx,
+                                                          map<string, Sentence>& elems) const
+{
+  if (ctx.intensity >= theParameters.theHeavyPrecipitationLimitWater)
+    elems[PRECIPITATION_PARAMETER]
+        << (ctx.use_summer_phrase ? VOIMAKKAITA_SADEKUUROJA_PHRASE : VOIMAKKAITA_VESIKUUROJA_PHRASE);
+  else
+  {
+    elems[PRECIPITATION_PARAMETER]
+        << (ctx.use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+    theCheckHeavyIntensityFlag = SHOWERS;
+  }
+  can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, true);
+}
+
+void PrecipitationForecast::handleWaterFormContinuousPhrase(const PrecipPhraseContext& ctx,
+                                                             map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theWeakPrecipitationLimitWater &&
+      ctx.intensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitWater)
+    elems[PRECIPITATION_PARAMETER]
+        << (ctx.use_summer_phrase ? HEIKKOA_SADETTA_PHRASE : HEIKKOA_VESISADETTA_PHRASE);
+  else if (ctx.intensity >= theParameters.theHeavyPrecipitationLimitWater)
+    elems[PRECIPITATION_PARAMETER]
+        << (ctx.use_summer_phrase ? RUNSASTA_SADETTA_PHRASE : RUNSASTA_VESISADETTA_PHRASE);
+  else
+  {
+    elems[PRECIPITATION_PARAMETER] << (ctx.use_summer_phrase ? SADETTA_WORD : VESISADETTA_WORD);
+    theCheckHeavyIntensityFlag = CONTINUOUS;
+  }
+  can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, false);
+}
+
+void PrecipitationForecast::handleWaterFormPhrase(const PrecipPhraseContext& ctx,
+                                                  map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitWater)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather && ctx.is_showers)
+  {
+    mostlyDryWeatherPhrase(ctx.is_showers,
+                           ctx.period,
+                           (ctx.use_summer_phrase ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE
+                                                  : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE),
+                           elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+    handleWaterFormShowersPhrase(ctx, elems);
+  else
+    handleWaterFormContinuousPhrase(ctx, elems);
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleSleetFormPhrase(const PrecipPhraseContext& ctx,
+                                                  map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitSleet)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(
+        ctx.is_showers, ctx.period, YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE, elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    elems[PRECIPITATION_PARAMETER] << RANTAKUUROJA_WORD;
+    theCheckHeavyIntensityFlag = SHOWERS;
+  }
+  else
+  {
+    elems[PRECIPITATION_PARAMETER] << RANTASADETTA_WORD;
+    theCheckHeavyIntensityFlag = CONTINUOUS;
+    if (ctx.can_be_freezing)
+      elems[PRECIPITATION_PARAMETER]
+          << JA_WORD
+          << (ctx.freezing_form == WATER_FREEZING_FORM ? JAATAVAA_VESISADETTA_PHRASE
+                                                       : JAATAVAA_TIHKUSADETTA_PHRASE);
+  }
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleSnowFormPhrase(const PrecipPhraseContext& ctx,
+                                                 map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitSnow)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(
+        ctx.is_showers, ctx.period, YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE, elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    if (ctx.intensity >= theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << SAKEITA_WORD;
+    else
+      theCheckHeavyIntensityFlag = SHOWERS;
+    elems[PRECIPITATION_PARAMETER] << LUMIKUUROJA_WORD;
+  }
+  else
+  {
+    if (ctx.intensity < theParameters.theWeakPrecipitationLimitSnow &&
+        ctx.intensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << HEIKKOA_WORD;
+    else if (ctx.intensity >= theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << SAKEAA_WORD;
+    else
+      theCheckHeavyIntensityFlag = CONTINUOUS;
+    elems[PRECIPITATION_PARAMETER] << LUMISADETTA_WORD;
+    if (ctx.can_be_freezing)
+      elems[PRECIPITATION_PARAMETER]
+          << JA_WORD
+          << (ctx.freezing_form == WATER_FREEZING_FORM ? JAATAVAA_VESISADETTA_PHRASE
+                                                       : JAATAVAA_TIHKUSADETTA_PHRASE);
+  }
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleDrizzleFormPhrase(const PrecipPhraseContext& ctx,
+                                                    map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitDrizzle)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(ctx.is_showers,
+                           ctx.period,
+                           (ctx.use_summer_phrase ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE
+                                                  : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE),
+                           elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    elems[PRECIPITATION_PARAMETER]
+        << (ctx.use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+    theCheckHeavyIntensityFlag = SHOWERS;
+    can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, true);
+  }
+  else
+  {
+    elems[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
+    can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, false);
+  }
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleWaterDrizzleFormPhrase(const PrecipPhraseContext& ctx,
+                                                         map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitDrizzle)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(ctx.is_showers,
+                           ctx.period,
+                           (ctx.use_summer_phrase ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE
+                                                  : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE),
+                           elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    elems[PRECIPITATION_PARAMETER]
+        << (ctx.use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+    theCheckHeavyIntensityFlag = SHOWERS;
+    can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, true);
+  }
+  else
+  {
+    if (ctx.formDrizzle < 70.0)
+      elems[PRECIPITATION_PARAMETER] << (ctx.use_summer_phrase ? SADETTA_WORD : VESISADETTA_WORD);
+    else
+      elems[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
+    theCheckHeavyIntensityFlag = CONTINUOUS;
+    can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, false);
+  }
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleWaterSleetFormPhrase(const PrecipPhraseContext& ctx,
+                                                       map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitDrizzle)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(ctx.is_showers,
+                           ctx.period,
+                           (ctx.formWater >= ctx.formSleet
+                                ? YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE
+                                : YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE),
+                           elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    if (ctx.formWater >= ctx.formSleet && !ctx.can_be_freezing)
+      elems[PRECIPITATION_PARAMETER] << VESI_TAI_RANTAKUUROJA_PHRASE;
+    else
+      elems[PRECIPITATION_PARAMETER] << RANTA_TAI_VESIKUUROJA_PHRASE;
+    theCheckHeavyIntensityFlag = SHOWERS;
+    can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, true);
+  }
+  else
+  {
+    if (ctx.formWater >= ctx.formSleet)
+      elems[PRECIPITATION_PARAMETER] << VESI_TAI_RANTASADETTA_PHRASE;
+    else
+      elems[PRECIPITATION_PARAMETER] << RANTA_TAI_VESISADETTA_PHRASE;
+    theCheckHeavyIntensityFlag = CONTINUOUS;
+    can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, false);
+  }
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleWaterSnowFormPhrase(const PrecipPhraseContext& ctx,
+                                                      map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitDrizzle)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(
+        ctx.is_showers, ctx.period, YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE, elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    waterAndSnowShowersPhrase(ctx.intensity,
+                              ctx.intensityAbsoluteMax,
+                              ctx.formWater + ctx.formDrizzle + ctx.formSleet,
+                              ctx.can_be_freezing,
+                              elems);
+  }
+  else
+  {
+    // IF vesi on suunnilleen yhta paljon kuin lumi AND ranta < vesi+lumi, THEN vesi- tai lumisadetta
+    if (ctx.intensity < theParameters.theWeakPrecipitationLimitSnow &&
+        ctx.intensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << HEIKKOA_WORD;
+    else if (ctx.intensity >= theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << KOVAA_WORD;
+    else
+      theCheckHeavyIntensityFlag = CONTINUOUS;
+
+    if (ctx.formWater >= ctx.formSnow)
+    {
+      elems[PRECIPITATION_PARAMETER] << VESI_TAI_LUMISADETTA_PHRASE;
+    }
+    else if (ctx.can_be_freezing)
+    {
+      elems[PRECIPITATION_PARAMETER]
+          << (ctx.freezing_form == WATER_FREEZING_FORM ? LUMI_TAI_VESISADETTA_PHRASE
+                                                       : LUMI_TAI_TIHKUSADETTA_PHRASE);
+      can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, false);
+    }
+    else
+    {
+      elems[PRECIPITATION_PARAMETER] << LUMI_TAI_VESISADETTA_PHRASE;
+    }
+  }
+  theDryPeriodTautologyFlag = false;
+}
+
+void PrecipitationForecast::handleSleetSnowFormPhrase(const PrecipPhraseContext& ctx,
+                                                      map<string, Sentence>& elems) const
+{
+  if (ctx.intensity < theParameters.theDryWeatherLimitSleet)
+  {
+    setPhraseElementsDry(elems);
+    return;
+  }
+  if (ctx.mostly_dry_weather)
+  {
+    mostlyDryWeatherPhrase(
+        ctx.is_showers, ctx.period, YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE, elems);
+    return;
+  }
+  elems[IN_PLACES_PARAMETER]
+      << get_in_places_phrase().getInPlacesPhrase(ctx.phraseType, theUseOllaVerbFlag);
+  if (ctx.is_showers)
+  {
+    waterAndSnowShowersPhrase(ctx.intensity,
+                              ctx.intensityAbsoluteMax,
+                              ctx.formWater + ctx.formDrizzle + ctx.formSleet,
+                              ctx.can_be_freezing,
+                              elems);
+  }
+  else
+  {
+    if (ctx.intensity < theParameters.theWeakPrecipitationLimitSnow &&
+        ctx.intensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << HEIKKOA_WORD;
+    else if (ctx.intensity >= theParameters.theHeavyPrecipitationLimitSnow)
+      elems[INTENSITY_PARAMETER] << SAKEAA_WORD;
+    else
+      theCheckHeavyIntensityFlag = CONTINUOUS;
+
+    if (ctx.formSnow >= ctx.formSleet)
+    {
+      elems[PRECIPITATION_PARAMETER] << LUMI_TAI_RANTASADETTA_PHRASE;
+      can_be_freezing_phrase(theUseIcingPhraseFlag, ctx.can_be_freezing, elems, false);
+    }
+    else
+    {
+      elems[PRECIPITATION_PARAMETER] << RANTA_TAI_LUMISADETTA_PHRASE;
+    }
+  }
+  theDryPeriodTautologyFlag = false;
 }
 
 void PrecipitationForecast::getPrecipitationPhraseElements(
@@ -752,583 +1075,120 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
   if (dry_weather)
   {
     theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-
     theDryPeriodTautologyFlag = true;
+    return;
   }
-  else
+
+  if (thePrecipitationForm == MISSING_PRECIPITATION_FORM)
+    return;
+
+  // use the summer phrase if it is summertime and no more than one precipitation form is involved
+  const bool use_summer_phrase =
+      SeasonTools::isSummerHalf(thePeriod.localStartTime(), theParameters.theVariable) &&
+      theSinglePrecipitationFormFlag;
+
+  const bool is_showers = thePrecipitationType == SHOWERS;
+  const bool mostly_dry_weather = thePrecipitationExtent <= theParameters.theMostlyDryWeatherLimit;
+  const bool in_some_places = thePrecipitationExtent > theParameters.theInSomePlacesLowerLimit &&
+                              thePrecipitationExtent <= theParameters.theInSomePlacesUpperLimit;
+  const bool in_many_places = thePrecipitationExtent > theParameters.theInManyPlacesLowerLimit &&
+                              thePrecipitationExtent <= theParameters.theInManyPlacesUpperLimit;
+
+  InPlacesPhrase::PhraseType phraseType(InPlacesPhrase::NONEXISTENT_PHRASE);
+  if (in_some_places)
+    phraseType = InPlacesPhrase::IN_SOME_PLACES_PHRASE;
+  else if (in_many_places)
+    phraseType = InPlacesPhrase::IN_MANY_PLACES_PHRASE;
+
+  const bool can_be_freezing =
+      thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit ||
+      thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit;
+
+  precipitation_form_id freezing_form = MISSING_PRECIPITATION_FORM;
+  if (thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit &&
+      thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit)
+    freezing_form = (thePrecipitationFormFreezingRain > thePrecipitationFormFreezingDrizzle
+                         ? WATER_FREEZING_FORM
+                         : DRIZZLE_FREEZING_FORM);
+  else if (thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit)
+    freezing_form = WATER_FREEZING_FORM;
+  else if (thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit)
+    freezing_form = DRIZZLE_FREEZING_FORM;
+
+  theParameters.theLog << "Precipitation form is "
+                       << precipitation_form_string(thePrecipitationForm) << '\n';
+  theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << '\n';
+  theParameters.theLog << "Precipitation type is "
+                       << (thePrecipitationType == 1
+                               ? "'continuous'"
+                               : (thePrecipitationType == 2 ? "'showers'" : "'missing'"))
+                       << '\n';
+
+  if (!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
+    theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
+
+  PrecipPhraseContext ctx{thePeriod,
+                          thePrecipitationIntensity,
+                          thePrecipitationIntensityAbsoluteMax,
+                          thePrecipitationExtent,
+                          thePrecipitationFormWater,
+                          thePrecipitationFormDrizzle,
+                          thePrecipitationFormSleet,
+                          thePrecipitationFormSnow,
+                          thePrecipitationFormFreezingRain,
+                          thePrecipitationFormFreezingDrizzle,
+                          use_summer_phrase,
+                          is_showers,
+                          mostly_dry_weather,
+                          can_be_freezing,
+                          freezing_form,
+                          phraseType};
+
+  switch (thePrecipitationForm)
   {
-    if (thePrecipitationForm == MISSING_PRECIPITATION_FORM)
-      return;
-
-    // use the summer phrase if it is summertime and no more than one precipitation form is involved
-    bool use_summer_phrase =
-        SeasonTools::isSummerHalf(thePeriod.localStartTime(), theParameters.theVariable) &&
-        theSinglePrecipitationFormFlag;
-
-    const bool is_showers = thePrecipitationType == SHOWERS;
-    const bool mostly_dry_weather =
-        thePrecipitationExtent <= theParameters.theMostlyDryWeatherLimit;
-    const bool in_some_places = thePrecipitationExtent > theParameters.theInSomePlacesLowerLimit &&
-                                thePrecipitationExtent <= theParameters.theInSomePlacesUpperLimit;
-    const bool in_many_places = thePrecipitationExtent > theParameters.theInManyPlacesLowerLimit &&
-                                thePrecipitationExtent <= theParameters.theInManyPlacesUpperLimit;
-    InPlacesPhrase::PhraseType phraseType(InPlacesPhrase::NONEXISTENT_PHRASE);
-    if (in_some_places)
-      phraseType = InPlacesPhrase::IN_SOME_PLACES_PHRASE;
-    else if (in_many_places)
-      phraseType = InPlacesPhrase::IN_MANY_PLACES_PHRASE;
-
-    bool can_be_freezing =
-        thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit ||
-        thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit;
-
-    precipitation_form_id freezing_form = MISSING_PRECIPITATION_FORM;
-
-    if (thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit &&
-        thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit)
-      freezing_form = (thePrecipitationFormFreezingRain > thePrecipitationFormFreezingDrizzle
-                           ? WATER_FREEZING_FORM
-                           : DRIZZLE_FREEZING_FORM);
-    else if (thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit)
-      freezing_form = WATER_FREEZING_FORM;
-    else if (thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit)
-      freezing_form = DRIZZLE_FREEZING_FORM;
-
-    InPlacesPhrase& inPlacesPhraseMaker = get_in_places_phrase();
-
-    theParameters.theLog << "Precipitation form is "
-                         << precipitation_form_string(thePrecipitationForm) << '\n';
-    theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << '\n';
-    theParameters.theLog << "Precipitation type is "
-                         << (thePrecipitationType == 1
-                                 ? "'continuous'"
-                                 : (thePrecipitationType == 2 ? "'showers'" : "'missing'"))
-                         << '\n';
-
-    if (!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
-      theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
-
-    switch (thePrecipitationForm)
-    {
-      case WATER_FREEZING_FORM:
-      case FREEZING_FORM:
-      case WATER_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitWater)
-        {
-          if (mostly_dry_weather && thePrecipitationType == SHOWERS)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   (use_summer_phrase ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE
-                                                      : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE),
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-
-            if (is_showers)
-            {
-              /*
-                    // heikot kuurot poistettu 17.8.2011
-              if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater &&
-                     thePrecipitationIntensityAbsoluteMax <
-              theParameters.theHeavyPrecipitationLimitWater)
-                    {
-                      theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
-                            (use_summer_phrase ? HEIKKOJA_SADEKUUROJA_PHRASE :
-              HEIKKOJA_VESIKUUROJA_PHRASE);
-                    }
-              else
-              */
-              if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << (use_summer_phrase ? VOIMAKKAITA_SADEKUUROJA_PHRASE
-                                          : VOIMAKKAITA_VESIKUUROJA_PHRASE);
-              }
-              else
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << (use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
-                theCheckHeavyIntensityFlag = SHOWERS;
-              }
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
-            }
-            else
-            {
-              if (thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater &&
-                  thePrecipitationIntensityAbsoluteMax <
-                      theParameters.theHeavyPrecipitationLimitWater)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << (use_summer_phrase ? HEIKKOA_SADETTA_PHRASE : HEIKKOA_VESISADETTA_PHRASE);
-              }
-              else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << (use_summer_phrase ? RUNSASTA_SADETTA_PHRASE : RUNSASTA_VESISADETTA_PHRASE);
-              }
-              else
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << (use_summer_phrase ? SADETTA_WORD : VESISADETTA_WORD);
-                theCheckHeavyIntensityFlag = CONTINUOUS;
-              }
-
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case SLEET_FREEZING_FORM:
-      case SLEET_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE,
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-
-            if (is_showers)
-            {
-              theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTAKUUROJA_WORD;
-              theCheckHeavyIntensityFlag = SHOWERS;
-            }
-            else
-            {
-              theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTASADETTA_WORD;
-              theCheckHeavyIntensityFlag = CONTINUOUS;
-              if (can_be_freezing)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << JA_WORD
-                    << (freezing_form == WATER_FREEZING_FORM ? JAATAVAA_VESISADETTA_PHRASE
-                                                             : JAATAVAA_TIHKUSADETTA_PHRASE);
-              }
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case SNOW_FORM:
-      case SNOW_FREEZING_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE,
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-
-            if (is_showers)
-            {
-              /*
-                    heikot kuurot poistettu 17.8.2011
-              if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
-                     thePrecipitationIntensityAbsoluteMax <
-              theParameters.theHeavyPrecipitationLimitSnow)
-                    {
-                      theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOJA_WORD;
-                    }
-              else
-              */
-              if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEITA_WORD;
-              }
-              else
-              {
-                theCheckHeavyIntensityFlag = SHOWERS;
-              }
-
-              theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMIKUUROJA_WORD;
-            }
-            else
-            {
-              if (thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
-                  thePrecipitationIntensityAbsoluteMax <
-                      theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOA_WORD;
-              }
-              else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEAA_WORD;
-              }
-              else
-              {
-                theCheckHeavyIntensityFlag = CONTINUOUS;
-              }
-
-              theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMISADETTA_WORD;
-
-              if (can_be_freezing)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << JA_WORD
-                    << (freezing_form == WATER_FREEZING_FORM ? JAATAVAA_VESISADETTA_PHRASE
-                                                             : JAATAVAA_TIHKUSADETTA_PHRASE);
-              }
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case DRIZZLE_FORM:
-      case DRIZZLE_FREEZING_FORM:
-
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   (use_summer_phrase ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE
-                                                      : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE),
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-            if (is_showers)
-            {
-              theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                  << (use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
-              theCheckHeavyIntensityFlag = SHOWERS;
-
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
-            }
-            else
-            {
-              theCompositePhraseElements[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
-
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case WATER_DRIZZLE_FREEZING_FORM:
-      case WATER_DRIZZLE_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   (use_summer_phrase ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE
-                                                      : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE),
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-            if (is_showers)
-            {
-              theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                  << (use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
-              theCheckHeavyIntensityFlag = SHOWERS;
-
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
-            }
-            else
-            {
-              if (thePrecipitationFormDrizzle < 70.0)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                    << (use_summer_phrase ? SADETTA_WORD : VESISADETTA_WORD);
-              }
-              else
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
-              }
-              theCheckHeavyIntensityFlag = CONTINUOUS;
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case DRIZZLE_SLEET_FORM:
-      case DRIZZLE_SLEET_FREEZING_FORM:
-      case WATER_DRIZZLE_SLEET_FORM:
-      case WATER_SLEET_FREEZING_FORM:
-      case WATER_SLEET_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   (thePrecipitationFormWater >= thePrecipitationFormSleet
-                                        ? YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE
-                                        : YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE),
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-
-            if (is_showers)
-            {
-              if (thePrecipitationFormWater >= thePrecipitationFormSleet && !can_be_freezing)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << VESI_TAI_RANTAKUUROJA_PHRASE;
-              }
-              else
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTA_TAI_VESIKUUROJA_PHRASE;
-              }
-
-              theCheckHeavyIntensityFlag = SHOWERS;
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
-            }
-            else
-            {
-              if (thePrecipitationFormWater >= thePrecipitationFormSleet)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << VESI_TAI_RANTASADETTA_PHRASE;
-                theCheckHeavyIntensityFlag = CONTINUOUS;
-              }
-              else
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTA_TAI_VESISADETTA_PHRASE;
-                theCheckHeavyIntensityFlag = CONTINUOUS;
-              }
-              can_be_freezing_phrase(
-                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case WATER_SNOW_FORM:
-      case DRIZZLE_SNOW_FORM:
-      case WATER_DRIZZLE_SNOW_FORM:
-      case DRIZZLE_SLEET_SNOW_FORM:
-      case WATER_SLEET_SNOW_FORM:
-      case DRIZZLE_SNOW_FREEZING_FORM:
-      case WATER_SNOW_FREEZING_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE,
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-
-            if (is_showers)
-            {
-              waterAndSnowShowersPhrase(thePrecipitationIntensity,
-                                        thePrecipitationIntensityAbsoluteMax,
-                                        thePrecipitationFormWater + thePrecipitationFormDrizzle +
-                                            thePrecipitationFormSleet,
-                                        can_be_freezing,
-                                        theCompositePhraseElements);
-            }
-            else
-            {
-              /*
-            IF vesi on suunnilleen yhta paljon kuin lumi AND ranta < vesi+lumi, THEN
-            vesi- tai lumisadetta.
-              */
-
-              if (thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
-                  thePrecipitationIntensityAbsoluteMax <
-                      theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOA_WORD;
-              }
-              else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << KOVAA_WORD;
-              }
-              else
-              {
-                theCheckHeavyIntensityFlag = CONTINUOUS;
-              }
-
-              if (thePrecipitationFormWater >= thePrecipitationFormSnow)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << VESI_TAI_LUMISADETTA_PHRASE;
-              }
-              else
-              {
-                if (can_be_freezing)
-                {
-                  theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                      << (freezing_form == WATER_FREEZING_FORM ? LUMI_TAI_VESISADETTA_PHRASE
-                                                               : LUMI_TAI_TIHKUSADETTA_PHRASE);
-                  can_be_freezing_phrase(
-                      theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
-                }
-                else
-                {
-                  theCompositePhraseElements[PRECIPITATION_PARAMETER]
-                      << LUMI_TAI_VESISADETTA_PHRASE;
-                }
-              }
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-
-      case SLEET_SNOW_FREEZING_FORM:
-      case SLEET_SNOW_FORM:
-      {
-        if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet)
-        {
-          if (mostly_dry_weather)
-          {
-            mostlyDryWeatherPhrase(is_showers,
-                                   thePeriod,
-                                   YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE,
-                                   theCompositePhraseElements);
-          }
-          else
-          {
-            theCompositePhraseElements[IN_PLACES_PARAMETER]
-                << inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
-
-            if (is_showers)
-            {
-              waterAndSnowShowersPhrase(thePrecipitationIntensity,
-                                        thePrecipitationIntensityAbsoluteMax,
-                                        thePrecipitationFormWater + thePrecipitationFormDrizzle +
-                                            thePrecipitationFormSleet,
-                                        can_be_freezing,
-                                        theCompositePhraseElements);
-            }
-            else
-            {
-              if (thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
-                  thePrecipitationIntensityAbsoluteMax <
-                      theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOA_WORD;
-              }
-              else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-              {
-                theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEAA_WORD;
-              }
-              else
-              {
-                theCheckHeavyIntensityFlag = CONTINUOUS;
-              }
-
-              if (thePrecipitationFormSnow >= thePrecipitationFormSleet)
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_RANTASADETTA_PHRASE;
-
-                can_be_freezing_phrase(
-                    theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
-              }
-              else
-              {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTA_TAI_LUMISADETTA_PHRASE;
-              }
-            }
-            theDryPeriodTautologyFlag = false;
-          }
-        }
-        else
-        {
-          theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
-          theDryPeriodTautologyFlag = true;
-        }
-        break;
-      }
-      default:
-        break;
-    }
+    case WATER_FREEZING_FORM:
+    case FREEZING_FORM:
+    case WATER_FORM:
+      handleWaterFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case SLEET_FREEZING_FORM:
+    case SLEET_FORM:
+      handleSleetFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case SNOW_FORM:
+    case SNOW_FREEZING_FORM:
+      handleSnowFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case DRIZZLE_FORM:
+    case DRIZZLE_FREEZING_FORM:
+      handleDrizzleFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case WATER_DRIZZLE_FREEZING_FORM:
+    case WATER_DRIZZLE_FORM:
+      handleWaterDrizzleFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case DRIZZLE_SLEET_FORM:
+    case DRIZZLE_SLEET_FREEZING_FORM:
+    case WATER_DRIZZLE_SLEET_FORM:
+    case WATER_SLEET_FREEZING_FORM:
+    case WATER_SLEET_FORM:
+      handleWaterSleetFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case WATER_SNOW_FORM:
+    case DRIZZLE_SNOW_FORM:
+    case WATER_DRIZZLE_SNOW_FORM:
+    case DRIZZLE_SLEET_SNOW_FORM:
+    case WATER_SLEET_SNOW_FORM:
+    case DRIZZLE_SNOW_FREEZING_FORM:
+    case WATER_SNOW_FREEZING_FORM:
+      handleWaterSnowFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    case SLEET_SNOW_FREEZING_FORM:
+    case SLEET_SNOW_FORM:
+      handleSleetSnowFormPhrase(ctx, theCompositePhraseElements);
+      break;
+    default:
+      break;
   }
 }
 
@@ -1376,6 +1236,25 @@ void PrecipitationForecast::selectPrecipitationSentence(
   }
 }
 
+namespace
+{
+// Helper: classify and add a dry gap between two consecutive precipitation periods
+void addDryGapPeriod(const TextGenPosixTime& prevEnd,
+                     const TextGenPosixTime& pStart,
+                     const TextGenPosixTime& srcStart,
+                     const TextGenPosixTime& srcEnd,
+                     vector<WeatherPeriod>& theDryPeriods)
+{
+  WeatherPeriod dryPeriod(prevEnd, pStart);
+  if (dryPeriod.localStartTime() < srcStart || dryPeriod.localStartTime() >= srcEnd)
+    return;
+  if (dryPeriod.localEndTime() > srcStart && dryPeriod.localEndTime() <= srcEnd)
+    theDryPeriods.push_back(dryPeriod);
+  else
+    theDryPeriods.emplace_back(dryPeriod.localStartTime(), srcEnd);
+}
+}  // anonymous namespace
+
 bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
                                           vector<WeatherPeriod>& theDryPeriods) const
 {
@@ -1397,48 +1276,31 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
   theParameters.theLog << "START TIME: " << theSourcePeriod.localStartTime() << '\n';
   theParameters.theLog << "END TIME: " << theSourcePeriod.localEndTime() << '\n';
 
+  const TextGenPosixTime& srcStart = theSourcePeriod.localStartTime();
+  const TextGenPosixTime& srcEnd = theSourcePeriod.localEndTime();
+
   bool overlappingPeriods = false;
 
   for (unsigned i = 0; i < precipitationPeriods->size(); i++)
   {
-    theParameters.theLog << "precipitation period i start: "
-                         << precipitationPeriods->at(i).localStartTime() << '\n';
-    theParameters.theLog << "precipitation period i end: "
-                         << precipitationPeriods->at(i).localEndTime() << '\n';
+    const TextGenPosixTime& pStart = precipitationPeriods->at(i).localStartTime();
+    const TextGenPosixTime& pEnd = precipitationPeriods->at(i).localEndTime();
 
-    if ((precipitationPeriods->at(i).localStartTime() >= theSourcePeriod.localStartTime() &&
-         precipitationPeriods->at(i).localStartTime() <= theSourcePeriod.localEndTime()) ||
-        (precipitationPeriods->at(i).localEndTime() >= theSourcePeriod.localStartTime() &&
-         precipitationPeriods->at(i).localEndTime() <= theSourcePeriod.localStartTime()))
+    theParameters.theLog << "precipitation period i start: " << pStart << '\n';
+    theParameters.theLog << "precipitation period i end: " << pEnd << '\n';
+
+    if ((pStart >= srcStart && pStart <= srcEnd) || (pEnd >= srcStart && pEnd <= srcStart))
       overlappingPeriods = true;
 
     if (i == 0)
     {
-      if (precipitationPeriods->at(i).localStartTime() >= theSourcePeriod.localStartTime() &&
-          (precipitationPeriods->at(i).localStartTime() <= theSourcePeriod.localEndTime()))
-      {
-        theDryPeriods.emplace_back(theSourcePeriod.localStartTime(),
-                                   precipitationPeriods->at(i).localStartTime());
-      }
+      if (pStart >= srcStart && pStart <= srcEnd)
+        theDryPeriods.emplace_back(srcStart, pStart);
+      continue;
     }
-    else
-    {
-      WeatherPeriod dryPeriod(precipitationPeriods->at(i - 1).localEndTime(),
-                              precipitationPeriods->at(i).localStartTime());
-      if (dryPeriod.localStartTime() >= theSourcePeriod.localStartTime() &&
-          dryPeriod.localStartTime() < theSourcePeriod.localEndTime())
-      {
-        if (dryPeriod.localEndTime() > theSourcePeriod.localStartTime() &&
-            dryPeriod.localEndTime() <= theSourcePeriod.localEndTime())
-        {
-          theDryPeriods.push_back(dryPeriod);
-        }
-        else
-        {
-          theDryPeriods.emplace_back(dryPeriod.localStartTime(), theSourcePeriod.localEndTime());
-        }
-      }
-    }
+
+    addDryGapPeriod(
+        precipitationPeriods->at(i - 1).localEndTime(), pStart, srcStart, srcEnd, theDryPeriods);
   }
 
   if (!overlappingPeriods)
@@ -1561,6 +1423,39 @@ bool PrecipitationForecast::isDryPeriod(const WeatherPeriod& theWeatherPeriod,
   return dry_weather;
 }
 
+namespace
+{
+// Returns the value from a data item for the given data id, or kFloatMissing if not applicable.
+float getDataItemValue(const PrecipitationDataItemData& item, weather_result_data_id dataId)
+{
+  switch (dataId)
+  {
+    case PRECIPITATION_MAX_DATA:
+      return item.thePrecipitationMaxIntensity;
+    case PRECIPITATION_MEAN_DATA:
+      return item.thePrecipitationIntensity;
+    case PRECIPITATION_EXTENT_DATA:
+      return item.thePrecipitationExtent;
+    case PRECIPITATION_FORM_WATER_DATA:
+      return item.thePrecipitationFormWater;
+    case PRECIPITATION_FORM_DRIZZLE_DATA:
+      return item.thePrecipitationFormDrizzle;
+    case PRECIPITATION_FORM_SLEET_DATA:
+      return item.thePrecipitationFormSleet;
+    case PRECIPITATION_FORM_SNOW_DATA:
+      return item.thePrecipitationFormSnow;
+    case PRECIPITATION_FORM_FREEZING_RAIN_DATA:
+      return item.thePrecipitationFormFreezingRain;
+    case PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA:
+      return item.thePrecipitationFormFreezingDrizzle;
+    case PRECIPITATION_TYPE_DATA:
+      return item.thePrecipitationTypeShowers;
+    default:
+      return kFloatMissing;
+  }
+}
+}  // anonymous namespace
+
 float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
                                      weather_result_data_id theDataId,
                                      const WeatherPeriod& theWeatherPeriod,
@@ -1578,152 +1473,24 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
     if (i->theObservationTime > theWeatherPeriod.localEndTime())
       break;
 
-    switch (theDataId)
-    {
-      case PRECIPITATION_MAX_DATA:
-      {
-        if (count == 0 || minValue > i->thePrecipitationMaxIntensity)
-          minValue = i->thePrecipitationIntensity;
-        if (count == 0 || maxValue < i->thePrecipitationMaxIntensity)
-          maxValue = i->thePrecipitationMaxIntensity;
-        cumulativeSum += i->thePrecipitationMaxIntensity;
-        count++;
-      }
-      break;
-      case PRECIPITATION_MEAN_DATA:
-      {
-        if (count == 0 || minValue > i->thePrecipitationIntensity)
-          minValue = i->thePrecipitationIntensity;
-        if (count == 0 || maxValue < i->thePrecipitationIntensity)
-          maxValue = i->thePrecipitationIntensity;
-        cumulativeSum += i->thePrecipitationIntensity;
-        count++;
-      }
-      break;
-      case PRECIPITATION_EXTENT_DATA:
-      {
-        if (count == 0 || minValue > i->thePrecipitationExtent)
-          minValue = i->thePrecipitationExtent;
-        if (count == 0 || maxValue < i->thePrecipitationExtent)
-          maxValue = i->thePrecipitationExtent;
-        cumulativeSum += i->thePrecipitationExtent;
-        count++;
-      }
-      break;
-      case PRECIPITATION_FORM_WATER_DATA:
-      {
-        if (i->thePrecipitationFormWater != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationFormWater)
-            minValue = i->thePrecipitationFormWater;
-          if (count == 0 || maxValue < i->thePrecipitationFormWater)
-            maxValue = i->thePrecipitationFormWater;
-          cumulativeSum += i->thePrecipitationFormWater;
-          count++;
-        }
-      }
-      break;
-      case PRECIPITATION_FORM_DRIZZLE_DATA:
-      {
-        if (i->thePrecipitationFormDrizzle != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationFormDrizzle)
-            minValue = i->thePrecipitationFormDrizzle;
-          if (count == 0 || maxValue < i->thePrecipitationFormDrizzle)
-            maxValue = i->thePrecipitationFormDrizzle;
-          cumulativeSum += i->thePrecipitationFormDrizzle;
-          count++;
-        }
-      }
-      break;
-      case PRECIPITATION_FORM_SLEET_DATA:
-      {
-        if (i->thePrecipitationFormSleet != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationFormSleet)
-            minValue = i->thePrecipitationFormSleet;
-          if (count == 0 || maxValue < i->thePrecipitationFormSleet)
-            maxValue = i->thePrecipitationFormSleet;
-          cumulativeSum += i->thePrecipitationFormSleet;
-          count++;
-        }
-      }
-      break;
-      case PRECIPITATION_FORM_SNOW_DATA:
-      {
-        if (i->thePrecipitationFormSnow != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationFormSnow)
-            minValue = i->thePrecipitationFormSnow;
-          if (count == 0 || maxValue < i->thePrecipitationFormSnow)
-            maxValue = i->thePrecipitationFormSnow;
-          cumulativeSum += i->thePrecipitationFormSnow;
-          count++;
-        }
-      }
-      break;
-      case PRECIPITATION_FORM_FREEZING_RAIN_DATA:
-      {
-        if (i->thePrecipitationFormFreezingRain != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationFormFreezingRain)
-            minValue = i->thePrecipitationFormFreezingRain;
-          if (count == 0 || maxValue < i->thePrecipitationFormFreezingRain)
-            maxValue = i->thePrecipitationFormFreezingRain;
-          cumulativeSum += i->thePrecipitationFormFreezingRain;
-          count++;
-        }
-      }
-      break;
-      case PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA:
-      {
-        if (i->thePrecipitationFormFreezingDrizzle != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationFormFreezingDrizzle)
-            minValue = i->thePrecipitationFormFreezingDrizzle;
-          if (count == 0 || maxValue < i->thePrecipitationFormFreezingDrizzle)
-            maxValue = i->thePrecipitationFormFreezingDrizzle;
-          cumulativeSum += i->thePrecipitationFormFreezingDrizzle;
-          count++;
-        }
-      }
-      break;
-      case PRECIPITATION_TYPE_DATA:
-      {
-        if (i->thePrecipitationTypeShowers != kFloatMissing)
-        {
-          if (count == 0 || minValue > i->thePrecipitationTypeShowers)
-            minValue = i->thePrecipitationTypeShowers;
-          if (count == 0 || maxValue < i->thePrecipitationTypeShowers)
-            maxValue = i->thePrecipitationTypeShowers;
-          cumulativeSum += i->thePrecipitationTypeShowers;
-          count++;
-        }
-      }
-      break;
-      default:
-        break;
-    }
+    float val = getDataItemValue(*i, theDataId);
+    if (val == kFloatMissing)
+      continue;
+
+    if (count == 0 || minValue > val)
+      minValue = val;
+    if (count == 0 || maxValue < val)
+      maxValue = val;
+    cumulativeSum += val;
+    count++;
   }
 
-  float retval = 0.0;
-  switch (theStatFunc)
-  {
-    case MIN:
-      retval = minValue;
-      break;
-    case MAX:
-      retval = maxValue;
-      break;
-    case MEAN:
-    {
-      if (count > 0)
-        retval = (cumulativeSum / count);
-    }
-    break;
-  }
-
-  return retval;
+  if (theStatFunc == MIN)
+    return minValue;
+  if (theStatFunc == MAX)
+    return maxValue;
+  // MEAN
+  return (count > 0) ? (cumulativeSum / count) : 0.0f;
 }
 
 float PrecipitationForecast::getMin(const precipitation_data_vector& theData,
@@ -1775,6 +1542,22 @@ precipitation_type PrecipitationForecast::getPrecipitationType(
 }
 
 // Logic:
+namespace
+{
+// Returns true if type stays constant from index i to end of data
+bool typeIsConstantFrom(const precipitation_data_vector& theData,
+                        unsigned int i,
+                        precipitation_type expectedType)
+{
+  for (unsigned int k = i; k < theData.size(); k++)
+  {
+    if (theData[k]->thePrecipitationType != expectedType)
+      return false;
+  }
+  return true;
+}
+}  // anonymous namespace
+
 // 1) save the type of the first hour
 // 2) Iterate the precipitation period through hour by hour and check
 // if the type changes
@@ -1800,31 +1583,24 @@ unsigned int PrecipitationForecast::getPrecipitationTypeChange(
 
     if (firstValue)
     {
-      // store the original type
       originalPrecipitationType = theData[i]->thePrecipitationType;
       firstValue = false;
+      continue;
     }
-    else
-    {
-      // different from the original type
-      if (originalPrecipitationType != theData[i]->thePrecipitationType)
-      {
-        // check the type for the rest of the precipitation period
-        for (unsigned int k = i; k < theData.size(); k++)
-        {
-          // the type changes again
-          if (theData[k]->thePrecipitationType != theData[i]->thePrecipitationType)
-            return 0;
-        }
-        // if type changes in the beginning or in the end ignore it
-        if (abs(theData[i]->theObservationTime.DifferenceInHours(periodToCheck.localStartTime())) <
-                3 ||
-            abs(theData[i]->theObservationTime.DifferenceInHours(periodToCheck.localEndTime())) < 3)
-          return 0;
 
-        return i;
-      }
-    }
+    if (originalPrecipitationType == theData[i]->thePrecipitationType)
+      continue;
+
+    // type changed - check if it stays constant for the rest of the period
+    if (!typeIsConstantFrom(theData, i, theData[i]->thePrecipitationType))
+      return 0;
+
+    // ignore changes too close to start or end
+    if (abs(theData[i]->theObservationTime.DifferenceInHours(periodToCheck.localStartTime())) < 3 ||
+        abs(theData[i]->theObservationTime.DifferenceInHours(periodToCheck.localEndTime())) < 3)
+      return 0;
+
+    return i;
   }
 
   return 0;
@@ -2174,6 +1950,38 @@ void PrecipitationForecast::joinPrecipitationPeriods(
   }
 }
 
+void PrecipitationForecast::appendFinalPrecipitationPeriod(
+    const precipitation_data_vector& data,
+    unsigned int periodStartIndex,
+    vector<WeatherPeriod>& dest) const
+{
+  TextGenPosixTime startTime(data[periodStartIndex]->theObservationTime);
+  if (periodStartIndex == 0)
+    startTime.SetDate(1970, 1, 1);  // precipitation starts before forecast period
+  TextGenPosixTime endTime(data[data.size() - 1]->theObservationTime);
+  if (endTime == theParameters.theForecastPeriod.localEndTime())
+    endTime.SetDate(2037, 1, 1);  // precipitation continues when forecast period ends
+
+  WeatherPeriod precipitationPeriod(startTime, endTime);
+  unsigned int typeChangeIndex = getPrecipitationTypeChange(data, precipitationPeriod);
+  if (typeChangeIndex == 0)
+  {
+    dest.push_back(precipitationPeriod);
+    return;
+  }
+
+  // Split one period into two because type changes
+  theParameters.theLog << "Split one precipitation period into two, because type changes at ";
+  theParameters.theLog << data[typeChangeIndex]->theObservationTime;
+  if (data[typeChangeIndex]->thePrecipitationType == SHOWERS)
+    theParameters.theLog << " from continuous to showers";
+  else
+    theParameters.theLog << " from showers to continuous";
+
+  dest.emplace_back(startTime, data[typeChangeIndex - 1]->theObservationTime);
+  dest.emplace_back(data[typeChangeIndex]->theObservationTime, endTime);
+}
+
 void PrecipitationForecast::findOutPrecipitationPeriods(forecast_area_id theAreaId)
 {
   precipitation_data_vector* dataSourceVector = nullptr;
@@ -2226,38 +2034,7 @@ void PrecipitationForecast::findOutPrecipitationPeriods(forecast_area_id theArea
     }
   }
   if (!isDryPrevious && periodStartIndex != dataSourceVector->size() - 1)
-  {
-    TextGenPosixTime startTime((*dataSourceVector)[periodStartIndex]->theObservationTime);
-    if (periodStartIndex == 0)
-      startTime.SetDate(1970, 1, 1);  // precipitation starts before forecast period
-    TextGenPosixTime endTime((*dataSourceVector)[dataSourceVector->size() - 1]->theObservationTime);
-    if (endTime == theParameters.theForecastPeriod.localEndTime())
-      endTime.SetDate(2037, 1, 1);  // precipitation continues when forecast period ends
-
-    // If type changes, split one period into two
-    WeatherPeriod precipitationPeriod(startTime, endTime);
-    unsigned int typeChangeIndex =
-        getPrecipitationTypeChange(*dataSourceVector, precipitationPeriod);
-    if (typeChangeIndex > 0)
-    {
-      theParameters.theLog << "Split one precipitation period into two, because type changes at ";
-      theParameters.theLog << (*dataSourceVector)[typeChangeIndex]->theObservationTime;
-      if ((*dataSourceVector)[typeChangeIndex]->thePrecipitationType == SHOWERS)
-        theParameters.theLog << " from continuous to showers";
-      else
-        theParameters.theLog << " from showers to continuous";
-
-      WeatherPeriod period1(startTime,
-                            (*dataSourceVector)[typeChangeIndex - 1]->theObservationTime);
-      WeatherPeriod period2((*dataSourceVector)[typeChangeIndex]->theObservationTime, endTime);
-      dataDestinationVector->push_back(period1);
-      dataDestinationVector->push_back(period2);
-    }
-    else
-    {
-      dataDestinationVector->push_back(precipitationPeriod);
-    }
-  }
+    appendFinalPrecipitationPeriod(*dataSourceVector, periodStartIndex, *dataDestinationVector);
   //	joinPrecipitationPeriods(*dataDestinationVector);
 }
 
@@ -2274,48 +2051,59 @@ void PrecipitationForecast::findOutPrecipitationWeatherEvents()
         thePrecipitationPeriodsFull, FULL_AREA, thePrecipitationWeatherEventsFull);
 }
 
+void PrecipitationForecast::addPoutaantuuEvent(
+    const vector<WeatherPeriod>& thePrecipitationPeriods,
+    unsigned int i,
+    const TextGenPosixTime& precipitationEndTime,
+    unsigned short theForecastArea,
+    weather_event_id_vector& thePrecipitationWeatherEvents) const
+{
+  // Check if next period starts close enough to suppress poutaantuu
+  if (i < thePrecipitationPeriods.size() - 1)
+  {
+    if (thePrecipitationPeriods.at(i + 1).localStartTime().DifferenceInHours(
+            precipitationEndTime) <= 2)
+      return;
+  }
+
+  weather_event_id event =
+      (getPrecipitationExtent(thePrecipitationPeriods.at(i), theForecastArea) >
+       MOSTLY_DRY_WEATHER_LIMIT)
+          ? POUTAANTUU
+          : POUTAANTUU_WHEN_EXTENT_SMALL;
+
+  thePrecipitationWeatherEvents.emplace_back(precipitationEndTime, event);
+}
+
 void PrecipitationForecast::findOutPrecipitationWeatherEvents(
     const vector<WeatherPeriod>& thePrecipitationPeriods,
     const unsigned short theForecastArea,
     weather_event_id_vector& thePrecipitationWeatherEvents)
 {
+  const TextGenPosixTime& forecastStart = theParameters.theForecastPeriod.localStartTime();
+  const TextGenPosixTime& forecastEnd = theParameters.theForecastPeriod.localEndTime();
+
   for (unsigned int i = 0; i < thePrecipitationPeriods.size(); i++)
   {
-    TextGenPosixTime precipitationStartTime(thePrecipitationPeriods.at(i).localStartTime());
-    TextGenPosixTime precipitationEndTime(thePrecipitationPeriods.at(i).localEndTime());
-    if (precipitationEndTime.DifferenceInHours(precipitationStartTime) >= 6)
+    const TextGenPosixTime precipitationStartTime(thePrecipitationPeriods.at(i).localStartTime());
+    const TextGenPosixTime precipitationEndTime(thePrecipitationPeriods.at(i).localEndTime());
+
+    if (precipitationEndTime.DifferenceInHours(precipitationStartTime) < 6)
+      continue;
+
+    // start year 1970 indicates that rain starts on previous period
+    if (precipitationStartTime.GetYear() != 1970 && precipitationStartTime >= forecastStart &&
+        precipitationStartTime <= forecastEnd)
     {
-      // start year 1970 indicates that rain starts on previous period
-      if (precipitationStartTime.GetYear() != 1970 &&
-          precipitationStartTime >= theParameters.theForecastPeriod.localStartTime() &&
-          precipitationStartTime <= theParameters.theForecastPeriod.localEndTime())
-      {
-        thePrecipitationWeatherEvents.emplace_back(precipitationStartTime, SADE_ALKAA);
-        // check here if type cahanes during the period (from continuous to showers or vice versa)
-      }
+      thePrecipitationWeatherEvents.emplace_back(precipitationStartTime, SADE_ALKAA);
+    }
 
-      if (precipitationEndTime.GetYear() != 2037 &&
-          precipitationEndTime >= theParameters.theForecastPeriod.localStartTime() &&
-          precipitationEndTime <= theParameters.theForecastPeriod.localEndTime())
-      {
-        bool mahdollisestiPoutaantuu = true;
-        if (i < thePrecipitationPeriods.size() - 1)
-        {
-          if (thePrecipitationPeriods.at(i + 1).localStartTime().DifferenceInHours(
-                  precipitationEndTime) <= 2)
-            mahdollisestiPoutaantuu = false;
-        }
-
-        if (mahdollisestiPoutaantuu)
-        {
-          if (getPrecipitationExtent(thePrecipitationPeriods.at(i), theForecastArea) >
-              MOSTLY_DRY_WEATHER_LIMIT)
-            thePrecipitationWeatherEvents.emplace_back(precipitationEndTime, POUTAANTUU);
-          else
-            thePrecipitationWeatherEvents.emplace_back(precipitationEndTime,
-                                                       POUTAANTUU_WHEN_EXTENT_SMALL);
-        }
-      }
+    if (precipitationEndTime.GetYear() != 2037 && precipitationEndTime >= forecastStart &&
+        precipitationEndTime <= forecastEnd)
+    {
+      addPoutaantuuEvent(
+          thePrecipitationPeriods, i, precipitationEndTime, theForecastArea,
+          thePrecipitationWeatherEvents);
     }
   }
 }
@@ -2834,6 +2622,78 @@ void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& /*
   }
 }
 
+namespace
+{
+// Returns the dominant precipitation form when one form >= 90%, else MISSING
+precipitation_form_id dominantForm(float water, float drizzle, float sleet, float snow)
+{
+  if (water >= 90)
+    return WATER_FORM;
+  if (drizzle >= 90)
+    return DRIZZLE_FORM;
+  if (sleet >= 90)
+    return SLEET_FORM;
+  if (snow >= 90)
+    return SNOW_FORM;
+  return MISSING_PRECIPITATION_FORM;
+}
+
+// Look up transformation id from (beg, end) form pair + matching pearson coefficients
+precipitation_form_transformation_id lookupFormTransformation(precipitation_form_id beg,
+                                                              precipitation_form_id end,
+                                                              double co_water,
+                                                              double co_drizzle,
+                                                              double co_sleet,
+                                                              double co_snow)
+{
+  using fid = precipitation_form_id;
+  // Each row: {beg, end, co_decreasing, co_increasing, result}
+  struct Row
+  {
+    fid b, e;
+    double dec, inc;
+    precipitation_form_transformation_id result;
+  };
+  static const Row table[] = {
+      {WATER_FORM, SNOW_FORM, 0, 0, WATER_TO_SNOW},
+      {WATER_FORM, DRIZZLE_FORM, 0, 0, WATER_TO_DRIZZLE},
+      {WATER_FORM, SLEET_FORM, 0, 0, WATER_TO_SLEET},
+      {DRIZZLE_FORM, SNOW_FORM, 0, 0, DRIZZLE_TO_SNOW},
+      {DRIZZLE_FORM, WATER_FORM, 0, 0, DRIZZLE_TO_WATER},
+      {DRIZZLE_FORM, SLEET_FORM, 0, 0, DRIZZLE_TO_SLEET},
+      {SLEET_FORM, SNOW_FORM, 0, 0, SLEET_TO_SNOW},
+      {SLEET_FORM, DRIZZLE_FORM, 0, 0, SLEET_TO_DRIZZLE},
+      {SLEET_FORM, WATER_FORM, 0, 0, SLEET_TO_WATER},
+      {SNOW_FORM, WATER_FORM, 0, 0, SNOW_TO_WATER},
+      {SNOW_FORM, DRIZZLE_FORM, 0, 0, SNOW_TO_DRIZZLE},
+      {SNOW_FORM, SLEET_FORM, 0, 0, SNOW_TO_SLEET},
+  };
+
+  // Map form -> its pearson coefficient
+  auto coeff = [&](fid f) -> double {
+    if (f == WATER_FORM)
+      return co_water;
+    if (f == DRIZZLE_FORM)
+      return co_drizzle;
+    if (f == SLEET_FORM)
+      return co_sleet;
+    if (f == SNOW_FORM)
+      return co_snow;
+    return 0.0;
+  };
+
+  for (const auto& row : table)
+  {
+    if (row.b != beg || row.e != end)
+      continue;
+    if (coeff(beg) <= -PEARSON_CO_FORM_TRANSFORM && coeff(end) >= PEARSON_CO_FORM_TRANSFORM)
+      return row.result;
+    break;
+  }
+  return NO_FORM_TRANSFORMATION;
+}
+}  // namespace
+
 precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTransformationId(
     const WeatherPeriod& thePeriod, const unsigned short theForecastArea) const
 {
@@ -2872,26 +2732,16 @@ precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTran
   float precipitationFormSnowEnd =
       getMean(theDataVector, PRECIPITATION_FORM_SNOW_DATA, WeatherPeriod(atEndEnd, atEndEnd));
 
-  precipitation_form_id precipitationFormBeg(MISSING_PRECIPITATION_FORM);
-  precipitation_form_id precipitationFormEnd(MISSING_PRECIPITATION_FORM);
-
-  if (precipitationFormWaterBeg >= 90)
-    precipitationFormBeg = WATER_FORM;
-  else if (precipitationFormDrizzleBeg >= 90)
-    precipitationFormBeg = DRIZZLE_FORM;
-  else if (precipitationFormSleetBeg >= 90)
-    precipitationFormBeg = SLEET_FORM;
-  else if (precipitationFormSnowBeg >= 90)
-    precipitationFormBeg = SNOW_FORM;
-
-  if (precipitationFormWaterEnd >= 90)
-    precipitationFormEnd = WATER_FORM;
-  else if (precipitationFormDrizzleEnd >= 90)
-    precipitationFormEnd = DRIZZLE_FORM;
-  else if (precipitationFormSleetEnd >= 90)
-    precipitationFormEnd = SLEET_FORM;
-  else if (precipitationFormSnowEnd >= 90)
-    precipitationFormEnd = SNOW_FORM;
+  precipitation_form_id precipitationFormBeg =
+      dominantForm(precipitationFormWaterBeg,
+                   precipitationFormDrizzleBeg,
+                   precipitationFormSleetBeg,
+                   precipitationFormSnowBeg);
+  precipitation_form_id precipitationFormEnd =
+      dominantForm(precipitationFormWaterEnd,
+                   precipitationFormDrizzleEnd,
+                   precipitationFormSleetEnd,
+                   precipitationFormSnowEnd);
 
   if (precipitationFormBeg == precipitationFormEnd)
     return NO_FORM_TRANSFORMATION;
@@ -2918,93 +2768,51 @@ precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTran
   double pearson_co_sleet =
       get_pearson_coefficient(*precipitationFormSleetHourly, startIndex, endIndex);
 
-  if (precipitationFormBeg == WATER_FORM)
-  {
-    if (precipitationFormEnd == SNOW_FORM)
-    {
-      if (pearson_co_water <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_snow >= PEARSON_CO_FORM_TRANSFORM)
-        return WATER_TO_SNOW;
-    }
-    else if (precipitationFormEnd == DRIZZLE_FORM)
-    {
-      if (pearson_co_water <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_drizzle >= PEARSON_CO_FORM_TRANSFORM)
-        return WATER_TO_DRIZZLE;
-    }
-    else if (precipitationFormEnd == SLEET_FORM)
-    {
-      if (pearson_co_water <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_sleet >= PEARSON_CO_FORM_TRANSFORM)
-        return WATER_TO_SLEET;
-    }
-  }
-  else if (precipitationFormBeg == DRIZZLE_FORM)
-  {
-    if (precipitationFormEnd == SNOW_FORM)
-    {
-      if (pearson_co_drizzle <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_snow >= PEARSON_CO_FORM_TRANSFORM)
-        return DRIZZLE_TO_SNOW;
-    }
-    else if (precipitationFormEnd == WATER_FORM)
-    {
-      if (pearson_co_drizzle <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_water >= PEARSON_CO_FORM_TRANSFORM)
-        return DRIZZLE_TO_WATER;
-    }
-    else if (precipitationFormEnd == SLEET_FORM)
-    {
-      if (pearson_co_drizzle <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_sleet >= PEARSON_CO_FORM_TRANSFORM)
-        return DRIZZLE_TO_SLEET;
-    }
-  }
-  else if (precipitationFormBeg == SLEET_FORM)
-  {
-    if (precipitationFormEnd == SNOW_FORM)
-    {
-      if (pearson_co_sleet <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_snow >= PEARSON_CO_FORM_TRANSFORM)
-        return SLEET_TO_SNOW;
-    }
-    else if (precipitationFormEnd == DRIZZLE_FORM)
-    {
-      if (pearson_co_sleet <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_drizzle >= PEARSON_CO_FORM_TRANSFORM)
-        return SLEET_TO_DRIZZLE;
-    }
-    else if (precipitationFormEnd == WATER_FORM)
-    {
-      if (pearson_co_sleet <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_water >= PEARSON_CO_FORM_TRANSFORM)
-        return SLEET_TO_WATER;
-    }
-  }
-  else if (precipitationFormBeg == SNOW_FORM)
-  {
-    if (precipitationFormEnd == WATER_FORM)
-    {
-      if (pearson_co_snow <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_water >= PEARSON_CO_FORM_TRANSFORM)
-        return SNOW_TO_WATER;
-    }
-    else if (precipitationFormEnd == DRIZZLE_FORM)
-    {
-      if (pearson_co_snow <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_drizzle >= PEARSON_CO_FORM_TRANSFORM)
-        return SNOW_TO_DRIZZLE;
-    }
-    else if (precipitationFormEnd == SLEET_FORM)
-    {
-      if (pearson_co_snow <= -PEARSON_CO_FORM_TRANSFORM &&
-          pearson_co_sleet >= PEARSON_CO_FORM_TRANSFORM)
-        return SNOW_TO_SLEET;
-    }
-  }
-
-  return NO_FORM_TRANSFORMATION;
+  return lookupFormTransformation(precipitationFormBeg,
+                                  precipitationFormEnd,
+                                  pearson_co_water,
+                                  pearson_co_drizzle,
+                                  pearson_co_sleet,
+                                  pearson_co_snow);
 }
+
+namespace
+{
+// Merge adjacent heavy precipitation periods that are close enough
+vector<WeatherPeriod> mergeHeavyPeriods(vector<WeatherPeriod> periods)
+{
+  vector<WeatherPeriod> merged;
+  for (int i = static_cast<int>(periods.size()) - 2; i >= 0; i--)
+  {
+    auto& cur = periods[i];
+    auto& nxt = periods[i + 1];
+    if (abs(nxt.localStartTime().DifferenceInHours(cur.localEndTime())) <= 2 &&
+        (get_period_length(cur) >= 2 || get_period_length(nxt) >= 2))
+    {
+      cur = WeatherPeriod(cur.localStartTime(), nxt.localEndTime());
+    }
+    else
+    {
+      merged.push_back(nxt);
+    }
+  }
+  merged.push_back(periods[0]);
+  sort(merged.begin(), merged.end());
+  return merged;
+}
+
+// Return index of the longest period, or -1 if empty
+int longestPeriodIndex(const vector<WeatherPeriod>& periods)
+{
+  if (periods.empty())
+    return -1;
+  int best = 0;
+  for (int i = 1; i < static_cast<int>(periods.size()); i++)
+    if (get_period_length(periods[i]) > get_period_length(periods[best]))
+      best = i;
+  return best;
+}
+}  // namespace
 
 WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
     const WeatherPeriod& thePeriod, const precipitation_data_vector& theDataVector) const
@@ -3044,58 +2852,29 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
     }
     else if (heavyPrecipitationStartIndex != -1)
     {
-      WeatherPeriod heavyPeriod(theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
-                                theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
-      // heavy precipitation ended
-      heavyPrecipitationPeriods.push_back(heavyPeriod);
+      heavyPrecipitationPeriods.emplace_back(
+          theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
+          theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
       heavyPrecipitationStartIndex = -1;
       heavyPrecipitationEndIndex = -1;
     }
   }
   if (heavyPrecipitationStartIndex != -1 && heavyPrecipitationPeriods.empty())
   {
-    WeatherPeriod heavyPeriod(theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
-                              theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
-    heavyPrecipitationPeriods.push_back(heavyPeriod);
+    heavyPrecipitationPeriods.emplace_back(
+        theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
+        theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
   }
 
-  // then find out if you can merge periods (if there is a smaall gap between them)
-  vector<WeatherPeriod> mergedHeavyPrecipitationPeriods;
-  if (!heavyPrecipitationPeriods.empty())
-  {
-    for (int i = heavyPrecipitationPeriods.size() - 2; i >= 0; i--)
-    {
-      TextGenPosixTime currentPeriodStartTime(heavyPrecipitationPeriods[i].localEndTime());
-      TextGenPosixTime nextPeriodStartTime(heavyPrecipitationPeriods[i + 1].localStartTime());
-      if (abs(nextPeriodStartTime.DifferenceInHours(currentPeriodStartTime)) <= 2 &&
-          (get_period_length(heavyPrecipitationPeriods[i]) >= 2 ||
-           get_period_length(heavyPrecipitationPeriods[i + 1]) >= 2))
-      {
-        // merge
-        heavyPrecipitationPeriods[i] =
-            WeatherPeriod(heavyPrecipitationPeriods[i].localStartTime(),
-                          heavyPrecipitationPeriods[i + 1].localEndTime());
-      }
-      else
-      {
-        mergedHeavyPrecipitationPeriods.push_back(heavyPrecipitationPeriods[i + 1]);
-      }
-    }
-    mergedHeavyPrecipitationPeriods.push_back(heavyPrecipitationPeriods[0]);
-    sort(mergedHeavyPrecipitationPeriods.begin(), mergedHeavyPrecipitationPeriods.end());
-  }
+  if (heavyPrecipitationPeriods.empty())
+    return {thePeriod.localStartTime(), thePeriod.localStartTime()};
 
-  // find out the longest heavy precipitation period and return it
-  int heavyIndex = !mergedHeavyPrecipitationPeriods.empty() ? 0 : -1;
-  for (unsigned int i = 1; i < mergedHeavyPrecipitationPeriods.size(); i++)
-  {
-    if (get_period_length(mergedHeavyPrecipitationPeriods[i]) >
-        get_period_length(mergedHeavyPrecipitationPeriods[heavyIndex]))
-      heavyIndex = i;
-  }
+  // Merge periods with small gaps between them, then return the longest
+  vector<WeatherPeriod> mergedPeriods = mergeHeavyPeriods(heavyPrecipitationPeriods);
+  int heavyIndex = longestPeriodIndex(mergedPeriods);
 
   if (heavyIndex >= 0)
-    return mergedHeavyPrecipitationPeriods[heavyIndex];
+    return mergedPeriods[heavyIndex];
   return {thePeriod.localStartTime(), thePeriod.localStartTime()};
 }
 
@@ -3126,108 +2905,314 @@ void PrecipitationForecast::calculatePrecipitationParameters(
       getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA, thePeriod);
 }
 
+Sentence PrecipitationForecast::parsePlainPrecipitationPhrase(
+    const FinalSentenceContext& ctx, const Sentence& plainPrecipitation) const
+{
+  Sentence s;
+  if (ctx.periodPhraseEmpty && ctx.areaPhraseEmpty)
+  {
+    s << PAIKOIN_SADETTA_COMPOSITE_PHRASE << ctx.inPlacesPhrase << plainPrecipitation;
+  }
+  else if (ctx.periodPhraseEmpty && !ctx.areaPhraseEmpty)
+  {
+    if (ctx.inPlacesPhraseEmpty)
+      s << SISAMAASSA_SADETTA_COMPOSITE_PHRASE << ctx.areaPhrase << plainPrecipitation;
+    else
+      s << SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << ctx.areaPhrase << ctx.inPlacesPhrase
+        << plainPrecipitation;
+  }
+  else if (!ctx.periodPhraseEmpty && ctx.areaPhraseEmpty)
+  {
+    if (ctx.inPlacesPhraseEmpty)
+      s << HUOMENNA_SADETTA_COMPOSITE_PHRASE << ctx.periodPhrase << plainPrecipitation;
+    else
+      s << HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << ctx.periodPhrase << ctx.inPlacesPhrase
+        << plainPrecipitation;
+  }
+  else
+  {
+    if (ctx.inPlacesPhraseEmpty)
+      s << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE << ctx.periodPhrase << ctx.areaPhrase
+        << plainPrecipitation;
+    else
+      s << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << ctx.periodPhrase
+        << ctx.areaPhrase << ctx.inPlacesPhrase << plainPrecipitation;
+  }
+  return s;
+}
+
+Sentence PrecipitationForecast::parseMostlyDryPhrase(const FinalSentenceContext& ctx,
+                                                     map<string, Sentence>& elems) const
+{
+  // Table: {key, sisamaassa_variant, huomenna_variant, huomenna_sisamaassa_variant}
+  struct Row
+  {
+    const char* key;
+    const char* areaOnly;
+    const char* periodOnly;
+    const char* both;
+  };
+  static const Row table[] = {
+      {HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+      {HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+       HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE},
+  };
+
+  Sentence s;
+  if (ctx.periodPhraseEmpty && ctx.areaPhraseEmpty)
+  {
+    s << ctx.precipitation;
+    return s;
+  }
+
+  for (const auto& row : table)
+  {
+    if (elems.find(row.key) == elems.end())
+      continue;
+    if (!ctx.periodPhraseEmpty && !ctx.areaPhraseEmpty)
+      s << row.both << ctx.periodPhrase << ctx.areaPhrase;
+    else if (ctx.periodPhraseEmpty)
+      s << row.areaOnly << ctx.areaPhrase;
+    else
+      s << row.periodOnly << ctx.periodPhrase;
+    break;
+  }
+  return s;
+}
+
+Sentence PrecipitationForecast::parseDryPhrase(const FinalSentenceContext& ctx) const
+{
+  Sentence s;
+  if (ctx.periodPhraseEmpty && ctx.areaPhraseEmpty)
+    s << SAA_ON_POUTAINEN_PHRASE;
+  else if (ctx.periodPhraseEmpty)
+    s << SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE << ctx.areaPhrase;
+  else if (ctx.areaPhraseEmpty)
+    s << HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE << ctx.periodPhrase;
+  else
+    s << HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE << ctx.periodPhrase
+      << ctx.areaPhrase;
+  return s;
+}
+
+namespace
+{
+// Build a regular precipitation sentence selecting the right composite phrase
+// based on period/area/inPlaces/intensity flags
+// Phrase table index: bit0=!periodEmpty, bit1=!areaEmpty, bit2=!inPlacesEmpty, bit3=!intensityEmpty
+// Order of 16 entries: none_none, none_none_i, places_none, places_none_i,
+//                      area_none, area_none_i, area_places, area_places_i,
+//                      period_none, period_none_i, period_places, period_places_i,
+//                      both_none, both_none_i, both_places, both_places_i
+struct RegularSentenceArgs
+{
+  const char* phrases[16];
+};
+
+Sentence buildRegularSentence(const PrecipitationForecast::FinalSentenceContext& ctx,
+                              const RegularSentenceArgs& a)
+{
+  // Compute index from flags. Bit meanings:
+  // bit0: period present, bit1: area present, bit2: inPlaces present, bit3: intensity present
+  const int idx = (ctx.periodPhraseEmpty ? 0 : 1) | (ctx.areaPhraseEmpty ? 0 : 2) |
+                  (ctx.inPlacesPhraseEmpty ? 0 : 4) | (ctx.intensityEmpty ? 0 : 8);
+  const char* phrase = a.phrases[idx];
+
+  Sentence s;
+  if (!phrase)
+  {
+    // none_none with no phrase just outputs precipitation directly
+    s << ctx.precipitation;
+    return s;
+  }
+
+  s << phrase;
+  if (!ctx.periodPhraseEmpty)
+    s << ctx.periodPhrase;
+  if (!ctx.areaPhraseEmpty)
+    s << ctx.areaPhrase;
+  if (!ctx.inPlacesPhraseEmpty)
+    s << ctx.inPlacesPhrase;
+  if (!ctx.intensityEmpty)
+    s << ctx.intensity;
+  s << ctx.precipitation;
+  return s;
+}
+}  // namespace
+
+// Check if any "mostly dry" shower phrase key exists in the composite phrase elements
+bool hasMostlyDryPhrase(const map<string, Sentence>& elems)
+{
+  static const char* const keys[] = {
+      HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+      HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE,
+  };
+  for (const auto* key : keys)
+    if (elems.find(key) != elems.end())
+      return true;
+  return false;
+}
+
+// Bit-index order: bit0=periodPresent, bit1=areaPresent, bit2=inPlacesPresent, bit3=intensityPresent
+// So: [0]=none, [1]=period, [2]=area, [3]=period+area,
+//     [4]=inPlaces, [5]=period+inPlaces, [6]=area+inPlaces, [7]=period+area+inPlaces,
+//     [8]=intensity, [9]=period+intensity, [10]=area+intensity, [11]=period+area+intensity,
+//     [12]=inPlaces+intensity, [13]=period+inPlaces+intensity,
+//     [14]=area+inPlaces+intensity, [15]=period+area+inPlaces+intensity
+
+Sentence PrecipitationForecast::parseFreezingRainPhrase(const FinalSentenceContext& ctx) const
+{
+  static const RegularSentenceArgs a = {{
+      SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,            // 0
+      HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,   // 1: period
+      SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE, // 2: area
+      HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE, // 3: period+area
+      PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,    // 4: inPlaces
+      HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,    // 5: period+inPlaces
+      SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,  // 6: area+inPlaces
+      HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE, // 7
+      HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,    // 8: intensity
+      HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,    // 9: period+intensity
+      SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,  // 10: area+intensity
+      HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE, // 11
+      PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,     // 12: inPlaces+intensity
+      HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,    // 13
+      SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE,  // 14
+      HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE, // 15
+  }};
+  return buildRegularSentence(ctx, a);
+}
+
+Sentence PrecipitationForecast::parseFreezingShowersPhrase(const FinalSentenceContext& ctx) const
+{
+  static const RegularSentenceArgs a = {{
+      SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,            // 0
+      HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,   // 1: period
+      SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE, // 2: area
+      HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE, // 3
+      PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,    // 4: inPlaces
+      HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,    // 5
+      SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,  // 6
+      HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE, // 7
+      HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,             // 8: intensity
+      HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,   // 9
+      SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE, // 10
+      HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE, // 11
+      PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,             // 12
+      HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,    // 13
+      SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE,  // 14
+      HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE, // 15
+  }};
+  return buildRegularSentence(ctx, a);
+}
+
+Sentence PrecipitationForecast::parseRegularPrecipitationPhrase(
+    const FinalSentenceContext& ctx) const
+{
+  static const RegularSentenceArgs a = {{
+      nullptr,                                               // 0: no phrase, just precipitation
+      HUOMENNA_SADETTA_COMPOSITE_PHRASE,                    // 1: period
+      SISAMAASSA_SADETTA_COMPOSITE_PHRASE,                  // 2: area
+      HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE,         // 3: period+area
+      PAIKOIN_SADETTA_COMPOSITE_PHRASE,                     // 4: inPlaces
+      HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE,            // 5: period+inPlaces
+      SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE,          // 6: area+inPlaces
+      HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE, // 7: period+area+inPlaces
+      HEIKKOA_SADETTA_COMPOSITE_PHRASE,                     // 8: intensity
+      HUOMENNA_HEIKKOA_SADETTA_COMPOSITE_PHRASE,            // 9: period+intensity
+      SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE,          // 10: area+intensity
+      HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE, // 11: period+area+intensity
+      PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE,             // 12: inPlaces+intensity
+      HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE,    // 13: period+inPlaces+intensity
+      SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE,  // 14: area+inPlaces+intensity
+      HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE, // 15: all
+  }};
+  return buildRegularSentence(ctx, a);
+}
+
 Sentence PrecipitationForecast::parseFinalSentence(
     map<string, Sentence>& theCompositePhraseElements,
     const Sentence& thePeriodPhrase,
     const std::string& theAreaPhrase) const
 {
-  Sentence sentence;
+  const bool periodPhraseEmpty = thePeriodPhrase.empty();
+  const bool areaPhraseEmpty = theAreaPhrase.empty() || theAreaPhrase == EMPTY_STRING;
+  const bool inPlacesPhraseEmpty =
+      theCompositePhraseElements.find(IN_PLACES_PARAMETER) == theCompositePhraseElements.end();
+  const bool intensityEmpty =
+      theCompositePhraseElements.find(INTENSITY_PARAMETER) == theCompositePhraseElements.end();
+
   Sentence periodPhrase;
+  periodPhrase << (thePeriodPhrase.empty() ? EMPTY_STRING : "") << thePeriodPhrase;
+
   Sentence areaPhrase;
+  areaPhrase << theAreaPhrase;
+
   Sentence inPlacesPhrase;
-  Sentence intensity;
-  Sentence precipitation;
-  bool periodPhraseEmpty(thePeriodPhrase.empty());
-  bool areaPhraseEmpty(theAreaPhrase.empty() || theAreaPhrase == EMPTY_STRING);
-  bool inPlacesPhraseEmpty(theCompositePhraseElements.find(IN_PLACES_PARAMETER) ==
-                           theCompositePhraseElements.end());
-  bool intensityEmpty(theCompositePhraseElements.find(INTENSITY_PARAMETER) ==
-                      theCompositePhraseElements.end());
-
-  if (theAreaPhrase.empty())
-  {
-    areaPhrase << EMPTY_STRING;
-  }
-  else
-  {
-    areaPhrase << theAreaPhrase;
-  }
-
-  if (thePeriodPhrase.empty())
-  {
-    periodPhrase << EMPTY_STRING;
-  }
-  else
-  {
-    periodPhrase << thePeriodPhrase;
-  }
-
-  if (theCompositePhraseElements.find(IN_PLACES_PARAMETER) == theCompositePhraseElements.end())
-  {
-    inPlacesPhrase << EMPTY_STRING;
-  }
-  else
-  {
+  if (!inPlacesPhraseEmpty)
     inPlacesPhrase << theCompositePhraseElements[IN_PLACES_PARAMETER];
-  }
 
-  if (theCompositePhraseElements.find(INTENSITY_PARAMETER) == theCompositePhraseElements.end())
-  {
-    intensity << EMPTY_STRING;
-  }
-  else
-  {
+  Sentence intensity;
+  if (!intensityEmpty)
     intensity << theCompositePhraseElements[INTENSITY_PARAMETER];
-  }
 
-  if (theCompositePhraseElements.find(PRECIPITATION_PARAMETER) == theCompositePhraseElements.end())
-  {
-    precipitation << EMPTY_STRING;
-  }
-  else
-  {
+  Sentence precipitation;
+  if (theCompositePhraseElements.find(PRECIPITATION_PARAMETER) !=
+      theCompositePhraseElements.end())
     precipitation << theCompositePhraseElements[PRECIPITATION_PARAMETER];
-  }
+
+  FinalSentenceContext ctx{periodPhrase,
+                           areaPhrase,
+                           inPlacesPhrase,
+                           intensity,
+                           precipitation,
+                           periodPhraseEmpty,
+                           areaPhraseEmpty,
+                           inPlacesPhraseEmpty,
+                           intensityEmpty};
+
+  Sentence sentence;
 
   if (theCompositePhraseElements.find(PLAIN_PRECIPITATION_PHRASE) !=
       theCompositePhraseElements.end())
   {
-    if (periodPhraseEmpty && areaPhraseEmpty)
-    {
-      sentence << PAIKOIN_SADETTA_COMPOSITE_PHRASE << inPlacesPhrase
-               << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-    }
-    else if ((periodPhraseEmpty && !areaPhraseEmpty) || (!periodPhraseEmpty && areaPhraseEmpty))
-    {
-      if (periodPhraseEmpty)
-      {
-        if (inPlacesPhraseEmpty)
-          sentence << SISAMAASSA_SADETTA_COMPOSITE_PHRASE << areaPhrase
-                   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-        else
-          sentence << SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << areaPhrase << inPlacesPhrase
-                   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-      }
-      else
-      {
-        if (inPlacesPhraseEmpty)
-          sentence << HUOMENNA_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-        else
-          sentence << HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << periodPhrase << inPlacesPhrase
-                   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-      }
-    }
-    else
-    {
-      if (inPlacesPhraseEmpty)
-        sentence << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE << periodPhrase << areaPhrase
-                 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-      else
-        sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                 << areaPhrase << inPlacesPhrase
-                 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-    }
+    sentence << parsePlainPrecipitationPhrase(
+        ctx, theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]);
   }
   else
   {
@@ -3251,528 +3236,190 @@ Sentence PrecipitationForecast::parseFinalSentence(
         theCompositePhraseElements.end())
     {
       if (periodPhraseEmpty && areaPhraseEmpty)
-      {
         sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE << Delimiter(COMMA_PUNCTUATION_MARK)
                  << precipitation;
-      }
-      else if ((periodPhraseEmpty && !areaPhraseEmpty) || (!periodPhraseEmpty && areaPhraseEmpty))
-      {
-        if (periodPhraseEmpty)
-          sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << areaPhrase
-                   << precipitation;
-        else
-          sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << periodPhrase
-                   << precipitation;
-      }
+      else if (periodPhraseEmpty)
+        sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << areaPhrase
+                 << precipitation;
+      else if (areaPhraseEmpty)
+        sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << periodPhrase
+                 << precipitation;
       else
-      {
         sentence << HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
                  << periodPhrase << areaPhrase << precipitation;
-      }
     }
-    else if (theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end() ||
-             theCompositePhraseElements.find(
-                 HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
+    else if (hasMostlyDryPhrase(theCompositePhraseElements))
     {
-      if (periodPhraseEmpty && areaPhraseEmpty)
-      {
-        sentence << precipitation;
-      }
-      else if ((periodPhraseEmpty && !areaPhraseEmpty) || (!periodPhraseEmpty && areaPhraseEmpty))
-      {
-        if (theCompositePhraseElements.find(
-                HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-            theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty)
-            sentence << SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << areaPhrase;
-          else
-            sentence << HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                     << periodPhrase;
-        }
-      }
-      else
-      {
-        if (theCompositePhraseElements.find(
-                HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-            theCompositePhraseElements.end())
-        {
-          sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                   << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence
-              << HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-              << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence
-              << HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-              << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                   << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                   << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence
-              << HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-              << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-                   << periodPhrase << areaPhrase;
-        }
-        else if (theCompositePhraseElements.find(
-                     HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          sentence
-              << HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
-              << periodPhrase << areaPhrase;
-        }
-      }
+      sentence << parseMostlyDryPhrase(ctx, theCompositePhraseElements);
+    }
+    else if (theCompositePhraseElements.find(SAA_ON_POUTAINEN_PHRASE) !=
+             theCompositePhraseElements.end())
+    {
+      sentence << parseDryPhrase(ctx);
+    }
+    else if (theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) !=
+             theCompositePhraseElements.end())
+    {
+      sentence << parseFreezingRainPhrase(ctx);
+    }
+    else if (theCompositePhraseElements.find(JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE) !=
+             theCompositePhraseElements.end())
+    {
+      sentence << parseFreezingShowersPhrase(ctx);
     }
     else
     {
-      if (theCompositePhraseElements.find(SAA_ON_POUTAINEN_PHRASE) !=
-          theCompositePhraseElements.end())
-      {
-        if (periodPhraseEmpty && areaPhraseEmpty)
-        {
-          sentence << SAA_ON_POUTAINEN_PHRASE;
-        }
-        else if ((periodPhraseEmpty && !areaPhraseEmpty) || (!periodPhraseEmpty && areaPhraseEmpty))
-        {
-          if (periodPhraseEmpty)
-          {
-            sentence << SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE << areaPhrase;
-          }
-          else
-          {
-            sentence << HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE << periodPhrase;
-          }
-        }
-        else
-        {
-          sentence << HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE << periodPhrase
-                   << areaPhrase;
-        }
-      }
-      else
-      {
-        if (theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) !=
-            theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty && areaPhraseEmpty)
-          {
-            if (inPlacesPhraseEmpty)
-            {
-              if (intensityEmpty)
-                sentence << SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE << precipitation;
-              else
-                sentence << HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE << intensity
-                         << precipitation;
-            }
-            else
-            {
-              if (intensityEmpty)
-                sentence << PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                         << inPlacesPhrase << precipitation;
-              else
-                sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                         << inPlacesPhrase << intensity << precipitation;
-            }
-          }
-          else if ((periodPhraseEmpty && !areaPhraseEmpty) ||
-                   (!periodPhraseEmpty && areaPhraseEmpty))
-          {
-            if (periodPhraseEmpty)
-            {
-              if (inPlacesPhraseEmpty)
-              {
-                if (intensityEmpty)
-                  sentence << SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                           << areaPhrase << precipitation;
-                else
-                  sentence << SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                           << areaPhrase << intensity << precipitation;
-              }
-              else
-              {
-                if (intensityEmpty)
-                  sentence << SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                           << areaPhrase << inPlacesPhrase << precipitation;
-                else
-                  sentence
-                      << SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                      << areaPhrase << inPlacesPhrase << intensity << precipitation;
-              }
-            }
-            else
-            {
-              if (inPlacesPhraseEmpty)
-              {
-                if (intensityEmpty)
-                  sentence << HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                           << periodPhrase << precipitation;
-                else
-                  sentence << HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                           << periodPhrase << intensity << precipitation;
-              }
-              else
-              {
-                if (intensityEmpty)
-                  sentence << HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                           << periodPhrase << inPlacesPhrase << precipitation;
-                else
-                  sentence
-                      << HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                      << periodPhrase << inPlacesPhrase << intensity << precipitation;
-              }
-            }
-          }
-          else
-          {
-            if (inPlacesPhraseEmpty)
-            {
-              if (intensityEmpty)
-                sentence << HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                         << periodPhrase << areaPhrase << precipitation;
-              else
-                sentence
-                    << HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << intensity << precipitation;
-            }
-            else
-            {
-              if (intensityEmpty)
-                sentence
-                    << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << inPlacesPhrase << precipitation;
-              else
-                sentence
-                    << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << inPlacesPhrase << intensity << precipitation;
-            }
-          }
-        }
-        else if (theCompositePhraseElements.find(JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE) !=
-                 theCompositePhraseElements.end())
-        {
-          if (periodPhraseEmpty && areaPhraseEmpty)
-          {
-            if (inPlacesPhraseEmpty)
-            {
-              if (intensityEmpty)
-                sentence << SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                         << precipitation;
-              else
-                sentence << HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                         << intensity << precipitation;
-            }
-            else
-            {
-              if (intensityEmpty)
-                sentence << PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                         << inPlacesPhrase << precipitation;
-              else
-                sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                         << inPlacesPhrase << intensity << precipitation;
-            }
-          }
-          else if ((periodPhraseEmpty && !areaPhraseEmpty) ||
-                   (!periodPhraseEmpty && areaPhraseEmpty))
-          {
-            if (periodPhraseEmpty)
-            {
-              if (inPlacesPhraseEmpty)
-              {
-                if (intensityEmpty)
-                  sentence << SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                           << areaPhrase << precipitation;
-                else
-                  sentence
-                      << SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                      << areaPhrase << intensity << precipitation;
-              }
-              else
-              {
-                if (intensityEmpty)
-                  sentence
-                      << SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                      << areaPhrase << inPlacesPhrase << precipitation;
-                else
-                  sentence
-                      << SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                      << areaPhrase << inPlacesPhrase << intensity << precipitation;
-              }
-            }
-            else
-            {
-              if (inPlacesPhraseEmpty)
-              {
-                if (intensityEmpty)
-                  sentence << HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                           << periodPhrase << precipitation;
-                else
-                  sentence
-                      << HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                      << periodPhrase << intensity << precipitation;
-              }
-              else
-              {
-                if (intensityEmpty)
-                  sentence
-                      << HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                      << periodPhrase << inPlacesPhrase << precipitation;
-                else
-                  sentence
-                      << HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                      << periodPhrase << inPlacesPhrase << intensity << precipitation;
-              }
-            }
-          }
-          else
-          {
-            if (inPlacesPhraseEmpty)
-            {
-              if (intensityEmpty)
-                sentence
-                    << HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << precipitation;
-              else
-                sentence
-                    << HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << intensity << precipitation;
-            }
-            else
-            {
-              if (intensityEmpty)
-                sentence
-                    << HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << inPlacesPhrase << precipitation;
-              else
-                sentence
-                    << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-                    << periodPhrase << areaPhrase << inPlacesPhrase << intensity << precipitation;
-            }
-          }
-        }
-        else
-        {
-          if (periodPhraseEmpty && areaPhraseEmpty)
-          {
-            if (inPlacesPhraseEmpty)
-            {
-              if (intensityEmpty)
-                sentence << precipitation;
-              else
-                sentence << HEIKKOA_SADETTA_COMPOSITE_PHRASE << intensity << precipitation;
-            }
-            else
-            {
-              if (intensityEmpty)
-                sentence << PAIKOIN_SADETTA_COMPOSITE_PHRASE << inPlacesPhrase << precipitation;
-              else
-                sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE << inPlacesPhrase << intensity
-                         << precipitation;
-            }
-          }
-
-          else if ((periodPhraseEmpty && !areaPhraseEmpty) ||
-                   (!periodPhraseEmpty && areaPhraseEmpty))
-          {
-            if (periodPhraseEmpty)
-            {
-              if (inPlacesPhraseEmpty)
-              {
-                if (intensityEmpty)
-                  sentence << SISAMAASSA_SADETTA_COMPOSITE_PHRASE << areaPhrase << precipitation;
-                else
-                  sentence << SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE << areaPhrase << intensity
-                           << precipitation;
-              }
-              else
-              {
-                if (intensityEmpty)
-                  sentence << SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << areaPhrase
-                           << inPlacesPhrase << precipitation;
-                else
-                  sentence << SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE << areaPhrase
-                           << inPlacesPhrase << intensity << precipitation;
-              }
-            }
-            else
-            {
-              if (inPlacesPhraseEmpty)
-              {
-                if (intensityEmpty)
-                  sentence << HUOMENNA_SADETTA_COMPOSITE_PHRASE << periodPhrase << precipitation;
-                else
-                  sentence << HUOMENNA_HEIKKOA_SADETTA_COMPOSITE_PHRASE << periodPhrase << intensity
-                           << precipitation;
-              }
-              else
-              {
-                if (intensityEmpty)
-                  sentence << HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                           << inPlacesPhrase << precipitation;
-                else
-                  sentence << HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                           << inPlacesPhrase << intensity << precipitation;
-              }
-            }
-          }
-          else
-          {
-            if (inPlacesPhraseEmpty)
-            {
-              if (intensityEmpty)
-                sentence << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                         << areaPhrase << precipitation;
-              else
-                sentence << HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                         << areaPhrase << intensity << precipitation;
-            }
-            else
-            {
-              if (intensityEmpty)
-                sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE << periodPhrase
-                         << areaPhrase << inPlacesPhrase << precipitation;
-              else
-                sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
-                         << periodPhrase << areaPhrase << inPlacesPhrase << intensity
-                         << precipitation;
-            }
-          }
-        }
-      }
+      sentence << parseRegularPrecipitationPhrase(ctx);
     }
   }
+
   theParameters.theLog << "FINAL SENTENCE: ";
   theParameters.theLog << sentence;
+
+  return sentence;
+}
+
+void PrecipitationForecast::appendHeavyPrecipitationSentence(
+    const WeatherPeriod& thePeriod,
+    const WeatherPeriod& heavyPrecipitationPeriod,
+    precipitation_form_id precipitationForm,
+    std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const
+{
+  if (get_period_length(heavyPrecipitationPeriod) < 2)
+    return;
+
+  part_of_the_day_id partOfTheDayId = get_part_of_the_day_id_large(heavyPrecipitationPeriod);
+  time_phrase_format timePhraseFormat = AT_FORMAT;
+
+  if (partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
+  {
+    timePhraseFormat = AT_FORMAT;
+  }
+  else if (heavyPrecipitationPeriod.localStartTime() == thePeriod.localStartTime())
+  {
+    partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localEndTime());
+    timePhraseFormat = TILL_FORMAT;
+  }
+  else if (heavyPrecipitationPeriod.localEndTime() == thePeriod.localEndTime())
+  {
+    partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime());
+    timePhraseFormat = FROM_FORMAT;
+  }
+
+  if (partOfTheDayId == MISSING_PART_OF_THE_DAY_ID)
+    return;
+
+  Sentence heavyPrecipitationSentence;
+  const bool isSnow = (precipitationForm == SNOW_FORM || precipitationForm == SNOW_FREEZING_FORM);
+  if (isSnow)
+  {
+    if (theCheckHeavyIntensityFlag == SHOWERS)
+      heavyPrecipitationSentence << ILTAPAIVALLA_LUMIKUUROT_VOIVAT_OLLA_SAKEITA;
+    else
+      heavyPrecipitationSentence << ILTAPAIVALLA_LUMISADE_VOI_OLLA_SAKEAA;
+  }
+  else
+  {
+    if (theCheckHeavyIntensityFlag == SHOWERS)
+      heavyPrecipitationSentence << ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA;
+    else
+      heavyPrecipitationSentence << ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA;
+  }
+
+  heavyPrecipitationSentence << getTimePhrase(partOfTheDayId, timePhraseFormat);
+  theAdditionalSentences.emplace_back(heavyPrecipitationPeriod, heavyPrecipitationSentence);
+
+  theParameters.theLog << "HEAVY PRECIPITATION PERIOD: "
+                       << heavyPrecipitationPeriod.localStartTime() << "..."
+                       << heavyPrecipitationPeriod.localEndTime() << " ("
+                       << getTimePhrase(partOfTheDayId, timePhraseFormat) << ")\n";
+}
+
+Sentence PrecipitationForecast::buildSingleAreaPrecipitationSentence(
+    const WeatherPeriod& thePeriod,
+    const Sentence& thePeriodPhrase,
+    unsigned short theForecastAreaId,
+    const std::string& theAreaPhrase,
+    const precipitation_data_vector& dataVector,
+    std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const
+{
+  float precipitationIntensity = kFloatMissing;
+  float precipitationAbsoluteMaxIntensity = kFloatMissing;
+  float precipitationExtent = kFloatMissing;
+  float precipitationFormWater = kFloatMissing;
+  float precipitationFormDrizzle = kFloatMissing;
+  float precipitationFormSleet = kFloatMissing;
+  float precipitationFormSnow = kFloatMissing;
+  float precipitationFormFreezingRain = kFloatMissing;
+  float precipitationFormFreezingDrizzle = kFloatMissing;
+
+  calculatePrecipitationParameters(thePeriod,
+                                   dataVector,
+                                   precipitationIntensity,
+                                   precipitationAbsoluteMaxIntensity,
+                                   precipitationExtent,
+                                   precipitationFormWater,
+                                   precipitationFormDrizzle,
+                                   precipitationFormSleet,
+                                   precipitationFormSnow,
+                                   precipitationFormFreezingRain,
+                                   precipitationFormFreezingDrizzle);
+
+  theParameters.theLog << "Period: " << thePeriod.localStartTime() << "..."
+                       << thePeriod.localEndTime() << '\n';
+  theParameters.theLog << "Mean intensity (max+mean/2.0): " << precipitationIntensity << '\n';
+  theParameters.theLog << "Maximum intensity: " << precipitationAbsoluteMaxIntensity << '\n';
+
+  precipitation_type precipitationType(
+      getPrecipitationType(thePeriod, theParameters.theForecastArea));
+  unsigned int typeChangeIndex = getPrecipitationTypeChange(dataVector, thePeriod);
+  precipitation_form_id precipitationForm =
+      get_complete_precipitation_form(theParameters.theVariable,
+                                      precipitationFormWater,
+                                      precipitationFormDrizzle,
+                                      precipitationFormSleet,
+                                      precipitationFormSnow,
+                                      precipitationFormFreezingRain,
+                                      precipitationFormFreezingDrizzle);
+
+  thePrecipitationFormBeforeDryPeriod = precipitationForm;
+
+  map<string, Sentence> compositePhraseElements;
+  selectPrecipitationSentence(thePeriod,
+                              precipitationForm,
+                              precipitationIntensity,
+                              precipitationAbsoluteMaxIntensity,
+                              precipitationExtent,
+                              precipitationFormWater,
+                              precipitationFormDrizzle,
+                              precipitationFormSleet,
+                              precipitationFormSnow,
+                              precipitationFormFreezingRain,
+                              precipitationFormFreezingDrizzle,
+                              precipitationType,
+                              dataVector.at(typeChangeIndex)->theObservationTime,
+                              getPrecipitationTransformationId(thePeriod, theForecastAreaId),
+                              compositePhraseElements);
+
+  Sentence sentence;
+  sentence << parseFinalSentence(compositePhraseElements, thePeriodPhrase, theAreaPhrase);
+
+  bool dry_weather =
+      is_dry_weather(theParameters, precipitationForm, precipitationIntensity, precipitationExtent);
+  if (dry_weather)
+    return sentence;
+
+  Sentence thunderSentence;
+  thunderSentence << getThunderSentence(thePeriod, theForecastAreaId, theParameters.theVariable);
+  if (!thunderSentence.empty())
+    sentence << thunderSentence;
+
+  if (theCheckHeavyIntensityFlag != MISSING_PRECIPITATION_TYPE)
+  {
+    WeatherPeriod heavyPrecipitationPeriod(getHeavyPrecipitationPeriod(thePeriod, dataVector));
+    appendHeavyPrecipitationSentence(
+        thePeriod, heavyPrecipitationPeriod, precipitationForm, theAdditionalSentences);
+  }
 
   return sentence;
 }
@@ -3786,18 +3433,6 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 {
   Sentence sentence;
 
-  const precipitation_data_vector* dataVector = nullptr;
-
-  float precipitationIntensity = kFloatMissing;
-  float precipitationAbsoluteMaxIntensity = kFloatMissing;
-  float precipitationExtent = kFloatMissing;
-  float precipitationFormWater = kFloatMissing;
-  float precipitationFormDrizzle = kFloatMissing;
-  float precipitationFormSleet = kFloatMissing;
-  float precipitationFormSnow = kFloatMissing;
-  float precipitationFormFreezingRain = kFloatMissing;
-  float precipitationFormFreezingDrizzle = kFloatMissing;
-
   if (theForecastAreaId & INLAND_AREA && theForecastAreaId & COASTAL_AREA)
   {
     if (separateCoastInlandPrecipitation(thePeriod))
@@ -3808,155 +3443,23 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
       // ARE 22.02.2011: this is to prevent tautology e.g. sisamaassa moinin paikoin rantasadetta,
       // rannikolla monin paikoin vesisadetta
       get_in_places_phrase().preventTautology(true);
-
       sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-
       sentence << constructPrecipitationSentence(
           thePeriod, thePeriodPhrase, COASTAL_AREA, COAST_PHRASE, theAdditionalSentences);
-
       get_in_places_phrase().preventTautology(false);
+      return sentence;
     }
-    else
-    {
-      dataVector = &theFullData;
-    }
-  }
-  else if (theForecastAreaId & INLAND_AREA)
-  {
-    dataVector = &theInlandData;
-  }
-  else if (theForecastAreaId & COASTAL_AREA)
-  {
-    dataVector = &theCoastalData;
+    return buildSingleAreaPrecipitationSentence(
+        thePeriod, thePeriodPhrase, theForecastAreaId, theAreaPhrase, theFullData, theAdditionalSentences);
   }
 
-  if (dataVector)
-  {
-    calculatePrecipitationParameters(thePeriod,
-                                     *dataVector,
-                                     precipitationIntensity,
-                                     precipitationAbsoluteMaxIntensity,
-                                     precipitationExtent,
-                                     precipitationFormWater,
-                                     precipitationFormDrizzle,
-                                     precipitationFormSleet,
-                                     precipitationFormSnow,
-                                     precipitationFormFreezingRain,
-                                     precipitationFormFreezingDrizzle);
+  if (theForecastAreaId & INLAND_AREA)
+    return buildSingleAreaPrecipitationSentence(
+        thePeriod, thePeriodPhrase, theForecastAreaId, theAreaPhrase, theInlandData, theAdditionalSentences);
 
-    theParameters.theLog << "Period: " << thePeriod.localStartTime() << "..."
-                         << thePeriod.localEndTime() << '\n';
-    theParameters.theLog << "Mean intensity (max+mean/2.0): " << precipitationIntensity << '\n';
-    theParameters.theLog << "Maximum intensity: " << precipitationAbsoluteMaxIntensity << '\n';
-
-    precipitation_type precipitationType(
-        getPrecipitationType(thePeriod, theParameters.theForecastArea));
-
-    unsigned int typeChangeIndex = getPrecipitationTypeChange(*dataVector, thePeriod);
-
-    precipitation_form_id precipitationForm =
-        get_complete_precipitation_form(theParameters.theVariable,
-                                        precipitationFormWater,
-                                        precipitationFormDrizzle,
-                                        precipitationFormSleet,
-                                        precipitationFormSnow,
-                                        precipitationFormFreezingRain,
-                                        precipitationFormFreezingDrizzle);
-
-    thePrecipitationFormBeforeDryPeriod = precipitationForm;
-
-    map<string, Sentence> compositePhraseElements;
-
-    selectPrecipitationSentence(thePeriod,
-                                precipitationForm,
-                                precipitationIntensity,
-                                precipitationAbsoluteMaxIntensity,
-                                precipitationExtent,
-                                precipitationFormWater,
-                                precipitationFormDrizzle,
-                                precipitationFormSleet,
-                                precipitationFormSnow,
-                                precipitationFormFreezingRain,
-                                precipitationFormFreezingDrizzle,
-                                precipitationType,
-                                dataVector->at(typeChangeIndex)->theObservationTime,
-                                getPrecipitationTransformationId(thePeriod, theForecastAreaId),
-                                compositePhraseElements);
-
-    sentence << parseFinalSentence(compositePhraseElements, thePeriodPhrase, theAreaPhrase);
-
-    bool dry_weather = is_dry_weather(
-        theParameters, precipitationForm, precipitationIntensity, precipitationExtent);
-
-    if (!dry_weather)
-    {
-      Sentence thunderSentence;
-      thunderSentence << getThunderSentence(
-          thePeriod, theForecastAreaId, theParameters.theVariable);
-
-      if (!thunderSentence.empty())
-      {
-        sentence << thunderSentence;
-      }
-
-      if (theCheckHeavyIntensityFlag != MISSING_PRECIPITATION_TYPE)
-      {
-        WeatherPeriod heavyPrecipitationPeriod(getHeavyPrecipitationPeriod(thePeriod, *dataVector));
-
-        if (get_period_length(heavyPrecipitationPeriod) >= 2)
-        {
-          part_of_the_day_id partOfTheDayId(MISSING_PART_OF_THE_DAY_ID);
-          time_phrase_format timePhraseFormat(AT_FORMAT);
-
-          partOfTheDayId = get_part_of_the_day_id_large(heavyPrecipitationPeriod);
-
-          if (partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
-            timePhraseFormat = AT_FORMAT;
-          else if (heavyPrecipitationPeriod.localStartTime() == thePeriod.localStartTime())
-          {
-            // heavy precipitation in the beginning
-            partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localEndTime());
-            timePhraseFormat = TILL_FORMAT;
-          }
-          else if (heavyPrecipitationPeriod.localEndTime() == thePeriod.localEndTime())
-          {
-            // heavy precipitation in the end
-            partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime());
-            timePhraseFormat = FROM_FORMAT;
-          }
-
-          Sentence heavyPrecipitationSentence;
-          if (partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
-          {
-            if (precipitationForm == SNOW_FORM || precipitationForm == SNOW_FREEZING_FORM)
-            {
-              if (theCheckHeavyIntensityFlag == SHOWERS)
-                heavyPrecipitationSentence << ILTAPAIVALLA_LUMIKUUROT_VOIVAT_OLLA_SAKEITA;
-              else
-                heavyPrecipitationSentence << ILTAPAIVALLA_LUMISADE_VOI_OLLA_SAKEAA;
-            }
-            else
-            {
-              if (theCheckHeavyIntensityFlag == SHOWERS)
-                heavyPrecipitationSentence << ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA;
-              else
-                heavyPrecipitationSentence << ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA;
-            }
-
-            heavyPrecipitationSentence << getTimePhrase(partOfTheDayId, timePhraseFormat);
-
-            theAdditionalSentences.emplace_back(heavyPrecipitationPeriod,
-                                                heavyPrecipitationSentence);
-
-            theParameters.theLog << "HEAVY PRECIPITATION PERIOD: "
-                                 << heavyPrecipitationPeriod.localStartTime() << "..."
-                                 << heavyPrecipitationPeriod.localEndTime() << " ("
-                                 << getTimePhrase(partOfTheDayId, timePhraseFormat) << ")\n";
-          }
-        }
-      }
-    }
-  }
+  if (theForecastAreaId & COASTAL_AREA)
+    return buildSingleAreaPrecipitationSentence(
+        thePeriod, thePeriodPhrase, theForecastAreaId, theAreaPhrase, theCoastalData, theAdditionalSentences);
 
   return sentence;
 }
@@ -3964,127 +3467,43 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId,
                                             time_phrase_format theTimePhraseFormat)
 {
-  switch (thePartOfTheDayId)
+  // Each entry: {from_phrase, till_phrase, at_phrase}
+  using T3 = std::array<const char*, 3>;
+  static const std::map<part_of_the_day_id, T3> table = {
+      {AAMU, {AAMUSTA_ALKAEN_PHRASE, AAMUUN_ASTI_PHRASE, AAMULLA_WORD}},
+      {AAMUPAIVA, {AAMUPAIVASTA_ALKAEN_PHRASE, AAMUPAIVAAN_ASTI_PHRASE, AAMUPAIVALLA_WORD}},
+      {KESKIPAIVA, {ILTAPAIVASTA_ALKAEN_PHRASE, ILTAPAIVAAN_ASTI_PHRASE, ILTAPAIVALLA_WORD}},
+      {ILTAPAIVA, {ILTAPAIVASTA_ALKAEN_PHRASE, ILTAPAIVAAN_ASTI_PHRASE, ILTAPAIVALLA_WORD}},
+      {ILTA, {ILLASTA_ALKAEN_PHRASE, ILTAAN_ASTI_PHRASE, ILLALLA_WORD}},
+      {ILTAYO, {ILTAYOSTA_ALKAEN_PHRASE, ILTAYOHON_ASTI_PHRASE, ILTAYOLLA_WORD}},
+      {KESKIYO, {KESKIYOSTA_ALKAEN_PHRASE, KESKIYOHON_ASTI_PHRASE, KESKIYOLLA_WORD}},
+      {AAMUYO, {AAMUYOSTA_ALKAEN_PHRASE, AAMUYOHON_ASTI_PHRASE, AAMUYOLLA_WORD}},
+      {PAIVA, {nullptr, nullptr, PAIVALLA_WORD}},
+      {YO, {nullptr, nullptr, YOLLA_WORD}},
+      {AAMU_JA_AAMUPAIVA,
+       {AAMUSTA_ALKAEN_PHRASE, AAMUPAIVAAN_ASTI_PHRASE, AAMULLA_JA_AAMUPAIVALLA_PHRASE}},
+      {ILTAPAIVA_JA_ILTA,
+       {ILTAPAIVASTA_ALKAEN_PHRASE, ILTAAN_ASTI_PHRASE, ILTAPAIVALLA_JA_ILLALLA_PHRASE}},
+      {ILTA_JA_ILTAYO,
+       {ILLASTA_ALKAEN_PHRASE, ILTAYOHON_ASTI_PHRASE, ILLALLA_JA_ILTAYOLLA_PHRASE}},
+      {ILTAYO_JA_KESKIYO,
+       {ILTAYOSTA_ALKAEN_PHRASE, KESKIYOHON_ASTI_PHRASE, ILTAYOLLA_JA_KESKIYOLLA_PHRASE}},
+      {KESKIYO_JA_AAMUYO,
+       {KESKIYOSTA_ALKAEN_PHRASE, AAMUYOHON_ASTI_PHRASE, KESKIYOLLA_JA_AAMUYOLLA_PHRASE}},
+      {AAMUYO_JA_AAMU,
+       {AAMUYOSTA_ALKAEN_PHRASE, AAMUUN_ASTI_PHRASE, AAMUYOLLA_JA_AAMULLA_PHRASE}},
+  };
+
+  auto it = table.find(thePartOfTheDayId);
+  if (it != table.end())
   {
-    case AAMU:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return AAMUSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return AAMUUN_ASTI_PHRASE;
-      return AAMULLA_WORD;
-    }
-    case AAMUPAIVA:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return AAMUPAIVASTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return AAMUPAIVAAN_ASTI_PHRASE;
-      return AAMUPAIVALLA_WORD;
-    }
-    case KESKIPAIVA:
-    case ILTAPAIVA:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return ILTAPAIVASTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return ILTAPAIVAAN_ASTI_PHRASE;
-      return ILTAPAIVALLA_WORD;
-    }
-    case ILTA:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return ILLASTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return ILTAAN_ASTI_PHRASE;
-      return ILLALLA_WORD;
-    }
-    case ILTAYO:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return ILTAYOSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return ILTAYOHON_ASTI_PHRASE;
-      return ILTAYOLLA_WORD;
-    }
-    case KESKIYO:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return KESKIYOSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return KESKIYOHON_ASTI_PHRASE;
-      return KESKIYOLLA_WORD;
-    }
-    case AAMUYO:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return AAMUYOSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return AAMUYOHON_ASTI_PHRASE;
-      return AAMUYOLLA_WORD;
-    }
-    case PAIVA:
-    {
-      if (theTimePhraseFormat == AT_FORMAT)
-        return PAIVALLA_WORD;
-      break;
-    }
-    case YO:
-    {
-      if (theTimePhraseFormat == AT_FORMAT)
-        return YOLLA_WORD;
-      break;
-    }
-    case AAMU_JA_AAMUPAIVA:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return AAMUSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return AAMUPAIVAAN_ASTI_PHRASE;
-      return AAMULLA_JA_AAMUPAIVALLA_PHRASE;
-    }
-    case ILTAPAIVA_JA_ILTA:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return ILTAPAIVASTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return ILTAAN_ASTI_PHRASE;
-      return ILTAPAIVALLA_JA_ILLALLA_PHRASE;
-    }
-    case ILTA_JA_ILTAYO:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return ILLASTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return ILTAYOHON_ASTI_PHRASE;
-      return ILLALLA_JA_ILTAYOLLA_PHRASE;
-    }
-    case ILTAYO_JA_KESKIYO:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return ILTAYOSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return KESKIYOHON_ASTI_PHRASE;
-      return ILTAYOLLA_JA_KESKIYOLLA_PHRASE;
-    }
-    case KESKIYO_JA_AAMUYO:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return KESKIYOSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return AAMUYOHON_ASTI_PHRASE;
-      return KESKIYOLLA_JA_AAMUYOLLA_PHRASE;
-    }
-    case AAMUYO_JA_AAMU:
-    {
-      if (theTimePhraseFormat == FROM_FORMAT)
-        return AAMUYOSTA_ALKAEN_PHRASE;
-      if (theTimePhraseFormat == TILL_FORMAT)
-        return AAMUUN_ASTI_PHRASE;
-      return AAMUYOLLA_JA_AAMULLA_PHRASE;
-    }
-    case MISSING_PART_OF_THE_DAY_ID:
-      return "missing part of the day";
+    const T3& phrases = it->second;
+    if (theTimePhraseFormat == FROM_FORMAT && phrases[0])
+      return phrases[0];
+    if (theTimePhraseFormat == TILL_FORMAT && phrases[1])
+      return phrases[1];
+    if (theTimePhraseFormat == AT_FORMAT && phrases[2])
+      return phrases[2];
   }
 
   return "missing part of the day";

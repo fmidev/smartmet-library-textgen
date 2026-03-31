@@ -49,6 +49,64 @@ using namespace AreaTools;
 
 using namespace std;
 
+namespace
+{
+// Append appropriate thunder phrase to sentence based on extent/probability thresholds
+void append_thunder_phrase(Sentence& sentence,
+                           float maxThunderExtent,
+                           float maxThunderProbability,
+                           float extentNormalMin,
+                           float extentNormalMax,
+                           float probSmallMin,
+                           float probSmallMax,
+                           float probNormalMin,
+                           float probNormalMax)
+{
+  const bool normalExtent = (maxThunderExtent >= extentNormalMin && maxThunderExtent < extentNormalMax);
+  const bool largeExtent = (maxThunderExtent >= extentNormalMax);
+
+  if (!normalExtent && !largeExtent)
+    return;
+
+  if (normalExtent)
+  {
+    if (maxThunderProbability >= probSmallMin && maxThunderProbability < probSmallMax)
+    {
+      sentence << Delimiter(",");
+      sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
+    }
+    else if (maxThunderProbability >= probNormalMin && maxThunderProbability < probNormalMax)
+    {
+      sentence << Delimiter(",");
+      sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
+    }
+    else if (maxThunderProbability >= probNormalMax)
+    {
+      sentence << JA_WORD;
+      sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
+    }
+  }
+  else  // largeExtent
+  {
+    if (maxThunderProbability >= probSmallMin && maxThunderProbability < probSmallMax)
+    {
+      sentence << Delimiter(",");
+      sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
+    }
+    else if (maxThunderProbability >= probNormalMin && maxThunderProbability < probNormalMax)
+    {
+      sentence << Delimiter(",");
+      sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
+    }
+    else if (maxThunderProbability >= probNormalMax)
+    {
+      sentence << JA_WORD;
+      sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
+    }
+  }
+}
+}  // namespace
+
 ThunderForecast::ThunderForecast(wf_story_params& parameters) : theParameters(parameters) {}
 
 float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
@@ -120,47 +178,15 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
       theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << '\n';
     }
 
-    if (maxThunderExtent >= theParameters.theThuderNormalExtentMin &&
-        maxThunderExtent < theParameters.theThuderNormalExtentMax)
-    {
-      if (maxThunderProbability >= theParameters.theThunderSmallProbabilityMin &&
-          maxThunderProbability < theParameters.theThunderSmallProbabilityMax)
-      {
-        sentence << Delimiter(",");
-        sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
-      }
-      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMin &&
-               maxThunderProbability < theParameters.theThunderNormalProbabilityMax)
-      {
-        sentence << Delimiter(",");
-        sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
-      }
-      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMax)
-      {
-        sentence << JA_WORD;
-        sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
-      }
-    }
-    else if (maxThunderExtent >= theParameters.theThuderNormalExtentMax)
-    {
-      if (maxThunderProbability >= theParameters.theThunderSmallProbabilityMin &&
-          maxThunderProbability < theParameters.theThunderSmallProbabilityMax)
-      {
-        sentence << Delimiter(",");
-        sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
-      }
-      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMin &&
-               maxThunderProbability < theParameters.theThunderNormalProbabilityMax)
-      {
-        sentence << Delimiter(",");
-        sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
-      }
-      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMax)
-      {
-        sentence << JA_WORD;
-        sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
-      }
-    }
+    append_thunder_phrase(sentence,
+                          maxThunderExtent,
+                          maxThunderProbability,
+                          theParameters.theThuderNormalExtentMin,
+                          theParameters.theThuderNormalExtentMax,
+                          theParameters.theThunderSmallProbabilityMin,
+                          theParameters.theThunderSmallProbabilityMax,
+                          theParameters.theThunderNormalProbabilityMin,
+                          theParameters.theThunderNormalProbabilityMax);
   }
 
   return sentence;

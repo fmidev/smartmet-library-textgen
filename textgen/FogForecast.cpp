@@ -274,36 +274,32 @@ void FogForecast::findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
     fog_type_id currentFogType = get_fog_type(theFogPeriods.at(i).second.theModerateFogExtent,
                                               theFogPeriods.at(i).second.theDenseFogExtent,
                                               !theVisibityForecastAtSea);
+    bool isLast = (i == theFogPeriods.size() - 1);
+    bool typeChanged = (previousFogType != currentFogType);
 
-    if (i == theFogPeriods.size() - 1)
+    if (typeChanged && previousFogType != NO_FOG)
+      theFogTypePeriods.push_back(get_fog_type_wp(
+          fogPeriodStartTime, theFogPeriods.at(i - 1).first.localEndTime(), previousFogType));
+
+    if (isLast)
     {
-      if (previousFogType != currentFogType)
+      if (typeChanged)
       {
-        if (previousFogType != NO_FOG)
-          theFogTypePeriods.push_back(get_fog_type_wp(
-              fogPeriodStartTime, theFogPeriods.at(i - 1).first.localEndTime(), previousFogType));
         if (currentFogType != NO_FOG)
           theFogTypePeriods.push_back(get_fog_type_wp(theFogPeriods.at(i).first.localStartTime(),
                                                       theFogPeriods.at(i).first.localEndTime(),
                                                       currentFogType));
       }
-      else
+      else if (currentFogType != NO_FOG)
       {
-        if (currentFogType != NO_FOG)
-          theFogTypePeriods.push_back(get_fog_type_wp(
-              fogPeriodStartTime, theFogPeriods.at(i).first.localEndTime(), currentFogType));
+        theFogTypePeriods.push_back(get_fog_type_wp(
+            fogPeriodStartTime, theFogPeriods.at(i).first.localEndTime(), currentFogType));
       }
     }
-    else
+    else if (typeChanged)
     {
-      if (previousFogType != currentFogType)
-      {
-        if (previousFogType != NO_FOG)
-          theFogTypePeriods.push_back(get_fog_type_wp(
-              fogPeriodStartTime, theFogPeriods.at(i - 1).first.localEndTime(), previousFogType));
-        fogPeriodStartTime = theFogPeriods.at(i).first.localStartTime();
-        previousFogType = currentFogType;
-      }
+      fogPeriodStartTime = theFogPeriods.at(i).first.localStartTime();
+      previousFogType = currentFogType;
     }
   }
 }
@@ -606,135 +602,145 @@ WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPe
   return theFogPeriod;
 }
 
+bool FogForecast::getFogPeriodAndIdMultiple(const WeatherPeriod& theForecastPeriod,
+                                            const fog_type_period_vector& theFogTypePeriods,
+                                            WeatherPeriod& theResultPeriod,
+                                            fog_type_id& theFogTypeId) const
+{
+  float forecastPeriodLength =
+      theForecastPeriod.localEndTime().DifferenceInHours(theForecastPeriod.localStartTime());
+  int longestFogPeriodIndex = -1;
+  int firstPeriodIndex = -1;
+  int lastPeriodIndex = -1;
+  int fogIdSum = 0;
+  int fogPeriodCount = 0;
+  map<unsigned int, unsigned int> encounteredFogTypes;
+
+  bool fogPeriodOk = false;
+  for (unsigned int i = 0; i < theFogTypePeriods.size(); i++)
+  {
+    WeatherPeriod actualFogPeriod =
+        getActualFogPeriod(theForecastPeriod, theFogTypePeriods.at(i).first, fogPeriodOk);
+    if (!fogPeriodOk)
+      continue;
+
+    int actualPeriodLength =
+        actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime());
+
+    if (longestFogPeriodIndex == -1)
+    {
+      longestFogPeriodIndex = i;
+      firstPeriodIndex = i;
+    }
+    else
+    {
+      WeatherPeriod longestPeriod = theFogTypePeriods.at(longestFogPeriodIndex).first;
+      if (actualPeriodLength >
+          longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime()))
+        longestFogPeriodIndex = i;
+    }
+
+    lastPeriodIndex = i;
+    fogIdSum += (theFogTypePeriods.at(i).second * actualPeriodLength);
+    fogPeriodCount += actualPeriodLength;
+    encounteredFogTypes.insert(
+        make_pair(theFogTypePeriods.at(i).second, theFogTypePeriods.at(i).second));
+  }
+
+  if (longestFogPeriodIndex < 0)
+    return false;
+
+  WeatherPeriod longestPeriod = getActualFogPeriod(
+      theForecastPeriod, theFogTypePeriods.at(longestFogPeriodIndex).first, fogPeriodOk);
+  float longestPeriodLength =
+      longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime());
+
+  if (longestPeriodLength / forecastPeriodLength > 0.70)
+  {
+    theResultPeriod = longestPeriod;
+    theFogTypeId = theFogTypePeriods.at(longestFogPeriodIndex).second;
+    return true;
+  }
+
+  WeatherPeriod firstPeriod = getActualFogPeriod(
+      theForecastPeriod, theFogTypePeriods.at(firstPeriodIndex).first, fogPeriodOk);
+  WeatherPeriod lastPeriod = getActualFogPeriod(
+      theForecastPeriod, theFogTypePeriods.at(lastPeriodIndex).first, fogPeriodOk);
+  theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
+
+  float periodIdAverage = static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount);
+
+  fog_type_id finalFogType = NO_FOG;
+  float fogTypeGap = 10.0;
+  for (unsigned int i = FOG; i < NO_FOG; i++)
+  {
+    if (encounteredFogTypes.find(i) == encounteredFogTypes.end())
+      continue;
+    float gap = abs(periodIdAverage - static_cast<float>(i));
+    if (finalFogType == NO_FOG || fogTypeGap > gap)
+    {
+      finalFogType = static_cast<fog_type_id>(i);
+      fogTypeGap = gap;
+    }
+  }
+  theFogTypeId = finalFogType;
+  return (theFogTypeId != NO_FOG);
+}
+
 bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
                                     const fog_type_period_vector& theFogTypePeriods,
                                     WeatherPeriod& theResultPeriod,
                                     fog_type_id& theFogTypeId) const
 {
-  bool fogPeriodOk(false);
-
   if (theFogTypePeriods.size() == 1)
   {
-    WeatherPeriod actualFogPeriod(
-        getActualFogPeriod(theForecastPeriod, theFogTypePeriods.at(0).first, fogPeriodOk));
-
-    if (fogPeriodOk)
-    {
-      if (!(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) ==
-                1 &&
-            (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
-             actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime())))
-      {
-        theResultPeriod = actualFogPeriod;
-        theFogTypeId = theFogTypePeriods.at(0).second;
-        return true;
-      }
-    }
+    bool fogPeriodOk = false;
+    WeatherPeriod actualFogPeriod =
+        getActualFogPeriod(theForecastPeriod, theFogTypePeriods.at(0).first, fogPeriodOk);
+    if (!fogPeriodOk)
+      return false;
+    bool tooShortAtEdge =
+        actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
+        (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
+         actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime());
+    if (tooShortAtEdge)
+      return false;
+    theResultPeriod = actualFogPeriod;
+    theFogTypeId = theFogTypePeriods.at(0).second;
+    return true;
   }
-  else
-  {
-    float forecastPeriodLength(
-        theForecastPeriod.localEndTime().DifferenceInHours(theForecastPeriod.localStartTime()));
-    int longestFogPeriodIndex(-1);
-    int firstPeriodIndex(-1);
-    int lastPeriodIndex(-1);
-    int fogIdSum(0);
-    int fogPeriodCount(0);
-    map<unsigned int, unsigned int> encounteredFogTypes;
 
-    // Merge close periods. If one long fog-period use that and ignore the small ones,
-    // otherwise theFogTypeId is weighted average of all fog-periods and the
-    // returned fog-period encompasses all small periods.
-    for (unsigned int i = 0; i < theFogTypePeriods.size(); i++)
-    {
-      WeatherPeriod actualFogPeriod(
-          getActualFogPeriod(theForecastPeriod, theFogTypePeriods.at(i).first, fogPeriodOk));
+  return getFogPeriodAndIdMultiple(theForecastPeriod, theFogTypePeriods, theResultPeriod,
+                                   theFogTypeId);
+}
 
-      if (!fogPeriodOk)
-        continue;
-
-      int actualPeriodLength(
-          actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()));
-      /*
-  if (actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
-      (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
-       actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime()))
-    continue;
-      */
-
-      if (longestFogPeriodIndex == -1)
-      {
-        longestFogPeriodIndex = i;
-        firstPeriodIndex = i;
-      }
-      else
-      {
-        WeatherPeriod longestPeriod(theFogTypePeriods.at(longestFogPeriodIndex).first);
-
-        if (actualPeriodLength >
-            longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime()))
-        {
-          longestFogPeriodIndex = i;
-        }
-      }
-
-      lastPeriodIndex = i;
-      fogIdSum += (theFogTypePeriods.at(i).second * actualPeriodLength);
-      fogPeriodCount += actualPeriodLength;
-      encounteredFogTypes.insert(
-          make_pair(theFogTypePeriods.at(i).second, theFogTypePeriods.at(i).second));
-    }
-
-    if (longestFogPeriodIndex >= 0)
-    {
-      //      WeatherPeriod longestPeriod(theFogTypePeriods.at(longestFogPeriodIndex).first);
-      WeatherPeriod longestPeriod(getActualFogPeriod(
-          theForecastPeriod, theFogTypePeriods.at(longestFogPeriodIndex).first, fogPeriodOk));
-      float longestPeriodLength(
-          longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime()));
-
-      // if the longest period is more than 70% of the forecast period, use it
-      if (longestPeriodLength / forecastPeriodLength > 0.70)
-      {
-        theResultPeriod = longestPeriod;
-        theFogTypeId = theFogTypePeriods.at(longestFogPeriodIndex).second;
-        return true;
-      }
-
-      WeatherPeriod firstPeriod(getActualFogPeriod(
-          theForecastPeriod, theFogTypePeriods.at(firstPeriodIndex).first, fogPeriodOk));
-      WeatherPeriod lastPeriod(getActualFogPeriod(
-          theForecastPeriod, theFogTypePeriods.at(lastPeriodIndex).first, fogPeriodOk));
-      theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
-      float periodIdAverage(static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount));
-
-      // find the fog type that is closest to the average
-      fog_type_id finalFogType = NO_FOG;
-      float fogTypeGap = 10.0;
-      for (unsigned int i = FOG; i < NO_FOG; i++)
-      {
-        if (encounteredFogTypes.find(i) != encounteredFogTypes.end())
-        {
-          if (finalFogType == NO_FOG)
-          {
-            finalFogType = static_cast<fog_type_id>(i);
-            fogTypeGap = abs(periodIdAverage - i);
-          }
-          else
-          {
-            if (fogTypeGap > abs(periodIdAverage - static_cast<float>(i)))
-            {
-              finalFogType = static_cast<fog_type_id>(i);
-              fogTypeGap = abs(periodIdAverage - i);
-            }
-          }
-        }
-      }
-      theFogTypeId = finalFogType;
-      return (theFogTypeId != NO_FOG);
-    }
-  }
-  return false;
+// Returns {phraseTemplate, argMask} for fog sentence construction.
+// argMask: bit0=time, bit1=place, bit2=inplaces
+static const char* fog_phrase_template(bool time, bool place, bool inplaces, bool dense)
+{
+  // Indexed by (time<<2 | place<<1 | inplaces)
+  static const char* normalPhrases[8] = {
+      nullptr,                             // 000: no args -> handled separately
+      INPLACES_FOG_COMPOSITE_PHRASE,       // 001: inplaces only
+      PLACE_FOG_COMPOSITE_PHRASE,          // 010: place only -> reuse INPLACES for place-only
+      PLACE_INPLACES_FOG_COMPOSITE_PHRASE, // 011: place + inplaces
+      TIME_FOG_COMPOSITE_PHRASE,           // 100: time only
+      TIME_INPLACES_FOG_COMPOSITE_PHRASE,  // 101: time + inplaces
+      TIME_PLACE_FOG_COMPOSITE_PHRASE,     // 110: time + place
+      TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE, // 111: all
+  };
+  static const char* densePhrases[8] = {
+      nullptr,
+      INPLACES_FOG_DENSE_COMPOSITE_PHRASE,
+      PLACE_FOG_DENSE_COMPOSITE_PHRASE,
+      PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE,
+      TIME_FOG_DENSE_COMPOSITE_PHRASE,
+      TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE,
+      TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE,
+      TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE,
+  };
+  int idx = (time ? 4 : 0) | (place ? 2 : 0) | (inplaces ? 1 : 0);
+  return dense ? densePhrases[idx] : normalPhrases[idx];
 }
 
 Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
@@ -742,98 +748,32 @@ Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
                                            const std::string& theInPlacesString,
                                            bool thePossiblyDenseFlag)
 {
-  Sentence sentence;
-
-  bool dayPhaseExists(!theDayPhasePhrase.empty());
-  bool placeExists(!theAreaString.empty());
-  bool inPlacesPhraseExists(!theInPlacesString.empty());
-
 #if !ENABLE_DENSE_FOG
   thePossiblyDenseFlag = false;
 #endif
 
-  if (dayPhaseExists)
-  {
-    if (placeExists)
-    {
-      if (inPlacesPhraseExists)
-      {
-        if (thePossiblyDenseFlag)
-          sentence << TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE;
+  bool hasTime = !theDayPhasePhrase.empty();
+  bool hasPlace = !theAreaString.empty();
+  bool hasInPlaces = !theInPlacesString.empty();
 
-        sentence << theDayPhasePhrase << theAreaString << theInPlacesString;
-      }
-      else
-      {
-        if (thePossiblyDenseFlag)
-          sentence << TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << TIME_PLACE_FOG_COMPOSITE_PHRASE;
+  Sentence sentence;
 
-        sentence << theDayPhasePhrase << theAreaString;
-      }
-    }
-    else
-    {
-      if (inPlacesPhraseExists)
-      {
-        if (thePossiblyDenseFlag)
-          sentence << TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << TIME_INPLACES_FOG_COMPOSITE_PHRASE;
-        sentence << theDayPhasePhrase << theInPlacesString;
-      }
-      else
-      {
-        if (thePossiblyDenseFlag)
-          sentence << TIME_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << TIME_FOG_COMPOSITE_PHRASE;
-        sentence << theDayPhasePhrase;
-      }
-    }
-  }
-  else
+  if (!hasTime && !hasPlace && !hasInPlaces)
   {
-    if (placeExists)
-    {
-      if (inPlacesPhraseExists)
-      {
-        if (thePossiblyDenseFlag)
-          sentence << PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << PLACE_INPLACES_FOG_COMPOSITE_PHRASE;
-        sentence << theAreaString << theInPlacesString;
-      }
-      else
-      {
-        if (thePossiblyDenseFlag)
-          sentence << INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << INPLACES_FOG_COMPOSITE_PHRASE;
-        sentence << theAreaString;
-      }
-    }
-    else
-    {
-      if (inPlacesPhraseExists)
-      {
-        if (thePossiblyDenseFlag)
-          sentence << INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-        else
-          sentence << INPLACES_FOG_COMPOSITE_PHRASE;
-        sentence << theInPlacesString;
-      }
-      else
-      {
-        sentence << SUMUA_WORD;
-        if (thePossiblyDenseFlag)
-          sentence << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
-      }
-    }
+    sentence << SUMUA_WORD;
+    if (thePossiblyDenseFlag)
+      sentence << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
+    return sentence;
   }
+
+  const char* tmpl = fog_phrase_template(hasTime, hasPlace, hasInPlaces, thePossiblyDenseFlag);
+  sentence << tmpl;
+  if (hasTime)
+    sentence << theDayPhasePhrase;
+  if (hasPlace)
+    sentence << theAreaString;
+  if (hasInPlaces)
+    sentence << theInPlacesString;
 
   return sentence;
 }

@@ -32,6 +32,68 @@
 using namespace TextGen;
 using namespace std;
 
+namespace
+{
+struct RainSentenceResult
+{
+  TextGen::Sentence sentence;
+  bool unstable = false;
+};
+
+// Build precipitation sentence based on per-day rain counts
+RainSentenceResult rain_sentence_phrase(int rainy_days, int partly_rainy_days, int days,
+                                        int r_unstable,
+                                        const TextGen::WeatherPeriod& last_rainy_period,
+                                        const TextGen::WeatherPeriod& last_partly_rainy_period)
+{
+  RainSentenceResult result;
+  if (rainy_days == 0 && partly_rainy_days == 0)
+  {
+    result.sentence << "poutaa";
+  }
+  else if (rainy_days == 1 && partly_rainy_days == 1)
+  {
+    result.sentence << TextGen::WeekdayTools::on_weekday(last_rainy_period.localStartTime())
+                    << "sadetta";
+  }
+  else if (rainy_days == 0 && partly_rainy_days == 1)
+  {
+    result.sentence << TextGen::WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime())
+                    << "paikoin" << "sadetta";
+  }
+  else if (100 * static_cast<float>(rainy_days) / days >= r_unstable)
+  {
+    result.sentence << "saa on epavakaista";
+    result.unstable = true;
+  }
+  else
+  {
+    result.sentence << "ajoittain sateista";
+  }
+  return result;
+}
+
+// Build cloudiness description sentence fragment based on n1/n2/n3 percentages
+TextGen::Sentence cloudiness_phrase(float n1, float n2, float n3,
+                                    int single_limit, int double_limit)
+{
+  TextGen::Sentence s;
+  if (n1 >= single_limit)
+    s << "enimmakseen" << "selkeaa";
+  else if (n2 >= single_limit)
+    s << "enimmakseen" << "puolipilvista";
+  else if (n3 >= single_limit)
+    s << "enimmakseen" << "pilvista";
+  else if (n1 < double_limit)
+    s << "enimmakseen" << "pilvista" << "tai" << "puolipilvista";
+  else if (n3 < double_limit)
+    s << "enimmakseen" << "selkeaa" << "tai" << "puolipilvista";
+  else
+    s << "vaihtelevaa pilvisyytta";
+  return s;
+}
+}  // namespace
+
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -132,36 +194,12 @@ Paragraph WeatherStory::shortoverview() const
       const float n3 = n3result.value();
       const float n2 = 100 - n1 - n3;
 
-      if (n1 >= c_single_limit)
-        c_sentence << "enimmakseen"
-                   << "selkeaa";
-      else if (n2 >= c_single_limit)
-        c_sentence << "enimmakseen"
-                   << "puolipilvista";
-      else if (n3 >= c_single_limit)
-        c_sentence << "enimmakseen"
-                   << "pilvista";
-      else if (n1 < c_double_limit)
-        c_sentence << "enimmakseen"
-                   << "pilvista"
-                   << "tai"
-                   << "puolipilvista";
-      else if (n3 < c_double_limit)
-        c_sentence << "enimmakseen"
-                   << "selkeaa"
-                   << "tai"
-                   << "puolipilvista";
-      else
-        c_sentence << "vaihtelevaa pilvisyytta";
+      c_sentence << cloudiness_phrase(n1, n2, n3, c_single_limit, c_double_limit);
     }
 
     // Sentence on rain
 
-    bool unstable_weather = false;
-
     {
-      using container = vector<WeatherResult>;
-      container results;
       HourPeriodGenerator generator(itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
 
       WeatherPeriod last_rainy_period = generator.period(1);
@@ -195,32 +233,19 @@ Paragraph WeatherStory::shortoverview() const
           ++partly_rainy_days;
           last_partly_rainy_period = period;
         }
-
-        results.push_back(result);
       }
 
-      if (rainy_days == 0 && partly_rainy_days == 0)
-        r_sentence << "poutaa";
-      else if (rainy_days == 1 && partly_rainy_days == 1)
-        r_sentence << WeekdayTools::on_weekday(last_rainy_period.localStartTime()) << "sadetta";
-      else if (rainy_days == 0 && partly_rainy_days == 1)
-        r_sentence << WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime()) << "paikoin"
-                   << "sadetta";
-      else if (100 * static_cast<float>(rainy_days) / days >= r_unstable)
-      {
-        r_sentence << "saa on epavakaista";
-        unstable_weather = true;
-      }
+      const RainSentenceResult rain = rain_sentence_phrase(
+          rainy_days, partly_rainy_days, days, r_unstable, last_rainy_period, last_partly_rainy_period);
+      r_sentence << rain.sentence;
+
+      if (rain.unstable)
+        paragraph << r_sentence;
       else
-        r_sentence << "ajoittain sateista";
-    }
-
-    if (unstable_weather)
-      paragraph << r_sentence;
-    else
-    {
-      c_sentence << Delimiter(",") << r_sentence;
-      paragraph << c_sentence;
+      {
+        c_sentence << Delimiter(",") << r_sentence;
+        paragraph << c_sentence;
+      }
     }
 
     log << paragraph;

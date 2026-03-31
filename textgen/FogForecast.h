@@ -83,6 +83,10 @@ class FogForecast
                          const fog_type_period_vector& theFogTypePeriods,
                          WeatherPeriod& theResultPeriod,
                          fog_type_id& theFogTypeId) const;
+  bool getFogPeriodAndIdMultiple(const WeatherPeriod& theForecastPeriod,
+                                 const fog_type_period_vector& theFogTypePeriods,
+                                 WeatherPeriod& theResultPeriod,
+                                 fog_type_id& theFogTypeId) const;
   static Sentence constructFogSentence(const std::string& theDayPhasePhrase,
                                        const std::string& theAreaString,
                                        const std::string& theInPlacesString,

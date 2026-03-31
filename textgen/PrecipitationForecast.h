@@ -93,6 +93,21 @@ class PrecipitationForecast
   unsigned int getPrecipitationHours(precipitation_intesity_id intensityId,
                                      const WeatherPeriod& period) const;
 
+ public:
+  // Helper context for parseFinalSentence (public so anonymous-namespace helpers can use it)
+  struct FinalSentenceContext
+  {
+    const Sentence& periodPhrase;
+    const Sentence& areaPhrase;
+    const Sentence& inPlacesPhrase;
+    const Sentence& intensity;
+    const Sentence& precipitation;
+    bool periodPhraseEmpty;
+    bool areaPhraseEmpty;
+    bool inPlacesPhraseEmpty;
+    bool intensityEmpty;
+  };
+
  private:
   static std::string getTimePhrase(part_of_the_day_id thePartOfTheDayId,
                                    time_phrase_format theTimePhraseFormat);
@@ -158,11 +173,19 @@ class PrecipitationForecast
   void fillInPrecipitationDataVector(AreaTools::forecast_area_id theAreaId);
   void findOutPrecipitationPeriods();
   void findOutPrecipitationPeriods(AreaTools::forecast_area_id theAreaId);
+  void appendFinalPrecipitationPeriod(const precipitation_data_vector& data,
+                                      unsigned int periodStartIndex,
+                                      std::vector<WeatherPeriod>& dest) const;
 
   void findOutPrecipitationWeatherEvents();
   void findOutPrecipitationWeatherEvents(const std::vector<WeatherPeriod>& thePrecipitationPeriods,
                                          unsigned short theForecastArea,
                                          weather_event_id_vector& thePrecipitationWeatherEvents);
+  void addPoutaantuuEvent(const std::vector<WeatherPeriod>& thePrecipitationPeriods,
+                          unsigned int i,
+                          const TextGenPosixTime& precipitationEndTime,
+                          unsigned short theForecastArea,
+                          weather_event_id_vector& thePrecipitationWeatherEvents) const;
 
   void waterAndSnowShowersPhrase(float thePrecipitationIntensity,
                                  float thePrecipitationIntensityAbsoluteMax,
@@ -255,6 +278,75 @@ class PrecipitationForecast
                                                  precipitation_form_id form2);
 
   precipitation_form_id getPoutaantuuPrecipitationForm() const;
+
+  // Helper context for getPrecipitationPhraseElements per-form handlers
+  struct PrecipPhraseContext
+  {
+    const WeatherPeriod& period;
+    float intensity;
+    float intensityAbsoluteMax;
+    float extent;
+    float formWater;
+    float formDrizzle;
+    float formSleet;
+    float formSnow;
+    float formFreezingRain;
+    float formFreezingDrizzle;
+    bool use_summer_phrase;
+    bool is_showers;
+    bool mostly_dry_weather;
+    bool can_be_freezing;
+    precipitation_form_id freezing_form;
+    InPlacesPhrase::PhraseType phraseType;
+  };
+
+  void setPhraseElementsDry(std::map<std::string, Sentence>& elems) const;
+
+  void handleWaterFormPhrase(const PrecipPhraseContext& ctx,
+                             std::map<std::string, Sentence>& elems) const;
+  void handleSleetFormPhrase(const PrecipPhraseContext& ctx,
+                             std::map<std::string, Sentence>& elems) const;
+  void handleSnowFormPhrase(const PrecipPhraseContext& ctx,
+                            std::map<std::string, Sentence>& elems) const;
+  void handleDrizzleFormPhrase(const PrecipPhraseContext& ctx,
+                               std::map<std::string, Sentence>& elems) const;
+  void handleWaterDrizzleFormPhrase(const PrecipPhraseContext& ctx,
+                                    std::map<std::string, Sentence>& elems) const;
+  void handleWaterSleetFormPhrase(const PrecipPhraseContext& ctx,
+                                  std::map<std::string, Sentence>& elems) const;
+  void handleWaterSnowFormPhrase(const PrecipPhraseContext& ctx,
+                                 std::map<std::string, Sentence>& elems) const;
+  void handleSleetSnowFormPhrase(const PrecipPhraseContext& ctx,
+                                 std::map<std::string, Sentence>& elems) const;
+
+  void handleWaterFormShowersPhrase(const PrecipPhraseContext& ctx,
+                                    std::map<std::string, Sentence>& elems) const;
+  void handleWaterFormContinuousPhrase(const PrecipPhraseContext& ctx,
+                                       std::map<std::string, Sentence>& elems) const;
+
+  Sentence parsePlainPrecipitationPhrase(
+      const FinalSentenceContext& ctx,
+      const Sentence& plainPrecipitation) const;
+  Sentence parseMostlyDryPhrase(const FinalSentenceContext& ctx,
+                                std::map<std::string, Sentence>& elems) const;
+  Sentence parseDryPhrase(const FinalSentenceContext& ctx) const;
+  Sentence parseFreezingRainPhrase(const FinalSentenceContext& ctx) const;
+  Sentence parseFreezingShowersPhrase(const FinalSentenceContext& ctx) const;
+  Sentence parseRegularPrecipitationPhrase(const FinalSentenceContext& ctx) const;
+
+  void appendHeavyPrecipitationSentence(
+      const WeatherPeriod& thePeriod,
+      const WeatherPeriod& heavyPrecipitationPeriod,
+      precipitation_form_id precipitationForm,
+      std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const;
+
+  Sentence buildSingleAreaPrecipitationSentence(
+      const WeatherPeriod& thePeriod,
+      const Sentence& thePeriodPhrase,
+      unsigned short theForecastAreaId,
+      const std::string& theAreaPhrase,
+      const precipitation_data_vector& dataVector,
+      std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const;
 
   precipitation_data_vector theCoastalData;
   precipitation_data_vector theInlandData;

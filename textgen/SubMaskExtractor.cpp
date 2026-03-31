@@ -341,6 +341,38 @@ double ExtractMask(const AnalysisSources& theSources,
   return retval;
 }
 
+namespace
+{
+// Check if a point falls in the requested directional sub-region
+bool point_in_direction(const NFmiPoint& p,
+                        const AreaTools::direction_id& theDirectionId,
+                        double latitudeDivisionLine,
+                        double longitudeDivisionLine)
+{
+  switch (theDirectionId)
+  {
+    case AreaTools::NORTH:
+      return p.Y() >= latitudeDivisionLine;
+    case AreaTools::SOUTH:
+      return p.Y() < latitudeDivisionLine;
+    case AreaTools::EAST:
+      return p.X() >= longitudeDivisionLine;
+    case AreaTools::WEST:
+      return p.X() < longitudeDivisionLine;
+    case AreaTools::NORTHEAST:
+      return p.Y() >= latitudeDivisionLine && p.X() >= longitudeDivisionLine;
+    case AreaTools::SOUTHEAST:
+      return p.Y() < latitudeDivisionLine && p.X() >= longitudeDivisionLine;
+    case AreaTools::NORTHWEST:
+      return p.Y() >= latitudeDivisionLine && p.X() < longitudeDivisionLine;
+    case AreaTools::SOUTHWEST:
+      return p.Y() < latitudeDivisionLine && p.X() < longitudeDivisionLine;
+    default:
+      return false;
+  }
+}
+}  // namespace
+
 NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
                             const WeatherArea& theArea,
                             const AreaTools::direction_id& theDirectionId)
@@ -396,39 +428,7 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
 
         if (NFmiSvgTools::IsInside(svgPath, p))
         {
-          bool insert = false;
-          switch (theDirectionId)
-          {
-            case AreaTools::NORTH:
-              insert = p.Y() >= latitudeDivisionLine;
-              break;
-            case AreaTools::SOUTH:
-              insert = p.Y() < latitudeDivisionLine;
-              break;
-            case AreaTools::EAST:
-              insert = p.X() >= longitudeDivisionLine;
-              break;
-            case AreaTools::WEST:
-              insert = p.X() < longitudeDivisionLine;
-              break;
-            case AreaTools::NORTHEAST:
-              insert = p.Y() >= latitudeDivisionLine && p.X() >= longitudeDivisionLine;
-              break;
-            case AreaTools::SOUTHEAST:
-              insert = p.Y() < latitudeDivisionLine && p.X() >= longitudeDivisionLine;
-              break;
-            case AreaTools::NORTHWEST:
-              insert = p.Y() >= latitudeDivisionLine && p.X() < longitudeDivisionLine;
-              break;
-            case AreaTools::SOUTHWEST:
-              insert = p.Y() < latitudeDivisionLine && p.X() < longitudeDivisionLine;
-              break;
-            default:
-              insert = false;
-              break;
-          }
-
-          if (insert)
+          if (point_in_direction(p, theDirectionId, latitudeDivisionLine, longitudeDivisionLine))
             mask.insert(idx);
         }
       }

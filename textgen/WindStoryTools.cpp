@@ -195,173 +195,94 @@ string direction_string(const WeatherResult& theDirection, const string& theVari
   return retval;
 }
 
+// Lookup table for good_accuracy direction strings (index 1..16)
+static const std::array<const char*, 17> good_direction_strings = {
+    "",                                    // 0 unused
+    "pohjoistuulta",                       // 1
+    "pohjoisen ja koillisen valista tuulta",  // 2
+    "koillistuulta",                       // 3
+    "idan ja koillisen valista tuulta",    // 4
+    "itatuulta",                           // 5
+    "idan ja kaakon valista tuulta",       // 6
+    "kaakkoistuulta",                      // 7
+    "etelan ja kaakon valista tuulta",     // 8
+    "etelatuulta",                         // 9
+    "etelan ja lounaan valista tuulta",    // 10
+    "lounaistuulta",                       // 11
+    "lannen ja lounaan valista tuulta",    // 12
+    "lansituulta",                         // 13
+    "lannen ja luoteen valista tuulta",    // 14
+    "luoteistuulta",                       // 15
+    "pohjoisen ja luoteen valista tuulta", // 16
+};
+
+// Return puoleinen string for moderate accuracy, resolving ambiguous sectors by exact angle
+static string moderate_direction_string(int n, double angle)
+{
+  // Simple sectors: 1,3,5,7,9,11,13,15
+  static const std::array<const char*, 17> simple = {
+      "",                   // 0
+      "pohjoisen puoleista", // 1
+      "",                   // 2 ambiguous
+      "koillisen puoleista", // 3
+      "",                   // 4 ambiguous
+      "idan puoleista",     // 5
+      "",                   // 6 ambiguous
+      "kaakon puoleista",   // 7
+      "",                   // 8 ambiguous
+      "etelan puoleista",   // 9
+      "",                   // 10 ambiguous
+      "lounaan puoleista",  // 11
+      "",                   // 12 ambiguous
+      "lannen puoleista",   // 13
+      "",                   // 14 ambiguous
+      "luoteen puoleista",  // 15
+      "",                   // 16 ambiguous
+  };
+  if (n >= 1 && n <= 16 && simple[n][0] != '\0')
+    return simple[n];
+  // Ambiguous even sectors: pick based on angle threshold
+  // Each even sector n has threshold = (n-1)*22.5 + 22.5 = n*22.5
+  struct AmbigEntry { int sector; double threshold; const char* below; const char* above; };
+  static const std::array<AmbigEntry, 8> ambig = {{
+      {2,   22.5, "koillisen puoleista", "pohjoisen puoleista"},  // >337.5 or <22.5 => pohjoinen
+      {4,   67.5, "koillisen puoleista", "idan puoleista"},
+      {6,  112.5, "idan puoleista",      "kaakon puoleista"},
+      {8,  157.5, "kaakon puoleista",    "etelan puoleista"},
+      {10, 202.5, "etelan puoleista",    "lounaan puoleista"},
+      {12, 247.5, "lounaan puoleista",   "lannen puoleista"},
+      {14, 292.5, "lannen puoleista",    "luoteen puoleista"},
+      {16, 337.5, "luoteen puoleista",   "pohjoisen puoleista"},
+  }};
+  for (const auto& e : ambig)
+  {
+    if (n == e.sector)
+    {
+      if (n == 2)
+        return (angle > 337.5 || angle < 22.5) ? e.above : e.below;
+      return (angle < e.threshold) ? e.below : e.above;
+    }
+  }
+  return "";
+}
+
 string direction16_string(const WeatherResult& theDirection, const string& theVariable)
 {
-  string retval;
+  const int n = direction16th(theDirection.value());
+  const WindDirectionAccuracy accuracy = direction_accuracy(theDirection.error(), theVariable);
 
-  int n = direction16th(theDirection.value());
+  if (accuracy == bad_accuracy)
+    return "suunnaltaan vaihtelevaa tuulta";
 
-  switch (direction_accuracy(theDirection.error(), theVariable))
+  if (accuracy == good_accuracy)
   {
-    case good_accuracy:
-    {
-      switch (n)
-      {
-        case 1:
-          retval = "pohjoistuulta";
-          break;
-        case 2:
-          retval = "pohjoisen ja koillisen valista tuulta";
-          break;
-        case 3:
-          retval = "koillistuulta";
-          break;
-        case 4:
-          retval = "idan ja koillisen valista tuulta";
-          break;
-        case 5:
-          retval = "itatuulta";
-          break;
-        case 6:
-          retval = "idan ja kaakon valista tuulta";
-          break;
-        case 7:
-          retval = "kaakkoistuulta";
-          break;
-        case 8:
-          retval = "etelan ja kaakon valista tuulta";
-          break;
-        case 9:
-          retval = "etelatuulta";
-          break;
-        case 10:
-          retval = "etelan ja lounaan valista tuulta";
-          break;
-        case 11:
-          retval = "lounaistuulta";
-          break;
-        case 12:
-          retval = "lannen ja lounaan valista tuulta";
-          break;
-        case 13:
-          retval = "lansituulta";
-          break;
-        case 14:
-          retval = "lannen ja luoteen valista tuulta";
-          break;
-        case 15:
-          retval = "luoteistuulta";
-          break;
-        case 16:
-          retval = "pohjoisen ja luoteen valista tuulta";
-          break;
-        default:
-          break;
-      }
-    }
-    break;
-    case moderate_accuracy:
-    {
-      switch (n)
-      {
-        case 1:
-          retval = "pohjoisen puoleista";
-          break;
-        case 2:
-        {
-          if (theDirection.value() > 337.5 || theDirection.value() < 22.5)
-            retval = "pohjoisen puoleista";
-          else
-            retval = "koillisen puoleista";
-        }
-        break;
-        case 3:
-          retval = "koillisen puoleista";
-          break;
-        case 4:
-        {
-          if (theDirection.value() < 67.5)
-            retval = "koillisen puoleista";
-          else
-            retval = "idan puoleista";
-        }
-        break;
-        case 5:
-          retval = "idan puoleista";
-          break;
-        case 6:
-        {
-          if (theDirection.value() < 112.5)
-            retval = "idan puoleista";
-          else
-            retval = "kaakon puoleista";
-        }
-        break;
-        case 7:
-          retval = "kaakon puoleista";
-          break;
-        case 8:
-        {
-          if (theDirection.value() < 157.5)
-            retval = "kaakon puoleista";
-          else
-            retval = "etelan puoleista";
-        }
-        break;
-        case 9:
-          retval = "etelan puoleista";
-          break;
-        case 10:
-        {
-          if (theDirection.value() < 202.5)
-            retval = "etelan puoleista";
-          else
-            retval = "lounaan puoleista";
-        }
-        break;
-        case 11:
-          retval = "lounaan puoleista";
-          break;
-        case 12:
-        {
-          if (theDirection.value() < 247.5)
-            retval = "lounaan puoleista";
-          else
-            retval = "lannen puoleista";
-        }
-        break;
-        case 13:
-          retval = "lannen puoleista";
-          break;
-        case 14:
-        {
-          if (theDirection.value() < 292.5)
-            retval = "lannen puoleista";
-          else
-            retval = "luoteen puoleista";
-        }
-        break;
-        case 15:
-          retval = "luoteen puoleista";
-          break;
-        case 16:
-        {
-          if (theDirection.value() < 337.5)
-            retval = "luoteen puoleista";
-          else
-            retval = "pohjoisen puoleista";
-        }
-        break;
-        default:
-          break;
-      }
-    }
-    break;
-    case bad_accuracy:
-      retval = "suunnaltaan vaihtelevaa tuulta";
-      break;
+    if (n >= 1 && n <= 16)
+      return good_direction_strings[n];
+    return "";
   }
-  return retval;
+
+  // moderate_accuracy
+  return moderate_direction_string(n, theDirection.value());
 }
 // ----------------------------------------------------------------------
 /*!
@@ -697,119 +618,53 @@ WindDirectionId direction_between_id(float theWindDirection)
 WindDirectionId puoleinen_direction_id(float theWindDirection,
                                        const WindDirectionId& theWindDirectionId)
 {
-  WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
+  // Simple (non-ambiguous) odd sectors map directly to a puoleinen id
+  static const std::array<WindDirectionId, 17> simple_map = {{
+      MISSING_WIND_DIRECTION_ID, // 0
+      POHJOISEN_PUOLEINEN,       // 1
+      MISSING_WIND_DIRECTION_ID, // 2 ambiguous
+      KOILLISEN_PUOLEINEN,       // 3
+      MISSING_WIND_DIRECTION_ID, // 4 ambiguous
+      IDAN_PUOLEINEN,            // 5
+      MISSING_WIND_DIRECTION_ID, // 6 ambiguous
+      KAAKON_PUOLEINEN,          // 7
+      MISSING_WIND_DIRECTION_ID, // 8 ambiguous
+      ETELAN_PUOLEINEN,          // 9
+      MISSING_WIND_DIRECTION_ID, // 10 ambiguous
+      LOUNAAN_PUOLEINEN,         // 11
+      MISSING_WIND_DIRECTION_ID, // 12 ambiguous
+      LANNEN_PUOLEINEN,          // 13
+      MISSING_WIND_DIRECTION_ID, // 14 ambiguous
+      LUOTEEN_PUOLEINEN,         // 15
+      MISSING_WIND_DIRECTION_ID, // 16 ambiguous
+  }};
 
-  switch (theWindDirectionId)
+  const int n = static_cast<int>(theWindDirectionId);
+  if (n >= 1 && n <= 16 && simple_map[n] != MISSING_WIND_DIRECTION_ID)
+    return simple_map[n];
+
+  // Ambiguous even sectors: pick based on angle threshold
+  struct AmbigEntry { int sector; float threshold; WindDirectionId below; WindDirectionId above; };
+  static const std::array<AmbigEntry, 8> ambig = {{
+      {2,   22.5f, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
+      {4,   67.5f, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
+      {6,  112.5f, IDAN_PUOLEINEN,      KAAKON_PUOLEINEN},
+      {8,  157.5f, KAAKON_PUOLEINEN,    ETELAN_PUOLEINEN},
+      {10, 202.5f, ETELAN_PUOLEINEN,    LOUNAAN_PUOLEINEN},
+      {12, 247.5f, LOUNAAN_PUOLEINEN,   LANNEN_PUOLEINEN},
+      {14, 292.5f, LANNEN_PUOLEINEN,    LUOTEEN_PUOLEINEN},
+      {16, 337.5f, LUOTEEN_PUOLEINEN,   POHJOISEN_PUOLEINEN},
+  }};
+  for (const auto& e : ambig)
   {
-    case 1:
+    if (n == e.sector)
     {
-      windDirectionId = POHJOISEN_PUOLEINEN;
+      if (n == 2)
+        return (theWindDirection > 337.5f || theWindDirection < 22.5f) ? e.above : e.below;
+      return (theWindDirection < e.threshold) ? e.below : e.above;
     }
-    break;
-    case 2:
-    {
-      if (theWindDirection > 337.5 || theWindDirection < 22.5)
-        windDirectionId = POHJOISEN_PUOLEINEN;
-      else
-        windDirectionId = KOILLISEN_PUOLEINEN;
-    }
-    break;
-    case 3:
-    {
-      windDirectionId = KOILLISEN_PUOLEINEN;
-    }
-    break;
-    case 4:
-    {
-      if (theWindDirection < 67.5)
-        windDirectionId = KOILLISEN_PUOLEINEN;
-      else
-        windDirectionId = IDAN_PUOLEINEN;
-    }
-    break;
-    case 5:
-    {
-      windDirectionId = IDAN_PUOLEINEN;
-    }
-    break;
-    case 6:
-    {
-      if (theWindDirection < 112.5)
-        windDirectionId = IDAN_PUOLEINEN;
-      else
-        windDirectionId = KAAKON_PUOLEINEN;
-    }
-    break;
-    case 7:
-    {
-      windDirectionId = KAAKON_PUOLEINEN;
-    }
-    break;
-    case 8:
-    {
-      if (theWindDirection < 157.5)
-        windDirectionId = KAAKON_PUOLEINEN;
-      else
-        windDirectionId = ETELAN_PUOLEINEN;
-    }
-    break;
-    case 9:
-    {
-      windDirectionId = ETELAN_PUOLEINEN;
-    }
-    break;
-    case 10:
-    {
-      if (theWindDirection < 202.5)
-        windDirectionId = ETELAN_PUOLEINEN;
-      else
-        windDirectionId = LOUNAAN_PUOLEINEN;
-    }
-    break;
-    case 11:
-    {
-      windDirectionId = LOUNAAN_PUOLEINEN;
-    }
-    break;
-    case 12:
-    {
-      if (theWindDirection < 247.5)
-        windDirectionId = LOUNAAN_PUOLEINEN;
-      else
-        windDirectionId = LANNEN_PUOLEINEN;
-    }
-    break;
-    case 13:
-    {
-      windDirectionId = LANNEN_PUOLEINEN;
-    }
-    break;
-    case 14:
-    {
-      if (theWindDirection < 292.5)
-        windDirectionId = LANNEN_PUOLEINEN;
-      else
-        windDirectionId = LUOTEEN_PUOLEINEN;
-    }
-    break;
-    case 15:
-    {
-      windDirectionId = LUOTEEN_PUOLEINEN;
-    }
-    break;
-    case 16:
-    {
-      if (theWindDirection < 337.5)
-        windDirectionId = LUOTEEN_PUOLEINEN;
-      else
-        windDirectionId = POHJOISEN_PUOLEINEN;
-    }
-    break;
-    default:
-      break;
   }
-
-  return windDirectionId;
+  return MISSING_WIND_DIRECTION_ID;
 }
 
 WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection,
