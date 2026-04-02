@@ -1,27 +1,26 @@
-# TextGen library
+# smartmet-library-textgen
 
-The SmartMet TextGen library contains algorithm for generating weather reports
-based on weather forecast data.
+Part of [SmartMet Server](https://github.com/fmidev/smartmet-library-spine). See the [SmartMet Server documentation](https://github.com/fmidev/smartmet-library-spine) for an overview of the ecosystem.
 
-## Licence
-The library is not currently public.
+## Overview
 
-## How to contribute
-Found a bug? Want to implement a new feature? Your contribution is very welcome!
+The TextGen library contains algorithms for generating human-readable weather forecast text from gridded weather forecast data (QueryData). Given forecast data and a configuration specifying the forecast area and language, it produces natural-language weather summaries.
 
-Small changes and bug fixes can be submitted via pull request. In larger contributions, premilinary plan is recommended (in GitHub wiki). 
+## Features
 
-CLA is required in order to contribute. Please contact us for more information!
+- Natural-language weather text generation from QueryData
+- Multi-language output support
+- Configurable forecast periods and areas
+- Modular story generation (temperature, precipitation, wind, etc.)
 
-## Documentation
-Each module is documented in module [module wiki](../../wiki). 
+## Usage
 
-## Communication and Resources
-You may contact us from following channels:
-* Email: beta@fmi.fi
-* Facebook: https://www.facebook.com/fmibeta/
-* GitHub: [issues](../../issues)
+Used by [smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps) for automated weather forecast text production.
 
-Other resources which may be useful:
-* Presentation about the server: http://www.slideshare.net/tervo/smartmet-server-providing-metocean-data
-* Our public web pages (in Finnish):  http://ilmatieteenlaitos.fi/avoin-lahdekoodi
+## License
+
+This library is not currently public.
+
+## Contributing
+
+Contact us at beta@fmi.fi for more information.
