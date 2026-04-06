@@ -126,7 +126,8 @@ string WmlTextFormatter::visit(const PositiveRange& theRange) const
 
 string WmlTextFormatter::visit(const TimePhrase& theTime) const
 {
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
   return ret;
 }
 
@@ -138,9 +139,11 @@ string WmlTextFormatter::visit(const TimePhrase& theTime) const
 
 string WmlTextFormatter::visit(const Sentence& theSentence) const
 {
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
   ret = TextFormatterTools::capitalize(ret);
-  TextFormatterTools::punctuate(ret);
+  if (!ret.empty())
+    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
   return ret;
 }
@@ -154,9 +157,10 @@ string WmlTextFormatter::visit(const Sentence& theSentence) const
 string WmlTextFormatter::visit(const Paragraph& theParagraph) const
 {
   const string tags = Settings::optional_string(itsSectionVar + "::paragraph::wml::tags", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
 
   string tmp =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, " ", "");
+      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
   ostringstream out;
   if (!tmp.empty())
   {
@@ -179,7 +183,8 @@ string WmlTextFormatter::visit(const Header& theHeader) const
   const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
   const int level = Settings::optional_int(itsSectionVar + "::header::wml::level", 1);
 
-  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
   text = TextFormatterTools::capitalize(text);
 
   if (text.empty())

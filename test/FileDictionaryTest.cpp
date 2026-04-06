@@ -55,11 +55,11 @@ void init(void)
   dict.init("fi");
   dict.init("en");
 
-  // Should throw since Russian is not active
+  // Should throw since this fake language code does not exist
   try
   {
-    dict.init("ru");
-    TEST_FAILED("init('ru') should have failed");
+    dict.init("xx_nonexistent");
+    TEST_FAILED("init('xx_nonexistent') should have failed");
   }
   catch (const Fmi::Exception&)
   {

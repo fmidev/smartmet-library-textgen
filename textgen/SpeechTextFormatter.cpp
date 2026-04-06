@@ -128,7 +128,8 @@ string SpeechTextFormatter::visit(const PositiveRange& theRange) const
 
 string SpeechTextFormatter::visit(const TimePhrase& theTime) const
 {
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
   return ret;
 }
 
@@ -140,9 +141,11 @@ string SpeechTextFormatter::visit(const TimePhrase& theTime) const
 
 string SpeechTextFormatter::visit(const Sentence& theSentence) const
 {
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
   ret = TextFormatterTools::capitalize(ret);
-  TextFormatterTools::punctuate(ret);
+  if (!ret.empty())
+    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
   return ret;
 }
@@ -155,8 +158,9 @@ string SpeechTextFormatter::visit(const Sentence& theSentence) const
 
 string SpeechTextFormatter::visit(const Paragraph& theParagraph) const
 {
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
   string ret =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, " ", "");
+      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
   return ret;
 }
 
@@ -170,14 +174,15 @@ string SpeechTextFormatter::visit(const Header& theHeader) const
 {
   const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
 
-  string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
   ret = TextFormatterTools::capitalize(ret);
   if (!ret.empty())
   {
     if (colon)
       ret += ':';
     else
-      ret += '.';
+      ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
   }
 
   return ret;
@@ -191,7 +196,8 @@ string SpeechTextFormatter::visit(const Header& theHeader) const
 
 string SpeechTextFormatter::visit(const Document& theDocument) const
 {
-  string ret = TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, sep, "");
   return ret;
 }
 

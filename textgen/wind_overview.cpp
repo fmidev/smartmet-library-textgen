@@ -3276,6 +3276,125 @@ void calculate_equalized_data(wo_story_params& storyParams)
     calculate_equalized_wind_speed_indexes_for_calc_wind(storyParams);
 }
 
+// Detect and downgrade convective storm anomalies.
+//
+// Modern NWP models can simulate short-lived, spatially confined convective cells that produce
+// transient storm-level winds in a small portion of the forecast area. These are NOT synoptic
+// storms and should not be reported as such.
+//
+// A storm-level wind period (theEqualizedTopWind >= MYRSKY_LOWER_LIMIT) is reclassified as a
+// local convective anomaly — and its equalized wind speeds capped to just below the storm
+// threshold — when BOTH of the following criteria are met:
+//
+//   1. Temporal: the consecutive run of storm-level timesteps is shorter than
+//      storyParams.theConvectiveStormMinDuration hours.
+//   2. Spatial: the maximum fraction of the forecast area that simultaneously shows storm-level
+//      top wind (from theWindSpeedDistributionTop) never exceeds
+//      storyParams.theConvectiveStormMinAreaFraction percent during the run.
+//
+// Setting either threshold to 0 disables that individual criterion.
+void reclassify_convective_storm_anomalies(wo_story_params& storyParams)
+{
+  // Setting both thresholds to 0 disables the feature entirely. Setting one to 0 disables
+  // only that individual criterion (the other must still be met for any downgrade to occur).
+  if (storyParams.theConvectiveStormMinDuration <= 0.0 &&
+      storyParams.theConvectiveStormMinAreaFraction <= 0.0)
+    return;
+
+  // Hoist the calc-wind weights — they are constant for the whole forecast period
+  const double share = storyParams.theWeakTopWind ? storyParams.theWindCalcTopShareWeak
+                                                  : storyParams.theWindCalcTopShare;
+  const float topWindWeight = static_cast<float>(share / 100.0);
+  const float medianWindWeight = 1.0F - topWindWeight;
+  const float cappedTop = MYRSKY_LOWER_LIMIT - 0.5F;
+
+  for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
+  {
+    WeatherArea::Type areaType(storyParams.theWeatherAreas[k].type());
+    const unsigned int n = storyParams.theWindDataVector.size();
+
+    unsigned int i = 0;
+    while (i < n)
+    {
+      if (storyParams.theWindDataVector[i]->getDataItem(areaType).theEqualizedTopWind.value() <
+          MYRSKY_LOWER_LIMIT)
+      {
+        ++i;
+        continue;
+      }
+
+      // Beginning of a consecutive storm-level run — find its end first (O(n), no area work)
+      const unsigned int runStart = i;
+      while (i < n && storyParams.theWindDataVector[i]
+                              ->getDataItem(areaType)
+                              .theEqualizedTopWind.value() >= MYRSKY_LOWER_LIMIT)
+        ++i;
+      const unsigned int runEnd = i;  // exclusive
+
+      // Data is hourly so the number of timesteps equals the duration in hours
+      const unsigned int durationHours = runEnd - runStart;
+      const bool tooShort =
+          (storyParams.theConvectiveStormMinDuration > 0.0 &&
+           static_cast<double>(durationHours) < storyParams.theConvectiveStormMinDuration);
+
+      // Only compute area fractions when the run is already short enough AND the area criterion
+      // is enabled — both must be true for a downgrade to be possible.
+      double maxAreaFraction = 0.0;
+      if (tooShort && storyParams.theConvectiveStormMinAreaFraction > 0.0)
+      {
+        for (unsigned int j = runStart; j < runEnd; j++)
+        {
+          const double areaFraction =
+              storyParams.theWindDataVector[j]->getDataItem(areaType).getTopWindSpeedShare(
+                  MYRSKY_LOWER_LIMIT, std::numeric_limits<float>::max());
+          maxAreaFraction = std::max(maxAreaFraction, areaFraction);
+          // Short-circuit: once the storm area exceeds the threshold, tooLocal is already false
+          if (maxAreaFraction >= storyParams.theConvectiveStormMinAreaFraction)
+            break;
+        }
+      }
+
+      const bool tooLocal =
+          (storyParams.theConvectiveStormMinAreaFraction > 0.0 &&
+           maxAreaFraction < storyParams.theConvectiveStormMinAreaFraction);
+
+      // Both spatial AND temporal criteria must flag the period as anomalous
+      if (tooShort && tooLocal)
+      {
+        storyParams.theLog << "Convective storm anomaly: "
+                           << storyParams.theWindDataVector[runStart]->getDataItem(areaType)
+                                  .thePeriod.localStartTime()
+                           << " - "
+                           << storyParams.theWindDataVector[runEnd - 1]->getDataItem(areaType)
+                                  .thePeriod.localEndTime()
+                           << " duration=" << durationHours << "h"
+                           << " max_storm_area=" << fixed << setprecision(1) << maxAreaFraction
+                           << "% (min required: duration>="
+                           << storyParams.theConvectiveStormMinDuration
+                           << "h, area>=" << storyParams.theConvectiveStormMinAreaFraction
+                           << "%). Downgrading to KOVA.\n";
+
+        for (unsigned int j = runStart; j < runEnd; j++)
+        {
+          WindDataItemUnit& capItem = storyParams.theWindDataVector[j]->getDataItem(areaType);
+
+          // theEqualizedTopWind is >= MYRSKY_LOWER_LIMIT by construction of the run
+          capItem.theEqualizedTopWind = WeatherResult(cappedTop, capItem.theEqualizedTopWind.error());
+
+          if (capItem.theEqualizedMaxWind.value() >= MYRSKY_LOWER_LIMIT)
+            capItem.theEqualizedMaxWind =
+                WeatherResult(cappedTop, capItem.theEqualizedMaxWind.error());
+
+          // Recalculate the composite calc wind so that event detection sees the corrected values
+          capItem.theEqualizedCalcWind = WeatherResult(
+              cappedTop * topWindWeight + capItem.theEqualizedMedianWind.value() * medianWindWeight,
+              0.0F);
+        }
+      }
+    }
+  }
+}
+
 void read_configuration_params(wo_story_params& storyParams)
 {
   double windSpeedMaxError =
@@ -3306,6 +3425,11 @@ void read_configuration_params(wo_story_params& storyParams)
 
   bool weekdaysUsed = Settings::optional_bool(storyParams.theVar + "::weekdays", true);
 
+  double convectiveStormMinDuration = Settings::optional_double(
+      storyParams.theVar + "::convective_storm_min_duration", 3.0);
+  double convectiveStormMinAreaFraction = Settings::optional_double(
+      storyParams.theVar + "::convective_storm_min_area_fraction", 10.0);
+
   storyParams.theWindSpeedMaxError = windSpeedMaxError;
   storyParams.theWindDirectionMaxError = windDirectionMaxError;
   storyParams.theWindSpeedThreshold = windSpeedThreshold;
@@ -3321,6 +3445,8 @@ void read_configuration_params(wo_story_params& storyParams)
   storyParams.theMaxIntervalSize = maxIntervalSize;
   storyParams.theContextualMaxIntervalSize = maxIntervalSize;
   storyParams.theWeekdaysUsed = weekdaysUsed;
+  storyParams.theConvectiveStormMinDuration = convectiveStormMinDuration;
+  storyParams.theConvectiveStormMinAreaFraction = convectiveStormMinAreaFraction;
 
   storyParams.theWeatherAreas.push_back(storyParams.theArea);
 
@@ -3465,6 +3591,10 @@ Paragraph WindStory::overview() const
   {
     // equalize the data
     calculate_equalized_data(storyParams);
+
+    // check whether any storm-level wind periods are short-lived local convective anomalies
+    // rather than synoptic-scale storms, and downgrade them if so
+    reclassify_convective_storm_anomalies(storyParams);
 
     // find out wind event periods:
     // event periods are used to produce the story

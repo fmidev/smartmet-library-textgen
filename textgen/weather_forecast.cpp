@@ -1018,23 +1018,19 @@ void init_parameters(wf_story_params& theParameters)
     theParameters.theThuderNormalExtentMin = Settings::optional_double(
         theParameters.theVariable + "::summertime::thunder::normal_extent_min", 10.0);
     theParameters.theThuderNormalExtentMax = Settings::optional_double(
-        theParameters.theVariable + "::summertime::thunder::normal_extent_max", 30.0);
+        theParameters.theVariable + "::summertime::thunder::normal_extent_max", 40.0);
   }
   else
   {
     theParameters.theThuderNormalExtentMin = Settings::optional_double(
         theParameters.theVariable + "::wintertime::thunder::normal_extent_min", 20.0);
     theParameters.theThuderNormalExtentMax = Settings::optional_double(
-        theParameters.theVariable + "::wintertime::thunder::normal_extent_max", 30.0);
+        theParameters.theVariable + "::wintertime::thunder::normal_extent_max", 40.0);
   }
-  theParameters.theThunderSmallProbabilityMin = Settings::optional_double(
-      theParameters.theVariable + "::thunder::small_probability_min", 30.0);
-  theParameters.theThunderSmallProbabilityMax = Settings::optional_double(
-      theParameters.theVariable + "::thunder::small_probability_max", 40.0);
-  theParameters.theThunderNormalProbabilityMin = Settings::optional_double(
-      theParameters.theVariable + "::thunder::normal_probability_min", 40.0);
-  theParameters.theThunderNormalProbabilityMax = Settings::optional_double(
-      theParameters.theVariable + "::thunder::normal_probability_max", 60.0);
+  theParameters.theThunderProbabilityMin = Settings::optional_double(
+      theParameters.theVariable + "::thunder::probability_min", 20.0);
+  theParameters.theThunderProbabilityThreshold = Settings::optional_double(
+      theParameters.theVariable + "::thunder::probability_threshold", 50.0);
 
   theParameters.theDryWeatherLimitWater = Settings::optional_double(
       theParameters.theVariable + "::dry_weather_limit_water", DRY_WEATHER_LIMIT_WATER);

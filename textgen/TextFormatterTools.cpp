@@ -13,6 +13,7 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
+#include "Dictionary.h"
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/locale.hpp>
 #include <calculator/Settings.h>
@@ -29,6 +30,40 @@ namespace TextGen
 {
 namespace TextFormatterTools
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the word separator for the given language dictionary
+ *
+ * Returns the value of the "word_separator" key if present and the
+ * dictionary has a language set. Defaults to a space. This allows
+ * languages such as Chinese and Japanese to omit spaces between tokens.
+ */
+// ----------------------------------------------------------------------
+
+std::string wordSeparator(const Dictionary* theDict)
+{
+  if (theDict && !theDict->language().empty() && theDict->contains("word_separator"))
+    return theDict->find("word_separator");
+  return " ";
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the sentence-ending punctuation for the given language
+ *
+ * Returns the value of the "sentence_end" key if present and the
+ * dictionary has a language set. Defaults to a full stop. This allows
+ * languages such as Chinese and Japanese to use 。 instead.
+ */
+// ----------------------------------------------------------------------
+
+std::string sentenceEnd(const Dictionary* theDict)
+{
+  if (theDict && !theDict->language().empty() && theDict->contains("sentence_end"))
+    return theDict->find("sentence_end");
+  return ".";
+}
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Capitalize the given string (UTF-8!!!)

@@ -18,10 +18,13 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
+class Dictionary;
 class WeatherPeriod;
 
 namespace TextFormatterTools
 {
+std::string wordSeparator(const Dictionary* theDict);
+std::string sentenceEnd(const Dictionary* theDict);
 std::string capitalize(std::string& theString);
 void punctuate(std::string& theString);
 std::string make_needle(int n);

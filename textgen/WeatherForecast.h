@@ -74,11 +74,9 @@ class GlyphContainer;
 #define PILVISTYVAA_WORD "pilvistyvaa"
 #define SELKENEVAA_WORD "selkenevaa"
 #define SAA_POUTAANTUU_PHRASE "saa poutaantuu"
-#define PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE "paikoin voi myos ukkostaa"
-#define PAIKOIN_MYOS_UKKOSTAA_PHRASE "paikoin myos ukkostaa"
-#define MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE "mahdollisesti myos ukkostaa"
-#define MYOS_UKKOSTA_ESIINTYY_PHRASE "myos ukkosta esiintyy"
-#define TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE "todennakoisesti myos ukkostaa"
+#define MAHDOLLISESTI_UKKOSTA_PHRASE "mahdollisesti ukkosta"
+#define PAIKOIN_UKKOSTA_PHRASE "paikoin ukkosta"
+#define UKKOSTA_WORD "ukkosta"
 
 #define HEIKKOJA_SADEKUUROJA_PHRASE "heikkoja sadekuuroja"
 #define VOIMAKKAITA_SADEKUUROJA_PHRASE "voimakkaita sadekuuroja"
@@ -569,10 +567,8 @@ struct wf_story_params
   float theMostlyCloudySkyUpperLimit = 0;
   float theThuderNormalExtentMin = 0;
   float theThuderNormalExtentMax = 0;
-  float theThunderSmallProbabilityMin = 0;
-  float theThunderSmallProbabilityMax = 0;
-  float theThunderNormalProbabilityMin = 0;
-  float theThunderNormalProbabilityMax = 0;
+  float theThunderProbabilityMin = 0;
+  float theThunderProbabilityThreshold = 0;
   weather_forecast_data_container theCompleteData;
   cloudiness_data_container theCloudinessData;
   fog_data_container theFogData;

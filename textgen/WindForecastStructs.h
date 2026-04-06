@@ -80,6 +80,15 @@ struct wo_story_params
   bool theWeakTopWind = false;  // if top wind strays under 10 m/s the whole period
   bool theWeekdaysUsed = true;
 
+  // Convective storm anomaly detection: a storm-level wind period is reclassified as a local
+  // convective anomaly (downgraded to KOVA) when BOTH criteria are met:
+  //   - the duration of consecutive storm-level top wind is shorter than this threshold (hours)
+  //   - the fraction of the forecast area with storm-level top wind stays below this threshold (%)
+  // Set a threshold to 0 to disable that individual criterion.
+  // Set BOTH to 0 to disable the feature entirely.
+  double theConvectiveStormMinDuration = 3.0;      // hours
+  double theConvectiveStormMinAreaFraction = 10.0; // percent of forecast area
+
   // contains raw data
   wind_data_item_vector theWindDataVector;
   wind_speed_period_data_item_vector theWindSpeedVector;

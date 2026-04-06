@@ -51,59 +51,31 @@ using namespace std;
 
 namespace
 {
-// Append appropriate thunder phrase to sentence based on extent/probability thresholds
+// Append appropriate thunder phrase to sentence based on extent/probability thresholds.
+//
+// Three phrases are used:
+//   mahdollisesti ukkosta  (possibly thunder)  prob [probMin,probThreshold), areal [extentMin,extentMax)
+//   paikoin ukkosta        (locally thunder)   prob >= probThreshold,        areal [extentMin,extentMax)
+//   ukkosta                (thunder)           prob >= probThreshold,        areal >= extentMax
 void append_thunder_phrase(Sentence& sentence,
                            float maxThunderExtent,
                            float maxThunderProbability,
-                           float extentNormalMin,
-                           float extentNormalMax,
-                           float probSmallMin,
-                           float probSmallMax,
-                           float probNormalMin,
-                           float probNormalMax)
+                           float extentMin,
+                           float extentMax,
+                           float probMin,
+                           float probThreshold)
 {
-  const bool normalExtent = (maxThunderExtent >= extentNormalMin && maxThunderExtent < extentNormalMax);
-  const bool largeExtent = (maxThunderExtent >= extentNormalMax);
-
-  if (!normalExtent && !largeExtent)
+  if (maxThunderExtent < extentMin || maxThunderProbability < probMin)
     return;
 
-  if (normalExtent)
-  {
-    if (maxThunderProbability >= probSmallMin && maxThunderProbability < probSmallMax)
-    {
-      sentence << Delimiter(",");
-      sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
-    }
-    else if (maxThunderProbability >= probNormalMin && maxThunderProbability < probNormalMax)
-    {
-      sentence << Delimiter(",");
-      sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
-    }
-    else if (maxThunderProbability >= probNormalMax)
-    {
-      sentence << JA_WORD;
-      sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
-    }
-  }
-  else  // largeExtent
-  {
-    if (maxThunderProbability >= probSmallMin && maxThunderProbability < probSmallMax)
-    {
-      sentence << Delimiter(",");
-      sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
-    }
-    else if (maxThunderProbability >= probNormalMin && maxThunderProbability < probNormalMax)
-    {
-      sentence << Delimiter(",");
-      sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
-    }
-    else if (maxThunderProbability >= probNormalMax)
-    {
-      sentence << JA_WORD;
-      sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
-    }
-  }
+  sentence << Delimiter(",");
+
+  if (maxThunderExtent >= extentMax && maxThunderProbability >= probThreshold)
+    sentence << UKKOSTA_WORD;
+  else if (maxThunderProbability >= probThreshold)
+    sentence << PAIKOIN_UKKOSTA_PHRASE;
+  else
+    sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
 }
 }  // namespace
 
@@ -183,10 +155,8 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
                           maxThunderProbability,
                           theParameters.theThuderNormalExtentMin,
                           theParameters.theThuderNormalExtentMax,
-                          theParameters.theThunderSmallProbabilityMin,
-                          theParameters.theThunderSmallProbabilityMax,
-                          theParameters.theThunderNormalProbabilityMin,
-                          theParameters.theThunderNormalProbabilityMax);
+                          theParameters.theThunderProbabilityMin,
+                          theParameters.theThunderProbabilityThreshold);
   }
 
   return sentence;

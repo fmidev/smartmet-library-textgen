@@ -131,7 +131,8 @@ string CssTextFormatter::visit(const TimePhrase& theTime) const
   const bool css_timefloor =
       Settings::optional_bool(itsSectionVar + "::header::css::time::floor", true);
 
-  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
 
   // Round local time down to even hour
   auto ftime = theTime.getForecastTime();
@@ -157,9 +158,11 @@ string CssTextFormatter::visit(const TimePhrase& theTime) const
 
 string CssTextFormatter::visit(const Sentence& theSentence) const
 {
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
   ret = TextFormatterTools::capitalize(ret);
-  TextFormatterTools::punctuate(ret);
+  if (!ret.empty())
+    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
   return ret;
 }
@@ -221,7 +224,8 @@ string CssTextFormatter::visit(const Header& theHeader) const
   bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
   colon = Settings::optional_bool(itsSectionVar + "::header::css::colon", colon);
 
-  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
+  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
   text = TextFormatterTools::capitalize(text);
 
   if (text.empty())
