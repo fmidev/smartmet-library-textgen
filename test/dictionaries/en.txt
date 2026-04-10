@@ -1713,6 +1713,7 @@ keskipaivasta|from the noon
 [iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]|[1] the wind strenghtens and turns [2]
 [iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi|the wind strenghtens and becomes varying [1]
 voimistuvaa tuulta|strenghtening wind
+hyvin voimakkaita puuskia|very strong gusts
 kovimmillaan|up to
 nopeasti|rapidly
 [iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen|[1] the wind becomes variable and continues to weaken

@@ -89,6 +89,11 @@ struct wo_story_params
   double theConvectiveStormMinDuration = 3.0;      // hours
   double theConvectiveStormMinAreaFraction = 10.0; // percent of forecast area
 
+  // When true, a detected convective storm anomaly generates an extra sentence reporting
+  // the peak gust speed, e.g. "paikoin hyvin voimakkaita puuskia, ylimmillään 23 m/s."
+  // Requires convective_storm_min_duration and _area_fraction to also be configured.
+  bool theConvectiveStormReporting = false;
+
   // contains raw data
   wind_data_item_vector theWindDataVector;
   wind_speed_period_data_item_vector theWindSpeedVector;
@@ -320,6 +325,16 @@ struct TimePhraseInfo
   {
   }
   bool empty() const { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
+};
+
+// Represents a detected convective storm anomaly that has been downgraded to KOVA level.
+// Used when theConvectiveStormReporting is enabled to generate an extra forecast sentence
+// reporting the original peak gust speed before capping.
+struct ConvectiveStormPeriod
+{
+  ConvectiveStormPeriod(WeatherPeriod p, float peak) : period(std::move(p)), peakWindSpeed(peak) {}
+  WeatherPeriod period;
+  float peakWindSpeed;  // pre-cap peak top wind, m/s (for reporting)
 };
 
 // in WindForecast.cpp

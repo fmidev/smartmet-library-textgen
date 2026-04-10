@@ -558,6 +558,7 @@ iisalmi:lle|för Idensalmi
 ii:lle|för Ii
 iitti:lle|för Iitti
 ikaalinen:lle|för Ikalis
+hyvin voimakkaita puuskia|mycket kraftiga vindbyar
 kovimmillaan|upp till
 ilmajoki:lle|för Ilmajoki
 ilomantsi:lle|för Ilomants

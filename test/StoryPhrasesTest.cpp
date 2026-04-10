@@ -505,6 +505,8 @@ void wind_overview()
   require("voimistuvaa");
   require("suunnaltaan vaihtelevaa");
 
+  require("hyvin voimakkaita puuskia", "hyvin voimakkaita puuskia");
+
   require("1-tuulta", "pohjoistuulta");
   require("2-tuulta", "koillistuulta");
   require("3-tuulta", "itätuulta");

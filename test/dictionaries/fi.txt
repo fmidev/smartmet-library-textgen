@@ -1682,6 +1682,7 @@ kurzeme:lle|Kurzemen alueelle
 tuuli kaantyy|tuuli kääntyy
 [iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]|[1] [2] [3] [4]
 [iltapaivalla] [nopeasti] [heikkenevaa tuulta]|[1] [2] [3]
+hyvin voimakkaita puuskia|hyvin voimakkaita puuskia
 kovimmillaan|ylimmillään
 [pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]|[1] [2] [3], joka kääntyy [4] [5]
 [iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi|[1] tuuli muuttuu suunnaltaan vaihtelevaksi ja heikkenee

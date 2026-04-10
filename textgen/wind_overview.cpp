@@ -1,8 +1,10 @@
+#include "Delimiter.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PositiveValueAcceptor.h"
 #include "Sentence.h"
 #include "SubMaskExtractor.h"
+#include "UnitFactory.h"
 #include "WeatherForecast.h"
 #include "WindForecast.h"
 #include "WindStory.h"
@@ -3293,13 +3295,18 @@ void calculate_equalized_data(wo_story_params& storyParams)
 //      storyParams.theConvectiveStormMinAreaFraction percent during the run.
 //
 // Setting either threshold to 0 disables that individual criterion.
-void reclassify_convective_storm_anomalies(wo_story_params& storyParams)
+// Returns the list of anomalous periods (with pre-cap peak wind) for optional reporting.
+// Only periods in the primary area (index 0, i.e. the full forecast area) are returned.
+std::vector<ConvectiveStormPeriod> reclassify_convective_storm_anomalies(
+    wo_story_params& storyParams)
 {
+  std::vector<ConvectiveStormPeriod> anomalies;
+
   // Setting both thresholds to 0 disables the feature entirely. Setting one to 0 disables
   // only that individual criterion (the other must still be met for any downgrade to occur).
   if (storyParams.theConvectiveStormMinDuration <= 0.0 &&
       storyParams.theConvectiveStormMinAreaFraction <= 0.0)
-    return;
+    return anomalies;
 
   // Hoist the calc-wind weights — they are constant for the whole forecast period
   const double share = storyParams.theWeakTopWind ? storyParams.theWindCalcTopShareWeak
@@ -3310,6 +3317,7 @@ void reclassify_convective_storm_anomalies(wo_story_params& storyParams)
 
   for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
   {
+    const bool isPrimaryArea = (k == 0);
     WeatherArea::Type areaType(storyParams.theWeatherAreas[k].type());
     const unsigned int n = storyParams.theWindDataVector.size();
 
@@ -3340,14 +3348,16 @@ void reclassify_convective_storm_anomalies(wo_story_params& storyParams)
       // Only compute area fractions when the run is already short enough AND the area criterion
       // is enabled — both must be true for a downgrade to be possible.
       double maxAreaFraction = 0.0;
+      float peakTopWind = 0.0F;
       if (tooShort && storyParams.theConvectiveStormMinAreaFraction > 0.0)
       {
         for (unsigned int j = runStart; j < runEnd; j++)
         {
+          const WindDataItemUnit& item = storyParams.theWindDataVector[j]->getDataItem(areaType);
           const double areaFraction =
-              storyParams.theWindDataVector[j]->getDataItem(areaType).getTopWindSpeedShare(
-                  MYRSKY_LOWER_LIMIT, std::numeric_limits<float>::max());
+              item.getTopWindSpeedShare(MYRSKY_LOWER_LIMIT, std::numeric_limits<float>::max());
           maxAreaFraction = std::max(maxAreaFraction, areaFraction);
+          peakTopWind = std::max(peakTopWind, item.theEqualizedTopWind.value());
           // Short-circuit: once the storm area exceeds the threshold, tooLocal is already false
           if (maxAreaFraction >= storyParams.theConvectiveStormMinAreaFraction)
             break;
@@ -3374,6 +3384,15 @@ void reclassify_convective_storm_anomalies(wo_story_params& storyParams)
                            << "h, area>=" << storyParams.theConvectiveStormMinAreaFraction
                            << "%). Downgrading to KOVA.\n";
 
+        if (isPrimaryArea)
+        {
+          anomalies.emplace_back(
+              WeatherPeriod(
+                  storyParams.theWindDataVector[runStart]->getDataItem(areaType).thePeriod.localStartTime(),
+                  storyParams.theWindDataVector[runEnd - 1]->getDataItem(areaType).thePeriod.localEndTime()),
+              peakTopWind);
+        }
+
         for (unsigned int j = runStart; j < runEnd; j++)
         {
           WindDataItemUnit& capItem = storyParams.theWindDataVector[j]->getDataItem(areaType);
@@ -3392,6 +3411,26 @@ void reclassify_convective_storm_anomalies(wo_story_params& storyParams)
         }
       }
     }
+  }
+  return anomalies;
+}
+
+// Appends one extra sentence per convective storm anomaly period:
+//   "paikoin hyvin voimakkaita puuskia, kovimmillaan X m/s."
+// X is the pre-downgrade peak top wind (rounded to the nearest m/s).
+void append_convective_storm_sentences(const std::vector<ConvectiveStormPeriod>& anomalies,
+                                       Paragraph& paragraph)
+{
+  for (const auto& anomaly : anomalies)
+  {
+    Sentence sentence;
+    sentence << "paikoin"
+             << "hyvin voimakkaita puuskia"
+             << Delimiter(",")
+             << "kovimmillaan"
+             << static_cast<int>(std::round(anomaly.peakWindSpeed))
+             << *UnitFactory::create(MetersPerSecond);
+    paragraph << sentence;
   }
 }
 
@@ -3429,6 +3468,8 @@ void read_configuration_params(wo_story_params& storyParams)
       storyParams.theVar + "::convective_storm_min_duration", 3.0);
   double convectiveStormMinAreaFraction = Settings::optional_double(
       storyParams.theVar + "::convective_storm_min_area_fraction", 10.0);
+  bool convectiveStormReporting = Settings::optional_bool(
+      storyParams.theVar + "::convective_storm_reporting", false);
 
   storyParams.theWindSpeedMaxError = windSpeedMaxError;
   storyParams.theWindDirectionMaxError = windDirectionMaxError;
@@ -3447,6 +3488,7 @@ void read_configuration_params(wo_story_params& storyParams)
   storyParams.theWeekdaysUsed = weekdaysUsed;
   storyParams.theConvectiveStormMinDuration = convectiveStormMinDuration;
   storyParams.theConvectiveStormMinAreaFraction = convectiveStormMinAreaFraction;
+  storyParams.theConvectiveStormReporting = convectiveStormReporting;
 
   storyParams.theWeatherAreas.push_back(storyParams.theArea);
 
@@ -3594,7 +3636,7 @@ Paragraph WindStory::overview() const
 
     // check whether any storm-level wind periods are short-lived local convective anomalies
     // rather than synoptic-scale storms, and downgrade them if so
-    reclassify_convective_storm_anomalies(storyParams);
+    auto convectiveAnomalies = reclassify_convective_storm_anomalies(storyParams);
 
     // find out wind event periods:
     // event periods are used to produce the story
@@ -3625,6 +3667,9 @@ Paragraph WindStory::overview() const
     WindForecast windForecast(storyParams);
 
     paragraph << windForecast.getWindStory(itsPeriod);
+
+    if (storyParams.theConvectiveStormReporting && !convectiveAnomalies.empty())
+      append_convective_storm_sentences(convectiveAnomalies, paragraph);
 
     std::size_t js_id = generateUniqueID();
 

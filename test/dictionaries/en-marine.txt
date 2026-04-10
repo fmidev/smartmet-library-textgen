@@ -1589,6 +1589,7 @@ vahitellen|gradually
 vidzeme:lle|for Vidzeme region
 voimistuvaa tuulta|increasing
 zemgale:lle|for Zemgale region
+hyvin voimakkaita puuskia|very strong gusts
 kovimmillaan|up to
 1- ja 8-valille|to north to northwest
 1-puolelle|mainly north
