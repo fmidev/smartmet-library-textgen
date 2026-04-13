@@ -17,6 +17,7 @@
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/StringConversion.h>
 #include <algorithm>
+#include <random>
 #include <bitset>
 #include <cmath>
 #include <fstream>
