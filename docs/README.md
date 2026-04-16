@@ -46,8 +46,15 @@ new text formatter, plug in a different dictionary backend. Start here:
     (plain / HTML / CSS / speech / debug)
   * [Stories](programmers/stories.md) — `Story` base class, `StoryFactory`,
     and how per-parameter stories dispatch to generators
+  * [Narrative helpers](programmers/forecasts/README.md) — the
+    `*Forecast` classes that power `weather_forecast`
+  * [Mask sources](programmers/masks.md) and
+    [acceptors](programmers/acceptors.md) — geographic and value
+    filtering
   * [Analysis functions](programmers/functions.md) — `Mean`, `Maximum`,
     `Trend`, … and what each one's quality means
+  * [Testing](programmers/testing.md) — writing and running a generator
+    unit test
 
 ## Project layout
 

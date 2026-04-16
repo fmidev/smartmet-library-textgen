@@ -15,7 +15,14 @@ For developers who want to read or extend the library itself.
    CSS / speech / debug)
 6. [Stories](stories.md) — `Story` base class, `StoryFactory`,
    and how per-parameter stories dispatch to generators
-7. [Analysis functions](functions.md) — `Mean`, `Maximum`, `Trend`, …
+7. [Narrative helpers](forecasts/README.md) — `CloudinessForecast`,
+   `PrecipitationForecast`, `FogForecast`, `ThunderForecast`,
+   `WindForecast`, `WeatherForecastStory`
+8. [Mask sources](masks.md) — geographic filtering (coast / inland /
+   halves)
+9. [Acceptors](acceptors.md) — value filtering for analyser reductions
+10. [Analysis functions](functions.md) — `Mean`, `Maximum`, `Trend`, …
+11. [Testing](testing.md) — how to write and run a generator unit test
 
 ## Conventions used in the code
 

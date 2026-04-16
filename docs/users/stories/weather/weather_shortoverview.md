@@ -1,5 +1,18 @@
 # Story "weather_shortoverview"
 
+> **Status:** Active. Condensed weather summary for periods longer than
+> 3 days. Narrower scope than
+> [`weather_forecast`](weather_forecast.md) or
+> [`weather_overview`](weather_overview.md).
+>
+> **Owner:** `WeatherStory::shortoverview()`.
+> **Implementation:** `textgen/weather_shortoverview.cpp` (~270 LOC).
+>
+> The 2005-era specification below described a precipitation-form
+> extension that was never implemented; the current code still
+> considers only rain vs. fair. For the modern composed weather
+> narrative see [`weather_forecast`](weather_forecast.md).
+
 ## Story form
 
 The story describes the weather of a several-day period in terms of precipitation and cloudiness.
