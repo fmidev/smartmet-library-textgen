@@ -80,19 +80,27 @@ struct wo_story_params
   bool theWeakTopWind = false;  // if top wind strays under 10 m/s the whole period
   bool theWeekdaysUsed = true;
 
-  // Convective storm anomaly detection: a storm-level wind period is reclassified as a local
-  // convective anomaly (downgraded to KOVA) when BOTH criteria are met:
-  //   - the duration of consecutive storm-level top wind is shorter than this threshold (hours)
-  //   - the fraction of the forecast area with storm-level top wind stays below this threshold (%)
-  // Set a threshold to 0 to disable that individual criterion.
-  // Set BOTH to 0 to disable the feature entirely.
+  // Convective storm anomaly handling. A timestep is flagged as containing a local convective
+  // cell when the fraction of the area with top wind above theConvectiveStormCutoff stays below
+  // theConvectiveStormMinAreaFraction %. Contiguous flagged timesteps form an anomaly period;
+  // periods shorter than theConvectiveStormMinDuration hours are treated as convective anomalies
+  // and the cell is removed from the area statistics before equalization (raw Top/Max/Mean/Median
+  // and distribution buckets >= cutoff are recomputed/zeroed via a RangeAcceptor upper limit).
+  // Set a threshold to 0 to disable that individual criterion. Set BOTH to 0 to disable the
+  // feature entirely.
   double theConvectiveStormMinDuration = 3.0;       // hours
   double theConvectiveStormMinAreaFraction = 10.0;  // percent of forecast area
+  double theConvectiveStormCutoff = 20.5;           // m/s, MYRSKY_LOWER_LIMIT by default
 
-  // When true, a detected convective storm anomaly generates an extra sentence reporting
-  // the peak gust speed, e.g. "paikoin hyvin voimakkaita puuskia, ylimmillään 23 m/s."
-  // Requires convective_storm_min_duration and _area_fraction to also be configured.
+  // When true, each detected anomaly period generates an extra forecast sentence reporting the
+  // pre-removal peak top wind, e.g. "paikoin hyvin voimakkaita puuskia, kovimmillaan 23 m/s."
   bool theConvectiveStormReporting = false;
+
+  // Output style for the anomaly sentence:
+  //   "sentence"  — undirected: "paikoin ..."
+  //   "quadrant"  — if a dominant quadrant exists: "pohjoisosissa paikoin ...", else falls back
+  //                 to the undirected "sentence" form
+  std::string theConvectiveStormStyle = "sentence";
 
   // contains raw data
   wind_data_item_vector theWindDataVector;
@@ -327,14 +335,16 @@ struct TimePhraseInfo
   bool empty() const { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
 };
 
-// Represents a detected convective storm anomaly that has been downgraded to KOVA level.
-// Used when theConvectiveStormReporting is enabled to generate an extra forecast sentence
-// reporting the original peak gust speed before capping.
-struct ConvectiveStormPeriod
+// A detected local convective anomaly period whose grid cells have been removed from the area
+// statistics before equalization. Used for optional follow-up sentence reporting.
+struct ConvectiveStormAnomaly
 {
-  ConvectiveStormPeriod(WeatherPeriod p, float peak) : period(std::move(p)), peakWindSpeed(peak) {}
+  ConvectiveStormAnomaly(WeatherPeriod p, float peak) : period(std::move(p)), peakWindSpeed(peak) {}
   WeatherPeriod period;
-  float peakWindSpeed;  // pre-cap peak top wind, m/s (for reporting)
+  float peakWindSpeed;  // pre-removal peak top wind, m/s (for reporting)
+  // Dominant quadrant if spatially concentrated (Northern/Southern/Eastern/Western),
+  // else WeatherArea::Full meaning "undirected — cell moved or was ambiguous".
+  WeatherArea::Type dominantQuadrant = WeatherArea::Full;
 };
 
 // in WindForecast.cpp
