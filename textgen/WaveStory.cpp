@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on wave speed and direction
  *
- * \see docs/stories.md
+ * \see docs/programmers/stories.md
  */
 // ======================================================================
 

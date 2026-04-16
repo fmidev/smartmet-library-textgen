@@ -13,7 +13,7 @@
  * in local time and a name of a conventional weather period, produce
  * the conventional weather period as a WeatherPeriod object.
  *
- * \see docs/timeperiods.md
+ * \see docs/users/timeperiods.md
  *
  */
 // ======================================================================
@@ -215,7 +215,7 @@ namespace WeatherPeriodFactory
  *
  * Throws if the type is unknown.
  *
- * \see docs/timeperiods.md
+ * \see docs/users/timeperiods.md
  *
  * \param theTime The reference time
  * \param theVariable The name of the variable describing the period

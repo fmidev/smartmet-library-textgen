@@ -19,7 +19,16 @@ Used by [smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps) f
 
 ## Documentation
 
-Detailed documentation for the stories, headers, period phrases, and analysis functions lives in [`docs/`](docs/). See [`docs/README.md`](docs/README.md) for the full index.
+Documentation is split into two tracks:
+
+- [`docs/users/`](docs/users/README.md) — for product configurators: story
+  catalogue with status tags, configuration layout, periods, headers,
+  period phrases.
+- [`docs/programmers/`](docs/programmers/README.md) — for library
+  developers: architecture, class index, Glyph / Dictionary / TextFormatter
+  / Story hierarchies.
+
+The top-level [`docs/README.md`](docs/README.md) links to both.
 
 ## License
 

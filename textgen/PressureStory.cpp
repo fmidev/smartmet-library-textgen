@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on pressure
  *
- * \see docs/stories.md
+ * \see docs/programmers/stories.md
  */
 // ======================================================================
 

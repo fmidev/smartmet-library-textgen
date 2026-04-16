@@ -1,106 +1,70 @@
-# TextGen documentation index
+# TextGen documentation
 
-This index lists the documentation files in this directory.
+`smartmet-library-textgen` turns gridded weather data (QueryData, GRIB, NetCDF)
+into natural-language forecast text. The library is used by
+[smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps) for
+automated forecast production at FMI.
 
-## Main topics
+The documentation is split into two tracks:
 
-* [textgen](textgen.md) — documentation overview / main page
-* [dictionaries](dictionaries.md) — dictionary objects and the singleton used across the text generator
-* [sentences](sentences.md) — building Documents, Paragraphs, Sentences, Phrases, and Numbers
-* [timeperiods](timeperiods.md) — naming conventions for times of day
-* [periods](periods.md) — creating weather periods with `WeatherPeriodFactory`
-* [subperiods](subperiods.md) — splitting a weather period into days
-* [titles](titles.md) — header types and the `HeaderFactory` namespace
-* [stories](stories.md) — what stories are and the `StoryFactory` namespace
-* [period_phrases](period_phrases.md) — phrases describing time periods ("today", "tonight", ...)
-* [quality](quality.md) — the quality value and how it is computed
-* [functions](functions.md) — analysis functions (`Mean`, `Maximum`, `Trend`, ...)
+## For product configurators
 
-## Header types
+You want to configure a running `textgen` pipeline — pick which weather stories
+appear in the output, tune their thresholds, set up period definitions and
+headers for a new area or customer. Start here:
 
-* [header_none](header_none.md)
-* [header_until](header_until.md)
-* [header_clock_range](header_clock_range.md)
-* [header_from_until](header_from_until.md)
-* [header_several_days](header_several_days.md)
-* [header_morning](header_morning.md)
-* [header_forenoon](header_forenoon.md)
-* [header_afternoon](header_afternoon.md)
-* [header_evening](header_evening.md)
-* [header_report_time](header_report_time.md)
-* [header_report_area](header_report_area.md)
-* [header_report_location](header_report_location.md)
+* **[users/](users/README.md)** — user guide
+  * [Getting started](users/getting-started.md) — smallest working example
+  * [Configuration layout](users/configuration.md) — `libconfig` variable naming,
+    sections, `fake::` overrides
+  * [Story catalogue](users/stories/README.md) — every generator with its
+    complexity and current status (primary / active / legacy / trivial)
+  * [Headers](users/headers/README.md) — header types (`until`, `several_days`, …)
+  * [Periods](users/periods.md), [subperiods](users/subperiods.md)
+  * [Period phrases](users/period_phrases.md) — `today`, `tonight`, `next_day`, …
+  * [Time-of-day periods](users/timeperiods.md) — morning / afternoon / late
+    night boundaries
+  * [Quality](users/quality.md) — what the quality value means and when the
+    library splits a period automatically
 
-## Stories by weather parameter
+## For library developers
 
-### Temperature
+You want to understand or extend the C++ library — add a new story, write a
+new text formatter, plug in a different dictionary backend. Start here:
 
-* [story_temperature_day](story_temperature_day.md)
-* [story_temperature_mean](story_temperature_mean.md)
-* [story_temperature_meanmax](story_temperature_meanmax.md)
-* [story_temperature_meanmin](story_temperature_meanmin.md)
-* [story_temperature_dailymax](story_temperature_dailymax.md)
-* [story_temperature_nightlymin](story_temperature_nightlymin.md)
-* [story_temperature_minmax](story_temperature_minmax.md)
-* [story_temperature_range](story_temperature_range.md)
-* [story_temperature_weekly_minmax](story_temperature_weekly_minmax.md)
-* [story_temperature_weekly_averages](story_temperature_weekly_averages.md)
-* [story_temperature_weekly_averages_trend](story_temperature_weekly_averages_trend.md)
+* **[programmers/](programmers/README.md)** — architecture guide
+  * [Architecture overview](programmers/architecture.md) — design patterns
+    (Composite, Visitor, Factory) and how a call flows from
+    `TextGenerator` to final text
+  * [Class index](programmers/classes.md) — one-line purpose for every class,
+    grouped by role
+  * [Glyphs](programmers/glyphs.md) — `Document` / `Paragraph` / `Sentence` /
+    `Phrase` / … Composite hierarchy
+  * [Dictionaries](programmers/dictionaries.md) — `Dictionary` interface and
+    backends
+  * [Text formatters](programmers/text-formatters.md) — Visitor hierarchy
+    (plain / HTML / CSS / speech / debug)
+  * [Stories](programmers/stories.md) — `Story` base class, `StoryFactory`,
+    and how per-parameter stories dispatch to generators
+  * [Analysis functions](programmers/functions.md) — `Mean`, `Maximum`,
+    `Trend`, … and what each one's quality means
 
-### Dew point and humidity
+## Project layout
 
-* [story_dewpoint_range](story_dewpoint_range.md)
-* [story_relativehumidity_day](story_relativehumidity_day.md)
-* [story_relativehumidity_lowest](story_relativehumidity_lowest.md)
-* [story_relativehumidity_range](story_relativehumidity_range.md)
+```
+textgen/                  C++ sources
+  <Something>.cpp/.h      class files (capital letter) — the infrastructure
+  <something_name>.cpp    generator entry points (lowercase) — each
+                          implements one named story (e.g. wind_overview)
+test/                     Boost.Test unit tests
+sql/                      MariaDB/PostgreSQL schema for the phrase dictionary
+docs/                     this directory
+```
 
-### Precipitation
+## History
 
-* [story_precipitation_total](story_precipitation_total.md)
-* [story_precipitation_range](story_precipitation_range.md)
-* [story_precipitation_classification](story_precipitation_classification.md)
-* [story_precipitation_daily_sums](story_precipitation_daily_sums.md)
-* [story_precipitation_sums](story_precipitation_sums.md)
-* [story_pop_max](story_pop_max.md)
-* [story_pop_days](story_pop_days.md)
-* [story_pop_twodays](story_pop_twodays.md)
-* [rain_oneday](rain_oneday.md) — one-day rain case enumeration (referenced by weather_overview)
-* [rain_twoday](rain_twoday.md) — two-day rain case enumeration (referenced by weather_overview)
-
-### Cloudiness & weather
-
-* [story_cloudiness_overview](story_cloudiness_overview.md)
-* [story_weather_overview](story_weather_overview.md)
-* [story_weather_shortoverview](story_weather_shortoverview.md)
-* [story_weather_thunderprobability](story_weather_thunderprobability.md)
-
-### Wind
-
-* [story_wind_range](story_wind_range.md)
-* [story_wind_daily_ranges](story_wind_daily_ranges.md)
-* [story_wind_summary](story_wind_summary.md)
-* [story_wind_simple_overview](story_wind_simple_overview.md)
-* [story_wind_overview](story_wind_overview.md)
-
-### Frost
-
-* [story_frost_day](story_frost_day.md)
-* [story_frost_mean](story_frost_mean.md)
-* [story_frost_maximum](story_frost_maximum.md)
-* [story_frost_range](story_frost_range.md)
-* [story_frost_twonights](story_frost_twonights.md)
-
-### Pressure
-
-* [story_pressure_mean](story_pressure_mean.md)
-
-### Road weather
-
-* [story_roadtemperature_daynightranges](story_roadtemperature_daynightranges.md)
-* [story_roadcondition_overview](story_roadcondition_overview.md)
-
-### Forest
-
-* [story_forestfirewarning_county](story_forestfirewarning_county.md)
-* [story_forestfireindex_twodays](story_forestfireindex_twodays.md)
-* [story_evaporation_day](story_evaporation_day.md)
+The original documentation was written in Finnish with Doxygen markup in
+2003–2005 and drifted out of date relative to the implementation. The current
+pages are a full rewrite in English Markdown; where the rewrite adds a status
+tag ("legacy", "trivial", "needs review") it reflects the state of the code
+at the time of writing rather than an official deprecation.
