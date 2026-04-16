@@ -30,11 +30,11 @@ documentation pass).
 
 | Story | Status | LOC | Notes |
 | --- | --- | --- | --- |
-| [`wind_overview`](wind/wind_overview.md) | **Primary** | 3 959 | Modern wind narrative: speed class, direction class, trend, day-/night-aware phrasing. The one to use. |
+| [`wind_overview`](wind/wind_overview.md) | **Primary** | 3 959 | Modern wind narrative using time-series smoothing and change-point detection. 8-way/16-way compass, tuulihaarukka range, gusty-wind handling, rate phrases ("vähän", "nopeasti", "vähitellen"). The one to use. |
 | [`wind_anomaly`](wind/wind_anomaly.md) | **Primary** | 2 075 | Wind compared to climatology. |
-| [`wind_daily_ranges`](wind/wind_daily_ranges.md) | Legacy | 567 | Per-day range+direction. Works, but `wind_overview` supersedes it for most products. |
+| [`wind_daily_ranges`](wind/wind_daily_ranges.md) | Legacy | 567 | Per-day range+direction. Superseded by `wind_overview` for most products; keep for products that explicitly need one entry per forecast day. |
 | [`wind_simple_overview`](wind/wind_simple_overview.md) | Legacy | 297 | The original doc said "not well specified — do not use yet". Superseded by `wind_overview`. |
-| [`wind_range`](wind/wind_range.md) | Trivial | 108 | Single sentence "N-tuulta X…Y m/s". |
+| [`wind_range`](wind/wind_range.md) | Trivial | 108 | Single sentence "N-tuulta X…Y m/s". Uses simplified versions of the `wind_overview` speed and direction classifications. |
 | [`wind_summary`](wind/wind_summary.md) | Needs review | — | Documented in the original material but the matching `.cpp` does not appear to exist today. Possibly folded into `wind_overview`. |
 
 ## Precipitation
@@ -63,11 +63,11 @@ documentation pass).
 
 | Story | Status | LOC | Notes |
 | --- | --- | --- | --- |
-| [`weather_overview`](weather/weather_overview.md) | **Primary** | 1 927 | Flagship combined weather narrative. Builds on the `rain_oneday` / `rain_twoday` case tables. |
-| [`weather_forecast`](weather/weather_forecast.md) | **Primary** | 1 528 | Structured weather forecast composition. Also dispatches `weather_forecast_at_sea`. |
+| [`weather_forecast`](weather/weather_forecast.md) | **Primary** | 1 528 | Modern composed weather narrative (precipitation, cloudiness, thunder, fog). Also dispatches `weather_forecast_at_sea`, the marine variant with visibility reporting. Has a current authoritative spec. |
+| [`weather_overview`](weather/weather_overview.md) | Active | 1 927 | Older combined narrative built on the `rain_oneday` / `rain_twoday` lookup tables. Prefer `weather_forecast` for new products. |
 | [`weather_shortoverview`](weather/weather_shortoverview.md) | Active | 270 | Condensed variant for >3-day periods. The original doc says the precipitation-form part is unimplemented. |
 | [`weather_thunderprobability`](weather/weather_thunderprobability.md) | Trivial | 81 | Single thunder-probability sentence. |
-| [`weather_thunderprobability_simplified`](weather/weather_thunderprobability_simplified.md) | Needs review | 88 | Simplified variant of the above; no legacy doc. |
+| [`weather_thunderprobability_simplified`](weather/weather_thunderprobability_simplified.md) | Active | 88 | Simplified-rounding variant for summary products. |
 
 ## Frost
 

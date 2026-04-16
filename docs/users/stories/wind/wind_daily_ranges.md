@@ -1,10 +1,24 @@
 # Story "wind_daily_ranges"
 
+> **Status:** Legacy. Per-day wind summary with between-day comparisons.
+>
+> For new products prefer [`wind_overview`](wind_overview.md) — it uses
+> the modern change-point algorithm, handles gusty wind, and produces
+> richer phrasing. This story is kept for products that explicitly need
+> one entry per forecast day.
+>
+> **Owner:** `WindStory::daily_ranges()`.
+> **Implementation:** `textgen/wind_daily_ranges.cpp` (~567 LOC).
+
 ## Story form
 
 The story describes a wind forecast for a one- or several-day period. The story is best suited to the first 1–3 days. The third day is the last one for which a forecast is reported.
 
-The story does not use speed classes, to simplify the algorithm. Direction classes are used.
+The story does not use speed classes, to simplify the algorithm. For
+the authoritative wind-speed vocabulary see
+[`wind_overview` → Wind-speed classification](wind_overview.md#wind-speed-classification).
+Direction classes are used, with the same accuracy thresholds as
+[`wind_overview` → Wind direction](wind_overview.md#wind-direction).
 
 The general form is:
 
