@@ -70,8 +70,18 @@ docs/                     this directory
 
 ## History
 
-The original documentation was written in Finnish with Doxygen markup in
-2003–2005 and drifted out of date relative to the implementation. The current
-pages are a full rewrite in English Markdown; where the rewrite adds a status
-tag ("legacy", "trivial", "needs review") it reflects the state of the code
-at the time of writing rather than an official deprecation.
+The original documentation was written in Finnish with Doxygen markup
+in 2003–2005 and rendered to HTML by a separate Doxygen build. Much of
+it had drifted out of sync with the implementation by the time the
+Doxygen toolchain was retired.
+
+The current pages are a full rewrite in English Markdown rendered
+directly by GitHub. Detailed specifications that previously lived on
+an internal Wiki — notably for `weather_forecast` and `wind_overview` —
+have been folded back in, so the spec and the implementation can now
+be updated in the same pull request. Contributors should edit the
+`.md` files directly.
+
+Where a rewrite adds a status tag ("legacy", "trivial", "needs
+review") it reflects the state of the code at the time of writing
+rather than an official deprecation.

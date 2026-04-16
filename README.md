@@ -19,16 +19,27 @@ Used by [smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps) f
 
 ## Documentation
 
-Documentation is split into two tracks:
+Documentation lives in [`docs/`](docs/README.md) as
+GitHub-flavoured Markdown and renders directly on GitHub. It is split
+into two tracks:
 
 - [`docs/users/`](docs/users/README.md) — for product configurators: story
   catalogue with status tags, configuration layout, periods, headers,
   period phrases.
 - [`docs/programmers/`](docs/programmers/README.md) — for library
   developers: architecture, class index, Glyph / Dictionary / TextFormatter
-  / Story hierarchies.
+  / Story hierarchies, plus testing and narrative-helper pages.
 
 The top-level [`docs/README.md`](docs/README.md) links to both.
+
+Up to and including the 2005-era material, the project's developer
+documentation was written in Finnish with Doxygen markup and generated
+into HTML by a separate Doxygen build. That toolchain has been dropped.
+The current pages are the source of truth; contributors should edit the
+`.md` files directly and commit them alongside the code change they
+document. (Some `\brief` / `\see` tokens still appear in the C++
+headers — these are inert in the build and can be removed
+opportunistically.)
 
 ## License
 
