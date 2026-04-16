@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on road forecasts
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 

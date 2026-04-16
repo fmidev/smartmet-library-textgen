@@ -12,7 +12,7 @@
  * The namespace consists of functions which generate a header
  * text of desired type for the given weather period.
  *
- * \see page_aikavalit
+ * \see docs/timeperiods.md
  *
  */
 // ======================================================================
@@ -482,7 +482,7 @@ namespace HeaderFactory
  *
  * Throws if the type is unknown.
  *
- * \see page_aikavalit
+ * \see docs/timeperiods.md
  *
  * \param theArea The area concerned
  * \param thePeriod The relevant weather period

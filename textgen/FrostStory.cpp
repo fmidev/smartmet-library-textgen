@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on frost
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 

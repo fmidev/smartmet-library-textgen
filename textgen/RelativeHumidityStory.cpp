@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on relativehumidity
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 

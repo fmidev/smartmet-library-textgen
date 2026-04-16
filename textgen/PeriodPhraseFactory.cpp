@@ -9,7 +9,7 @@
  *
  * \brief Tools for generating phrases to describe periods
  *
- * \see page_periodifraasit
+ * \see docs/period_phrases.md
  *
  */
 // ======================================================================
@@ -564,7 +564,7 @@ Sentence remaining_days(const string& theVariable,
  *
  * \param thePeriod The time period
  *
- * \see \ref sec_periodifraasit_remaining_day
+ * \see docs/period_phrases.md (remaining_day)
  */
 // ----------------------------------------------------------------------
 

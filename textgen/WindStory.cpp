@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on wind speed and direction
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 

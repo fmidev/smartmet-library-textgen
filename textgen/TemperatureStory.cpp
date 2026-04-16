@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on temperature
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 

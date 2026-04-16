@@ -17,6 +17,10 @@ The TextGen library contains algorithms for generating human-readable weather fo
 
 Used by [smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps) for automated weather forecast text production.
 
+## Documentation
+
+Detailed documentation for the stories, headers, period phrases, and analysis functions lives in [`docs/`](docs/). See [`docs/README.md`](docs/README.md) for the full index.
+
 ## License
 
 This library is not currently public.

@@ -9,7 +9,7 @@
  *
  * \brief Generates stories with special content
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 

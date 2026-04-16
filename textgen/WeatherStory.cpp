@@ -9,7 +9,7 @@
  *
  * \brief Generates stories on weather
  *
- * \see page_tarinat
+ * \see docs/stories.md
  */
 // ======================================================================
 
