@@ -1,383 +1,376 @@
 # Story "wind_overview"
 
-> **Status:** Primary. The flagship wind narrative. Implementation: `textgen/wind_overview.cpp` (~3 959 LOC).
+> **Status:** Primary. The flagship wind narrative — use it for almost
+> every wind product.
 >
 > **Owner:** `WindStory::overview()`.
+> **Implementation:** `textgen/wind_overview.cpp` (~3 959 LOC).
+>
+> This page reflects the 2011–2016 specification. The older 2005 design
+> described a much simpler period-based algorithm; that design is gone.
+> The current implementation uses time-series smoothing and change-point
+> detection, as documented below.
 
-The 2005-era specification below describes the intended behaviour. The
-current implementation matches this closely but has been extended — when in
-doubt, consult the source and the unit tests under `test/WindStoryTest.cpp`.
+## What it produces
 
-## Story form
+`wind_overview` describes:
 
-The story describes a wind forecast for a one- or several-day period. It is best suited to the first 1–3 days.
+* the wind **direction and speed at the start** of the forecast period, and
+* the **direction and speed changes** that occur during the period.
 
-The general form is:
+Examples:
 
-1. [until the next morning], [remaining time]
+* "Etelätuulta 5 m/s. Iltapäivällä tuuli kääntyy kakkoon."
+* "Idästä 15…20 m/s ja puuskittaista itätuulta."
+* "Vähitellen voimistuvaa lounaan puoleista tuulta, aluksi 4–6 m/s,
+  aamupäivällä 7–10 m/s."
+* "Aamupäivästä alkaen voimistuvaa etelänpuoleista tuulta, iltapäivällä
+  6–11 m/s, ylimmillään 13 m/s."
 
-The time definitions for the first part come from the variables:
+## Wind speed
 
-```
-textgen::[section]::story::wind_overview::day::starthour = [0-23] (6)
-textgen::[section]::story::wind_overview::day::maxstarthour = [0-23] (starthour)
-textgen::[section]::story::wind_overview::night::starthour = [0-23] (18)
-textgen::[section]::story::wind_overview::night::maxstarthour = [0-23] (starthour)
-textgen::[section]::story::wind_overview::night::endhour = [0-23] (06)
-textgen::[section]::story::wind_overview::night::minendhour = [0-23] (endhour)
-```
+### How wind speed is reported
 
-Typical settings are:
+Wind speed is reported either as a **range** ("tuulihaarukka", e.g.
+3…6 m/s) or as a **single value** (e.g. 5 m/s).
 
-```
-textgen::[section]::story::wind_overview::day::starthour = 6
-textgen::[section]::story::wind_overview::day::maxstarthour = 12
-textgen::[section]::story::wind_overview::night::starthour = 18
-textgen::[section]::story::wind_overview::night::maxstarthour = 0
-textgen::[section]::story::wind_overview::night::endhour = 6
-```
+Two statistics are computed from the area:
 
-With these, the story reports up to the next morning, always until midnight, after which the upcoming day is reported.
+* **Median** of the spatial mean wind speed — used as the main
+  reported value / range anchor.
+* **Warning value** (`varoitusarvo`) — the maximum 10-minute mean at
+  editing time; used as the upper bound and gate for several phrase
+  decisions.
 
-### First day
+When wind is **weak** (warning < 5 m/s), no speed or direction
+**changes** are reported. The story just integrates direction and speed
+over the whole period. The wind is then described either as
+"suunnaltaan vaihtelevaa" or "N-puoleista heikkoa tuulta".
 
-If the day has progressed too far — i.e. the clock is past `day::maxstarthour` — the wind is reported up to the following morning. Both the remaining day and the night are included.
+Gustiness is reported separately when it matters — see
+[Puuskatuuli](#puuskatuuli) below.
 
-Possible stories for this "extended" night period:
+### Rate-of-change phrases
 
-1. "[Ajanjaksona] tyyntä."
-1. "[Ajanjaksona] heikkoa tuulta."
-1. "[Ajanjaksona] [voimakasta] [suuntatuulta]."
-1. "[Ajanjaksona] myrskyä."
-1. "[Ajanjaksona] hirmumyrskyä."
-1. "[Ajanjaksona] [suuntatuulta] X-Y m/s."
+When a speed change is reported, the story qualifies the *rate* of the
+change:
 
-The time phrase type is [until_morning](../../period_phrases.md#until_morning), controlled with:
-
-```
-textgen::[section]::story::wind_overview::until_morning::phrases
-```
-
-A suitable value is, for example:
-
-```
-textgen::[section]::story::wind_overview::until_morning::phrases = atnight,weekday
-```
-
-because the phrase "tonight" may not be desirable; "atnight" likely fits better.
-
-Possible wind strengths:
-
-1. "kohtalaista" (moderate)
-1. "navakkaa" (fresh)
-1. "kovaa" (strong)
-
-and directions:
-
-1. "pohjoistuulta" (north)
-1. "koillistuulta" (northeast)
-1. "itätuulta" (east)
-1. "kaakkoistuulta" (southeast)
-1. "etelätuulta" (south)
-1. "lounaistuulta" (southwest)
-1. "länsituulta" (west)
-1. "luoteistuulta" (northwest)
-1. "pohjoisen puoleista tuulta" (approximately north)
-1. "koillisen puoleista tuulta" (approximately northeast)
-1. "idän puoleista tuulta" (approximately east)
-1. "kaakon puoleista tuulta" (approximately southeast)
-1. "etelän puoleista tuulta" (approximately south)
-1. "lounaan puoleista tuulta" (approximately southwest)
-1. "lännen puoleista tuulta" (approximately west)
-1. "luoteen puoleista tuulta" (approximately northwest)
-1. "suunnaltaan vaihtelevaa tuulta" (variable direction)
-
-Direction and speed computation for different periods is handled separately below.
-
-If the day is long enough to handle, it is handled like the night above. In that case the time phrase is of type [until_tonight](../../period_phrases.md#until_tonight), controlled with:
-
-```
-textgen::[section]::story::wind_overview::until_tonight::phrases
-```
-
-A recommended value is, for example:
-
-```
-textgen::[section]::story::wind_overview::until_tonight::phrases = atday,weekday
-```
-
-In addition, a subordinate clause about the night's wind is generated, of the form:
-
-1. ", [ajanjaksona] [voimakasta] [suuntatuulta]."
-1. ", [ajanjaksona] tuuli heikkenee."
-1. ", [ajanjaksona] tuuli [heikkenee/voimistuu] [voimakkaaksi]."
-1. ", [ajanjaksona] tuuli [heikkenee/voimistuu] [voimakkaaksi] [suuntatuuleksi]."
-1. ", [ajanjaksona] [suuntatuulta]."
-1. ", [ajanjaksona] [suuntatuulta] X-Y m/s."
-
-The subordinate clause's time phrase is of type [tonight](../../period_phrases.md#tonight), controlled with:
-
-```
-textgen::[section]::story::wind_overview::tonight::phrases
-```
-
-A recommended value is, for example:
-
-```
-textgen::[section]::story::wind_overview::tonight::phrases = atnight,weekday
-```
-
-In this context "tonight" could also be used, which was not recommended when the day part was absent.
-
-In addition, the day and night winds may be similar enough that no subordinate clause is used. In that case no time phrase is used at all.
-
-### Second day
-
-In this case the end of the examined interval is at most 24 hours away, so we can talk only about the following day.
-
-The second day can be reported in its own sentence or as a subordinate clause. The form is:
-
-1. "[Ajanjaksona] edelleen tyyntä."
-1. "[Ajanjaksona] edelleen [voimakasta] tuulta."
-1. "[Ajanjaksona] edelleen [voimakasta] tuulta."
-1. "[Ajanjaksona] [suuntatuulta]."
-1. "[Ajanjaksona] tuuli tyyntyy."
-1. "[Ajanjaksona] tuuli heikkenee."
-1. "[Ajanjaksona] tuuli heikkenee [voimakkaaksi]."
-1. "[Ajanjaksona] tuuli voimistuu [voimakkaaksi]."
-1. "[Ajanjaksona] [voimakasta] [suuntatuulta]."
-1. "[Ajanjaksona] [voimakkaaksi] [heikkenevää/voimistuvaa] [suuntatuulta]."
-
-The time phrase is of type [next_day](../../period_phrases.md#next_day), controlled with:
-
-```
-textgen::[section]::story::wind_overview::next_day::phrases
-```
-
-A recommended value is, for example:
-
-```
-textgen::[section]::story::wind_overview::next_day::phrases = tomorrow,followingday
-```
-
-### Remaining days
-
-In this case the end of the examined interval is more than 24 hours away. This remaining time is reported as one sentence or subordinate clause:
-
-1. "[ajanjaksosta alkaen] tyyntä."
-1. "[ajanjaksosta alkaen] [suuntatuulta]."
-1. "[ajanjaksosta alkaen] [voimakasta] [suuntatuulta]."
-1. "[ajanjaksosta alkaen] [heikkenevää/voimistuvaa] [suuntatuulta]."
-1. "[ajanjaksosta alkaen] [voimakkaaksi] [heikkenevää/voimistuvaa] [suuntatuulta]."
-1. "[ajanjaksosta alkaen] [voimakkaaksi] [heikkenevää/voimistuvaa] tuulta."
-1. "[ajanjaksosta alkaen] [voimakasta] tai [voimakasta] [suuntatuulta]."
-1. "[ajanjaksosta alkaen] [voimakasta] tai [voimakasta] tuulta."
-1. "[ajanjaksosta alkaen] ajoittain [voimakasta] tuulta."
-1. "[ajanjaksosta alkaen] ajoittain [voimakasta] [suuntatuulta]."
-
-The time phrase is of type [next_days](../../period_phrases.md#next_days), controlled with:
-
-```
-textgen::[section]::story::wind_overview::next_days::phrases
-```
-
-A recommended value is, for example:
-
-```
-textgen::[section]::story::wind_overview::next_days::phrases = tomorrow,weekday
-```
-
-## Algorithms
-
-### Wind speed
-
-The wind speed class for each interval is obtained by computing the mean speed over time and space.
-
-The speed range is obtained by computing the minimum and maximum of the time means.
-
-The value of:
-
-```
-textgen::[section]::story::wind_overview::range_limit = [0-] (0)
-```
-
-is the limit below which the wind is reported as a range. In practice the value 0 means no range is ever given.
-
-### Wind direction
-
-The direction for each interval is obtained by computing the mean direction over time and space. Based on the direction's quality index, the accuracy is first weakened to "approximately N" and then to "variable".
-
-Required quality is controlled by:
-
-```
-textgen::[section]::story::wind_overview::direction::accurate (= 0.8)
-textgen::[section]::story::wind_overview::direction::variable (= 0.4)
-```
-
-Defaults are given in parentheses.
-
-The direction phrase is chosen as follows:
-
-1. If quality >= `accurate`, "N-tuulta"
-1. If quality >= `variable`, "N-puoleista tuulta"
-1. Otherwise, "suunnaltaan vaihtelevaa tuulta"
-
-### Algorithm — first day
-
-If only the extended night period remains:
-
-1. Compute mean speed and direction
-1. If the mean falls below `range_limit`, "[suuntatuulta] X-Y m/s."
-1. Compute the speed class
-1. If the class is calm, "Tyyntä."
-1. If the class is light wind, "Heikkoa tuulta."
-1. If the class is storm, "Myrskyä."
-1. If the class is severe storm, "Hirmumyrskyä."
-1. Otherwise "[Voimakasta] [suuntatuulta]."
-
-If both a day and a night period remain, the day period is handled as above. In addition, the computed speed and direction classes are stored for later use.
-
-The night's story is generated after the time qualifier as follows:
-
-1. If the mean wind falls below `range_limit`, "[suuntatuulta] X-Y m/s."
-1. If the speed and direction class are the same, the night is not reported separately.
-1. If the speed is the same, "[suuntatuulta]."
-1. If the speed class increases:
-   1. If the class is light wind, "heikkoa tuulta"
-   1. Otherwise "[voimakasta] [suuntatuulta]."
-1. If the speed class decreases:
-   1. If the class is calm, "tuuli tyyntyy."
-   1. If the class is light wind, "tuuli heikkenee."
-   1. Otherwise "[voimakasta] [suuntatuulta]."
-
-The last reported speed and direction class is stored for handling the next period.
-
-### Algorithm — second day
-
-The story part is generated as follows:
-
-1. If the mean wind falls below `range_limit`:
-   1. If the direction is the same as earlier, "X-Y m/s"
-   1. Otherwise "[suuntatuulta] X-Y m/s"
-1. If a single class suffices for describing the speed:
-   1. If the wind strengthens:
-      1. If the class is light wind, "heikkoa tuulta"
-      1. If the class is storm, "tuuli voimistuu myrskyksi"
-      1. If the class is severe storm, "hirmumyrskyä"
-      1. Otherwise "tuuli voimistuu [voimakkaaksi] [suuntatuuleksi]"
-   1. If the wind weakens:
-      1. If the class is calm, "tuuli tyyntyy".
-      1. If the class is light wind, "tuuli heikkenee"
-      1. If the class is storm, "myrskyä"
-      1. Otherwise "tuuli heikkenee [voimakkaaksi] [suuntatuuleksi]"
-1. If there is a clear trend:
-   1. If at the end calm, "tuuli tyyntyy"
-   1. If at the end light wind, "tuuli heikkenee"
-   1. If at the end storm, "tuuli voimistuu myrskyksi"
-   1. If at the end severe storm, "tuuli voimistuu hirmumyrskyksi"
-   1. If the direction description is good, "[voimakkaaksi] heikkenevää/voimistuvaa [suuntatuulta]"
-   1. Otherwise "tuuli heikkenee/voimistuu [voimakkaaksi]"
-1. Compute the maximum of the mean wind:
-   1. If the direction is clear, "ajoittain [voimakasta] [suuntatuulta]"
-   1. Otherwise "ajoittain [voimakasta] tuulta"
-
-### Algorithm — from second day onward
-
-In this case the period length likely exceeds 24 hours, and the wind must be summarised relative to the first day and night.
-
-1. Compute the speed and direction class
-1. If the speed class is good:
-   1. If the direction class is good, "[voimakasta] [suuntatuulta]"
-   1. Otherwise "[voimakasta] [tuulta]"
-1. If there is a good trend:
-   1. Compute a new speed class for the last 12 hours
-   1. If the direction class is good, "[voimakkaaksi] heikkenevää/voimistuvaa [suuntatuulta]"
-   1. Otherwise "[voimakkaaksi] heikkenevää/voimistuvaa tuulta"
-1. If the speed can be described with two adjacent classes:
-   1. If the direction class is good, "[voimakasta] tai [voimakasta] [suuntatuulta]"
-   1. Otherwise "[voimakasta] tai [voimakasta] tuulta"
-1. Take the mean's maximum and "ajoittain [voimakasta] tuulta"
-
-## Wind classes
-
-The established wind classes are:
-
-| Speed | Finnish | Swedish |
+| Condition | Phrase | Example |
 | --- | --- | --- |
-| 0 m/s | tyyntä | lugnt |
-| 1–3 m/s | heikkoa tuulta | svag vind |
-| 4–7 m/s | kohtalaista tuulta | måttlig vind |
-| 8–13 m/s | navakkaa tuulta | frisk vind |
-| 14–20 m/s | kovaa tuulta | hård vind |
-| 21–32 m/s | myrskyä | storm |
-| 32– m/s | hirmumyrskyä | orkan |
+| Speed changes by at most 2.5 m/s | "vähän" | "illalla vähän voimistuvaa tuulta" |
+| Change unfolds over at least 12 hours | "vähitellen" | "vähitellen voimistuvaa lounaan puoleista tuulta" |
+| Change of at least 5 m/s within at most 6 hours | "nopeasti" | "iltapäivällä nopeasti voimistuvaa tuulta" |
 
-## Phrases required
+### "alkaen" phrase
 
-Phrases required:
+When a change period lasts at least 6 hours, the "alkaen" form is used:
+"Aamupäivästä alkaen voimistuvaa etelänpuoleista tuulta, iltapäivällä
+7–10 m/s, ylimmillään 13 m/s."
 
-* "m/s"
-* "metriä sekunnissa"
-* "tyyntä"
-* "heikkoa"
-* "kohtalaista"
-* "navakkaa"
-* "kovaa"
-* "myrskyä"
-* "hirmumyrskyä"
-* "tyyneksi"
-* "heikoksi"
-* "kohtalaiseksi"
-* "navakaksi"
-* "kovaksi"
-* "myrskyksi"
-* "hirmumyrskyksi"
-* "tuuli"
-* "tuulta"
-* "yöllä"
-* "tuuli tyyntyy"
-* "tuuli heikkenee"
-* "tuuli voimistuu"
-* "edelleen"
-* "heikkenevää"
-* "voimistuvaa"
-* "suunnaltaan vaihtelevaa"
-* "N-tuulta", N=1–8
-* "N-tuuleksi", N=1–8
-* "N-puoleista tuulta", N=1–8
-* "N-puoleiseksi tuuleksi", N=1–8
+### Wind-speed classification
 
-Additionally, the period phrases [until_tonight](../../period_phrases.md#until_tonight), [until_morning](../../period_phrases.md#until_morning), [tonight](../../period_phrases.md#tonight), [next_day](../../period_phrases.md#next_day), and [next_days](../../period_phrases.md#next_days) are required.
+Verbal descriptions of wind strength use the following classes:
 
-Key phrases in different languages:
+| Mean speed (m/s) | Class |
+| --- | --- |
+| < 0.5 | tyyntä (calm) |
+| 0.5 – 3.5 | heikkoa (light) |
+| 3.5 – 7.5 | kohtalaista (moderate) |
+| 7.5 – 13.5 | navakkaa (fresh) |
+| 13.5 – 20.5 | kovaa (strong) |
+| 20.5 – 32.5 | myrskyä (storm) |
+| ≥ 32.5 | hirmumyrskyä (hurricane) |
 
-| fi | sv | en |
+Example: "navakkaa kaakonpuoleista tuulta".
+
+## Tuulihaarukka (wind-speed range)
+
+Because wind speed usually varies across the area, the value is reported
+as a range.
+
+### Range size
+
+| Parameter | Default | Effect |
 | --- | --- | --- |
-| metriä sekunnissa | meter i sekunden | meters per second |
-| tyyntä | lugnt | calm winds |
-| heikkoa | svag | light |
-| kohtalaista | måttlig | moderate |
-| navakkaa | frisk | fresh |
-| kovaa | hård | strong |
-| myrskyä | storm | stormy |
-| hirmumyrskyä | orkan | severe storm |
-| tyyneksi | till lugnt | calm |
-| heikoksi | till svag | light |
-| kohtalaiseksi | till måttlig | moderate |
-| navakaksi | till frisk | fresh |
-| kovaksi | till hård | strong |
-| myrskyksi | till storm | storm |
-| hirmumyrskyksi | till orkan | severe storm |
-| tuuli | vinden | wind |
-| tuulta | vind | wind |
-| tuuli tyyntyy | avtar vinden helt | the wind becomes calm |
-| tuuli heikkenee | avtar vinden | the wind weakens to |
-| tuuli voimistuu | tilltar vinden | the wind strengthens to |
-| edelleen | fortfarande | continued |
-| heikkenevää | avtagande | weakening |
-| voimistuvaa | tilltagande | strengthening |
-| suunnaltaan vaihtelevaa | varierande | variable |
-| pohjoistuulta ... | nordlig vind ... | northern wind ... |
-| pohjoistuuleksi ... | nordlig vind ... | northerly wind ... |
-| pohjoisen puoleista tuulta ... | vind omkring nord ... | approximately northerly wind ... |
-| pohjoisen puoleiseksi tuuleksi ... | vind omkring nord ... | approximately northerly wind ... |
+| `wind_speed_interval_min_size` | 2 m/s | Below this span (e.g. 10…12 m/s), collapse to a single value (spatial mean) |
+| `wind_speed_interval_max_size` | 5 m/s | Above this span, cap the upper bound and add a "kovimmillaan" phrase |
+
+If the range exceeds the maximum, the story reads e.g. "tuulen nopeus on
+13…18 m/s, kovimmillaan 21 m/s".
+
+### How the range is determined
+
+In three stages:
+
+1. **Lower bound.** Start from the median of the spatial mean wind
+   speed. The initial lower bound is `median − 1 m/s`.
+2. **Coverage check.** The reported range must contain at least 2/3 of
+   the area's grid-point time series for the reporting period. If not,
+   extend the range downward until 2/3 coverage is achieved.
+3. **Upper bound.** If the maximum exceeds the interval's configured
+   upper bound (`wind_speed_interval_max_size`), find the largest range
+   still enclosing 2/3 of points and report the true maximum separately
+   using "kovimmillaan N m/s" (where N is the maximum of the area's
+   warning-value time series).
+
+Worked example:
+
+1. 5–17 m/s (initial range)
+2. 6–14 m/s, kovimmillaan 17 m/s (2/3 of points fall in 6–14; the
+   maximum is tagged)
+3. 6–11 m/s, kovimmillaan 17 m/s (final reported range)
+
+## Puuskatuuli (gusty wind)
+
+The "puuskakeskiarvo" is the time-series mean of the area's maximum
+gust values.
+
+A puuska (gust) phrase is emitted when:
+
+* the warning value exceeds 20 m/s, **and**
+* `gust mean − range upper bound > gusty_wind_max_wind_difference`
+  (default 5 m/s).
+
+Example: if the range is "itätuulta 15…20 m/s" and the gust mean is
+26 m/s, the sentence becomes "puuskittaista itätuulta".
+
+## Wind direction
+
+### How wind direction is reported
+
+* A direction **change** is reported only if the change is at least 45°.
+  If the speed change also causes a change point, the new direction is
+  also mentioned.
+* "Suunnaltaan vaihteleva tuuli" is used only when the warning value is
+  at most 6.5 m/s. If the warning exceeds this and the direction standard
+  deviation is over 45°, use "N-puoleista" instead.
+* Four direction forms are possible:
+  1. A specific compass direction (e.g. `pohjoistuulta`)
+  2. Between two compass directions (e.g. `pohjoisen ja koillisen välistä`)
+  3. "N-puoleista" (approximately N) — when deviation is 22.5° – 45°
+  4. Variable — when deviation > 45° and warning ≤ 7 m/s
+* When between two compass directions, the main compass direction is
+  always reported first: "pohjoisen ja koillisen välistä tuulta", NOT
+  "koillisen ja pohjoisen välistä tuulta".
+
+### 8-way compass
+
+| Direction (degrees) | Name |
+| --- | --- |
+| 337.5 – 22.5 | pohjoinen |
+| 22.5 – 67.5 | koillinen |
+| 67.5 – 112.5 | itä |
+| 112.5 – 157.5 | kaakko |
+| 157.5 – 202.5 | etelä |
+| 202.5 – 247.5 | lounas |
+| 247.5 – 292.5 | länsi |
+| 292.5 – 337.5 | luode |
+
+### 16-way compass
+
+| Direction (degrees) | Name |
+| --- | --- |
+| 348.75 – 11.25 | pohjoinen |
+| 11.25 – 33.75 | pohjoisen ja koillisen välinen |
+| 33.75 – 56.25 | koillinen |
+| 56.25 – 78.75 | idän ja koillisen välinen |
+| 78.75 – 101.25 | itä |
+| 101.25 – 123.75 | idän ja kaakon välinen |
+| 123.75 – 146.25 | kaakko |
+| 146.25 – 168.75 | etelän ja kaakon välinen |
+| 168.75 – 191.25 | etelä |
+| 191.25 – 213.75 | etelän ja lounaan välinen |
+| 213.75 – 236.25 | lounas |
+| 236.25 – 258.75 | lännen ja lounaan välinen |
+| 258.75 – 281.25 | länsi |
+| 281.25 – 303.75 | lännen ja luoteen välinen |
+| 303.75 – 326.25 | luode |
+| 326.25 – 348.75 | pohjoisen ja luoteen välinen |
+
+### How direction is determined
+
+1. **Mode direction.** Compute each compass direction's share of the
+   area (e.g. pohjoinen 48%, koillinen 35%, itä 8%, …). The shares are
+   weighted so that the chosen direction must cover at least 85% of the
+   area.
+2. **16 sectors are used** internally, so each sector spans 22.5°.
+3. **Classification by deviation** of the mean direction:
+
+| Deviation | Treatment |
+| --- | --- |
+| < 22.5° | Specific direction: "pohjoistuulta 3–5 m/s" |
+| 22.5° – 45° | "N-puoleista" phrase: "pohjoisen puoleista tuulta" |
+| ≥ 45° | Variable, unless warning > 7 m/s |
+
+When the deviation is 22.5°–45°, the 8-way compass is used — we never
+emit "lännen ja luoteen välisen tuulen suunnasta tuulta"; instead we
+report "lännen tai luoteen suunnasta".
+
+## Story construction
+
+Five phases: raw data → time-series smoothing → change-point detection
+→ event periods → story formation.
+
+### 1. Raw data
+
+For each hour in the forecast period the story reads:
+
+* timestamp
+* area maximum wind speed
+* area minimum wind speed
+* area mean speed + standard deviation
+* area median of the mean speed
+* area warning value
+* area mean gust speed
+* area mean direction + standard deviation
+
+### 2. Time-series smoothing
+
+The raw time series is smoothed so that short-term noise is removed but
+longer-range trends remain visible. The algorithm walks the series in
+windows of three consecutive forecast points (V0, V1, V2):
+
+* Compute the interpolated forecast V1ᵢ for the middle point (predicted
+  from V0 and V2).
+* Compute the residual dᵢ = |V1ₒ − V1ᵢ| (original vs. interpolated).
+* The hour with the smallest dᵢ below the configured maximum
+  (`max_error_wind_speed`, default 2.0 m/s; `max_error_wind_direction`,
+  default 10°) is removed from the time series.
+* The pass is repeated until no point qualifies for removal.
+* After that, removed hours are replaced by their interpolated values.
+* Finally the algorithm restores any local maxima/minima inadvertently
+  smoothed out, if they were significant change points.
+
+**Exception for wind direction.** When smoothing direction, a point is
+*not* removed if the direction flips by more than 180° across three
+consecutive points (e.g. 355.1° → 1.5° — small numerical residual, but
+physically the direction has not flipped).
+
+### 3. Change-point detection
+
+From the smoothed series' local maxima and minima, potential change
+points are extracted:
+
+| Parameter | Default | Controls |
+| --- | --- | --- |
+| `wind_speed_threshold` | 3.0 m/s | Minimum speed change to be reported |
+| `wind_direction_threshold` | 45° | Minimum direction change to be reported |
+
+When the wind is weak (< 5 m/s), speed and direction changes are not
+treated as change points. The wind is reported as either "suunnaltaan
+vaihteleva" or "N-puoleista heikkoa tuulta" over the whole period.
+
+### 4. Event periods
+
+The intervals between change points are **event periods**. Each event
+period is classified as one of:
+
+* tuuli voimistuu (wind strengthens)
+* tuuli heikkenee (wind weakens)
+* tuuli kääntyy (wind turns)
+* tuuli muuttuu vaihtelevaksi (wind becomes variable)
+* ei muutosta (no change)
+
+When both speed and direction change simultaneously we speak of a
+**combined event**: e.g. "tuuli voimistuu ja kääntyy etelään".
+
+Example (smoothed + change points):
+
+```
+ ----VA------|-----PO---------|PO -->----IT    wind direction
+ ----N---|----V---|---N---|--------H--------   wind speed
+ ----1---|-2-|-3-|-4- -|--5--|---6--------    potential periods
+```
+
+Legend: VA = variable, PO = pohjoistuuli, IT = itätuuli, N = no speed
+change, V = strengthens, H = weakens. Period 1 is weak variable; period 2
+starts strengthening while still variable; period 3 is strengthening
+pohjoistuuli; period 4 is pohjoistuuli that stops strengthening;
+period 5 pohjoistuuli starts weakening; period 6 weakening continues
+while direction turns to itätuuli.
+
+After potential periods are identified they are merged:
+
+* Weak-wind periods (< 5 m/s) merge.
+* Consecutive periods where wind keeps turning in the same direction
+  merge *if* speed trend is also consistent (both strengthening / both
+  weakening / both flat).
+* Consecutive strengthening or weakening periods merge if the direction
+  does not change.
+* A short (≤ 2 h) non-variable period between variable-direction
+  periods merges with the variable neighbours.
+* A short (≤ 2 h) last period where wind is still variable merges with
+  the preceding period.
+* Successive identical-state periods merge.
+* Short periods with no change merge into the preceding period (e.g.
+  rules 3 and 4 above).
+* An individual event merges with the immediately following combined
+  event ("tuuli kääntyy ja heikkenee" + "tuuli heikkenee").
+* A short (≤ 2 h) period with no change at the very start of the
+  forecast merges with what follows.
+
+### 5. Story formation
+
+**Main rules:**
+
+* Report wind-direction and wind-speed changes detected in the forecast
+  period.
+* If no change is detected, report a single direction + speed integrated
+  over the whole period.
+* A direction change is reported when it is at least
+  `wind_direction_threshold` (default 45°).
+* A speed change is reported when it is at least
+  `wind_speed_threshold` (default 3.0 m/s).
+
+**Direction refinements:**
+
+* The story starts with the direction and then only reports changes,
+  e.g. "Etelätuulta 5 m/s. Iltapäivällä tuuli kääntyy kakkoon."
+* When the wind is variable, changes are not prefixed with "tuuli
+  kääntyy"; the new direction is simply introduced, e.g. "Iltapäivästä
+  alkaen suunnaltaan vaihtelevaa tuulta 3–6 m/s. Illasta alkaen
+  kaakkoistuulta."
+* If the wind is variable for at least 3 hours, use "tuuli muuttuu
+  tilapäisesti vaihtelevaksi".
+
+**Speed refinements:**
+
+* The story opens with the speed; subsequent sentences report only the
+  changes, e.g. "Etelätuulta 5 m/s. Iltapäivällä eteläinen tuuli alkaa
+  voimistua. Illalla tuuli lännen voimistuu edelleen 9–12 m/s."
+* Speed changes may be qualified with "vähän", "nopeasti", or
+  "vähitellen":
+  * "vähän" when speed changes at most 2.5 m/s: "Iltapäivällä vähän
+    voimistuvaa etelänpuoleista tuulta 4–8 m/s."
+  * "nopeasti" when the change is at least 5 m/s within at most 6 hours:
+    "Iltapäivällä nopeasti voimistuvaa etelätuulta 7–12 m/s."
+  * "vähitellen" when the change unfolds over at least 12 hours:
+    "Aamupäivästä alkaen lännen ja lounaan välinen tuuli alkaa voimistua
+    vähitellen, yöllä 12–17 m/s, ylimmillään 19 m/s."
+
+## Configuration parameters
+
+All variables live under `textgen::[section]::story::wind_overview::*`.
+
+| Parameter | Default | Meaning |
+| --- | --- | --- |
+| `wind_calc_top_share` | 80.0 % | Weight of peak wind in the calculated wind when the gust exceeds 10 m/s for over 10 % of the period |
+| `wind_calc_top_share_e` | 50.0 % | Weight of peak wind otherwise, or when peak < 10 m/s for the whole period, or peak > 10 % of period |
+| `wind_speed_interval_min_size` | 2 m/s | Minimum wind-speed range size |
+| `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
+| `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
+| `wind_speed_warning_threshold` | 11.0 m/s | Warning-value threshold above which the warning is used as the range upper bound |
+| `wind_speed_top_coverage` | 98 % | 98 % of points must fall below the range upper bound (i.e. ≤ 2 % may be above); a localised strong wind therefore does not bloat the range |
+| `wind_direction_threshold` | 45° | Minimum direction change that is reported |
+| `wind_direction_min_speed` | 7.0 m/s | If mean speed exceeds this, report a direction even when it would otherwise be variable (deviation > 45°) |
+| `max_error_wind_speed` | 2.0 | Smoothing tolerance for the speed time series (small = smooth lightly, large = smooth aggressively) |
+| `max_error_wind_direction` | 10.0 | Smoothing tolerance for the direction time series |
+| `gusty_wind_max_wind_difference` | 5.0 | Minimum difference (gust mean − range upper bound) that triggers the "puuskittaista" phrase |
+
+## See also
+
+* [`wind_anomaly`](wind_anomaly.md) — wind relative to climatology
+* [`wind_daily_ranges`](wind_daily_ranges.md) — per-day summary (Legacy)
+* [`wind_range`](wind_range.md) — single-sentence range (Trivial)
+* [`wind_simple_overview`](wind_simple_overview.md) — superseded by this
+  story
