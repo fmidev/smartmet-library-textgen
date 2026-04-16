@@ -55,7 +55,7 @@ std::shared_ptr<Glyph> SectionTag::clone() const
     std::shared_ptr<Glyph> ret(new SectionTag(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -76,7 +76,7 @@ std::string SectionTag::realize(const Dictionary& /*theDictionary*/) const
   {
     return itsName;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -96,7 +96,7 @@ std::string SectionTag::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -114,7 +114,7 @@ bool SectionTag::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -131,7 +131,7 @@ bool SectionTag::isPrefixTag() const
   {
     return itsPrefixTag;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

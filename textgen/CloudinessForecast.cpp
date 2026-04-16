@@ -162,9 +162,8 @@ Sentence cloudiness_sentence_variable(const bool thePoutainenFlag,
   }
   else if (!periodPhraseEmpty && areaPhraseEmpty)
   {
-    sentence << (thePoutainenFlag
-                     ? HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
-                     : HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE)
+    sentence << (thePoutainenFlag ? HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+                                  : HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE)
              << thePeriodPhrase;
   }
   else
@@ -246,8 +245,8 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
   if (theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
     return cloudiness_sentence_variable(thePoutainenFlag, thePeriodPhrase, theAreaString);
 
-  return cloudiness_sentence_normal(theCloudinessId, thePoutainenFlag, thePeriodPhrase,
-                                    theAreaString, cloudinessSentence);
+  return cloudiness_sentence_normal(
+      theCloudinessId, thePoutainenFlag, thePeriodPhrase, theAreaString, cloudinessSentence);
 }
 }  // namespace
 
@@ -457,8 +456,8 @@ void CloudinessForecast::findOutCloudinessWeatherEvents(
 
     if (eventId != MISSING_WEATHER_EVENT)
     {
-      theCloudinessWeatherEvents.emplace_back(
-          theData->at(changeIndex)->thePeriod.localStartTime(), eventId);
+      theCloudinessWeatherEvents.emplace_back(theData->at(changeIndex)->thePeriod.localStartTime(),
+                                              eventId);
       // Note: only one event (pilvistyy/selkenee) during the period.
       break;
     }

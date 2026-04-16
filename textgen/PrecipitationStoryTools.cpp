@@ -18,8 +18,8 @@
 
 #include "PrecipitationStoryTools.h"
 #include "Integer.h"
-#include "PositiveRange.h"
 #include "MessageLogger.h"
+#include "PositiveRange.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
 #include "ValueAcceptor.h"
@@ -121,8 +121,12 @@ Sentence snow_rain_phrase(bool has_showers, double strength, double weak_limit, 
 }
 
 // Build SNOW_WATER or SNOW_SLEET_WATER phrase
-Sentence snow_water_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit,
-                                double water_val, double snow_val)
+Sentence snow_water_rain_phrase(bool has_showers,
+                                double strength,
+                                double weak_limit,
+                                double hard_limit,
+                                double water_val,
+                                double snow_val)
 {
   Sentence s;
   if (has_showers)
@@ -147,8 +151,12 @@ Sentence snow_water_rain_phrase(bool has_showers, double strength, double weak_l
 }
 
 // Build SNOW_SLEET phrase
-Sentence snow_sleet_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit,
-                                double snow_val, double sleet_val)
+Sentence snow_sleet_rain_phrase(bool has_showers,
+                                double strength,
+                                double weak_limit,
+                                double hard_limit,
+                                double snow_val,
+                                double sleet_val)
 {
   Sentence s;
   if (has_showers)
@@ -436,13 +444,13 @@ Sentence type_phrase(const AnalysisSources& theSources,
     case SNOW_WATER:
     case SNOW_SLEET_WATER:
       log << (rt == SNOW_WATER ? "Rain type is SNOW_WATER\n" : "Rain type is SNOW_SLEET_WATER\n");
-      sentence << snow_water_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit,
-                                        water.value(), snow.value());
+      sentence << snow_water_rain_phrase(
+          has_showers, strength.value(), weak_limit, hard_limit, water.value(), snow.value());
       break;
     case SNOW_SLEET:
       log << "Rain type is SNOW_SLEET\n";
-      sentence << snow_sleet_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit,
-                                        snow.value(), sleet.value());
+      sentence << snow_sleet_rain_phrase(
+          has_showers, strength.value(), weak_limit, hard_limit, snow.value(), sleet.value());
       break;
   }
 

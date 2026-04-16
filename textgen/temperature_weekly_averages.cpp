@@ -57,11 +57,23 @@ Paragraph TemperatureStory::weekly_averages() const
 
     GridForecaster forecaster;
 
-    const WeatherResult dayminresult = forecaster.analyze(
-        itsVar + "::fake::day::minimum", itsSources, Temperature, Minimum, Mean, Mean, itsArea, days);
+    const WeatherResult dayminresult = forecaster.analyze(itsVar + "::fake::day::minimum",
+                                                          itsSources,
+                                                          Temperature,
+                                                          Minimum,
+                                                          Mean,
+                                                          Mean,
+                                                          itsArea,
+                                                          days);
 
-    const WeatherResult daymaxresult = forecaster.analyze(
-        itsVar + "::fake::day::maximum", itsSources, Temperature, Maximum, Mean, Mean, itsArea, days);
+    const WeatherResult daymaxresult = forecaster.analyze(itsVar + "::fake::day::maximum",
+                                                          itsSources,
+                                                          Temperature,
+                                                          Maximum,
+                                                          Mean,
+                                                          Mean,
+                                                          itsArea,
+                                                          days);
 
     const WeatherResult daymeanresult = forecaster.analyze(
         itsVar + "::fake::day::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, days);
@@ -87,10 +99,14 @@ Paragraph TemperatureStory::weekly_averages() const
     const WeatherResult nightmeanresult = forecaster.analyze(
         itsVar + "::fake::night::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, nights);
 
-    WeatherResultTools::checkMissingValue(
-        "temperature_weekly_minmax",
-        Temperature,
-        {dayminresult, daymaxresult, daymeanresult, nightminresult, nightmaxresult, nightmeanresult});
+    WeatherResultTools::checkMissingValue("temperature_weekly_minmax",
+                                          Temperature,
+                                          {dayminresult,
+                                           daymaxresult,
+                                           daymeanresult,
+                                           nightminresult,
+                                           nightmaxresult,
+                                           nightmeanresult});
 
     log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << '\n';
     log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << '\n';
@@ -108,14 +124,17 @@ Paragraph TemperatureStory::weekly_averages() const
     const int nightmean = static_cast<int>(round(nightmeanresult.value()));
 
     Sentence sentence;
-    sentence
-        << "paivalampotila"
-        << "on"
-        << temperature_sentence(
-               daymin, daymean, daymax, daymininterval, day_interval_zero, rangeseparator)
-        << Delimiter(",") << "yolampotila"
-        << temperature_sentence(
-               nightmin, nightmean, nightmax, nightmininterval, night_interval_zero, rangeseparator);
+    sentence << "paivalampotila"
+             << "on"
+             << temperature_sentence(
+                    daymin, daymean, daymax, daymininterval, day_interval_zero, rangeseparator)
+             << Delimiter(",") << "yolampotila"
+             << temperature_sentence(nightmin,
+                                     nightmean,
+                                     nightmax,
+                                     nightmininterval,
+                                     night_interval_zero,
+                                     rangeseparator);
 
     paragraph << sentence;
     log << paragraph;

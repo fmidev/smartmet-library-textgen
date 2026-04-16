@@ -6,9 +6,9 @@
 // ======================================================================
 
 #include "Delimiter.h"
-#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PositiveRange.h"
 #include "PrecipitationStory.h"
 #include "Sentence.h"
 #include "UnitFactory.h"

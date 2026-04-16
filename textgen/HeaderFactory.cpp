@@ -20,9 +20,9 @@
 #include "HeaderFactory.h"
 #include "Header.h"
 #include "Integer.h"
-#include "PositiveRange.h"
 #include "LocationPhrase.h"
 #include "MessageLogger.h"
+#include "PositiveRange.h"
 #include "TimePhrase.h"
 #include "WeekdayTools.h"
 #include <calculator/Settings.h>

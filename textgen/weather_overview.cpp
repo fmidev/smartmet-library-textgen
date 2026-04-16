@@ -1720,7 +1720,8 @@ Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
 using OverlapVector = vector<PrecipitationPeriodTools::RainPeriods>;
 
 // Handle a run of non-rainy days: returns the last day consumed and adds cloudiness story
-int handle_no_overlap_days(int day, int n,
+int handle_no_overlap_days(int day,
+                           int n,
                            const OverlapVector& overlaps,
                            const OverlapVector& inclusives,
                            const HourPeriodGenerator& generator,
@@ -1752,7 +1753,8 @@ int handle_no_overlap_days(int day, int n,
 }
 
 // Handle the fallback rainy sequence: returns the last day consumed
-int handle_rainy_sequence(int day, int n,
+int handle_rainy_sequence(int day,
+                          int n,
                           const OverlapVector& overlaps,
                           const OverlapVector& inclusives,
                           const HourPeriodGenerator& generator,
@@ -1774,7 +1776,8 @@ int handle_rainy_sequence(int day, int n,
 
   Sentence s;
   if (day == day2)
-    s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period) << "enimmakseen" << "poutaa";
+    s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period) << "enimmakseen"
+      << "poutaa";
   else
     s << WeekdayTools::from_weekday(period.localStartTime()) << "ajoittain sadetta";
   paragraph << s;
@@ -1872,8 +1875,17 @@ Paragraph WeatherStory::overview() const
 
     if (noverlap == 0)
     {
-      day = handle_no_overlap_days(day, n, overlaps, inclusives, generator,
-                                   itsForecastTime, itsSources, itsArea, itsVar, log, paragraph);
+      day = handle_no_overlap_days(day,
+                                   n,
+                                   overlaps,
+                                   inclusives,
+                                   generator,
+                                   itsForecastTime,
+                                   itsSources,
+                                   itsArea,
+                                   itsVar,
+                                   log,
+                                   paragraph);
     }
     else if (ninclusive == 1 && noverlap == 1)
     {
@@ -1901,8 +1913,8 @@ Paragraph WeatherStory::overview() const
     }
     else
     {
-      day = handle_rainy_sequence(day, n, overlaps, inclusives, generator,
-                                  itsForecastTime, itsVar, paragraph);
+      day = handle_rainy_sequence(
+          day, n, overlaps, inclusives, generator, itsForecastTime, itsVar, paragraph);
     }
   }
 

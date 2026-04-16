@@ -215,7 +215,8 @@ Paragraph FrostStory::day() const
 
     log << "Difference between coast and inland is significant";
 
-    Sentence sentence = plain_frost_sentence(issevere, inlandvalue, itsVar, itsForecastTime, period);
+    Sentence sentence =
+        plain_frost_sentence(issevere, inlandvalue, itsVar, itsForecastTime, period);
     sentence << Delimiter(",") << "rannikolla" << Integer(coastvalue)
              << *UnitFactory::create(Percent);
     paragraph << sentence;

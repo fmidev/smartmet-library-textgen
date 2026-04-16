@@ -14,8 +14,8 @@
 #include "Dictionary.h"
 #include "TextFormatter.h"
 #include "TextFormatterTools.h"
-#include <macgyver/Exception.h>
 #include <boost/locale.hpp>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiStringTools.h>
 #include <utility>
 

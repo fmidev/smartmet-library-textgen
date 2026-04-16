@@ -86,8 +86,8 @@ struct wo_story_params
   //   - the fraction of the forecast area with storm-level top wind stays below this threshold (%)
   // Set a threshold to 0 to disable that individual criterion.
   // Set BOTH to 0 to disable the feature entirely.
-  double theConvectiveStormMinDuration = 3.0;      // hours
-  double theConvectiveStormMinAreaFraction = 10.0; // percent of forecast area
+  double theConvectiveStormMinDuration = 3.0;       // hours
+  double theConvectiveStormMinAreaFraction = 10.0;  // percent of forecast area
 
   // When true, a detected convective storm anomaly generates an extra sentence reporting
   // the peak gust speed, e.g. "paikoin hyvin voimakkaita puuskia, ylimmillään 23 m/s."

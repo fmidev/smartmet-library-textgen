@@ -49,7 +49,7 @@ std::shared_ptr<Glyph> WeatherTime::clone() const
     std::shared_ptr<Glyph> ret(new WeatherTime(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -70,7 +70,7 @@ std::string WeatherTime::realize(const Dictionary& /*theDictionary*/) const
   {
     return "";
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -90,7 +90,7 @@ std::string WeatherTime::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -108,7 +108,7 @@ bool WeatherTime::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

@@ -88,7 +88,7 @@ WeatherFact& WeatherFact::operator=(const WeatherFact& theFact)
     }
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -108,7 +108,7 @@ WeatherParameter WeatherFact::parameter() const
   {
     return itsParameter;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -127,7 +127,7 @@ WeatherFunction WeatherFact::function() const
   {
     return itsFunction;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -146,7 +146,7 @@ const WeatherPeriod& WeatherFact::period() const
   {
     return itsPeriod;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -165,7 +165,7 @@ const WeatherArea& WeatherFact::area() const
   {
     return itsArea;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -184,7 +184,7 @@ const WeatherResult& WeatherFact::result() const
   {
     return itsResult;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -209,7 +209,7 @@ bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& 
             theLhs.period() == theRhs.period() && theLhs.area() == theRhs.area() &&
             theLhs.result() == theRhs.result());
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -231,7 +231,7 @@ bool operator!=(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& 
   {
     return !(theLhs == theRhs);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

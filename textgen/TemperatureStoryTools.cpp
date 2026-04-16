@@ -608,7 +608,8 @@ float fake_fractile_value(const std::string& theVar,
                           const std::string& seasonStr,
                           const std::string& level)
 {
-  return static_cast<float>(require_double(theVar + "::fake::fractile::" + seasonStr + "::" + level));
+  return static_cast<float>(
+      require_double(theVar + "::fake::fractile::" + seasonStr + "::" + level));
 }
 
 // Helper: classify temperature against fake fractile thresholds
@@ -616,9 +617,13 @@ fractile_id classify_fake_fractile(const float& theTemperature,
                                    const std::string& theVar,
                                    const std::string& seasonStr)
 {
-  const std::array<std::pair<std::string, fractile_id>, 7> levels = {{
-      {"F02", FRACTILE_02}, {"F12", FRACTILE_12}, {"F37", FRACTILE_37}, {"F50", FRACTILE_50},
-      {"F63", FRACTILE_63}, {"F88", FRACTILE_88}, {"F98", FRACTILE_98}}};
+  const std::array<std::pair<std::string, fractile_id>, 7> levels = {{{"F02", FRACTILE_02},
+                                                                      {"F12", FRACTILE_12},
+                                                                      {"F37", FRACTILE_37},
+                                                                      {"F50", FRACTILE_50},
+                                                                      {"F63", FRACTILE_63},
+                                                                      {"F88", FRACTILE_88},
+                                                                      {"F98", FRACTILE_98}}};
   for (const auto& lv : levels)
   {
     if (theTemperature <= fake_fractile_value(theVar, seasonStr, lv.first))
@@ -640,7 +645,8 @@ fractile_id check_grid_fractile(GridClimatology& gc,
                                 const float& theTemperature,
                                 fractile_id resultId)
 {
-  WeatherParameter param = fractile_weather_parameter(theFractileType, minParam, meanParam, maxParam);
+  WeatherParameter param =
+      fractile_weather_parameter(theFractileType, minParam, meanParam, maxParam);
   WeatherResult result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
   if (result.value() != kFloatMissing && theTemperature <= result.value())
     return resultId;
@@ -742,8 +748,13 @@ const std::map<fractile_id, FractileParams>& fractile_param_map()
 const std::map<fractile_id, std::string>& fractile_fake_suffix_map()
 {
   static const std::map<fractile_id, std::string> table = {
-      {FRACTILE_02, "F02"}, {FRACTILE_12, "F12"}, {FRACTILE_37, "F37"}, {FRACTILE_50, "F50"},
-      {FRACTILE_63, "F63"}, {FRACTILE_88, "F88"}, {FRACTILE_98, "F98"},
+      {FRACTILE_02, "F02"},
+      {FRACTILE_12, "F12"},
+      {FRACTILE_37, "F37"},
+      {FRACTILE_50, "F50"},
+      {FRACTILE_63, "F63"},
+      {FRACTILE_88, "F88"},
+      {FRACTILE_98, "F98"},
   };
   return table;
 }

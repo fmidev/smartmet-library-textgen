@@ -50,7 +50,7 @@ std::shared_ptr<Glyph> Phrase::clone() const
     std::shared_ptr<Glyph> ret(new Phrase(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -71,7 +71,7 @@ std::string Phrase::realize(const Dictionary& theDictionary) const
   {
     return theDictionary.find(itsWord);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -92,7 +92,7 @@ std::string Phrase::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -110,7 +110,7 @@ bool Phrase::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

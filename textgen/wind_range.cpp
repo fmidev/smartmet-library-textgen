@@ -53,11 +53,21 @@ Paragraph WindStory::range() const
 
     // Calculate wind speeds
 
-    const WeatherResult minresult = forecaster.analyze(
-        itsVar + "::fake::speed::minimum", itsSources, WindSpeed, Mean, Minimum, itsArea, itsPeriod);
+    const WeatherResult minresult = forecaster.analyze(itsVar + "::fake::speed::minimum",
+                                                       itsSources,
+                                                       WindSpeed,
+                                                       Mean,
+                                                       Minimum,
+                                                       itsArea,
+                                                       itsPeriod);
 
-    const WeatherResult maxresult = forecaster.analyze(
-        itsVar + "::fake::speed::maximum", itsSources, WindSpeed, Mean, Maximum, itsArea, itsPeriod);
+    const WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::speed::maximum",
+                                                       itsSources,
+                                                       WindSpeed,
+                                                       Mean,
+                                                       Maximum,
+                                                       itsArea,
+                                                       itsPeriod);
 
     const WeatherResult meanresult = forecaster.analyze(
         itsVar + "::fake::speed::mean", itsSources, WindSpeed, Mean, Mean, itsArea, itsPeriod);

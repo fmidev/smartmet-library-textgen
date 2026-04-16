@@ -138,15 +138,72 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
   //               cols = inland category  [NA,0010,1020,3040,5060,7080,90100,FROST]
   // Values are phrase IDs (simple) or composite (primary*100+secondary)
   static const int table[8][8] = {
-    // NA                    0010                   1020                        3040                5060                             7080                                                90100                               FROST
-    { EMPTY_STORY,           EMPTY_STORY,           ALAVILLA_MAILLA_HALLAN_VAARA, MAHDOLLISESTI_HALLAA, PAIKOIN_HALLAA,                MONIN_PAIKOIN_HALLAA,                               HALLAA_YLEISESTI,                   EMPTY_STORY },  // CAT_NA
-    { EMPTY_STORY,           EMPTY_STORY,           ALAVILLA_MAILLA_HALLAN_VAARA, MAHDOLLISESTI_HALLAA, SISAMAASSA_PAIKOIN_HALLAA,     SISAMAASSA_MONIN_PAIKOIN_HALLAA,                    SISAMAASSA_YLEISESTI_HALLAA,        EMPTY_STORY },  // CAT_0010
-    { RANNIKOLLA_MAHDOLLISESTI_HALLAA, ALAVILLA_MAILLA_HALLAN_VAARA, ALAVILLA_MAILLA_HALLAN_VAARA, MAHDOLLISESTI_HALLAA, PAIKOIN_HALLAA, SISAMAASSA_MONIN_PAIKOIN_HALLAA,                  SISAMAASSA_YLEISESTI_HALLAA,        EMPTY_STORY },  // CAT_1020
-    { RANNIKOLLA_MAHDOLLISESTI_HALLAA, RANNIKOLLA_MAHDOLLISESTI_HALLAA, MAHDOLLISESTI_HALLAA, MAHDOLLISESTI_HALLAA, PAIKOIN_HALLAA, (SISAMAASSA_MONIN_PAIKOIN_HALLAA*100)+RANNIKOLLA_MAHDOLLISESTI_HALLAA, (SISAMAASSA_YLEISESTI_HALLAA*100)+RANNIKOLLA_MAHDOLLISESTI_HALLAA, EMPTY_STORY },  // CAT_3040
-    { RANNIKOLLA_PAIKOIN_HALLAA, RANNIKOLLA_PAIKOIN_HALLAA, PAIKOIN_HALLAA, PAIKOIN_HALLAA, PAIKOIN_HALLAA, MONIN_PAIKOIN_HALLAA,       HALLAA_YLEISESTI,                                   EMPTY_STORY },  // CAT_5060
-    { RANNIKOLLA_MONIN_PAIKOIN_HALLAA, RANNIKOLLA_MONIN_PAIKOIN_HALLAA, (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100)+RANNIKOLLA_MONIN_PAIKOIN_HALLAA, (RANNIKOLLA_MONIN_PAIKOIN_HALLAA*100)+SISAMAASSA_MAHDOLLISESTI_HALLAA, PAIKOIN_HALLAA, MONIN_PAIKOIN_HALLAA, HALLAA_YLEISESTI, EMPTY_STORY },  // CAT_7080
-    { RANNIKOLLA_HALLAA,     RANNIKOLLA_HALLAA,     (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100)+RANNIKOLLA_HALLAA, (RANNIKOLLA_HALLAA*100)+SISAMAASSA_MAHDOLLISESTI_HALLAA, (RANNIKOLLA_HALLAA*100)+SISAMAASSA_PAIKOIN_HALLAA, HALLAA_YLEISESTI, HALLAA_YLEISESTI, EMPTY_STORY },  // CAT_90100
-    { EMPTY_STORY,           EMPTY_STORY,           EMPTY_STORY,                EMPTY_STORY,        EMPTY_STORY,                     EMPTY_STORY,                                        EMPTY_STORY,                        EMPTY_STORY },  // CAT_FROST
+      // NA                    0010                   1020                        3040 5060 7080
+      // 90100                               FROST
+      {EMPTY_STORY,
+       EMPTY_STORY,
+       ALAVILLA_MAILLA_HALLAN_VAARA,
+       MAHDOLLISESTI_HALLAA,
+       PAIKOIN_HALLAA,
+       MONIN_PAIKOIN_HALLAA,
+       HALLAA_YLEISESTI,
+       EMPTY_STORY},  // CAT_NA
+      {EMPTY_STORY,
+       EMPTY_STORY,
+       ALAVILLA_MAILLA_HALLAN_VAARA,
+       MAHDOLLISESTI_HALLAA,
+       SISAMAASSA_PAIKOIN_HALLAA,
+       SISAMAASSA_MONIN_PAIKOIN_HALLAA,
+       SISAMAASSA_YLEISESTI_HALLAA,
+       EMPTY_STORY},  // CAT_0010
+      {RANNIKOLLA_MAHDOLLISESTI_HALLAA,
+       ALAVILLA_MAILLA_HALLAN_VAARA,
+       ALAVILLA_MAILLA_HALLAN_VAARA,
+       MAHDOLLISESTI_HALLAA,
+       PAIKOIN_HALLAA,
+       SISAMAASSA_MONIN_PAIKOIN_HALLAA,
+       SISAMAASSA_YLEISESTI_HALLAA,
+       EMPTY_STORY},  // CAT_1020
+      {RANNIKOLLA_MAHDOLLISESTI_HALLAA,
+       RANNIKOLLA_MAHDOLLISESTI_HALLAA,
+       MAHDOLLISESTI_HALLAA,
+       MAHDOLLISESTI_HALLAA,
+       PAIKOIN_HALLAA,
+       (SISAMAASSA_MONIN_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA,
+       (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA,
+       EMPTY_STORY},  // CAT_3040
+      {RANNIKOLLA_PAIKOIN_HALLAA,
+       RANNIKOLLA_PAIKOIN_HALLAA,
+       PAIKOIN_HALLAA,
+       PAIKOIN_HALLAA,
+       PAIKOIN_HALLAA,
+       MONIN_PAIKOIN_HALLAA,
+       HALLAA_YLEISESTI,
+       EMPTY_STORY},  // CAT_5060
+      {RANNIKOLLA_MONIN_PAIKOIN_HALLAA,
+       RANNIKOLLA_MONIN_PAIKOIN_HALLAA,
+       (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA,
+       (RANNIKOLLA_MONIN_PAIKOIN_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA,
+       PAIKOIN_HALLAA,
+       MONIN_PAIKOIN_HALLAA,
+       HALLAA_YLEISESTI,
+       EMPTY_STORY},  // CAT_7080
+      {RANNIKOLLA_HALLAA,
+       RANNIKOLLA_HALLAA,
+       (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_HALLAA,
+       (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA,
+       (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_PAIKOIN_HALLAA,
+       HALLAA_YLEISESTI,
+       HALLAA_YLEISESTI,
+       EMPTY_STORY},  // CAT_90100
+      {EMPTY_STORY,
+       EMPTY_STORY,
+       EMPTY_STORY,
+       EMPTY_STORY,
+       EMPTY_STORY,
+       EMPTY_STORY,
+       EMPTY_STORY,
+       EMPTY_STORY},  // CAT_FROST
   };
 
   if (categoryCoastal < CAT_NA || categoryCoastal > CAT_FROST)
@@ -170,23 +227,32 @@ Sentence get_frost_onenight_phrase_simple(const int& phraseId)
   switch (phraseId)
   {
     case ALAVILLA_MAILLA_HALLAN_VAARA:
-      sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << EMPTY_STRING; break;
+      sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << EMPTY_STRING;
+      break;
     case MAHDOLLISESTI_HALLAA:
-      sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << EMPTY_STRING; break;
+      sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << EMPTY_STRING;
+      break;
     case PAIKOIN_HALLAA:
-      sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << EMPTY_STRING << PAIKOIN_WORD; break;
+      sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << EMPTY_STRING << PAIKOIN_WORD;
+      break;
     case RANNIKOLLA_HALLAN_VAARA:
-      sentence << HALLAN_VAARA_COMPOSITE_PHRASE << COAST_PHRASE; break;
+      sentence << HALLAN_VAARA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     case RANNIKOLLA_MAHDOLLISESTI_HALLAA:
-      sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE; break;
+      sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     case RANNIKOLLA_PAIKOIN_HALLAA:
-      sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE << PAIKOIN_WORD; break;
+      sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE << PAIKOIN_WORD;
+      break;
     case SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA:
-      sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE; break;
+      sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     case SISAMAASSA_MAHDOLLISESTI_HALLAA:
-      sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE; break;
+      sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     case SISAMAASSA_PAIKOIN_HALLAA:
-      sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE << PAIKOIN_WORD; break;
+      sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE << PAIKOIN_WORD;
+      break;
     default:
       break;
   }
@@ -200,22 +266,28 @@ Sentence get_frost_onenight_phrase_severe(const int& phraseId, bool severe)
   {
     case MONIN_PAIKOIN_HALLAA:
       emit_frost_phrase(sentence, severe);
-      sentence << EMPTY_STRING << MONIN_PAIKOIN_WORD; break;
+      sentence << EMPTY_STRING << MONIN_PAIKOIN_WORD;
+      break;
     case HALLAA_YLEISESTI:
       emit_frost_phrase(sentence, severe);
-      sentence << EMPTY_STRING << EMPTY_STRING; break;
+      sentence << EMPTY_STRING << EMPTY_STRING;
+      break;
     case RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
       emit_frost_phrase(sentence, severe);
-      sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD; break;
+      sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     case RANNIKOLLA_HALLAA:
       emit_frost_phrase(sentence, severe);
-      sentence << COAST_PHRASE << EMPTY_STRING; break;
+      sentence << COAST_PHRASE << EMPTY_STRING;
+      break;
     case SISAMAASSA_MONIN_PAIKOIN_HALLAA:
       emit_frost_phrase(sentence, severe);
-      sentence << INLAND_PHRASE << MONIN_PAIKOIN_WORD; break;
+      sentence << INLAND_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     case SISAMAASSA_YLEISESTI_HALLAA:
       emit_frost_phrase(sentence, severe);
-      sentence << INLAND_PHRASE << EMPTY_STRING; break;
+      sentence << INLAND_PHRASE << EMPTY_STRING;
+      break;
     default:
       break;
   }
@@ -230,46 +302,56 @@ Sentence get_frost_onenight_phrase_composite(const int& phraseId, bool severe)
     case (SISAMAASSA_MONIN_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
       emit_frost_phrase(sentence, severe);
       sentence << INLAND_PHRASE << MONIN_PAIKOIN_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
-               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE; break;
+               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     case (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
       emit_frost_phrase(sentence, severe);
       sentence << INLAND_PHRASE << EMPTY_STRING << Delimiter(COMMA_PUNCTUATION_MARK)
-               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE; break;
+               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE;
+      break;
     case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_PAIKOIN_HALLAA:
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE
                << Delimiter(COMMA_PUNCTUATION_MARK) << PAIKOIN_HALLAA_COMPOSITE_PHRASE
-               << COAST_PHRASE << PAIKOIN_WORD; break;
+               << COAST_PHRASE << PAIKOIN_WORD;
+      break;
     case (SISAMAASSA_YLEISESTI_HALLAA * 100) + RANNIKOLLA_PAIKOIN_HALLAA:
       emit_frost_phrase(sentence, severe);
       sentence << INLAND_PHRASE << EMPTY_STRING << Delimiter(COMMA_PUNCTUATION_MARK)
-               << PAIKOIN_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE << MONIN_PAIKOIN_WORD; break;
+               << PAIKOIN_HALLAA_COMPOSITE_PHRASE << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE
                << Delimiter(COMMA_PUNCTUATION_MARK);
       emit_frost_phrase(sentence, severe);
-      sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD; break;
+      sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     case (RANNIKOLLA_MONIN_PAIKOIN_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
       emit_frost_phrase(sentence, severe);
       sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
-               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE; break;
+               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     case (SISAMAASSA_PAIKOIN_HALLAA * 100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
       sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE << PAIKOIN_WORD
                << Delimiter(COMMA_PUNCTUATION_MARK);
       emit_frost_phrase(sentence, severe);
-      sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD; break;
+      sentence << COAST_PHRASE << MONIN_PAIKOIN_WORD;
+      break;
     case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA * 100) + RANNIKOLLA_HALLAA:
       sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE << INLAND_PHRASE
                << Delimiter(COMMA_PUNCTUATION_MARK);
       emit_frost_phrase(sentence, severe);
-      sentence << COAST_PHRASE << EMPTY_STRING; break;
+      sentence << COAST_PHRASE << EMPTY_STRING;
+      break;
     case (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
       emit_frost_phrase(sentence, severe);
       sentence << COAST_PHRASE << EMPTY_STRING << Delimiter(COMMA_PUNCTUATION_MARK)
-               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE; break;
+               << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE;
+      break;
     case (RANNIKOLLA_HALLAA * 100) + SISAMAASSA_PAIKOIN_HALLAA:
       emit_frost_phrase(sentence, severe);
       sentence << COAST_PHRASE << EMPTY_STRING << Delimiter(COMMA_PUNCTUATION_MARK)
-               << PAIKOIN_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE << PAIKOIN_WORD; break;
+               << PAIKOIN_HALLAA_COMPOSITE_PHRASE << INLAND_PHRASE << PAIKOIN_WORD;
+      break;
     default:
       break;
   }
@@ -436,7 +518,10 @@ unsigned short compute_night_frost(MessageLogger& log,
                                        "actual night frost percentage, coastal: ",
                                        theVar + "::fake::night_frost_percentage::coastal",
                                        required_night_frost_percentage,
-                                       forecaster, sources, coastalArea, night1);
+                                       forecaster,
+                                       sources,
+                                       coastalArea,
+                                       night1);
     night_frost |= (isNightFrost ? COASTAL_AREA : 0x0);
   }
   if ((forecast_areas & INLAND_AREA) && (growing_season_started & INLAND_AREA))
@@ -445,7 +530,10 @@ unsigned short compute_night_frost(MessageLogger& log,
                                        "actual night frost percentage, inland: ",
                                        theVar + "::fake::night_frost_percentage::inland",
                                        required_night_frost_percentage,
-                                       forecaster, sources, inlandArea, night1);
+                                       forecaster,
+                                       sources,
+                                       inlandArea,
+                                       night1);
     night_frost |= (isNightFrost ? INLAND_AREA : 0x0);
   }
   return night_frost;
@@ -475,13 +563,23 @@ FrostProbabilities compute_frost_probabilities(MessageLogger& log,
       !(night_frost & COASTAL_AREA))
   {
     fp.frostCoastal = forecaster.analyze(theVar + "::fake::frost_probability::coastal",
-                                         sources, Frost, Maximum, Maximum, coastalArea, night1);
+                                         sources,
+                                         Frost,
+                                         Maximum,
+                                         Maximum,
+                                         coastalArea,
+                                         night1);
     log << "Frost_Maximum_Maximum Coastal: " << fp.frostCoastal << '\n';
     if (fp.frostCoastal.value() >= 70.0)
     {
-      fp.severeFrostCoastal = forecaster.analyze(
-          theVar + "::fake::severe_frost_probability::coastal",
-          sources, SevereFrost, Maximum, Maximum, coastalArea, night1);
+      fp.severeFrostCoastal =
+          forecaster.analyze(theVar + "::fake::severe_frost_probability::coastal",
+                             sources,
+                             SevereFrost,
+                             Maximum,
+                             Maximum,
+                             coastalArea,
+                             night1);
       log << "Severe_Frost_Maximum_Maximum Coastal: " << fp.severeFrostCoastal << '\n';
     }
   }
@@ -489,13 +587,22 @@ FrostProbabilities compute_frost_probabilities(MessageLogger& log,
       !(night_frost & INLAND_AREA))
   {
     fp.frostInland = forecaster.analyze(theVar + "::fake::frost_probability::inland",
-                                        sources, Frost, Maximum, Maximum, inlandArea, night1);
+                                        sources,
+                                        Frost,
+                                        Maximum,
+                                        Maximum,
+                                        inlandArea,
+                                        night1);
     log << "Frost_Maximum_Maximum Inland: " << fp.frostInland << '\n';
     if (fp.frostInland.value() >= 70.0)
     {
-      fp.severeFrostInland = forecaster.analyze(
-          theVar + "::fake::severe_frost_probability::inland",
-          sources, SevereFrost, Maximum, Maximum, inlandArea, night1);
+      fp.severeFrostInland = forecaster.analyze(theVar + "::fake::severe_frost_probability::inland",
+                                                sources,
+                                                SevereFrost,
+                                                Maximum,
+                                                Maximum,
+                                                inlandArea,
+                                                night1);
       log << "Severe_Frost_Maximum_Maximum Inland: " << fp.severeFrostInland << '\n';
     }
   }
@@ -621,8 +728,8 @@ Paragraph FrostStory::onenight() const
   float separate_coastal_area_percentage = Settings::optional_double(
       itsVar + "::separate_coastal_area_percentage", SEPARATE_COASTAL_AREA_PERCENTAGE);
 
-  bool ignoreCoastalArea =
-      should_ignore_coastal_area(itsVar, itsArea, coastalPercentage, separate_coastal_area_percentage);
+  bool ignoreCoastalArea = should_ignore_coastal_area(
+      itsVar, itsArea, coastalPercentage, separate_coastal_area_percentage);
 
   float inlandPercentage = get_area_percentage(
       itsVar + "::fake::area_percentage", itsArea, WeatherArea::Inland, itsSources, itsPeriod);

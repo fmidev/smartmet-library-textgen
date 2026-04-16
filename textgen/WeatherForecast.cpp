@@ -1904,9 +1904,9 @@ split_method split_the_area(const std::string& theVar,
   }
 
   double divisionLine = std::stof(valueStr);
-  bool validLine = (retval == HORIZONTAL
-                        ? areaRect.contains(NFmiPoint(centerPoint.X(), divisionLine))
-                        : areaRect.contains(NFmiPoint(divisionLine, centerPoint.Y())));
+  bool validLine =
+      (retval == HORIZONTAL ? areaRect.contains(NFmiPoint(centerPoint.X(), divisionLine))
+                            : areaRect.contains(NFmiPoint(divisionLine, centerPoint.Y())));
 
   if (validLine)
   {

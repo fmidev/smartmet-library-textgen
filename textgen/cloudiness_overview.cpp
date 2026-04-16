@@ -123,8 +123,8 @@ Paragraph CloudinessStory::overview() const
       log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << '\n';
       log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << '\n';
 
-      CloudinessType ctype =
-          cloudiness_type(itsVar, cloudy_percentage.value(), clear_percentage.value(), trend.value());
+      CloudinessType ctype = cloudiness_type(
+          itsVar, cloudy_percentage.value(), clear_percentage.value(), trend.value());
 
       periods.push_back(period);
       types.push_back(ctype);

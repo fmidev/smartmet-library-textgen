@@ -324,9 +324,8 @@ class PrecipitationForecast
   void handleWaterFormContinuousPhrase(const PrecipPhraseContext& ctx,
                                        std::map<std::string, Sentence>& elems) const;
 
-  Sentence parsePlainPrecipitationPhrase(
-      const FinalSentenceContext& ctx,
-      const Sentence& plainPrecipitation) const;
+  Sentence parsePlainPrecipitationPhrase(const FinalSentenceContext& ctx,
+                                         const Sentence& plainPrecipitation) const;
   Sentence parseMostlyDryPhrase(const FinalSentenceContext& ctx,
                                 std::map<std::string, Sentence>& elems) const;
   Sentence parseDryPhrase(const FinalSentenceContext& ctx) const;

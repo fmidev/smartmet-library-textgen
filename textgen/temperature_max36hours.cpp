@@ -816,18 +816,17 @@ proximity_case_t get_proximity_case(int iMinModFive,
 }
 
 proximity_id get_proximity_above(float theMinimumCalc,
-                                  float theMaximumCalc,
-                                  bool bBelowZeroDegrees,
-                                  int theNumberDivisibleByFive,
-                                  int& outProximityNumber)
+                                 float theMaximumCalc,
+                                 bool bBelowZeroDegrees,
+                                 int theNumberDivisibleByFive,
+                                 int& outProximityNumber)
 {
   float theMinDiff = theMinimumCalc - theNumberDivisibleByFive;
   float theMaxDiff = theMaximumCalc - theNumberDivisibleByFive;
 
-  float vahanYliAstettaLimit =
-      (theMaximumCalc * (bBelowZeroDegrees ? -1.0f : +1.0f)) < -10.0
-          ? VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT
-          : VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT;
+  float vahanYliAstettaLimit = (theMaximumCalc * (bBelowZeroDegrees ? -1.0f : +1.0f)) < -10.0
+                                   ? VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT
+                                   : VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT;
 
   if (theMinDiff < vahanYliAstettaLimit && theMaxDiff < vahanYliAstettaLimit)
   {
@@ -948,8 +947,11 @@ proximity_id get_proximity_id(float theMinimum,
                                    theNumberDivisibleByFive,
                                    theProximityNumber);
   else if (theCase == PROX_ABOVE)
-    retval = get_proximity_above(
-        theMinimumCalc, theMaximumCalc, bBelowZeroDegrees, theNumberDivisibleByFive, theProximityNumber);
+    retval = get_proximity_above(theMinimumCalc,
+                                 theMaximumCalc,
+                                 bBelowZeroDegrees,
+                                 theNumberDivisibleByFive,
+                                 theProximityNumber);
   else if (theCase == PROX_BELOW)
     retval = get_proximity_below(
         theMinimumCalc, theMaximumCalc, theNumberDivisibleByFive, theProximityNumber);
@@ -1058,12 +1060,12 @@ void calculate_night_period(const string& theVar,
                             WeatherResult& maxResultFull,
                             WeatherResult& meanResultFull)
 {
-  minResultFull =
-      do_calculation(theVar + fakeVarFull + "::min", theSources, Minimum, timeFunction, theActualArea, thePeriod);
-  maxResultFull =
-      do_calculation(theVar + fakeVarFull + "::max", theSources, Maximum, timeFunction, theActualArea, thePeriod);
-  meanResultFull =
-      do_calculation(theVar + fakeVarFull + "::mean", theSources, Mean, timeFunction, theActualArea, thePeriod);
+  minResultFull = do_calculation(
+      theVar + fakeVarFull + "::min", theSources, Minimum, timeFunction, theActualArea, thePeriod);
+  maxResultFull = do_calculation(
+      theVar + fakeVarFull + "::max", theSources, Maximum, timeFunction, theActualArea, thePeriod);
+  meanResultFull = do_calculation(
+      theVar + fakeVarFull + "::mean", theSources, Mean, timeFunction, theActualArea, thePeriod);
 
   if (theActualArea.type() == WeatherArea::Full)
     WeatherResultTools::checkMissingValue(
@@ -1087,12 +1089,27 @@ void calculate_day_period(const string& theVar,
                           WeatherResult& maxResultFull,
                           WeatherResult& meanResultFull)
 {
-  morning_temperature(
-      theVar + fakeVarMorning, theSources, theActualArea, thePeriod, minResultMorning, maxResultMorning, meanResultMorning);
-  afternoon_temperature(
-      theVar + fakeVarAfternoon, theSources, theActualArea, thePeriod, minResultAfternoon, maxResultAfternoon, meanResultAfternoon);
-  afternoon_temperature(
-      theVar + fakeVarFull, theSources, theActualArea, thePeriod, minResultFull, maxResultFull, meanResultFull);
+  morning_temperature(theVar + fakeVarMorning,
+                      theSources,
+                      theActualArea,
+                      thePeriod,
+                      minResultMorning,
+                      maxResultMorning,
+                      meanResultMorning);
+  afternoon_temperature(theVar + fakeVarAfternoon,
+                        theSources,
+                        theActualArea,
+                        thePeriod,
+                        minResultAfternoon,
+                        maxResultAfternoon,
+                        meanResultAfternoon);
+  afternoon_temperature(theVar + fakeVarFull,
+                        theSources,
+                        theActualArea,
+                        thePeriod,
+                        minResultFull,
+                        maxResultFull,
+                        meanResultFull);
 
   if (theActualArea.type() == WeatherArea::Full)
     WeatherResultTools::checkMissingValue(
@@ -1142,24 +1159,33 @@ void calculate_results(MessageLogger& /*theLog*/,
 
   // Use UNDEFINED_WEATHER_RESULT_ID sentinels for night morning/afternoon (unused)
   WeatherResult dummyResult(kFloatMissing, 0);
-  WeatherResult& minResultFull =
-      (ids.min_full != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.min_full] : dummyResult;
-  WeatherResult& maxResultFull =
-      (ids.max_full != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.max_full] : dummyResult;
-  WeatherResult& meanResultFull =
-      (ids.mean_full != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.mean_full] : dummyResult;
-  WeatherResult& minResultMorning =
-      (ids.min_morning != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.min_morning] : dummyResult;
-  WeatherResult& maxResultMorning =
-      (ids.max_morning != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.max_morning] : dummyResult;
-  WeatherResult& meanResultMorning =
-      (ids.mean_morning != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.mean_morning] : dummyResult;
-  WeatherResult& minResultAfternoon =
-      (ids.min_afternoon != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.min_afternoon] : dummyResult;
-  WeatherResult& maxResultAfternoon =
-      (ids.max_afternoon != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.max_afternoon] : dummyResult;
-  WeatherResult& meanResultAfternoon =
-      (ids.mean_afternoon != UNDEFINED_WEATHER_RESULT_ID) ? *theWeatherResults[ids.mean_afternoon] : dummyResult;
+  WeatherResult& minResultFull = (ids.min_full != UNDEFINED_WEATHER_RESULT_ID)
+                                     ? *theWeatherResults[ids.min_full]
+                                     : dummyResult;
+  WeatherResult& maxResultFull = (ids.max_full != UNDEFINED_WEATHER_RESULT_ID)
+                                     ? *theWeatherResults[ids.max_full]
+                                     : dummyResult;
+  WeatherResult& meanResultFull = (ids.mean_full != UNDEFINED_WEATHER_RESULT_ID)
+                                      ? *theWeatherResults[ids.mean_full]
+                                      : dummyResult;
+  WeatherResult& minResultMorning = (ids.min_morning != UNDEFINED_WEATHER_RESULT_ID)
+                                        ? *theWeatherResults[ids.min_morning]
+                                        : dummyResult;
+  WeatherResult& maxResultMorning = (ids.max_morning != UNDEFINED_WEATHER_RESULT_ID)
+                                        ? *theWeatherResults[ids.max_morning]
+                                        : dummyResult;
+  WeatherResult& meanResultMorning = (ids.mean_morning != UNDEFINED_WEATHER_RESULT_ID)
+                                         ? *theWeatherResults[ids.mean_morning]
+                                         : dummyResult;
+  WeatherResult& minResultAfternoon = (ids.min_afternoon != UNDEFINED_WEATHER_RESULT_ID)
+                                          ? *theWeatherResults[ids.min_afternoon]
+                                          : dummyResult;
+  WeatherResult& maxResultAfternoon = (ids.max_afternoon != UNDEFINED_WEATHER_RESULT_ID)
+                                          ? *theWeatherResults[ids.max_afternoon]
+                                          : dummyResult;
+  WeatherResult& meanResultAfternoon = (ids.mean_afternoon != UNDEFINED_WEATHER_RESULT_ID)
+                                           ? *theWeatherResults[ids.mean_afternoon]
+                                           : dummyResult;
 
   if (thePeriodId == NIGHT_PERIOD)
   {
@@ -1331,11 +1357,23 @@ bool separate_day_and_night_winter(const t36hparams& p, forecast_area_id theFore
   if (theForecastAreaId == FULL_AREA)
   {
     if (p.theForecastPeriod & DAY1_PERIOD)
-      separateDayAndNight = check_day_night_temp_separation(
-          p, DAY1_PERIOD, AREA_MIN_DAY1, AREA_MEAN_DAY1, AREA_MAX_DAY1, AREA_MIN_NIGHT, AREA_MEAN_NIGHT, AREA_MAX_NIGHT);
+      separateDayAndNight = check_day_night_temp_separation(p,
+                                                            DAY1_PERIOD,
+                                                            AREA_MIN_DAY1,
+                                                            AREA_MEAN_DAY1,
+                                                            AREA_MAX_DAY1,
+                                                            AREA_MIN_NIGHT,
+                                                            AREA_MEAN_NIGHT,
+                                                            AREA_MAX_NIGHT);
     else
-      separateDayAndNight = check_day_night_temp_separation(
-          p, DAY2_PERIOD, AREA_MIN_DAY2, AREA_MEAN_DAY2, AREA_MAX_DAY2, AREA_MIN_NIGHT, AREA_MEAN_NIGHT, AREA_MAX_NIGHT);
+      separateDayAndNight = check_day_night_temp_separation(p,
+                                                            DAY2_PERIOD,
+                                                            AREA_MIN_DAY2,
+                                                            AREA_MEAN_DAY2,
+                                                            AREA_MAX_DAY2,
+                                                            AREA_MIN_NIGHT,
+                                                            AREA_MEAN_NIGHT,
+                                                            AREA_MAX_NIGHT);
     return separateDayAndNight;
   }
 
@@ -1366,28 +1404,58 @@ bool separate_day_and_night_winter(const t36hparams& p, forecast_area_id theFore
   }
 
   if (p.theForecastPeriod & DAY1_PERIOD)
-    separateDayAndNight = check_day_night_temp_separation(
-        p, DAY1_PERIOD, primaryMinDay1, primaryMeanDay1, primaryMaxDay1, INLAND_MIN_NIGHT, INLAND_MEAN_NIGHT, INLAND_MAX_NIGHT);
+    separateDayAndNight = check_day_night_temp_separation(p,
+                                                          DAY1_PERIOD,
+                                                          primaryMinDay1,
+                                                          primaryMeanDay1,
+                                                          primaryMaxDay1,
+                                                          INLAND_MIN_NIGHT,
+                                                          INLAND_MEAN_NIGHT,
+                                                          INLAND_MAX_NIGHT);
   else
-    separateDayAndNight = check_day_night_temp_separation(
-        p, DAY2_PERIOD, primaryMinDay2, primaryMeanDay2, primaryMaxDay2, INLAND_MIN_NIGHT, INLAND_MEAN_NIGHT, INLAND_MAX_NIGHT);
+    separateDayAndNight = check_day_night_temp_separation(p,
+                                                          DAY2_PERIOD,
+                                                          primaryMinDay2,
+                                                          primaryMeanDay2,
+                                                          primaryMaxDay2,
+                                                          INLAND_MIN_NIGHT,
+                                                          INLAND_MEAN_NIGHT,
+                                                          INLAND_MAX_NIGHT);
 
   // If not separate, check secondary area too
   if (!separateDayAndNight && (p.theForecastArea & secondaryAreaMask))
   {
-    weather_result_id secMinDay1 = (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY1 : INLAND_MIN_DAY1;
-    weather_result_id secMeanDay1 = (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY1 : INLAND_MEAN_DAY1;
-    weather_result_id secMaxDay1 = (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY1 : INLAND_MAX_DAY1;
-    weather_result_id secMinDay2 = (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY2 : INLAND_MIN_DAY2;
-    weather_result_id secMeanDay2 = (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY2 : INLAND_MEAN_DAY2;
-    weather_result_id secMaxDay2 = (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY2 : INLAND_MAX_DAY2;
+    weather_result_id secMinDay1 =
+        (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY1 : INLAND_MIN_DAY1;
+    weather_result_id secMeanDay1 =
+        (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY1 : INLAND_MEAN_DAY1;
+    weather_result_id secMaxDay1 =
+        (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY1 : INLAND_MAX_DAY1;
+    weather_result_id secMinDay2 =
+        (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY2 : INLAND_MIN_DAY2;
+    weather_result_id secMeanDay2 =
+        (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY2 : INLAND_MEAN_DAY2;
+    weather_result_id secMaxDay2 =
+        (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY2 : INLAND_MAX_DAY2;
 
     if (p.theForecastPeriod & DAY1_PERIOD)
-      separateDayAndNight = check_day_night_temp_separation(
-          p, DAY1_PERIOD, secMinDay1, secMeanDay1, secMaxDay1, COAST_MIN_NIGHT, COAST_MEAN_NIGHT, COAST_MAX_NIGHT);
+      separateDayAndNight = check_day_night_temp_separation(p,
+                                                            DAY1_PERIOD,
+                                                            secMinDay1,
+                                                            secMeanDay1,
+                                                            secMaxDay1,
+                                                            COAST_MIN_NIGHT,
+                                                            COAST_MEAN_NIGHT,
+                                                            COAST_MAX_NIGHT);
     else
-      separateDayAndNight = check_day_night_temp_separation(
-          p, DAY2_PERIOD, secMinDay2, secMeanDay2, secMaxDay2, COAST_MIN_NIGHT, COAST_MEAN_NIGHT, COAST_MAX_NIGHT);
+      separateDayAndNight = check_day_night_temp_separation(p,
+                                                            DAY2_PERIOD,
+                                                            secMinDay2,
+                                                            secMeanDay2,
+                                                            secMaxDay2,
+                                                            COAST_MIN_NIGHT,
+                                                            COAST_MEAN_NIGHT,
+                                                            COAST_MAX_NIGHT);
   }
 
   return separateDayAndNight;
@@ -1502,11 +1570,8 @@ Sentence handle_proximity_phrase(t36hparams& p,
   char proximityNumberBuff[32];
   char tempBuff[128];
 
-  sprintf(tempBuff,
-          "Minimum: %.02f;Mean: %.02f;Maximum: %.02f",
-          p.theMinimum,
-          p.theMean,
-          p.theMaximum);
+  sprintf(
+      tempBuff, "Minimum: %.02f;Mean: %.02f;Maximum: %.02f", p.theMinimum, p.theMean, p.theMaximum);
   sprintf(proximityNumberBuff, "%i", theProximityNumber);
 
   switch (proxim_id)
@@ -1752,7 +1817,8 @@ void temperature_phrase(t36hparams& theParameters,
     forecast_subperiod_id subperiod_id(p.theSubPeriodId);
     if (subperiod_id == UNDEFINED_SUBPERIOD)
     {
-      handle_day_undefined_subperiod(p, phrase_id, season_id, theDayPhasePhrase, theTemperaturePhrase);
+      handle_day_undefined_subperiod(
+          p, phrase_id, season_id, theDayPhasePhrase, theTemperaturePhrase);
     }
     else if (season_id == SUMMER_SEASON)
     {
@@ -1780,8 +1846,9 @@ void temperature_phrase(t36hparams& theParameters,
 
 namespace
 {
-// Shared night period handler for both summer and non-summer: sets dayPhaseString and fills theDayPhasePhrase
-// Returns true if a "yolla" type phrase was used (no tautology reset needed), false otherwise
+// Shared night period handler for both summer and non-summer: sets dayPhaseString and fills
+// theDayPhasePhrase Returns true if a "yolla" type phrase was used (no tautology reset needed),
+// false otherwise
 void handle_night_tphrase_summer(t36hparams& p,
                                  Sentence& theDayPhasePhrase,
                                  std::string& dayPhaseString)
@@ -1898,8 +1965,7 @@ bool handle_summer_day_phrase(t36hparams& p,
       theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD << AAMULLA_PHRASE;
     }
   }
-  else if (p.theSubPeriodId == DAY1_AFTERNOON_PERIOD ||
-           p.theSubPeriodId == DAY2_AFTERNOON_PERIOD)
+  else if (p.theSubPeriodId == DAY1_AFTERNOON_PERIOD || p.theSubPeriodId == DAY2_AFTERNOON_PERIOD)
   {
     dayPhaseString = ILTAPAIVALLA_PHRASE;
     theDayPhasePhrase << ILTAPAIVALLA_PHRASE;
@@ -1914,11 +1980,10 @@ bool handle_winter_day_phrase(t36hparams& p,
                               std::string& dayPhaseString)
 {
   bool plainIsVerbUsed = false;
-  bool useDayPhrase =
-      p.theSubPeriodId == UNDEFINED_SUBPERIOD &&
-      (!p.theDayPeriodTautologyFlag ||
-       (p.inlandAndCoastSeparated(DAY2_PERIOD) && p.theForecastPeriodId == DAY2_PERIOD &&
-        p.theForecastAreaId == INLAND_AREA));
+  bool useDayPhrase = p.theSubPeriodId == UNDEFINED_SUBPERIOD &&
+                      (!p.theDayPeriodTautologyFlag || (p.inlandAndCoastSeparated(DAY2_PERIOD) &&
+                                                        p.theForecastPeriodId == DAY2_PERIOD &&
+                                                        p.theForecastAreaId == INLAND_AREA));
 
   if (useDayPhrase)
   {
@@ -1996,7 +2061,8 @@ Sentence temperature_phrase(t36hparams& theParameters)
     else if (p.theForecastPeriodId != NIGHT_PERIOD)
     {
       p.theNightPeriodTautologyFlag = false;
-      plainIsVerbUsed = handle_summer_day_phrase(p, useDayTemperaturePhrase, theDayPhasePhrase, dayPhaseString);
+      plainIsVerbUsed =
+          handle_summer_day_phrase(p, useDayTemperaturePhrase, theDayPhasePhrase, dayPhaseString);
     }
   }
   else
@@ -2101,14 +2167,22 @@ const char* coastal_composite_phrase(temperature_phrase_id pid)
 {
   switch (pid)
   {
-    case NOIN_ASTETTA_PHRASE_ID: return RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE;
-    case TIENOILLA_ASTETTA_PHRASE_ID: return RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-    case TUNTUMASSA_ASTETTA_PHRASE_ID: return RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-    case VAHAN_YLI_ASTETTA_PHRASE_ID: return RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-    case VAJAAT_ASTETTA_PHRASE_ID: return RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-    case LAHELLA_ASTETTA_PHRASE_ID: return RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-    case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID: return RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE;
-    default: return "";
+    case NOIN_ASTETTA_PHRASE_ID:
+      return RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE;
+    case TIENOILLA_ASTETTA_PHRASE_ID:
+      return RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+    case TUNTUMASSA_ASTETTA_PHRASE_ID:
+      return RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+    case VAHAN_YLI_ASTETTA_PHRASE_ID:
+      return RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+    case VAJAAT_ASTETTA_PHRASE_ID:
+      return RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+    case LAHELLA_ASTETTA_PHRASE_ID:
+      return RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+    case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID:
+      return RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE;
+    default:
+      return "";
   }
 }
 
@@ -2119,46 +2193,60 @@ const char* frost_composite_phrase(temperature_phrase_id pid, bool dayEmpty, boo
   {
     switch (pid)
     {
-      case NOIN_ASTETTA_PHRASE_ID: return PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-      case TIENOILLA_ASTETTA_PHRASE_ID: return PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-      case TUNTUMASSA_ASTETTA_PHRASE_ID: return PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-      case VAHAN_YLI_ASTETTA_PHRASE_ID: return PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-      case VAJAAT_ASTETTA_PHRASE_ID: return PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-      case LAHELLA_ASTETTA_PHRASE_ID: return PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-      default: return "";
+      case NOIN_ASTETTA_PHRASE_ID:
+        return PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+      case TIENOILLA_ASTETTA_PHRASE_ID:
+        return PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+      case TUNTUMASSA_ASTETTA_PHRASE_ID:
+        return PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+      case VAHAN_YLI_ASTETTA_PHRASE_ID:
+        return PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+      case VAJAAT_ASTETTA_PHRASE_ID:
+        return PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+      case LAHELLA_ASTETTA_PHRASE_ID:
+        return PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+      default:
+        return "";
     }
   }
   if (!dayEmpty && areaEmpty)
   {
     switch (pid)
     {
-      case NOIN_ASTETTA_PHRASE_ID: return HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+      case NOIN_ASTETTA_PHRASE_ID:
+        return HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
       case TIENOILLA_ASTETTA_PHRASE_ID:
         return HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
       case TUNTUMASSA_ASTETTA_PHRASE_ID:
         return HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
       case VAHAN_YLI_ASTETTA_PHRASE_ID:
         return HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-      case VAJAAT_ASTETTA_PHRASE_ID: return HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-      case LAHELLA_ASTETTA_PHRASE_ID: return HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-      default: return "";
+      case VAJAAT_ASTETTA_PHRASE_ID:
+        return HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+      case LAHELLA_ASTETTA_PHRASE_ID:
+        return HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+      default:
+        return "";
     }
   }
   if (dayEmpty && !areaEmpty)
   {
     switch (pid)
     {
-      case NOIN_ASTETTA_PHRASE_ID: return SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+      case NOIN_ASTETTA_PHRASE_ID:
+        return SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
       case TIENOILLA_ASTETTA_PHRASE_ID:
         return SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
       case TUNTUMASSA_ASTETTA_PHRASE_ID:
         return SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
       case VAHAN_YLI_ASTETTA_PHRASE_ID:
         return SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-      case VAJAAT_ASTETTA_PHRASE_ID: return SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+      case VAJAAT_ASTETTA_PHRASE_ID:
+        return SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
       case LAHELLA_ASTETTA_PHRASE_ID:
         return SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-      default: return "";
+      default:
+        return "";
     }
   }
   // both present
@@ -2176,7 +2264,8 @@ const char* frost_composite_phrase(temperature_phrase_id pid, bool dayEmpty, boo
       return HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
     case LAHELLA_ASTETTA_PHRASE_ID:
       return HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-    default: return "";
+    default:
+      return "";
   }
 }
 
@@ -2208,41 +2297,54 @@ const char* normal_composite_phrase_day_empty_area_empty(temperature_phrase_id p
     case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID:
       return useLongPhrase ? LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE
                            : LAMPOTILA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE;
-    default: return "";
+    default:
+      return "";
   }
 }
 
 const char* normal_composite_phrase_day_present_area_empty(temperature_phrase_id pid,
-                                                            bool useDay2Phrase)
+                                                           bool useDay2Phrase)
 {
   if (useDay2Phrase)
   {
     switch (pid)
     {
-      case NOIN_ASTETTA_PHRASE_ID: return HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE;
-      case TIENOILLA_ASTETTA_PHRASE_ID: return HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-      case TUNTUMASSA_ASTETTA_PHRASE_ID: return HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-      case VAHAN_YLI_ASTETTA_PHRASE_ID: return HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-      case VAJAAT_ASTETTA_PHRASE_ID: return HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-      case LAHELLA_ASTETTA_PHRASE_ID: return HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+      case NOIN_ASTETTA_PHRASE_ID:
+        return HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE;
+      case TIENOILLA_ASTETTA_PHRASE_ID:
+        return HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+      case TUNTUMASSA_ASTETTA_PHRASE_ID:
+        return HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+      case VAHAN_YLI_ASTETTA_PHRASE_ID:
+        return HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+      case VAJAAT_ASTETTA_PHRASE_ID:
+        return HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+      case LAHELLA_ASTETTA_PHRASE_ID:
+        return HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
       case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID:
         return HUOMENNA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE;
-      default: return "";
+      default:
+        return "";
     }
   }
   switch (pid)
   {
-    case NOIN_ASTETTA_PHRASE_ID: return HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+    case NOIN_ASTETTA_PHRASE_ID:
+      return HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
     case TIENOILLA_ASTETTA_PHRASE_ID:
       return HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
     case TUNTUMASSA_ASTETTA_PHRASE_ID:
       return HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-    case VAHAN_YLI_ASTETTA_PHRASE_ID: return HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-    case VAJAAT_ASTETTA_PHRASE_ID: return HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-    case LAHELLA_ASTETTA_PHRASE_ID: return HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+    case VAHAN_YLI_ASTETTA_PHRASE_ID:
+      return HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+    case VAJAAT_ASTETTA_PHRASE_ID:
+      return HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+    case LAHELLA_ASTETTA_PHRASE_ID:
+      return HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
     case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID:
       return HUOMENNA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE;
-    default: return "";
+    default:
+      return "";
   }
 }
 
@@ -2260,19 +2362,22 @@ const char* normal_composite_phrase(temperature_phrase_id pid,
   {
     switch (pid)
     {
-      case NOIN_ASTETTA_PHRASE_ID: return SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+      case NOIN_ASTETTA_PHRASE_ID:
+        return SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
       case TIENOILLA_ASTETTA_PHRASE_ID:
         return SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
       case TUNTUMASSA_ASTETTA_PHRASE_ID:
         return SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
       case VAHAN_YLI_ASTETTA_PHRASE_ID:
         return SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-      case VAJAAT_ASTETTA_PHRASE_ID: return SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+      case VAJAAT_ASTETTA_PHRASE_ID:
+        return SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
       case LAHELLA_ASTETTA_PHRASE_ID:
         return SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
       case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID:
         return SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE;
-      default: return "";
+      default:
+        return "";
     }
   }
   // both present
@@ -2292,7 +2397,8 @@ const char* normal_composite_phrase(temperature_phrase_id pid,
       return HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
     case VAHAN_NOLLAN_ALAPUOLELLA_PHRASE_ID:
       return HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE;
-    default: return "";
+    default:
+      return "";
   }
 }
 
@@ -2353,7 +2459,8 @@ bool build_normal_numeric_sentence(Sentence& sentence,
                                    const Sentence& theAreaPhrase,
                                    const Sentence& theTemperaturePhrase)
 {
-  const char* composite = normal_composite_phrase(phrase_id, dayEmpty, areaEmpty, useDay2Phrase, useLongPhrase);
+  const char* composite =
+      normal_composite_phrase(phrase_id, dayEmpty, areaEmpty, useDay2Phrase, useLongPhrase);
   sentence << composite;
 
   // Special case: VAHAN_NOLLAN_ALAPUOLELLA - append different trailing sentences and signal break
@@ -2571,15 +2678,16 @@ Sentence build_pikkupakkasta_sentence(bool dayEmpty,
   else if (dayEmpty && !areaEmpty)
     s << RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE << theAreaPhrase;
   else
-    s << HUOMENNA_RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE << theDayPhasePhrase << theAreaPhrase;
+    s << HUOMENNA_RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE << theDayPhasePhrase
+      << theAreaPhrase;
   return s;
 }
 
 Sentence build_hieman_lauhempaa_sentence(temperature_phrase_id pid,
-                                          bool dayEmpty,
-                                          bool areaEmpty,
-                                          const Sentence& theDayPhasePhrase,
-                                          const Sentence& theAreaPhrase)
+                                         bool dayEmpty,
+                                         bool areaEmpty,
+                                         const Sentence& theDayPhasePhrase,
+                                         const Sentence& theAreaPhrase)
 {
   Sentence s;
   if (!dayEmpty && areaEmpty)
@@ -2594,10 +2702,10 @@ Sentence build_hieman_lauhempaa_sentence(temperature_phrase_id pid,
 }
 
 Sentence build_hieman_heikompaa_sentence(temperature_phrase_id pid,
-                                          bool dayEmpty,
-                                          bool areaEmpty,
-                                          const Sentence& theDayPhasePhrase,
-                                          const Sentence& theAreaPhrase)
+                                         bool dayEmpty,
+                                         bool areaEmpty,
+                                         const Sentence& theDayPhasePhrase,
+                                         const Sentence& theAreaPhrase)
 {
   Sentence s;
   if (!dayEmpty && areaEmpty)
@@ -2726,8 +2834,7 @@ Sentence construct_final_sentence(t36hparams& theParameters,
       if (theParameters.theForecastAreaId == COASTAL_AREA &&
           theParameters.inlandAndCoastSeparated())
       {
-        build_coastal_numeric_sentence(
-            sentence, phrase_id, intervalStart, degreesSentence);
+        build_coastal_numeric_sentence(sentence, phrase_id, intervalStart, degreesSentence);
       }
       else if (pakkastaOn)
       {
@@ -2804,8 +2911,8 @@ Sentence construct_final_sentence(t36hparams& theParameters,
 
 namespace
 {
-// Shared helper: compute the "moderate change" temperature phrase based on temperature difference and mean
-// Fills temperatureSentence and sets theTemperaturePhraseId
+// Shared helper: compute the "moderate change" temperature phrase based on temperature difference
+// and mean Fills temperatureSentence and sets theTemperaturePhraseId
 void apply_moderate_change_phrase(t36hparams& p,
                                   double temperatureDifference,
                                   Sentence& temperatureSentence)
@@ -2865,13 +2972,11 @@ Sentence night_sentence(t36hparams& theParameters)
   // If day2 is included, we have to use numbers to describe temperature, since
   // day2 story is told before night story
   bool noDay2 = !(p.theForecastPeriod & DAY2_PERIOD);
-  bool nightlyMinHigherThanDailyMax =
-      noDay2 && (p.theMaxTemperatureDay1 - p.theMinimum < 0);
+  bool nightlyMinHigherThanDailyMax = noDay2 && (p.theMaxTemperatureDay1 - p.theMinimum < 0);
   bool smallChangeBetweenDay1AndNight =
       noDay2 && day1PeriodIncluded && abs(temperatureDifference) <= ABOUT_THE_SAME_UPPER_LIMIT;
   bool moderateChangeBetweenDay1AndNight =
-      noDay2 && day1PeriodIncluded &&
-      abs(temperatureDifference) > ABOUT_THE_SAME_UPPER_LIMIT &&
+      noDay2 && day1PeriodIncluded && abs(temperatureDifference) > ABOUT_THE_SAME_UPPER_LIMIT &&
       abs(temperatureDifference) <= SMALL_CHANGE_UPPER_LIMIT;
 
   p.theForecastPeriodId = NIGHT_PERIOD;
@@ -2881,8 +2986,8 @@ Sentence night_sentence(t36hparams& theParameters)
 
   bool inlandAndCoastSeparately = false;
   if (p.theForecastPeriod & DAY1_PERIOD)
-    inlandAndCoastSeparately = p.inlandAndCoastSeparated(DAY1_PERIOD) ||
-                               p.morningAndAfternoonSeparated(DAY1_PERIOD);
+    inlandAndCoastSeparately =
+        p.inlandAndCoastSeparated(DAY1_PERIOD) || p.morningAndAfternoonSeparated(DAY1_PERIOD);
   if (!inlandAndCoastSeparately)
     inlandAndCoastSeparately = p.inlandAndCoastSeparated(NIGHT_PERIOD);
 
@@ -2921,7 +3026,8 @@ Sentence night_sentence(t36hparams& theParameters)
         "tonight", p.theVariable, p.theForecastTime, p.theWeatherPeriod, p.theWeatherArea);
   }
 
-  sentence << construct_final_sentence(p, temperatureSentence, tonightSentence, intervalStart, intervalEnd);
+  sentence << construct_final_sentence(
+      p, temperatureSentence, tonightSentence, intervalStart, intervalEnd);
   p.theTomorrowTautologyFlag = false;
   return sentence;
 }
@@ -2986,13 +3092,13 @@ Sentence day2_sentence(t36hparams& theParameters)
   if (day1PeriodIncluded)
     temperatureDifference = p.theMean - p.theMeanTemperatureDay1;
 
-  bool notSubperiod = (p.theSubPeriodId != DAY2_MORNING_PERIOD &&
-                       p.theSubPeriodId != DAY2_AFTERNOON_PERIOD);
+  bool notSubperiod =
+      (p.theSubPeriodId != DAY2_MORNING_PERIOD && p.theSubPeriodId != DAY2_AFTERNOON_PERIOD);
   bool smallChangeBetweenDay1AndDay2 =
       day1PeriodIncluded && abs(temperatureDifference) <= ABOUT_THE_SAME_UPPER_LIMIT;
-  bool moderateChangeBetweenDay1AndDay2 =
-      day1PeriodIncluded && abs(temperatureDifference) > ABOUT_THE_SAME_UPPER_LIMIT &&
-      abs(temperatureDifference) <= SMALL_CHANGE_UPPER_LIMIT;
+  bool moderateChangeBetweenDay1AndDay2 = day1PeriodIncluded &&
+                                          abs(temperatureDifference) > ABOUT_THE_SAME_UPPER_LIMIT &&
+                                          abs(temperatureDifference) <= SMALL_CHANGE_UPPER_LIMIT;
 
   p.theForecastPeriodId = DAY2_PERIOD;
 
@@ -3370,8 +3476,8 @@ bool should_separate_coast_inland(t36hparams& p,
                        intervalStartCoast,
                        intervalEndCoast);
 
-  float temp_diff = abs(p.theWeatherResults[inlandMeanId]->value() -
-                        p.theWeatherResults[coastMeanId]->value());
+  float temp_diff =
+      abs(p.theWeatherResults[inlandMeanId]->value() - p.theWeatherResults[coastMeanId]->value());
   if (temp_diff < limit || p.theCoastalAndInlandTogetherFlag)
     return false;
 
@@ -3395,10 +3501,7 @@ void push_period_with_sep(vector<int>& v, bool separate, int inland, int coastal
   }
 }
 
-vector<int> build_period_areas(processing_order order,
-                               bool sepDay1,
-                               bool sepDay2,
-                               bool sepNight)
+vector<int> build_period_areas(processing_order order, bool sepDay1, bool sepDay2, bool sepNight)
 {
   vector<int> v;
   if (order == DAY1_DAY2_NIGHT)
@@ -3492,11 +3595,10 @@ void handle_dot_delimiter(t36hparams& p,
     return;
   }
 
-  bool use_comma = ((processingOrder == DAY1_NIGHT && periodAreas[i - 1] == DAY1_FULL &&
-                     !sep_day1) ||
-                    (processingOrder == NIGHT_DAY2 && periodAreas[i - 1] == NIGHT_FULL &&
-                     !sep_day2)) &&
-                   !sep_night;
+  bool use_comma =
+      ((processingOrder == DAY1_NIGHT && periodAreas[i - 1] == DAY1_FULL && !sep_day1) ||
+       (processingOrder == NIGHT_DAY2 && periodAreas[i - 1] == NIGHT_FULL && !sep_day2)) &&
+      !sep_night;
   if (use_comma)
   {
     p.theAddCommaDelimiterFlag = true;
@@ -3605,7 +3707,8 @@ Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
 
     if (periodArea == DELIMITER_DOT)
     {
-      handle_dot_delimiter(p, paragraph, processingOrder, periodAreas, i, sep_day1, sep_day2, sep_night);
+      handle_dot_delimiter(
+          p, paragraph, processingOrder, periodAreas, i, sep_day1, sep_day2, sep_night);
       continue;
     }
     if (periodArea == DELIMITER_COMMA)
@@ -3695,17 +3798,41 @@ unsigned short calculate_results_for_period(MessageLogger& theLog,
 {
   if (forecast_area & INLAND_AREA)
   {
-    calculate_results(theLog, itsVar, itsSources, itsArea, period, periodId, forecast_season, INLAND_AREA, weatherResults);
+    calculate_results(theLog,
+                      itsVar,
+                      itsSources,
+                      itsArea,
+                      period,
+                      periodId,
+                      forecast_season,
+                      INLAND_AREA,
+                      weatherResults);
     valid_value_period_check(weatherResults[inlandMinId]->value(), forecast_period, periodMask);
   }
   if (forecast_area & COASTAL_AREA && (forecast_period & periodMask))
   {
-    calculate_results(theLog, itsVar, itsSources, itsArea, period, periodId, forecast_season, COASTAL_AREA, weatherResults);
+    calculate_results(theLog,
+                      itsVar,
+                      itsSources,
+                      itsArea,
+                      period,
+                      periodId,
+                      forecast_season,
+                      COASTAL_AREA,
+                      weatherResults);
     valid_value_period_check(weatherResults[coastMinId]->value(), forecast_period, periodMask);
   }
   if (forecast_area & FULL_AREA && (forecast_period & periodMask))
   {
-    calculate_results(theLog, itsVar, itsSources, itsArea, period, periodId, forecast_season, FULL_AREA, weatherResults);
+    calculate_results(theLog,
+                      itsVar,
+                      itsSources,
+                      itsArea,
+                      period,
+                      periodId,
+                      forecast_season,
+                      FULL_AREA,
+                      weatherResults);
     valid_value_period_check(weatherResults[areaMinId]->value(), forecast_period, periodMask);
   }
   forecast_area |= (weatherResults[coastMinId]->value() != kFloatMissing ? COASTAL_AREA : 0x0);
@@ -3726,16 +3853,42 @@ void calculate_day2_after_night(MessageLogger& theLog,
 {
   if (forecast_area & INLAND_AREA)
   {
-    calculate_results(theLog, itsVar, itsSources, itsArea, period, DAY2_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-    valid_value_period_check(weatherResults[INLAND_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
+    calculate_results(theLog,
+                      itsVar,
+                      itsSources,
+                      itsArea,
+                      period,
+                      DAY2_PERIOD,
+                      forecast_season,
+                      INLAND_AREA,
+                      weatherResults);
+    valid_value_period_check(
+        weatherResults[INLAND_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
   }
   if (forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
   {
-    calculate_results(theLog, itsVar, itsSources, itsArea, period, DAY2_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
+    calculate_results(theLog,
+                      itsVar,
+                      itsSources,
+                      itsArea,
+                      period,
+                      DAY2_PERIOD,
+                      forecast_season,
+                      COASTAL_AREA,
+                      weatherResults);
     valid_value_period_check(weatherResults[COAST_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
   }
-  if (forecast_area & INLAND_AREA && forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
-    calculate_results(theLog, itsVar, itsSources, itsArea, period, DAY2_PERIOD, forecast_season, FULL_AREA, weatherResults);
+  if (forecast_area & INLAND_AREA && forecast_area & COASTAL_AREA &&
+      (forecast_period & DAY2_PERIOD))
+    calculate_results(theLog,
+                      itsVar,
+                      itsSources,
+                      itsArea,
+                      period,
+                      DAY2_PERIOD,
+                      forecast_season,
+                      FULL_AREA,
+                      weatherResults);
 }
 
 // Calculate all weather results when the first period is DAY1.
@@ -3751,9 +3904,33 @@ unsigned short calculate_day1_first_results(MessageLogger& theLog,
                                             WeatherPeriod& period)
 {
   log_start_time_and_end_time(theLog, "Day1: ", period);
-  calculate_results(theLog, itsVar, itsSources, itsArea, period, DAY1_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-  calculate_results(theLog, itsVar, itsSources, itsArea, period, DAY1_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-  calculate_results(theLog, itsVar, itsSources, itsArea, period, DAY1_PERIOD, forecast_season, FULL_AREA, weatherResults);
+  calculate_results(theLog,
+                    itsVar,
+                    itsSources,
+                    itsArea,
+                    period,
+                    DAY1_PERIOD,
+                    forecast_season,
+                    INLAND_AREA,
+                    weatherResults);
+  calculate_results(theLog,
+                    itsVar,
+                    itsSources,
+                    itsArea,
+                    period,
+                    DAY1_PERIOD,
+                    forecast_season,
+                    COASTAL_AREA,
+                    weatherResults);
+  calculate_results(theLog,
+                    itsVar,
+                    itsSources,
+                    itsArea,
+                    period,
+                    DAY1_PERIOD,
+                    forecast_season,
+                    FULL_AREA,
+                    weatherResults);
   valid_value_period_check(weatherResults[AREA_MIN_DAY1]->value(), forecast_period, DAY1_PERIOD);
 
   unsigned short forecast_area = 0x0;
@@ -3771,17 +3948,39 @@ unsigned short calculate_day1_first_results(MessageLogger& theLog,
   {
     period = generator.period(2);
     log_start_time_and_end_time(theLog, "Night: ", period);
-    forecast_area = calculate_results_for_period(theLog, itsVar, itsSources, itsArea, period,
-        NIGHT_PERIOD, forecast_season, forecast_area, forecast_period, weatherResults,
-        COAST_MIN_NIGHT, INLAND_MIN_NIGHT, AREA_MIN_NIGHT, NIGHT_PERIOD);
+    forecast_area = calculate_results_for_period(theLog,
+                                                 itsVar,
+                                                 itsSources,
+                                                 itsArea,
+                                                 period,
+                                                 NIGHT_PERIOD,
+                                                 forecast_season,
+                                                 forecast_area,
+                                                 forecast_period,
+                                                 weatherResults,
+                                                 COAST_MIN_NIGHT,
+                                                 INLAND_MIN_NIGHT,
+                                                 AREA_MIN_NIGHT,
+                                                 NIGHT_PERIOD);
   }
   if (forecast_period & DAY2_PERIOD)
   {
     period = generator.period(3);
     log_start_time_and_end_time(theLog, "Day2: ", period);
-    forecast_area = calculate_results_for_period(theLog, itsVar, itsSources, itsArea, period,
-        DAY2_PERIOD, forecast_season, forecast_area, forecast_period, weatherResults,
-        COAST_MIN_DAY2, INLAND_MIN_DAY2, AREA_MIN_DAY2, DAY2_PERIOD);
+    forecast_area = calculate_results_for_period(theLog,
+                                                 itsVar,
+                                                 itsSources,
+                                                 itsArea,
+                                                 period,
+                                                 DAY2_PERIOD,
+                                                 forecast_season,
+                                                 forecast_area,
+                                                 forecast_period,
+                                                 weatherResults,
+                                                 COAST_MIN_DAY2,
+                                                 INLAND_MIN_DAY2,
+                                                 AREA_MIN_DAY2,
+                                                 DAY2_PERIOD);
   }
   return forecast_area;
 }
@@ -3799,9 +3998,33 @@ unsigned short calculate_night_first_results(MessageLogger& theLog,
                                              WeatherPeriod& period)
 {
   log_start_time_and_end_time(theLog, "Night: ", period);
-  calculate_results(theLog, itsVar, itsSources, itsArea, period, NIGHT_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-  calculate_results(theLog, itsVar, itsSources, itsArea, period, NIGHT_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-  calculate_results(theLog, itsVar, itsSources, itsArea, period, NIGHT_PERIOD, forecast_season, FULL_AREA, weatherResults);
+  calculate_results(theLog,
+                    itsVar,
+                    itsSources,
+                    itsArea,
+                    period,
+                    NIGHT_PERIOD,
+                    forecast_season,
+                    INLAND_AREA,
+                    weatherResults);
+  calculate_results(theLog,
+                    itsVar,
+                    itsSources,
+                    itsArea,
+                    period,
+                    NIGHT_PERIOD,
+                    forecast_season,
+                    COASTAL_AREA,
+                    weatherResults);
+  calculate_results(theLog,
+                    itsVar,
+                    itsSources,
+                    itsArea,
+                    period,
+                    NIGHT_PERIOD,
+                    forecast_season,
+                    FULL_AREA,
+                    weatherResults);
 
   unsigned short forecast_area = 0x0;
   forecast_area |= (weatherResults[COAST_MIN_NIGHT]->value() != kFloatMissing ? COASTAL_AREA : 0x0);
@@ -3819,7 +4042,15 @@ unsigned short calculate_night_first_results(MessageLogger& theLog,
   {
     period = generator.period(2);
     log_start_time_and_end_time(theLog, "Day2: ", period);
-    calculate_day2_after_night(theLog, itsVar, itsSources, itsArea, period, forecast_season, forecast_area, forecast_period, weatherResults);
+    calculate_day2_after_night(theLog,
+                               itsVar,
+                               itsSources,
+                               itsArea,
+                               period,
+                               forecast_season,
+                               forecast_area,
+                               forecast_period,
+                               weatherResults);
   }
   return forecast_area;
 }
@@ -3869,9 +4100,25 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
   WeatherPeriod period = generator.period(1);
 
   if (forecast_period & DAY1_PERIOD)
-    forecast_area = calculate_day1_first_results(theLog, itsVar, itsSources, itsArea, generator, forecast_season, forecast_period, weatherResults, period);
+    forecast_area = calculate_day1_first_results(theLog,
+                                                 itsVar,
+                                                 itsSources,
+                                                 itsArea,
+                                                 generator,
+                                                 forecast_season,
+                                                 forecast_period,
+                                                 weatherResults,
+                                                 period);
   else
-    forecast_area = calculate_night_first_results(theLog, itsVar, itsSources, itsArea, generator, forecast_season, forecast_period, weatherResults, period);
+    forecast_area = calculate_night_first_results(theLog,
+                                                  itsVar,
+                                                  itsSources,
+                                                  itsArea,
+                                                  generator,
+                                                  forecast_season,
+                                                  forecast_period,
+                                                  weatherResults,
+                                                  period);
 
   const string range_separator = optional_string(itsVar + "::rangeseparator", "...");
   const int mininterval = optional_int(itsVar + "::mininterval", 2);

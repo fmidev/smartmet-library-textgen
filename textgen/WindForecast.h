@@ -110,8 +110,8 @@ class WindForecast
   wo_story_params& theParameters;
 
   sentence_info buildSimpleSentenceInfo(const WeatherPeriod& period,
-                                       const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
-                                       bool firstSentence) const;
+                                        const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+                                        bool firstSentence) const;
   std::vector<WeatherPeriod> computeReportingPeriods(
       const WindEventPeriodDataItem* windSpeedItem,
       const WindEventPeriodDataItem* nextWindSpeedItem,
@@ -236,10 +236,10 @@ class WindForecast
                           const WeatherPeriod& notEarlierThanPeriod,
                           const WeatherPeriod& notLaterThanPeriod) const;
   WeatherPeriod findMovedPeriod(part_of_the_day_id partOfTheDay,
-                               const WeatherPeriod& period,
-                               const WeatherPeriod& guardPeriod,
-                               int& hours_moved,
-                               bool backwards) const;
+                                const WeatherPeriod& period,
+                                const WeatherPeriod& guardPeriod,
+                                int& hours_moved,
+                                bool backwards) const;
   WeatherPeriod findShrunkPeriod(part_of_the_day_id partOfTheDay,
                                  const WeatherPeriod& period,
                                  const WeatherPeriod& guardPeriod,
@@ -271,14 +271,14 @@ class WindForecast
                         const interval_sentence_info& isi,
                         TimePhraseInfo& timePhraseInfo) const;
   void processNonSkippedInterval(paragraph_info& pi,
-                                  const interval_sentence_info& isi,
-                                  const sentence_info& sentenceInfo,
-                                  TimePhraseInfo& timePhraseInfo,
-                                  unsigned int k,
-                                  bool isFirstOfAll) const;
+                                 const interval_sentence_info& isi,
+                                 const sentence_info& sentenceInfo,
+                                 TimePhraseInfo& timePhraseInfo,
+                                 unsigned int k,
+                                 bool isFirstOfAll) const;
   void processSkippedInterval(paragraph_info& pi,
-                               const interval_sentence_info& isi,
-                               TimePhraseInfo& timePhraseInfo) const;
+                              const interval_sentence_info& isi,
+                              TimePhraseInfo& timePhraseInfo) const;
   void processWindSpeedIntervalParam(paragraph_info& pi,
                                      paragraph_info& piAfterLastInterval,
                                      const sentence_info& sentenceInfo,

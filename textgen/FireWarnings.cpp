@@ -108,7 +108,8 @@ FireWarnings::State FireWarnings::state(int theArea) const
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theArea", std::to_string(theArea));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theArea", std::to_string(theArea));
   }
 }
 

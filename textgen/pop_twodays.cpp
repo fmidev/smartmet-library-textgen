@@ -130,7 +130,8 @@ Paragraph PrecipitationStory::pop_twodays() const
         else
         {
           sentence << Delimiter(",")
-                   << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
+                   << PeriodPhraseFactory::create(
+                          "next_day", itsVar, itsForecastTime, secondperiod);
           if (pop2 - pop1 >= limit_significantly_greater)
             sentence << "huomattavasti suurempi";
           else if (pop2 - pop1 >= limit_greater)

@@ -106,10 +106,14 @@ Paragraph TemperatureStory::weekly_minmax() const
                                                              Minimum,
                                                              itsArea,
                                                              nights);
-    WeatherResultTools::checkMissingValue(
-        "temperature_weekly_minmax",
-        Temperature,
-        {dayminresult, daymaxresult, daymeanresult, nightminresult, nightmaxresult, nightmeanresult});
+    WeatherResultTools::checkMissingValue("temperature_weekly_minmax",
+                                          Temperature,
+                                          {dayminresult,
+                                           daymaxresult,
+                                           daymeanresult,
+                                           nightminresult,
+                                           nightmaxresult,
+                                           nightmeanresult});
 
     log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << '\n';
     log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << '\n';

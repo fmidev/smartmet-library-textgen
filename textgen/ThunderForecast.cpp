@@ -54,9 +54,10 @@ namespace
 // Append appropriate thunder phrase to sentence based on extent/probability thresholds.
 //
 // Three phrases are used:
-//   mahdollisesti ukkosta  (possibly thunder)  prob [probMin,probThreshold), areal [extentMin,extentMax)
-//   paikoin ukkosta        (locally thunder)   prob >= probThreshold,        areal [extentMin,extentMax)
-//   ukkosta                (thunder)           prob >= probThreshold,        areal >= extentMax
+//   mahdollisesti ukkosta  (possibly thunder)  prob [probMin,probThreshold), areal
+//   [extentMin,extentMax) paikoin ukkosta        (locally thunder)   prob >= probThreshold, areal
+//   [extentMin,extentMax) ukkosta                (thunder)           prob >= probThreshold, areal
+//   >= extentMax
 void append_thunder_phrase(Sentence& sentence,
                            float maxThunderExtent,
                            float maxThunderProbability,

@@ -41,7 +41,7 @@ std::shared_ptr<Glyph> Paragraph::clone() const
     std::shared_ptr<Glyph> ret(new Paragraph(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -62,7 +62,7 @@ std::string Paragraph::realize(const Dictionary& /*theDictionary*/) const
   {
     throw Fmi::Exception(BCP, "Paragraph::realize(Dictionary) should not be called");
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -83,7 +83,7 @@ std::string Paragraph::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -101,7 +101,7 @@ bool Paragraph::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -130,7 +130,7 @@ Paragraph& Paragraph::operator<<(const Paragraph& theParagraph)
     }
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -152,7 +152,7 @@ Paragraph& Paragraph::operator<<(const Glyph& theGlyph)
     itsData.push_back(theGlyph.clone());
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

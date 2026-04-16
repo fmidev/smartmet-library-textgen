@@ -120,7 +120,8 @@ Paragraph ForestStory::forestfireindex_twodays() const
         else
         {
           sentence << Delimiter(",")
-                   << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
+                   << PeriodPhraseFactory::create(
+                          "next_day", itsVar, itsForecastTime, secondperiod);
 
           if (index1 == index2)
             sentence << "sama";

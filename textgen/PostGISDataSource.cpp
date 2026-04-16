@@ -3,8 +3,8 @@
 #ifdef UNIX
 
 #include <boost/algorithm/string/replace.hpp>
-#include <iostream>
 #include <macgyver/Exception.h>
+#include <iostream>
 #include <ogrsf_frmts.h>
 #include <sstream>
 #include <stdexcept>

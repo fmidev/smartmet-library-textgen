@@ -55,7 +55,7 @@ std::shared_ptr<Glyph> IntegerRange::clone() const
     std::shared_ptr<Glyph> ret(new IntegerRange(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -89,7 +89,7 @@ std::string IntegerRange::realize(const Dictionary& /*theDictionary*/) const
 
     return os.str();
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -110,7 +110,7 @@ std::string IntegerRange::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -128,7 +128,7 @@ bool IntegerRange::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -147,7 +147,7 @@ const std::string& IntegerRange::rangeSeparator() const
   {
     return itsRangeSeparator;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -166,7 +166,7 @@ int IntegerRange::startValue() const
   {
     return itsStartValue;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -185,7 +185,7 @@ int IntegerRange::endValue() const
   {
     return itsEndValue;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

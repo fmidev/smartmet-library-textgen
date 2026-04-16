@@ -65,14 +65,24 @@ Paragraph TemperatureStory::dailymax() const
 
     GridForecaster forecaster;
 
-    WeatherResult minresult = forecaster.analyze(
-        itsVar + "::fake::day1::minimum", itsSources, Temperature, Minimum, Maximum, itsArea, period);
+    WeatherResult minresult = forecaster.analyze(itsVar + "::fake::day1::minimum",
+                                                 itsSources,
+                                                 Temperature,
+                                                 Minimum,
+                                                 Maximum,
+                                                 itsArea,
+                                                 period);
 
     WeatherResult meanresult = forecaster.analyze(
         itsVar + "::fake::day1::mean", itsSources, Temperature, Mean, Maximum, itsArea, period);
 
-    WeatherResult maxresult = forecaster.analyze(
-        itsVar + "::fake::day1::maximum", itsSources, Temperature, Maximum, Maximum, itsArea, period);
+    WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::day1::maximum",
+                                                 itsSources,
+                                                 Temperature,
+                                                 Maximum,
+                                                 Maximum,
+                                                 itsArea,
+                                                 period);
 
     WeatherResultTools::checkMissingValue(
         "temperature_dailymax", Temperature, {minresult, maxresult, meanresult});
@@ -104,8 +114,8 @@ Paragraph TemperatureStory::dailymax() const
       maxresult = forecaster.analyze(
           var + "::maximum", itsSources, Temperature, Maximum, Maximum, itsArea, period);
 
-      meanresult =
-          forecaster.analyze(var + "::mean", itsSources, Temperature, Mean, Maximum, itsArea, period);
+      meanresult = forecaster.analyze(
+          var + "::mean", itsSources, Temperature, Mean, Maximum, itsArea, period);
 
       WeatherResultTools::checkMissingValue(
           "temperature_dailymax", Temperature, {minresult, maxresult, meanresult});

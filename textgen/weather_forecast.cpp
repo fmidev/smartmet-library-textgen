@@ -1027,8 +1027,8 @@ void init_parameters(wf_story_params& theParameters)
     theParameters.theThuderNormalExtentMax = Settings::optional_double(
         theParameters.theVariable + "::wintertime::thunder::normal_extent_max", 40.0);
   }
-  theParameters.theThunderProbabilityMin = Settings::optional_double(
-      theParameters.theVariable + "::thunder::probability_min", 20.0);
+  theParameters.theThunderProbabilityMin =
+      Settings::optional_double(theParameters.theVariable + "::thunder::probability_min", 20.0);
   theParameters.theThunderProbabilityThreshold = Settings::optional_double(
       theParameters.theVariable + "::thunder::probability_threshold", 50.0);
 

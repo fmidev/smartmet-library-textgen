@@ -43,7 +43,7 @@ std::shared_ptr<Glyph> Sentence::clone() const
     std::shared_ptr<Glyph> ret(new Sentence(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -64,7 +64,7 @@ std::string Sentence::realize(const Dictionary& /*theDictionary*/) const
   {
     throw Fmi::Exception(BCP, "Sentence::realize(Dictionary) should not be called");
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -85,7 +85,7 @@ std::string Sentence::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -103,7 +103,7 @@ bool Sentence::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -132,7 +132,7 @@ Sentence& Sentence::operator<<(const Sentence& theSentence)
     }
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -154,7 +154,7 @@ Sentence& Sentence::operator<<(const Glyph& theGlyph)
     itsData.push_back(theGlyph.clone());
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -180,7 +180,7 @@ Sentence& Sentence::operator<<(const string& thePhrase)
     }
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePhrase", thePhrase);
   }
@@ -202,9 +202,10 @@ Sentence& Sentence::operator<<(int theNumber)
     *this << Integer(theNumber);
     return *this;
   }
-  catch(...)
+  catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theNumber", std::to_string(theNumber));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theNumber", std::to_string(theNumber));
   }
 }
 

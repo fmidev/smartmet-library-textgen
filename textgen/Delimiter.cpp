@@ -50,7 +50,7 @@ std::shared_ptr<Glyph> Delimiter::clone() const
     std::shared_ptr<Glyph> ret(new Delimiter(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -74,7 +74,7 @@ std::string Delimiter::realize(const Dictionary& /*theDictionary*/) const
   {
     return itsSeparator;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -94,7 +94,7 @@ std::string Delimiter::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -112,7 +112,7 @@ bool Delimiter::isDelimiter() const
   {
     return true;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -131,7 +131,7 @@ const string& Delimiter::value() const
   {
     return itsSeparator;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

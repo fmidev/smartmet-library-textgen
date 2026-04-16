@@ -64,7 +64,8 @@ Sentence severe_frost_sentence(const WeatherPeriod& thePeriod, int theProbabilit
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theProbability", std::to_string(theProbability));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theProbability", std::to_string(theProbability));
   }
 }
 
@@ -90,7 +91,8 @@ Sentence frost_sentence(const WeatherPeriod& thePeriod, int theProbability)
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theProbability", std::to_string(theProbability));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theProbability", std::to_string(theProbability));
   }
 }
 

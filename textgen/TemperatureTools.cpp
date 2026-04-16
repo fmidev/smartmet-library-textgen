@@ -68,8 +68,9 @@ void morning_temperature(const std::string& theVar,
     int fakeStrPos = theVar.find("::fake");
     std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
 
-    std::string season(
-        SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar) ? "::winter" : "::summer");
+    std::string season(SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar)
+                           ? "::winter"
+                           : "::summer");
 
     int morning_starthour =
         optional_hour(thePlainVar + season + "::morning_temperature::starthour", default_starthour);

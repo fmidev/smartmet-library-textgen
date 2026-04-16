@@ -710,8 +710,8 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
     return true;
   }
 
-  return getFogPeriodAndIdMultiple(theForecastPeriod, theFogTypePeriods, theResultPeriod,
-                                   theFogTypeId);
+  return getFogPeriodAndIdMultiple(
+      theForecastPeriod, theFogTypePeriods, theResultPeriod, theFogTypeId);
 }
 
 // Returns {phraseTemplate, argMask} for fog sentence construction.
@@ -720,14 +720,14 @@ static const char* fog_phrase_template(bool time, bool place, bool inplaces, boo
 {
   // Indexed by (time<<2 | place<<1 | inplaces)
   static const char* normalPhrases[8] = {
-      nullptr,                             // 000: no args -> handled separately
-      INPLACES_FOG_COMPOSITE_PHRASE,       // 001: inplaces only
-      PLACE_FOG_COMPOSITE_PHRASE,          // 010: place only -> reuse INPLACES for place-only
-      PLACE_INPLACES_FOG_COMPOSITE_PHRASE, // 011: place + inplaces
-      TIME_FOG_COMPOSITE_PHRASE,           // 100: time only
-      TIME_INPLACES_FOG_COMPOSITE_PHRASE,  // 101: time + inplaces
-      TIME_PLACE_FOG_COMPOSITE_PHRASE,     // 110: time + place
-      TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE, // 111: all
+      nullptr,                                   // 000: no args -> handled separately
+      INPLACES_FOG_COMPOSITE_PHRASE,             // 001: inplaces only
+      PLACE_FOG_COMPOSITE_PHRASE,                // 010: place only -> reuse INPLACES for place-only
+      PLACE_INPLACES_FOG_COMPOSITE_PHRASE,       // 011: place + inplaces
+      TIME_FOG_COMPOSITE_PHRASE,                 // 100: time only
+      TIME_INPLACES_FOG_COMPOSITE_PHRASE,        // 101: time + inplaces
+      TIME_PLACE_FOG_COMPOSITE_PHRASE,           // 110: time + place
+      TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE,  // 111: all
   };
   static const char* densePhrases[8] = {
       nullptr,

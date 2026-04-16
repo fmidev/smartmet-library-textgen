@@ -120,8 +120,8 @@ Paragraph TemperatureStory::nightlymin() const
       maxresult = forecaster.analyze(
           var + "::maximum", itsSources, Temperature, Maximum, Minimum, itsArea, period);
 
-      meanresult =
-          forecaster.analyze(var + "::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
+      meanresult = forecaster.analyze(
+          var + "::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
 
       WeatherResultTools::checkMissingValue(
           "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});

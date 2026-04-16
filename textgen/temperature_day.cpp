@@ -74,34 +74,54 @@ Sentence make_merge_sentence(const string& itsVar,
                              const NightAndDayPeriodGenerator& generator,
                              int daynum,
                              bool hascoast,
-                             int aminday, int ameanday, int amaxday,
-                             int aminnight, int ameannight, int amaxnight,
-                             int cminday, int cmeanday, int cmaxday,
-                             int cminnight, int cmeannight, int cmaxnight,
-                             int iminday, int imeanday, int imaxday,
-                             int iminnight, int imeannight, int imaxnight,
-                             int mininterval, bool interval_zero,
+                             int aminday,
+                             int ameanday,
+                             int amaxday,
+                             int aminnight,
+                             int ameannight,
+                             int amaxnight,
+                             int cminday,
+                             int cmeanday,
+                             int cmaxday,
+                             int cminnight,
+                             int cmeannight,
+                             int cmaxnight,
+                             int iminday,
+                             int imeanday,
+                             int imaxday,
+                             int iminnight,
+                             int imeannight,
+                             int imaxnight,
+                             int mininterval,
+                             bool interval_zero,
                              const string& rangeseparator,
-                             int coast_not_below, int coast_limit)
+                             int coast_not_below,
+                             int coast_limit)
 {
   Sentence sentence;
   sentence << "lampotila" << "on"
-           << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, generator.period(daynum));
+           << PeriodPhraseFactory::create(
+                  "today", itsVar, itsForecastTime, generator.period(daynum));
   if (!hascoast || ameanday < coast_not_below ||
       (abs(cmeanday - imeanday) < coast_limit && abs(cmeannight - imeannight) < coast_limit))
   {
     sentence << temperature_sentence(min(aminday, aminnight),
                                      static_cast<int>(round((ameanday + ameannight) / 2.0)),
                                      max(amaxday, amaxnight),
-                                     mininterval, interval_zero, rangeseparator);
+                                     mininterval,
+                                     interval_zero,
+                                     rangeseparator);
   }
   else
   {
     const int imean = static_cast<int>(round((imeanday + imeannight) / 2.0));
     const int cmean = static_cast<int>(round((cmeanday + cmeannight) / 2.0));
     sentence << temperature_sentence(min(iminday, iminnight),
-                                     imean, max(imaxday, imaxnight),
-                                     mininterval, interval_zero, rangeseparator)
+                                     imean,
+                                     max(imaxday, imaxnight),
+                                     mininterval,
+                                     interval_zero,
+                                     rangeseparator)
              << Delimiter(",") << "rannikolla"
              << temperature_comparison_phrase(imean, cmean, itsVar);
   }
@@ -114,27 +134,39 @@ Sentence make_day_sentence(const string& itsVar,
                            const NightAndDayPeriodGenerator& generator,
                            int daynum,
                            bool hascoast,
-                           int aminday, int ameanday, int amaxday,
-                           int cminday, int cmeanday, int cmaxday,
-                           int iminday, int imeanday, int imaxday,
-                           int mininterval, bool interval_zero,
+                           int aminday,
+                           int ameanday,
+                           int amaxday,
+                           int cminday,
+                           int cmeanday,
+                           int cmaxday,
+                           int iminday,
+                           int imeanday,
+                           int imaxday,
+                           int mininterval,
+                           bool interval_zero,
                            const string& rangeseparator,
-                           int coast_not_below, int coast_limit,
+                           int coast_not_below,
+                           int coast_limit,
                            int coast_numeric_limit)
 {
   Sentence sentence;
   sentence << "paivan ylin lampotila" << "on"
-           << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, generator.period(daynum));
+           << PeriodPhraseFactory::create(
+                  "today", itsVar, itsForecastTime, generator.period(daynum));
   if (!hascoast || ameanday < coast_not_below || abs(cmeanday - imeanday) < coast_limit)
   {
-    sentence << temperature_sentence(aminday, ameanday, amaxday, mininterval, interval_zero, rangeseparator);
+    sentence << temperature_sentence(
+        aminday, ameanday, amaxday, mininterval, interval_zero, rangeseparator);
   }
   else
   {
-    sentence << temperature_sentence(iminday, imeanday, imaxday, mininterval, interval_zero, rangeseparator)
+    sentence << temperature_sentence(
+                    iminday, imeanday, imaxday, mininterval, interval_zero, rangeseparator)
              << Delimiter(",") << "rannikolla";
     if (abs(imeanday - cmeanday) >= coast_numeric_limit)
-      sentence << temperature_sentence(cminday, cmeanday, cmaxday, mininterval, interval_zero, rangeseparator);
+      sentence << temperature_sentence(
+          cminday, cmeanday, cmaxday, mininterval, interval_zero, rangeseparator);
     else
       sentence << temperature_comparison_phrase(imeanday, cmeanday, itsVar);
   }
@@ -147,27 +179,39 @@ Sentence make_night_sentence(const string& itsVar,
                              const NightAndDayPeriodGenerator& generator,
                              int nightnum,
                              bool hascoast,
-                             int aminnight, int ameannight, int amaxnight,
-                             int cminnight, int cmeannight, int cmaxnight,
-                             int iminnight, int imeannight, int imaxnight,
-                             int mininterval, bool interval_zero,
+                             int aminnight,
+                             int ameannight,
+                             int amaxnight,
+                             int cminnight,
+                             int cmeannight,
+                             int cmaxnight,
+                             int iminnight,
+                             int imeannight,
+                             int imaxnight,
+                             int mininterval,
+                             bool interval_zero,
                              const string& rangeseparator,
-                             int coast_not_below, int coast_limit,
+                             int coast_not_below,
+                             int coast_limit,
                              int coast_numeric_limit)
 {
   Sentence sentence;
   sentence << "yon alin lampotila" << "on"
-           << PeriodPhraseFactory::create("tonight", itsVar, itsForecastTime, generator.period(nightnum));
+           << PeriodPhraseFactory::create(
+                  "tonight", itsVar, itsForecastTime, generator.period(nightnum));
   if (!hascoast || ameannight < coast_not_below || abs(cmeannight - imeannight) < coast_limit)
   {
-    sentence << temperature_sentence(aminnight, ameannight, amaxnight, mininterval, interval_zero, rangeseparator);
+    sentence << temperature_sentence(
+        aminnight, ameannight, amaxnight, mininterval, interval_zero, rangeseparator);
   }
   else
   {
-    sentence << temperature_sentence(iminnight, imeannight, imaxnight, mininterval, interval_zero, rangeseparator)
+    sentence << temperature_sentence(
+                    iminnight, imeannight, imaxnight, mininterval, interval_zero, rangeseparator)
              << Delimiter(",") << "rannikolla";
     if (abs(imeannight - cmeannight) >= coast_numeric_limit)
-      sentence << temperature_sentence(cminnight, cmeannight, cmaxnight, mininterval, interval_zero, rangeseparator);
+      sentence << temperature_sentence(
+          cminnight, cmeannight, cmaxnight, mininterval, interval_zero, rangeseparator);
     else
       sentence << temperature_comparison_phrase(imeannight, cmeannight, itsVar);
   }
@@ -398,45 +442,86 @@ Paragraph TemperatureStory::day() const
 
     if (canmerge)
     {
-      paragraph << make_merge_sentence(
-          itsVar, itsForecastTime, generator, daynum,
-          hascoast,
-          aminday, ameanday, amaxday,
-          aminnight, ameannight, amaxnight,
-          cminday, cmeanday, cmaxday,
-          cminnight, cmeannight, cmaxnight,
-          iminday, imeanday, imaxday,
-          iminnight, imeannight, imaxnight,
-          mininterval, interval_zero, rangeseparator,
-          coast_not_below, coast_limit);
+      paragraph << make_merge_sentence(itsVar,
+                                       itsForecastTime,
+                                       generator,
+                                       daynum,
+                                       hascoast,
+                                       aminday,
+                                       ameanday,
+                                       amaxday,
+                                       aminnight,
+                                       ameannight,
+                                       amaxnight,
+                                       cminday,
+                                       cmeanday,
+                                       cmaxday,
+                                       cminnight,
+                                       cmeannight,
+                                       cmaxnight,
+                                       iminday,
+                                       imeanday,
+                                       imaxday,
+                                       iminnight,
+                                       imeannight,
+                                       imaxnight,
+                                       mininterval,
+                                       interval_zero,
+                                       rangeseparator,
+                                       coast_not_below,
+                                       coast_limit);
     }
 
     // Report daytime
 
     if (hasday && !canmerge)
     {
-      paragraph << make_day_sentence(
-          itsVar, itsForecastTime, generator, daynum,
-          hascoast,
-          aminday, ameanday, amaxday,
-          cminday, cmeanday, cmaxday,
-          iminday, imeanday, imaxday,
-          mininterval, interval_zero, rangeseparator,
-          coast_not_below, coast_limit, coast_numeric_limit);
+      paragraph << make_day_sentence(itsVar,
+                                     itsForecastTime,
+                                     generator,
+                                     daynum,
+                                     hascoast,
+                                     aminday,
+                                     ameanday,
+                                     amaxday,
+                                     cminday,
+                                     cmeanday,
+                                     cmaxday,
+                                     iminday,
+                                     imeanday,
+                                     imaxday,
+                                     mininterval,
+                                     interval_zero,
+                                     rangeseparator,
+                                     coast_not_below,
+                                     coast_limit,
+                                     coast_numeric_limit);
     }
 
     // Report nighttime
 
     if (hasnight && !canmerge)
     {
-      paragraph << make_night_sentence(
-          itsVar, itsForecastTime, generator, nightnum,
-          hascoast,
-          aminnight, ameannight, amaxnight,
-          cminnight, cmeannight, cmaxnight,
-          iminnight, imeannight, imaxnight,
-          mininterval, interval_zero, rangeseparator,
-          coast_not_below, coast_limit, coast_numeric_limit);
+      paragraph << make_night_sentence(itsVar,
+                                       itsForecastTime,
+                                       generator,
+                                       nightnum,
+                                       hascoast,
+                                       aminnight,
+                                       ameannight,
+                                       amaxnight,
+                                       cminnight,
+                                       cmeannight,
+                                       cmaxnight,
+                                       iminnight,
+                                       imeannight,
+                                       imaxnight,
+                                       mininterval,
+                                       interval_zero,
+                                       rangeseparator,
+                                       coast_not_below,
+                                       coast_limit,
+                                       coast_numeric_limit);
     }
   }
 

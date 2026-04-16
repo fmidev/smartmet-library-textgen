@@ -35,11 +35,15 @@ namespace
 TextGen::Sentence pop_comparison_sentence(const string& itsVar,
                                           const TextGenPosixTime& itsForecastTime,
                                           const WeatherPeriod& secondperiod,
-                                          int pop1, int pop2, bool negate,
+                                          int pop1,
+                                          int pop2,
+                                          bool negate,
                                           int limit_significantly_greater,
                                           int limit_significantly_smaller,
-                                          int limit_greater, int limit_smaller,
-                                          int limit_somewhat_greater, int limit_somewhat_smaller)
+                                          int limit_greater,
+                                          int limit_smaller,
+                                          int limit_somewhat_greater,
+                                          int limit_somewhat_smaller)
 {
   using namespace TextGen;
   Sentence sentence;
@@ -68,7 +72,8 @@ TextGen::Sentence pop_comparison_sentence(const string& itsVar,
 TextGen::Sentence pop_basic_sentence(const string& itsVar,
                                      const TextGenPosixTime& itsForecastTime,
                                      const WeatherPeriod& period,
-                                     int pop, bool negate)
+                                     int pop,
+                                     bool negate)
 {
   using namespace TextGen;
   Sentence sentence;
@@ -145,7 +150,8 @@ Paragraph PrecipitationStory::pop_days() const
                                                 itsArea,
                                                 firstperiod);
 
-    WeatherResultTools::checkMissingValue("pop_days", PrecipitationProbability, {pop1max, pop1mean});
+    WeatherResultTools::checkMissingValue(
+        "pop_days", PrecipitationProbability, {pop1max, pop1mean});
 
     WeatherResult result1 = WeatherResultTools::mean(pop1max, pop1mean);
 
@@ -196,10 +202,18 @@ Paragraph PrecipitationStory::pop_days() const
         if (sentence.empty())
           sentence << pop_basic_sentence(itsVar, itsForecastTime, secondperiod, pop2, negate);
         else
-          sentence << pop_comparison_sentence(
-              itsVar, itsForecastTime, secondperiod, pop1, pop2, negate,
-              limit_significantly_greater, limit_significantly_smaller,
-              limit_greater, limit_smaller, limit_somewhat_greater, limit_somewhat_smaller);
+          sentence << pop_comparison_sentence(itsVar,
+                                              itsForecastTime,
+                                              secondperiod,
+                                              pop1,
+                                              pop2,
+                                              negate,
+                                              limit_significantly_greater,
+                                              limit_significantly_smaller,
+                                              limit_greater,
+                                              limit_smaller,
+                                              limit_somewhat_greater,
+                                              limit_somewhat_smaller);
       }
     }
 

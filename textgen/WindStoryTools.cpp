@@ -197,23 +197,23 @@ string direction_string(const WeatherResult& theDirection, const string& theVari
 
 // Lookup table for good_accuracy direction strings (index 1..16)
 static const std::array<const char*, 17> good_direction_strings = {
-    "",                                    // 0 unused
-    "pohjoistuulta",                       // 1
+    "",                                       // 0 unused
+    "pohjoistuulta",                          // 1
     "pohjoisen ja koillisen valista tuulta",  // 2
-    "koillistuulta",                       // 3
-    "idan ja koillisen valista tuulta",    // 4
-    "itatuulta",                           // 5
-    "idan ja kaakon valista tuulta",       // 6
-    "kaakkoistuulta",                      // 7
-    "etelan ja kaakon valista tuulta",     // 8
-    "etelatuulta",                         // 9
-    "etelan ja lounaan valista tuulta",    // 10
-    "lounaistuulta",                       // 11
-    "lannen ja lounaan valista tuulta",    // 12
-    "lansituulta",                         // 13
-    "lannen ja luoteen valista tuulta",    // 14
-    "luoteistuulta",                       // 15
-    "pohjoisen ja luoteen valista tuulta", // 16
+    "koillistuulta",                          // 3
+    "idan ja koillisen valista tuulta",       // 4
+    "itatuulta",                              // 5
+    "idan ja kaakon valista tuulta",          // 6
+    "kaakkoistuulta",                         // 7
+    "etelan ja kaakon valista tuulta",        // 8
+    "etelatuulta",                            // 9
+    "etelan ja lounaan valista tuulta",       // 10
+    "lounaistuulta",                          // 11
+    "lannen ja lounaan valista tuulta",       // 12
+    "lansituulta",                            // 13
+    "lannen ja luoteen valista tuulta",       // 14
+    "luoteistuulta",                          // 15
+    "pohjoisen ja luoteen valista tuulta",    // 16
 };
 
 // Return puoleinen string for moderate accuracy, resolving ambiguous sectors by exact angle
@@ -221,38 +221,44 @@ static string moderate_direction_string(int n, double angle)
 {
   // Simple sectors: 1,3,5,7,9,11,13,15
   static const std::array<const char*, 17> simple = {
-      "",                   // 0
-      "pohjoisen puoleista", // 1
-      "",                   // 2 ambiguous
-      "koillisen puoleista", // 3
-      "",                   // 4 ambiguous
-      "idan puoleista",     // 5
-      "",                   // 6 ambiguous
-      "kaakon puoleista",   // 7
-      "",                   // 8 ambiguous
-      "etelan puoleista",   // 9
-      "",                   // 10 ambiguous
-      "lounaan puoleista",  // 11
-      "",                   // 12 ambiguous
-      "lannen puoleista",   // 13
-      "",                   // 14 ambiguous
-      "luoteen puoleista",  // 15
-      "",                   // 16 ambiguous
+      "",                     // 0
+      "pohjoisen puoleista",  // 1
+      "",                     // 2 ambiguous
+      "koillisen puoleista",  // 3
+      "",                     // 4 ambiguous
+      "idan puoleista",       // 5
+      "",                     // 6 ambiguous
+      "kaakon puoleista",     // 7
+      "",                     // 8 ambiguous
+      "etelan puoleista",     // 9
+      "",                     // 10 ambiguous
+      "lounaan puoleista",    // 11
+      "",                     // 12 ambiguous
+      "lannen puoleista",     // 13
+      "",                     // 14 ambiguous
+      "luoteen puoleista",    // 15
+      "",                     // 16 ambiguous
   };
   if (n >= 1 && n <= 16 && simple[n][0] != '\0')
     return simple[n];
   // Ambiguous even sectors: pick based on angle threshold
   // Each even sector n has threshold = (n-1)*22.5 + 22.5 = n*22.5
-  struct AmbigEntry { int sector; double threshold; const char* below; const char* above; };
+  struct AmbigEntry
+  {
+    int sector;
+    double threshold;
+    const char* below;
+    const char* above;
+  };
   static const std::array<AmbigEntry, 8> ambig = {{
-      {2,   22.5, "koillisen puoleista", "pohjoisen puoleista"},  // >337.5 or <22.5 => pohjoinen
-      {4,   67.5, "koillisen puoleista", "idan puoleista"},
-      {6,  112.5, "idan puoleista",      "kaakon puoleista"},
-      {8,  157.5, "kaakon puoleista",    "etelan puoleista"},
-      {10, 202.5, "etelan puoleista",    "lounaan puoleista"},
-      {12, 247.5, "lounaan puoleista",   "lannen puoleista"},
-      {14, 292.5, "lannen puoleista",    "luoteen puoleista"},
-      {16, 337.5, "luoteen puoleista",   "pohjoisen puoleista"},
+      {2, 22.5, "koillisen puoleista", "pohjoisen puoleista"},  // >337.5 or <22.5 => pohjoinen
+      {4, 67.5, "koillisen puoleista", "idan puoleista"},
+      {6, 112.5, "idan puoleista", "kaakon puoleista"},
+      {8, 157.5, "kaakon puoleista", "etelan puoleista"},
+      {10, 202.5, "etelan puoleista", "lounaan puoleista"},
+      {12, 247.5, "lounaan puoleista", "lannen puoleista"},
+      {14, 292.5, "lannen puoleista", "luoteen puoleista"},
+      {16, 337.5, "luoteen puoleista", "pohjoisen puoleista"},
   }};
   for (const auto& e : ambig)
   {
@@ -620,23 +626,23 @@ WindDirectionId puoleinen_direction_id(float theWindDirection,
 {
   // Simple (non-ambiguous) odd sectors map directly to a puoleinen id
   static const std::array<WindDirectionId, 17> simple_map = {{
-      MISSING_WIND_DIRECTION_ID, // 0
-      POHJOISEN_PUOLEINEN,       // 1
-      MISSING_WIND_DIRECTION_ID, // 2 ambiguous
-      KOILLISEN_PUOLEINEN,       // 3
-      MISSING_WIND_DIRECTION_ID, // 4 ambiguous
-      IDAN_PUOLEINEN,            // 5
-      MISSING_WIND_DIRECTION_ID, // 6 ambiguous
-      KAAKON_PUOLEINEN,          // 7
-      MISSING_WIND_DIRECTION_ID, // 8 ambiguous
-      ETELAN_PUOLEINEN,          // 9
-      MISSING_WIND_DIRECTION_ID, // 10 ambiguous
-      LOUNAAN_PUOLEINEN,         // 11
-      MISSING_WIND_DIRECTION_ID, // 12 ambiguous
-      LANNEN_PUOLEINEN,          // 13
-      MISSING_WIND_DIRECTION_ID, // 14 ambiguous
-      LUOTEEN_PUOLEINEN,         // 15
-      MISSING_WIND_DIRECTION_ID, // 16 ambiguous
+      MISSING_WIND_DIRECTION_ID,  // 0
+      POHJOISEN_PUOLEINEN,        // 1
+      MISSING_WIND_DIRECTION_ID,  // 2 ambiguous
+      KOILLISEN_PUOLEINEN,        // 3
+      MISSING_WIND_DIRECTION_ID,  // 4 ambiguous
+      IDAN_PUOLEINEN,             // 5
+      MISSING_WIND_DIRECTION_ID,  // 6 ambiguous
+      KAAKON_PUOLEINEN,           // 7
+      MISSING_WIND_DIRECTION_ID,  // 8 ambiguous
+      ETELAN_PUOLEINEN,           // 9
+      MISSING_WIND_DIRECTION_ID,  // 10 ambiguous
+      LOUNAAN_PUOLEINEN,          // 11
+      MISSING_WIND_DIRECTION_ID,  // 12 ambiguous
+      LANNEN_PUOLEINEN,           // 13
+      MISSING_WIND_DIRECTION_ID,  // 14 ambiguous
+      LUOTEEN_PUOLEINEN,          // 15
+      MISSING_WIND_DIRECTION_ID,  // 16 ambiguous
   }};
 
   const int n = static_cast<int>(theWindDirectionId);
@@ -644,16 +650,22 @@ WindDirectionId puoleinen_direction_id(float theWindDirection,
     return simple_map[n];
 
   // Ambiguous even sectors: pick based on angle threshold
-  struct AmbigEntry { int sector; float threshold; WindDirectionId below; WindDirectionId above; };
+  struct AmbigEntry
+  {
+    int sector;
+    float threshold;
+    WindDirectionId below;
+    WindDirectionId above;
+  };
   static const std::array<AmbigEntry, 8> ambig = {{
-      {2,   22.5f, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
-      {4,   67.5f, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
-      {6,  112.5f, IDAN_PUOLEINEN,      KAAKON_PUOLEINEN},
-      {8,  157.5f, KAAKON_PUOLEINEN,    ETELAN_PUOLEINEN},
-      {10, 202.5f, ETELAN_PUOLEINEN,    LOUNAAN_PUOLEINEN},
-      {12, 247.5f, LOUNAAN_PUOLEINEN,   LANNEN_PUOLEINEN},
-      {14, 292.5f, LANNEN_PUOLEINEN,    LUOTEEN_PUOLEINEN},
-      {16, 337.5f, LUOTEEN_PUOLEINEN,   POHJOISEN_PUOLEINEN},
+      {2, 22.5f, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
+      {4, 67.5f, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
+      {6, 112.5f, IDAN_PUOLEINEN, KAAKON_PUOLEINEN},
+      {8, 157.5f, KAAKON_PUOLEINEN, ETELAN_PUOLEINEN},
+      {10, 202.5f, ETELAN_PUOLEINEN, LOUNAAN_PUOLEINEN},
+      {12, 247.5f, LOUNAAN_PUOLEINEN, LANNEN_PUOLEINEN},
+      {14, 292.5f, LANNEN_PUOLEINEN, LUOTEEN_PUOLEINEN},
+      {16, 337.5f, LUOTEEN_PUOLEINEN, POHJOISEN_PUOLEINEN},
   }};
   for (const auto& e : ambig)
   {

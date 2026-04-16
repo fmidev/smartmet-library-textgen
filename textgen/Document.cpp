@@ -37,7 +37,7 @@ std::shared_ptr<Glyph> Document::clone() const
     std::shared_ptr<Glyph> ret(new Document(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -58,7 +58,7 @@ std::string Document::realize(const Dictionary& /*theDictionary*/) const
   {
     throw Fmi::Exception(BCP, "Document::realize(Dictionary) should not be called");
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -79,7 +79,7 @@ std::string Document::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -97,7 +97,7 @@ bool Document::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -126,7 +126,7 @@ Document& Document::operator<<(const Document& theDocument)
     }
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -148,7 +148,7 @@ Document& Document::operator<<(const Glyph& theGlyph)
     itsData.push_back(theGlyph.clone());
     return *this;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

@@ -57,7 +57,7 @@ std::shared_ptr<Glyph> Real::clone() const
     std::shared_ptr<Glyph> ret(new Real(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -83,7 +83,7 @@ std::string Real::realize(const Dictionary& /*theDictionary*/) const
       NFmiStringTools::ReplaceChars(result, '.', ',');
     return result;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -104,7 +104,7 @@ std::string Real::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -122,7 +122,7 @@ bool Real::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -141,7 +141,7 @@ float Real::value() const
   {
     return itsReal;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -160,7 +160,7 @@ int Real::precision() const
   {
     return itsPrecision;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -179,7 +179,7 @@ bool Real::comma() const
   {
     return itsComma;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

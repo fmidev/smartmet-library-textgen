@@ -220,16 +220,15 @@ void WeatherForecastStory::collectPrecipitationSeaStoryItem(unsigned int i,
 {
   WeatherForecastStoryItem* item = theStoryItemVector[i].get();
   auto* precipitationStoryItem = static_cast<PrecipitationForecastStoryItem*>(item);
-  bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
-                      precipitationStoryItem->theForm & SNOW_FORM);
+  bool sleetOrSnow =
+      (precipitationStoryItem->theForm & SLEET_FORM || precipitationStoryItem->theForm & SNOW_FORM);
   bool weakPrecipitation = precipitationStoryItem->isWeakPrecipitation(theParameters);
   float precipitationExtent = precipitationStoryItem->precipitationExtent();
   WeatherPeriod precipitationPeriod = precipitationStoryItem->getStoryItemPeriod();
 
   theLogger << "Precipitation period (At Sea): " << as_string(precipitationPeriod) << ": "
-            << (weakPrecipitation ? "weak!!, " : "not weak, ")
-            << " extent: " << precipitationExtent << (sleetOrSnow ? ", sleet or snow" : "")
-            << '\n';
+            << (weakPrecipitation ? "weak!!, " : "not weak, ") << " extent: " << precipitationExtent
+            << (sleetOrSnow ? ", sleet or snow" : "") << '\n';
 
   if (!(sleetOrSnow || !weakPrecipitation) || precipitationExtent <= 10)
     return;
@@ -340,9 +339,9 @@ void WeatherForecastStory::mergeSuccessiveSeaPrecipitationPeriods(SeaStoryItems&
 }
 
 void WeatherForecastStory::processMergedFogItems(WeatherForecastStoryItem* first,
-                                                  WeatherForecastStoryItem* second,
-                                                  std::vector<Sentence>& sentences,
-                                                  SeaStoryStats& stats)
+                                                 WeatherForecastStoryItem* second,
+                                                 std::vector<Sentence>& sentences,
+                                                 SeaStoryStats& stats)
 {
   FogInfo firstFI = theFogForecast.fogInfo(first->getStoryItemPeriod());
   FogInfo secondFI = theFogForecast.fogInfo(second->getStoryItemPeriod());
@@ -389,8 +388,7 @@ void WeatherForecastStory::processSingleFogItem(WeatherForecastStoryItem* item,
   if (!fogSentence.empty())
   {
     sentences.push_back(fogSentence);
-    theLogger << "Fog period: " << as_string(fi.period) << " -> " << as_string(fogSentence)
-              << '\n';
+    theLogger << "Fog period: " << as_string(fi.period) << " -> " << as_string(fogSentence) << '\n';
     theStorySize += fogSentence.size();
     if (fi.id == FOG || fi.id == FOG_POSSIBLY_DENSE)
       stats.precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
@@ -472,12 +470,9 @@ void WeatherForecastStory::processPrecipitationItem(WeatherForecastStoryItem* it
   Sentence precipitationSentence;
   precipitationSentence << precipitationItem->getSentence();
   theStorySize += precipitationSentence.size();
-  theLogger << "Precipitation story item: "
-            << as_string(precipitationItem->getStoryItemPeriod())
-            << (precipitationSentence.empty() ? ", empty sentence" : " not empty sentence")
-            << ", "
-            << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
-                                                     : "poutaantuu = false")
+  theLogger << "Precipitation story item: " << as_string(precipitationItem->getStoryItemPeriod())
+            << (precipitationSentence.empty() ? ", empty sentence" : " not empty sentence") << ", "
+            << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true" : "poutaantuu = false")
             << '\n';
 
   if (!precipitationSentence.empty() || precipitationItem->thePoutaantuuFlag)
@@ -779,10 +774,9 @@ void WeatherForecastStory::addCloudinessStoryItems()
 }
 
 // Try to merge two consecutive precipitation items; returns true if types differ (skip merge)
-bool WeatherForecastStory::tryMergePrecipitationItems(
-    PrecipitationForecastStoryItem* prev,
-    PrecipitationForecastStoryItem* curr,
-    WeatherForecastStoryItem* prevStoryItem)
+bool WeatherForecastStory::tryMergePrecipitationItems(PrecipitationForecastStoryItem* prev,
+                                                      PrecipitationForecastStoryItem* curr,
+                                                      WeatherForecastStoryItem* prevStoryItem)
 {
   if (curr->thePeriod.localStartTime().DifferenceInHours(prev->thePeriod.localEndTime()) <= 2)
     prev->theReportPoutaantuuFlag = false;
@@ -1440,7 +1434,8 @@ Sentence PrecipitationForecastStoryItem::getLongPeriodPrecipitationSentence(
   {
     WeatherPeriod poutaantuuPeriod(storyItemPeriod.localEndTime(), storyItemPeriod.localEndTime());
     Sentence poutaantuuPhrase;
-    poutaantuuPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.empty());
+    poutaantuuPhrase << getPeriodPhrase(
+        DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.empty());
     theWeatherForecastStory.theLogger << poutaantuuPhrase;
     if (poutaantuuPhrase.empty())
       poutaantuuPhrase << theWeatherForecastStory.getTimePhrase();
@@ -1475,7 +1470,8 @@ Sentence PrecipitationForecastStoryItem::getShortPeriodPrecipitationSentence(
   }
   else
   {
-    sentence << prForecast.precipitationSentence(storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
+    sentence << prForecast.precipitationSentence(
+        storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
   }
 
   return sentence;
@@ -1549,7 +1545,8 @@ Sentence CloudinessForecastStoryItem::cloudinessChangeSentence()
   return sentence;
 }
 
-bool CloudinessForecastStoryItem::shouldSkipShortEndPeriod(const WeatherPeriod& storyItemPeriod) const
+bool CloudinessForecastStoryItem::shouldSkipShortEndPeriod(
+    const WeatherPeriod& storyItemPeriod) const
 {
   if (storyItemPeriod.localEndTime() != theWeatherForecastStory.theForecastPeriod.localEndTime())
     return false;
@@ -1562,8 +1559,8 @@ bool CloudinessForecastStoryItem::shouldSkipShortEndPeriod(const WeatherPeriod& 
               get_part_of_the_day_id_narrow(getStoryItemPeriod()));
 }
 
-void CloudinessForecastStoryItem::buildPoutaantuuSentence(
-    const CloudinessForecast& clForecast, const PrecipitationForecast& prForecast)
+void CloudinessForecastStoryItem::buildPoutaantuuSentence(const CloudinessForecast& clForecast,
+                                                          const PrecipitationForecast& prForecast)
 {
   if (!thePreviousPrecipitationStoryItem || !thePreviousPrecipitationStoryItem->isIncluded())
     return;
@@ -1579,7 +1576,8 @@ void CloudinessForecastStoryItem::buildPoutaantuuSentence(
   Sentence thePeriodPhrase(getPeriodPhrase(USE_FROM_SPECIFIER, &poutaantuuPeriod));
   if (thePeriodPhrase.empty())
     thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
-  thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase, cloudinessId);
+  thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
+                                                                           cloudinessId);
   thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
   theReportAboutDryWeatherFlag = false;
 }
@@ -1612,11 +1610,13 @@ Sentence CloudinessForecastStoryItem::buildCloudinessSentence(
   if (!theChangeSentence.empty())
   {
     WeatherPeriod clPeriod(storyItemPeriod.localStartTime(), theCloudinessChangeTimestamp);
-    sentence << clForecast.cloudinessSentence(clPeriod, reportDry, thePeriodPhrase, DONT_USE_SHORT_FORM);
+    sentence << clForecast.cloudinessSentence(
+        clPeriod, reportDry, thePeriodPhrase, DONT_USE_SHORT_FORM);
   }
   else
   {
-    sentence << clForecast.cloudinessSentence(storyItemPeriod, reportDry, thePeriodPhrase, DONT_USE_SHORT_FORM);
+    sentence << clForecast.cloudinessSentence(
+        storyItemPeriod, reportDry, thePeriodPhrase, DONT_USE_SHORT_FORM);
   }
   prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);
 

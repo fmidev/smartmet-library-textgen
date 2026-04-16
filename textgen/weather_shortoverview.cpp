@@ -41,7 +41,9 @@ struct RainSentenceResult
 };
 
 // Build precipitation sentence based on per-day rain counts
-RainSentenceResult rain_sentence_phrase(int rainy_days, int partly_rainy_days, int days,
+RainSentenceResult rain_sentence_phrase(int rainy_days,
+                                        int partly_rainy_days,
+                                        int days,
                                         int r_unstable,
                                         const TextGen::WeatherPeriod& last_rainy_period,
                                         const TextGen::WeatherPeriod& last_partly_rainy_period)
@@ -74,8 +76,8 @@ RainSentenceResult rain_sentence_phrase(int rainy_days, int partly_rainy_days, i
 }
 
 // Build cloudiness description sentence fragment based on n1/n2/n3 percentages
-TextGen::Sentence cloudiness_phrase(float n1, float n2, float n3,
-                                    int single_limit, int double_limit)
+TextGen::Sentence cloudiness_phrase(
+    float n1, float n2, float n3, int single_limit, int double_limit)
 {
   TextGen::Sentence s;
   if (n1 >= single_limit)
@@ -124,7 +126,8 @@ Paragraph WeatherStory::shortoverview() const
     const bool c_fullrange = optional_bool(itsVar + "::cloudiness::fullrange", true);
     const int c_starthour = optional_hour(itsVar + "::cloudiness::day::starthour", 0);
     const int c_endhour = optional_hour(itsVar + "::cloudiness::day::endhour", 0);
-    const int c_maxstarthour = optional_hour(itsVar + "::cloudiness::day::maxstarthour", c_starthour);
+    const int c_maxstarthour =
+        optional_hour(itsVar + "::cloudiness::day::maxstarthour", c_starthour);
     const int c_minendhour = optional_hour(itsVar + "::cloudiness::day::minendhour", c_endhour);
 
     const int c_clear = optional_percentage(itsVar + "::cloudiness::clear", 40);
@@ -157,8 +160,8 @@ Paragraph WeatherStory::shortoverview() const
       if (c_fullrange)
         periods = std::shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
       else
-        periods = std::shared_ptr<WeatherPeriodGenerator>(
-            new HourPeriodGenerator(itsPeriod, c_starthour, c_endhour, c_maxstarthour, c_minendhour));
+        periods = std::shared_ptr<WeatherPeriodGenerator>(new HourPeriodGenerator(
+            itsPeriod, c_starthour, c_endhour, c_maxstarthour, c_minendhour));
 
       const WeatherResult n1result = forecaster.analyze(itsVar + "::fake::clear_percentage",
                                                         itsSources,
@@ -200,7 +203,8 @@ Paragraph WeatherStory::shortoverview() const
     // Sentence on rain
 
     {
-      HourPeriodGenerator generator(itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
+      HourPeriodGenerator generator(
+          itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
 
       WeatherPeriod last_rainy_period = generator.period(1);
       WeatherPeriod last_partly_rainy_period = generator.period(1);
@@ -235,8 +239,12 @@ Paragraph WeatherStory::shortoverview() const
         }
       }
 
-      const RainSentenceResult rain = rain_sentence_phrase(
-          rainy_days, partly_rainy_days, days, r_unstable, last_rainy_period, last_partly_rainy_period);
+      const RainSentenceResult rain = rain_sentence_phrase(rainy_days,
+                                                           partly_rainy_days,
+                                                           days,
+                                                           r_unstable,
+                                                           last_rainy_period,
+                                                           last_partly_rainy_period);
       r_sentence << rain.sentence;
 
       if (rain.unstable)

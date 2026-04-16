@@ -51,7 +51,7 @@ std::shared_ptr<Glyph> Text::clone() const
     std::shared_ptr<Glyph> ret(new Text(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -72,7 +72,7 @@ std::string Text::realize(const Dictionary& /*theDictionary*/) const
   {
     return itsText;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -92,7 +92,7 @@ std::string Text::realize(const TextFormatter& /*theFormatter*/) const
   {
     return itsText;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -109,7 +109,7 @@ bool Text::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -128,7 +128,7 @@ const std::string& Text::value() const
   {
     return itsText;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

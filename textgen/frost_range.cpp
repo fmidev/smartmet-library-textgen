@@ -7,9 +7,9 @@
 
 #include "FrostStory.h"
 #include "FrostStoryTools.h"
-#include "PositiveRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PositiveRange.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>

@@ -50,7 +50,7 @@ std::shared_ptr<Glyph> Integer::clone() const
     std::shared_ptr<Glyph> ret(new Integer(*this));
     return ret;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -73,7 +73,7 @@ std::string Integer::realize(const Dictionary& /*theDictionary*/) const
     os << itsInteger;
     return os.str();
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -94,7 +94,7 @@ std::string Integer::realize(const TextFormatter& theFormatter) const
   {
     return theFormatter.visit(*this);
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -112,7 +112,7 @@ bool Integer::isDelimiter() const
   {
     return false;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
@@ -131,7 +131,7 @@ int Integer::value() const
   {
     return itsInteger;
   }
-  catch(...)
+  catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }

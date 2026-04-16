@@ -169,7 +169,8 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
   {
     // Establish the settings
 
-    const double minimum_rain = Settings::optional_double(theVar + "::rainytime::minimum_rain", 0.1);
+    const double minimum_rain =
+        Settings::optional_double(theVar + "::rainytime::minimum_rain", 0.1);
     const double minimum_area = Settings::optional_double(theVar + "::rainytime::minimum_area", 10);
 
     // Establish the data

@@ -176,7 +176,8 @@ string PlainTextFormatter::visit(const Header& theHeader) const
   if (!ret.empty() && colon)
     ret += ':';
 
-  return ret;}
+  return ret;
+}
 
 // ----------------------------------------------------------------------
 /*!

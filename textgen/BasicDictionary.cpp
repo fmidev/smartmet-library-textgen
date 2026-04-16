@@ -134,7 +134,9 @@ void BasicDictionary::insert(const std::string& theKey, const std::string& thePh
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("key", theKey).addParameter("phrase", thePhrase);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("key", theKey)
+        .addParameter("phrase", thePhrase);
   }
 }
 

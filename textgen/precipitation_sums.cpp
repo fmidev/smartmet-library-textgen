@@ -121,7 +121,8 @@ Paragraph PrecipitationStory::sums() const
       const WeatherResult zero(0, 0);
       sentence << "seuraavan 24 tunnin sademaara"
                << "on"
-               << PrecipitationStoryTools::sum_phrase(zero, zero, zero, mininterval, rangeseparator);
+               << PrecipitationStoryTools::sum_phrase(
+                      zero, zero, zero, mininterval, rangeseparator);
     }
     else
     {
