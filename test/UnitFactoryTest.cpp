@@ -28,7 +28,7 @@ void celsius()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -66,7 +66,7 @@ void meterspersecond()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -103,7 +103,7 @@ void millimeters()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -140,7 +140,7 @@ void percent()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -177,7 +177,7 @@ void hectopascal()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;

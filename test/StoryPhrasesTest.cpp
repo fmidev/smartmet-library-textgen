@@ -892,7 +892,7 @@ int main(void)
 
   cout << endl << "StoryFactory requirements" << endl << "==========================" << endl;
 
-  StoryPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("file"));
+  StoryPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("po"));
   StoryPhrasesTest::dict->init("fi");
 
   StoryPhrasesTest::tests t;

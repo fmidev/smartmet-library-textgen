@@ -240,7 +240,7 @@ int main(void)
 
   cout << endl << "HeaderFactory requirements" << endl << "==========================" << endl;
 
-  HeaderPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("file"));
+  HeaderPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("po"));
   HeaderPhrasesTest::dict->init("fi");
 
   HeaderPhrasesTest::tests t;

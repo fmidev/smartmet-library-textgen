@@ -88,7 +88,7 @@ int main(void)
 
   cout << endl << "RoadStory tests" << endl << "===============" << endl;
 
-  dict.reset(TextGen::DictionaryFactory::create("file"));
+  dict.reset(TextGen::DictionaryFactory::create("po"));
 
   dict->init("fi");
   dict->init("sv");

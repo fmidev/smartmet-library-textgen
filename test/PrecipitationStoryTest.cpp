@@ -915,7 +915,7 @@ int main(void)
   NFmiSettings::Set("textgen::units::millimeters::format", "phrase");
   Settings::set(NFmiSettings::ToString());
 
-  dict.reset(TextGen::DictionaryFactory::create("file"));
+  dict.reset(TextGen::DictionaryFactory::create("po"));
 
   dict->init("fi");
   dict->init("sv");

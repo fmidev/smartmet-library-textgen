@@ -163,7 +163,7 @@ int main(void)
 
   NFmiSettings::Init();
 
-  dict.reset(TextGen::DictionaryFactory::create("file"));
+  dict.reset(TextGen::DictionaryFactory::create("po"));
 
   dict->init("fi");
   dict->init("sv");

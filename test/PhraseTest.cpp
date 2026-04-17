@@ -39,10 +39,10 @@ void realize(void)
   using namespace boost;
   using namespace TextGen;
 
-  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
   finnish->init("fi");
 
-  std::shared_ptr<Dictionary> english(DictionaryFactory::create("file"));
+  std::shared_ptr<Dictionary> english(DictionaryFactory::create("po"));
   english->init("en");
 
   Phrase s1("lampotila");

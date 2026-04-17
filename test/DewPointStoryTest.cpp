@@ -138,7 +138,7 @@ int main(void)
 
   cout << endl << "DewPointStory tests" << endl << "===================" << endl;
 
-  dict.reset(TextGen::DictionaryFactory::create("file"));
+  dict.reset(TextGen::DictionaryFactory::create("po"));
 
   NFmiSettings::Set("textgen::units::celsius::format", "phrase");
 
