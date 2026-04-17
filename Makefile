@@ -73,6 +73,12 @@ install:
 	done
 	@mkdir -p $(libdir)
 	$(INSTALL_PROG) $(LIBFILE) $(libdir)/$(LIBFILE)
+	@mkdir -p $(datadir)/smartmet/$(SUBNAME)
+	@list='$(wildcard po/*.po)'; \
+	for po in $$list; do \
+	  echo $(INSTALL_DATA) $$po $(datadir)/smartmet/$(SUBNAME)/; \
+	  $(INSTALL_DATA) $$po $(datadir)/smartmet/$(SUBNAME)/; \
+	done
 
 test:
 	+cd test && make test

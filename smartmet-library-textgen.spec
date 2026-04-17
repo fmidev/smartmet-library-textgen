@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.4.13
+Version: 26.4.17
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -90,6 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(0775,root,root,0775)
 %{_libdir}/lib%{LIBNAME}.so
+%{_datadir}/smartmet/%{DIRNAME}/*.po
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -111,6 +112,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Apr 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.4.17-1.fmi
+- Bundled the .po language dictionaries into the library package
+- Fixed PoDictionary to compile with GCC 11
+
 * Mon Apr 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.4.13-1.fmi
 - Added support for many more languages: ar, da, de, es, et, fr, id, it, ja, ko, nl, no, ru, sw, th, vi, zh
 - Improved handling of thunder
