@@ -2,6 +2,11 @@
 /*!
  * \file
  * \brief Interface of class TextGen::PostgreSQLDictionary
+ *
+ * \deprecated Scheduled for removal after the PO-based dictionary release.
+ * Use PoDictionary / PoDictionaries instead. The `postgresql` and
+ * `multipostgresql` factory values remain accepted for one deprecation
+ * cycle.
  */
 // ======================================================================
 

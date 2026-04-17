@@ -2,6 +2,10 @@
 /*!
  * \file
  * \brief Interface of class TextGen::MySQLDictionary
+ *
+ * \deprecated Scheduled for removal after the PO-based dictionary release.
+ * Use PoDictionary / PoDictionaries instead. The `mysql` and `multimysql`
+ * factory values remain accepted for one deprecation cycle.
  */
 // ======================================================================
 

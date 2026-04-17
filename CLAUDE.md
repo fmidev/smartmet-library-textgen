@@ -54,9 +54,14 @@ Glyph (abstract)
 ### Dictionary system (multilingual support)
 
 `Dictionary` (abstract) maps phrase keys to translated strings. Implementations:
+- `PoDictionary` / `PoDictionaries` — gettext `.po` file backend; **recommended** new path
 - `FileDictionary` — reads pipe-delimited files (`key|translation`), used in tests
-- `DatabaseDictionary` / `PostgreSQLDictionary` — production backends (MySQL/PostgreSQL)
+- `DatabaseDictionary` / `PostgreSQLDictionary` / `MySQLDictionary` — SQL backends, **deprecated** and scheduled for removal after the PO-dictionary release
 - `BasicDictionary` — in-memory, for programmatic use
+
+See `docs/programmers/dictionaries.md` for the full hierarchy and
+`docs/users/transitioning-from-localized-database-translations.md` for
+migrating database-backed deployments.
 
 Test dictionaries live in `test/dictionaries/` (22 languages: fi, en, sv, de, fr, es, it, ru, ja, ko, zh, ar, etc.).
 

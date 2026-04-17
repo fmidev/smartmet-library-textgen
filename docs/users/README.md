@@ -40,3 +40,7 @@ if that is what the customer actually wants.
 
 * [Quality](quality.md) — what the quality value means and when the library
   splits a period automatically on poor quality
+* [Transitioning from localized database translations](transitioning-from-localized-database-translations.md)
+  — for deployments whose translators have edited rows directly in the
+  `textgen.translation_<lang>` database tables and need to move to the
+  new `.po` backend without losing those edits

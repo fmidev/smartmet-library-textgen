@@ -9,21 +9,25 @@ looks up the key and returns the translated string.
 ```
 Dictionary                      (abstract)
 ├── BasicDictionary             (in-memory)
-├── FileDictionary              (pipe-delimited key|translation file)
+├── FileDictionary              (pipe-delimited key|translation file, legacy)
+├── PoDictionary                (gettext .po file — recommended)
 ├── DebugDictionary             (returns the key unchanged)
 ├── NullDictionary              (returns empty string)
-└── DatabaseDictionary          (abstract, SQL-backed, one language)
+└── DatabaseDictionary          (abstract, SQL-backed, one language — deprecated)
 ```
 
 Concrete SQL backends inherit from `DatabaseDictionary`:
-`MySQLDictionary`, `PostgreSQLDictionary`.
+`MySQLDictionary`, `PostgreSQLDictionary`. Both are **deprecated** and
+will be removed after the PO-dictionary release; new deployments should
+use `PoDictionary` / `PoDictionaries`.
 
-Two **multi-language aggregators** wrap N single-language dictionaries,
+Three **multi-language aggregators** wrap N single-language dictionaries,
 dispatching on the language passed to `init()`:
 
 ```
 FileDictionaries       holds one FileDictionary per language
-DatabaseDictionaries   holds one DatabaseDictionary per language
+PoDictionaries         holds one PoDictionary per language (recommended)
+DatabaseDictionaries   holds one DatabaseDictionary per language (deprecated)
 ```
 
 ## API
@@ -53,8 +57,10 @@ dict->init("fi");
 std::cout << dict->find("sää");
 ```
 
-Factory names in current use include `"file"`, `"mysql"`, `"postgresql"`,
-`"multimysqlplusgeneric"`, and similar combinations.
+Factory names in current use include `"po"` and `"multipo"` (recommended),
+plus legacy values `"file"`, `"mysql"`, `"postgresql"`,
+`"multimysqlplusgeneric"`, and similar combinations. The SQL-backed names
+are deprecated and will be removed after the PO-dictionary release.
 
 ## Global dictionary
 
@@ -87,11 +93,15 @@ formats can share the same underlying language data.
 
 ## Test fixtures
 
-Tests pipe-delimited files live under `test/dictionaries/` for the
-22 languages the library is actively translated into (`fi`, `en`, `sv`,
-`de`, `fr`, `es`, `it`, `ru`, `ja`, `ko`, `zh`, `ar`, …). A test typically
-loads one `FileDictionary` per language and runs the target generator
-against each.
+Test dictionaries live under `test/dictionaries/` in both the legacy
+pipe-delimited form (`<lang>.txt`) and the new gettext form
+(`<lang>.po`), for the 22 languages the library is actively translated
+into (`fi`, `en`, `sv`, `de`, `fr`, `es`, `it`, `ru`, `ja`, `ko`, `zh`,
+`ar`, …). The `.po` files are generated from the `.txt` sources by
+`tools/txt_to_po.py` and will replace the `.txt` files once all
+downstream tests have moved over. A test typically loads one
+`PoDictionary` (or `FileDictionary`) per language and runs the target
+generator against each.
 
 ## See also
 

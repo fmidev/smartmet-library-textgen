@@ -49,6 +49,7 @@
 #include "MySQLDictionary.h"
 #include "PostgreSQLDictionary.h"
 #include <macgyver/Exception.h>
+#include <iostream>
 #include <map>
 #include <memory>
 
@@ -56,6 +57,22 @@ using namespace std;
 
 namespace TextGen
 {
+namespace
+{
+// Emits the deprecation warning at most once per process. The DB dictionary
+// backends will be removed after the PO-dictionary release; see PoDictionary.
+void warn_db_dictionaries_deprecated(const std::string& id)
+{
+  static bool warned = false;
+  if (warned)
+    return;
+  warned = true;
+  std::cerr << "WARNING: textgen dictionary backend '" << id
+            << "' is deprecated and will be removed in a future release. "
+            << "Migrate to the 'po' / 'multipo' backend (see PoDictionary)." << std::endl;
+}
+}  // namespace
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Implementation hiding pimple
@@ -97,6 +114,7 @@ DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId)
     : itsPimple(new Pimple())
 {
   itsDictionaryId = theDictionaryId;
+  warn_db_dictionaries_deprecated(theDictionaryId);
 }
 // ----------------------------------------------------------------------
 /*!

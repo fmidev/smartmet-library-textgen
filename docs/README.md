@@ -26,6 +26,9 @@ headers for a new area or customer. Start here:
     night boundaries
   * [Quality](users/quality.md) — what the quality value means and when the
     library splits a period automatically
+  * [Transitioning from localized database translations](users/transitioning-from-localized-database-translations.md)
+    — migrate an existing database-backed deployment to the new
+    `.po`-file backend without losing locally-applied translation edits
 
 ## For library developers
 

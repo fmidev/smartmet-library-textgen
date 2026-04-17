@@ -30,6 +30,8 @@
 #include "FileDictionary.h"
 #include "MySQLDictionary.h"
 #include "NullDictionary.h"
+#include "PoDictionaries.h"
+#include "PoDictionary.h"
 #include "PostgreSQLDictionary.h"
 #include <macgyver/Exception.h>
 
@@ -56,7 +58,11 @@ Dictionary* DictionaryFactory::create(const std::string& theType)
       return new FileDictionary();
     if (theType == "multifile")
       return new FileDictionaries();
+    if (theType == "po")
+      return new PoDictionary();
 #ifdef UNIX
+    if (theType == "multipo")
+      return new PoDictionaries();
     if (theType == "mysql")
       return new MySQLDictionary();
     if (theType == "multimysql")
