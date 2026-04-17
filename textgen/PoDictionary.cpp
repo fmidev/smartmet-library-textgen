@@ -111,7 +111,7 @@ std::string po_unquote(const std::string& theLine, const std::string& theFile, i
   return result;
 }
 
-constexpr bool starts_with(const std::string& s, const char* prefix)
+bool starts_with(const std::string& s, const char* prefix)
 {
   return s.compare(0, std::char_traits<char>::length(prefix), prefix) == 0;
 }
