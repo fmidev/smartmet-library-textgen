@@ -116,8 +116,9 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,
       throw Fmi::Exception(BCP, "Error: Obtained multiple matches for language " + theLanguage);
     }
 
-    auto translationtable = result_set.at(0).at(0).as<std::string>();
-    int active = as_int(result_set.at(0).at(1));
+    auto row = result_set.at(0);
+    auto translationtable = row.at(0).as<std::string>();
+    int active = row.at(1).as<int>();
 
     if (active != 1)
       throw Fmi::Exception(BCP, "Error: Language " + theLanguage + " is not active");
