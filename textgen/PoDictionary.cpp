@@ -180,7 +180,7 @@ void PoDictionary::init(const std::string& theLanguage)
     itsPimple->itsInitialized = false;
     itsPimple->itsData.clear();
 
-    std::string database = Settings::require_string("textgen::podictionaries");
+    std::string database = Settings::optional_string("textgen::podictionaries", "/usr/share/smartmet/textgen");
     std::string filename = database + '/' + theLanguage + ".po";
 
     if (!NFmiFileSystem::FileExists(filename))
