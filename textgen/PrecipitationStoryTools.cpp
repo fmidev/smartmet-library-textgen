@@ -31,6 +31,7 @@
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <boost/lexical_cast.hpp>
 #include <newbase/NFmiGlobals.h>
@@ -75,49 +76,71 @@ RainType raintype(bool water, bool sleet, bool snow)
 // Build WATER rain phrase based on strength and shower flag
 Sentence water_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit)
 {
-  Sentence s;
-  if (has_showers)
+  try
   {
-    if (strength < weak_limit)
-      s << "vahaisia kuuroja";
-    else if (strength >= hard_limit)
-      s << "voimakkaita kuuroja";
+    Sentence s;
+    if (has_showers)
+    {
+      if (strength < weak_limit)
+        s << "vahaisia kuuroja";
+      else if (strength >= hard_limit)
+        s << "voimakkaita kuuroja";
+      else
+        s << "sadetta";  // "sadekuuroja" prompti puuttuu!
+    }
     else
-      s << "sadetta";  // "sadekuuroja" prompti puuttuu!
+    {
+      if (strength < weak_limit)
+        s << "heikkoa sadetta";
+      else if (strength >= hard_limit)
+        s << "runsasta sadetta";
+      else
+        s << "sadetta";
+    }
+    return s;
   }
-  else
+  catch (...)
   {
-    if (strength < weak_limit)
-      s << "heikkoa sadetta";
-    else if (strength >= hard_limit)
-      s << "runsasta sadetta";
-    else
-      s << "sadetta";
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("has_showers", Fmi::to_string(has_showers))
+        .addParameter("strength", Fmi::to_string(strength))
+        .addParameter("weak_limit", Fmi::to_string(weak_limit))
+        .addParameter("hard_limit", Fmi::to_string(hard_limit));
   }
-  return s;
 }
 
 // Build SNOW rain phrase based on strength and shower flag
 Sentence snow_rain_phrase(bool has_showers, double strength, double weak_limit, double hard_limit)
 {
-  Sentence s;
-  if (has_showers)
+  try
   {
-    if (strength >= hard_limit)
-      s << "sakeita lumikuuroja";
+    Sentence s;
+    if (has_showers)
+    {
+      if (strength >= hard_limit)
+        s << "sakeita lumikuuroja";
+      else
+        s << "lumikuuroja";
+    }
     else
-      s << "lumikuuroja";
+    {
+      if (strength < weak_limit)
+        s << "vahaista lumisadetta";
+      else if (strength >= hard_limit)
+        s << "sakeaa lumisadetta";
+      else
+        s << "lumisadetta";
+    }
+    return s;
   }
-  else
+  catch (...)
   {
-    if (strength < weak_limit)
-      s << "vahaista lumisadetta";
-    else if (strength >= hard_limit)
-      s << "sakeaa lumisadetta";
-    else
-      s << "lumisadetta";
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("has_showers", Fmi::to_string(has_showers))
+        .addParameter("strength", Fmi::to_string(strength))
+        .addParameter("weak_limit", Fmi::to_string(weak_limit))
+        .addParameter("hard_limit", Fmi::to_string(hard_limit));
   }
-  return s;
 }
 
 // Build SNOW_WATER or SNOW_SLEET_WATER phrase
@@ -128,26 +151,39 @@ Sentence snow_water_rain_phrase(bool has_showers,
                                 double water_val,
                                 double snow_val)
 {
-  Sentence s;
-  if (has_showers)
+  try
   {
-    if (strength >= hard_limit)
-      s << "voimakkaita kuuroja" << "tai" << "sakeita lumikuuroja";
+    Sentence s;
+    if (has_showers)
+    {
+      if (strength >= hard_limit)
+        s << "voimakkaita kuuroja" << "tai" << "sakeita lumikuuroja";
+      else
+        s << "vesi-" << "tai" << "lumikuuroja";
+    }
     else
-      s << "vesi-" << "tai" << "lumikuuroja";
+    {
+      if (strength < weak_limit)
+        s << "heikkoa";
+      else if (strength >= hard_limit)
+        s << "kovaa";
+      if (water_val >= snow_val)
+        s << "vesi-" << "tai" << "lumisadetta";
+      else
+        s << "lumi-" << "tai" << "vesisadetta";
+    }
+    return s;
   }
-  else
+  catch (...)
   {
-    if (strength < weak_limit)
-      s << "heikkoa";
-    else if (strength >= hard_limit)
-      s << "kovaa";
-    if (water_val >= snow_val)
-      s << "vesi-" << "tai" << "lumisadetta";
-    else
-      s << "lumi-" << "tai" << "vesisadetta";
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("has_showers", Fmi::to_string(has_showers))
+        .addParameter("strength", Fmi::to_string(strength))
+        .addParameter("weak_limit", Fmi::to_string(weak_limit))
+        .addParameter("hard_limit", Fmi::to_string(hard_limit))
+        .addParameter("water_val", Fmi::to_string(water_val))
+        .addParameter("snow_val", Fmi::to_string(snow_val));
   }
-  return s;
 }
 
 // Build SNOW_SLEET phrase
@@ -158,29 +194,42 @@ Sentence snow_sleet_rain_phrase(bool has_showers,
                                 double snow_val,
                                 double sleet_val)
 {
-  Sentence s;
-  if (has_showers)
+  try
   {
-    if (strength >= hard_limit)
-      s << "sakeita lumikuuroja" << "tai" << "rantasadetta";
-    else
-      s << "ranta-" << "tai" << "lumikuuroja";
-  }
-  else
-  {
-    if (strength < weak_limit)
-      s << "vahaista lumisadetta" << "tai" << "rantasadetta";
-    else if (strength >= hard_limit)
-      s << "sakeaa lumisadetta" << "tai" << "rantasadetta";
+    Sentence s;
+    if (has_showers)
+    {
+      if (strength >= hard_limit)
+        s << "sakeita lumikuuroja" << "tai" << "rantasadetta";
+      else
+        s << "ranta-" << "tai" << "lumikuuroja";
+    }
     else
     {
-      if (snow_val >= sleet_val)
-        s << "lumi-" << "tai" << "rantasadetta";
+      if (strength < weak_limit)
+        s << "vahaista lumisadetta" << "tai" << "rantasadetta";
+      else if (strength >= hard_limit)
+        s << "sakeaa lumisadetta" << "tai" << "rantasadetta";
       else
-        s << "ranta-" << "tai" << "lumisadetta";
+      {
+        if (snow_val >= sleet_val)
+          s << "lumi-" << "tai" << "rantasadetta";
+        else
+          s << "ranta-" << "tai" << "lumisadetta";
+      }
     }
+    return s;
   }
-  return s;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("has_showers", Fmi::to_string(has_showers))
+        .addParameter("strength", Fmi::to_string(strength))
+        .addParameter("weak_limit", Fmi::to_string(weak_limit))
+        .addParameter("hard_limit", Fmi::to_string(hard_limit))
+        .addParameter("snow_val", Fmi::to_string(snow_val))
+        .addParameter("sleet_val", Fmi::to_string(sleet_val));
+  }
 }
 }  // namespace
 
@@ -205,10 +254,19 @@ Sentence rain_phrase(const TextGen::AnalysisSources& theSources,
                      const std::string& theVar,
                      int theDay)
 {
-  Sentence s;
-  s << places_phrase(theSources, theArea, thePeriod, theVar, theDay)
-    << type_phrase(theSources, theArea, thePeriod, theVar, theDay);
-  return s;
+  try
+  {
+    Sentence s;
+    s << places_phrase(theSources, theArea, thePeriod, theVar, theDay)
+      << type_phrase(theSources, theArea, thePeriod, theVar, theDay);
+    return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theDay", Fmi::to_string(theDay));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -242,44 +300,53 @@ Sentence places_phrase(const AnalysisSources& theSources,
                        const string& theVar,
                        int theDay)
 {
-  MessageLogger log("PrecipitationStoryTools::places_phrase");
+  try
+  {
+    MessageLogger log("PrecipitationStoryTools::places_phrase");
 
-  using namespace Settings;
+    using namespace Settings;
 
-  const int many_places = optional_percentage(theVar + "places::many", 90);
-  const int some_places = optional_percentage(theVar + "places::some", 50);
-  const double minrain = optional_double(theVar + "::minrain", 0.1);
+    const int many_places = optional_percentage(theVar + "places::many", 90);
+    const int some_places = optional_percentage(theVar + "places::some", 50);
+    const double minrain = optional_double(theVar + "::minrain", 0.1);
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  RangeAcceptor rainlimits;
-  rainlimits.lowerLimit(minrain);
+    RangeAcceptor rainlimits;
+    rainlimits.lowerLimit(minrain);
 
-  const string day = std::to_string(theDay);
-  WeatherResult result = forecaster.analyze(theVar + "::fake::day" + day + "::places",
-                                            theSources,
-                                            Precipitation,
-                                            Percentage,
-                                            Maximum,
-                                            theArea,
-                                            thePeriod,
-                                            DefaultAcceptor(),
-                                            DefaultAcceptor(),
-                                            rainlimits);
+    const string day = std::to_string(theDay);
+    WeatherResult result = forecaster.analyze(theVar + "::fake::day" + day + "::places",
+                                              theSources,
+                                              Precipitation,
+                                              Percentage,
+                                              Maximum,
+                                              theArea,
+                                              thePeriod,
+                                              DefaultAcceptor(),
+                                              DefaultAcceptor(),
+                                              rainlimits);
 
-  log << "Precipitation percentage: " << result.value() << '\n';
+    log << "Precipitation percentage: " << result.value() << '\n';
 
-  WeatherResultTools::checkMissingValue("PrecipitationStoryTools", Precipitation, result);
+    WeatherResultTools::checkMissingValue("PrecipitationStoryTools", Precipitation, result);
 
-  Sentence s;
-  if (result.value() >= many_places)
-    ;
-  else if (result.value() >= some_places)
-    s << "monin paikoin";
-  else
-    s << "paikoin";
+    Sentence s;
+    if (result.value() >= many_places)
+      ;
+    else if (result.value() >= some_places)
+      s << "monin paikoin";
+    else
+      s << "paikoin";
 
-  return s;
+    return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theDay", Fmi::to_string(theDay));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -313,150 +380,159 @@ Sentence type_phrase(const AnalysisSources& theSources,
                      const string& theVar,
                      int theDay)
 {
-  MessageLogger log("PrecipitationStoryTools::type_phrase");
+  try
+  {
+    MessageLogger log("PrecipitationStoryTools::type_phrase");
 
-  using namespace Settings;
+    using namespace Settings;
 
-  const double weak_limit = optional_double(theVar + "::weak_limit", 0.3);
-  const double hard_limit = optional_double(theVar + "::hard_limit", 3.0);
-  const int ignore_limit = optional_percentage(theVar + "::ignore_limit", 5);
-  const int shower_limit = optional_percentage(theVar + "::shower_limit", 80);
+    const double weak_limit = optional_double(theVar + "::weak_limit", 0.3);
+    const double hard_limit = optional_double(theVar + "::hard_limit", 3.0);
+    const int ignore_limit = optional_percentage(theVar + "::ignore_limit", 5);
+    const int shower_limit = optional_percentage(theVar + "::shower_limit", 80);
 
-  GridForecaster forecaster;
-  Sentence sentence;
+    GridForecaster forecaster;
+    Sentence sentence;
 
-  const string day = std::to_string(theDay);
+    const string day = std::to_string(theDay);
 
-  RangeAcceptor waterfilter;
-  waterfilter.lowerLimit(0);  // 0 = drizzle
-  waterfilter.upperLimit(1);  // 1 = water
+    RangeAcceptor waterfilter;
+    waterfilter.lowerLimit(0);  // 0 = drizzle
+    waterfilter.upperLimit(1);  // 1 = water
 
-  WeatherResult water = forecaster.analyze(theVar + "::fake::day" + day + "::water",
-                                           theSources,
-                                           PrecipitationForm,
-                                           Mean,
-                                           Percentage,
-                                           theArea,
-                                           thePeriod,
-                                           DefaultAcceptor(),
-                                           DefaultAcceptor(),
-                                           waterfilter);
-
-  ValueAcceptor sleetfilter;
-  sleetfilter.value(2);  // 2 = sleet
-  WeatherResult sleet = forecaster.analyze(theVar + "::fake::day" + day + "::sleet",
-                                           theSources,
-                                           PrecipitationForm,
-                                           Mean,
-                                           Percentage,
-                                           theArea,
-                                           thePeriod,
-                                           DefaultAcceptor(),
-                                           DefaultAcceptor(),
-                                           sleetfilter);
-
-  ValueAcceptor snowfilter;
-  snowfilter.value(3);  // 3 = snow
-  WeatherResult snow = forecaster.analyze(theVar + "::fake::day" + day + "::snow",
-                                          theSources,
-                                          PrecipitationForm,
-                                          Mean,
-                                          Percentage,
-                                          theArea,
-                                          thePeriod,
-                                          DefaultAcceptor(),
-                                          DefaultAcceptor(),
-                                          snowfilter);
-
-  log << "Water percentage: " << water << '\n';
-  log << "Sleet percentage: " << sleet << '\n';
-  log << "Snow percentage:  " << snow << '\n';
-
-  ValueAcceptor showerfilter;
-  showerfilter.value(2);  // 1=large scale, 2=showers
-  WeatherResult showers = forecaster.analyze(theVar + "::fake::day" + day + "::showers",
+    WeatherResult water = forecaster.analyze(theVar + "::fake::day" + day + "::water",
                                              theSources,
-                                             PrecipitationType,
+                                             PrecipitationForm,
                                              Mean,
                                              Percentage,
                                              theArea,
                                              thePeriod,
                                              DefaultAcceptor(),
                                              DefaultAcceptor(),
-                                             showerfilter);
+                                             waterfilter);
 
-  log << "Shower percentage: " << showers << '\n';
+    ValueAcceptor sleetfilter;
+    sleetfilter.value(2);  // 2 = sleet
+    WeatherResult sleet = forecaster.analyze(theVar + "::fake::day" + day + "::sleet",
+                                             theSources,
+                                             PrecipitationForm,
+                                             Mean,
+                                             Percentage,
+                                             theArea,
+                                             thePeriod,
+                                             DefaultAcceptor(),
+                                             DefaultAcceptor(),
+                                             sleetfilter);
 
-  WeatherResult strength = forecaster.analyze(theVar + "::fake::day" + day + "::strength",
-                                              theSources,
-                                              Precipitation,
-                                              Maximum,
-                                              Maximum,
-                                              theArea,
-                                              thePeriod);
+    ValueAcceptor snowfilter;
+    snowfilter.value(3);  // 3 = snow
+    WeatherResult snow = forecaster.analyze(theVar + "::fake::day" + day + "::snow",
+                                            theSources,
+                                            PrecipitationForm,
+                                            Mean,
+                                            Percentage,
+                                            theArea,
+                                            thePeriod,
+                                            DefaultAcceptor(),
+                                            DefaultAcceptor(),
+                                            snowfilter);
 
-  log << "Precipitation maximum: " << strength << '\n';
+    log << "Water percentage: " << water << '\n';
+    log << "Sleet percentage: " << sleet << '\n';
+    log << "Snow percentage:  " << snow << '\n';
 
-  // Safety against weird data. Note that we always assume
-  // large scale rain, if for some reason we cannot obtain
-  // the type from the data itself. That is, we never assume
-  // rain showers.
+    ValueAcceptor showerfilter;
+    showerfilter.value(2);  // 1=large scale, 2=showers
+    WeatherResult showers = forecaster.analyze(theVar + "::fake::day" + day + "::showers",
+                                               theSources,
+                                               PrecipitationType,
+                                               Mean,
+                                               Percentage,
+                                               theArea,
+                                               thePeriod,
+                                               DefaultAcceptor(),
+                                               DefaultAcceptor(),
+                                               showerfilter);
 
-  if (water.value() == kFloatMissing || sleet.value() == kFloatMissing ||
-      snow.value() == kFloatMissing || strength.value() == kFloatMissing)
-  {
-    sentence << "sadetta";
+    log << "Shower percentage: " << showers << '\n';
+
+    WeatherResult strength = forecaster.analyze(theVar + "::fake::day" + day + "::strength",
+                                                theSources,
+                                                Precipitation,
+                                                Maximum,
+                                                Maximum,
+                                                theArea,
+                                                thePeriod);
+
+    log << "Precipitation maximum: " << strength << '\n';
+
+    // Safety against weird data. Note that we always assume
+    // large scale rain, if for some reason we cannot obtain
+    // the type from the data itself. That is, we never assume
+    // rain showers.
+
+    if (water.value() == kFloatMissing || sleet.value() == kFloatMissing ||
+        snow.value() == kFloatMissing || strength.value() == kFloatMissing)
+    {
+      sentence << "sadetta";
+      return sentence;
+    }
+
+    const bool has_water = (water.value() >= ignore_limit);
+    const bool has_sleet = (sleet.value() >= ignore_limit);
+    const bool has_snow = (snow.value() >= ignore_limit);
+
+    const bool has_showers = (showers.value() != kFloatMissing && showers.value() >= shower_limit);
+
+    const RainType rt = raintype(has_water, has_sleet, has_snow);
+    switch (rt)
+    {
+      case NONE:
+        log << "Rain type is NONE\n";
+        sentence << "sadetta";
+        break;
+      case WATER:
+        log << "Rain type is WATER\n";
+        sentence << water_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit);
+        break;
+      case SLEET:
+        log << "Rain type is SLEET\n";
+        sentence << "rantasadetta";
+        break;
+      case WATER_SLEET:
+        log << "Rain type is WATER_SLEET\n";
+        if (water.value() >= sleet.value())
+          sentence << "vesi-" << "tai" << "rantasadetta";
+        else
+          sentence << "ranta-" << "tai" << "vesisadetta";
+        break;
+      case SNOW:
+        log << "Rain type is SNOW\n";
+        sentence << snow_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit);
+        break;
+      case SNOW_WATER:
+      case SNOW_SLEET_WATER:
+        log << (rt == SNOW_WATER ? "Rain type is SNOW_WATER\n" : "Rain type is SNOW_SLEET_WATER\n");
+        sentence << snow_water_rain_phrase(
+            has_showers, strength.value(), weak_limit, hard_limit, water.value(), snow.value());
+        break;
+      case SNOW_SLEET:
+        log << "Rain type is SNOW_SLEET\n";
+        sentence << snow_sleet_rain_phrase(
+            has_showers, strength.value(), weak_limit, hard_limit, snow.value(), sleet.value());
+        break;
+    }
+
+    log << sentence;
+
     return sentence;
   }
-
-  const bool has_water = (water.value() >= ignore_limit);
-  const bool has_sleet = (sleet.value() >= ignore_limit);
-  const bool has_snow = (snow.value() >= ignore_limit);
-
-  const bool has_showers = (showers.value() != kFloatMissing && showers.value() >= shower_limit);
-
-  const RainType rt = raintype(has_water, has_sleet, has_snow);
-  switch (rt)
+  catch (...)
   {
-    case NONE:
-      log << "Rain type is NONE\n";
-      sentence << "sadetta";
-      break;
-    case WATER:
-      log << "Rain type is WATER\n";
-      sentence << water_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit);
-      break;
-    case SLEET:
-      log << "Rain type is SLEET\n";
-      sentence << "rantasadetta";
-      break;
-    case WATER_SLEET:
-      log << "Rain type is WATER_SLEET\n";
-      if (water.value() >= sleet.value())
-        sentence << "vesi-" << "tai" << "rantasadetta";
-      else
-        sentence << "ranta-" << "tai" << "vesisadetta";
-      break;
-    case SNOW:
-      log << "Rain type is SNOW\n";
-      sentence << snow_rain_phrase(has_showers, strength.value(), weak_limit, hard_limit);
-      break;
-    case SNOW_WATER:
-    case SNOW_SLEET_WATER:
-      log << (rt == SNOW_WATER ? "Rain type is SNOW_WATER\n" : "Rain type is SNOW_SLEET_WATER\n");
-      sentence << snow_water_rain_phrase(
-          has_showers, strength.value(), weak_limit, hard_limit, water.value(), snow.value());
-      break;
-    case SNOW_SLEET:
-      log << "Rain type is SNOW_SLEET\n";
-      sentence << snow_sleet_rain_phrase(
-          has_showers, strength.value(), weak_limit, hard_limit, snow.value(), sleet.value());
-      break;
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theDay", Fmi::to_string(theDay));
   }
-
-  log << sentence;
-
-  return sentence;
 }
 
 // ----------------------------------------------------------------------
@@ -478,28 +554,37 @@ Sentence sum_phrase(const WeatherResult& theMinimum,
                     int theMinInterval,
                     const string& theRangeSeparator)
 {
-  Sentence sentence;
-
-  const int minimum = static_cast<int>(round(theMinimum.value()));
-  const int maximum = static_cast<int>(round(theMaximum.value()));
-  const int mean = static_cast<int>(round(theMean.value()));
-
-  if (minimum == 0 && maximum == 0)
+  try
   {
-    sentence << 0;
-  }
-  else if (maximum - minimum < theMinInterval && mean != 0)
-  {
-    sentence << "noin" << mean;
-  }
-  else
-  {
-    sentence << PositiveRange(minimum, maximum, theRangeSeparator);
-  }
+    Sentence sentence;
 
-  sentence << *UnitFactory::create(Millimeters);
+    const int minimum = static_cast<int>(round(theMinimum.value()));
+    const int maximum = static_cast<int>(round(theMaximum.value()));
+    const int mean = static_cast<int>(round(theMean.value()));
 
-  return sentence;
+    if (minimum == 0 && maximum == 0)
+    {
+      sentence << 0;
+    }
+    else if (maximum - minimum < theMinInterval && mean != 0)
+    {
+      sentence << "noin" << mean;
+    }
+    else
+    {
+      sentence << PositiveRange(minimum, maximum, theRangeSeparator);
+    }
+
+    sentence << *UnitFactory::create(Millimeters);
+
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theMinInterval", Fmi::to_string(theMinInterval))
+        .addParameter("theRangeSeparator", theRangeSeparator);
+  }
 }
 
 }  // namespace PrecipitationStoryTools

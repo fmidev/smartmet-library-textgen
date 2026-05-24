@@ -29,6 +29,7 @@
 #include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 #include <sstream>
 #include <string>
@@ -47,7 +48,14 @@ namespace TextGen
 
 string ExtendedDebugTextFormatter::format(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*this);
+  try
+  {
+    return theGlyph.realize(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -59,7 +67,14 @@ string ExtendedDebugTextFormatter::format(const Glyph& theGlyph) const
 
 string ExtendedDebugTextFormatter::visit(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(itsDictionary);
+  try
+  {
+    return theGlyph.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -70,7 +85,14 @@ string ExtendedDebugTextFormatter::visit(const Glyph& theGlyph) const
 
 string ExtendedDebugTextFormatter::visit(const Integer& theInteger) const
 {
-  return theInteger.realize(itsDictionary);
+  try
+  {
+    return theInteger.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -81,7 +103,14 @@ string ExtendedDebugTextFormatter::visit(const Integer& theInteger) const
 
 string ExtendedDebugTextFormatter::visit(const Real& theReal) const
 {
-  return theReal.realize(itsDictionary);
+  try
+  {
+    return theReal.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -92,7 +121,14 @@ string ExtendedDebugTextFormatter::visit(const Real& theReal) const
 
 string ExtendedDebugTextFormatter::visit(const IntegerRange& theRange) const
 {
-  return theRange.realize(itsDictionary);
+  try
+  {
+    return theRange.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -103,7 +139,14 @@ string ExtendedDebugTextFormatter::visit(const IntegerRange& theRange) const
 
 string ExtendedDebugTextFormatter::visit(const PositiveRange& theRange) const
 {
-  return theRange.realize(itsDictionary);
+  try
+  {
+    return theRange.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -114,8 +157,15 @@ string ExtendedDebugTextFormatter::visit(const PositiveRange& theRange) const
 
 string ExtendedDebugTextFormatter::visit(const TimePhrase& theTime) const
 {
-  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
-  return "<timephrase var=\"" + itsSectionVar + "\">\n" + txt + "</timephrase>";
+  try
+  {
+    string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+    return "<timephrase var=\"" + itsSectionVar + "\">\n" + txt + "</timephrase>";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -126,11 +176,19 @@ string ExtendedDebugTextFormatter::visit(const TimePhrase& theTime) const
 
 string ExtendedDebugTextFormatter::visit(const Sentence& theSentence) const
 {
-  string txt = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, "", "\n");
-  txt = TextFormatterTools::capitalize(txt);
-  TextFormatterTools::punctuate(txt);
+  try
+  {
+    string txt =
+        TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, "", "\n");
+    txt = TextFormatterTools::capitalize(txt);
+    TextFormatterTools::punctuate(txt);
 
-  return "<sentence var=\"" + itsSectionVar + "\">\n" + txt + "\n</sentence>\n";
+    return "<sentence var=\"" + itsSectionVar + "\">\n" + txt + "\n</sentence>\n";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -141,9 +199,16 @@ string ExtendedDebugTextFormatter::visit(const Sentence& theSentence) const
 
 string ExtendedDebugTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  string txt =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
-  return "<paragraph var=\"" + itsSectionVar + "\">\n" + txt + "</paragraph>\n";
+  try
+  {
+    string txt =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
+    return "<paragraph var=\"" + itsSectionVar + "\">\n" + txt + "</paragraph>\n";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -154,12 +219,19 @@ string ExtendedDebugTextFormatter::visit(const Paragraph& theParagraph) const
 
 string ExtendedDebugTextFormatter::visit(const Header& theHeader) const
 {
-  string txt = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, "", "\n");
-  txt = TextFormatterTools::capitalize(txt);
-  if (!txt.empty())
-    txt += ':';
+  try
+  {
+    string txt = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, "", "\n");
+    txt = TextFormatterTools::capitalize(txt);
+    if (!txt.empty())
+      txt += ':';
 
-  return "<header var=\"" + itsSectionVar + "\">" + txt + "</header>\n";
+    return "<header var=\"" + itsSectionVar + "\">" + txt + "</header>\n";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -170,8 +242,16 @@ string ExtendedDebugTextFormatter::visit(const Header& theHeader) const
 
 string ExtendedDebugTextFormatter::visit(const Document& theDocument) const
 {
-  string txt = TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, " ", "");
-  return "<document var=\"" + itsSectionVar + "\">\n" + txt + "</document>\n";
+  try
+  {
+    string txt =
+        TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, " ", "");
+    return "<document var=\"" + itsSectionVar + "\">\n" + txt + "</document>\n";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -182,8 +262,15 @@ string ExtendedDebugTextFormatter::visit(const Document& theDocument) const
 
 string ExtendedDebugTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(itsDictionary);
-  return "<sectiontag var=\"" + itsSectionVar + "\"/>\n";
+  try
+  {
+    itsSectionVar = theSection.realize(itsDictionary);
+    return "<sectiontag var=\"" + itsSectionVar + "\"/>\n";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -194,12 +281,19 @@ string ExtendedDebugTextFormatter::visit(const SectionTag& theSection) const
 
 string ExtendedDebugTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(itsDictionary);
+  try
+  {
+    itsStoryVar = theStory.realize(itsDictionary);
 
-  if (theStory.isPrefixTag())
-    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    if (theStory.isPrefixTag())
+      return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
 
-  return "<storytag var=\"" + itsSectionVar + "\" story=\"" + itsStoryVar + "\"/>\n";
+    return "<storytag var=\"" + itsSectionVar + "\" story=\"" + itsStoryVar + "\"/>\n";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -210,8 +304,15 @@ string ExtendedDebugTextFormatter::visit(const StoryTag& theStory) const
 
 string ExtendedDebugTextFormatter::visit(const WeatherTime& theTime) const
 {
-  auto txt = TextFormatterTools::format_time(theTime.time(), itsStoryVar, "debug");
-  return "<time var=\"" + txt + "\"</time>";
+  try
+  {
+    auto txt = TextFormatterTools::format_time(theTime.time(), itsStoryVar, "debug");
+    return "<time var=\"" + txt + "\"</time>";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -222,8 +323,15 @@ string ExtendedDebugTextFormatter::visit(const WeatherTime& theTime) const
 
 string ExtendedDebugTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  auto txt = TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
-  return "<timeperiod var=\"" + txt + "\"</timeperiod>";
+  try
+  {
+    auto txt = TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
+    return "<timeperiod var=\"" + txt + "\"</timeperiod>";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

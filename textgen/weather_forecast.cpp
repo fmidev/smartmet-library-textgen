@@ -106,8 +106,15 @@ void log_start_time_and_end_time(MessageLogger& theLog,
                                  const std::string& theLogMessage,
                                  const WeatherPeriod& thePeriod)
 {
+  try
+  {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
          << thePeriod.localEndTime() << '\n';
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLogMessage", theLogMessage);
+  }
 }
 
 #if 0
@@ -278,6 +285,8 @@ void populate_precipitation_time_series(const string& theVariable,
                                         const WeatherArea& theArea,
                                         weather_forecast_result_container& theHourlyDataContainer)
 {
+  try
+  {
   GridForecaster theForecaster;
 
   std::shared_ptr<weather_result_data_item_vector> precipitationMaxHourly =
@@ -471,10 +480,17 @@ void populate_precipitation_time_series(const string& theVariable,
     WeatherResult precipitationPointResult(precipitationPoint.X(), precipitationPoint.Y());
     (*precipitationPointHourly)[i]->theResult = precipitationPointResult;
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 void populate_precipitation_time_series(wf_story_params& theParameters)
 {
+  try
+  {
   if (theParameters.theForecastArea & INLAND_AREA)
   {
     WeatherArea inlandArea = theParameters.theArea;
@@ -500,6 +516,11 @@ void populate_precipitation_time_series(wf_story_params& theParameters)
                                        theParameters.theArea,
                                        *theParameters.theCompleteData[FULL_AREA]);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void populate_thunderprobability_time_series(
@@ -508,6 +529,8 @@ void populate_thunderprobability_time_series(
     const WeatherArea& theArea,
     weather_forecast_result_container& theHourlyDataContainer)
 {
+  try
+  {
   weather_result_data_item_vector& thunderProbabilityHourly =
       *(theHourlyDataContainer[THUNDER_PROBABILITY_DATA]);
   std::shared_ptr<weather_result_data_item_vector> thunderExtentHourly =
@@ -561,10 +584,17 @@ void populate_thunderprobability_time_series(
                                     (*thunderSouthWestHourly)[i]->theResult,
                                     (*thunderNorthWestHourly)[i]->theResult);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void populate_thunderprobability_time_series(wf_story_params& theParameters)
 {
+  try
+  {
   if (theParameters.theForecastArea & INLAND_AREA)
   {
     WeatherArea inlandArea = theParameters.theArea;
@@ -592,6 +622,11 @@ void populate_thunderprobability_time_series(wf_story_params& theParameters)
                                             theParameters.theArea,
                                             *theParameters.theCompleteData[FULL_AREA]);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void populate_fogintensity_time_series(const string& theVariable,
@@ -599,6 +634,8 @@ void populate_fogintensity_time_series(const string& theVariable,
                                        const WeatherArea& theArea,
                                        weather_forecast_result_container& theHourlyDataContainer)
 {
+  try
+  {
   weather_result_data_item_vector& fogIntensityModerateHourly =
       *(theHourlyDataContainer[FOG_INTENSITY_MODERATE_DATA]);
   weather_result_data_item_vector& fogIntensityDenseHourly =
@@ -656,10 +693,17 @@ void populate_fogintensity_time_series(const string& theVariable,
                                     (*fogSouthWestHourly)[i]->theResult,
                                     (*fogNorthWestHourly)[i]->theResult);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 void populate_fogintensity_time_series(wf_story_params& theParameters)
 {
+  try
+  {
   if (theParameters.theForecastArea & INLAND_AREA)
   {
     WeatherArea inlandArea = theParameters.theArea;
@@ -687,6 +731,11 @@ void populate_fogintensity_time_series(wf_story_params& theParameters)
                                       theParameters.theArea,
                                       *theParameters.theCompleteData[FULL_AREA]);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void populate_cloudiness_time_series(const string& theVariable,
@@ -694,6 +743,8 @@ void populate_cloudiness_time_series(const string& theVariable,
                                      const WeatherArea& theArea,
                                      weather_forecast_result_container& theHourlyDataContainer)
 {
+  try
+  {
   weather_result_data_item_vector& cloudinessHourly = *(theHourlyDataContainer[CLOUDINESS_DATA]);
   std::shared_ptr<weather_result_data_item_vector> cloudinessNorthEastHourly =
       theHourlyDataContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
@@ -727,10 +778,17 @@ void populate_cloudiness_time_series(const string& theVariable,
                                     (*cloudinessSouthWestHourly)[i]->theResult,
                                     (*cloudinessNorthWestHourly)[i]->theResult);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 void populate_cloudiness_time_series(wf_story_params& theParameters)
 {
+  try
+  {
   // theParameters.theVariable+"::fake::"+hourstr+"::cloudiness",
   if (theParameters.theForecastArea & INLAND_AREA)
   {
@@ -759,10 +817,17 @@ void populate_cloudiness_time_series(wf_story_params& theParameters)
                                     theParameters.theArea,
                                     *theParameters.theCompleteData[FULL_AREA]);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void allocate_data_structures(wf_story_params& theParameters, const forecast_area_id& theAreaId)
 {
+  try
+  {
   auto hourlyMaxPrecipitation = std::make_shared<weather_result_data_item_vector>();
   auto hourlyMeanPrecipitation = std::make_shared<weather_result_data_item_vector>();
   auto hourlyPrecipitationExtent = std::make_shared<weather_result_data_item_vector>();
@@ -938,10 +1003,17 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
   resultContainer->insert(make_pair(FOG_NORTHWEST_SHARE_DATA, hourlyFogShareNorthWest));
 
   theParameters.theCompleteData.insert(make_pair(theAreaId, resultContainer));
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void create_data_structures(wf_story_params& theParameters)
 {
+  try
+  {
   // first check which areas exists and create the data structures accordinly
   WeatherArea fullArea = theParameters.theArea;
   WeatherArea inlandArea = theParameters.theArea;
@@ -1007,10 +1079,17 @@ void create_data_structures(wf_story_params& theParameters)
   {
     // error not inland, nor coastal area included
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void init_parameters(wf_story_params& theParameters)
 {
+  try
+  {
   create_data_structures(theParameters);
 
   if (SeasonTools::isSummer(theParameters.theForecastTime, theParameters.theVariable))
@@ -1103,6 +1182,11 @@ void init_parameters(wf_story_params& theParameters)
       theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!"
                            << '\n';
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 #if 0
@@ -1146,6 +1230,8 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
                            const std::string& itsVar,
                            MessageLogger& theLog)
 {
+  try
+  {
   using namespace PrecipitationPeriodTools;
 
   Paragraph paragraph;
@@ -1231,6 +1317,11 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   theLog << paragraph;
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("itsVar", itsVar);
+  }
 }
 
 Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
@@ -1240,6 +1331,8 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
                                   const std::string& itsVar,
                                   MessageLogger& theLog)
 {
+  try
+  {
   using namespace PrecipitationPeriodTools;
 
   Paragraph paragraph;
@@ -1322,6 +1415,11 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
   paragraph << wfs.getWeatherForecastStoryAtSea();
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("itsVar", itsVar);
+  }
 }
 
 bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phrase2)
@@ -1348,6 +1446,8 @@ bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phra
 // aluksi, myohemmin to the beginning of the sentence
 void check_sentences(std::shared_ptr<Glyph>& theSentence1, std::shared_ptr<Glyph>& theSentence2)
 {
+  try
+  {
   auto& gc1 = static_cast<GlyphContainer&>(*theSentence1);
   auto& gc2 = static_cast<GlyphContainer&>(*theSentence2);
 
@@ -1370,10 +1470,17 @@ void check_sentences(std::shared_ptr<Glyph>& theSentence1, std::shared_ptr<Glyph
     gc1.push_front(Phrase("aluksi"));
     gc2.push_front(Phrase("myohemmin"));
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void get_sentences(const Glyph& glyphi, vector<std::shared_ptr<Glyph> >& sentences)
 {
+  try
+  {
   if (typeid(glyphi) == typeid(Sentence))
   {
     const auto& gc = static_cast<const GlyphContainer&>(glyphi);
@@ -1386,10 +1493,17 @@ void get_sentences(const Glyph& glyphi, vector<std::shared_ptr<Glyph> >& sentenc
     for (const auto& iter : containeri)
       get_sentences(*iter, sentences);
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void analyze_sentences(Paragraph& paragraph)
 {
+  try
+  {
   Paragraph paragraph_tmp;
   paragraph_tmp << paragraph;
   paragraph.clear();
@@ -1404,6 +1518,11 @@ void analyze_sentences(Paragraph& paragraph)
     auto& sen = static_cast<Sentence&>(*(sentences[i]));
     paragraph << sen;
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace
@@ -1411,11 +1530,18 @@ void analyze_sentences(Paragraph& paragraph)
 void print_out_weather_event_vector(std::ostream& theOutput,
                                     const weather_event_id_vector& theWeatherEventVector)
 {
+  try
+  {
   for (const auto& i : theWeatherEventVector)
   {
     weather_event_id trid(i.second);
 
     theOutput << i.first << ": " << weather_event_string(trid) << '\n';
+  }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 
@@ -1433,6 +1559,8 @@ void print_out_weather_event_vector(std::ostream& theOutput,
 
 Paragraph WeatherStory::forecast() const
 {
+  try
+  {
   MessageLogger log("WeatherStory::forecast");
 
   using namespace PrecipitationPeriodTools;
@@ -1486,6 +1614,11 @@ Paragraph WeatherStory::forecast() const
   analyze_sentences(paragraph);
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -1502,6 +1635,8 @@ Paragraph WeatherStory::forecast() const
 
 Paragraph WeatherStory::forecast_at_sea() const
 {
+  try
+  {
   MessageLogger log("WeatherStory::forecast_at_sea");
 
   using namespace PrecipitationPeriodTools;
@@ -1521,6 +1656,11 @@ Paragraph WeatherStory::forecast_at_sea() const
       itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

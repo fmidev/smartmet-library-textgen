@@ -74,9 +74,16 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-std::string NullDictionary::find(const std::string& /*theKey*/) const
+std::string NullDictionary::find(const std::string& theKey) const
 {
-  throw Fmi::Exception(BCP, "NullDictionary find is disabled");
+  try
+  {
+    throw Fmi::Exception(BCP, "NullDictionary find is disabled");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theKey", theKey);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -90,9 +97,18 @@ std::string NullDictionary::find(const std::string& /*theKey*/) const
  */
 // ----------------------------------------------------------------------
 
-void NullDictionary::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
+void NullDictionary::insert(const std::string& theKey, const std::string& thePhrase)
 {
-  throw Fmi::Exception(BCP, "NullDictionary insert is disabled");
+  try
+  {
+    throw Fmi::Exception(BCP, "NullDictionary insert is disabled");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theKey", theKey)
+        .addParameter("thePhrase", thePhrase);
+  }
 }
 
 }  // namespace TextGen

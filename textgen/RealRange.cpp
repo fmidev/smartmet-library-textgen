@@ -55,8 +55,15 @@ RealRange::RealRange(float theStartValue,
 
 std::shared_ptr<Glyph> RealRange::clone() const
 {
-  std::shared_ptr<Glyph> ret(new RealRange(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new RealRange(*this));
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -70,23 +77,30 @@ std::shared_ptr<Glyph> RealRange::clone() const
 
 std::string RealRange::realize(const Dictionary& /*theDictionary*/) const
 {
-  std::ostringstream os;
-  if (itsStartValue == itsEndValue)
-    os << fixed << setprecision(itsPrecision) << itsStartValue;
-  else
+  try
   {
-    if (itsStartValue < 0 && itsEndValue > 0)
-      os << fixed << setprecision(itsPrecision) << itsStartValue << itsRangeSeparator << "+"
-         << itsEndValue;
-    else if (itsStartValue > 0 && itsEndValue < 0)
-      os << fixed << setprecision(itsPrecision) << "+" << itsStartValue << itsRangeSeparator
-         << itsEndValue;
+    std::ostringstream os;
+    if (itsStartValue == itsEndValue)
+      os << fixed << setprecision(itsPrecision) << itsStartValue;
     else
-      os << fixed << setprecision(itsPrecision) << itsStartValue << itsRangeSeparator
-         << itsEndValue;
-  }
+    {
+      if (itsStartValue < 0 && itsEndValue > 0)
+        os << fixed << setprecision(itsPrecision) << itsStartValue << itsRangeSeparator << "+"
+           << itsEndValue;
+      else if (itsStartValue > 0 && itsEndValue < 0)
+        os << fixed << setprecision(itsPrecision) << "+" << itsStartValue << itsRangeSeparator
+           << itsEndValue;
+      else
+        os << fixed << setprecision(itsPrecision) << itsStartValue << itsRangeSeparator
+           << itsEndValue;
+    }
 
-  return os.str();
+    return os.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -100,7 +114,14 @@ std::string RealRange::realize(const Dictionary& /*theDictionary*/) const
 
 std::string RealRange::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------

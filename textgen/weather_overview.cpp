@@ -23,6 +23,7 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <boost/lexical_cast.hpp>
 #include <vector>
@@ -1352,6 +1353,8 @@ constexpr std::array<int, 577> two_day_forecasts = {
 
 int one_day_rain_index(int theStartHour, int theEndHour)
 {
+  try
+  {
   if (theEndHour <= theStartHour)
     throw Fmi::Exception(
         BCP, "Internal error in weather_overview: end hour must be greater than start hour");
@@ -1361,6 +1364,11 @@ int one_day_rain_index(int theStartHour, int theEndHour)
   const int an = 24 - n + 1;
   const int sn = ((a1 + an) * n) / 2;
   return (sn + theStartHour + 1);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartHour", Fmi::to_string(theStartHour)).addParameter("theEndHour", Fmi::to_string(theEndHour));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -1375,8 +1383,15 @@ int one_day_rain_index(int theStartHour, int theEndHour)
 
 int one_day_rain_unique_index(int theStartHour, int theEndHour)
 {
+  try
+  {
   const int tmp = one_day_rain_index(theStartHour, theEndHour);
   return one_day_forecasts[tmp];
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartHour", Fmi::to_string(theStartHour)).addParameter("theEndHour", Fmi::to_string(theEndHour));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -1406,8 +1421,15 @@ int two_day_rain_index(int theStartHour, int theEndHour)
 
 int two_day_rain_unique_index(int theStartHour, int theEndHour)
 {
+  try
+  {
   const int tmp = two_day_rain_index(theStartHour, theEndHour);
   return two_day_forecasts[tmp];
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartHour", Fmi::to_string(theStartHour)).addParameter("theEndHour", Fmi::to_string(theEndHour));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -1424,6 +1446,8 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
                             const WeatherPeriod& theRainPeriod,
                             int theDay)
 {
+  try
+  {
   using namespace CloudinessStoryTools;
   using PrecipitationStoryTools::rain_phrase;
 
@@ -1480,6 +1504,11 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
       throw Fmi::Exception(BCP, "Internal error in weather_overview::one_inclusive_rain");
   }
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theDay", Fmi::to_string(theDay));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -1496,6 +1525,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
                                     const WeatherPeriod& theRainPeriod,
                                     int theDay)
 {
+  try
+  {
   using CloudinessStoryTools::cloudiness_phrase;
   using PrecipitationStoryTools::rain_phrase;
 
@@ -1693,6 +1724,11 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
 
   paragraph << s1 << s2;
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theDay", Fmi::to_string(theDay));
+  }
 }
 
 }  // namespace
@@ -1710,11 +1746,18 @@ Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
                               const string& theVar,
                               const PrecipitationPeriodTools::RainPeriods& /*theRainPeriods*/)
 {
+  try
+  {
   Sentence s;
   s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);
   s << "enimmakseen"
     << "poutaa";
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 using OverlapVector = vector<PrecipitationPeriodTools::RainPeriods>;
@@ -1732,6 +1775,8 @@ int handle_no_overlap_days(int day,
                            MessageLogger& log,
                            Paragraph& paragraph)
 {
+  try
+  {
   int day2 = day;
   for (; day2 < n; day2++)
   {
@@ -1750,6 +1795,11 @@ int handle_no_overlap_days(int day,
   CloudinessStory story(itsForecastTime, itsSources, itsArea, period, itsVar);
   paragraph << story.makeStory("cloudiness_overview");
   return day2;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("day", Fmi::to_string(day)).addParameter("n", Fmi::to_string(n)).addParameter("itsVar", itsVar);
+  }
 }
 
 // Handle the fallback rainy sequence: returns the last day consumed
@@ -1762,6 +1812,8 @@ int handle_rainy_sequence(int day,
                           const string& itsVar,
                           Paragraph& paragraph)
 {
+  try
+  {
   int day2 = day;
   for (; day2 < n; day2++)
   {
@@ -1782,6 +1834,11 @@ int handle_rainy_sequence(int day,
     s << WeekdayTools::from_weekday(period.localStartTime()) << "ajoittain sadetta";
   paragraph << s;
   return day2;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("day", Fmi::to_string(day)).addParameter("n", Fmi::to_string(n)).addParameter("itsVar", itsVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -1797,6 +1854,8 @@ int handle_rainy_sequence(int day,
 // ----------------------------------------------------------------------
 Paragraph WeatherStory::overview() const
 {
+  try
+  {
   MessageLogger log("WeatherStory::overview");
 
   using namespace PrecipitationPeriodTools;
@@ -1920,6 +1979,11 @@ Paragraph WeatherStory::overview() const
 
   log << paragraph;
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

@@ -55,8 +55,15 @@ PositiveRange::PositiveRange(int theStartValue, int theEndValue, std::string the
 
 std::shared_ptr<Glyph> PositiveRange::clone() const
 {
-  std::shared_ptr<Glyph> ret(new PositiveRange(*this));
-  return ret;
+  try
+  {
+    std::shared_ptr<Glyph> ret(new PositiveRange(*this));
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -70,20 +77,27 @@ std::shared_ptr<Glyph> PositiveRange::clone() const
 
 std::string PositiveRange::realize(const Dictionary& /*theDictionary*/) const
 {
-  std::ostringstream os;
-  if (itsStartValue == itsEndValue)
-    os << itsStartValue;
-  else
+  try
   {
-    if (itsStartValue < 0 && itsEndValue > 0)
-      os << itsStartValue << itsRangeSeparator << "+" << itsEndValue;
-    else if (itsStartValue > 0 && itsEndValue < 0)
-      os << "+" << itsStartValue << itsRangeSeparator << itsEndValue;
+    std::ostringstream os;
+    if (itsStartValue == itsEndValue)
+      os << itsStartValue;
     else
-      os << itsStartValue << itsRangeSeparator << itsEndValue;
-  }
+    {
+      if (itsStartValue < 0 && itsEndValue > 0)
+        os << itsStartValue << itsRangeSeparator << "+" << itsEndValue;
+      else if (itsStartValue > 0 && itsEndValue < 0)
+        os << "+" << itsStartValue << itsRangeSeparator << itsEndValue;
+      else
+        os << itsStartValue << itsRangeSeparator << itsEndValue;
+    }
 
-  return os.str();
+    return os.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -97,7 +111,14 @@ std::string PositiveRange::realize(const Dictionary& /*theDictionary*/) const
 
 std::string PositiveRange::realize(const TextFormatter& theFormatter) const
 {
-  return theFormatter.visit(*this);
+  try
+  {
+    return theFormatter.visit(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------

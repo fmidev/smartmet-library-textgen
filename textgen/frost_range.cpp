@@ -34,103 +34,110 @@ namespace TextGen
 
 Paragraph FrostStory::range() const
 {
-  MessageLogger log("FrostStory::range");
-
-  Paragraph paragraph;
-
-  if (!FrostStoryTools::is_frost_season())
+  try
   {
-    log << "Frost season is not on";
-    return paragraph;
-  }
+    MessageLogger log("FrostStory::range");
 
-  using MathTools::to_precision;
+    Paragraph paragraph;
 
-  Sentence sentence;
+    if (!FrostStoryTools::is_frost_season())
+    {
+      log << "Frost season is not on";
+      return paragraph;
+    }
 
-  const string var1 = itsVar + "::precision";
-  const string var2 = itsVar + "::severe_frost_limit";
-  const string var3 = itsVar + "::frost_limit";
+    using MathTools::to_precision;
 
-  const int precision = Settings::require_percentage(var1);
-  const int severelimit = Settings::require_percentage(var2);
-  const int normallimit = Settings::require_percentage(var3);
+    Sentence sentence;
 
-  const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");
+    const string var1 = itsVar + "::precision";
+    const string var2 = itsVar + "::severe_frost_limit";
+    const string var3 = itsVar + "::frost_limit";
 
-  GridForecaster forecaster;
+    const int precision = Settings::require_percentage(var1);
+    const int severelimit = Settings::require_percentage(var2);
+    const int normallimit = Settings::require_percentage(var3);
 
-  WeatherResult maxfrost = forecaster.analyze(
-      itsVar + "::fake::maximum", itsSources, Frost, Maximum, Maximum, itsArea, itsPeriod);
+    const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");
 
-  WeatherResultTools::checkMissingValue("frost_range", Frost, maxfrost);
+    GridForecaster forecaster;
 
-  // Quick exit if maximum frost probability is zero
+    WeatherResult maxfrost = forecaster.analyze(
+        itsVar + "::fake::maximum", itsSources, Frost, Maximum, Maximum, itsArea, itsPeriod);
 
-  if (maxfrost.value() == 0)
-  {
+    WeatherResultTools::checkMissingValue("frost_range", Frost, maxfrost);
+
+    // Quick exit if maximum frost probability is zero
+
+    if (maxfrost.value() == 0)
+    {
+      log << paragraph;
+      return paragraph;
+    }
+
+    // Minimum frost
+
+    WeatherResult minfrost = forecaster.analyze(
+        itsVar + "::fake::minimum", itsSources, Frost, Minimum, Maximum, itsArea, itsPeriod);
+
+    WeatherResultTools::checkMissingValue("frost_range", Frost, minfrost);
+
+    log << "Frost Maximum(Maximum) is " << maxfrost << '\n';
+    log << "Frost Minimum(Maximum) is " << minfrost << '\n';
+
+    // Maximum severe frost
+
+    WeatherResult maxseverefrost = forecaster.analyze(itsVar + "::fake::severe_maximum",
+                                                      itsSources,
+                                                      SevereFrost,
+                                                      Maximum,
+                                                      Maximum,
+                                                      itsArea,
+                                                      itsPeriod);
+
+    WeatherResultTools::checkMissingValue("frost_range", SevereFrost, maxseverefrost);
+
+    WeatherResult minseverefrost = forecaster.analyze(itsVar + "::fake::severe_minimum",
+                                                      itsSources,
+                                                      SevereFrost,
+                                                      Minimum,
+                                                      Maximum,
+                                                      itsArea,
+                                                      itsPeriod);
+
+    WeatherResultTools::checkMissingValue("frost_range", SevereFrost, minseverefrost);
+
+    log << "SevereFrost Maximum(Maximum) is " << maxseverefrost << '\n';
+    log << "SevereFrost Minimum(Maximum) is " << minseverefrost << '\n';
+
+    const int frost_min = to_precision(minfrost.value(), precision);
+    const int frost_max = to_precision(maxfrost.value(), precision);
+
+    const int severe_frost_min = to_precision(minseverefrost.value(), precision);
+    const int severe_frost_max = to_precision(maxseverefrost.value(), precision);
+
+    if (severe_frost_max >= severelimit)
+    {
+      sentence << "ankaran hallan todennakoisyys"
+               << "on" << PositiveRange(severe_frost_min, severe_frost_max, rangeseparator)
+               << *UnitFactory::create(Percent);
+      paragraph << sentence;
+    }
+    else if (frost_max >= normallimit)
+    {
+      sentence << "hallan todennakoisyys"
+               << "on" << PositiveRange(frost_min, frost_max, rangeseparator)
+               << *UnitFactory::create(Percent);
+      paragraph << sentence;
+    }
+
     log << paragraph;
     return paragraph;
   }
-
-  // Minimum frost
-
-  WeatherResult minfrost = forecaster.analyze(
-      itsVar + "::fake::minimum", itsSources, Frost, Minimum, Maximum, itsArea, itsPeriod);
-
-  WeatherResultTools::checkMissingValue("frost_range", Frost, minfrost);
-
-  log << "Frost Maximum(Maximum) is " << maxfrost << '\n';
-  log << "Frost Minimum(Maximum) is " << minfrost << '\n';
-
-  // Maximum severe frost
-
-  WeatherResult maxseverefrost = forecaster.analyze(itsVar + "::fake::severe_maximum",
-                                                    itsSources,
-                                                    SevereFrost,
-                                                    Maximum,
-                                                    Maximum,
-                                                    itsArea,
-                                                    itsPeriod);
-
-  WeatherResultTools::checkMissingValue("frost_range", SevereFrost, maxseverefrost);
-
-  WeatherResult minseverefrost = forecaster.analyze(itsVar + "::fake::severe_minimum",
-                                                    itsSources,
-                                                    SevereFrost,
-                                                    Minimum,
-                                                    Maximum,
-                                                    itsArea,
-                                                    itsPeriod);
-
-  WeatherResultTools::checkMissingValue("frost_range", SevereFrost, minseverefrost);
-
-  log << "SevereFrost Maximum(Maximum) is " << maxseverefrost << '\n';
-  log << "SevereFrost Minimum(Maximum) is " << minseverefrost << '\n';
-
-  const int frost_min = to_precision(minfrost.value(), precision);
-  const int frost_max = to_precision(maxfrost.value(), precision);
-
-  const int severe_frost_min = to_precision(minseverefrost.value(), precision);
-  const int severe_frost_max = to_precision(maxseverefrost.value(), precision);
-
-  if (severe_frost_max >= severelimit)
+  catch (...)
   {
-    sentence << "ankaran hallan todennakoisyys"
-             << "on" << PositiveRange(severe_frost_min, severe_frost_max, rangeseparator)
-             << *UnitFactory::create(Percent);
-    paragraph << sentence;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  else if (frost_max >= normallimit)
-  {
-    sentence << "hallan todennakoisyys"
-             << "on" << PositiveRange(frost_min, frost_max, rangeseparator)
-             << *UnitFactory::create(Percent);
-    paragraph << sentence;
-  }
-
-  log << paragraph;
-  return paragraph;
 }
 
 }  // namespace TextGen

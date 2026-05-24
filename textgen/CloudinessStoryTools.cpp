@@ -24,6 +24,8 @@
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -54,40 +56,51 @@ CloudinessType cloudiness_type(const std::string& theVar,
                                double theClearPercentage,
                                double theTrend)
 {
-  using namespace Settings;
+  try
+  {
+    using namespace Settings;
 
-  const int single_class_limit = optional_percentage(theVar + "::single_class_limit", 90);
-  const int mostly_class_limit = optional_percentage(theVar + "::mostly_class_limit", 80);
-  const int no_class_limit = optional_percentage(theVar + "::no_class_limit", 20);
-  const int trend_limit = optional_percentage(theVar + "::trend_limit", 80);
+    const int single_class_limit = optional_percentage(theVar + "::single_class_limit", 90);
+    const int mostly_class_limit = optional_percentage(theVar + "::mostly_class_limit", 80);
+    const int no_class_limit = optional_percentage(theVar + "::no_class_limit", 20);
+    const int trend_limit = optional_percentage(theVar + "::trend_limit", 80);
 
-  const double partlycloudy = 100 - theCloudyPercentage - theClearPercentage;
+    const double partlycloudy = 100 - theCloudyPercentage - theClearPercentage;
 
-  if (theCloudyPercentage >= single_class_limit)
-    return Cloudy;
-  if (theClearPercentage >= single_class_limit)
-    return Clear;
-  if (partlycloudy >= single_class_limit)
-    return PartlyCloudy;
+    if (theCloudyPercentage >= single_class_limit)
+      return Cloudy;
+    if (theClearPercentage >= single_class_limit)
+      return Clear;
+    if (partlycloudy >= single_class_limit)
+      return PartlyCloudy;
 
-  if (theCloudyPercentage >= mostly_class_limit)
-    return MostlyCloudy;
-  if (theClearPercentage >= mostly_class_limit)
-    return MostlyClear;
-  if (partlycloudy >= mostly_class_limit)
-    return MostlyPartlyCloudy;
+    if (theCloudyPercentage >= mostly_class_limit)
+      return MostlyCloudy;
+    if (theClearPercentage >= mostly_class_limit)
+      return MostlyClear;
+    if (partlycloudy >= mostly_class_limit)
+      return MostlyPartlyCloudy;
 
-  if (theClearPercentage < no_class_limit)
-    return CloudyOrPartlyCloudy;
-  if (theCloudyPercentage < no_class_limit)
-    return ClearOrPartlyCloudy;
+    if (theClearPercentage < no_class_limit)
+      return CloudyOrPartlyCloudy;
+    if (theCloudyPercentage < no_class_limit)
+      return ClearOrPartlyCloudy;
 
-  if (theTrend >= trend_limit)
-    return IncreasingCloudiness;
-  if (-theTrend >= trend_limit)
-    return DecreasingCloudiness;
+    if (theTrend >= trend_limit)
+      return IncreasingCloudiness;
+    if (-theTrend >= trend_limit)
+      return DecreasingCloudiness;
 
-  return VariableCloudiness;
+    return VariableCloudiness;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theCloudyPercentage", Fmi::to_string(theCloudyPercentage))
+        .addParameter("theClearPercentage", Fmi::to_string(theClearPercentage))
+        .addParameter("theTrend", Fmi::to_string(theTrend));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -370,7 +383,14 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
 
 CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes)
 {
-  return similar_type(theTypes, 0, theTypes.size() - 1);
+  try
+  {
+    return similar_type(theTypes, 0, theTypes.size() - 1);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -394,32 +414,41 @@ CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes,
                               unsigned int theStart,
                               unsigned int theEnd)
 {
-  // handle zero types case
-  if (theTypes.empty() || theEnd < theStart)
-    return {VariableCloudiness, false};
-
-  // handle a single type case
-  if (theStart == theEnd)
-    return {theTypes[theStart], true};
-
-  // handle two type case
-  if (theEnd == theStart + 1)
-    return similar_type(theTypes[theStart], theTypes[theEnd]);
-
-  // merge adjacent pairs, if any merge fails, so does the
-  // entire merge and we abort
-
-  std::vector<CloudinessType> similar_types;
-  for (unsigned int i = theStart; i < theEnd; i++)
+  try
   {
-    CommonCloudiness tmp = similar_type(theTypes[i], theTypes[i + 1]);
-    if (!tmp.second)
+    // handle zero types case
+    if (theTypes.empty() || theEnd < theStart)
       return {VariableCloudiness, false};
-    similar_types.push_back(tmp.first);
-  }
 
-  // recursion
-  return similar_type(similar_types);
+    // handle a single type case
+    if (theStart == theEnd)
+      return {theTypes[theStart], true};
+
+    // handle two type case
+    if (theEnd == theStart + 1)
+      return similar_type(theTypes[theStart], theTypes[theEnd]);
+
+    // merge adjacent pairs, if any merge fails, so does the
+    // entire merge and we abort
+
+    std::vector<CloudinessType> similar_types;
+    for (unsigned int i = theStart; i < theEnd; i++)
+    {
+      CommonCloudiness tmp = similar_type(theTypes[i], theTypes[i + 1]);
+      if (!tmp.second)
+        return {VariableCloudiness, false};
+      similar_types.push_back(tmp.first);
+    }
+
+    // recursion
+    return similar_type(similar_types);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theStart", Fmi::to_string(theStart))
+        .addParameter("theEnd", Fmi::to_string(theEnd));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -433,48 +462,55 @@ CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes,
 
 Sentence cloudiness_phrase(CloudinessType theType)
 {
-  Sentence sentence;
-  switch (theType)
+  try
   {
-    case MostlyCloudy:
-      sentence << "enimmakseen";
-      [[fallthrough]];
-    case Cloudy:
-      sentence << "pilvista";
-      break;
-    case MostlyPartlyCloudy:
-      sentence << "enimmakseen";
-      [[fallthrough]];
-    case PartlyCloudy:
-      sentence << "puolipilvista";
-      break;
-    case MostlyClear:
-      sentence << "enimmakseen";
-      [[fallthrough]];
-    case Clear:
-      sentence << "selkeaa";
-      break;
-    case CloudyOrPartlyCloudy:
-      sentence << "pilvista"
-               << "tai"
-               << "puolipilvista";
-      break;
-    case ClearOrPartlyCloudy:
-      sentence << "selkeaa"
-               << "tai"
-               << "puolipilvista";
-      break;
-    case DecreasingCloudiness:
-      sentence << "selkenevaa";
-      break;
-    case IncreasingCloudiness:
-      sentence << "pilvistyvaa";
-      break;
-    case VariableCloudiness:
-      sentence << "vaihtelevaa pilvisyytta";
-      break;
+    Sentence sentence;
+    switch (theType)
+    {
+      case MostlyCloudy:
+        sentence << "enimmakseen";
+        [[fallthrough]];
+      case Cloudy:
+        sentence << "pilvista";
+        break;
+      case MostlyPartlyCloudy:
+        sentence << "enimmakseen";
+        [[fallthrough]];
+      case PartlyCloudy:
+        sentence << "puolipilvista";
+        break;
+      case MostlyClear:
+        sentence << "enimmakseen";
+        [[fallthrough]];
+      case Clear:
+        sentence << "selkeaa";
+        break;
+      case CloudyOrPartlyCloudy:
+        sentence << "pilvista"
+                 << "tai"
+                 << "puolipilvista";
+        break;
+      case ClearOrPartlyCloudy:
+        sentence << "selkeaa"
+                 << "tai"
+                 << "puolipilvista";
+        break;
+      case DecreasingCloudiness:
+        sentence << "selkenevaa";
+        break;
+      case IncreasingCloudiness:
+        sentence << "pilvistyvaa";
+        break;
+      case VariableCloudiness:
+        sentence << "vaihtelevaa pilvisyytta";
+        break;
+    }
+    return sentence;
   }
-  return sentence;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -496,65 +532,74 @@ Sentence cloudiness_phrase(const AnalysisSources& theSources,
                            const string& theVar,
                            int theDay)
 {
-  MessageLogger log("CloudinessStoryTools::cloudiness_phrase");
+  try
+  {
+    MessageLogger log("CloudinessStoryTools::cloudiness_phrase");
 
-  using namespace Settings;
+    using namespace Settings;
 
-  const int clear = optional_percentage(theVar + "::clear", 40);
-  const int cloudy = optional_percentage(theVar + "::cloudy", 70);
+    const int clear = optional_percentage(theVar + "::clear", 40);
+    const int cloudy = optional_percentage(theVar + "::cloudy", 70);
 
-  RangeAcceptor cloudylimits;
-  cloudylimits.lowerLimit(cloudy);
+    RangeAcceptor cloudylimits;
+    cloudylimits.lowerLimit(cloudy);
 
-  RangeAcceptor clearlimits;
-  clearlimits.upperLimit(clear);
+    RangeAcceptor clearlimits;
+    clearlimits.upperLimit(clear);
 
-  GridForecaster forecaster;
+    GridForecaster forecaster;
 
-  const string daystr = "day" + std::to_string(theDay);
+    const string daystr = "day" + std::to_string(theDay);
 
-  const WeatherResult cloudy_percentage =
-      forecaster.analyze(theVar + "::fake::" + daystr + "::cloudy",
-                         theSources,
-                         Cloudiness,
-                         Mean,
-                         Percentage,
-                         theArea,
-                         thePeriod,
-                         DefaultAcceptor(),
-                         DefaultAcceptor(),
-                         cloudylimits);
+    const WeatherResult cloudy_percentage =
+        forecaster.analyze(theVar + "::fake::" + daystr + "::cloudy",
+                           theSources,
+                           Cloudiness,
+                           Mean,
+                           Percentage,
+                           theArea,
+                           thePeriod,
+                           DefaultAcceptor(),
+                           DefaultAcceptor(),
+                           cloudylimits);
 
-  const WeatherResult clear_percentage =
-      forecaster.analyze(theVar + "::fake::" + daystr + "::clear",
-                         theSources,
-                         Cloudiness,
-                         Mean,
-                         Percentage,
-                         theArea,
-                         thePeriod,
-                         DefaultAcceptor(),
-                         DefaultAcceptor(),
-                         clearlimits);
+    const WeatherResult clear_percentage =
+        forecaster.analyze(theVar + "::fake::" + daystr + "::clear",
+                           theSources,
+                           Cloudiness,
+                           Mean,
+                           Percentage,
+                           theArea,
+                           thePeriod,
+                           DefaultAcceptor(),
+                           DefaultAcceptor(),
+                           clearlimits);
 
-  const WeatherResult trend = forecaster.analyze(theVar + "::fake::" + daystr + "::trend",
-                                                 theSources,
-                                                 Cloudiness,
-                                                 Mean,
-                                                 Trend,
-                                                 theArea,
-                                                 thePeriod);
+    const WeatherResult trend = forecaster.analyze(theVar + "::fake::" + daystr + "::trend",
+                                                   theSources,
+                                                   Cloudiness,
+                                                   Mean,
+                                                   Trend,
+                                                   theArea,
+                                                   thePeriod);
 
-  log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << '\n';
-  log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << '\n';
-  log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << '\n';
+    log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << '\n';
+    log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << '\n';
+    log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << '\n';
 
-  CloudinessType ctype =
-      cloudiness_type(theVar, cloudy_percentage.value(), clear_percentage.value(), trend.value());
+    CloudinessType ctype =
+        cloudiness_type(theVar, cloudy_percentage.value(), clear_percentage.value(), trend.value());
 
-  Sentence s;
-  s << cloudiness_phrase(ctype);
-  return s;
+    Sentence s;
+    s << cloudiness_phrase(ctype);
+    return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theDay", Fmi::to_string(theDay));
+  }
 }
 
 }  // namespace CloudinessStoryTools

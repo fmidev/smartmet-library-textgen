@@ -19,6 +19,7 @@
 #include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherDataType.h>
+#include <macgyver/Exception.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiSvgPath.h>
@@ -132,141 +133,162 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
                                WeatherResult& theSouthWestShare,
                                WeatherResult& theNortWestShare)
 {
-  NFmiPoint retval(kFloatMissing, kFloatMissing);
-  double latSum(0.0);
-  double lonSum(0.0);
-
-  std::string parameterName;
-  std::string dataName;
-
-  ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
-  const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
-  const string datavar = dataName + '_' + "forecast";
-  const string dataname = Settings::optional_string(datavar, default_forecast);
-
-  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
-
-  NFmiIndexMask indexMask;
-
-  ExtractMask(theSources, theParameter, theArea, thePeriod, theAcceptor, indexMask);
-
-  vector<NFmiPoint> latitudeLongitudeCoordinates;
-  for (unsigned long it : indexMask)
+  try
   {
-    NFmiPoint latlon = theQI.LatLon(it);
-    lonSum += latlon.X();
-    latSum += latlon.Y();
-    latitudeLongitudeCoordinates.push_back(latlon);
-  }
+    NFmiPoint retval(kFloatMissing, kFloatMissing);
+    double latSum(0.0);
+    double lonSum(0.0);
 
-  if (!latitudeLongitudeCoordinates.empty())
-  {
-    map<direction_id, double> arealDistribution;
-    getArealDistribution(latitudeLongitudeCoordinates, arealDistribution);
-    theNortEastShare = WeatherResult(arealDistribution[NORTHEAST], 0);
-    theSouthEastShare = WeatherResult(arealDistribution[SOUTHEAST], 0);
-    theSouthWestShare = WeatherResult(arealDistribution[SOUTHWEST], 0);
-    theNortWestShare = WeatherResult(arealDistribution[NORTHWEST], 0);
-    latitudeLongitudeCoordinates.clear();
-    retval.X(lonSum / indexMask.size());
-    retval.Y(latSum / indexMask.size());
-  }
-  else
-  {
-    theNortEastShare = WeatherResult(0.0, 0);
-    theSouthEastShare = WeatherResult(0.0, 0);
-    theSouthWestShare = WeatherResult(0.0, 0);
-    theNortWestShare = WeatherResult(0.0, 0);
-  }
+    std::string parameterName;
+    std::string dataName;
 
-  return retval;
+    ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
+    const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
+    const string datavar = dataName + '_' + "forecast";
+    const string dataname = Settings::optional_string(datavar, default_forecast);
+
+    std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+    std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+    NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
+
+    NFmiIndexMask indexMask;
+
+    ExtractMask(theSources, theParameter, theArea, thePeriod, theAcceptor, indexMask);
+
+    vector<NFmiPoint> latitudeLongitudeCoordinates;
+    for (unsigned long it : indexMask)
+    {
+      NFmiPoint latlon = theQI.LatLon(it);
+      lonSum += latlon.X();
+      latSum += latlon.Y();
+      latitudeLongitudeCoordinates.push_back(latlon);
+    }
+
+    if (!latitudeLongitudeCoordinates.empty())
+    {
+      map<direction_id, double> arealDistribution;
+      getArealDistribution(latitudeLongitudeCoordinates, arealDistribution);
+      theNortEastShare = WeatherResult(arealDistribution[NORTHEAST], 0);
+      theSouthEastShare = WeatherResult(arealDistribution[SOUTHEAST], 0);
+      theSouthWestShare = WeatherResult(arealDistribution[SOUTHWEST], 0);
+      theNortWestShare = WeatherResult(arealDistribution[NORTHWEST], 0);
+      latitudeLongitudeCoordinates.clear();
+      retval.X(lonSum / indexMask.size());
+      retval.Y(latSum / indexMask.size());
+    }
+    else
+    {
+      theNortEastShare = WeatherResult(0.0, 0);
+      theSouthEastShare = WeatherResult(0.0, 0);
+      theSouthWestShare = WeatherResult(0.0, 0);
+      theNortWestShare = WeatherResult(0.0, 0);
+    }
+
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void getArealDistribution(const vector<NFmiPoint>& thePointVector,
                           map<direction_id, double>& theResultData)
 {
-  Rect area(thePointVector);
-
-  theResultData.insert(make_pair(NORTH, 0.0));
-  theResultData.insert(make_pair(SOUTH, 0.0));
-  theResultData.insert(make_pair(EAST, 0.0));
-  theResultData.insert(make_pair(WEST, 0.0));
-  theResultData.insert(make_pair(NORTHEAST, 0.0));
-  theResultData.insert(make_pair(SOUTHEAST, 0.0));
-  theResultData.insert(make_pair(SOUTHWEST, 0.0));
-  theResultData.insert(make_pair(NORTHWEST, 0.0));
-  theResultData.insert(make_pair(NO_DIRECTION, 0.0));
-
-  unsigned int count = thePointVector.size();
-
-  for (unsigned int i = 0; i < count; i++)
+  try
   {
-    NFmiPoint thePoint(thePointVector[i]);
-    theResultData[area.getHalfDirection(thePoint)] += 1.0;
+    Rect area(thePointVector);
+
+    theResultData.insert(make_pair(NORTH, 0.0));
+    theResultData.insert(make_pair(SOUTH, 0.0));
+    theResultData.insert(make_pair(EAST, 0.0));
+    theResultData.insert(make_pair(WEST, 0.0));
+    theResultData.insert(make_pair(NORTHEAST, 0.0));
+    theResultData.insert(make_pair(SOUTHEAST, 0.0));
+    theResultData.insert(make_pair(SOUTHWEST, 0.0));
+    theResultData.insert(make_pair(NORTHWEST, 0.0));
+    theResultData.insert(make_pair(NO_DIRECTION, 0.0));
+
+    unsigned int count = thePointVector.size();
+
+    for (unsigned int i = 0; i < count; i++)
+    {
+      NFmiPoint thePoint(thePointVector[i]);
+      theResultData[area.getHalfDirection(thePoint)] += 1.0;
+    }
+
+    theResultData[NORTH] += (theResultData[NORTHEAST] + theResultData[NORTHWEST]);
+    theResultData[SOUTH] += (theResultData[SOUTHEAST] + theResultData[SOUTHWEST]);
+    theResultData[EAST] += (theResultData[NORTHEAST] + theResultData[SOUTHEAST]);
+    theResultData[WEST] += (theResultData[NORTHWEST] + theResultData[SOUTHWEST]);
+
+    theResultData[NORTH] = (theResultData[NORTH] / count) * 100;
+    theResultData[SOUTH] = (theResultData[SOUTH] / count) * 100;
+    theResultData[EAST] = (theResultData[EAST] / count) * 100;
+    theResultData[WEST] = (theResultData[WEST] / count) * 100;
+    theResultData[NORTHEAST] = (theResultData[NORTHEAST] / count) * 100;
+    theResultData[SOUTHEAST] = (theResultData[SOUTHEAST] / count) * 100;
+    theResultData[SOUTHWEST] = (theResultData[SOUTHWEST] / count) * 100;
+    theResultData[NORTHWEST] = (theResultData[NORTHWEST] / count) * 100;
+    theResultData[NO_DIRECTION] = (theResultData[NO_DIRECTION] / count) * 100;
   }
-
-  theResultData[NORTH] += (theResultData[NORTHEAST] + theResultData[NORTHWEST]);
-  theResultData[SOUTH] += (theResultData[SOUTHEAST] + theResultData[SOUTHWEST]);
-  theResultData[EAST] += (theResultData[NORTHEAST] + theResultData[SOUTHEAST]);
-  theResultData[WEST] += (theResultData[NORTHWEST] + theResultData[SOUTHWEST]);
-
-  theResultData[NORTH] = (theResultData[NORTH] / count) * 100;
-  theResultData[SOUTH] = (theResultData[SOUTH] / count) * 100;
-  theResultData[EAST] = (theResultData[EAST] / count) * 100;
-  theResultData[WEST] = (theResultData[WEST] / count) * 100;
-  theResultData[NORTHEAST] = (theResultData[NORTHEAST] / count) * 100;
-  theResultData[SOUTHEAST] = (theResultData[SOUTHEAST] / count) * 100;
-  theResultData[SOUTHWEST] = (theResultData[SOUTHWEST] / count) * 100;
-  theResultData[NORTHWEST] = (theResultData[NORTHWEST] / count) * 100;
-  theResultData[NO_DIRECTION] = (theResultData[NO_DIRECTION] / count) * 100;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // returns direction of theSecondaryRect inside thePrimaryRect
 // if theSecondaryRect is outside, even if only partly, thePrimaryRect NO_DIRECTION is returned
 direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRect)
 {
-  if (!thePrimaryRect.contains(theSecondaryRect))
+  try
+  {
+    if (!thePrimaryRect.contains(theSecondaryRect))
+      return NO_DIRECTION;
+
+    NFmiPoint topLeftPrimary = thePrimaryRect.getTopLeft();
+    NFmiPoint bottomRightPrimary = thePrimaryRect.getBottomRight();
+
+    double centerCoordinateYPrimary =
+        bottomRightPrimary.Y() + ((topLeftPrimary.Y() - bottomRightPrimary.Y()) / 2.0);
+    double centerCoordinateXPrimary =
+        topLeftPrimary.X() + ((bottomRightPrimary.X() - topLeftPrimary.X()) / 2.0);
+
+    Rect northRect(topLeftPrimary, NFmiPoint(bottomRightPrimary.X(), centerCoordinateYPrimary));
+    Rect southRect(NFmiPoint(topLeftPrimary.X(), centerCoordinateYPrimary), bottomRightPrimary);
+    Rect eastRect(NFmiPoint(centerCoordinateXPrimary, topLeftPrimary.Y()), bottomRightPrimary);
+    Rect westRect(topLeftPrimary, NFmiPoint(centerCoordinateXPrimary, bottomRightPrimary.Y()));
+
+    if (northRect.contains(theSecondaryRect))
+    {
+      if (eastRect.contains(theSecondaryRect))
+        return NORTHEAST;
+      if (westRect.contains(theSecondaryRect))
+        return NORTHWEST;
+      return NORTH;
+    }
+
+    if (southRect.contains(theSecondaryRect))
+    {
+      if (eastRect.contains(theSecondaryRect))
+        return SOUTHEAST;
+      if (westRect.contains(theSecondaryRect))
+        return SOUTHWEST;
+      return SOUTH;
+    }
+    if (eastRect.contains(theSecondaryRect))
+      return EAST;
+
+    if (westRect.contains(theSecondaryRect))
+      return WEST;
+
     return NO_DIRECTION;
-
-  NFmiPoint topLeftPrimary = thePrimaryRect.getTopLeft();
-  NFmiPoint bottomRightPrimary = thePrimaryRect.getBottomRight();
-
-  double centerCoordinateYPrimary =
-      bottomRightPrimary.Y() + ((topLeftPrimary.Y() - bottomRightPrimary.Y()) / 2.0);
-  double centerCoordinateXPrimary =
-      topLeftPrimary.X() + ((bottomRightPrimary.X() - topLeftPrimary.X()) / 2.0);
-
-  Rect northRect(topLeftPrimary, NFmiPoint(bottomRightPrimary.X(), centerCoordinateYPrimary));
-  Rect southRect(NFmiPoint(topLeftPrimary.X(), centerCoordinateYPrimary), bottomRightPrimary);
-  Rect eastRect(NFmiPoint(centerCoordinateXPrimary, topLeftPrimary.Y()), bottomRightPrimary);
-  Rect westRect(topLeftPrimary, NFmiPoint(centerCoordinateXPrimary, bottomRightPrimary.Y()));
-
-  if (northRect.contains(theSecondaryRect))
-  {
-    if (eastRect.contains(theSecondaryRect))
-      return NORTHEAST;
-    if (westRect.contains(theSecondaryRect))
-      return NORTHWEST;
-    return NORTH;
   }
-
-  if (southRect.contains(theSecondaryRect))
+  catch (...)
   {
-    if (eastRect.contains(theSecondaryRect))
-      return SOUTHEAST;
-    if (westRect.contains(theSecondaryRect))
-      return SOUTHWEST;
-    return SOUTH;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  if (eastRect.contains(theSecondaryRect))
-    return EAST;
-
-  if (westRect.contains(theSecondaryRect))
-    return WEST;
-
-  return NO_DIRECTION;
 }
 
 std::string getDirectionString(const direction_id& theDirectionId)
@@ -405,57 +427,73 @@ Rect::Rect(const AnalysisSources& theSources,
 
 Rect Rect::boundingRect(const Rect& theRect) const
 {
-  double minX = theRect.m_topLeft.X() < m_topLeft.X() ? theRect.m_topLeft.X() : m_topLeft.X();
-  double maxX =
-      theRect.m_bottomRight.X() > m_bottomRight.X() ? theRect.m_bottomRight.X() : m_bottomRight.X();
-  double minY =
-      theRect.m_bottomRight.Y() < m_bottomRight.Y() ? theRect.m_bottomRight.Y() : m_bottomRight.Y();
-  double maxY = theRect.m_topLeft.Y() > m_topLeft.Y() ? theRect.m_topLeft.Y() : m_topLeft.Y();
+  try
+  {
+    double minX = theRect.m_topLeft.X() < m_topLeft.X() ? theRect.m_topLeft.X() : m_topLeft.X();
+    double maxX = theRect.m_bottomRight.X() > m_bottomRight.X() ? theRect.m_bottomRight.X()
+                                                                : m_bottomRight.X();
+    double minY = theRect.m_bottomRight.Y() < m_bottomRight.Y() ? theRect.m_bottomRight.Y()
+                                                                : m_bottomRight.Y();
+    double maxY = theRect.m_topLeft.Y() > m_topLeft.Y() ? theRect.m_topLeft.Y() : m_topLeft.Y();
 
-  Rect retval(NFmiPoint(minX, maxY), NFmiPoint(maxX, minY));
+    Rect retval(NFmiPoint(minX, maxY), NFmiPoint(maxX, minY));
 
-  return retval;
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
+
 
 Rect Rect::intersection(const Rect& theRect) const
 {
-  direction_id dirId = TextGen::AreaTools::getDirection(*this, theRect);
-
-  Rect retval;
-
-  if (dirId == NO_DIRECTION)
+  try
   {
-    if (this->contains(theRect))  // inside, but on different directions
+    direction_id dirId = TextGen::AreaTools::getDirection(*this, theRect);
+
+    Rect retval;
+
+    if (dirId == NO_DIRECTION)
     {
-      retval = theRect;
+      if (this->contains(theRect))  // inside, but on different directions
+      {
+        retval = theRect;
+      }
+      else
+      {
+        if (theRect.contains(*this))
+        {
+          retval = *this;
+        }
+        else  // intersects partially
+        {
+          double minX =
+              theRect.m_topLeft.X() > m_topLeft.X() ? theRect.m_topLeft.X() : m_topLeft.X();
+
+          double maxX = theRect.m_bottomRight.X() < m_bottomRight.X() ? theRect.m_bottomRight.X()
+                                                                      : m_bottomRight.X();
+          double minY = theRect.m_bottomRight.Y() > m_bottomRight.Y() ? theRect.m_bottomRight.Y()
+                                                                      : m_bottomRight.Y();
+          double maxY = theRect.m_topLeft.Y() < m_topLeft.Y() ? theRect.m_topLeft.Y() : m_topLeft.Y();
+
+          retval.setTopLeft(NFmiPoint(minX, maxY));
+          retval.setBottomRight(NFmiPoint(maxX, minY));
+        }
+      }
     }
     else
     {
-      if (theRect.contains(*this))
-      {
-        retval = *this;
-      }
-      else  // intersects partially
-      {
-        double minX = theRect.m_topLeft.X() > m_topLeft.X() ? theRect.m_topLeft.X() : m_topLeft.X();
-
-        double maxX = theRect.m_bottomRight.X() < m_bottomRight.X() ? theRect.m_bottomRight.X()
-                                                                    : m_bottomRight.X();
-        double minY = theRect.m_bottomRight.Y() > m_bottomRight.Y() ? theRect.m_bottomRight.Y()
-                                                                    : m_bottomRight.Y();
-        double maxY = theRect.m_topLeft.Y() < m_topLeft.Y() ? theRect.m_topLeft.Y() : m_topLeft.Y();
-
-        retval.setTopLeft(NFmiPoint(minX, maxY));
-        retval.setBottomRight(NFmiPoint(maxX, minY));
-      }
+      retval = theRect;
     }
-  }
-  else
-  {
-    retval = theRect;
-  }
 
-  return retval;
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 double Rect::size() const
@@ -468,82 +506,96 @@ double Rect::size() const
 
 double Rect::intersectionPercentage(const Rect& theRect) const
 {
-  Rect intersectionRect = intersection(theRect);
+  try
+  {
+    Rect intersectionRect = intersection(theRect);
 
-  return (size() == 0.0 ? 0.0 : (intersectionRect.size() / size()) * 100);
+    return (size() == 0.0 ? 0.0 : (intersectionRect.size() / size()) * 100);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Rect Rect::subRect(const direction_id& theDirectionId) const
 {
-  Rect retval;
-
-  double centerCoordinateY = m_bottomRight.Y() + ((m_topLeft.Y() - m_bottomRight.Y()) / 2.0);
-  double centerCoordinateX = m_topLeft.X() + ((m_bottomRight.X() - m_topLeft.X()) / 2.0);
-
-  switch (theDirectionId)
+  try
   {
-    case NORTH:
+    Rect retval;
+
+    double centerCoordinateY = m_bottomRight.Y() + ((m_topLeft.Y() - m_bottomRight.Y()) / 2.0);
+    double centerCoordinateX = m_topLeft.X() + ((m_bottomRight.X() - m_topLeft.X()) / 2.0);
+
+    switch (theDirectionId)
     {
-      retval.m_topLeft = m_topLeft;
-      retval.m_bottomRight.X(m_bottomRight.X());
-      retval.m_bottomRight.Y(centerCoordinateY);
-    }
-    break;
-    case SOUTH:
-    {
-      retval.m_topLeft.X(m_topLeft.X());
-      retval.m_topLeft.Y(centerCoordinateY);
-      retval.m_bottomRight = m_bottomRight;
-    }
-    break;
-    case EAST:
-    {
-      retval.m_topLeft.X(centerCoordinateX);
-      retval.m_topLeft.Y(m_topLeft.Y());
-      retval.m_bottomRight = m_bottomRight;
-    }
-    break;
-    case WEST:
-    {
-      retval.m_topLeft = m_topLeft;
-      retval.m_bottomRight.X(centerCoordinateX);
-      retval.m_bottomRight.Y(m_bottomRight.Y());
-    }
-    break;
-    case NORTHEAST:
-    {
-      retval.m_topLeft.X(centerCoordinateX);
-      retval.m_topLeft.Y(m_topLeft.Y());
-      retval.m_bottomRight.X(m_bottomRight.X());
-      retval.m_bottomRight.Y(centerCoordinateY);
-    }
-    break;
-    case SOUTHEAST:
-    {
-      retval.m_topLeft.X(centerCoordinateX);
-      retval.m_topLeft.Y(centerCoordinateY);
-      retval.m_bottomRight = m_bottomRight;
-    }
-    break;
-    case SOUTHWEST:
-    {
-      retval.m_topLeft.X(m_topLeft.X());
-      retval.m_topLeft.Y(centerCoordinateY);
-      retval.m_bottomRight.X(centerCoordinateX);
-      retval.m_bottomRight.Y(m_bottomRight.Y());
-    }
-    break;
-    case NORTHWEST:
-    {
-      retval.m_topLeft = m_topLeft;
-      retval.m_bottomRight.X(centerCoordinateX);
-      retval.m_bottomRight.Y(centerCoordinateY);
-    }
-    break;
-    case NO_DIRECTION:
+      case NORTH:
+      {
+        retval.m_topLeft = m_topLeft;
+        retval.m_bottomRight.X(m_bottomRight.X());
+        retval.m_bottomRight.Y(centerCoordinateY);
+      }
       break;
+      case SOUTH:
+      {
+        retval.m_topLeft.X(m_topLeft.X());
+        retval.m_topLeft.Y(centerCoordinateY);
+        retval.m_bottomRight = m_bottomRight;
+      }
+      break;
+      case EAST:
+      {
+        retval.m_topLeft.X(centerCoordinateX);
+        retval.m_topLeft.Y(m_topLeft.Y());
+        retval.m_bottomRight = m_bottomRight;
+      }
+      break;
+      case WEST:
+      {
+        retval.m_topLeft = m_topLeft;
+        retval.m_bottomRight.X(centerCoordinateX);
+        retval.m_bottomRight.Y(m_bottomRight.Y());
+      }
+      break;
+      case NORTHEAST:
+      {
+        retval.m_topLeft.X(centerCoordinateX);
+        retval.m_topLeft.Y(m_topLeft.Y());
+        retval.m_bottomRight.X(m_bottomRight.X());
+        retval.m_bottomRight.Y(centerCoordinateY);
+      }
+      break;
+      case SOUTHEAST:
+      {
+        retval.m_topLeft.X(centerCoordinateX);
+        retval.m_topLeft.Y(centerCoordinateY);
+        retval.m_bottomRight = m_bottomRight;
+      }
+      break;
+      case SOUTHWEST:
+      {
+        retval.m_topLeft.X(m_topLeft.X());
+        retval.m_topLeft.Y(centerCoordinateY);
+        retval.m_bottomRight.X(centerCoordinateX);
+        retval.m_bottomRight.Y(m_bottomRight.Y());
+      }
+      break;
+      case NORTHWEST:
+      {
+        retval.m_topLeft = m_topLeft;
+        retval.m_bottomRight.X(centerCoordinateX);
+        retval.m_bottomRight.Y(centerCoordinateY);
+      }
+      break;
+      case NO_DIRECTION:
+        break;
+    }
+    return retval;
   }
-  return retval;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool Rect::contains(const Rect& theRect) const
@@ -564,27 +616,34 @@ bool Rect::contains(const NFmiPoint& thePoint) const
 
 direction_id Rect::getHalfDirection(const NFmiPoint& thePoint) const
 {
-  if (!contains(thePoint))
-    return NO_DIRECTION;
-
-  direction_id retval = NO_DIRECTION;
-
-  if (subRect(NORTH).contains(thePoint))
+  try
   {
-    if (subRect(NORTHEAST).contains(thePoint))
-      retval = NORTHEAST;
-    else
-      retval = NORTHWEST;
-  }
-  else
-  {
-    if (subRect(SOUTHEAST).contains(thePoint))
-      retval = SOUTHEAST;
-    else
-      retval = SOUTHWEST;
-  }
+    if (!contains(thePoint))
+      return NO_DIRECTION;
 
-  return retval;
+    direction_id retval = NO_DIRECTION;
+
+    if (subRect(NORTH).contains(thePoint))
+    {
+      if (subRect(NORTHEAST).contains(thePoint))
+        retval = NORTHEAST;
+      else
+        retval = NORTHWEST;
+    }
+    else
+    {
+      if (subRect(SOUTHEAST).contains(thePoint))
+        retval = SOUTHEAST;
+      else
+        retval = SOUTHWEST;
+    }
+
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 NFmiPoint Rect::getCenter() const

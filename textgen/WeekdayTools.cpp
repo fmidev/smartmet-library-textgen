@@ -220,118 +220,174 @@ string until_weekday_evening(const TextGenPosixTime& theTime)
 
 string until_weekday_time(const TextGenPosixTime& theTime)
 {
-  const int hour = theTime.GetHour();
-  if (end_is_morning_hour(hour))
-    return until_weekday_morning(theTime);
+  try
+  {
+    const int hour = theTime.GetHour();
+    if (end_is_morning_hour(hour))
+      return until_weekday_morning(theTime);
 
-  if (end_is_forenoon_hour(hour))
-    return until_weekday_forenoon(theTime);
+    if (end_is_forenoon_hour(hour))
+      return until_weekday_forenoon(theTime);
 
-  if (is_noon_hour(hour))
-    return until_weekday_noon(theTime);
+    if (is_noon_hour(hour))
+      return until_weekday_noon(theTime);
 
-  if (end_is_afternoon_hour(hour))
-    return until_weekday_afternoon(theTime);
+    if (end_is_afternoon_hour(hour))
+      return until_weekday_afternoon(theTime);
 
-  if (end_is_evening_hour(hour))
-    return until_weekday_evening(theTime);
+    if (end_is_evening_hour(hour))
+      return until_weekday_evening(theTime);
 
-  const string msg =
-      "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan, -iltapaivaan or "
-      "-iltaan "
-      "phrase for hour " +
-      std::to_string(hour);
-  throw Fmi::Exception(BCP, msg);
+    const string msg =
+        "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan, -iltapaivaan or "
+        "-iltaan "
+        "phrase for hour " +
+        std::to_string(hour);
+    throw Fmi::Exception(BCP, msg);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_morning(const TextGenPosixTime& theTime,
                                   const TextGenPosixTime& theForecastTime)
 {
-  if (TimeTools::isSameDay(theForecastTime, theTime))
-    return "aamuun asti";
-  if (TimeTools::isNextDay(theForecastTime, theTime))
-    return "huomisaamuun asti";
-  return until_weekday_morning(theTime);
+  try
+  {
+    if (TimeTools::isSameDay(theForecastTime, theTime))
+      return "aamuun asti";
+    if (TimeTools::isNextDay(theForecastTime, theTime))
+      return "huomisaamuun asti";
+    return until_weekday_morning(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_forenoon(const TextGenPosixTime& theTime,
                                    const TextGenPosixTime& theForecastTime)
 {
-  if (TimeTools::isSameDay(theForecastTime, theTime))
-    return "aamupaivaan asti";
-  if (TimeTools::isNextDay(theForecastTime, theTime))
-    return "huomisaamupaivaan asti";
-  return until_weekday_morning(theTime);
+  try
+  {
+    if (TimeTools::isSameDay(theForecastTime, theTime))
+      return "aamupaivaan asti";
+    if (TimeTools::isNextDay(theForecastTime, theTime))
+      return "huomisaamupaivaan asti";
+    return until_weekday_morning(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_noon(const TextGenPosixTime& theTime,
                                const TextGenPosixTime& theForecastTime)
 {
-  if (TimeTools::isSameDay(theForecastTime, theTime))
-    return "keskipaivaan asti";
-  if (TimeTools::isNextDay(theForecastTime, theTime))
-    return "huomisen keskipaivaan asti";
-  return until_weekday_noon(theTime);
+  try
+  {
+    if (TimeTools::isSameDay(theForecastTime, theTime))
+      return "keskipaivaan asti";
+    if (TimeTools::isNextDay(theForecastTime, theTime))
+      return "huomisen keskipaivaan asti";
+    return until_weekday_noon(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_afternoon(const TextGenPosixTime& theTime,
                                     const TextGenPosixTime& theForecastTime)
 {
-  if (TimeTools::isSameDay(theForecastTime, theTime))
-    return "iltapaivaan asti";
-  if (TimeTools::isNextDay(theForecastTime, theTime))
-    return "huomiseen iltapaivaan asti";
-  return until_weekday_afternoon(theTime);
+  try
+  {
+    if (TimeTools::isSameDay(theForecastTime, theTime))
+      return "iltapaivaan asti";
+    if (TimeTools::isNextDay(theForecastTime, theTime))
+      return "huomiseen iltapaivaan asti";
+    return until_weekday_afternoon(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_evening(const TextGenPosixTime& theTime,
                                   const TextGenPosixTime& theForecastTime)
 {
-  if (TimeTools::isSameDay(theForecastTime, theTime))
-    return "iltaan asti";
-  if (TimeTools::isNextDay(theForecastTime, theTime))
-    return "huomisiltaan asti";
-  return until_weekday_evening(theTime);
+  try
+  {
+    if (TimeTools::isSameDay(theForecastTime, theTime))
+      return "iltaan asti";
+    if (TimeTools::isNextDay(theForecastTime, theTime))
+      return "huomisiltaan asti";
+    return until_weekday_evening(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_before_midnight(const TextGenPosixTime& theTime,
                                           const TextGenPosixTime& theForecastTime)
 {
-  if (TimeTools::isSameDay(theForecastTime, theTime))
-    return "iltayohon asti";
-  //  if (TimeTools::isNextDay(theForecastTime, theTime))
-  // return "huomiseen iltayohon";
-  return until_weekday_evening(theTime);
+  try
+  {
+    if (TimeTools::isSameDay(theForecastTime, theTime))
+      return "iltayohon asti";
+    //  if (TimeTools::isNextDay(theForecastTime, theTime))
+    // return "huomiseen iltayohon";
+    return until_weekday_evening(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string until_weekday_time(const TextGenPosixTime& theTime,
                                const TextGenPosixTime& theForecastTime)
 {
-  const int hour = theTime.GetHour();
-  if (end_is_morning_hour(hour))
-    return until_weekday_morning(theTime, theForecastTime);
+  try
+  {
+    const int hour = theTime.GetHour();
+    if (end_is_morning_hour(hour))
+      return until_weekday_morning(theTime, theForecastTime);
 
-  if (end_is_forenoon_hour(hour))
-    return until_weekday_forenoon(theTime, theForecastTime);
+    if (end_is_forenoon_hour(hour))
+      return until_weekday_forenoon(theTime, theForecastTime);
 
-  if (is_noon_hour(hour))
-    return until_weekday_noon(theTime, theForecastTime);
+    if (is_noon_hour(hour))
+      return until_weekday_noon(theTime, theForecastTime);
 
-  if (end_is_afternoon_hour(hour))
-    return until_weekday_afternoon(theTime, theForecastTime);
+    if (end_is_afternoon_hour(hour))
+      return until_weekday_afternoon(theTime, theForecastTime);
 
-  if (end_is_evening_hour(hour))
-    return until_weekday_evening(theTime, theForecastTime);
+    if (end_is_evening_hour(hour))
+      return until_weekday_evening(theTime, theForecastTime);
 
-  if (is_before_midnight_hour(hour))
-    return until_weekday_before_midnight(theTime, theForecastTime);
+    if (is_before_midnight_hour(hour))
+      return until_weekday_before_midnight(theTime, theForecastTime);
 
-  const string msg =
-      "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan, -iltapaivaan or "
-      "-iltaan phrase "
-      "for hour " +
-      std::to_string(hour);
-  throw Fmi::Exception(BCP, msg);
+    const string msg =
+        "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan, -iltapaivaan or "
+        "-iltaan phrase "
+        "for hour " +
+        std::to_string(hour);
+    throw Fmi::Exception(BCP, msg);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -480,29 +536,36 @@ string from_weekday_before_midnight(const TextGenPosixTime& theTime)
 
 string from_weekday_time(const TextGenPosixTime& theTime)
 {
-  const int hour = theTime.GetHour();
-  if (is_midnight_hour(hour))
-    return from_weekday_midnight(theTime);
+  try
+  {
+    const int hour = theTime.GetHour();
+    if (is_midnight_hour(hour))
+      return from_weekday_midnight(theTime);
 
-  if (is_after_midnight_hour(hour))
-    return from_weekday_after_midnight(theTime);
+    if (is_after_midnight_hour(hour))
+      return from_weekday_after_midnight(theTime);
 
-  if (start_is_morning_hour(hour))
-    return from_weekday_morning(theTime);
+    if (start_is_morning_hour(hour))
+      return from_weekday_morning(theTime);
 
-  if (start_is_forenoon_hour(hour))
-    return from_weekday_forenoon(theTime);
+    if (start_is_forenoon_hour(hour))
+      return from_weekday_forenoon(theTime);
 
-  if (is_noon_hour(hour))
-    return from_weekday_noon(theTime);
+    if (is_noon_hour(hour))
+      return from_weekday_noon(theTime);
 
-  if (start_is_afternoon_hour(hour))
-    return from_weekday_afternoon(theTime);
+    if (start_is_afternoon_hour(hour))
+      return from_weekday_afternoon(theTime);
 
-  if (start_is_evening_hour(hour))
-    return from_weekday_evening(theTime);
+    if (start_is_evening_hour(hour))
+      return from_weekday_evening(theTime);
 
-  return from_weekday_before_midnight(theTime);
+    return from_weekday_before_midnight(theTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -517,65 +580,72 @@ string from_weekday_time(const TextGenPosixTime& theTime)
 
 string from_weekday_time(const TextGenPosixTime& theTime, const TextGenPosixTime& theForecastTime)
 {
-  const int hour = theTime.GetHour();
-
-  bool sameday = TimeTools::isSameDay(theForecastTime, theTime);
-
-  // if (TimeTools::isNextDay(theForecastTime, theTime))
-  // return "huomisaamuun asti";
-
-  if (is_midnight_hour(hour))
+  try
   {
-    if (sameday)
-      return "keskiyosta";
-    return from_weekday_midnight(theTime);
-  }
+    const int hour = theTime.GetHour();
 
-  if (is_after_midnight_hour(hour))
+    bool sameday = TimeTools::isSameDay(theForecastTime, theTime);
+
+    // if (TimeTools::isNextDay(theForecastTime, theTime))
+    // return "huomisaamuun asti";
+
+    if (is_midnight_hour(hour))
+    {
+      if (sameday)
+        return "keskiyosta";
+      return from_weekday_midnight(theTime);
+    }
+
+    if (is_after_midnight_hour(hour))
+    {
+      if (sameday)
+        return "aamuyosta";
+      return from_weekday_after_midnight(theTime);
+    }
+
+    if (start_is_morning_hour(hour))
+    {
+      if (sameday)
+        return "aamusta";
+      return from_weekday_morning(theTime);
+    }
+
+    if (start_is_forenoon_hour(hour))
+    {
+      if (sameday)
+        return "aamupaivasta";
+      return from_weekday_forenoon(theTime);
+    }
+
+    if (is_noon_hour(hour))
+    {
+      if (sameday)
+        return "keskipaivasta";
+      return from_weekday_noon(theTime);
+    }
+
+    if (start_is_afternoon_hour(hour))
+    {
+      if (sameday)
+        return "iltapaivasta";
+      return from_weekday_afternoon(theTime);
+    }
+
+    if (start_is_evening_hour(hour))
+    {
+      if (sameday)
+        return "illasta";
+      return from_weekday_evening(theTime);
+    }
+
+    if (sameday)
+      return "iltayosta";
+    return from_weekday_before_midnight(theTime);
+  }
+  catch (...)
   {
-    if (sameday)
-      return "aamuyosta";
-    return from_weekday_after_midnight(theTime);
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  if (start_is_morning_hour(hour))
-  {
-    if (sameday)
-      return "aamusta";
-    return from_weekday_morning(theTime);
-  }
-
-  if (start_is_forenoon_hour(hour))
-  {
-    if (sameday)
-      return "aamupaivasta";
-    return from_weekday_forenoon(theTime);
-  }
-
-  if (is_noon_hour(hour))
-  {
-    if (sameday)
-      return "keskipaivasta";
-    return from_weekday_noon(theTime);
-  }
-
-  if (start_is_afternoon_hour(hour))
-  {
-    if (sameday)
-      return "iltapaivasta";
-    return from_weekday_afternoon(theTime);
-  }
-
-  if (start_is_evening_hour(hour))
-  {
-    if (sameday)
-      return "illasta";
-    return from_weekday_evening(theTime);
-  }
-
-  if (sameday)
-    return "iltayosta";
-  return from_weekday_before_midnight(theTime);
 }
 
 // ----------------------------------------------------------------------
@@ -642,22 +712,30 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
                             const std::string& theNewWeekdayPhrase,
                             TextGen::WeatherHistory& theHistory)
 {
-  TextGenPosixTime oldTime = theHistory.latestDate;
-  const std::string& oldWeekdayPhrase = theHistory.latestWeekdayPhrase;
-
-  if (theTime.GetJulianDay() == oldTime.GetJulianDay())
+  try
   {
-    if (oldWeekdayPhrase != theNewWeekdayPhrase)
+    TextGenPosixTime oldTime = theHistory.latestDate;
+    const std::string& oldWeekdayPhrase = theHistory.latestWeekdayPhrase;
+
+    if (theTime.GetJulianDay() == oldTime.GetJulianDay())
     {
-      theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
-      return theNewWeekdayPhrase;
+      if (oldWeekdayPhrase != theNewWeekdayPhrase)
+      {
+        theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
+        return theNewWeekdayPhrase;
+      }
+
+      return "";
     }
 
-    return "";
+    theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
+    return theNewWeekdayPhrase;
   }
-
-  theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
-  return theNewWeekdayPhrase;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theNewWeekdayPhrase", theNewWeekdayPhrase);
+  }
 }
 
 std::string on_weekday(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
@@ -693,16 +771,23 @@ string until_weekday_evening(const TextGenPosixTime& theTime, TextGen::WeatherHi
 
 string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
 {
-  const int hour = theTime.GetHour();
-  if (end_is_morning_hour(hour))
-    return until_weekday_morning(theTime, theHistory);
-  if (end_is_evening_hour(hour))
-    return until_weekday_evening(theTime, theHistory);
+  try
+  {
+    const int hour = theTime.GetHour();
+    if (end_is_morning_hour(hour))
+      return until_weekday_morning(theTime, theHistory);
+    if (end_is_evening_hour(hour))
+      return until_weekday_evening(theTime, theHistory);
 
-  const string msg =
-      "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
-      std::to_string(hour);
-  throw Fmi::Exception(BCP, msg);
+    const string msg =
+        "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
+        std::to_string(hour);
+    throw Fmi::Exception(BCP, msg);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 string from_weekday(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
@@ -725,16 +810,23 @@ string from_weekday_evening(const TextGenPosixTime& theTime, TextGen::WeatherHis
 
 string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)
 {
-  const int hour = theTime.GetHour();
-  if (start_is_morning_hour(hour))
-    return from_weekday_morning(theTime, theHistory);
-  if (start_is_evening_hour(hour))
-    return from_weekday_evening(theTime, theHistory);
+  try
+  {
+    const int hour = theTime.GetHour();
+    if (start_is_morning_hour(hour))
+      return from_weekday_morning(theTime, theHistory);
+    if (start_is_evening_hour(hour))
+      return from_weekday_evening(theTime, theHistory);
 
-  const string msg =
-      "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
-      std::to_string(hour);
-  throw Fmi::Exception(BCP, msg);
+    const string msg =
+        "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
+        std::to_string(hour);
+    throw Fmi::Exception(BCP, msg);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 string on_weekday_morning(const TextGenPosixTime& theTime, TextGen::WeatherHistory& theHistory)

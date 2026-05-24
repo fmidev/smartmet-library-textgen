@@ -20,6 +20,8 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <newbase/NFmiGlobals.h>
 
@@ -46,16 +48,25 @@ namespace WindStoryTools
 
 WindDirectionAccuracy direction_accuracy(double theError, const string& theVariable)
 {
-  using Settings::optional_double;
+  try
+  {
+    using Settings::optional_double;
 
-  double accurate_limit = optional_double(theVariable + "::wind_direction::accurate_limit", 22.5);
-  double variable_limit = optional_double(theVariable + "::wind_direction::variable_limit", 45);
+    double accurate_limit = optional_double(theVariable + "::wind_direction::accurate_limit", 22.5);
+    double variable_limit = optional_double(theVariable + "::wind_direction::variable_limit", 45);
 
-  if (theError <= accurate_limit)
-    return good_accuracy;
-  if (theError <= variable_limit)
-    return moderate_accuracy;
-  return bad_accuracy;
+    if (theError <= accurate_limit)
+      return good_accuracy;
+    if (theError <= variable_limit)
+      return moderate_accuracy;
+    return bad_accuracy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theError", Fmi::to_string(theError))
+        .addParameter("theVariable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -96,23 +107,30 @@ int direction16th(double theDirection)
 
 Sentence direction_sentence(const WeatherResult& theDirection, const string& theVariable)
 {
-  Sentence sentence;
-
-  int n = direction8th(theDirection.value());
-  switch (direction_accuracy(theDirection.error(), theVariable))
+  try
   {
-    case good_accuracy:
-      sentence << std::to_string(n) + "-tuulta";
-      break;
-    case moderate_accuracy:
-      sentence << std::to_string(n) + "-puoleista tuulta";
-      break;
-    case bad_accuracy:
-      sentence << "suunnaltaan vaihtelevaa"
-               << "tuulta";
-      break;
+    Sentence sentence;
+
+    int n = direction8th(theDirection.value());
+    switch (direction_accuracy(theDirection.error(), theVariable))
+    {
+      case good_accuracy:
+        sentence << std::to_string(n) + "-tuulta";
+        break;
+      case moderate_accuracy:
+        sentence << std::to_string(n) + "-puoleista tuulta";
+        break;
+      case bad_accuracy:
+        sentence << "suunnaltaan vaihtelevaa"
+                 << "tuulta";
+        break;
+    }
+    return sentence;
   }
-  return sentence;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 string direction_string(const WeatherResult& theDirection, const string& theVariable)

@@ -35,6 +35,7 @@
 
 #include "MessageLogger.h"
 #include "DebugTextFormatter.h"
+#include <macgyver/Exception.h>
 #include <newbase/NFmiTime.h>
 #include <ctime>
 #include <fstream>
@@ -67,14 +68,21 @@ thread_local TextGen::DebugTextFormatter sFormatter;
 
 void output_timestamp(bool theFlag)
 {
-  if (theFlag)
+  try
   {
-    NFmiTime now;
+    if (theFlag)
+    {
+      NFmiTime now;
 
-    if (sOutputFile != nullptr)
-      *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
-    if (sOutputStream != nullptr)
-      *sOutputStream << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+      if (sOutputFile != nullptr)
+        *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+      if (sOutputStream != nullptr)
+        *sOutputStream << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+    }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 }  // namespace
@@ -130,12 +138,19 @@ MessageLogger::MessageLogger(string theFunction) : itsFunction(std::move(theFunc
 
 void MessageLogger::onNewMessage(const string_type& theMessage)
 {
-  output_timestamp(sTimeStampOn);
+  try
+  {
+    output_timestamp(sTimeStampOn);
 
-  if (sOutputFile != nullptr)
-    *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << theMessage;
-  if (sOutputStream != nullptr)
-    *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << theMessage;
+    if (sOutputFile != nullptr)
+      *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << theMessage;
+    if (sOutputStream != nullptr)
+      *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << theMessage;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -148,18 +163,25 @@ void MessageLogger::onNewMessage(const string_type& theMessage)
 
 void MessageLogger::open(const string& theFilename)
 {
-  sOutputFile.reset();
-
-  if (theFilename.empty())
-    return;
-
-  if (theFilename == "-")
-    open();
-  else
+  try
   {
-    sOutputFile.reset(new ofstream(theFilename.c_str(), ios::out));
-    if (!(*sOutputFile))
-      throw std::runtime_error("MessageLogger failed to open '" + theFilename + "' for writing");
+    sOutputFile.reset();
+
+    if (theFilename.empty())
+      return;
+
+    if (theFilename == "-")
+      open();
+    else
+    {
+      sOutputFile.reset(new ofstream(theFilename.c_str(), ios::out));
+      if (!(*sOutputFile))
+        throw std::runtime_error("MessageLogger failed to open '" + theFilename + "' for writing");
+    }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theFilename", theFilename);
   }
 }
 
@@ -173,10 +195,17 @@ void MessageLogger::open(const string& theFilename)
 
 void MessageLogger::open()
 {
-  if (sOutputStream == nullptr)
-    sOutputStream.reset(new ostringstream());
-  else
-    sOutputStream->str("");
+  try
+  {
+    if (sOutputStream == nullptr)
+      sOutputStream.reset(new ostringstream());
+    else
+      sOutputStream->str("");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void MessageLogger::indent(char theChar)
@@ -214,11 +243,18 @@ std::string MessageLogger::str()
 
 MessageLogger& MessageLogger::operator<<(const TextGen::Glyph& theGlyph)
 {
-  if (sOutputFile != nullptr)
-    *sOutputFile << "Return: " << sFormatter.format(theGlyph) << '\n';
-  if (sOutputStream != nullptr)
-    *sOutputStream << "Return: " << sFormatter.format(theGlyph) << '\n';
-  return *this;
+  try
+  {
+    if (sOutputFile != nullptr)
+      *sOutputFile << "Return: " << sFormatter.format(theGlyph) << '\n';
+    if (sOutputStream != nullptr)
+      *sOutputStream << "Return: " << sFormatter.format(theGlyph) << '\n';
+    return *this;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ======================================================================

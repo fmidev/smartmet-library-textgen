@@ -25,6 +25,7 @@
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
@@ -245,6 +246,8 @@ struct wind_anomaly_params
 
 void log_data(const wind_anomaly_params& theParameters)
 {
+  try
+  {
   if (theParameters.theTemperatureAreaMorningMinimum.value() != kFloatMissing)
   {
     theParameters.theLog << "theTemperatureAreaMorningMinimum: "
@@ -383,6 +386,11 @@ void log_data(const wind_anomaly_params& theParameters)
     theParameters.theLog << "theWindchillCoastalAfternoonMaximum: "
                          << theParameters.theWindchillCoastalAfternoonMaximum << '\n';
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 struct WindResultTriple
@@ -396,6 +404,8 @@ WindResultTriple select_inland_wind_results(wind_anomaly_params& p,
                                             const bool& theMorningPeriod,
                                             const bool& theWindspeed)
 {
+  try
+  {
   WindResultTriple r{nullptr, nullptr, nullptr};
   if (theMorningPeriod)
   {
@@ -414,12 +424,19 @@ WindResultTriple select_inland_wind_results(wind_anomaly_params& p,
                              : &p.theWindchillInlandAfternoonMaximum;
   }
   return r;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 WindResultTriple select_coastal_wind_results(wind_anomaly_params& p,
                                              const bool& theMorningPeriod,
                                              const bool& theWindspeed)
 {
+  try
+  {
   WindResultTriple r{nullptr, nullptr, nullptr};
   if (theMorningPeriod)
   {
@@ -439,6 +456,11 @@ WindResultTriple select_coastal_wind_results(wind_anomaly_params& p,
                              : &p.theWindchillCoastalAfternoonMaximum;
   }
   return r;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 WindResultTriple select_wind_results(wind_anomaly_params& p,
@@ -446,11 +468,18 @@ WindResultTriple select_wind_results(wind_anomaly_params& p,
                                      const bool& theMorningPeriod,
                                      const bool& theWindspeed)
 {
+  try
+  {
   if (theType == WeatherArea::Inland)
     return select_inland_wind_results(p, theMorningPeriod, theWindspeed);
   if (theType == WeatherArea::Coast)
     return select_coastal_wind_results(p, theMorningPeriod, theWindspeed);
   return WindResultTriple{nullptr, nullptr, nullptr};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string build_wind_postfix(const TextGen::WeatherArea::Type& theType,
@@ -469,6 +498,8 @@ std::string build_wind_postfix(const TextGen::WeatherArea::Type& theType,
 WeatherPeriod build_wind_period(const WeatherPeriod& theCompletePeriod,
                                 const bool& theMorningPeriod)
 {
+  try
+  {
   int noonHour = (theMorningPeriod ? (theCompletePeriod.localEndTime().GetHour() < 12
                                           ? theCompletePeriod.localEndTime().GetHour()
                                           : 12)
@@ -489,6 +520,11 @@ WeatherPeriod build_wind_period(const WeatherPeriod& theCompletePeriod,
   return WeatherPeriod(
       theStartTime > theEndTime ? theCompletePeriod.localStartTime() : theStartTime,
       theStartTime > theEndTime ? theCompletePeriod.localEndTime() : theEndTime);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void analyze_wind_result(WeatherResult* result,
@@ -501,6 +537,8 @@ void analyze_wind_result(WeatherResult* result,
                          WeatherFunction stat,
                          WeatherFunction areastat)
 {
+  try
+  {
   if (result == nullptr)
     return;
   *result = GridForecaster().analyze(fakeVar + statSuffix,
@@ -512,6 +550,11 @@ void analyze_wind_result(WeatherResult* result,
                                      thePeriod);
   if (theWindspeed && theArea.type() == WeatherArea::Full)
     WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *result);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("fakeVar", fakeVar).addParameter("statSuffix", statSuffix);
+  }
 }
 
 void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
@@ -519,6 +562,8 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
                                    const bool& theMorningPeriod,
                                    const bool& theWindspeed)
 {
+  try
+  {
   WeatherArea theArea(theParameters.theArea);
   theArea.type(theParameters.theCoastalAndInlandTogetherFlag ? WeatherArea::Full : theType);
 
@@ -557,14 +602,26 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
                       theWindspeed,
                       Mean,
                       Maximum);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void log_start_time_and_end_time(MessageLogger& theLog,
                                  const std::string& theLogMessage,
                                  const WeatherPeriod& thePeriod)
 {
+  try
+  {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
          << thePeriod.localEndTime() << '\n';
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLogMessage", theLogMessage);
+  }
 }
 
 Sentence get_windiness_sentence(const Sentence& timeSpecifier,
@@ -574,6 +631,8 @@ Sentence get_windiness_sentence(const Sentence& timeSpecifier,
                                 const bool& timeSpecifierEmpty,
                                 const bool& areaSpecifierEmpty)
 {
+  try
+  {
   Sentence sentence;
 
   if (timeSpecifierEmpty && areaSpecifierEmpty)
@@ -587,6 +646,11 @@ Sentence get_windiness_sentence(const Sentence& timeSpecifier,
              << areaSpecifier << windinessPhrase;
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("areaSpecifier", areaSpecifier).addParameter("plainWindinessPhrase", plainWindinessPhrase).addParameter("windinessPhrase", windinessPhrase);
+  }
 }
 
 Sentence get_windiness_sentence(const std::string& timeSpecifier,
@@ -596,6 +660,8 @@ Sentence get_windiness_sentence(const std::string& timeSpecifier,
                                 const bool& timeSpecifierEmpty,
                                 const bool& areaSpecifierEmpty)
 {
+  try
+  {
   Sentence sentence;
   Sentence timeSentence;
   timeSentence << timeSpecifier;
@@ -607,6 +673,11 @@ Sentence get_windiness_sentence(const std::string& timeSpecifier,
                                      timeSpecifierEmpty,
                                      areaSpecifierEmpty);
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("timeSpecifier", timeSpecifier).addParameter("areaSpecifier", areaSpecifier);
+  }
 }
 
 Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
@@ -619,6 +690,8 @@ Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
                                                const std::string& morningWord,
                                                const std::string& afternoonWord)
 {
+  try
+  {
   Sentence sentence;
 
   bool morningIncluded = windspeedMorning != kFloatMissing;
@@ -843,6 +916,11 @@ else
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorning", Fmi::to_string(windspeedMorning)).addParameter("windspeedAfternoon", Fmi::to_string(windspeedAfternoon)).addParameter("areaString", areaString);
+  }
 }
 
 // Helper: emit sentence based on presence of time/area specifiers
@@ -852,10 +930,17 @@ void emit_windy_sentence(Sentence& sentence,
                          const std::string& phrase_plain,
                          const std::string& phrase_windy)
 {
+  try
+  {
   if (specifiedDayEmpty)
     sentence << phrase_plain;
   else
     sentence << ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay << phrase_windy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("phrase_plain", phrase_plain).addParameter("phrase_windy", phrase_windy);
+  }
 }
 
 void emit_coastal_windy_sentence(Sentence& sentence,
@@ -863,11 +948,18 @@ void emit_coastal_windy_sentence(Sentence& sentence,
                                  const Sentence& specifiedDay,
                                  const std::string& phrase_windy)
 {
+  try
+  {
   if (specifiedDayEmpty)
     sentence << RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << RANNIKOLLA_WORD << phrase_windy;
   else
     sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE << specifiedDay
              << RANNIKOLLA_WORD << phrase_windy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("phrase_windy", phrase_windy);
+  }
 }
 
 // Helper for coast-morning-very-windy branch in both-areas morning+afternoon case
@@ -877,6 +969,8 @@ Sentence cws_coast_morning_extreme_afternoon_extreme(int windspeedMorningInland,
                                                      bool specifiedDayEmpty,
                                                      const Sentence& specifiedDay)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 || windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -884,6 +978,11 @@ Sentence cws_coast_morning_extreme_afternoon_extreme(int windspeedMorningInland,
   else
     emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, HYVIN_TUULISTA_PHRASE);
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland));
+  }
 }
 
 Sentence cws_coast_morning_extreme_afternoon_windy(int windspeedMorningInland,
@@ -895,6 +994,8 @@ Sentence cws_coast_morning_extreme_afternoon_windy(int windspeedMorningInland,
                                                    short dayNumber,
                                                    const std::string& iltapaivalla)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -905,6 +1006,11 @@ Sentence cws_coast_morning_extreme_afternoon_windy(int windspeedMorningInland,
     s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
       << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("iltapaivalla", iltapaivalla);
+  }
 }
 
 Sentence cws_coast_morning_extreme_afternoon_calm(int windspeedMorningInland,
@@ -915,6 +1021,8 @@ Sentence cws_coast_morning_extreme_afternoon_calm(int windspeedMorningInland,
                                                   short dayNumber,
                                                   const std::string& aamupaivalla)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -926,6 +1034,11 @@ Sentence cws_coast_morning_extreme_afternoon_calm(int windspeedMorningInland,
     s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
       << parse_weekday_phrase(dayNumber, aamupaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("aamupaivalla", aamupaivalla);
+  }
 }
 
 Sentence cws_coast_morning_extreme(int windspeedMorningInland,
@@ -939,6 +1052,8 @@ Sentence cws_coast_morning_extreme(int windspeedMorningInland,
                                    const std::string& aamupaivalla,
                                    const std::string& iltapaivalla)
 {
+  try
+  {
   if (windspeedAfternoonCoastal >= ewl)
     return cws_coast_morning_extreme_afternoon_extreme(
         windspeedMorningInland, windspeedAfternoonInland, ewl, specifiedDayEmpty, specifiedDay);
@@ -958,6 +1073,11 @@ Sentence cws_coast_morning_extreme(int windspeedMorningInland,
                                                   specifiedDay,
                                                   dayNumber,
                                                   aamupaivalla);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedAfternoonCoastal", Fmi::to_string(windspeedAfternoonCoastal));
+  }
 }
 
 Sentence cws_coast_morning_windy_afternoon_extreme(int windspeedMorningInland,
@@ -969,6 +1089,8 @@ Sentence cws_coast_morning_windy_afternoon_extreme(int windspeedMorningInland,
                                                    short dayNumber,
                                                    const std::string& iltapaivalla)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 || windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -979,6 +1101,11 @@ Sentence cws_coast_morning_windy_afternoon_extreme(int windspeedMorningInland,
     s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
       << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("iltapaivalla", iltapaivalla);
+  }
 }
 
 Sentence cws_coast_morning_windy_afternoon_windy(int windspeedMorningInland,
@@ -988,6 +1115,8 @@ Sentence cws_coast_morning_windy_afternoon_windy(int windspeedMorningInland,
                                                  bool specifiedDayEmpty,
                                                  const Sentence& specifiedDay)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -997,6 +1126,11 @@ Sentence cws_coast_morning_windy_afternoon_windy(int windspeedMorningInland,
   else
     emit_coastal_windy_sentence(s, specifiedDayEmpty, specifiedDay, TUULISTA_WORD);
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland));
+  }
 }
 
 Sentence cws_coast_morning_windy_afternoon_calm(int windspeedMorningInland,
@@ -1008,6 +1142,8 @@ Sentence cws_coast_morning_windy_afternoon_calm(int windspeedMorningInland,
                                                 short dayNumber,
                                                 const std::string& aamupaivalla)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -1021,6 +1157,11 @@ Sentence cws_coast_morning_windy_afternoon_calm(int windspeedMorningInland,
     s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
       << parse_weekday_phrase(dayNumber, aamupaivalla) << RANNIKOLLA_WORD << TUULISTA_WORD;
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("aamupaivalla", aamupaivalla);
+  }
 }
 
 Sentence cws_coast_morning_windy(int windspeedMorningInland,
@@ -1034,6 +1175,8 @@ Sentence cws_coast_morning_windy(int windspeedMorningInland,
                                  const std::string& aamupaivalla,
                                  const std::string& iltapaivalla)
 {
+  try
+  {
   if (windspeedAfternoonCoastal >= ewl)
     return cws_coast_morning_windy_afternoon_extreme(windspeedMorningInland,
                                                      windspeedAfternoonInland,
@@ -1054,6 +1197,11 @@ Sentence cws_coast_morning_windy(int windspeedMorningInland,
                                                 specifiedDay,
                                                 dayNumber,
                                                 aamupaivalla);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedAfternoonCoastal", Fmi::to_string(windspeedAfternoonCoastal));
+  }
 }
 
 Sentence cws_coast_morning_calm_afternoon_extreme(int windspeedMorningInland,
@@ -1065,6 +1213,8 @@ Sentence cws_coast_morning_calm_afternoon_extreme(int windspeedMorningInland,
                                                   short dayNumber,
                                                   const std::string& iltapaivalla)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -1078,6 +1228,11 @@ Sentence cws_coast_morning_calm_afternoon_extreme(int windspeedMorningInland,
     s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
       << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << HYVIN_TUULISTA_PHRASE;
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("iltapaivalla", iltapaivalla);
+  }
 }
 
 Sentence cws_coast_morning_calm_afternoon_windy(int windspeedMorningInland,
@@ -1089,6 +1244,8 @@ Sentence cws_coast_morning_calm_afternoon_windy(int windspeedMorningInland,
                                                 short dayNumber,
                                                 const std::string& iltapaivalla)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningInland >= ewl - 1.0 && windspeedAfternoonInland >= ewl - 1.0)
     emit_windy_sentence(
@@ -1102,6 +1259,11 @@ Sentence cws_coast_morning_calm_afternoon_windy(int windspeedMorningInland,
     s << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
       << parse_weekday_phrase(dayNumber, iltapaivalla) << RANNIKOLLA_WORD << TUULISTA_WORD;
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("iltapaivalla", iltapaivalla);
+  }
 }
 
 Sentence cws_coast_morning_calm(int windspeedMorningInland,
@@ -1116,6 +1278,8 @@ Sentence cws_coast_morning_calm(int windspeedMorningInland,
                                 const std::string& aamupaivalla,
                                 const std::string& iltapaivalla)
 {
+  try
+  {
   if (windspeedAfternoonCoastal >= ewl)
     return cws_coast_morning_calm_afternoon_extreme(windspeedMorningInland,
                                                     windspeedAfternoonInland,
@@ -1143,6 +1307,11 @@ Sentence cws_coast_morning_calm(int windspeedMorningInland,
                                                EMPTY_STRING,
                                                aamupaivalla,
                                                iltapaivalla);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedAfternoonCoastal", Fmi::to_string(windspeedAfternoonCoastal));
+  }
 }
 
 // Both inland and coast included, both morning and afternoon included
@@ -1159,6 +1328,8 @@ Sentence cws_both_morning_and_afternoon(int windspeedMorningInland,
                                         const std::string& aamupaivalla,
                                         const std::string& iltapaivalla)
 {
+  try
+  {
   if (windspeedMorningCoastal >= ewl)
     return cws_coast_morning_extreme(windspeedMorningInland,
                                      windspeedAfternoonInland,
@@ -1192,6 +1363,11 @@ Sentence cws_both_morning_and_afternoon(int windspeedMorningInland,
                                 dayNumber,
                                 aamupaivalla,
                                 iltapaivalla);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningCoastal", Fmi::to_string(windspeedMorningCoastal)).addParameter("windspeedAfternoonCoastal", Fmi::to_string(windspeedAfternoonCoastal));
+  }
 }
 
 // Both inland and coast included, only morning included
@@ -1202,6 +1378,8 @@ Sentence cws_both_morning_only(int windspeedMorningInland,
                                bool specifiedDayEmpty,
                                const Sentence& specifiedDay)
 {
+  try
+  {
   Sentence s;
   if (windspeedMorningCoastal >= ewl)
   {
@@ -1232,6 +1410,11 @@ Sentence cws_both_morning_only(int windspeedMorningInland,
           s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
   }
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedMorningInland", Fmi::to_string(windspeedMorningInland)).addParameter("windspeedMorningCoastal", Fmi::to_string(windspeedMorningCoastal));
+  }
 }
 
 // Both inland and coast included, only afternoon included
@@ -1242,6 +1425,8 @@ Sentence cws_both_afternoon_only(int windspeedAfternoonInland,
                                  bool specifiedDayEmpty,
                                  const Sentence& specifiedDay)
 {
+  try
+  {
   Sentence s;
   if (windspeedAfternoonCoastal >= ewl)
   {
@@ -1272,12 +1457,19 @@ Sentence cws_both_afternoon_only(int windspeedAfternoonInland,
           s, specifiedDayEmpty, specifiedDay, SAA_ON_TUULINEN_PHRASE, TUULISTA_WORD);
   }
   return s;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("windspeedAfternoonInland", Fmi::to_string(windspeedAfternoonInland)).addParameter("windspeedAfternoonCoastal", Fmi::to_string(windspeedAfternoonCoastal));
+  }
 }
 
 Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
                                       const Sentence& theSpecifiedDay,
                                       const short& dayNumber)
 {
+  try
+  {
   Sentence sentence;
 
   bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing ||
@@ -1368,6 +1560,11 @@ Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 struct WindCoolingContext
@@ -1388,6 +1585,8 @@ WindCoolingContext determine_wind_cooling_both_areas(bool windCoolingInlandMorni
                                                      const std::string& aamupaivalla,
                                                      const std::string& iltapaivalla)
 {
+  try
+  {
   WindCoolingContext ctx;
   if (windCoolingInlandMorning && windCoolingCoastalMorning && windCoolingInlandAfternoon &&
       windCoolingCoastalAfternoon)
@@ -1447,6 +1646,11 @@ WindCoolingContext determine_wind_cooling_both_areas(bool windCoolingInlandMorni
     ctx.part_of_the_day = iltapaivalla;
   }
   return ctx;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 WindCoolingContext determine_wind_cooling_coast_only(bool windCoolingCoastalMorning,
@@ -1456,6 +1660,8 @@ WindCoolingContext determine_wind_cooling_coast_only(bool windCoolingCoastalMorn
                                                      const std::string& aamupaivalla,
                                                      const std::string& iltapaivalla)
 {
+  try
+  {
   WindCoolingContext ctx;
   if (windCoolingCoastalMorning && !windCoolingCoastalAfternoon)
   {
@@ -1472,6 +1678,11 @@ WindCoolingContext determine_wind_cooling_coast_only(bool windCoolingCoastalMorn
     ctx.temperature = std::max(tempCoastalAfternoon, tempCoastalMorning);
   }
   return ctx;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 WindCoolingContext determine_wind_cooling_inland_only(bool windCoolingInlandMorning,
@@ -1481,6 +1692,8 @@ WindCoolingContext determine_wind_cooling_inland_only(bool windCoolingInlandMorn
                                                       const std::string& aamupaivalla,
                                                       const std::string& iltapaivalla)
 {
+  try
+  {
   WindCoolingContext ctx;
   if (windCoolingInlandMorning && !windCoolingInlandAfternoon)
   {
@@ -1497,6 +1710,11 @@ WindCoolingContext determine_wind_cooling_inland_only(bool windCoolingInlandMorn
     ctx.temperature = std::max(tempInlandAfternoon, tempInlandMorning);
   }
   return ctx;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void emit_wind_cooling_sentence(Sentence& sentence,
@@ -1506,6 +1724,8 @@ void emit_wind_cooling_sentence(Sentence& sentence,
                                 const std::string& part_of_the_day,
                                 short dayNumber)
 {
+  try
+  {
   bool hasArea = (areaString != EMPTY_STRING);
   bool hasTime = (timePhrase != EMPTY_STRING);
 
@@ -1535,10 +1755,17 @@ void emit_wind_cooling_sentence(Sentence& sentence,
       sentence << ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
                << parse_weekday_phrase(dayNumber, part_of_the_day) << areaString;
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("temperature", Fmi::to_string(temperature)).addParameter("areaString", areaString).addParameter("timePhrase", timePhrase).addParameter("part_of_the_day", part_of_the_day);
+  }
 }
 
 Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 {
+  try
+  {
   Sentence sentence;
 
   bool generate_windiness_sentence =
@@ -1636,6 +1863,11 @@ Sentence windiness_sentence(const wind_anomaly_params& theParameters)
       sentence, ctx.temperature, ctx.areaString, timePhrase, ctx.part_of_the_day, dayNumber);
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 std::string windchill_area_word(forecast_area_id area)
@@ -1659,6 +1891,8 @@ struct windchill_context
 
 windchill_context select_windchill_context_both(const wind_anomaly_params& p)
 {
+  try
+  {
   windchill_context ctx;
   if (p.theWindchillInlandMorningMean.value() != kFloatMissing)
   {
@@ -1688,12 +1922,19 @@ windchill_context select_windchill_context_both(const wind_anomaly_params& p)
         abs(p.theTemperatureCoastalAfternoonMean.value() - ctx.afternoonMean.value());
   }
   return ctx;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 windchill_context select_windchill_context(const wind_anomaly_params& p,
                                            bool inlandIncluded,
                                            bool coastIncluded)
 {
+  try
+  {
   if (inlandIncluded && coastIncluded)
     return select_windchill_context_both(p);
 
@@ -1715,6 +1956,11 @@ windchill_context select_windchill_context(const wind_anomaly_params& p,
         abs(p.theTemperatureCoastalAfternoonMean.value() - ctx.afternoonMean.value());
   }
   return ctx;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void emit_windchill_partial_sentence(Sentence& sentence,
@@ -1723,6 +1969,8 @@ void emit_windchill_partial_sentence(Sentence& sentence,
                                      short dayNumber,
                                      const std::string& timeWord)
 {
+  try
+  {
   const char* phraseWithArea =
       extreme ? ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
               : ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE;
@@ -1734,6 +1982,11 @@ void emit_windchill_partial_sentence(Sentence& sentence,
     sentence << phraseNoArea << parse_weekday_phrase(dayNumber, timeWord);
   else
     sentence << phraseWithArea << parse_weekday_phrase(dayNumber, timeWord) << areaStr;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("extreme", Fmi::to_string(extreme)).addParameter("timeWord", timeWord);
+  }
 }
 
 void emit_windchill_mild_sentences(Sentence& sentence,
@@ -1744,12 +1997,19 @@ void emit_windchill_mild_sentences(Sentence& sentence,
                                    const std::string& aamupaivalla,
                                    const std::string& iltapaivalla)
 {
+  try
+  {
   if (wcMorning && wcAfternoon)
     sentence << PAKKANEN_ON_PUREVAA_PHRASE;
   else if (wcMorning)
     emit_windchill_partial_sentence(sentence, false, ctx.areaMorning, dayNumber, aamupaivalla);
   else if (wcAfternoon)
     emit_windchill_partial_sentence(sentence, false, ctx.areaAfternoon, dayNumber, iltapaivalla);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void emit_windchill_extreme_sentences(Sentence& sentence,
@@ -1762,16 +2022,25 @@ void emit_windchill_extreme_sentences(Sentence& sentence,
                                       const std::string& aamupaivalla,
                                       const std::string& iltapaivalla)
 {
+  try
+  {
   if (wcMorning && wcAfternoon)
     sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
   if (extremeMorning && !extremeAfternoon)
     emit_windchill_partial_sentence(sentence, true, ctx.areaMorning, dayNumber, aamupaivalla);
   else if (!extremeMorning && extremeAfternoon)
     emit_windchill_partial_sentence(sentence, true, ctx.areaAfternoon, dayNumber, iltapaivalla);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Sentence windchill_sentence(const wind_anomaly_params& theParameters)
 {
+  try
+  {
   Sentence sentence;
 
   bool inlandIncluded = theParameters.theWindchillInlandMorningMinimum.value() != kFloatMissing ||
@@ -1827,6 +2096,11 @@ Sentence windchill_sentence(const wind_anomaly_params& theParameters)
                                      iltapaivalla);
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 #if 0
@@ -1889,6 +2163,8 @@ void testWindiness(wind_anomaly_params& parameters, MessageLogger& log)
 
 Paragraph WindStory::anomaly() const
 {
+  try
+  {
   using namespace WindAnomaly;
 
   Paragraph paragraph;
@@ -2068,6 +2344,11 @@ Paragraph WindStory::anomaly() const
   log << paragraph;
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

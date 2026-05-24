@@ -14,6 +14,8 @@
 
 #include "GlyphContainer.h"
 
+#include <macgyver/Exception.h>
+
 using namespace std;
 
 namespace TextGen
@@ -53,7 +55,14 @@ bool GlyphContainer::empty() const
 
 void GlyphContainer::clear()
 {
-  itsData.clear();
+  try
+  {
+    itsData.clear();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -65,7 +74,14 @@ void GlyphContainer::clear()
 
 void GlyphContainer::push_back(const Glyph& theGlyph)
 {
-  itsData.push_back(theGlyph.clone());
+  try
+  {
+    itsData.push_back(theGlyph.clone());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -77,7 +93,14 @@ void GlyphContainer::push_back(const Glyph& theGlyph)
 
 void GlyphContainer::push_back(const_reference theGlyph)
 {
-  itsData.push_back(theGlyph);
+  try
+  {
+    itsData.push_back(theGlyph);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -89,7 +112,14 @@ void GlyphContainer::push_back(const_reference theGlyph)
 
 void GlyphContainer::push_front(const Glyph& theGlyph)
 {
-  itsData.push_front(theGlyph.clone());
+  try
+  {
+    itsData.push_front(theGlyph.clone());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -101,7 +131,14 @@ void GlyphContainer::push_front(const Glyph& theGlyph)
 
 void GlyphContainer::push_front(const_reference theGlyph)
 {
-  itsData.push_front(theGlyph);
+  try
+  {
+    itsData.push_front(theGlyph);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -113,7 +150,14 @@ void GlyphContainer::push_front(const_reference theGlyph)
 
 GlyphContainer::const_iterator GlyphContainer::begin() const
 {
-  return itsData.begin();
+  try
+  {
+    return itsData.begin();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -125,7 +169,14 @@ GlyphContainer::const_iterator GlyphContainer::begin() const
 
 GlyphContainer::const_iterator GlyphContainer::end() const
 {
-  return itsData.end();
+  try
+  {
+    return itsData.end();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -137,7 +188,14 @@ GlyphContainer::const_iterator GlyphContainer::end() const
 
 GlyphContainer::iterator GlyphContainer::begin()
 {
-  return itsData.begin();
+  try
+  {
+    return itsData.begin();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -149,7 +207,14 @@ GlyphContainer::iterator GlyphContainer::begin()
 
 GlyphContainer::iterator GlyphContainer::end()
 {
-  return itsData.end();
+  try
+  {
+    return itsData.end();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!

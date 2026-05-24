@@ -29,6 +29,7 @@
 #include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -46,7 +47,14 @@ namespace TextGen
 
 void WmlTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 {
-  itsDictionary = theDict;
+  try
+  {
+    itsDictionary = theDict;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -59,7 +67,14 @@ void WmlTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 
 string WmlTextFormatter::format(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*this);
+  try
+  {
+    return theGlyph.realize(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -71,7 +86,14 @@ string WmlTextFormatter::format(const Glyph& theGlyph) const
 
 string WmlTextFormatter::visit(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*itsDictionary);
+  try
+  {
+    return theGlyph.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -82,7 +104,14 @@ string WmlTextFormatter::visit(const Glyph& theGlyph) const
 
 string WmlTextFormatter::visit(const Integer& theInteger) const
 {
-  return theInteger.realize(*itsDictionary);
+  try
+  {
+    return theInteger.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -93,7 +122,14 @@ string WmlTextFormatter::visit(const Integer& theInteger) const
 
 string WmlTextFormatter::visit(const Real& theReal) const
 {
-  return theReal.realize(*itsDictionary);
+  try
+  {
+    return theReal.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -104,7 +140,14 @@ string WmlTextFormatter::visit(const Real& theReal) const
 
 string WmlTextFormatter::visit(const IntegerRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -115,7 +158,14 @@ string WmlTextFormatter::visit(const IntegerRange& theRange) const
 
 string WmlTextFormatter::visit(const PositiveRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -126,9 +176,16 @@ string WmlTextFormatter::visit(const PositiveRange& theRange) const
 
 string WmlTextFormatter::visit(const TimePhrase& theTime) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
-  return ret;
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -139,13 +196,20 @@ string WmlTextFormatter::visit(const TimePhrase& theTime) const
 
 string WmlTextFormatter::visit(const Sentence& theSentence) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
-  ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty())
-    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    ret = TextFormatterTools::capitalize(ret);
+    if (!ret.empty())
+      ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -156,20 +220,27 @@ string WmlTextFormatter::visit(const Sentence& theSentence) const
 
 string WmlTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  const string tags = Settings::optional_string(itsSectionVar + "::paragraph::wml::tags", "");
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-
-  string tmp =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
-  ostringstream out;
-  if (!tmp.empty())
+  try
   {
-    out << "<p";
-    if (!tags.empty())
-      out << ' ' << tags;
-    out << '>' << tmp << "<br/></p>";
+    const string tags = Settings::optional_string(itsSectionVar + "::paragraph::wml::tags", "");
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+
+    string tmp =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
+    ostringstream out;
+    if (!tmp.empty())
+    {
+      out << "<p";
+      if (!tags.empty())
+        out << ' ' << tags;
+      out << '>' << tmp << "<br/></p>";
+    }
+    return out.str();
   }
-  return out.str();
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -180,24 +251,31 @@ string WmlTextFormatter::visit(const Paragraph& theParagraph) const
 
 string WmlTextFormatter::visit(const Header& theHeader) const
 {
-  const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
-  const int level = Settings::optional_int(itsSectionVar + "::header::wml::level", 1);
+  try
+  {
+    const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
+    const int level = Settings::optional_int(itsSectionVar + "::header::wml::level", 1);
 
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
-  text = TextFormatterTools::capitalize(text);
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
+    text = TextFormatterTools::capitalize(text);
 
-  if (text.empty())
-    return "";
+    if (text.empty())
+      return "";
 
-  ostringstream out;
+    ostringstream out;
 
-  if (level == 1)
-    out << "<p><b>" << text << (colon ? ":" : "") << "</b><br/></p>";
-  else if (level == 2)
-    out << "<p>" << text << (colon ? ":" : "") << "</p>";
+    if (level == 1)
+      out << "<p><b>" << text << (colon ? ":" : "") << "</b><br/></p>";
+    else if (level == 2)
+      out << "<p>" << text << (colon ? ":" : "") << "</p>";
 
-  return out.str();
+    return out.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -208,7 +286,14 @@ string WmlTextFormatter::visit(const Header& theHeader) const
 
 string WmlTextFormatter::visit(const Document& theDocument) const
 {
-  return TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n\n", "");
+  try
+  {
+    return TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n\n", "");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -219,8 +304,15 @@ string WmlTextFormatter::visit(const Document& theDocument) const
 
 string WmlTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(*itsDictionary);
-  return "";
+  try
+  {
+    itsSectionVar = theSection.realize(*itsDictionary);
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -231,14 +323,21 @@ string WmlTextFormatter::visit(const SectionTag& theSection) const
 
 string WmlTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(*itsDictionary);
-
-  if (theStory.isPrefixTag())
+  try
   {
-    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-  }
+    itsStoryVar = theStory.realize(*itsDictionary);
 
-  return "";
+    if (theStory.isPrefixTag())
+    {
+      return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    }
+
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -249,7 +348,14 @@ string WmlTextFormatter::visit(const StoryTag& theStory) const
 
 string WmlTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "wml");
+  try
+  {
+    return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "wml");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -260,7 +366,14 @@ string WmlTextFormatter::visit(const WeatherTime& theTime) const
 
 string WmlTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "wml");
+  try
+  {
+    return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "wml");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

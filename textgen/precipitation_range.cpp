@@ -40,68 +40,75 @@ namespace TextGen
 
 Paragraph PrecipitationStory::range() const
 {
-  MessageLogger log("PrecipitationStory::range");
-
-  const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");
-
-  Paragraph paragraph;
-  Sentence sentence;
-
-  GridForecaster forecaster;
-
-  RangeAcceptor rainlimits;
-  rainlimits.lowerLimit(Settings::optional_double(itsVar + "::minrain", 0));
-
-  WeatherResult minresult = forecaster.analyze(itsVar + "::fake::minimum",
-                                               itsSources,
-                                               Precipitation,
-                                               Minimum,
-                                               Sum,
-                                               itsArea,
-                                               itsPeriod,
-                                               DefaultAcceptor(),
-                                               rainlimits);
-
-  WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::maximum",
-                                               itsSources,
-                                               Precipitation,
-                                               Maximum,
-                                               Sum,
-                                               itsArea,
-                                               itsPeriod,
-                                               DefaultAcceptor(),
-                                               rainlimits);
-
-  WeatherResultTools::checkMissingValue(
-      "precipitation_range", Precipitation, {minresult, maxresult});
-
-  log << "Precipitation Minimum(Sum) " << minresult << '\n';
-  log << "Precipitation Maximum(Sum) " << maxresult << '\n';
-
-  const int minrain = static_cast<int>(round(minresult.value()));
-  const int maxrain = static_cast<int>(round(maxresult.value()));
-
-  // optionaalinen maksimisade
-
-  const string variable = itsVar + "::maxrain";
-  const int rainlimit = Settings::optional_int(variable, -1);
-
-  if (minrain >= rainlimit && rainlimit > 0)
+  try
   {
-    sentence << "sadesumma"
-             << "on"
-             << "yli" << Integer(rainlimit) << *UnitFactory::create(Millimeters);
-  }
-  else
-  {
-    sentence << "sadesumma"
-             << "on" << PositiveRange(minrain, maxrain, rangeseparator)
-             << *UnitFactory::create(Millimeters);
-  }
+    MessageLogger log("PrecipitationStory::range");
 
-  paragraph << sentence;
-  log << paragraph;
-  return paragraph;
+    const string rangeseparator = Settings::optional_string(itsVar + "::rangeseparator", "-");
+
+    Paragraph paragraph;
+    Sentence sentence;
+
+    GridForecaster forecaster;
+
+    RangeAcceptor rainlimits;
+    rainlimits.lowerLimit(Settings::optional_double(itsVar + "::minrain", 0));
+
+    WeatherResult minresult = forecaster.analyze(itsVar + "::fake::minimum",
+                                                 itsSources,
+                                                 Precipitation,
+                                                 Minimum,
+                                                 Sum,
+                                                 itsArea,
+                                                 itsPeriod,
+                                                 DefaultAcceptor(),
+                                                 rainlimits);
+
+    WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::maximum",
+                                                 itsSources,
+                                                 Precipitation,
+                                                 Maximum,
+                                                 Sum,
+                                                 itsArea,
+                                                 itsPeriod,
+                                                 DefaultAcceptor(),
+                                                 rainlimits);
+
+    WeatherResultTools::checkMissingValue(
+        "precipitation_range", Precipitation, {minresult, maxresult});
+
+    log << "Precipitation Minimum(Sum) " << minresult << '\n';
+    log << "Precipitation Maximum(Sum) " << maxresult << '\n';
+
+    const int minrain = static_cast<int>(round(minresult.value()));
+    const int maxrain = static_cast<int>(round(maxresult.value()));
+
+    // optionaalinen maksimisade
+
+    const string variable = itsVar + "::maxrain";
+    const int rainlimit = Settings::optional_int(variable, -1);
+
+    if (minrain >= rainlimit && rainlimit > 0)
+    {
+      sentence << "sadesumma"
+               << "on"
+               << "yli" << Integer(rainlimit) << *UnitFactory::create(Millimeters);
+    }
+    else
+    {
+      sentence << "sadesumma"
+               << "on" << PositiveRange(minrain, maxrain, rangeseparator)
+               << *UnitFactory::create(Millimeters);
+    }
+
+    paragraph << sentence;
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

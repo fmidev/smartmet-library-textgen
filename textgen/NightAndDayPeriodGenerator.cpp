@@ -16,6 +16,7 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <algorithm>
 
@@ -106,29 +107,36 @@ NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(WeatherPeriod theMainPeri
 
 void NightAndDayPeriodGenerator::init()
 {
-  using namespace WeatherPeriodTools;
-
-  const int days = countPeriods(
-      itsMainPeriod, itsDayStartHour, itsDayEndHour, itsDayMaxStartHour, itsDayMinEndHour);
-
-  const int nights = countPeriods(
-      itsMainPeriod, itsDayEndHour, itsDayStartHour, itsNightMaxStartHour, itsNightMinEndHour);
-
-  for (int d = 1; d <= days; d++)
+  try
   {
-    itsPeriods.push_back(getPeriod(
-        itsMainPeriod, d, itsDayStartHour, itsDayEndHour, itsDayMaxStartHour, itsDayMinEndHour));
+    using namespace WeatherPeriodTools;
+
+    const int days = countPeriods(
+        itsMainPeriod, itsDayStartHour, itsDayEndHour, itsDayMaxStartHour, itsDayMinEndHour);
+
+    const int nights = countPeriods(
+        itsMainPeriod, itsDayEndHour, itsDayStartHour, itsNightMaxStartHour, itsNightMinEndHour);
+
+    for (int d = 1; d <= days; d++)
+    {
+      itsPeriods.push_back(getPeriod(
+          itsMainPeriod, d, itsDayStartHour, itsDayEndHour, itsDayMaxStartHour, itsDayMinEndHour));
+    }
+    for (int n = 1; n <= nights; n++)
+    {
+      itsPeriods.push_back(getPeriod(itsMainPeriod,
+                                     n,
+                                     itsNightStartHour,
+                                     itsNightEndHour,
+                                     itsNightMaxStartHour,
+                                     itsNightMinEndHour));
+    }
+    sort(itsPeriods.begin(), itsPeriods.end());
   }
-  for (int n = 1; n <= nights; n++)
+  catch (...)
   {
-    itsPeriods.push_back(getPeriod(itsMainPeriod,
-                                   n,
-                                   itsNightStartHour,
-                                   itsNightEndHour,
-                                   itsNightMaxStartHour,
-                                   itsNightMinEndHour));
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-  sort(itsPeriods.begin(), itsPeriods.end());
 }
 
 // ----------------------------------------------------------------------
@@ -166,7 +174,14 @@ NightAndDayPeriodGenerator::size_type NightAndDayPeriodGenerator::size() const
 
 WeatherPeriod NightAndDayPeriodGenerator::period() const
 {
-  return {itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime()};
+  try
+  {
+    return {itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime()};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -182,9 +197,17 @@ WeatherPeriod NightAndDayPeriodGenerator::period() const
 
 WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
 {
-  if (thePeriod < 1 || thePeriod > itsPeriods.size())
-    throw Fmi::Exception(BCP, "NightAndDayPeriodGenerator::period(): invalid argument");
-  return itsPeriods[thePeriod - 1];
+  try
+  {
+    if (thePeriod < 1 || thePeriod > itsPeriods.size())
+      throw Fmi::Exception(BCP, "NightAndDayPeriodGenerator::period(): invalid argument");
+    return itsPeriods[thePeriod - 1];
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePeriod", Fmi::to_string(thePeriod));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -195,13 +218,21 @@ WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
 
 bool NightAndDayPeriodGenerator::isday(size_type thePeriod) const
 {
-  if (thePeriod < 1 || thePeriod > itsPeriods.size())
-    throw Fmi::Exception(BCP, "NightAndDayPeriodGenerator::isday(): invalid argument");
+  try
+  {
+    if (thePeriod < 1 || thePeriod > itsPeriods.size())
+      throw Fmi::Exception(BCP, "NightAndDayPeriodGenerator::isday(): invalid argument");
 
-  const int starthour = itsPeriods[thePeriod - 1].localStartTime().GetHour();
-  const int endhour = itsPeriods[thePeriod - 1].localEndTime().GetHour();
+    const int starthour = itsPeriods[thePeriod - 1].localStartTime().GetHour();
+    const int endhour = itsPeriods[thePeriod - 1].localEndTime().GetHour();
 
-  return (starthour <= endhour && starthour <= itsDayMaxStartHour && endhour >= itsDayMinEndHour);
+    return (starthour <= endhour && starthour <= itsDayMaxStartHour && endhour >= itsDayMinEndHour);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePeriod", Fmi::to_string(thePeriod));
+  }
 }
 
 }  // namespace TextGen

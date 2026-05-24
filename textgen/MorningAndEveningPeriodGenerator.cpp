@@ -19,6 +19,7 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <algorithm>
 
@@ -116,98 +117,113 @@ MorningAndEveningPeriodGenerator::MorningAndEveningPeriodGenerator(WeatherPeriod
 
 void MorningAndEveningPeriodGenerator::init()
 {
-  using namespace WeatherPeriodTools;
+  try
+  {
+    using namespace WeatherPeriodTools;
 
-  // first we check that the period definitions are sane
-  // Assumptions:
-  // morning, day, evening and night must start during the same day
+    // first we check that the period definitions are sane
+    // Assumptions:
+    // morning, day, evening and night must start during the same day
 
-  if (itsDayStartHour <= itsMorningStartHour)
-    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Morning must start before day");
-  if (itsEveningStartHour <= itsDayStartHour)
-    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Day must start before evening");
-  if (itsNightStartHour <= itsEveningStartHour)
-    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Evening must start before night");
-  if (itsMorningStartHour >= itsNightStartHour)
-    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Night must start before morning");
+    if (itsDayStartHour <= itsMorningStartHour)
+      throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Morning must start before day");
+    if (itsEveningStartHour <= itsDayStartHour)
+      throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Day must start before evening");
+    if (itsNightStartHour <= itsEveningStartHour)
+      throw Fmi::Exception(BCP,
+                           "MorningAndEveningPeriodGenerator: Evening must start before night");
+    if (itsMorningStartHour >= itsNightStartHour)
+      throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Night must start before morning");
 
-  if (itsMorningMaxStartHour < itsMorningStartHour || itsMorningMaxStartHour >= itsDayStartHour)
-    throw Fmi::Exception(
-        BCP,
-        "MorningAndEveningPeriodGenerator: Maximum morning start hour must be during the morning");
+    if (itsMorningMaxStartHour < itsMorningStartHour || itsMorningMaxStartHour >= itsDayStartHour)
+      throw Fmi::Exception(BCP,
+                           "MorningAndEveningPeriodGenerator: Maximum morning start hour must be "
+                           "during the morning");
 
-  if (itsDayMaxStartHour < itsDayStartHour || itsDayMaxStartHour >= itsEveningStartHour)
-    throw Fmi::Exception(
-        BCP, "MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
+    if (itsDayMaxStartHour < itsDayStartHour || itsDayMaxStartHour >= itsEveningStartHour)
+      throw Fmi::Exception(
+          BCP, "MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
 
-  if (itsEveningMaxStartHour < itsEveningStartHour || itsEveningMaxStartHour >= itsNightStartHour)
-    throw Fmi::Exception(
-        BCP,
-        "MorningAndEveningPeriodGenerator: Maximum evening start hour must be during the evening");
+    if (itsEveningMaxStartHour < itsEveningStartHour || itsEveningMaxStartHour >= itsNightStartHour)
+      throw Fmi::Exception(BCP,
+                           "MorningAndEveningPeriodGenerator: Maximum evening start hour must be "
+                           "during the evening");
 
-  if (itsNightMaxStartHour < itsNightStartHour && itsNightMaxStartHour >= itsMorningStartHour)
-    throw Fmi::Exception(
-        BCP, "MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
+    if (itsNightMaxStartHour < itsNightStartHour && itsNightMaxStartHour >= itsMorningStartHour)
+      throw Fmi::Exception(
+          BCP,
+          "MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
 
-  const int mornings = countPeriods(
-      itsMainPeriod, itsMorningStartHour, itsDayStartHour, itsMorningMaxStartHour, itsDayStartHour);
+    const int mornings = countPeriods(itsMainPeriod,
+                                      itsMorningStartHour,
+                                      itsDayStartHour,
+                                      itsMorningMaxStartHour,
+                                      itsDayStartHour);
 
-  const int days = countPeriods(
-      itsMainPeriod, itsDayStartHour, itsEveningStartHour, itsDayMaxStartHour, itsEveningStartHour);
+    const int days = countPeriods(itsMainPeriod,
+                                  itsDayStartHour,
+                                  itsEveningStartHour,
+                                  itsDayMaxStartHour,
+                                  itsEveningStartHour);
 
-  const int evenings = countPeriods(itsMainPeriod,
-                                    itsEveningStartHour,
+    const int evenings = countPeriods(itsMainPeriod,
+                                      itsEveningStartHour,
+                                      itsNightStartHour,
+                                      itsEveningMaxStartHour,
+                                      itsNightStartHour);
+
+    const int nights = countPeriods(itsMainPeriod,
                                     itsNightStartHour,
-                                    itsEveningMaxStartHour,
-                                    itsNightStartHour);
+                                    itsMorningStartHour,
+                                    itsNightMaxStartHour,
+                                    itsMorningStartHour);
 
-  const int nights = countPeriods(itsMainPeriod,
-                                  itsNightStartHour,
-                                  itsMorningStartHour,
-                                  itsNightMaxStartHour,
-                                  itsMorningStartHour);
+    for (int m = 1; m <= mornings; m++)
+    {
+      itsPeriods.push_back(getPeriod(itsMainPeriod,
+                                     m,
+                                     itsMorningStartHour,
+                                     itsDayStartHour,
+                                     itsMorningMaxStartHour,
+                                     itsDayStartHour));
+    }
 
-  for (int m = 1; m <= mornings; m++)
-  {
-    itsPeriods.push_back(getPeriod(itsMainPeriod,
-                                   m,
-                                   itsMorningStartHour,
-                                   itsDayStartHour,
-                                   itsMorningMaxStartHour,
-                                   itsDayStartHour));
+    for (int d = 1; d <= days; d++)
+    {
+      itsPeriods.push_back(getPeriod(itsMainPeriod,
+                                     d,
+                                     itsDayStartHour,
+                                     itsEveningStartHour,
+                                     itsDayMaxStartHour,
+                                     itsEveningStartHour));
+    }
+
+    for (int e = 1; e <= evenings; e++)
+    {
+      itsPeriods.push_back(getPeriod(itsMainPeriod,
+                                     e,
+                                     itsEveningStartHour,
+                                     itsNightStartHour,
+                                     itsEveningMaxStartHour,
+                                     itsNightStartHour));
+    }
+
+    for (int n = 1; n <= nights; n++)
+    {
+      itsPeriods.push_back(getPeriod(itsMainPeriod,
+                                     n,
+                                     itsNightStartHour,
+                                     itsMorningStartHour,
+                                     itsNightMaxStartHour,
+                                     itsMorningStartHour));
+    }
+
+    sort(itsPeriods.begin(), itsPeriods.end());
   }
-
-  for (int d = 1; d <= days; d++)
+  catch (...)
   {
-    itsPeriods.push_back(getPeriod(itsMainPeriod,
-                                   d,
-                                   itsDayStartHour,
-                                   itsEveningStartHour,
-                                   itsDayMaxStartHour,
-                                   itsEveningStartHour));
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  for (int e = 1; e <= evenings; e++)
-  {
-    itsPeriods.push_back(getPeriod(itsMainPeriod,
-                                   e,
-                                   itsEveningStartHour,
-                                   itsNightStartHour,
-                                   itsEveningMaxStartHour,
-                                   itsNightStartHour));
-  }
-
-  for (int n = 1; n <= nights; n++)
-  {
-    itsPeriods.push_back(getPeriod(itsMainPeriod,
-                                   n,
-                                   itsNightStartHour,
-                                   itsMorningStartHour,
-                                   itsNightMaxStartHour,
-                                   itsMorningStartHour));
-  }
-
-  sort(itsPeriods.begin(), itsPeriods.end());
 }
 
 // ----------------------------------------------------------------------
@@ -245,7 +261,14 @@ MorningAndEveningPeriodGenerator::size_type MorningAndEveningPeriodGenerator::si
 
 WeatherPeriod MorningAndEveningPeriodGenerator::period() const
 {
-  return {itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime()};
+  try
+  {
+    return {itsPeriods.front().localStartTime(), itsPeriods.back().localEndTime()};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -261,9 +284,17 @@ WeatherPeriod MorningAndEveningPeriodGenerator::period() const
 
 WeatherPeriod MorningAndEveningPeriodGenerator::period(size_type thePeriod) const
 {
-  if (thePeriod < 1 || thePeriod > itsPeriods.size())
-    throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator::period(): invalid argument");
-  return itsPeriods[thePeriod - 1];
+  try
+  {
+    if (thePeriod < 1 || thePeriod > itsPeriods.size())
+      throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator::period(): invalid argument");
+    return itsPeriods[thePeriod - 1];
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePeriod", Fmi::to_string(thePeriod));
+  }
 }
 
 }  // namespace TextGen

@@ -72,28 +72,35 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree,
             const NFmiPoint& theEnd,
             double theResolution)
 {
-  // Safety against infinite recursion
-  if (theResolution <= 0)
+  try
   {
-    theTree.Insert(theStart);
-    theTree.Insert(theEnd);
-  }
-  else
-  {
-    // if edge length is small enough, stop recursion
-    const double dist = theStart.Distance(theEnd);
-    if (dist <= theResolution)
+    // Safety against infinite recursion
+    if (theResolution <= 0)
     {
       theTree.Insert(theStart);
       theTree.Insert(theEnd);
     }
     else
     {
-      // subdivide and recurse
-      NFmiPoint mid((theStart.X() + theEnd.X()) / 2, (theStart.Y() + theEnd.Y()) / 2);
-      Insert(theTree, theStart, mid, theResolution);
-      Insert(theTree, theEnd, mid, theResolution);
+      // if edge length is small enough, stop recursion
+      const double dist = theStart.Distance(theEnd);
+      if (dist <= theResolution)
+      {
+        theTree.Insert(theStart);
+        theTree.Insert(theEnd);
+      }
+      else
+      {
+        // subdivide and recurse
+        NFmiPoint mid((theStart.X() + theEnd.X()) / 2, (theStart.Y() + theEnd.Y()) / 2);
+        Insert(theTree, theStart, mid, theResolution);
+        Insert(theTree, theEnd, mid, theResolution);
+      }
     }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 
@@ -114,37 +121,44 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree,
 
 void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double theResolution)
 {
-  if (thePath.empty())
-    return;
-
-  NFmiPoint firstPoint(thePath.front().itsX, thePath.front().itsY);
-
-  NFmiPoint lastPoint(0, 0);
-
-  for (const auto& it : thePath)
+  try
   {
-    switch (it.itsType)
+    if (thePath.empty())
+      return;
+
+    NFmiPoint firstPoint(thePath.front().itsX, thePath.front().itsY);
+
+    NFmiPoint lastPoint(0, 0);
+
+    for (const auto& it : thePath)
     {
-      case NFmiSvgPath::kElementMoveto:
-        lastPoint = NFmiPoint(it.itsX, it.itsY);
-        firstPoint = lastPoint;
-        break;
-      case NFmiSvgPath::kElementClosePath:
+      switch (it.itsType)
       {
-        Insert(theTree, lastPoint, firstPoint, theResolution);
-        lastPoint = firstPoint;
-        break;
+        case NFmiSvgPath::kElementMoveto:
+          lastPoint = NFmiPoint(it.itsX, it.itsY);
+          firstPoint = lastPoint;
+          break;
+        case NFmiSvgPath::kElementClosePath:
+        {
+          Insert(theTree, lastPoint, firstPoint, theResolution);
+          lastPoint = firstPoint;
+          break;
+        }
+        case NFmiSvgPath::kElementLineto:
+        {
+          NFmiPoint nextPoint(it.itsX, it.itsY);
+          Insert(theTree, lastPoint, nextPoint, theResolution);
+          lastPoint = nextPoint;
+          break;
+        }
+        case NFmiSvgPath::kElementNotValid:
+          return;
       }
-      case NFmiSvgPath::kElementLineto:
-      {
-        NFmiPoint nextPoint(it.itsX, it.itsY);
-        Insert(theTree, lastPoint, nextPoint, theResolution);
-        lastPoint = nextPoint;
-        break;
-      }
-      case NFmiSvgPath::kElementNotValid:
-        return;
     }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 }  // namespace
@@ -156,94 +170,101 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
                               const Acceptor& theAcceptor,
                               vector<NFmiPoint*>& theResultData)
 {
-  double retval = 0.0;
-
-  std::string parameterName;
-  std::string dataName;
-
-  ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
-  const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
-  const string datavar = dataName + '_' + data_type_name(Forecast);
-  const string dataname = Settings::optional_string(datavar, default_forecast);
-
-  // Get the data into use
-
-  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
-
-  auto param = FmiParameterName(converter.ToEnum(parameterName));
-  if (param == kFmiBadParameter)
-    throw Fmi::Exception(BCP, "Parameter " + parameterName + " is not defined in newbase");
-
-  if (!theQI.Param(param))
-    throw Fmi::Exception(BCP, parameterName + " is not available in " + dataname);
-
-  if (!theArea.isPoint())
+  try
   {
-    MaskSource::mask_type theIndexMask;
+    double retval = 0.0;
 
-    switch (theArea.type())
+    std::string parameterName;
+    std::string dataName;
+
+    ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
+    const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
+    const string datavar = dataName + '_' + data_type_name(Forecast);
+    const string dataname = Settings::optional_string(datavar, default_forecast);
+
+    // Get the data into use
+
+    std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+    std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+    NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
+
+    auto param = FmiParameterName(converter.ToEnum(parameterName));
+    if (param == kFmiBadParameter)
+      throw Fmi::Exception(BCP, "Parameter " + parameterName + " is not defined in newbase");
+
+    if (!theQI.Param(param))
+      throw Fmi::Exception(BCP, parameterName + " is not available in " + dataname);
+
+    if (!theArea.isPoint())
     {
-      case WeatherArea::Full:
-        theIndexMask = theSources.getMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Land:
-        theIndexMask = theSources.getLandMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Coast:
-        theIndexMask = theSources.getCoastMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Inland:
-        theIndexMask = theSources.getInlandMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Northern:
-        theIndexMask = theSources.getNorthernMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Southern:
-        theIndexMask = theSources.getSouthernMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Eastern:
-        theIndexMask = theSources.getEasternMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Western:
-        theIndexMask = theSources.getWesternMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-    }
+      MaskSource::mask_type theIndexMask;
 
-    if (theIndexMask->empty())
-      return 0;
-
-    unsigned long startindex;
-    unsigned long endindex;
-
-    if (!QueryDataTools::findIndices(
-            theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
-    {
-      return 0;
-    }
-
-    for (unsigned long it : *theIndexMask)
-    {
-      theQI.TimeIndex(startindex);
-
-      do
+      switch (theArea.type())
       {
-        // possible -1 is handled by IndexFloatValue
-        const unsigned long idx =
-            theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
-        const float tmp = theQI.GetFloatValue(idx);
+        case WeatherArea::Full:
+          theIndexMask = theSources.getMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Land:
+          theIndexMask = theSources.getLandMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Coast:
+          theIndexMask = theSources.getCoastMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Inland:
+          theIndexMask = theSources.getInlandMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Northern:
+          theIndexMask = theSources.getNorthernMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Southern:
+          theIndexMask = theSources.getSouthernMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Eastern:
+          theIndexMask = theSources.getEasternMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Western:
+          theIndexMask = theSources.getWesternMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+      }
 
-        if (theAcceptor.accept(tmp))
+      if (theIndexMask->empty())
+        return 0;
+
+      unsigned long startindex;
+      unsigned long endindex;
+
+      if (!QueryDataTools::findIndices(
+              theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
+      {
+        return 0;
+      }
+
+      for (unsigned long it : *theIndexMask)
+      {
+        theQI.TimeIndex(startindex);
+
+        do
         {
-          theResultData.push_back(new NFmiPoint(theQI.LatLon(it)));
-          retval += tmp;
-        }
-      } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
-    }
-  }
+          // possible -1 is handled by IndexFloatValue
+          const unsigned long idx =
+              theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
+          const float tmp = theQI.GetFloatValue(idx);
 
-  return retval;
+          if (theAcceptor.accept(tmp))
+          {
+            theResultData.push_back(new NFmiPoint(theQI.LatLon(it)));
+            retval += tmp;
+          }
+        } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
+      }
+    }
+
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 double ExtractMask(const AnalysisSources& theSources,
@@ -253,92 +274,99 @@ double ExtractMask(const AnalysisSources& theSources,
                    const Acceptor& theAcceptor,
                    NFmiIndexMask& theResultIndexMask)
 {
-  double retval = 0.0;
-
-  std::string parameterName;
-  std::string dataName;
-
-  ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
-  const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
-  const string datavar = dataName + '_' + data_type_name(Forecast);
-  const string dataname = Settings::optional_string(datavar, default_forecast);
-
-  // Get the data into use
-
-  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
-
-  auto param = FmiParameterName(converter.ToEnum(parameterName));
-  if (param == kFmiBadParameter)
-    throw Fmi::Exception(BCP, "Parameter " + parameterName + " is not defined in newbase");
-
-  if (!theQI.Param(param))
-    throw Fmi::Exception(BCP, parameterName + " is not available in " + dataname);
-
-  if (!theArea.isPoint())
+  try
   {
-    MaskSource::mask_type theIndexMask;
+    double retval = 0.0;
 
-    switch (theArea.type())
+    std::string parameterName;
+    std::string dataName;
+
+    ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
+    const string default_forecast = Settings::optional_string("textgen::default_forecast", "");
+    const string datavar = dataName + '_' + data_type_name(Forecast);
+    const string dataname = Settings::optional_string(datavar, default_forecast);
+
+    // Get the data into use
+
+    std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+    std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+    NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
+
+    auto param = FmiParameterName(converter.ToEnum(parameterName));
+    if (param == kFmiBadParameter)
+      throw Fmi::Exception(BCP, "Parameter " + parameterName + " is not defined in newbase");
+
+    if (!theQI.Param(param))
+      throw Fmi::Exception(BCP, parameterName + " is not available in " + dataname);
+
+    if (!theArea.isPoint())
     {
-      case WeatherArea::Full:
-        theIndexMask = theSources.getMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Land:
-        theIndexMask = theSources.getLandMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Coast:
-        theIndexMask = theSources.getCoastMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Inland:
-        theIndexMask = theSources.getInlandMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Northern:
-        theIndexMask = theSources.getNorthernMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Southern:
-        theIndexMask = theSources.getSouthernMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Eastern:
-        theIndexMask = theSources.getEasternMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-      case WeatherArea::Western:
-        theIndexMask = theSources.getWesternMaskSource()->mask(theArea, dataname, *wsource);
-        break;
-    }
+      MaskSource::mask_type theIndexMask;
 
-    if (theIndexMask->empty())
-      return 0;
-
-    unsigned long startindex;
-    unsigned long endindex;
-
-    if (!QueryDataTools::findIndices(
-            theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
-      return 0;
-
-    for (unsigned long it : *theIndexMask)
-    {
-      theQI.TimeIndex(startindex);
-
-      do
+      switch (theArea.type())
       {
-        // possible -1 is handled by IndexFloatValue
-        const unsigned long idx =
-            theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
-        const float tmp = theQI.GetFloatValue(idx);
+        case WeatherArea::Full:
+          theIndexMask = theSources.getMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Land:
+          theIndexMask = theSources.getLandMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Coast:
+          theIndexMask = theSources.getCoastMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Inland:
+          theIndexMask = theSources.getInlandMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Northern:
+          theIndexMask = theSources.getNorthernMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Southern:
+          theIndexMask = theSources.getSouthernMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Eastern:
+          theIndexMask = theSources.getEasternMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+        case WeatherArea::Western:
+          theIndexMask = theSources.getWesternMaskSource()->mask(theArea, dataname, *wsource);
+          break;
+      }
 
-        if (theAcceptor.accept(tmp))
+      if (theIndexMask->empty())
+        return 0;
+
+      unsigned long startindex;
+      unsigned long endindex;
+
+      if (!QueryDataTools::findIndices(
+              theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
+        return 0;
+
+      for (unsigned long it : *theIndexMask)
+      {
+        theQI.TimeIndex(startindex);
+
+        do
         {
-          theResultIndexMask.insert(it);
-          retval += tmp;
-        }
-      } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
-    }
-  }
+          // possible -1 is handled by IndexFloatValue
+          const unsigned long idx =
+              theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
+          const float tmp = theQI.GetFloatValue(idx);
 
-  return retval;
+          if (theAcceptor.accept(tmp))
+          {
+            theResultIndexMask.insert(it);
+            retval += tmp;
+          }
+        } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
+      }
+    }
+
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 namespace
@@ -349,26 +377,33 @@ bool point_in_direction(const NFmiPoint& p,
                         double latitudeDivisionLine,
                         double longitudeDivisionLine)
 {
-  switch (theDirectionId)
+  try
   {
-    case AreaTools::NORTH:
-      return p.Y() >= latitudeDivisionLine;
-    case AreaTools::SOUTH:
-      return p.Y() < latitudeDivisionLine;
-    case AreaTools::EAST:
-      return p.X() >= longitudeDivisionLine;
-    case AreaTools::WEST:
-      return p.X() < longitudeDivisionLine;
-    case AreaTools::NORTHEAST:
-      return p.Y() >= latitudeDivisionLine && p.X() >= longitudeDivisionLine;
-    case AreaTools::SOUTHEAST:
-      return p.Y() < latitudeDivisionLine && p.X() >= longitudeDivisionLine;
-    case AreaTools::NORTHWEST:
-      return p.Y() >= latitudeDivisionLine && p.X() < longitudeDivisionLine;
-    case AreaTools::SOUTHWEST:
-      return p.Y() < latitudeDivisionLine && p.X() < longitudeDivisionLine;
-    default:
-      return false;
+    switch (theDirectionId)
+    {
+      case AreaTools::NORTH:
+        return p.Y() >= latitudeDivisionLine;
+      case AreaTools::SOUTH:
+        return p.Y() < latitudeDivisionLine;
+      case AreaTools::EAST:
+        return p.X() >= longitudeDivisionLine;
+      case AreaTools::WEST:
+        return p.X() < longitudeDivisionLine;
+      case AreaTools::NORTHEAST:
+        return p.Y() >= latitudeDivisionLine && p.X() >= longitudeDivisionLine;
+      case AreaTools::SOUTHEAST:
+        return p.Y() < latitudeDivisionLine && p.X() >= longitudeDivisionLine;
+      case AreaTools::NORTHWEST:
+        return p.Y() >= latitudeDivisionLine && p.X() < longitudeDivisionLine;
+      case AreaTools::SOUTHWEST:
+        return p.Y() < latitudeDivisionLine && p.X() < longitudeDivisionLine;
+      default:
+        return false;
+    }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 }  // namespace

@@ -29,6 +29,7 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
@@ -293,6 +294,8 @@ struct temperature_anomaly_params
 
 void log_data(const temperature_anomaly_params& theParameters)
 {
+  try
+  {
   theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMinimum: "
                        << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum << '\n';
   theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMean: "
@@ -318,14 +321,26 @@ void log_data(const temperature_anomaly_params& theParameters)
                        << theParameters.theDayAfterDay2TemperatureAreaAfternoonMean << '\n';
   theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMaximum: "
                        << theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum << '\n';
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void log_start_time_and_end_time(MessageLogger& theLog,
                                  const std::string& theLogMessage,
                                  const WeatherPeriod& thePeriod)
 {
+  try
+  {
   theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
          << thePeriod.localEndTime() << '\n';
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLogMessage", theLogMessage);
+  }
 }
 
 std::string period2string(const WeatherPeriod& period)
@@ -400,6 +415,8 @@ Sentence build_anomaly_sentence(const Sentence& theSpecifiedDay,
                                 const std::string& day_noArea_phrase,
                                 const std::string& day_area_phrase)
 {
+  try
+  {
   Sentence sentence;
   const bool hasDay = !theSpecifiedDay.empty();
   const bool hasArea = !theAreaPhrase.empty();
@@ -413,6 +430,11 @@ Sentence build_anomaly_sentence(const Sentence& theSpecifiedDay,
   else
     sentence << day_area_phrase << theSpecifiedDay << theAreaPhrase;
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("noDay_noArea_phrase", noDay_noArea_phrase);
+  }
 }
 
 // Build anomaly sentence for cold/hot fractile cases (with extra trailing words)
@@ -425,6 +447,8 @@ Sentence build_anomaly_sentence_with_suffix(const Sentence& theSpecifiedDay,
                                             const std::string& modifierWord,
                                             const std::string& tempWord)
 {
+  try
+  {
   Sentence sentence = build_anomaly_sentence(theSpecifiedDay,
                                              theAreaPhrase,
                                              noDay_noArea_phrase,
@@ -433,11 +457,18 @@ Sentence build_anomaly_sentence_with_suffix(const Sentence& theSpecifiedDay,
                                              day_area_phrase);
   sentence << modifierWord << tempWord;
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("noDay_noArea_phrase", noDay_noArea_phrase);
+  }
 }
 
 // Build area phrase based on area type
 Sentence build_area_phrase(const WeatherArea& theArea)
 {
+  try
+  {
   Sentence theAreaPhrase;
   if (theArea.type() == WeatherArea::Northern)
     theAreaPhrase << ALUEEN_POHJOISOSASSA_PHRASE;
@@ -448,11 +479,18 @@ Sentence build_area_phrase(const WeatherArea& theArea)
   else if (theArea.type() == WeatherArea::Western)
     theAreaPhrase << ALUEEN_LANSIOSASSA_PHRASE;
   return theAreaPhrase;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // Handle fractile88 warm season case (summer/growing: lampimampaa phrase)
 Sentence build_fractile88_warm(const Sentence& theSpecifiedDay, const Sentence& theAreaPhrase)
 {
+  try
+  {
   return build_anomaly_sentence(
       theSpecifiedDay,
       theAreaPhrase,
@@ -460,11 +498,18 @@ Sentence build_fractile88_warm(const Sentence& theSpecifiedDay, const Sentence& 
       ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
       MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
       MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // Handle fractile88 winter season case (hyvin leutoa)
 Sentence build_fractile88_cold(const Sentence& theSpecifiedDay, const Sentence& theAreaPhrase)
 {
+  try
+  {
   return build_anomaly_sentence_with_suffix(
       theSpecifiedDay,
       theAreaPhrase,
@@ -474,6 +519,11 @@ Sentence build_fractile88_cold(const Sentence& theSpecifiedDay, const Sentence& 
       MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
       HYVIN_WORD,
       LEUTOA_WORD);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
@@ -483,6 +533,8 @@ Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
                                       float fractile98Share,
                                       const WeatherPeriod& thePeriod)
 {
+  try
+  {
   Sentence theSpecifiedDay;
   if (theParameters.thePeriodLength > 24)
   {
@@ -552,6 +604,11 @@ Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
   }
 
   return Sentence();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("fractile02Share", Fmi::to_string(fractile02Share));
+  }
 }
 
 Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
@@ -561,6 +618,8 @@ Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedComp
                                     const Sentence& theSpecifiedDay,
                                     const Sentence& theAreaPhrase)
 {
+  try
+  {
   Sentence sentence;
 
   if (!theSpecifiedDay.empty() && !theAreaPhrase.empty())
@@ -581,6 +640,11 @@ Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedComp
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theTemperatureSentence", theTemperatureSentence);
+  }
 }
 
 // Holds pre-computed temperature differences and change flags for shortrun trend
@@ -594,6 +658,8 @@ struct TrendTemps
 // Build TrendTemps from the parameters
 TrendTemps build_trend_temps(const temperature_anomaly_params& theParameters)
 {
+  try
+  {
   const bool isWinter = (theParameters.theSeason == WINTER_SEASON);
   TrendTemps t;
   t.dayBefore = isWinter ? theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value()
@@ -625,6 +691,11 @@ TrendTemps build_trend_temps(const temperature_anomaly_params& theParameters)
   t.gettingLower =
       t.day2 < t.day1 && t.dayAfter < t.day1 && t.day2 < t.dayBefore && t.dayAfter < t.dayBefore;
   return t;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // Handle winter season shortrun trend
@@ -636,6 +707,8 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
                                        const Sentence& theSpecifiedDay,
                                        const Sentence& theAreaPhrase)
 {
+  try
+  {
   Sentence sentence;
   // saa on edelleen lauhaa
   // saa lauhtuu
@@ -758,6 +831,11 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
     }
   }
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("veryColdTemperature", Fmi::to_string(veryColdTemperature));
+  }
 }
 
 // Common check: all temps below f12 fractile thresholds (kolea jatkuu)
@@ -791,6 +869,8 @@ Sentence summer_warming_sentence(temperature_anomaly_params& theParameters,
                                  const Sentence& theSpecifiedDay,
                                  const Sentence& theAreaPhrase)
 {
+  try
+  {
   Sentence sentence;
   if (t.dayBefore >= hot_weather_limit && t.day1 >= hot_weather_limit &&
       t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
@@ -885,6 +965,11 @@ Sentence summer_warming_sentence(temperature_anomaly_params& theParameters,
     theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
   }
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
+  }
 }
 
 // Summer cooling branch (temperature getting lower, day2 > 0)
@@ -902,6 +987,8 @@ Sentence summer_cooling_sentence(temperature_anomaly_params& theParameters,
                                  const Sentence& theSpecifiedDay,
                                  const Sentence& theAreaPhrase)
 {
+  try
+  {
   Sentence sentence;
   if (t.dayBefore >= hot_weather_limit && t.day1 >= hot_weather_limit &&
       t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
@@ -967,6 +1054,11 @@ Sentence summer_cooling_sentence(temperature_anomaly_params& theParameters,
     theParameters.theShortrunTrend = SAA_VIILENEE_VAHAN;
   }
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
+  }
 }
 
 // Handle summer season shortrun trend
@@ -984,6 +1076,8 @@ Sentence summer_shortruntrend_sentence(temperature_anomaly_params& theParameters
                                        const Sentence& theSpecifiedDay,
                                        const Sentence& theAreaPhrase)
 {
+  try
+  {
   if (!t.gettingLower)
     return summer_warming_sentence(theParameters,
                                    t,
@@ -1013,11 +1107,18 @@ Sentence summer_shortruntrend_sentence(temperature_anomaly_params& theParameters
                                    theSpecifiedDay,
                                    theAreaPhrase);
   return Sentence();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
+  }
 }
 
 Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
                                             fractile_type_id theFractileType)
 {
+  try
+  {
   const TrendTemps t = build_trend_temps(theParameters);
 
   // kova pakkanen: F12,5 fractile on 1. Feb 12:00
@@ -1131,6 +1232,11 @@ Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParam
                                        f37DayAfter,
                                        theSpecifiedDay,
                                        theAreaPhrase);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Sentence handle_anomaly_and_shortrun_trend_sentences(
@@ -1138,6 +1244,8 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
     const Sentence& anomalySentence,
     const Sentence& shortrunTrendSentence)
 {
+  try
+  {
   Sentence sentence;
 
   if (theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSELLISEN_KOLEAA ||
@@ -1179,6 +1287,11 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Paragraph anomaly(const TextGen::WeatherArea& itsArea,
@@ -1189,6 +1302,8 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
                   const std::string& theAreaName,
                   MessageLogger& theLog)
 {
+  try
+  {
   using namespace TemperatureAnomaly;
 
   Paragraph paragraph;
@@ -1488,6 +1603,11 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
   theLog << paragraph;
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("itsVar", itsVar).addParameter("theAreaName", theAreaName);
+  }
 }
 
 }  // namespace
@@ -1504,6 +1624,8 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
 
 Paragraph TemperatureStory::anomaly() const
 {
+  try
+  {
   using namespace TemperatureAnomaly;
 
   Paragraph paragraph;
@@ -1556,6 +1678,11 @@ Paragraph TemperatureStory::anomaly() const
   }
 
   return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

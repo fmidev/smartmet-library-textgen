@@ -30,6 +30,8 @@
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -88,31 +90,40 @@ void min_max_mean_temperature(const string& theVar,
                               WeatherResult& theMax,
                               WeatherResult& theMean)
 {
-  GridForecaster theForecaster;
+  try
+  {
+    GridForecaster theForecaster;
 
-  theMin = theForecaster.analyze(theVar + "::min",
-                                 theSources,
-                                 Temperature,
-                                 Minimum,
-                                 theIsWinterHalf ? Mean : Maximum,
-                                 theArea,
-                                 thePeriod);
+    theMin = theForecaster.analyze(theVar + "::min",
+                                   theSources,
+                                   Temperature,
+                                   Minimum,
+                                   theIsWinterHalf ? Mean : Maximum,
+                                   theArea,
+                                   thePeriod);
 
-  theMax = theForecaster.analyze(theVar + "::max",
-                                 theSources,
-                                 Temperature,
-                                 Maximum,
-                                 theIsWinterHalf ? Mean : Maximum,
-                                 theArea,
-                                 thePeriod);
+    theMax = theForecaster.analyze(theVar + "::max",
+                                   theSources,
+                                   Temperature,
+                                   Maximum,
+                                   theIsWinterHalf ? Mean : Maximum,
+                                   theArea,
+                                   thePeriod);
 
-  theMean = theForecaster.analyze(theVar + "::mean",
-                                  theSources,
-                                  Temperature,
-                                  Mean,
-                                  theIsWinterHalf ? Mean : Maximum,
-                                  theArea,
-                                  thePeriod);
+    theMean = theForecaster.analyze(theVar + "::mean",
+                                    theSources,
+                                    Temperature,
+                                    Mean,
+                                    theIsWinterHalf ? Mean : Maximum,
+                                    theArea,
+                                    thePeriod);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theIsWinterHalf", Fmi::to_string(theIsWinterHalf));
+  }
 }
 
 }  // namespace
@@ -129,30 +140,40 @@ void min_max_mean_temperature(const string& theVar,
 
 const char* temperature_comparison_phrase(int theMean1, int theMean2, const string& theVariable)
 {
-  using namespace Settings;
+  try
+  {
+    using namespace Settings;
 
-  const int significantly_higher =
-      require_percentage(theVariable + "::comparison::significantly_higher");
-  const int significantly_lower =
-      require_percentage(theVariable + "::comparison::significantly_lower");
-  const int higher = require_percentage(theVariable + "::comparison::higher");
-  const int lower = require_percentage(theVariable + "::comparison::lower");
-  const int somewhat_higher = require_percentage(theVariable + "::comparison::somewhat_higher");
-  const int somewhat_lower = require_percentage(theVariable + "::comparison::somewhat_lower");
+    const int significantly_higher =
+        require_percentage(theVariable + "::comparison::significantly_higher");
+    const int significantly_lower =
+        require_percentage(theVariable + "::comparison::significantly_lower");
+    const int higher = require_percentage(theVariable + "::comparison::higher");
+    const int lower = require_percentage(theVariable + "::comparison::lower");
+    const int somewhat_higher = require_percentage(theVariable + "::comparison::somewhat_higher");
+    const int somewhat_lower = require_percentage(theVariable + "::comparison::somewhat_lower");
 
-  if (theMean2 - theMean1 >= significantly_higher)
-    return "huomattavasti korkeampi";
-  if (theMean2 - theMean1 >= higher)
-    return "korkeampi";
-  if (theMean2 - theMean1 >= somewhat_higher)
-    return "hieman korkeampi";
-  if (theMean1 - theMean2 >= significantly_lower)
-    return "huomattavasti alempi";
-  if (theMean1 - theMean2 >= lower)
-    return "alempi";
-  if (theMean1 - theMean2 >= somewhat_lower)
-    return "hieman alempi";
-  return "suunnilleen sama";
+    if (theMean2 - theMean1 >= significantly_higher)
+      return "huomattavasti korkeampi";
+    if (theMean2 - theMean1 >= higher)
+      return "korkeampi";
+    if (theMean2 - theMean1 >= somewhat_higher)
+      return "hieman korkeampi";
+    if (theMean1 - theMean2 >= significantly_lower)
+      return "huomattavasti alempi";
+    if (theMean1 - theMean2 >= lower)
+      return "alempi";
+    if (theMean1 - theMean2 >= somewhat_lower)
+      return "hieman alempi";
+    return "suunnilleen sama";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theMean1", Fmi::to_string(theMean1))
+        .addParameter("theMean2", Fmi::to_string(theMean2))
+        .addParameter("theVariable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -181,33 +202,45 @@ TextGen::Sentence temperature_sentence(int theMinimum,
                                        bool /*theZeroFlag*/,
                                        const std::string& theRangeSeparator)
 {
-  Sentence sentence;
-
-  // theMaximum can contain lower value than the theMinimum
-  int diff = abs(theMaximum - theMinimum);
-
-  bool range = false;
-  if (theMinimum != theMaximum)
+  try
   {
-    if ((diff >= theMinInterval) || (theMinimum <= 0 && theMaximum >= 0))
-      range = true;
-  }
+    Sentence sentence;
 
-  if (range)
+    // theMaximum can contain lower value than the theMinimum
+    int diff = abs(theMaximum - theMinimum);
+
+    bool range = false;
+    if (theMinimum != theMaximum)
+    {
+      if ((diff >= theMinInterval) || (theMinimum <= 0 && theMaximum >= 0))
+        range = true;
+    }
+
+    if (range)
+    {
+      int intervalStartValue(theMinimum);
+      int intervalEndValue(theMaximum);
+      temperature_range(theMinimum, theMaximum, intervalStartValue, intervalEndValue);
+
+      sentence << TemperatureRange(intervalStartValue, intervalEndValue, theRangeSeparator)
+               << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue, true);
+    }
+    else
+    {
+      sentence << "noin" << Integer(theMean) << *UnitFactory::create_unit(DegreesCelsius, theMean);
+    }
+
+    return sentence;
+  }
+  catch (...)
   {
-    int intervalStartValue(theMinimum);
-    int intervalEndValue(theMaximum);
-    temperature_range(theMinimum, theMaximum, intervalStartValue, intervalEndValue);
-
-    sentence << TemperatureRange(intervalStartValue, intervalEndValue, theRangeSeparator)
-             << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue, true);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theMinimum", Fmi::to_string(theMinimum))
+        .addParameter("theMean", Fmi::to_string(theMean))
+        .addParameter("theMaximum", Fmi::to_string(theMaximum))
+        .addParameter("theMinInterval", Fmi::to_string(theMinInterval))
+        .addParameter("theRangeSeparator", theRangeSeparator);
   }
-  else
-  {
-    sentence << "noin" << Integer(theMean) << *UnitFactory::create_unit(DegreesCelsius, theMean);
-  }
-
-  return sentence;
 }
 
 // changed 6.10.2010
@@ -244,13 +277,23 @@ TextGen::Sentence temperature_range(const int& theTemperature1,
                                     int& intervalStart,
                                     int& intervalEnd)
 {
-  Sentence sentence;
+  try
+  {
+    Sentence sentence;
 
-  temperature_range(theTemperature1, theTemperature2, intervalStart, intervalEnd);
+    temperature_range(theTemperature1, theTemperature2, intervalStart, intervalEnd);
 
-  sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
+    sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theTemperature1", Fmi::to_string(theTemperature1))
+        .addParameter("theTemperature2", Fmi::to_string(theTemperature2))
+        .addParameter("theRangeSeparator", theRangeSeparator);
+  }
 }
 
 bool sort_out_temperature_interval(int theMinimum,
@@ -262,49 +305,61 @@ bool sort_out_temperature_interval(int theMinimum,
                                    int& intervalEnd,
                                    const bool& theRoundTheNumber)
 {
-  bool interval_used = true;
-
-  // in winter theMaximum contains the lower value than the theMinimum
-  int diff = abs(theMaximum - theMinimum);
-
-  bool range = false;
-  if (theMinimum != theMaximum)
+  try
   {
-    if ((diff >= theMinInterval) || (theMinimum <= 0 && theMaximum >= 0))
-      range = true;
-  }
+    bool interval_used = true;
 
-  if (range)
-  {
-    int theRoundedMinimum = theMinimum;
-    int theRoundedMaximum = theMaximum;
+    // in winter theMaximum contains the lower value than the theMinimum
+    int diff = abs(theMaximum - theMinimum);
 
-    if (theMinimum <= -15 && theMaximum <= -15 && theRoundTheNumber)
+    bool range = false;
+    if (theMinimum != theMaximum)
     {
-      theRoundedMinimum = round_temperature(theMinimum);
-      theRoundedMaximum = round_temperature(theMaximum);
+      if ((diff >= theMinInterval) || (theMinimum <= 0 && theMaximum >= 0))
+        range = true;
     }
 
-    if (theRoundedMinimum == theRoundedMaximum)
+    if (range)
     {
-      interval_used = false;
-      intervalStart = theRoundedMinimum;
-      intervalEnd = intervalStart;
+      int theRoundedMinimum = theMinimum;
+      int theRoundedMaximum = theMaximum;
+
+      if (theMinimum <= -15 && theMaximum <= -15 && theRoundTheNumber)
+      {
+        theRoundedMinimum = round_temperature(theMinimum);
+        theRoundedMaximum = round_temperature(theMaximum);
+      }
+
+      if (theRoundedMinimum == theRoundedMaximum)
+      {
+        interval_used = false;
+        intervalStart = theRoundedMinimum;
+        intervalEnd = intervalStart;
+      }
+      else
+      {
+        interval_used = true;
+        temperature_range(theRoundedMinimum, theRoundedMaximum, intervalStart, intervalEnd);
+      }
     }
     else
     {
-      interval_used = true;
-      temperature_range(theRoundedMinimum, theRoundedMaximum, intervalStart, intervalEnd);
+      interval_used = false;
+      intervalStart = (theRoundTheNumber ? round_temperature(theMean) : theMean);
+      intervalEnd = intervalStart;
     }
-  }
-  else
-  {
-    interval_used = false;
-    intervalStart = (theRoundTheNumber ? round_temperature(theMean) : theMean);
-    intervalEnd = intervalStart;
-  }
 
-  return interval_used;
+    return interval_used;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theMinimum", Fmi::to_string(theMinimum))
+        .addParameter("theMean", Fmi::to_string(theMean))
+        .addParameter("theMaximum", Fmi::to_string(theMaximum))
+        .addParameter("theMinInterval", Fmi::to_string(theMinInterval))
+        .addParameter("theRoundTheNumber", Fmi::to_string(theRoundTheNumber));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -337,30 +392,44 @@ TextGen::Sentence temperature_sentence2(int theMinimum,
                                         const std::string& theRangeSeparator,
                                         const bool& theRoundTheNumber)
 {
-  Sentence sentence;
-
-  interval = sort_out_temperature_interval(theMinimum,
-                                           theMean,
-                                           theMaximum,
-                                           theMinInterval,
-                                           theZeroFlag,
-                                           intervalStart,
-                                           intervalEnd,
-                                           theRoundTheNumber);
-
-  if (interval)
+  try
   {
-    sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
-    sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd, true);
-    interval = true;
-  }
-  else
-  {
-    sentence << "noin" << Integer(intervalStart)
-             << *UnitFactory::create_unit(DegreesCelsius, intervalStart);
-  }
+    Sentence sentence;
 
-  return sentence;
+    interval = sort_out_temperature_interval(theMinimum,
+                                             theMean,
+                                             theMaximum,
+                                             theMinInterval,
+                                             theZeroFlag,
+                                             intervalStart,
+                                             intervalEnd,
+                                             theRoundTheNumber);
+
+    if (interval)
+    {
+      sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
+      sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd, true);
+      interval = true;
+    }
+    else
+    {
+      sentence << "noin" << Integer(intervalStart)
+               << *UnitFactory::create_unit(DegreesCelsius, intervalStart);
+    }
+
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theMinimum", Fmi::to_string(theMinimum))
+        .addParameter("theMean", Fmi::to_string(theMean))
+        .addParameter("theMaximum", Fmi::to_string(theMaximum))
+        .addParameter("theMinInterval", Fmi::to_string(theMinInterval))
+        .addParameter("theZeroFlag", Fmi::to_string(theZeroFlag))
+        .addParameter("theRangeSeparator", theRangeSeparator)
+        .addParameter("theRoundTheNumber", Fmi::to_string(theRoundTheNumber));
+  }
 }
 
 void min_max_mean_temperature(const string& theVar,
@@ -372,34 +441,43 @@ void min_max_mean_temperature(const string& theVar,
                               WeatherResult& theMax,
                               WeatherResult& theMean)
 {
-  GridForecaster theForecaster;
+  try
+  {
+    GridForecaster theForecaster;
 
-  theMin = theForecaster.analyze(theVar + "::min",
-                                 theSources,
-                                 Temperature,
-                                 Minimum,
-                                 theIsWinterHalf ? Mean : Maximum,
-                                 Maximum,
-                                 theArea,
-                                 thePeriods);
+    theMin = theForecaster.analyze(theVar + "::min",
+                                   theSources,
+                                   Temperature,
+                                   Minimum,
+                                   theIsWinterHalf ? Mean : Maximum,
+                                   Maximum,
+                                   theArea,
+                                   thePeriods);
 
-  theMax = theForecaster.analyze(theVar + "::max",
-                                 theSources,
-                                 Temperature,
-                                 Maximum,
-                                 theIsWinterHalf ? Mean : Maximum,
-                                 Maximum,
-                                 theArea,
-                                 thePeriods);
+    theMax = theForecaster.analyze(theVar + "::max",
+                                   theSources,
+                                   Temperature,
+                                   Maximum,
+                                   theIsWinterHalf ? Mean : Maximum,
+                                   Maximum,
+                                   theArea,
+                                   thePeriods);
 
-  theMean = theForecaster.analyze(theVar + "::mean",
-                                  theSources,
-                                  Temperature,
-                                  Mean,
-                                  theIsWinterHalf ? Mean : Maximum,
-                                  Maximum,
-                                  theArea,
-                                  thePeriods);
+    theMean = theForecaster.analyze(theVar + "::mean",
+                                    theSources,
+                                    Temperature,
+                                    Mean,
+                                    theIsWinterHalf ? Mean : Maximum,
+                                    Maximum,
+                                    theArea,
+                                    thePeriods);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theIsWinterHalf", Fmi::to_string(theIsWinterHalf));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -425,31 +503,38 @@ void morning_temperature(const string& theVar,
                          WeatherResult& theMean)
 
 {
-  int year = thePeriod.localStartTime().GetYear();
-  int month = thePeriod.localStartTime().GetMonth();
-  int day = thePeriod.localStartTime().GetDay();
+  try
+  {
+    int year = thePeriod.localStartTime().GetYear();
+    int month = thePeriod.localStartTime().GetMonth();
+    int day = thePeriod.localStartTime().GetDay();
 
-  int default_starthour = 8;
-  int default_endhour = 8;
+    int default_starthour = 8;
+    int default_endhour = 8;
 
-  int fakeStrPos = theVar.find("::fake");
-  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
-  bool is_winter = (SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar));
+    int fakeStrPos = theVar.find("::fake");
+    std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+    bool is_winter = (SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar));
 
-  std::string season(is_winter ? "::wintertime" : "::summertime");
+    std::string season(is_winter ? "::wintertime" : "::summertime");
 
-  int morning_starthour =
-      optional_hour(thePlainVar + season + "::morning_temperature::starthour", default_starthour);
-  int morning_endhour =
-      optional_hour(thePlainVar + season + "::morning_temperature::endhour", default_endhour);
+    int morning_starthour =
+        optional_hour(thePlainVar + season + "::morning_temperature::starthour", default_starthour);
+    int morning_endhour =
+        optional_hour(thePlainVar + season + "::morning_temperature::endhour", default_endhour);
 
-  TextGenPosixTime time1(year, month, day, morning_starthour, 0, 0);
-  TextGenPosixTime time2(year, month, day, morning_endhour, 0, 0);
+    TextGenPosixTime time1(year, month, day, morning_starthour, 0, 0);
+    TextGenPosixTime time2(year, month, day, morning_endhour, 0, 0);
 
-  WeatherPeriod morningPeriod(time1, time2);
+    WeatherPeriod morningPeriod(time1, time2);
 
-  min_max_mean_temperature(
-      theVar, theSources, theArea, morningPeriod, is_winter, theMin, theMax, theMean);
+    min_max_mean_temperature(
+        theVar, theSources, theArea, morningPeriod, is_winter, theMin, theMax, theMean);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -462,30 +547,37 @@ void morning_temperature(const string& theVar,
 // ----------------------------------------------------------------------
 WeatherPeriod get_afternoon_period(const string& theVar, const TextGenPosixTime& theTime)
 {
-  int fakeStrPos = theVar.find("::fake");
-  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+  try
+  {
+    int fakeStrPos = theVar.find("::fake");
+    std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
 
-  bool is_winter = SeasonTools::isWinterHalf(theTime, thePlainVar);
-  int timezone = TextGenPosixTime::GetZoneDifferenceHour(theTime, false);
-  std::string season(is_winter ? "::wintertime" : "::summertime");
+    bool is_winter = SeasonTools::isWinterHalf(theTime, thePlainVar);
+    int timezone = TextGenPosixTime::GetZoneDifferenceHour(theTime, false);
+    std::string season(is_winter ? "::wintertime" : "::summertime");
 
-  // in wintertime afternoon temperature is 12:00 UTC
-  int default_starthour = (is_winter ? 12 + timezone : 13);
-  int default_endhour = (is_winter ? 12 + timezone : 17);
+    // in wintertime afternoon temperature is 12:00 UTC
+    int default_starthour = (is_winter ? 12 + timezone : 13);
+    int default_endhour = (is_winter ? 12 + timezone : 17);
 
-  int afternoon_starthour =
-      optional_hour(thePlainVar + season + "::day_temperature::starthour", default_starthour);
-  int afternoon_endhour =
-      optional_hour(thePlainVar + season + "::day_temperature::endhour", default_endhour);
+    int afternoon_starthour =
+        optional_hour(thePlainVar + season + "::day_temperature::starthour", default_starthour);
+    int afternoon_endhour =
+        optional_hour(thePlainVar + season + "::day_temperature::endhour", default_endhour);
 
-  int year = theTime.GetYear();
-  int month = theTime.GetMonth();
-  int day = theTime.GetDay();
+    int year = theTime.GetYear();
+    int month = theTime.GetMonth();
+    int day = theTime.GetDay();
 
-  TextGenPosixTime time1(year, month, day, afternoon_starthour, 0, 0);
-  TextGenPosixTime time2(year, month, day, afternoon_endhour, 0, 0);
+    TextGenPosixTime time1(year, month, day, afternoon_starthour, 0, 0);
+    TextGenPosixTime time2(year, month, day, afternoon_endhour, 0, 0);
 
-  return {time1, time2};
+    return {time1, time2};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -510,18 +602,25 @@ void afternoon_temperature(const string& theVar,
                            WeatherResult& theMax,
                            WeatherResult& theMean)
 {
-  int fakeStrPos = theVar.find("::fake");
-  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
-  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
+  try
+  {
+    int fakeStrPos = theVar.find("::fake");
+    std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+    bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
 
-  min_max_mean_temperature(theVar,
-                           theSources,
-                           theArea,
-                           get_afternoon_period(theVar, thePeriod.localStartTime()),
-                           is_winter,
-                           theMin,
-                           theMax,
-                           theMean);
+    min_max_mean_temperature(theVar,
+                             theSources,
+                             theArea,
+                             get_afternoon_period(theVar, thePeriod.localStartTime()),
+                             is_winter,
+                             theMin,
+                             theMax,
+                             theMean);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 void afternoon_temperature(const string& theVar,
@@ -532,13 +631,20 @@ void afternoon_temperature(const string& theVar,
                            WeatherResult& theMax,
                            WeatherResult& theMean)
 {
-  int fakeStrPos = theVar.find("::fake");
-  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+  try
+  {
+    int fakeStrPos = theVar.find("::fake");
+    std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
 
-  bool is_winter = SeasonTools::isWinterHalf(thePeriods.period(1).localStartTime(), thePlainVar);
+    bool is_winter = SeasonTools::isWinterHalf(thePeriods.period(1).localStartTime(), thePlainVar);
 
-  min_max_mean_temperature(
-      theVar, theSources, theArea, thePeriods, is_winter, theMin, theMax, theMean);
+    min_max_mean_temperature(
+        theVar, theSources, theArea, thePeriods, is_winter, theMin, theMax, theMean);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -557,34 +663,44 @@ void afternoon_temperature(const string& theVar,
 void clamp_temperature(
     const string& theVar, const bool& isWinter, const bool& isDay, int& theMinimum, int& theMaximum)
 {
-  int fakeStrPos = theVar.find("::fake");
-  std::string season(isWinter ? "::wintertime" : "::summertime");
-  std::string period(isDay ? "::day" : "::night");
-  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
-  int temperature_max_interval =
-      optional_int(thePlainVar + season + period + "::temperature_max_interval", 5);
-
-  // if minimum is below zero and maximum above, we allow bigger ranges and do no clamping
-  if ((theMinimum <= 0 && theMaximum > 0) || (theMinimum < 0 && theMaximum >= 0))
-    return;
-
-  // if both both minimum and maximum are below -15 degrees, dont' clamp
-  if ((theMinimum <= -15 && theMaximum <= -15) && temperature_max_interval <= 10)
-    temperature_max_interval = 10;
-  // SOL-4856 Annakaisa (20170208): Jos minimi on kylmenpi kuin -20 ja
-  // minimin ja maksimin ero on yli 10 astetta ndytetddn koko haarukka
-  else if (theMinimum <= -20 && abs(theMaximum - theMinimum) > 10)
-    return;
-
-  bool clamp_down =
-      optional_bool(thePlainVar + season + period + "::temperature_clamp_down", !isWinter);
-
-  if (theMaximum - theMinimum > temperature_max_interval)
+  try
   {
-    if (clamp_down)
-      theMinimum = theMaximum - temperature_max_interval;
-    else
-      theMaximum = theMinimum + temperature_max_interval;
+    int fakeStrPos = theVar.find("::fake");
+    std::string season(isWinter ? "::wintertime" : "::summertime");
+    std::string period(isDay ? "::day" : "::night");
+    std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+    int temperature_max_interval =
+        optional_int(thePlainVar + season + period + "::temperature_max_interval", 5);
+
+    // if minimum is below zero and maximum above, we allow bigger ranges and do no clamping
+    if ((theMinimum <= 0 && theMaximum > 0) || (theMinimum < 0 && theMaximum >= 0))
+      return;
+
+    // if both both minimum and maximum are below -15 degrees, dont' clamp
+    if ((theMinimum <= -15 && theMaximum <= -15) && temperature_max_interval <= 10)
+      temperature_max_interval = 10;
+    // SOL-4856 Annakaisa (20170208): Jos minimi on kylmenpi kuin -20 ja
+    // minimin ja maksimin ero on yli 10 astetta ndytetddn koko haarukka
+    else if (theMinimum <= -20 && abs(theMaximum - theMinimum) > 10)
+      return;
+
+    bool clamp_down =
+        optional_bool(thePlainVar + season + period + "::temperature_clamp_down", !isWinter);
+
+    if (theMaximum - theMinimum > temperature_max_interval)
+    {
+      if (clamp_down)
+        theMinimum = theMaximum - temperature_max_interval;
+      else
+        theMaximum = theMinimum + temperature_max_interval;
+    }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("isWinter", Fmi::to_string(isWinter))
+        .addParameter("isDay", Fmi::to_string(isDay));
   }
 }
 
@@ -608,8 +724,18 @@ float fake_fractile_value(const std::string& theVar,
                           const std::string& seasonStr,
                           const std::string& level)
 {
-  return static_cast<float>(
-      require_double(theVar + "::fake::fractile::" + seasonStr + "::" + level));
+  try
+  {
+    return static_cast<float>(
+        require_double(theVar + "::fake::fractile::" + seasonStr + "::" + level));
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("seasonStr", seasonStr)
+        .addParameter("level", level);
+  }
 }
 
 // Helper: classify temperature against fake fractile thresholds
@@ -617,19 +743,29 @@ fractile_id classify_fake_fractile(const float& theTemperature,
                                    const std::string& theVar,
                                    const std::string& seasonStr)
 {
-  const std::array<std::pair<std::string, fractile_id>, 7> levels = {{{"F02", FRACTILE_02},
-                                                                      {"F12", FRACTILE_12},
-                                                                      {"F37", FRACTILE_37},
-                                                                      {"F50", FRACTILE_50},
-                                                                      {"F63", FRACTILE_63},
-                                                                      {"F88", FRACTILE_88},
-                                                                      {"F98", FRACTILE_98}}};
-  for (const auto& lv : levels)
+  try
   {
-    if (theTemperature <= fake_fractile_value(theVar, seasonStr, lv.first))
-      return lv.second;
+    const std::array<std::pair<std::string, fractile_id>, 7> levels = {{{"F02", FRACTILE_02},
+                                                                        {"F12", FRACTILE_12},
+                                                                        {"F37", FRACTILE_37},
+                                                                        {"F50", FRACTILE_50},
+                                                                        {"F63", FRACTILE_63},
+                                                                        {"F88", FRACTILE_88},
+                                                                        {"F98", FRACTILE_98}}};
+    for (const auto& lv : levels)
+    {
+      if (theTemperature <= fake_fractile_value(theVar, seasonStr, lv.first))
+        return lv.second;
+    }
+    return FRACTILE_UNDEFINED;
   }
-  return FRACTILE_UNDEFINED;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theTemperature", Fmi::to_string(theTemperature))
+        .addParameter("theVar", theVar)
+        .addParameter("seasonStr", seasonStr);
+  }
 }
 
 // Helper: analyze a single fractile level and check if temperature falls in it
@@ -645,12 +781,22 @@ fractile_id check_grid_fractile(GridClimatology& gc,
                                 const float& theTemperature,
                                 fractile_id resultId)
 {
-  WeatherParameter param =
-      fractile_weather_parameter(theFractileType, minParam, meanParam, maxParam);
-  WeatherResult result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
-  if (result.value() != kFloatMissing && theTemperature <= result.value())
-    return resultId;
-  return FRACTILE_UNDEFINED;
+  try
+  {
+    WeatherParameter param =
+        fractile_weather_parameter(theFractileType, minParam, meanParam, maxParam);
+    WeatherResult result =
+        gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
+    if (result.value() != kFloatMissing && theTemperature <= result.value())
+      return resultId;
+    return FRACTILE_UNDEFINED;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theTemperature", Fmi::to_string(theTemperature));
+  }
 }
 }  // namespace
 
@@ -673,44 +819,53 @@ fractile_id get_fractile(const std::string& theVar,
                          const WeatherPeriod& thePeriod,
                          const fractile_type_id& theFractileType)
 {
-  if (theTemperature == kFloatMissing)
-    return FRACTILE_UNDEFINED;
-
-  string seasonStr =
-      SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
-
-  // fake variables are just for rough testing purposes
-  if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
-    return classify_fake_fractile(theTemperature, theVar, seasonStr);
-
-  std::string dataName("textgen::fractiles");
-  WeatherPeriod climatePeriod =
-      ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
-  GridClimatology gc;
-
-  using FP = std::tuple<WeatherParameter, WeatherParameter, WeatherParameter, fractile_id>;
-  const std::array<FP, 7> levels = {{
-      {NormalMinTemperatureF02, NormalMeanTemperatureF02, NormalMaxTemperatureF02, FRACTILE_02},
-      {NormalMinTemperatureF12, NormalMeanTemperatureF12, NormalMaxTemperatureF12, FRACTILE_12},
-      {NormalMinTemperatureF37, NormalMeanTemperatureF37, NormalMaxTemperatureF37, FRACTILE_37},
-      {NormalMinTemperatureF50, NormalMeanTemperatureF50, NormalMaxTemperatureF50, FRACTILE_50},
-      {NormalMinTemperatureF63, NormalMeanTemperatureF63, NormalMaxTemperatureF63, FRACTILE_63},
-      {NormalMinTemperatureF88, NormalMeanTemperatureF88, NormalMaxTemperatureF88, FRACTILE_88},
-      {NormalMinTemperatureF98, NormalMeanTemperatureF98, NormalMaxTemperatureF98, FRACTILE_98},
-  }};
-
-  WeatherResult lastResult(kFloatMissing, 0.0);
-  for (const auto& lv : levels)
+  try
   {
-    WeatherParameter param = fractile_weather_parameter(
-        theFractileType, std::get<0>(lv), std::get<1>(lv), std::get<2>(lv));
-    lastResult = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
-    if (lastResult.value() != kFloatMissing && theTemperature <= lastResult.value())
-      return std::get<3>(lv);
+    if (theTemperature == kFloatMissing)
+      return FRACTILE_UNDEFINED;
+
+    string seasonStr =
+        SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
+
+    // fake variables are just for rough testing purposes
+    if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
+      return classify_fake_fractile(theTemperature, theVar, seasonStr);
+
+    std::string dataName("textgen::fractiles");
+    WeatherPeriod climatePeriod =
+        ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
+    GridClimatology gc;
+
+    using FP = std::tuple<WeatherParameter, WeatherParameter, WeatherParameter, fractile_id>;
+    const std::array<FP, 7> levels = {{
+        {NormalMinTemperatureF02, NormalMeanTemperatureF02, NormalMaxTemperatureF02, FRACTILE_02},
+        {NormalMinTemperatureF12, NormalMeanTemperatureF12, NormalMaxTemperatureF12, FRACTILE_12},
+        {NormalMinTemperatureF37, NormalMeanTemperatureF37, NormalMaxTemperatureF37, FRACTILE_37},
+        {NormalMinTemperatureF50, NormalMeanTemperatureF50, NormalMaxTemperatureF50, FRACTILE_50},
+        {NormalMinTemperatureF63, NormalMeanTemperatureF63, NormalMaxTemperatureF63, FRACTILE_63},
+        {NormalMinTemperatureF88, NormalMeanTemperatureF88, NormalMaxTemperatureF88, FRACTILE_88},
+        {NormalMinTemperatureF98, NormalMeanTemperatureF98, NormalMaxTemperatureF98, FRACTILE_98},
+    }};
+
+    WeatherResult lastResult(kFloatMissing, 0.0);
+    for (const auto& lv : levels)
+    {
+      WeatherParameter param = fractile_weather_parameter(
+          theFractileType, std::get<0>(lv), std::get<1>(lv), std::get<2>(lv));
+      lastResult = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
+      if (lastResult.value() != kFloatMissing && theTemperature <= lastResult.value())
+        return std::get<3>(lv);
+    }
+    if (lastResult.value() != kFloatMissing)
+      return FRACTILE_100;
+    return FRACTILE_UNDEFINED;
   }
-  if (lastResult.value() != kFloatMissing)
-    return FRACTILE_100;
-  return FRACTILE_UNDEFINED;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theTemperature", Fmi::to_string(theTemperature));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -767,34 +922,43 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
                                        const WeatherPeriod& thePeriod,
                                        const fractile_type_id& theFractileType)
 {
-  string seasonStr =
-      SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
-
-  // fake variables are just for rough testing purposes
-  if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
+  try
   {
-    const auto& suffixMap = fractile_fake_suffix_map();
-    auto it = suffixMap.find(theFractileId);
-    if (it == suffixMap.end())
-      return {kFloatMissing, 0};
-    return {fake_fractile_value(theVar, seasonStr, it->second), 0};
-  }
+    string seasonStr =
+        SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
 
-  std::string dataName("textgen::fractiles");
-  WeatherPeriod climatePeriod =
-      ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
-  GridClimatology gc;
-  WeatherResult result(kFloatMissing, 0.0);
+    // fake variables are just for rough testing purposes
+    if (Settings::isset(theVar + "::fake::fractile::" + seasonStr + "::F02"))
+    {
+      const auto& suffixMap = fractile_fake_suffix_map();
+      auto it = suffixMap.find(theFractileId);
+      if (it == suffixMap.end())
+        return {kFloatMissing, 0};
+      return {fake_fractile_value(theVar, seasonStr, it->second), 0};
+    }
 
-  const auto& paramMap = fractile_param_map();
-  auto it = paramMap.find(theFractileId);
-  if (it == paramMap.end())
+    std::string dataName("textgen::fractiles");
+    WeatherPeriod climatePeriod =
+        ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
+    GridClimatology gc;
+    WeatherResult result(kFloatMissing, 0.0);
+
+    const auto& paramMap = fractile_param_map();
+    auto it = paramMap.find(theFractileId);
+    if (it == paramMap.end())
+      return result;
+
+    WeatherParameter param = fractile_weather_parameter(theFractileType,
+                                                        std::get<0>(it->second),
+                                                        std::get<1>(it->second),
+                                                        std::get<2>(it->second));
+    result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
     return result;
-
-  WeatherParameter param = fractile_weather_parameter(
-      theFractileType, std::get<0>(it->second), std::get<1>(it->second), std::get<2>(it->second));
-  result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
-  return result;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------

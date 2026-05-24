@@ -54,18 +54,25 @@ void calculate_mean_min_max(MessageLogger& theLog,
                             WeatherResult& theMin,
                             WeatherResult& theMax)
 {
-  theMean = theForecaster.analyze(
-      theVar + "::mean", theSources, Temperature, Mean, theFunction, theArea, thePeriod);
+  try
+  {
+    theMean = theForecaster.analyze(
+        theVar + "::mean", theSources, Temperature, Mean, theFunction, theArea, thePeriod);
 
-  theMin = theForecaster.analyze(
-      theVar + "::min", theSources, Temperature, Minimum, theFunction, theArea, thePeriod);
+    theMin = theForecaster.analyze(
+        theVar + "::min", theSources, Temperature, Minimum, theFunction, theArea, thePeriod);
 
-  theMax = theForecaster.analyze(
-      theVar + "::max", theSources, Temperature, Maximum, theFunction, theArea, thePeriod);
+    theMax = theForecaster.analyze(
+        theVar + "::max", theSources, Temperature, Maximum, theFunction, theArea, thePeriod);
 
-  theLog << "Temperature Mean(Maximum) " << theMean << '\n';
-  theLog << "Temperature Min(Maximum) " << theMin << '\n';
-  theLog << "Temperature Max(Maximum) " << theMax << '\n';
+    theLog << "Temperature Mean(Maximum) " << theMean << '\n';
+    theLog << "Temperature Min(Maximum) " << theMin << '\n';
+    theLog << "Temperature Max(Maximum) " << theMax << '\n';
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("var", theVar);
+  }
 }
 
 // Build the temperature sentence for the merged day+night case
@@ -98,34 +105,41 @@ Sentence make_merge_sentence(const string& itsVar,
                              int coast_not_below,
                              int coast_limit)
 {
-  Sentence sentence;
-  sentence << "lampotila" << "on"
-           << PeriodPhraseFactory::create(
-                  "today", itsVar, itsForecastTime, generator.period(daynum));
-  if (!hascoast || ameanday < coast_not_below ||
-      (abs(cmeanday - imeanday) < coast_limit && abs(cmeannight - imeannight) < coast_limit))
+  try
   {
-    sentence << temperature_sentence(min(aminday, aminnight),
-                                     static_cast<int>(round((ameanday + ameannight) / 2.0)),
-                                     max(amaxday, amaxnight),
-                                     mininterval,
-                                     interval_zero,
-                                     rangeseparator);
+    Sentence sentence;
+    sentence << "lampotila" << "on"
+             << PeriodPhraseFactory::create(
+                    "today", itsVar, itsForecastTime, generator.period(daynum));
+    if (!hascoast || ameanday < coast_not_below ||
+        (abs(cmeanday - imeanday) < coast_limit && abs(cmeannight - imeannight) < coast_limit))
+    {
+      sentence << temperature_sentence(min(aminday, aminnight),
+                                       static_cast<int>(round((ameanday + ameannight) / 2.0)),
+                                       max(amaxday, amaxnight),
+                                       mininterval,
+                                       interval_zero,
+                                       rangeseparator);
+    }
+    else
+    {
+      const int imean = static_cast<int>(round((imeanday + imeannight) / 2.0));
+      const int cmean = static_cast<int>(round((cmeanday + cmeannight) / 2.0));
+      sentence << temperature_sentence(min(iminday, iminnight),
+                                       imean,
+                                       max(imaxday, imaxnight),
+                                       mininterval,
+                                       interval_zero,
+                                       rangeseparator)
+               << Delimiter(",") << "rannikolla"
+               << temperature_comparison_phrase(imean, cmean, itsVar);
+    }
+    return sentence;
   }
-  else
+  catch (...)
   {
-    const int imean = static_cast<int>(round((imeanday + imeannight) / 2.0));
-    const int cmean = static_cast<int>(round((cmeanday + cmeannight) / 2.0));
-    sentence << temperature_sentence(min(iminday, iminnight),
-                                     imean,
-                                     max(imaxday, imaxnight),
-                                     mininterval,
-                                     interval_zero,
-                                     rangeseparator)
-             << Delimiter(",") << "rannikolla"
-             << temperature_comparison_phrase(imean, cmean, itsVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("var", itsVar);
   }
-  return sentence;
 }
 
 // Build the daytime temperature sentence
@@ -150,27 +164,34 @@ Sentence make_day_sentence(const string& itsVar,
                            int coast_limit,
                            int coast_numeric_limit)
 {
-  Sentence sentence;
-  sentence << "paivan ylin lampotila" << "on"
-           << PeriodPhraseFactory::create(
-                  "today", itsVar, itsForecastTime, generator.period(daynum));
-  if (!hascoast || ameanday < coast_not_below || abs(cmeanday - imeanday) < coast_limit)
+  try
   {
-    sentence << temperature_sentence(
-        aminday, ameanday, amaxday, mininterval, interval_zero, rangeseparator);
-  }
-  else
-  {
-    sentence << temperature_sentence(
-                    iminday, imeanday, imaxday, mininterval, interval_zero, rangeseparator)
-             << Delimiter(",") << "rannikolla";
-    if (abs(imeanday - cmeanday) >= coast_numeric_limit)
+    Sentence sentence;
+    sentence << "paivan ylin lampotila" << "on"
+             << PeriodPhraseFactory::create(
+                    "today", itsVar, itsForecastTime, generator.period(daynum));
+    if (!hascoast || ameanday < coast_not_below || abs(cmeanday - imeanday) < coast_limit)
+    {
       sentence << temperature_sentence(
-          cminday, cmeanday, cmaxday, mininterval, interval_zero, rangeseparator);
+          aminday, ameanday, amaxday, mininterval, interval_zero, rangeseparator);
+    }
     else
-      sentence << temperature_comparison_phrase(imeanday, cmeanday, itsVar);
+    {
+      sentence << temperature_sentence(
+                      iminday, imeanday, imaxday, mininterval, interval_zero, rangeseparator)
+               << Delimiter(",") << "rannikolla";
+      if (abs(imeanday - cmeanday) >= coast_numeric_limit)
+        sentence << temperature_sentence(
+            cminday, cmeanday, cmaxday, mininterval, interval_zero, rangeseparator);
+      else
+        sentence << temperature_comparison_phrase(imeanday, cmeanday, itsVar);
+    }
+    return sentence;
   }
-  return sentence;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("var", itsVar);
+  }
 }
 
 // Build the nighttime temperature sentence
@@ -195,27 +216,34 @@ Sentence make_night_sentence(const string& itsVar,
                              int coast_limit,
                              int coast_numeric_limit)
 {
-  Sentence sentence;
-  sentence << "yon alin lampotila" << "on"
-           << PeriodPhraseFactory::create(
-                  "tonight", itsVar, itsForecastTime, generator.period(nightnum));
-  if (!hascoast || ameannight < coast_not_below || abs(cmeannight - imeannight) < coast_limit)
+  try
   {
-    sentence << temperature_sentence(
-        aminnight, ameannight, amaxnight, mininterval, interval_zero, rangeseparator);
-  }
-  else
-  {
-    sentence << temperature_sentence(
-                    iminnight, imeannight, imaxnight, mininterval, interval_zero, rangeseparator)
-             << Delimiter(",") << "rannikolla";
-    if (abs(imeannight - cmeannight) >= coast_numeric_limit)
+    Sentence sentence;
+    sentence << "yon alin lampotila" << "on"
+             << PeriodPhraseFactory::create(
+                    "tonight", itsVar, itsForecastTime, generator.period(nightnum));
+    if (!hascoast || ameannight < coast_not_below || abs(cmeannight - imeannight) < coast_limit)
+    {
       sentence << temperature_sentence(
-          cminnight, cmeannight, cmaxnight, mininterval, interval_zero, rangeseparator);
+          aminnight, ameannight, amaxnight, mininterval, interval_zero, rangeseparator);
+    }
     else
-      sentence << temperature_comparison_phrase(imeannight, cmeannight, itsVar);
+    {
+      sentence << temperature_sentence(
+                      iminnight, imeannight, imaxnight, mininterval, interval_zero, rangeseparator)
+               << Delimiter(",") << "rannikolla";
+      if (abs(imeannight - cmeannight) >= coast_numeric_limit)
+        sentence << temperature_sentence(
+            cminnight, cmeannight, cmaxnight, mininterval, interval_zero, rangeseparator);
+      else
+        sentence << temperature_comparison_phrase(imeannight, cmeannight, itsVar);
+    }
+    return sentence;
   }
-  return sentence;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("var", itsVar);
+  }
 }
 
 }  // namespace
@@ -230,219 +258,255 @@ Sentence make_night_sentence(const string& itsVar,
 
 Paragraph TemperatureStory::day() const
 {
-  MessageLogger log("TemperatureStory::day");
-
-  using MathTools::to_precision;
-  using NFmiStringTools::Convert;
-  using Settings::optional_bool;
-  using Settings::optional_int;
-  using Settings::optional_string;
-
-  Paragraph paragraph;
-
-  // Period generator
-
-  NightAndDayPeriodGenerator generator(itsPeriod, itsVar);
-
-  // Too late? Return empty story then
-
-  if (generator.size() == 0)
+  try
   {
-    log << paragraph;
-    return paragraph;
-  }
+    MessageLogger log("TemperatureStory::day");
 
-  log << "Period contains " << generator.size() << " days or nights\n";
+    using MathTools::to_precision;
+    using NFmiStringTools::Convert;
+    using Settings::optional_bool;
+    using Settings::optional_int;
+    using Settings::optional_string;
 
-  // The options
+    Paragraph paragraph;
 
-  const int day_night_limit = optional_int(itsVar + "::day_night_limit", 3);
-  const int coast_numeric_limit = optional_int(itsVar + "::coast_numeric_limit", 8);
-  const int coast_not_below = optional_int(itsVar + "::coast_not_below", -15);
-  const int coast_limit = optional_int(itsVar + "::coast_limit", 2);
+    // Period generator
 
-  const int mininterval = optional_int(itsVar + "::mininterval", 2);
-  const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
+    NightAndDayPeriodGenerator generator(itsPeriod, itsVar);
 
-  const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
+    // Too late? Return empty story then
 
-  WeatherArea coast = itsArea;
-  coast.type(WeatherArea::Coast);
-
-  WeatherArea inland = itsArea;
-  inland.type(WeatherArea::Inland);
-
-  // Calculate the results
-
-  GridForecaster forecaster;
-
-  unsigned int periodnum = 1;
-  unsigned int part = 0;
-  while (periodnum <= generator.size())
-  {
-    ++part;
-
-    log << "Sentence " << part << ":\n";
-
-    WeatherResult areameanday(kFloatMissing, 0);
-    WeatherResult areaminday(kFloatMissing, 0);
-    WeatherResult areamaxday(kFloatMissing, 0);
-
-    WeatherResult coastmeanday(kFloatMissing, 0);
-    WeatherResult coastminday(kFloatMissing, 0);
-    WeatherResult coastmaxday(kFloatMissing, 0);
-
-    WeatherResult inlandmeanday(kFloatMissing, 0);
-    WeatherResult inlandminday(kFloatMissing, 0);
-    WeatherResult inlandmaxday(kFloatMissing, 0);
-
-    WeatherResult areameannight(kFloatMissing, 0);
-    WeatherResult areaminnight(kFloatMissing, 0);
-    WeatherResult areamaxnight(kFloatMissing, 0);
-
-    WeatherResult coastmeannight(kFloatMissing, 0);
-    WeatherResult coastminnight(kFloatMissing, 0);
-    WeatherResult coastmaxnight(kFloatMissing, 0);
-
-    WeatherResult inlandmeannight(kFloatMissing, 0);
-    WeatherResult inlandminnight(kFloatMissing, 0);
-    WeatherResult inlandmaxnight(kFloatMissing, 0);
-
-    // Daytime results
-
-    bool hasday = false;
-    const int daynum = periodnum;
-    if (generator.isday(periodnum))
+    if (generator.size() == 0)
     {
-      hasday = true;
-
-      WeatherPeriod period = generator.period(periodnum++);
-      log << "Day: " << period.localStartTime() << " ... " << period.localEndTime() << '\n';
-
-      log << "Day results for area:\n";
-      calculate_mean_min_max(log,
-                             forecaster,
-                             itsVar + "::fake::day" + Convert(part) + "::area",
-                             itsSources,
-                             itsArea,
-                             period,
-                             Maximum,
-                             areameanday,
-                             areaminday,
-                             areamaxday);
-
-      log << "Day results for coast:\n";
-      calculate_mean_min_max(log,
-                             forecaster,
-                             itsVar + "::fake::day" + Convert(part) + "::coast",
-                             itsSources,
-                             coast,
-                             period,
-                             Maximum,
-                             coastmeanday,
-                             coastminday,
-                             coastmaxday);
-
-      log << "Day results for inland:\n";
-      calculate_mean_min_max(log,
-                             forecaster,
-                             itsVar + "::fake::day" + Convert(part) + "::inland",
-                             itsSources,
-                             inland,
-                             period,
-                             Maximum,
-                             inlandmeanday,
-                             inlandminday,
-                             inlandmaxday);
+      log << paragraph;
+      return paragraph;
     }
 
-    // Nighttime results
+    log << "Period contains " << generator.size() << " days or nights\n";
 
-    bool hasnight = false;
-    const int nightnum = periodnum;
-    if (periodnum <= generator.size() && generator.isnight(periodnum))
+    // The options
+
+    const int day_night_limit = optional_int(itsVar + "::day_night_limit", 3);
+    const int coast_numeric_limit = optional_int(itsVar + "::coast_numeric_limit", 8);
+    const int coast_not_below = optional_int(itsVar + "::coast_not_below", -15);
+    const int coast_limit = optional_int(itsVar + "::coast_limit", 2);
+
+    const int mininterval = optional_int(itsVar + "::mininterval", 2);
+    const bool interval_zero = optional_bool(itsVar + "::always_interval_zero", false);
+
+    const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
+
+    WeatherArea coast = itsArea;
+    coast.type(WeatherArea::Coast);
+
+    WeatherArea inland = itsArea;
+    inland.type(WeatherArea::Inland);
+
+    // Calculate the results
+
+    GridForecaster forecaster;
+
+    unsigned int periodnum = 1;
+    unsigned int part = 0;
+    while (periodnum <= generator.size())
     {
-      hasnight = true;
-      WeatherPeriod period = generator.period(periodnum++);
+      ++part;
 
-      log << "Night: " << period.localStartTime() << " ... " << period.localEndTime() << '\n';
+      log << "Sentence " << part << ":\n";
 
-      log << "Night results for area:\n";
-      calculate_mean_min_max(log,
-                             forecaster,
-                             itsVar + "::fake::night" + Convert(part) + "::area",
-                             itsSources,
-                             itsArea,
-                             period,
-                             Minimum,
-                             areameannight,
-                             areaminnight,
-                             areamaxnight);
+      WeatherResult areameanday(kFloatMissing, 0);
+      WeatherResult areaminday(kFloatMissing, 0);
+      WeatherResult areamaxday(kFloatMissing, 0);
 
-      log << "Night results for coast:\n";
-      calculate_mean_min_max(log,
-                             forecaster,
-                             itsVar + "::fake::night" + Convert(part) + "::coast",
-                             itsSources,
-                             coast,
-                             period,
-                             Minimum,
-                             coastmeannight,
-                             coastminnight,
-                             coastmaxnight);
+      WeatherResult coastmeanday(kFloatMissing, 0);
+      WeatherResult coastminday(kFloatMissing, 0);
+      WeatherResult coastmaxday(kFloatMissing, 0);
 
-      log << "Night results for inland:\n";
-      calculate_mean_min_max(log,
-                             forecaster,
-                             itsVar + "::fake::night" + Convert(part) + "::inland",
-                             itsSources,
-                             inland,
-                             period,
-                             Minimum,
-                             inlandmeannight,
-                             inlandminnight,
-                             inlandmaxnight);
-    }
+      WeatherResult inlandmeanday(kFloatMissing, 0);
+      WeatherResult inlandminday(kFloatMissing, 0);
+      WeatherResult inlandmaxday(kFloatMissing, 0);
 
-    // Rounded values
+      WeatherResult areameannight(kFloatMissing, 0);
+      WeatherResult areaminnight(kFloatMissing, 0);
+      WeatherResult areamaxnight(kFloatMissing, 0);
 
-    const int aminday = static_cast<int>(round(areaminday.value()));
-    const int ameanday = static_cast<int>(round(areameanday.value()));
-    const int amaxday = static_cast<int>(round(areamaxday.value()));
+      WeatherResult coastmeannight(kFloatMissing, 0);
+      WeatherResult coastminnight(kFloatMissing, 0);
+      WeatherResult coastmaxnight(kFloatMissing, 0);
 
-    const int cminday = static_cast<int>(round(coastminday.value()));
-    const int cmeanday = static_cast<int>(round(coastmeanday.value()));
-    const int cmaxday = static_cast<int>(round(coastmaxday.value()));
+      WeatherResult inlandmeannight(kFloatMissing, 0);
+      WeatherResult inlandminnight(kFloatMissing, 0);
+      WeatherResult inlandmaxnight(kFloatMissing, 0);
 
-    const int iminday = static_cast<int>(round(inlandminday.value()));
-    const int imeanday = static_cast<int>(round(inlandmeanday.value()));
-    const int imaxday = static_cast<int>(round(inlandmaxday.value()));
+      // Daytime results
 
-    const int aminnight = static_cast<int>(round(areaminnight.value()));
-    const int ameannight = static_cast<int>(round(areameannight.value()));
-    const int amaxnight = static_cast<int>(round(areamaxnight.value()));
+      bool hasday = false;
+      const int daynum = periodnum;
+      if (generator.isday(periodnum))
+      {
+        hasday = true;
 
-    const int cminnight = static_cast<int>(round(coastminnight.value()));
-    const int cmeannight = static_cast<int>(round(coastmeannight.value()));
-    const int cmaxnight = static_cast<int>(round(coastmaxnight.value()));
+        WeatherPeriod period = generator.period(periodnum++);
+        log << "Day: " << period.localStartTime() << " ... " << period.localEndTime() << '\n';
 
-    const int iminnight = static_cast<int>(round(inlandminnight.value()));
-    const int imeannight = static_cast<int>(round(inlandmeannight.value()));
-    const int imaxnight = static_cast<int>(round(inlandmaxnight.value()));
+        log << "Day results for area:\n";
+        calculate_mean_min_max(log,
+                               forecaster,
+                               itsVar + "::fake::day" + Convert(part) + "::area",
+                               itsSources,
+                               itsArea,
+                               period,
+                               Maximum,
+                               areameanday,
+                               areaminday,
+                               areamaxday);
 
-    const int bad = static_cast<int>(kFloatMissing);
+        log << "Day results for coast:\n";
+        calculate_mean_min_max(log,
+                               forecaster,
+                               itsVar + "::fake::day" + Convert(part) + "::coast",
+                               itsSources,
+                               coast,
+                               period,
+                               Maximum,
+                               coastmeanday,
+                               coastminday,
+                               coastmaxday);
 
-    const bool hascoast =
-        ((cmeanday != bad && imeanday != bad) || (cmeannight != bad && imeannight != bad));
+        log << "Day results for inland:\n";
+        calculate_mean_min_max(log,
+                               forecaster,
+                               itsVar + "::fake::day" + Convert(part) + "::inland",
+                               itsSources,
+                               inland,
+                               period,
+                               Maximum,
+                               inlandmeanday,
+                               inlandminday,
+                               inlandmaxday);
+      }
 
-    // See if we can report on day and night simultaneously
-    // (when the difference is very small)
+      // Nighttime results
 
-    const bool canmerge = (hasday && hasnight && abs(ameanday - ameannight) < day_night_limit);
+      bool hasnight = false;
+      const int nightnum = periodnum;
+      if (periodnum <= generator.size() && generator.isnight(periodnum))
+      {
+        hasnight = true;
+        WeatherPeriod period = generator.period(periodnum++);
 
-    if (canmerge)
-    {
-      paragraph << make_merge_sentence(itsVar,
+        log << "Night: " << period.localStartTime() << " ... " << period.localEndTime() << '\n';
+
+        log << "Night results for area:\n";
+        calculate_mean_min_max(log,
+                               forecaster,
+                               itsVar + "::fake::night" + Convert(part) + "::area",
+                               itsSources,
+                               itsArea,
+                               period,
+                               Minimum,
+                               areameannight,
+                               areaminnight,
+                               areamaxnight);
+
+        log << "Night results for coast:\n";
+        calculate_mean_min_max(log,
+                               forecaster,
+                               itsVar + "::fake::night" + Convert(part) + "::coast",
+                               itsSources,
+                               coast,
+                               period,
+                               Minimum,
+                               coastmeannight,
+                               coastminnight,
+                               coastmaxnight);
+
+        log << "Night results for inland:\n";
+        calculate_mean_min_max(log,
+                               forecaster,
+                               itsVar + "::fake::night" + Convert(part) + "::inland",
+                               itsSources,
+                               inland,
+                               period,
+                               Minimum,
+                               inlandmeannight,
+                               inlandminnight,
+                               inlandmaxnight);
+      }
+
+      // Rounded values
+
+      const int aminday = static_cast<int>(round(areaminday.value()));
+      const int ameanday = static_cast<int>(round(areameanday.value()));
+      const int amaxday = static_cast<int>(round(areamaxday.value()));
+
+      const int cminday = static_cast<int>(round(coastminday.value()));
+      const int cmeanday = static_cast<int>(round(coastmeanday.value()));
+      const int cmaxday = static_cast<int>(round(coastmaxday.value()));
+
+      const int iminday = static_cast<int>(round(inlandminday.value()));
+      const int imeanday = static_cast<int>(round(inlandmeanday.value()));
+      const int imaxday = static_cast<int>(round(inlandmaxday.value()));
+
+      const int aminnight = static_cast<int>(round(areaminnight.value()));
+      const int ameannight = static_cast<int>(round(areameannight.value()));
+      const int amaxnight = static_cast<int>(round(areamaxnight.value()));
+
+      const int cminnight = static_cast<int>(round(coastminnight.value()));
+      const int cmeannight = static_cast<int>(round(coastmeannight.value()));
+      const int cmaxnight = static_cast<int>(round(coastmaxnight.value()));
+
+      const int iminnight = static_cast<int>(round(inlandminnight.value()));
+      const int imeannight = static_cast<int>(round(inlandmeannight.value()));
+      const int imaxnight = static_cast<int>(round(inlandmaxnight.value()));
+
+      const int bad = static_cast<int>(kFloatMissing);
+
+      const bool hascoast =
+          ((cmeanday != bad && imeanday != bad) || (cmeannight != bad && imeannight != bad));
+
+      // See if we can report on day and night simultaneously
+      // (when the difference is very small)
+
+      const bool canmerge = (hasday && hasnight && abs(ameanday - ameannight) < day_night_limit);
+
+      if (canmerge)
+      {
+        paragraph << make_merge_sentence(itsVar,
+                                         itsForecastTime,
+                                         generator,
+                                         daynum,
+                                         hascoast,
+                                         aminday,
+                                         ameanday,
+                                         amaxday,
+                                         aminnight,
+                                         ameannight,
+                                         amaxnight,
+                                         cminday,
+                                         cmeanday,
+                                         cmaxday,
+                                         cminnight,
+                                         cmeannight,
+                                         cmaxnight,
+                                         iminday,
+                                         imeanday,
+                                         imaxday,
+                                         iminnight,
+                                         imeannight,
+                                         imaxnight,
+                                         mininterval,
+                                         interval_zero,
+                                         rangeseparator,
+                                         coast_not_below,
+                                         coast_limit);
+      }
+
+      // Report daytime
+
+      if (hasday && !canmerge)
+      {
+        paragraph << make_day_sentence(itsVar,
                                        itsForecastTime,
                                        generator,
                                        daynum,
@@ -450,83 +514,54 @@ Paragraph TemperatureStory::day() const
                                        aminday,
                                        ameanday,
                                        amaxday,
-                                       aminnight,
-                                       ameannight,
-                                       amaxnight,
                                        cminday,
                                        cmeanday,
                                        cmaxday,
-                                       cminnight,
-                                       cmeannight,
-                                       cmaxnight,
                                        iminday,
                                        imeanday,
                                        imaxday,
-                                       iminnight,
-                                       imeannight,
-                                       imaxnight,
-                                       mininterval,
-                                       interval_zero,
-                                       rangeseparator,
-                                       coast_not_below,
-                                       coast_limit);
-    }
-
-    // Report daytime
-
-    if (hasday && !canmerge)
-    {
-      paragraph << make_day_sentence(itsVar,
-                                     itsForecastTime,
-                                     generator,
-                                     daynum,
-                                     hascoast,
-                                     aminday,
-                                     ameanday,
-                                     amaxday,
-                                     cminday,
-                                     cmeanday,
-                                     cmaxday,
-                                     iminday,
-                                     imeanday,
-                                     imaxday,
-                                     mininterval,
-                                     interval_zero,
-                                     rangeseparator,
-                                     coast_not_below,
-                                     coast_limit,
-                                     coast_numeric_limit);
-    }
-
-    // Report nighttime
-
-    if (hasnight && !canmerge)
-    {
-      paragraph << make_night_sentence(itsVar,
-                                       itsForecastTime,
-                                       generator,
-                                       nightnum,
-                                       hascoast,
-                                       aminnight,
-                                       ameannight,
-                                       amaxnight,
-                                       cminnight,
-                                       cmeannight,
-                                       cmaxnight,
-                                       iminnight,
-                                       imeannight,
-                                       imaxnight,
                                        mininterval,
                                        interval_zero,
                                        rangeseparator,
                                        coast_not_below,
                                        coast_limit,
                                        coast_numeric_limit);
-    }
-  }
+      }
 
-  log << paragraph;
-  return paragraph;
+      // Report nighttime
+
+      if (hasnight && !canmerge)
+      {
+        paragraph << make_night_sentence(itsVar,
+                                         itsForecastTime,
+                                         generator,
+                                         nightnum,
+                                         hascoast,
+                                         aminnight,
+                                         ameannight,
+                                         amaxnight,
+                                         cminnight,
+                                         cmeannight,
+                                         cmaxnight,
+                                         iminnight,
+                                         imeannight,
+                                         imaxnight,
+                                         mininterval,
+                                         interval_zero,
+                                         rangeseparator,
+                                         coast_not_below,
+                                         coast_limit,
+                                         coast_numeric_limit);
+      }
+    }
+
+    log << paragraph;
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

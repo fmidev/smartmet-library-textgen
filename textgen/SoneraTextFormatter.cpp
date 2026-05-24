@@ -183,42 +183,49 @@ void SoneraTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 
 string SoneraTextFormatter::format(const Glyph& theGlyph) const
 {
-  static string dummy("dummy");
-
-  ++itsDepth;
-  theGlyph.realize(*this);
-  --itsDepth;
-
-  if (itsDepth > 0)
-    return dummy;
-
-  const int max_words_on_line = 19;  // specified by Sonera
-
-  int lines = 1;
-  int words_on_line = 0;
-  string ret;
-  for (const auto& itsPart : itsParts)
+  try
   {
-    if (!itsPart.empty())
+    static string dummy("dummy");
+
+    ++itsDepth;
+    theGlyph.realize(*this);
+    --itsDepth;
+
+    if (itsDepth > 0)
+      return dummy;
+
+    const int max_words_on_line = 19;  // specified by Sonera
+
+    int lines = 1;
+    int words_on_line = 0;
+    string ret;
+    for (const auto& itsPart : itsParts)
     {
-      if (words_on_line >= max_words_on_line)
+      if (!itsPart.empty())
       {
-        ret += ";\n";
-        ++lines;
-        words_on_line = 0;
+        if (words_on_line >= max_words_on_line)
+        {
+          ret += ";\n";
+          ++lines;
+          words_on_line = 0;
+        }
+        if (words_on_line == 0)
+          ret += 'r' + std::to_string(lines) + ',';
+        ret += padzeros(itsPart, 3);
+        ret += ',';
+        ++words_on_line;
       }
-      if (words_on_line == 0)
-        ret += 'r' + std::to_string(lines) + ',';
-      ret += padzeros(itsPart, 3);
-      ret += ',';
-      ++words_on_line;
     }
+
+    if (words_on_line > 0)
+      ret += ";\n";
+
+    return ret;
   }
-
-  if (words_on_line > 0)
-    ret += ";\n";
-
-  return ret;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -231,11 +238,18 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
 
 string SoneraTextFormatter::visit(const Glyph& theGlyph) const
 {
-  static string dummy("glyph");
-  string tokens = theGlyph.realize(*itsDictionary);
-  vector<string> numbers = NFmiStringTools::Split(tokens);
-  copy(numbers.begin(), numbers.end(), back_inserter(itsParts));
-  return dummy;
+  try
+  {
+    static string dummy("glyph");
+    string tokens = theGlyph.realize(*itsDictionary);
+    vector<string> numbers = NFmiStringTools::Split(tokens);
+    copy(numbers.begin(), numbers.end(), back_inserter(itsParts));
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -246,11 +260,18 @@ string SoneraTextFormatter::visit(const Glyph& theGlyph) const
 
 string SoneraTextFormatter::visit(const Integer& theInteger) const
 {
-  static string dummy("integer");
+  try
+  {
+    static string dummy("integer");
 
-  sonera_realize(theInteger.value(), itsParts, *itsDictionary);
+    sonera_realize(theInteger.value(), itsParts, *itsDictionary);
 
-  return dummy;
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -261,7 +282,14 @@ string SoneraTextFormatter::visit(const Integer& theInteger) const
 
 string SoneraTextFormatter::visit(const Real& /*theReal*/) const
 {
-  throw Fmi::Exception(BCP, "Cannot use Reals in Sonera phone service");
+  try
+  {
+    throw Fmi::Exception(BCP, "Cannot use Reals in Sonera phone service");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -272,17 +300,24 @@ string SoneraTextFormatter::visit(const Real& /*theReal*/) const
 
 string SoneraTextFormatter::visit(const IntegerRange& theRange) const
 {
-  static string dummy("integerrange");
-
-  static Phrase viiva("viiva");
-  sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
-  if (theRange.startValue() != theRange.endValue())
+  try
   {
-    viiva.realize(*this);
-    sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
-  }
+    static string dummy("integerrange");
 
-  return dummy;
+    static Phrase viiva("viiva");
+    sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
+    if (theRange.startValue() != theRange.endValue())
+    {
+      viiva.realize(*this);
+      sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
+    }
+
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -293,17 +328,24 @@ string SoneraTextFormatter::visit(const IntegerRange& theRange) const
 
 string SoneraTextFormatter::visit(const PositiveRange& theRange) const
 {
-  static string dummy("positiverange");
-
-  static Phrase viiva("viiva");
-  sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
-  if (theRange.startValue() != theRange.endValue())
+  try
   {
-    viiva.realize(*this);
-    sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
-  }
+    static string dummy("positiverange");
 
-  return dummy;
+    static Phrase viiva("viiva");
+    sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
+    if (theRange.startValue() != theRange.endValue())
+    {
+      viiva.realize(*this);
+      sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
+    }
+
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -314,17 +356,24 @@ string SoneraTextFormatter::visit(const PositiveRange& theRange) const
 
 string SoneraTextFormatter::visit(const TimePhrase& theTime) const
 {
-  static string dummy("sentence");
-  const container_type::size_type oldsize = itsParts.size();
-  sonera_realize(theTime.begin(), theTime.end(), *this, itsParts);
-
-  if (itsParts.size() > oldsize)
+  try
   {
-    static const string var = "textgen::soneraformatter::pause::sentence";
-    addpause(var, itsParts);
-  }
+    static string dummy("sentence");
+    const container_type::size_type oldsize = itsParts.size();
+    sonera_realize(theTime.begin(), theTime.end(), *this, itsParts);
 
-  return dummy;
+    if (itsParts.size() > oldsize)
+    {
+      static const string var = "textgen::soneraformatter::pause::sentence";
+      addpause(var, itsParts);
+    }
+
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -335,17 +384,24 @@ string SoneraTextFormatter::visit(const TimePhrase& theTime) const
 
 string SoneraTextFormatter::visit(const Sentence& theSentence) const
 {
-  static string dummy("sentence");
-  const container_type::size_type oldsize = itsParts.size();
-  sonera_realize(theSentence.begin(), theSentence.end(), *this, itsParts);
-
-  if (itsParts.size() > oldsize)
+  try
   {
-    static const string var = "textgen::soneraformatter::pause::sentence";
-    addpause(var, itsParts);
-  }
+    static string dummy("sentence");
+    const container_type::size_type oldsize = itsParts.size();
+    sonera_realize(theSentence.begin(), theSentence.end(), *this, itsParts);
 
-  return dummy;
+    if (itsParts.size() > oldsize)
+    {
+      static const string var = "textgen::soneraformatter::pause::sentence";
+      addpause(var, itsParts);
+    }
+
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -356,17 +412,24 @@ string SoneraTextFormatter::visit(const Sentence& theSentence) const
 
 string SoneraTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  static string dummy("paragraph");
-  const container_type::size_type oldsize = itsParts.size();
-  sonera_realize(theParagraph.begin(), theParagraph.end(), *this, itsParts);
-
-  if (itsParts.size() > oldsize)
+  try
   {
-    static const string var = "textgen::soneraformatter::pause::paragraph";
-    addpause(var, itsParts);
-  }
+    static string dummy("paragraph");
+    const container_type::size_type oldsize = itsParts.size();
+    sonera_realize(theParagraph.begin(), theParagraph.end(), *this, itsParts);
 
-  return dummy;
+    if (itsParts.size() > oldsize)
+    {
+      static const string var = "textgen::soneraformatter::pause::paragraph";
+      addpause(var, itsParts);
+    }
+
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -377,17 +440,24 @@ string SoneraTextFormatter::visit(const Paragraph& theParagraph) const
 
 string SoneraTextFormatter::visit(const Header& theHeader) const
 {
-  static string dummy("header");
-  const container_type::size_type oldsize = itsParts.size();
-  sonera_realize(theHeader.begin(), theHeader.end(), *this, itsParts);
-
-  if (itsParts.size() > oldsize)
+  try
   {
-    static const string var = "textgen::soneraformatter::pause::header";
-    addpause(var, itsParts);
-  }
+    static string dummy("header");
+    const container_type::size_type oldsize = itsParts.size();
+    sonera_realize(theHeader.begin(), theHeader.end(), *this, itsParts);
 
-  return dummy;
+    if (itsParts.size() > oldsize)
+    {
+      static const string var = "textgen::soneraformatter::pause::header";
+      addpause(var, itsParts);
+    }
+
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -398,9 +468,16 @@ string SoneraTextFormatter::visit(const Header& theHeader) const
 
 string SoneraTextFormatter::visit(const Document& theDocument) const
 {
-  static string dummy("document");
-  sonera_realize(theDocument.begin(), theDocument.end(), *this, itsParts);
-  return dummy;
+  try
+  {
+    static string dummy("document");
+    sonera_realize(theDocument.begin(), theDocument.end(), *this, itsParts);
+    return dummy;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -411,8 +488,15 @@ string SoneraTextFormatter::visit(const Document& theDocument) const
 
 string SoneraTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(*itsDictionary);
-  return "";
+  try
+  {
+    itsSectionVar = theSection.realize(*itsDictionary);
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -423,14 +507,21 @@ string SoneraTextFormatter::visit(const SectionTag& theSection) const
 
 string SoneraTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(*itsDictionary);
-
-  if (theStory.isPrefixTag())
+  try
   {
-    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-  }
+    itsStoryVar = theStory.realize(*itsDictionary);
 
-  return "";
+    if (theStory.isPrefixTag())
+    {
+      return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    }
+
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -441,7 +532,14 @@ string SoneraTextFormatter::visit(const StoryTag& theStory) const
 
 string SoneraTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "sonera");
+  try
+  {
+    return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "sonera");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -452,7 +550,14 @@ string SoneraTextFormatter::visit(const WeatherTime& theTime) const
 
 string SoneraTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "sonera");
+  try
+  {
+    return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "sonera");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

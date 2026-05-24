@@ -17,6 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherSource.h>
 
+#include <macgyver/Exception.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
 #include <memory>
@@ -41,18 +42,25 @@ WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
                                    const std::string& theDataName,
                                    const TextGen::AnalysisSources& theSources)
 {
-  const std::string datavar = theDataName + "_climatology";
-  const std::string dataname = Settings::require_string(datavar);
-  std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-  std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
-  qi.FirstTime();
-  int year = qi.ValidTime().GetYear();
-  TextGenPosixTime t1 = thePeriod.localStartTime();
-  TextGenPosixTime t2 = thePeriod.localEndTime();
-  t1.SetYear(year);
-  t2.SetYear(year);
-  return {t1, t2};
+  try
+  {
+    const std::string datavar = theDataName + "_climatology";
+    const std::string dataname = Settings::require_string(datavar);
+    std::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+    std::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+    NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
+    qi.FirstTime();
+    int year = qi.ValidTime().GetYear();
+    TextGenPosixTime t1 = thePeriod.localStartTime();
+    TextGenPosixTime t2 = thePeriod.localEndTime();
+    t1.SetYear(year);
+    t2.SetYear(year);
+    return {t1, t2};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theDataName", theDataName);
+  }
 }
 
 }  // namespace ClimatologyTools

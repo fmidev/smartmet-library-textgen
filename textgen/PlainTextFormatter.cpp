@@ -29,6 +29,7 @@
 #include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 
@@ -44,7 +45,14 @@ namespace TextGen
 
 void PlainTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 {
-  itsDictionary = theDict;
+  try
+  {
+    itsDictionary = theDict;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -57,7 +65,14 @@ void PlainTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 
 string PlainTextFormatter::format(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*this);
+  try
+  {
+    return theGlyph.realize(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -69,7 +84,14 @@ string PlainTextFormatter::format(const Glyph& theGlyph) const
 
 string PlainTextFormatter::visit(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*itsDictionary);
+  try
+  {
+    return theGlyph.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -80,7 +102,14 @@ string PlainTextFormatter::visit(const Glyph& theGlyph) const
 
 string PlainTextFormatter::visit(const Integer& theInteger) const
 {
-  return theInteger.realize(*itsDictionary);
+  try
+  {
+    return theInteger.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -91,7 +120,14 @@ string PlainTextFormatter::visit(const Integer& theInteger) const
 
 string PlainTextFormatter::visit(const Real& theReal) const
 {
-  return theReal.realize(*itsDictionary);
+  try
+  {
+    return theReal.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -102,7 +138,14 @@ string PlainTextFormatter::visit(const Real& theReal) const
 
 string PlainTextFormatter::visit(const IntegerRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -113,7 +156,14 @@ string PlainTextFormatter::visit(const IntegerRange& theRange) const
 
 string PlainTextFormatter::visit(const PositiveRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -124,9 +174,16 @@ string PlainTextFormatter::visit(const PositiveRange& theRange) const
 
 string PlainTextFormatter::visit(const TimePhrase& theTime) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
-  return ret;
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -137,13 +194,21 @@ string PlainTextFormatter::visit(const TimePhrase& theTime) const
 
 string PlainTextFormatter::visit(const Sentence& theSentence) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
-  ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty())
-    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret =
+        TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    ret = TextFormatterTools::capitalize(ret);
+    if (!ret.empty())
+      ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -154,10 +219,17 @@ string PlainTextFormatter::visit(const Sentence& theSentence) const
 
 string PlainTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
-  return ret;
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -168,15 +240,22 @@ string PlainTextFormatter::visit(const Paragraph& theParagraph) const
 
 string PlainTextFormatter::visit(const Header& theHeader) const
 {
-  const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
+  try
+  {
+    const bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
 
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
-  ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty() && colon)
-    ret += ':';
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
+    ret = TextFormatterTools::capitalize(ret);
+    if (!ret.empty() && colon)
+      ret += ':';
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -187,10 +266,17 @@ string PlainTextFormatter::visit(const Header& theHeader) const
 
 string PlainTextFormatter::visit(const Document& theDocument) const
 {
-  string ret =
-      TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n\n", "");
-  ret += '\n';
-  return ret;
+  try
+  {
+    string ret =
+        TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n\n", "");
+    ret += '\n';
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -201,8 +287,15 @@ string PlainTextFormatter::visit(const Document& theDocument) const
 
 string PlainTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(*itsDictionary);
-  return "";
+  try
+  {
+    itsSectionVar = theSection.realize(*itsDictionary);
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -213,14 +306,21 @@ string PlainTextFormatter::visit(const SectionTag& theSection) const
 
 string PlainTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(*itsDictionary);
-
-  if (theStory.isPrefixTag())
+  try
   {
-    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-  }
+    itsStoryVar = theStory.realize(*itsDictionary);
 
-  return "";
+    if (theStory.isPrefixTag())
+    {
+      return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    }
+
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -231,7 +331,14 @@ string PlainTextFormatter::visit(const StoryTag& theStory) const
 
 string PlainTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "plain");
+  try
+  {
+    return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "plain");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -242,7 +349,14 @@ string PlainTextFormatter::visit(const WeatherTime& theTime) const
 
 string PlainTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "plain");
+  try
+  {
+    return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "plain");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

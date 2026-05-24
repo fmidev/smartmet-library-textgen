@@ -19,6 +19,7 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -62,26 +63,34 @@ const int max_condition = SNOW;
 
 unsigned int condition_importance(int theCondition)
 {
-  switch (RoadConditionType(theCondition))
+  try
   {
-    case DRY:
-      return 0;
-    case MOIST:
-      return 1;
-    case WET:
-      return 2;
-    case SNOW:
-      return 3;
-    case SLUSH:
-      return 4;
-    case FROST:
-      return 5;
-    case PARTLY_ICY:
-      return 6;
-    case ICY:
-      return 7;
+    switch (RoadConditionType(theCondition))
+    {
+      case DRY:
+        return 0;
+      case MOIST:
+        return 1;
+      case WET:
+        return 2;
+      case SNOW:
+        return 3;
+      case SLUSH:
+        return 4;
+      case FROST:
+        return 5;
+      case PARTLY_ICY:
+        return 6;
+      case ICY:
+        return 7;
+    }
+    throw Fmi::Exception(BCP, "Unknown road condition in condition_importance");
   }
-  throw Fmi::Exception(BCP, "Unknown road condition in condition_importance");
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theCondition", Fmi::to_string(theCondition));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -92,26 +101,33 @@ unsigned int condition_importance(int theCondition)
 
 const char* condition_name(RoadConditionType theCondition)
 {
-  switch (theCondition)
+  try
   {
-    case DRY:
-      return "dry";
-    case MOIST:
-      return "moist";
-    case WET:
-      return "wet";
-    case SLUSH:
-      return "slush";
-    case FROST:
-      return "frost";
-    case PARTLY_ICY:
-      return "partly_icy";
-    case ICY:
-      return "icy";
-    case SNOW:
-      return "snow";
+    switch (theCondition)
+    {
+      case DRY:
+        return "dry";
+      case MOIST:
+        return "moist";
+      case WET:
+        return "wet";
+      case SLUSH:
+        return "slush";
+      case FROST:
+        return "frost";
+      case PARTLY_ICY:
+        return "partly_icy";
+      case ICY:
+        return "icy";
+      case SNOW:
+        return "snow";
+    }
+    throw Fmi::Exception(BCP, "Unknown road condition in condition_name");
   }
-  throw Fmi::Exception(BCP, "Unknown road condition in condition_name");
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -147,34 +163,43 @@ ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
                                            const TextGen::WeatherArea& theArea,
                                            const std::string& theVar)
 {
-  GridForecaster forecaster;
-
-  ConditionPercentages percentages;
-  for (int i = min_condition; i <= max_condition; i++)
+  try
   {
-    const auto c = RoadConditionType(i);
+    GridForecaster forecaster;
 
-    const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
-                         "::" + condition_name(c) + "::percentage");
+    ConditionPercentages percentages;
+    for (int i = min_condition; i <= max_condition; i++)
+    {
+      const auto c = RoadConditionType(i);
 
-    ValueAcceptor condfilter;
-    condfilter.value(c);
+      const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
+                           "::" + condition_name(c) + "::percentage");
 
-    WeatherResult result = forecaster.analyze(fake,
-                                              theSources,
-                                              RoadCondition,
-                                              Mean,
-                                              Percentage,
-                                              theArea,
-                                              thePeriod,
-                                              DefaultAcceptor(),
-                                              DefaultAcceptor(),
-                                              condfilter);
+      ValueAcceptor condfilter;
+      condfilter.value(c);
 
-    percentages[c] = result.value();
+      WeatherResult result = forecaster.analyze(fake,
+                                                theSources,
+                                                RoadCondition,
+                                                Mean,
+                                                Percentage,
+                                                theArea,
+                                                thePeriod,
+                                                DefaultAcceptor(),
+                                                DefaultAcceptor(),
+                                                condfilter);
+
+      percentages[c] = result.value();
+    }
+
+    return percentages;
   }
-
-  return percentages;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePeriodIndex", Fmi::to_string(thePeriodIndex))
+        .addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -187,17 +212,24 @@ ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
 
 RoadConditionType find_most_general_condition(const ConditionPercentages& thePercentages)
 {
-  int ibest = min_condition;
-  for (int i = min_condition + 1; i <= max_condition; i++)
+  try
   {
-    if ((thePercentages[i] > thePercentages[ibest]) ||
-        (thePercentages[i] == thePercentages[ibest] &&
-         condition_importance(i) > condition_importance(ibest)))
+    int ibest = min_condition;
+    for (int i = min_condition + 1; i <= max_condition; i++)
     {
-      ibest = i;
+      if ((thePercentages[i] > thePercentages[ibest]) ||
+          (thePercentages[i] == thePercentages[ibest] &&
+           condition_importance(i) > condition_importance(ibest)))
+      {
+        ibest = i;
+      }
     }
+    return RoadConditionType(ibest);
   }
-  return RoadConditionType(ibest);
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -249,37 +281,48 @@ Sentence condition_phrase(RoadConditionType theType,
                           int theManyPlacesLimit,
                           int theSomePlacesLimit)
 {
-  const char* places_phrase = condition_places_phrase(
-      theType, thePercentage, theGenerallyLimit, theManyPlacesLimit, theSomePlacesLimit);
-
-  Sentence tiet_ovat;
-  Sentence teilla_on;
-  tiet_ovat << "tiet ovat" << places_phrase;
-  teilla_on << "teilla on" << places_phrase;
-
-  switch (theType)
+  try
   {
-    case DRY:
-      return (tiet_ovat << "kuivia");
-    case MOIST:
-      return (tiet_ovat << "kosteita");
-    case WET:
-      return (tiet_ovat << "markia");
-    case SNOW:
-      return (teilla_on << "lunta");
-    case SLUSH:
-      return (teilla_on << "sohjoa");
-    case FROST:
-      return (teilla_on << "kuuraa");
-    case PARTLY_ICY:
-      return (tiet_ovat << "osittain jaisia");
-    case ICY:
-      return (tiet_ovat << "jaisia");
+    const char* places_phrase = condition_places_phrase(
+        theType, thePercentage, theGenerallyLimit, theManyPlacesLimit, theSomePlacesLimit);
+
+    Sentence tiet_ovat;
+    Sentence teilla_on;
+    tiet_ovat << "tiet ovat" << places_phrase;
+    teilla_on << "teilla on" << places_phrase;
+
+    switch (theType)
+    {
+      case DRY:
+        return (tiet_ovat << "kuivia");
+      case MOIST:
+        return (tiet_ovat << "kosteita");
+      case WET:
+        return (tiet_ovat << "markia");
+      case SNOW:
+        return (teilla_on << "lunta");
+      case SLUSH:
+        return (teilla_on << "sohjoa");
+      case FROST:
+        return (teilla_on << "kuuraa");
+      case PARTLY_ICY:
+        return (tiet_ovat << "osittain jaisia");
+      case ICY:
+        return (tiet_ovat << "jaisia");
+    }
+
+    // Unreachable
+
+    throw Fmi::Exception(BCP, "Internal error in roadcondition_overview condition_phrase function");
   }
-
-  // Unreachable
-
-  throw Fmi::Exception(BCP, "Internal error in roadcondition_overview condition_phrase function");
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePercentage", Fmi::to_string(thePercentage))
+        .addParameter("theGenerallyLimit", Fmi::to_string(theGenerallyLimit))
+        .addParameter("theManyPlacesLimit", Fmi::to_string(theManyPlacesLimit))
+        .addParameter("theSomePlacesLimit", Fmi::to_string(theSomePlacesLimit));
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -291,152 +334,159 @@ Sentence condition_phrase(RoadConditionType theType,
 Sentence second_places_sentence(RoadConditionType thePrimaryType,
                                 RoadConditionType theSecondaryType)
 {
-  Sentence sentence;
-  switch (thePrimaryType)
+  try
   {
-    case ICY:
-    case PARTLY_ICY:
-      switch (theSecondaryType)
-      {
-        case PARTLY_ICY:
-          sentence << "paikoin"
-                   << "osittain jaisia";
-          break;
-        case FROST:
-          sentence << "paikoin"
-                   << "kuuraisia";
-          break;
-        case ICY:
-          sentence << "paikoin"
-                   << "jaisia";
-          break;
-        case SLUSH:
-        case SNOW:
-        case WET:
-        case MOIST:
-        case DRY:
-          break;
-      }
-      break;
-    case FROST:
-      switch (theSecondaryType)
-      {
-        case ICY:
-          sentence << "paikoin"
-                   << "tiet ovat (sivulause)"
-                   << "jaisia";
-          break;
-        case PARTLY_ICY:
-          sentence << "paikoin"
-                   << "tiet ovat (sivulause)"
-                   << "osittain jaisia";
-          break;
-        case FROST:
-        case SLUSH:
-        case SNOW:
-        case WET:
-        case MOIST:
-        case DRY:
-          break;
-      }
-      break;
-    case SLUSH:
-      switch (theSecondaryType)
-      {
-        case ICY:
-          sentence << "paikoin"
-                   << "tiet ovat (sivulause)"
-                   << "jaisia";
-          break;
-        case PARTLY_ICY:
-          sentence << "paikoin"
-                   << "tiet ovat (sivulause)"
-                   << "osittain jaisia";
-          break;
-        case FROST:
-          sentence << "paikoin"
-                   << "kuuraa";
-          break;
-        case SNOW:
-          sentence << "paikoin"
-                   << "lunta";
-          break;
-        case SLUSH:
-        case WET:
-        case MOIST:
-        case DRY:
-          break;
-      }
-      break;
-    case SNOW:
-      switch (theSecondaryType)
-      {
-        case ICY:
-          sentence << "paikoin"
-                   << "tiet ovat (sivulause)"
-                   << "jaisia";
-          break;
-        case PARTLY_ICY:
-          sentence << "paikoin"
-                   << "tiet ovat (sivulause)"
-                   << "osittain jaisia";
-          break;
-        case FROST:
-          sentence << "paikoin"
-                   << "kuuraa";
-          break;
-        case SLUSH:
-          sentence << "paikoin"
-                   << "sohjoa";
-          break;
-        case SNOW:
-        case WET:
-        case MOIST:
-        case DRY:
-          break;
-      }
-      break;
-    case WET:
-    case MOIST:
-      switch (theSecondaryType)
-      {
-        case ICY:
-          sentence << "paikoin"
-                   << "jaisia";
-          break;
-        case PARTLY_ICY:
-          sentence << "paikoin"
-                   << "osittain jaisia";
-          break;
-        case FROST:
-          sentence << "paikoin"
-                   << "kuuraisia";
-          break;
-        case SLUSH:
-          sentence << "paikoin"
-                   << "sohjoisia";
-          break;
-        case SNOW:
-          sentence << "paikoin"
-                   << "lumisia";
-          break;
-        case WET:
-          sentence << "paikoin"
-                   << "markia";
-          break;
-        case MOIST:
-          sentence << "paikoin"
-                   << "kosteita";
-          break;
-        case DRY:
-          break;
-      }
-      break;
-    case DRY:
-      // should never happen
-      break;
+    Sentence sentence;
+    switch (thePrimaryType)
+    {
+      case ICY:
+      case PARTLY_ICY:
+        switch (theSecondaryType)
+        {
+          case PARTLY_ICY:
+            sentence << "paikoin"
+                     << "osittain jaisia";
+            break;
+          case FROST:
+            sentence << "paikoin"
+                     << "kuuraisia";
+            break;
+          case ICY:
+            sentence << "paikoin"
+                     << "jaisia";
+            break;
+          case SLUSH:
+          case SNOW:
+          case WET:
+          case MOIST:
+          case DRY:
+            break;
+        }
+        break;
+      case FROST:
+        switch (theSecondaryType)
+        {
+          case ICY:
+            sentence << "paikoin"
+                     << "tiet ovat (sivulause)"
+                     << "jaisia";
+            break;
+          case PARTLY_ICY:
+            sentence << "paikoin"
+                     << "tiet ovat (sivulause)"
+                     << "osittain jaisia";
+            break;
+          case FROST:
+          case SLUSH:
+          case SNOW:
+          case WET:
+          case MOIST:
+          case DRY:
+            break;
+        }
+        break;
+      case SLUSH:
+        switch (theSecondaryType)
+        {
+          case ICY:
+            sentence << "paikoin"
+                     << "tiet ovat (sivulause)"
+                     << "jaisia";
+            break;
+          case PARTLY_ICY:
+            sentence << "paikoin"
+                     << "tiet ovat (sivulause)"
+                     << "osittain jaisia";
+            break;
+          case FROST:
+            sentence << "paikoin"
+                     << "kuuraa";
+            break;
+          case SNOW:
+            sentence << "paikoin"
+                     << "lunta";
+            break;
+          case SLUSH:
+          case WET:
+          case MOIST:
+          case DRY:
+            break;
+        }
+        break;
+      case SNOW:
+        switch (theSecondaryType)
+        {
+          case ICY:
+            sentence << "paikoin"
+                     << "tiet ovat (sivulause)"
+                     << "jaisia";
+            break;
+          case PARTLY_ICY:
+            sentence << "paikoin"
+                     << "tiet ovat (sivulause)"
+                     << "osittain jaisia";
+            break;
+          case FROST:
+            sentence << "paikoin"
+                     << "kuuraa";
+            break;
+          case SLUSH:
+            sentence << "paikoin"
+                     << "sohjoa";
+            break;
+          case SNOW:
+          case WET:
+          case MOIST:
+          case DRY:
+            break;
+        }
+        break;
+      case WET:
+      case MOIST:
+        switch (theSecondaryType)
+        {
+          case ICY:
+            sentence << "paikoin"
+                     << "jaisia";
+            break;
+          case PARTLY_ICY:
+            sentence << "paikoin"
+                     << "osittain jaisia";
+            break;
+          case FROST:
+            sentence << "paikoin"
+                     << "kuuraisia";
+            break;
+          case SLUSH:
+            sentence << "paikoin"
+                     << "sohjoisia";
+            break;
+          case SNOW:
+            sentence << "paikoin"
+                     << "lumisia";
+            break;
+          case WET:
+            sentence << "paikoin"
+                     << "markia";
+            break;
+          case MOIST:
+            sentence << "paikoin"
+                     << "kosteita";
+            break;
+          case DRY:
+            break;
+        }
+        break;
+      case DRY:
+        // should never happen
+        break;
+    }
+    return sentence;
   }
-  return sentence;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -447,101 +497,120 @@ Sentence second_places_sentence(RoadConditionType thePrimaryType,
 
 Sentence condition_sentence(const ConditionPercentages& thePercentages, const string& theVar)
 {
-  Sentence sentence;
-
-  // Read the related configuration settings
-
-  using Settings::optional_percentage;
-  const int generally_limit = optional_percentage(theVar + "::generally_limit", 90);
-  const int manyplaces_limit = optional_percentage(theVar + "::manyplaces_limit", 50);
-  const int someplaces_limit = optional_percentage(theVar + "::someplaces_limit", 10);
-
-  // Find the most frequent condition
-
-  RoadConditionType firsttype = find_most_general_condition(thePercentages);
-
-  // Handle the case when the type dominates the others
-
-  if (thePercentages[firsttype] >= generally_limit)
+  try
   {
-    sentence << condition_phrase(
-        firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
-    return sentence;
-  }
+    Sentence sentence;
 
-  // List all "someplaces" types that occur in order of importance
-  // The set may include firsttype, if no condition occurs in many places
+    // Read the related configuration settings
 
-  map<int, RoadConditionType, std::greater<> > someplacestypes;
+    using Settings::optional_percentage;
+    const int generally_limit = optional_percentage(theVar + "::generally_limit", 90);
+    const int manyplaces_limit = optional_percentage(theVar + "::manyplaces_limit", 50);
+    const int someplaces_limit = optional_percentage(theVar + "::someplaces_limit", 10);
 
-  for (int i = min_condition; i <= max_condition; i++)
-  {
-    const auto condition = RoadConditionType(i);
+    // Find the most frequent condition
 
-    if (thePercentages[condition] >= someplaces_limit &&
-        thePercentages[condition] < manyplaces_limit)
+    RoadConditionType firsttype = find_most_general_condition(thePercentages);
+
+    // Handle the case when the type dominates the others
+
+    if (thePercentages[firsttype] >= generally_limit)
     {
-      const int importance = condition_importance(condition);
-      someplacestypes.insert(make_pair(importance, condition));
+      sentence << condition_phrase(firsttype,
+                                   thePercentages[firsttype],
+                                   generally_limit,
+                                   manyplaces_limit,
+                                   someplaces_limit);
+      return sentence;
     }
-  }
 
-  // Handle the case when there is one type in many places
-  // Note that we always ignore it if the "many places" type is DRY,
-  // instead we report on two most important "places" types
+    // List all "someplaces" types that occur in order of importance
+    // The set may include firsttype, if no condition occurs in many places
 
-  if (thePercentages[firsttype] >= manyplaces_limit && firsttype != DRY)
-  {
-    sentence << condition_phrase(
-        firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+    map<int, RoadConditionType, std::greater<> > someplacestypes;
 
-    // Then report the most important "someplaces" condition
-
-    if (!someplacestypes.empty())
+    for (int i = min_condition; i <= max_condition; i++)
     {
-      Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
-      if (!s.empty())
-        sentence << Delimiter(",") << s;
+      const auto condition = RoadConditionType(i);
+
+      if (thePercentages[condition] >= someplaces_limit &&
+          thePercentages[condition] < manyplaces_limit)
+      {
+        const int importance = condition_importance(condition);
+        someplacestypes.insert(make_pair(importance, condition));
+      }
     }
-    return sentence;
-  }
 
-  // Report on the two most important types
+    // Handle the case when there is one type in many places
+    // Note that we always ignore it if the "many places" type is DRY,
+    // instead we report on two most important "places" types
 
-  if (someplacestypes.empty())
-  {
-    sentence << condition_phrase(
-        firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
-    return sentence;
-  }
-
-  firsttype = someplacestypes.begin()->second;
-
-  sentence << condition_phrase(
-      firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
-
-  if (someplacestypes.size() > 1)
-  {
-    RoadConditionType secondtype = (++someplacestypes.begin())->second;
-
-    if (firsttype == ICY || firsttype == PARTLY_ICY)
+    if (thePercentages[firsttype] >= manyplaces_limit && firsttype != DRY)
     {
-      if (secondtype == PARTLY_ICY)
+      sentence << condition_phrase(firsttype,
+                                   thePercentages[firsttype],
+                                   generally_limit,
+                                   manyplaces_limit,
+                                   someplaces_limit);
+
+      // Then report the most important "someplaces" condition
+
+      if (!someplacestypes.empty())
+      {
+        Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
+        if (!s.empty())
+          sentence << Delimiter(",") << s;
+      }
+      return sentence;
+    }
+
+    // Report on the two most important types
+
+    if (someplacestypes.empty())
+    {
+      sentence << condition_phrase(firsttype,
+                                   thePercentages[firsttype],
+                                   generally_limit,
+                                   manyplaces_limit,
+                                   someplaces_limit);
+      return sentence;
+    }
+
+    firsttype = someplacestypes.begin()->second;
+
+    sentence << condition_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
+
+    if (someplacestypes.size() > 1)
+    {
+      RoadConditionType secondtype = (++someplacestypes.begin())->second;
+
+      if (firsttype == ICY || firsttype == PARTLY_ICY)
+      {
+        if (secondtype == PARTLY_ICY)
+          sentence << "tai"
+                   << "osittain jaisia";
+        else if (secondtype == FROST)
+          sentence << "tai"
+                   << "kuuraisia";
+      }
+      else if (firsttype == SLUSH && secondtype == SNOW)
         sentence << "tai"
-                 << "osittain jaisia";
-      else if (secondtype == FROST)
+                 << "lunta";
+      else if (firsttype == WET && secondtype == MOIST)
         sentence << "tai"
-                 << "kuuraisia";
+                 << "kosteita";
     }
-    else if (firsttype == SLUSH && secondtype == SNOW)
-      sentence << "tai"
-               << "lunta";
-    else if (firsttype == WET && secondtype == MOIST)
-      sentence << "tai"
-               << "kosteita";
-  }
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -554,24 +623,31 @@ Sentence condition_sentence(const ConditionPercentages& thePercentages, const st
 
 bool is_morning(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  using Settings::require_hour;
+  try
+  {
+    using Settings::require_hour;
 
-  const int starthour = require_hour(theVar + "::morning::starthour");
-  const int endhour = require_hour(theVar + "::day::starthour");
+    const int starthour = require_hour(theVar + "::morning::starthour");
+    const int endhour = require_hour(theVar + "::day::starthour");
 
-  const TextGenPosixTime& starttime = thePeriod.localStartTime();
-  const TextGenPosixTime& endtime = thePeriod.localEndTime();
+    const TextGenPosixTime& starttime = thePeriod.localStartTime();
+    const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime))
-    return false;
+    if (!TimeTools::isSameDay(starttime, endtime))
+      return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
-    return false;
+    if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+      return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
-    return false;
+    if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+      return false;
 
-  return true;
+    return true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -584,24 +660,31 @@ bool is_morning(const WeatherPeriod& thePeriod, const string& theVar)
 
 bool is_day(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  using Settings::require_hour;
+  try
+  {
+    using Settings::require_hour;
 
-  const int starthour = require_hour(theVar + "::day::starthour");
-  const int endhour = require_hour(theVar + "::evening::starthour");
+    const int starthour = require_hour(theVar + "::day::starthour");
+    const int endhour = require_hour(theVar + "::evening::starthour");
 
-  const TextGenPosixTime& starttime = thePeriod.localStartTime();
-  const TextGenPosixTime& endtime = thePeriod.localEndTime();
+    const TextGenPosixTime& starttime = thePeriod.localStartTime();
+    const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime))
-    return false;
+    if (!TimeTools::isSameDay(starttime, endtime))
+      return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
-    return false;
+    if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+      return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
-    return false;
+    if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+      return false;
 
-  return true;
+    return true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -614,24 +697,31 @@ bool is_day(const WeatherPeriod& thePeriod, const string& theVar)
 
 bool is_evening(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  using Settings::require_hour;
+  try
+  {
+    using Settings::require_hour;
 
-  const int starthour = require_hour(theVar + "::evening::starthour");
-  const int endhour = require_hour(theVar + "::night::starthour");
+    const int starthour = require_hour(theVar + "::evening::starthour");
+    const int endhour = require_hour(theVar + "::night::starthour");
 
-  const TextGenPosixTime& starttime = thePeriod.localStartTime();
-  const TextGenPosixTime& endtime = thePeriod.localEndTime();
+    const TextGenPosixTime& starttime = thePeriod.localStartTime();
+    const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime))
-    return false;
+    if (!TimeTools::isSameDay(starttime, endtime))
+      return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
-    return false;
+    if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+      return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
-    return false;
+    if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+      return false;
 
-  return true;
+    return true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -644,24 +734,31 @@ bool is_evening(const WeatherPeriod& thePeriod, const string& theVar)
 
 bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  using Settings::require_hour;
+  try
+  {
+    using Settings::require_hour;
 
-  const int starthour = require_hour(theVar + "::night::starthour");
-  const int endhour = require_hour(theVar + "::morning::starthour");
+    const int starthour = require_hour(theVar + "::night::starthour");
+    const int endhour = require_hour(theVar + "::morning::starthour");
 
-  const TextGenPosixTime& starttime = thePeriod.localStartTime();
-  const TextGenPosixTime& endtime = thePeriod.localEndTime();
+    const TextGenPosixTime& starttime = thePeriod.localStartTime();
+    const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isNextDay(starttime, endtime))
-    return false;
+    if (!TimeTools::isNextDay(starttime, endtime))
+      return false;
 
-  if (starttime.GetHour() < starthour && starttime.GetHour() > endhour)
-    return false;
+    if (starttime.GetHour() < starthour && starttime.GetHour() > endhour)
+      return false;
 
-  if (endtime.GetHour() < starthour && endtime.GetHour() > endhour)
-    return false;
+    if (endtime.GetHour() < starthour && endtime.GetHour() > endhour)
+      return false;
 
-  return true;
+    return true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -672,31 +769,38 @@ bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
 
 Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  const int startdaynumber = thePeriod.localStartTime().GetWeekday();
-  const int enddaynumber = thePeriod.localEndTime().GetWeekday();
-
-  const string startday = std::to_string(startdaynumber);
-  const string endday = std::to_string(enddaynumber);
-
-  Sentence sentence;
-  if (is_morning(thePeriod, theVar))
-    sentence << startday + "-aamuna";
-  else if (is_day(thePeriod, theVar))
-    sentence << startday + "-paivalla";
-  else if (is_evening(thePeriod, theVar))
-    sentence << startday + "-iltana";
-  else if (is_night(thePeriod, theVar))
-    sentence << endday + "-vastaisena yona";
-  else
+  try
   {
-    ostringstream msg;
-    msg << "roadcondition overview: "
-        << "Could not classify period " << thePeriod.localStartTime() << " ... "
-        << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw Fmi::Exception(BCP, msg.str());
-  }
+    const int startdaynumber = thePeriod.localStartTime().GetWeekday();
+    const int enddaynumber = thePeriod.localEndTime().GetWeekday();
 
-  return sentence;
+    const string startday = std::to_string(startdaynumber);
+    const string endday = std::to_string(enddaynumber);
+
+    Sentence sentence;
+    if (is_morning(thePeriod, theVar))
+      sentence << startday + "-aamuna";
+    else if (is_day(thePeriod, theVar))
+      sentence << startday + "-paivalla";
+    else if (is_evening(thePeriod, theVar))
+      sentence << startday + "-iltana";
+    else if (is_night(thePeriod, theVar))
+      sentence << endday + "-vastaisena yona";
+    else
+    {
+      ostringstream msg;
+      msg << "roadcondition overview: "
+          << "Could not classify period " << thePeriod.localStartTime() << " ... "
+          << thePeriod.localEndTime() << " as morning, day, evening or night";
+      throw Fmi::Exception(BCP, msg.str());
+    }
+
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -707,25 +811,32 @@ Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const stri
 
 Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  Sentence sentence;
-  if (is_morning(thePeriod, theVar))
-    sentence << "huomisaamuna";
-  else if (is_day(thePeriod, theVar))
-    sentence << "huomenna paivalla";
-  else if (is_evening(thePeriod, theVar))
-    sentence << "huomisiltana";
-  else if (is_night(thePeriod, theVar))
-    return during_period_phrase_weekday(thePeriod, theVar);
-  else
+  try
   {
-    ostringstream msg;
-    msg << "roadcondition overview: "
-        << "Could not classify period " << thePeriod.localStartTime() << " ... "
-        << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw Fmi::Exception(BCP, msg.str());
-  }
+    Sentence sentence;
+    if (is_morning(thePeriod, theVar))
+      sentence << "huomisaamuna";
+    else if (is_day(thePeriod, theVar))
+      sentence << "huomenna paivalla";
+    else if (is_evening(thePeriod, theVar))
+      sentence << "huomisiltana";
+    else if (is_night(thePeriod, theVar))
+      return during_period_phrase_weekday(thePeriod, theVar);
+    else
+    {
+      ostringstream msg;
+      msg << "roadcondition overview: "
+          << "Could not classify period " << thePeriod.localStartTime() << " ... "
+          << thePeriod.localEndTime() << " as morning, day, evening or night";
+      throw Fmi::Exception(BCP, msg.str());
+    }
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -736,25 +847,32 @@ Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const str
 
 Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  Sentence sentence;
-  if (is_morning(thePeriod, theVar))
-    sentence << "aamulla";
-  else if (is_day(thePeriod, theVar))
-    sentence << "paivalla";
-  else if (is_evening(thePeriod, theVar))
-    sentence << "illalla";
-  else if (is_night(thePeriod, theVar))
-    sentence << "yolla";
-  else
+  try
   {
-    ostringstream msg;
-    msg << "roadcondition overview: "
-        << "Could not classify period " << thePeriod.localStartTime() << " ... "
-        << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw Fmi::Exception(BCP, msg.str());
-  }
+    Sentence sentence;
+    if (is_morning(thePeriod, theVar))
+      sentence << "aamulla";
+    else if (is_day(thePeriod, theVar))
+      sentence << "paivalla";
+    else if (is_evening(thePeriod, theVar))
+      sentence << "illalla";
+    else if (is_night(thePeriod, theVar))
+      sentence << "yolla";
+    else
+    {
+      ostringstream msg;
+      msg << "roadcondition overview: "
+          << "Could not classify period " << thePeriod.localStartTime() << " ... "
+          << thePeriod.localEndTime() << " as morning, day, evening or night";
+      throw Fmi::Exception(BCP, msg.str());
+    }
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -768,16 +886,23 @@ Sentence during_period_phrase(const WeatherPeriod& thePeriod,
                               const TextGenPosixTime& theForecastTime,
                               const string& theVar)
 {
-  if (TimeTools::isSameDay(theLastTime, thePeriod.localStartTime()))
-    return during_period_phrase_today(thePeriod, theVar);
+  try
+  {
+    if (TimeTools::isSameDay(theLastTime, thePeriod.localStartTime()))
+      return during_period_phrase_today(thePeriod, theVar);
 
-  if (TimeTools::isSameDay(theForecastTime, thePeriod.localStartTime()))
-    return during_period_phrase_today(thePeriod, theVar);
+    if (TimeTools::isSameDay(theForecastTime, thePeriod.localStartTime()))
+      return during_period_phrase_today(thePeriod, theVar);
 
-  if (TimeTools::isNextDay(theForecastTime, thePeriod.localStartTime()))
-    return during_period_phrase_tomorrow(thePeriod, theVar);
+    if (TimeTools::isNextDay(theForecastTime, thePeriod.localStartTime()))
+      return during_period_phrase_tomorrow(thePeriod, theVar);
 
-  return during_period_phrase_weekday(thePeriod, theVar);
+    return during_period_phrase_weekday(thePeriod, theVar);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -788,31 +913,38 @@ Sentence during_period_phrase(const WeatherPeriod& thePeriod,
 
 Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  const int startdaynumber = thePeriod.localStartTime().GetWeekday();
-  const int enddaynumber = thePeriod.localEndTime().GetWeekday();
-
-  const string startday = std::to_string(startdaynumber);
-  const string endday = std::to_string(enddaynumber);
-
-  Sentence sentence;
-  if (is_morning(thePeriod, theVar))
-    sentence << startday + "-aamusta alkaen";
-  else if (is_day(thePeriod, theVar))
-    sentence << startday + "-aamupaivasta alkaen";
-  else if (is_evening(thePeriod, theVar))
-    sentence << startday + "-illasta alkaen";
-  else if (is_night(thePeriod, theVar))
-    sentence << endday + "-vastaisesta yosta alkaen";
-  else
+  try
   {
-    ostringstream msg;
-    msg << "roadcondition overview: "
-        << "Could not classify period " << thePeriod.localStartTime() << " ... "
-        << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw Fmi::Exception(BCP, msg.str());
-  }
+    const int startdaynumber = thePeriod.localStartTime().GetWeekday();
+    const int enddaynumber = thePeriod.localEndTime().GetWeekday();
 
-  return sentence;
+    const string startday = std::to_string(startdaynumber);
+    const string endday = std::to_string(enddaynumber);
+
+    Sentence sentence;
+    if (is_morning(thePeriod, theVar))
+      sentence << startday + "-aamusta alkaen";
+    else if (is_day(thePeriod, theVar))
+      sentence << startday + "-aamupaivasta alkaen";
+    else if (is_evening(thePeriod, theVar))
+      sentence << startday + "-illasta alkaen";
+    else if (is_night(thePeriod, theVar))
+      sentence << endday + "-vastaisesta yosta alkaen";
+    else
+    {
+      ostringstream msg;
+      msg << "roadcondition overview: "
+          << "Could not classify period " << thePeriod.localStartTime() << " ... "
+          << thePeriod.localEndTime() << " as morning, day, evening or night";
+      throw Fmi::Exception(BCP, msg.str());
+    }
+
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -823,25 +955,32 @@ Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const st
 
 Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  Sentence sentence;
-  if (is_morning(thePeriod, theVar))
-    sentence << "huomisaamusta alkaen";
-  else if (is_day(thePeriod, theVar))
-    sentence << "huomisaamupaivasta alkaen";
-  else if (is_evening(thePeriod, theVar))
-    sentence << "huomisillasta alkaen";
-  else if (is_night(thePeriod, theVar))
-    return starting_period_phrase_weekday(thePeriod, theVar);
-  else
+  try
   {
-    ostringstream msg;
-    msg << "roadcondition overview: "
-        << "Could not classify period " << thePeriod.localStartTime() << " ... "
-        << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw Fmi::Exception(BCP, msg.str());
-  }
+    Sentence sentence;
+    if (is_morning(thePeriod, theVar))
+      sentence << "huomisaamusta alkaen";
+    else if (is_day(thePeriod, theVar))
+      sentence << "huomisaamupaivasta alkaen";
+    else if (is_evening(thePeriod, theVar))
+      sentence << "huomisillasta alkaen";
+    else if (is_night(thePeriod, theVar))
+      return starting_period_phrase_weekday(thePeriod, theVar);
+    else
+    {
+      ostringstream msg;
+      msg << "roadcondition overview: "
+          << "Could not classify period " << thePeriod.localStartTime() << " ... "
+          << thePeriod.localEndTime() << " as morning, day, evening or night";
+      throw Fmi::Exception(BCP, msg.str());
+    }
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -852,25 +991,32 @@ Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const s
 
 Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
 {
-  Sentence sentence;
-  if (is_morning(thePeriod, theVar))
-    sentence << "aamusta alkaen";
-  else if (is_day(thePeriod, theVar))
-    sentence << "aamupaivasta alkaen";
-  else if (is_evening(thePeriod, theVar))
-    sentence << "illasta alkaen";
-  else if (is_night(thePeriod, theVar))
-    sentence << "yosta alkaen";
-  else
+  try
   {
-    ostringstream msg;
-    msg << "roadcondition overview: "
-        << "Could not classify period " << thePeriod.localStartTime() << " ... "
-        << thePeriod.localEndTime() << " as morning, day, evening or night";
-    throw Fmi::Exception(BCP, msg.str());
-  }
+    Sentence sentence;
+    if (is_morning(thePeriod, theVar))
+      sentence << "aamusta alkaen";
+    else if (is_day(thePeriod, theVar))
+      sentence << "aamupaivasta alkaen";
+    else if (is_evening(thePeriod, theVar))
+      sentence << "illasta alkaen";
+    else if (is_night(thePeriod, theVar))
+      sentence << "yosta alkaen";
+    else
+    {
+      ostringstream msg;
+      msg << "roadcondition overview: "
+          << "Could not classify period " << thePeriod.localStartTime() << " ... "
+          << thePeriod.localEndTime() << " as morning, day, evening or night";
+      throw Fmi::Exception(BCP, msg.str());
+    }
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -884,16 +1030,23 @@ Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
                                 const TextGenPosixTime& theForecastTime,
                                 const string& theVar)
 {
-  if (TimeTools::isSameDay(theLastTime, thePeriod.localStartTime()))
-    return starting_period_phrase_today(thePeriod, theVar);
+  try
+  {
+    if (TimeTools::isSameDay(theLastTime, thePeriod.localStartTime()))
+      return starting_period_phrase_today(thePeriod, theVar);
 
-  if (TimeTools::isSameDay(theForecastTime, thePeriod.localStartTime()))
-    return starting_period_phrase_today(thePeriod, theVar);
+    if (TimeTools::isSameDay(theForecastTime, thePeriod.localStartTime()))
+      return starting_period_phrase_today(thePeriod, theVar);
 
-  if (TimeTools::isNextDay(theForecastTime, thePeriod.localStartTime()))
-    return starting_period_phrase_tomorrow(thePeriod, theVar);
+    if (TimeTools::isNextDay(theForecastTime, thePeriod.localStartTime()))
+      return starting_period_phrase_tomorrow(thePeriod, theVar);
 
-  return starting_period_phrase_weekday(thePeriod, theVar);
+    return starting_period_phrase_weekday(thePeriod, theVar);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 }  // namespace
 
@@ -909,119 +1062,127 @@ Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
 
 Paragraph RoadStory::condition_overview() const
 {
-  MessageLogger log("RoadStory::condition_overview");
-
-  Paragraph paragraph;
-
-  // the period we wish to analyze is at most 30 hours,
-  // but of course must not exceed the period length itself
-
-  const int maxhours = Settings::optional_int(itsVar + "::maxhours", 30);
-
-  const TextGenPosixTime time1(itsPeriod.localStartTime());
-  TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
-  if (itsPeriod.localEndTime().IsLessThan(time2))
-    time2 = itsPeriod.localEndTime();
-
-  const WeatherPeriod fullperiod(time1, time2);
-
-  log << "Analysis period is " << time1 << " ... " << time2 << '\n';
-
-  // Calculate the results for each period
-
-  MorningAndEveningPeriodGenerator generator(fullperiod, itsVar);
-
-  if (generator.size() == 0)
+  try
   {
-    log << "Analysis period is too short!\n";
+    MessageLogger log("RoadStory::condition_overview");
+
+    Paragraph paragraph;
+
+    // the period we wish to analyze is at most 30 hours,
+    // but of course must not exceed the period length itself
+
+    const int maxhours = Settings::optional_int(itsVar + "::maxhours", 30);
+
+    const TextGenPosixTime time1(itsPeriod.localStartTime());
+    TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
+    if (itsPeriod.localEndTime().IsLessThan(time2))
+      time2 = itsPeriod.localEndTime();
+
+    const WeatherPeriod fullperiod(time1, time2);
+
+    log << "Analysis period is " << time1 << " ... " << time2 << '\n';
+
+    // Calculate the results for each period
+
+    MorningAndEveningPeriodGenerator generator(fullperiod, itsVar);
+
+    if (generator.size() == 0)
+    {
+      log << "Analysis period is too short!\n";
+      log << paragraph;
+      return paragraph;
+    }
+
+    // Calculate the percentages, initial sentences and their
+    // dummy realizations
+
+    vector<WeatherPeriod> periods;
+    vector<Sentence> sentences;
+    vector<string> realizations;
+
+    DebugTextFormatter formatter;
+
+    log << "Individual period results:\n";
+    for (unsigned int i = 1; i <= generator.size(); i++)
+    {
+      const WeatherPeriod period = generator.period(i);
+
+      const ConditionPercentages result =
+          calculate_percentages(period, i, itsSources, itsArea, itsVar);
+
+      const Sentence sentence = condition_sentence(result, itsVar);
+      const string realization = formatter.format(sentence);
+
+      periods.push_back(period);
+      sentences.push_back(sentence);
+      realizations.push_back(realization);
+
+      log << period.localStartTime() << " ... " << period.localEndTime() << ": " << realization
+          << '\n';
+
+      for (int j = min_condition; j <= max_condition; j++)
+        log << '\t' << condition_name(RoadConditionType(j)) << '\t' << result[j] << " %\n";
+    }
+
+    // Algorithm:
+    // For each start period
+    //   Find the number of similar periods
+    //   Generate common text for the periods
+    //   Skip the similar periods
+    // Next
+
+    // Some old date guaranteed to be different than any
+    // period to be handled:
+
+    TextGenPosixTime last_mentioned_date(1970, 1, 1);
+
+    Sentence sentence;
+
+    for (unsigned int i = 0; i < periods.size(); i++)
+    {
+      // Common periods will be inclusive range i...j
+
+      unsigned int j;
+      for (j = i; j < periods.size() - 1; j++)
+        if (realizations[i] != realizations[j + 1])
+          break;
+
+      // Generate the text
+
+      if (TimeTools::isSameDay(last_mentioned_date, periods[i].localStartTime()))
+        sentence << Delimiter(",");
+      else
+      {
+        paragraph << sentence;
+        sentence.clear();
+      }
+
+      if (i == j)
+      {
+        sentence << during_period_phrase(periods[i], last_mentioned_date, itsForecastTime, itsVar);
+      }
+      else
+      {
+        sentence << starting_period_phrase(
+            periods[i], last_mentioned_date, itsForecastTime, itsVar);
+      }
+      sentence << sentences[i];
+
+      // update the last mentioned date
+      last_mentioned_date = periods[i].localStartTime();
+
+      // and move on to the next periods
+      i = j;
+    }
+    paragraph << sentence;
+
     log << paragraph;
     return paragraph;
   }
-
-  // Calculate the percentages, initial sentences and their
-  // dummy realizations
-
-  vector<WeatherPeriod> periods;
-  vector<Sentence> sentences;
-  vector<string> realizations;
-
-  DebugTextFormatter formatter;
-
-  log << "Individual period results:\n";
-  for (unsigned int i = 1; i <= generator.size(); i++)
+  catch (...)
   {
-    const WeatherPeriod period = generator.period(i);
-
-    const ConditionPercentages result =
-        calculate_percentages(period, i, itsSources, itsArea, itsVar);
-
-    const Sentence sentence = condition_sentence(result, itsVar);
-    const string realization = formatter.format(sentence);
-
-    periods.push_back(period);
-    sentences.push_back(sentence);
-    realizations.push_back(realization);
-
-    log << period.localStartTime() << " ... " << period.localEndTime() << ": " << realization
-        << '\n';
-
-    for (int j = min_condition; j <= max_condition; j++)
-      log << '\t' << condition_name(RoadConditionType(j)) << '\t' << result[j] << " %\n";
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  // Algorithm:
-  // For each start period
-  //   Find the number of similar periods
-  //   Generate common text for the periods
-  //   Skip the similar periods
-  // Next
-
-  // Some old date guaranteed to be different than any
-  // period to be handled:
-
-  TextGenPosixTime last_mentioned_date(1970, 1, 1);
-
-  Sentence sentence;
-
-  for (unsigned int i = 0; i < periods.size(); i++)
-  {
-    // Common periods will be inclusive range i...j
-
-    unsigned int j;
-    for (j = i; j < periods.size() - 1; j++)
-      if (realizations[i] != realizations[j + 1])
-        break;
-
-    // Generate the text
-
-    if (TimeTools::isSameDay(last_mentioned_date, periods[i].localStartTime()))
-      sentence << Delimiter(",");
-    else
-    {
-      paragraph << sentence;
-      sentence.clear();
-    }
-
-    if (i == j)
-    {
-      sentence << during_period_phrase(periods[i], last_mentioned_date, itsForecastTime, itsVar);
-    }
-    else
-    {
-      sentence << starting_period_phrase(periods[i], last_mentioned_date, itsForecastTime, itsVar);
-    }
-    sentence << sentences[i];
-
-    // update the last mentioned date
-    last_mentioned_date = periods[i].localStartTime();
-
-    // and move on to the next periods
-    i = j;
-  }
-  paragraph << sentence;
-
-  log << paragraph;
-  return paragraph;
 }
 
 }  // namespace TextGen

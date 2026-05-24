@@ -65,13 +65,22 @@ void read_date_variable(const std::string& theVariableName,
                         int& theMonth,
                         int& theDay)
 {
-  // mmdd
-  string date = optional_string(theVariableName, theDefaultValue);
+  try
+  {
+    // mmdd
+    string date = optional_string(theVariableName, theDefaultValue);
 
-  if (!from_string(theMonth, date.substr(0, 2), std::dec) ||
-      !from_string(theDay, date.substr(2, 2), std::dec) || !is_parameter_valid(theMonth, theDay))
-    throw Fmi::Exception(BCP,
-                         "Variable " + theVariableName + "is not of correct type (mmdd): " + date);
+    if (!from_string(theMonth, date.substr(0, 2), std::dec) ||
+        !from_string(theDay, date.substr(2, 2), std::dec) || !is_parameter_valid(theMonth, theDay))
+      throw Fmi::Exception(
+          BCP, "Variable " + theVariableName + "is not of correct type (mmdd): " + date);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVariableName", theVariableName)
+        .addParameter("theDefaultValue", theDefaultValue);
+  }
 }
 
 bool isBetweenDates(
@@ -96,24 +105,31 @@ float get_GrowthPeriodOnOff_percentage(const WeatherArea& theArea,
                                        const WeatherPeriod& thePeriod,
                                        const std::string& theVariable)
 {
-  if (Settings::isset("textgen::effectivetemperaturesum_forecast"))
+  try
   {
-    GridForecaster forecaster;
-    PositiveValueAcceptor acceptor;
-    WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
-                                                               theSources,
-                                                               GrowthPeriodOnOff,
-                                                               Percentage,
-                                                               Mean,
-                                                               theArea,
-                                                               thePeriod,
-                                                               DefaultAcceptor(),
-                                                               DefaultAcceptor(),
-                                                               acceptor);
+    if (Settings::isset("textgen::effectivetemperaturesum_forecast"))
+    {
+      GridForecaster forecaster;
+      PositiveValueAcceptor acceptor;
+      WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
+                                                                 theSources,
+                                                                 GrowthPeriodOnOff,
+                                                                 Percentage,
+                                                                 Mean,
+                                                                 theArea,
+                                                                 thePeriod,
+                                                                 DefaultAcceptor(),
+                                                                 DefaultAcceptor(),
+                                                                 acceptor);
 
-    return growingSeasonPercentage.value();
+      return growingSeasonPercentage.value();
+    }
+    return -1.0;
   }
-  return -1.0;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
@@ -121,36 +137,43 @@ float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
                                      const WeatherPeriod& thePeriod,
                                      const std::string& theVariable)
 {
-  string fake_var("onenight::fake::growing_season_percentange");
-  if (theArea.type() == WeatherArea::Inland)
-    fake_var += "::inland";
-  if (theArea.type() == WeatherArea::Coast)
-    fake_var += "::coastal";
+  try
+  {
+    string fake_var("onenight::fake::growing_season_percentange");
+    if (theArea.type() == WeatherArea::Inland)
+      fake_var += "::inland";
+    if (theArea.type() == WeatherArea::Coast)
+      fake_var += "::coastal";
 
-  if (Settings::isset(fake_var))
-    return Settings::optional_double(fake_var, 0.0);
+    if (Settings::isset(fake_var))
+      return Settings::optional_double(fake_var, 0.0);
 
-  GridForecaster forecaster;
-  // 5 days average temperature
-  const TextGenPosixTime& startTime = thePeriod.localStartTime();
-  TextGenPosixTime endTime = thePeriod.localStartTime();
-  endTime.ChangeByDays(5);
-  WeatherPeriod period(startTime, endTime);
+    GridForecaster forecaster;
+    // 5 days average temperature
+    const TextGenPosixTime& startTime = thePeriod.localStartTime();
+    TextGenPosixTime endTime = thePeriod.localStartTime();
+    endTime.ChangeByDays(5);
+    WeatherPeriod period(startTime, endTime);
 
-  RangeAcceptor temperatureAcceptor;
-  temperatureAcceptor.lowerLimit(5.0);  // temperatures > 5 degrees
-  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
-                                                               theSources,
-                                                               Temperature,
-                                                               Percentage,
-                                                               Mean,
-                                                               theArea,
-                                                               period,
-                                                               DefaultAcceptor(),
-                                                               DefaultAcceptor(),
-                                                               temperatureAcceptor);
+    RangeAcceptor temperatureAcceptor;
+    temperatureAcceptor.lowerLimit(5.0);  // temperatures > 5 degrees
+    WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
+                                                                 theSources,
+                                                                 Temperature,
+                                                                 Percentage,
+                                                                 Mean,
+                                                                 theArea,
+                                                                 period,
+                                                                 DefaultAcceptor(),
+                                                                 DefaultAcceptor(),
+                                                                 temperatureAcceptor);
 
-  return meanTemperaturePercentage.value();
+    return meanTemperaturePercentage.value();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 }  // namespace
@@ -166,16 +189,23 @@ float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
 
 bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int winterStartMonth = -1;
-  int winterStartDay = -1;
-  int winterEndMonth = -1;
-  int winterEndDay = -1;
+  try
+  {
+    int winterStartMonth = -1;
+    int winterStartDay = -1;
+    int winterEndMonth = -1;
+    int winterEndDay = -1;
 
-  // by default dec-feb
-  read_date_variable(theVar + "::winter::startdate", "1201", winterStartMonth, winterStartDay);
-  read_date_variable(theVar + "::winter::enddate", "0229", winterEndMonth, winterEndDay);
+    // by default dec-feb
+    read_date_variable(theVar + "::winter::startdate", "1201", winterStartMonth, winterStartDay);
+    read_date_variable(theVar + "::winter::enddate", "0229", winterEndMonth, winterEndDay);
 
-  return isBetweenDates(theDate, winterStartMonth, winterStartDay, winterEndMonth, winterEndDay);
+    return isBetweenDates(theDate, winterStartMonth, winterStartDay, winterEndMonth, winterEndDay);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -189,16 +219,23 @@ bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int springStartMonth = -1;
-  int springStartDay = -1;
-  int springEndMonth = -1;
-  int springEndDay = -1;
+  try
+  {
+    int springStartMonth = -1;
+    int springStartDay = -1;
+    int springEndMonth = -1;
+    int springEndDay = -1;
 
-  // by default mar-may
-  read_date_variable(theVar + "::spring::startdate", "0301", springStartMonth, springStartDay);
-  read_date_variable(theVar + "::spring::enddate", "0531", springEndMonth, springEndDay);
+    // by default mar-may
+    read_date_variable(theVar + "::spring::startdate", "0301", springStartMonth, springStartDay);
+    read_date_variable(theVar + "::spring::enddate", "0531", springEndMonth, springEndDay);
 
-  return isBetweenDates(theDate, springStartMonth, springStartDay, springEndMonth, springEndDay);
+    return isBetweenDates(theDate, springStartMonth, springStartDay, springEndMonth, springEndDay);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -212,16 +249,23 @@ bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int summerStartMonth = -1;
-  int summerStartDay = -1;
-  int summerEndMonth = -1;
-  int summerEndDay = -1;
+  try
+  {
+    int summerStartMonth = -1;
+    int summerStartDay = -1;
+    int summerEndMonth = -1;
+    int summerEndDay = -1;
 
-  // by default jun-aug
-  read_date_variable(theVar + "::summer::startdate", "0601", summerStartMonth, summerStartDay);
-  read_date_variable(theVar + "::summer::enddate", "0831", summerEndMonth, summerEndDay);
+    // by default jun-aug
+    read_date_variable(theVar + "::summer::startdate", "0601", summerStartMonth, summerStartDay);
+    read_date_variable(theVar + "::summer::enddate", "0831", summerEndMonth, summerEndDay);
 
-  return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);
+    return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -235,16 +279,23 @@ bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int autumnStartMonth = -1;
-  int autumnStartDay = -1;
-  int autumnEndMonth = -1;
-  int autumnEndDay = -1;
+  try
+  {
+    int autumnStartMonth = -1;
+    int autumnStartDay = -1;
+    int autumnEndMonth = -1;
+    int autumnEndDay = -1;
 
-  // by default sep-nov
-  read_date_variable(theVar + "::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
-  read_date_variable(theVar + "::autumn::enddate", "1130", autumnEndMonth, autumnEndDay);
+    // by default sep-nov
+    read_date_variable(theVar + "::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
+    read_date_variable(theVar + "::autumn::enddate", "1130", autumnEndMonth, autumnEndDay);
 
-  return isBetweenDates(theDate, autumnStartMonth, autumnStartDay, autumnEndMonth, autumnEndDay);
+    return isBetweenDates(theDate, autumnStartMonth, autumnStartDay, autumnEndMonth, autumnEndDay);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -258,15 +309,22 @@ bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
 {
-  int summerStartMonth = -1;
-  int summerStartDay = -1;
-  int summerEndMonth = -1;
-  int summerEndDay = -1;
+  try
+  {
+    int summerStartMonth = -1;
+    int summerStartDay = -1;
+    int summerEndMonth = -1;
+    int summerEndDay = -1;
 
-  read_date_variable(theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
-  read_date_variable(theVar + "::summertime::enddate", "0930", summerEndMonth, summerEndDay);
+    read_date_variable(theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
+    read_date_variable(theVar + "::summertime::enddate", "0930", summerEndMonth, summerEndDay);
 
-  return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);
+    return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -280,7 +338,14 @@ bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
 
 bool isWinterHalf(const TextGenPosixTime& theDate, const string& theVar)
 {
-  return !isSummerHalf(theDate, theVar);
+  try
+  {
+    return !isSummerHalf(theDate, theVar);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 float growing_season_percentage(const WeatherArea& theArea,
@@ -288,16 +353,23 @@ float growing_season_percentage(const WeatherArea& theArea,
                                 const WeatherPeriod& thePeriod,
                                 const std::string& theVariable)
 {
-  float growthPeriodOnOffPercentage =
-      get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
+  try
+  {
+    float growthPeriodOnOffPercentage =
+        get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
 
-  if (growthPeriodOnOffPercentage != -1.0)
-    return growthPeriodOnOffPercentage;
+    if (growthPeriodOnOffPercentage != -1.0)
+      return growthPeriodOnOffPercentage;
 
-  float overFiveDegreesPercentage =
-      get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
+    float overFiveDegreesPercentage =
+        get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
 
-  return overFiveDegreesPercentage;
+    return overFiveDegreesPercentage;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 #ifdef OLD_IMPL
@@ -306,30 +378,37 @@ bool growing_season_going_on(const WeatherArea& theArea,
                              const WeatherPeriod& thePeriod,
                              const std::string theVariable)
 {
-  bool retval(false);
-
-  std::string parameter_name(theVariable + "::required_growing_season_percentage::default");
-  if (theArea.isNamed() &&
-      (Settings::isset(theVariable + "::required_growing_season_percentage::" + theArea.name())))
-    parameter_name = theVariable + "::required_growing_season_percentage::" + theArea.name();
-
-  const double required_growing_season_percentage =
-      Settings::optional_double(parameter_name, 33.33);
-
-  float growingSeasonPercentage =
-      growing_season_percentage(theArea, theSources, thePeriod, theVariable);
-
-  if (theArea.isPoint())
+  try
   {
-    retval = growingSeasonPercentage != kFloatMissing && growingSeasonPercentage > 0;
-  }
-  else
-  {
-    retval = growingSeasonPercentage != kFloatMissing &&
-             growingSeasonPercentage >= required_growing_season_percentage;
-  }
+    bool retval(false);
 
-  return retval;
+    std::string parameter_name(theVariable + "::required_growing_season_percentage::default");
+    if (theArea.isNamed() &&
+        (Settings::isset(theVariable + "::required_growing_season_percentage::" + theArea.name())))
+      parameter_name = theVariable + "::required_growing_season_percentage::" + theArea.name();
+
+    const double required_growing_season_percentage =
+        Settings::optional_double(parameter_name, 33.33);
+
+    float growingSeasonPercentage =
+        growing_season_percentage(theArea, theSources, thePeriod, theVariable);
+
+    if (theArea.isPoint())
+    {
+      retval = growingSeasonPercentage != kFloatMissing && growingSeasonPercentage > 0;
+    }
+    else
+    {
+      retval = growingSeasonPercentage != kFloatMissing &&
+               growingSeasonPercentage >= required_growing_season_percentage;
+    }
+
+    return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 #endif
 
@@ -338,39 +417,46 @@ bool growing_season_going_on(const WeatherArea& theArea,
                              const WeatherPeriod& thePeriod,
                              const std::string& theVariable)
 {
-  if (isset(theVariable + "::fake::growing_season_on"))
+  try
   {
-    return Settings::require_bool(theVariable + "::fake::growing_season_on");
+    if (isset(theVariable + "::fake::growing_season_on"))
+    {
+      return Settings::require_bool(theVariable + "::fake::growing_season_on");
+    }
+
+    std::string parameter_name(theVariable + "::required_growing_season_percentage::default");
+    if (theArea.isNamed() &&
+        (Settings::isset(theVariable + "::required_growing_season_percentage::" + theArea.name())))
+      parameter_name = theVariable + "::required_growing_season_percentage::" + theArea.name();
+
+    const double required_growing_season_percentage =
+        Settings::optional_double(parameter_name, 33.33);
+
+    float growthPeriodOnOffPercentage =
+        get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
+
+    float overFiveDegreesPercentage =
+        get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
+
+    if (growthPeriodOnOffPercentage >= 0)
+    {
+      return (growthPeriodOnOffPercentage != kFloatMissing &&
+              growthPeriodOnOffPercentage >= required_growing_season_percentage &&
+              overFiveDegreesPercentage != kFloatMissing &&
+              overFiveDegreesPercentage >= required_growing_season_percentage);
+    }
+    if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
+    {
+      return (overFiveDegreesPercentage != kFloatMissing &&
+              overFiveDegreesPercentage >= required_growing_season_percentage);
+    }
+
+    return false;
   }
-
-  std::string parameter_name(theVariable + "::required_growing_season_percentage::default");
-  if (theArea.isNamed() &&
-      (Settings::isset(theVariable + "::required_growing_season_percentage::" + theArea.name())))
-    parameter_name = theVariable + "::required_growing_season_percentage::" + theArea.name();
-
-  const double required_growing_season_percentage =
-      Settings::optional_double(parameter_name, 33.33);
-
-  float growthPeriodOnOffPercentage =
-      get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
-
-  float overFiveDegreesPercentage =
-      get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
-
-  if (growthPeriodOnOffPercentage >= 0)
+  catch (...)
   {
-    return (growthPeriodOnOffPercentage != kFloatMissing &&
-            growthPeriodOnOffPercentage >= required_growing_season_percentage &&
-            overFiveDegreesPercentage != kFloatMissing &&
-            overFiveDegreesPercentage >= required_growing_season_percentage);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
   }
-  if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
-  {
-    return (overFiveDegreesPercentage != kFloatMissing &&
-            overFiveDegreesPercentage >= required_growing_season_percentage);
-  }
-
-  return false;
 }
 
 forecast_season_id get_forecast_season(const WeatherArea& theArea,
@@ -378,11 +464,19 @@ forecast_season_id get_forecast_season(const WeatherArea& theArea,
                                        const WeatherPeriod& thePeriod,
                                        const std::string& theVariable)
 {
-  bool growingSeasonGoingOn = growing_season_going_on(theArea, theSources, thePeriod, theVariable);
+  try
+  {
+    bool growingSeasonGoingOn =
+        growing_season_going_on(theArea, theSources, thePeriod, theVariable);
 
-  bool isSummer = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVariable);
+    bool isSummer = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVariable);
 
-  return ((isSummer || growingSeasonGoingOn) ? SUMMER_SEASON : WINTER_SEASON);
+    return ((isSummer || growingSeasonGoingOn) ? SUMMER_SEASON : WINTER_SEASON);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 }  // namespace SeasonTools

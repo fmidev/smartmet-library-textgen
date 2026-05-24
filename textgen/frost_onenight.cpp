@@ -27,6 +27,7 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim.hpp>
@@ -96,25 +97,32 @@ frost_category get_frost_category(const double& frostProbability,
                                   const unsigned short& night_frost,
                                   const forecast_area_id& area_id)
 {
-  // area not included or growing season not yet started
-  if (!(forecast_areas & area_id) || !(growing_season_started & area_id))
-    return CAT_NA;
-  if (night_frost & area_id)  // night frost
-    return CAT_FROST;
+  try
+  {
+    // area not included or growing season not yet started
+    if (!(forecast_areas & area_id) || !(growing_season_started & area_id))
+      return CAT_NA;
+    if (night_frost & area_id)  // night frost
+      return CAT_FROST;
 
-  if (frostProbability >= 0.0 && frostProbability < 10.0)
-    return CAT_0010;
-  if (frostProbability >= 10.0 && frostProbability < 25.0)
-    return CAT_1020;
-  if (frostProbability >= 25.0 && frostProbability < 45.0)
-    return CAT_3040;
-  if (frostProbability >= 45.0 && frostProbability < 65.0)
-    return CAT_5060;
-  if (frostProbability >= 65.0 && frostProbability < 85.0)
-    return CAT_7080;
-  if (frostProbability >= 85.0 && frostProbability <= 100.0)
-    return CAT_90100;
-  return CAT_NA;
+    if (frostProbability >= 0.0 && frostProbability < 10.0)
+      return CAT_0010;
+    if (frostProbability >= 10.0 && frostProbability < 25.0)
+      return CAT_1020;
+    if (frostProbability >= 25.0 && frostProbability < 45.0)
+      return CAT_3040;
+    if (frostProbability >= 45.0 && frostProbability < 65.0)
+      return CAT_5060;
+    if (frostProbability >= 65.0 && frostProbability < 85.0)
+      return CAT_7080;
+    if (frostProbability >= 85.0 && frostProbability <= 100.0)
+      return CAT_90100;
+    return CAT_NA;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
@@ -123,6 +131,8 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
                                  const unsigned short& growing_season_started,
                                  const unsigned short& night_frost)
 {
+  try
+  {
   frost_category categoryCoastal = get_frost_category(
       coastalFrostProbability, forecast_areas, growing_season_started, night_frost, COASTAL_AREA);
   frost_category categoryInland = get_frost_category(
@@ -212,17 +222,31 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
     return EMPTY_STORY;
 
   return table[categoryCoastal][categoryInland];
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // Helper: emit paikoin-hallaa phrase, possibly severe
 void emit_frost_phrase(Sentence& s, bool severe)
 {
-  s << (severe ? PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE
-               : PAIKOIN_HALLAA_COMPOSITE_PHRASE);
+  try
+  {
+    s << (severe ? PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE
+                 : PAIKOIN_HALLAA_COMPOSITE_PHRASE);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Sentence get_frost_onenight_phrase_simple(const int& phraseId)
 {
+  try
+  {
   Sentence sentence;
   switch (phraseId)
   {
@@ -257,10 +281,17 @@ Sentence get_frost_onenight_phrase_simple(const int& phraseId)
       break;
   }
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("phraseId", Fmi::to_string(phraseId));
+  }
 }
 
 Sentence get_frost_onenight_phrase_severe(const int& phraseId, bool severe)
 {
+  try
+  {
   Sentence sentence;
   switch (phraseId)
   {
@@ -292,10 +323,17 @@ Sentence get_frost_onenight_phrase_severe(const int& phraseId, bool severe)
       break;
   }
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("phraseId", Fmi::to_string(phraseId));
+  }
 }
 
 Sentence get_frost_onenight_phrase_composite(const int& phraseId, bool severe)
 {
+  try
+  {
   Sentence sentence;
   switch (phraseId)
   {
@@ -356,22 +394,34 @@ Sentence get_frost_onenight_phrase_composite(const int& phraseId, bool severe)
       break;
   }
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("phraseId", Fmi::to_string(phraseId));
+  }
 }
 
 Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFrostStory)
 {
-  if (phraseId == EMPTY_STORY || phraseId == YOPAKKASTA)
-    return {};
+  try
+  {
+    if (phraseId == EMPTY_STORY || phraseId == YOPAKKASTA)
+      return {};
 
-  Sentence s = get_frost_onenight_phrase_simple(phraseId);
-  if (!s.empty())
-    return s;
+    Sentence s = get_frost_onenight_phrase_simple(phraseId);
+    if (!s.empty())
+      return s;
 
-  s = get_frost_onenight_phrase_severe(phraseId, tellSevereFrostStory);
-  if (!s.empty())
-    return s;
+    s = get_frost_onenight_phrase_severe(phraseId, tellSevereFrostStory);
+    if (!s.empty())
+      return s;
 
-  return get_frost_onenight_phrase_composite(phraseId, tellSevereFrostStory);
+    return get_frost_onenight_phrase_composite(phraseId, tellSevereFrostStory);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("phraseId", Fmi::to_string(phraseId));
+  }
 }
 
 Sentence frost_onenight_sentence(const double& coastalFrostProbability,
@@ -382,17 +432,24 @@ Sentence frost_onenight_sentence(const double& coastalFrostProbability,
                                  const unsigned short& growing_season_started,
                                  const unsigned short& night_frost)
 {
-  Sentence sentence;
+  try
+  {
+    Sentence sentence;
 
-  int phraseId = get_frost_onenight_phrase_id(coastalFrostProbability,
-                                              inlandFrostProbability,
-                                              forecast_areas,
-                                              growing_season_started,
-                                              night_frost);
+    int phraseId = get_frost_onenight_phrase_id(coastalFrostProbability,
+                                                inlandFrostProbability,
+                                                forecast_areas,
+                                                growing_season_started,
+                                                night_frost);
 
-  sentence << get_frost_onenight_phrase(phraseId, severeFrostCoastal || severeFrostInland);
+    sentence << get_frost_onenight_phrase(phraseId, severeFrostCoastal || severeFrostInland);
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool is_night_frost(MessageLogger& log,

@@ -33,6 +33,7 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
+#include <macgyver/StringConversion.h>
 
 #include <newbase/NFmiCombinedParam.h>
 
@@ -66,17 +67,30 @@ void append_thunder_phrase(Sentence& sentence,
                            float probMin,
                            float probThreshold)
 {
-  if (maxThunderExtent < extentMin || maxThunderProbability < probMin)
-    return;
+  try
+  {
+    if (maxThunderExtent < extentMin || maxThunderProbability < probMin)
+      return;
 
-  sentence << Delimiter(",");
+    sentence << Delimiter(",");
 
-  if (maxThunderExtent >= extentMax && maxThunderProbability >= probThreshold)
-    sentence << UKKOSTA_WORD;
-  else if (maxThunderProbability >= probThreshold)
-    sentence << PAIKOIN_UKKOSTA_PHRASE;
-  else
-    sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
+    if (maxThunderExtent >= extentMax && maxThunderProbability >= probThreshold)
+      sentence << UKKOSTA_WORD;
+    else if (maxThunderProbability >= probThreshold)
+      sentence << PAIKOIN_UKKOSTA_PHRASE;
+    else
+      sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("maxThunderExtent", Fmi::to_string(maxThunderExtent))
+        .addParameter("maxThunderProbability", Fmi::to_string(maxThunderProbability))
+        .addParameter("extentMin", Fmi::to_string(extentMin))
+        .addParameter("extentMax", Fmi::to_string(extentMax))
+        .addParameter("probMin", Fmi::to_string(probMin))
+        .addParameter("probThreshold", Fmi::to_string(probThreshold));
+  }
 }
 }  // namespace
 
@@ -85,120 +99,141 @@ ThunderForecast::ThunderForecast(wf_story_params& parameters) : theParameters(pa
 float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
                                    const weather_result_data_item_vector& theDataVector)
 {
-  float maxValue(0.0);
-  for (const auto& i : theDataVector)
+  try
   {
-    if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
-        i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
-        i->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
-        i->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
+    float maxValue(0.0);
+    for (const auto& i : theDataVector)
     {
-      maxValue = std::max(i->theResult.value(), maxValue);
+      if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
+          i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
+          i->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
+          i->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
+      {
+        maxValue = std::max(i->theResult.value(), maxValue);
+      }
     }
+    return maxValue;
   }
-  return maxValue;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
                                           const forecast_area_id& theForecastAreaId,
                                           const string& /*theVariable*/) const
 {
-  Sentence sentence;
-
-  const weather_result_data_item_vector* thunderProbabilityData = nullptr;
-  const weather_result_data_item_vector* thunderExtentData = nullptr;
-
-  std::string areaString;
-
-  if (theForecastAreaId == FULL_AREA)
+  try
   {
-    thunderProbabilityData =
-        ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA].get());
-    thunderExtentData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_EXTENT_DATA].get());
-    areaString = "full area";
-  }
-  if (theForecastAreaId == COASTAL_AREA)
-  {
-    thunderProbabilityData =
-        ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA].get());
-    thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA].get());
-    areaString = "coast";
-  }
-  if (theForecastAreaId == INLAND_AREA)
-  {
-    thunderProbabilityData =
-        ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA].get());
-    thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA].get());
-    areaString = "inland";
-  }
+    Sentence sentence;
 
-  if (thunderProbabilityData && thunderExtentData)
-  {
-    float maxThunderProbability(0.0);
-    float maxThunderExtent(0.0);
+    const weather_result_data_item_vector* thunderProbabilityData = nullptr;
+    const weather_result_data_item_vector* thunderExtentData = nullptr;
 
-    // 5% in summer,10% other seasons
-    //   float thunderExtentLowerLimit = theParameters.theThuderNormalExtentMin;
+    std::string areaString;
 
-    maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
-    maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
-
-    if (maxThunderProbability > 0.0 || maxThunderExtent > 0.0)
+    if (theForecastAreaId == FULL_AREA)
     {
-      theParameters.theLog << "Area, period: " << areaString << ", " << thePeriod.localStartTime()
-                           << "..." << thePeriod.localEndTime() << '\n';
-      theParameters.theLog << "Thunder probability (max): " << maxThunderProbability << '\n';
-      theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << '\n';
+      thunderProbabilityData =
+          ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA].get());
+      thunderExtentData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_EXTENT_DATA].get());
+      areaString = "full area";
+    }
+    if (theForecastAreaId == COASTAL_AREA)
+    {
+      thunderProbabilityData =
+          ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA].get());
+      thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA].get());
+      areaString = "coast";
+    }
+    if (theForecastAreaId == INLAND_AREA)
+    {
+      thunderProbabilityData =
+          ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA].get());
+      thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA].get());
+      areaString = "inland";
     }
 
-    append_thunder_phrase(sentence,
-                          maxThunderExtent,
-                          maxThunderProbability,
-                          theParameters.theThuderNormalExtentMin,
-                          theParameters.theThuderNormalExtentMax,
-                          theParameters.theThunderProbabilityMin,
-                          theParameters.theThunderProbabilityThreshold);
-  }
+    if (thunderProbabilityData && thunderExtentData)
+    {
+      float maxThunderProbability(0.0);
+      float maxThunderExtent(0.0);
 
-  return sentence;
+      // 5% in summer,10% other seasons
+      //   float thunderExtentLowerLimit = theParameters.theThuderNormalExtentMin;
+
+      maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
+      maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
+
+      if (maxThunderProbability > 0.0 || maxThunderExtent > 0.0)
+      {
+        theParameters.theLog << "Area, period: " << areaString << ", " << thePeriod.localStartTime()
+                             << "..." << thePeriod.localEndTime() << '\n';
+        theParameters.theLog << "Thunder probability (max): " << maxThunderProbability << '\n';
+        theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << '\n';
+      }
+
+      append_thunder_phrase(sentence,
+                            maxThunderExtent,
+                            maxThunderProbability,
+                            theParameters.theThuderNormalExtentMin,
+                            theParameters.theThuderNormalExtentMax,
+                            theParameters.theThunderProbabilityMin,
+                            theParameters.theThunderProbabilityThreshold);
+    }
+
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 Sentence ThunderForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
 {
-  Sentence sentence;
+  try
+  {
+    Sentence sentence;
 
-  WeatherResult northEastShare(kFloatMissing, 0);
-  WeatherResult southEastShare(kFloatMissing, 0);
-  WeatherResult southWestShare(kFloatMissing, 0);
-  WeatherResult northWestShare(kFloatMissing, 0);
+    WeatherResult northEastShare(kFloatMissing, 0);
+    WeatherResult southEastShare(kFloatMissing, 0);
+    WeatherResult southWestShare(kFloatMissing, 0);
+    WeatherResult northWestShare(kFloatMissing, 0);
 
-  RangeAcceptor thunderlimits;
-  thunderlimits.lowerLimit(SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT);
-  AreaTools::getArealDistribution(theParameters.theSources,
-                                  Thunder,
-                                  theParameters.theArea,
-                                  thePeriod,
-                                  thunderlimits,
-                                  northEastShare,
-                                  southEastShare,
-                                  southWestShare,
-                                  northWestShare);
+    RangeAcceptor thunderlimits;
+    thunderlimits.lowerLimit(SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT);
+    AreaTools::getArealDistribution(theParameters.theSources,
+                                    Thunder,
+                                    theParameters.theArea,
+                                    thePeriod,
+                                    thunderlimits,
+                                    northEastShare,
+                                    southEastShare,
+                                    southWestShare,
+                                    northWestShare);
 
-  float north = northEastShare.value() + northWestShare.value();
-  float south = southEastShare.value() + southWestShare.value();
-  float east = northEastShare.value() + southEastShare.value();
-  float west = northWestShare.value() + southWestShare.value();
+    float north = northEastShare.value() + northWestShare.value();
+    float south = southEastShare.value() + southWestShare.value();
+    float east = northEastShare.value() + southEastShare.value();
+    float west = northWestShare.value() + southWestShare.value();
 
-  sentence << area_specific_sentence(north,
-                                     south,
-                                     east,
-                                     west,
-                                     northEastShare.value(),
-                                     southEastShare.value(),
-                                     southWestShare.value(),
-                                     northWestShare.value(),
-                                     false);
+    sentence << area_specific_sentence(north,
+                                       south,
+                                       east,
+                                       west,
+                                       northEastShare.value(),
+                                       southEastShare.value(),
+                                       southWestShare.value(),
+                                       northWestShare.value(),
+                                       false);
 
-  return sentence;
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen

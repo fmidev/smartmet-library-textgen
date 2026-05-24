@@ -120,15 +120,22 @@ CoastMaskSource::Pimple::Pimple(const WeatherArea& theCoast) : itsCoast(theCoast
 CoastMaskSource::mask_type CoastMaskSource::Pimple::find(const WeatherId& theID,
                                                          const WeatherArea& theArea) const
 {
-  static std::shared_ptr<NFmiIndexMask> dummy;
+  try
+  {
+    static std::shared_ptr<NFmiIndexMask> dummy;
 
-  WeatherAreaAndID key(theID, theArea);
+    WeatherAreaAndID key(theID, theArea);
 
-  auto it = itsMaskStorage.find(key);
-  if (it == itsMaskStorage.end())
-    return dummy;
+    auto it = itsMaskStorage.find(key);
+    if (it == itsMaskStorage.end())
+      return dummy;
 
-  return it->second;
+    return it->second;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -145,14 +152,21 @@ void CoastMaskSource::Pimple::insert(const WeatherId& theID,
                                      const WeatherArea& theArea,
                                      const mask_type& theMask) const
 {
-  using value_type = mask_storage::value_type;
+  try
+  {
+    using value_type = mask_storage::value_type;
 
-  WeatherAreaAndID key(theID, theArea);
+    WeatherAreaAndID key(theID, theArea);
 
-  itsMaskStorage.insert(value_type(key, theMask));
+    itsMaskStorage.insert(value_type(key, theMask));
 
-  if (itsMaskStorage.insert(value_type(key, theMask)).second)
-    throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
+    if (itsMaskStorage.insert(value_type(key, theMask)).second)
+      throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -171,37 +185,44 @@ CoastMaskSource::mask_type CoastMaskSource::Pimple::create_mask(
     const std::string& theData,
     const WeatherSource& theWeatherSource) const
 {
-  // Establish the grid which to mask
-
-  std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
-  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
-  if (!qi.IsGrid())
-    throw Fmi::Exception(
-        BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
-
-  // First build the area mask
-
-  const NFmiSvgPath& svg = theArea.path();
-  const float radius = theArea.radius();
-  mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
-
-  // Then build the coast mask
-
-  WeatherId id = theWeatherSource.id(theData);
-  mask_type coastmask = find(id, itsCoast);
-  if (coastmask.get() == nullptr)
+  try
   {
-    const NFmiSvgPath& csvg = itsCoast.path();
-    const float cdistance = itsCoast.radius();
-    coastmask = std::make_shared<NFmiIndexMask>(MaskDistance(*(qi.Grid()), csvg, cdistance));
-    insert(id, itsCoast, coastmask);
+    // Establish the grid which to mask
+
+    std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+    NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+    if (!qi.IsGrid())
+      throw Fmi::Exception(
+          BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
+
+    // First build the area mask
+
+    const NFmiSvgPath& svg = theArea.path();
+    const float radius = theArea.radius();
+    mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
+
+    // Then build the coast mask
+
+    WeatherId id = theWeatherSource.id(theData);
+    mask_type coastmask = find(id, itsCoast);
+    if (coastmask.get() == nullptr)
+    {
+      const NFmiSvgPath& csvg = itsCoast.path();
+      const float cdistance = itsCoast.radius();
+      coastmask = std::make_shared<NFmiIndexMask>(MaskDistance(*(qi.Grid()), csvg, cdistance));
+      insert(id, itsCoast, coastmask);
+    }
+
+    // The intersection is the coastal area
+
+    *areamask &= *coastmask;
+
+    return areamask;
   }
-
-  // The intersection is the coastal area
-
-  *areamask &= *coastmask;
-
-  return areamask;
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theData", theData);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -225,26 +246,33 @@ CoastMaskSource::mask_type CoastMaskSource::mask(const WeatherArea& theArea,
                                                  const std::string& theData,
                                                  const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint())
-    throw Fmi::Exception(BCP, "Trying to generate mask for point");
+  try
+  {
+    if (theArea.isPoint())
+      throw Fmi::Exception(BCP, "Trying to generate mask for point");
 
-  // Establish the ID for the data
+    // Establish the ID for the data
 
-  WeatherId id = theWeatherSource.id(theData);
+    WeatherId id = theWeatherSource.id(theData);
 
-  // Try to find cached mask first
+    // Try to find cached mask first
 
-  mask_type areamask = itsPimple->find(id, theArea);
+    mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != nullptr)
+    if (areamask.get() != nullptr)
+      return areamask;
+
+    // Calculate new mask and cache it
+
+    areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
+    itsPimple->insert(id, theArea, areamask);
+
     return areamask;
-
-  // Calculate new mask and cache it
-
-  areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
-  itsPimple->insert(id, theArea, areamask);
-
-  return areamask;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theData", theData);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -261,7 +289,14 @@ CoastMaskSource::masks_type CoastMaskSource::masks(const WeatherArea& /*theArea*
                                                    const std::string& /*theData*/,
                                                    const WeatherSource& /*theWeatherSource*/) const
 {
-  throw Fmi::Exception(BCP, "CoastMaskSource::masks not implemented");
+  try
+  {
+    throw Fmi::Exception(BCP, "CoastMaskSource::masks not implemented");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

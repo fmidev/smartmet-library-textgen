@@ -281,138 +281,159 @@ part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp,
 
 part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod)
 {
-  if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 10)
+  try
+  {
+    if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 10)
+      return MISSING_PART_OF_THE_DAY_ID;
+
+    bool insideSameDay =
+        thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay();
+    bool successiveDays = false;
+    if (thePeriod.localStartTime().GetYear() == thePeriod.localEndTime().GetYear() - 1)
+    {
+      successiveDays =
+          thePeriod.localStartTime().GetMonth() == 12 && thePeriod.localStartTime().GetDay() == 31 &&
+          thePeriod.localEndTime().GetMonth() == 1 && thePeriod.localEndTime().GetDay() == 1;
+    }
+    else
+    {
+      successiveDays =
+          thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay() - 1;
+    }
+
+    part_of_the_day_id narrow_id = get_part_of_the_day_id_narrow(thePeriod);
+
+    if (narrow_id != MISSING_PART_OF_THE_DAY_ID)
+      return narrow_id;
+
+    // Note that we prefer later periods, the individual periods may overlap
+
+    if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+        thePeriod.localStartTime().GetHour() <= ILTAYO_END &&
+        thePeriod.localEndTime().GetHour() > KESKIYO_START &&
+        thePeriod.localEndTime().GetHour() <= KESKIYO_END && successiveDays)
+      return YO;  // ILTAYO_JA_KESKIYO;
+
+    if (thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
+        thePeriod.localStartTime().GetHour() <= KESKIYO_END &&
+        thePeriod.localEndTime().GetHour() >= AAMUYO_START &&
+        thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
+      return YO;  // KESKIYO_JA_AAMUYO;
+
+    if ((thePeriod.localStartTime().GetHour() >= ILTA_START &&
+         thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay))
+      return ILTA_JA_ILTAYO;
+
+    if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
+        thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
+      return ILTAPAIVA_JA_ILTA;
+
+    if (thePeriod.localStartTime().GetHour() >= PAIVA_START - 2 &&
+        thePeriod.localEndTime().GetHour() <= PAIVA_END && insideSameDay)
+      return PAIVA;
+
+    if (thePeriod.localStartTime().GetHour() >= AAMU_START &&
+        thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
+      return AAMU_JA_AAMUPAIVA;
+
+    if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
+        thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
+      return AAMUYO_JA_AAMU;
+
+    if (thePeriod.localStartTime().GetHour() >= YO_START &&
+        thePeriod.localEndTime().GetHour() <= YO_END && get_period_length(thePeriod) > 3 &&
+        successiveDays)
+      return YO;
+
     return MISSING_PART_OF_THE_DAY_ID;
-
-  bool insideSameDay =
-      thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay();
-  bool successiveDays = false;
-  if (thePeriod.localStartTime().GetYear() == thePeriod.localEndTime().GetYear() - 1)
-  {
-    successiveDays =
-        thePeriod.localStartTime().GetMonth() == 12 && thePeriod.localStartTime().GetDay() == 31 &&
-        thePeriod.localEndTime().GetMonth() == 1 && thePeriod.localEndTime().GetDay() == 1;
   }
-  else
+  catch (...)
   {
-    successiveDays =
-        thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay() - 1;
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  part_of_the_day_id narrow_id = get_part_of_the_day_id_narrow(thePeriod);
-
-  if (narrow_id != MISSING_PART_OF_THE_DAY_ID)
-    return narrow_id;
-
-  // Note that we prefer later periods, the individual periods may overlap
-
-  if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-      thePeriod.localStartTime().GetHour() <= ILTAYO_END &&
-      thePeriod.localEndTime().GetHour() > KESKIYO_START &&
-      thePeriod.localEndTime().GetHour() <= KESKIYO_END && successiveDays)
-    return YO;  // ILTAYO_JA_KESKIYO;
-
-  if (thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
-      thePeriod.localStartTime().GetHour() <= KESKIYO_END &&
-      thePeriod.localEndTime().GetHour() >= AAMUYO_START &&
-      thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
-    return YO;  // KESKIYO_JA_AAMUYO;
-
-  if ((thePeriod.localStartTime().GetHour() >= ILTA_START &&
-       thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay))
-    return ILTA_JA_ILTAYO;
-
-  if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
-      thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
-    return ILTAPAIVA_JA_ILTA;
-
-  if (thePeriod.localStartTime().GetHour() >= PAIVA_START - 2 &&
-      thePeriod.localEndTime().GetHour() <= PAIVA_END && insideSameDay)
-    return PAIVA;
-
-  if (thePeriod.localStartTime().GetHour() >= AAMU_START &&
-      thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
-    return AAMU_JA_AAMUPAIVA;
-
-  if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
-      thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
-    return AAMUYO_JA_AAMU;
-
-  if (thePeriod.localStartTime().GetHour() >= YO_START &&
-      thePeriod.localEndTime().GetHour() <= YO_END && get_period_length(thePeriod) > 3 &&
-      successiveDays)
-    return YO;
-
-  return MISSING_PART_OF_THE_DAY_ID;
 }
 
 part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
                                                  bool ignoreKeskiyo /*= false*/)
 {
-  if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 10)
+  try
+  {
+    if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 10)
+      return MISSING_PART_OF_THE_DAY_ID;
+
+    bool insideSameDay =
+        thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay();
+    int startHour = thePeriod.localStartTime().GetHour();
+    int endHour = thePeriod.localEndTime().GetHour();
+    // if keskiyö is ignored start aamuyö from midnight
+    int aamuyoStart = (ignoreKeskiyo ? KESKIYO_START : AAMUYO_START);
+
+    // Cross-midnight iltayö: starts in iltayö and ends at the start of the next period
+    if (startHour >= ILTAYO_START && endHour == KESKIYO_START && !insideSameDay)
+      return ILTAYO;
+
+    if (!insideSameDay)
+      return MISSING_PART_OF_THE_DAY_ID;
+
+    // Same-day checks: more specific ranges are listed first so AAMUPAIVA is preferred
+    // over AAMU and AAMUYO over KESKIYO when hour boundaries overlap
+    if (startHour >= ILTAYO_START && endHour <= ILTAYO_END)
+      return ILTAYO;
+    if (startHour >= ILTA_START && endHour <= ILTA_END)
+      return ILTA;
+    if (startHour >= ILTAPAIVA_START && endHour <= ILTAPAIVA_END)
+      return ILTAPAIVA;
+    if (startHour >= AAMUPAIVA_START && endHour <= AAMUPAIVA_END)
+      return AAMUPAIVA;
+    if (startHour >= AAMU_START && endHour <= AAMU_END)
+      return AAMU;
+    if (startHour >= aamuyoStart && endHour <= AAMUYO_END)
+      return AAMUYO;
+    if (!ignoreKeskiyo && startHour >= KESKIYO_START && endHour <= KESKIYO_END)
+      return KESKIYO;
+
     return MISSING_PART_OF_THE_DAY_ID;
-
-  bool insideSameDay =
-      thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay();
-  int startHour = thePeriod.localStartTime().GetHour();
-  int endHour = thePeriod.localEndTime().GetHour();
-  // if keskiyö is ignored start aamuyö from midnight
-  int aamuyoStart = (ignoreKeskiyo ? KESKIYO_START : AAMUYO_START);
-
-  // Cross-midnight iltayö: starts in iltayö and ends at the start of the next period
-  if (startHour >= ILTAYO_START && endHour == KESKIYO_START && !insideSameDay)
-    return ILTAYO;
-
-  if (!insideSameDay)
-    return MISSING_PART_OF_THE_DAY_ID;
-
-  // Same-day checks: more specific ranges are listed first so AAMUPAIVA is preferred
-  // over AAMU and AAMUYO over KESKIYO when hour boundaries overlap
-  if (startHour >= ILTAYO_START && endHour <= ILTAYO_END)
-    return ILTAYO;
-  if (startHour >= ILTA_START && endHour <= ILTA_END)
-    return ILTA;
-  if (startHour >= ILTAPAIVA_START && endHour <= ILTAPAIVA_END)
-    return ILTAPAIVA;
-  if (startHour >= AAMUPAIVA_START && endHour <= AAMUPAIVA_END)
-    return AAMUPAIVA;
-  if (startHour >= AAMU_START && endHour <= AAMU_END)
-    return AAMU;
-  if (startHour >= aamuyoStart && endHour <= AAMUYO_END)
-    return AAMUYO;
-  if (!ignoreKeskiyo && startHour >= KESKIYO_START && endHour <= KESKIYO_END)
-    return KESKIYO;
-
-  return MISSING_PART_OF_THE_DAY_ID;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("ignoreKeskiyo", Fmi::to_string(ignoreKeskiyo));
+  }
 }
 
 bool is_same_part_of_day(const WeatherPeriod& thePeriod1, const WeatherPeriod& thePeriod2)
 {
-  part_of_the_day_id id1 = get_part_of_the_day_id_narrow(thePeriod1);
-  part_of_the_day_id id2 = get_part_of_the_day_id_narrow(thePeriod2);
-  int periodLength1 = get_period_length(thePeriod1);
-  int periodLength2 = get_period_length(thePeriod2);
-  int period1StartHour = thePeriod1.localStartTime().GetHour();
-  int period2StartHour = thePeriod2.localStartTime().GetHour();
+  try
+  {
+    part_of_the_day_id id1 = get_part_of_the_day_id_narrow(thePeriod1);
+    part_of_the_day_id id2 = get_part_of_the_day_id_narrow(thePeriod2);
+    int periodLength1 = get_period_length(thePeriod1);
+    int periodLength2 = get_period_length(thePeriod2);
+    int period1StartHour = thePeriod1.localStartTime().GetHour();
+    int period2StartHour = thePeriod2.localStartTime().GetHour();
 
-  if (id1 == KESKIYO)
-    id1 = AAMUYO;
-  if (id2 == KESKIYO)
-    id2 = AAMUYO;
+    if (id1 == KESKIYO)
+      id1 = AAMUYO;
+    if (id2 == KESKIYO)
+      id2 = AAMUYO;
 
-  if (id1 == id2)
-    return true;
+    if (id1 == id2)
+      return true;
 
-  // check spceial cases when previous period ends at the same time as next starts
-  if ((id1 == AAMUYO && id2 == AAMU && periodLength1 == 0 && period1StartHour == 6) ||
-      (id2 == AAMUYO && id1 == AAMU && periodLength2 == 0 && period2StartHour == 6) ||
-      (id1 == AAMU && id2 == AAMUPAIVA && periodLength1 == 0 && period1StartHour == 9) ||
-      (id2 == AAMU && id1 == AAMUPAIVA && periodLength2 == 0 && period2StartHour == 9) ||
-      (id1 == AAMUPAIVA && id2 == ILTAPAIVA && periodLength1 == 0 && period1StartHour == 12) ||
-      (id2 == AAMUPAIVA && id1 == ILTAPAIVA && periodLength2 == 0 && period2StartHour == 12))
-    return true;
+    // check spceial cases when previous period ends at the same time as next starts
+    if ((id1 == AAMUYO && id2 == AAMU && periodLength1 == 0 && period1StartHour == 6) ||
+        (id2 == AAMUYO && id1 == AAMU && periodLength2 == 0 && period2StartHour == 6) ||
+        (id1 == AAMU && id2 == AAMUPAIVA && periodLength1 == 0 && period1StartHour == 9) ||
+        (id2 == AAMU && id1 == AAMUPAIVA && periodLength2 == 0 && period2StartHour == 9) ||
+        (id1 == AAMUPAIVA && id2 == ILTAPAIVA && periodLength1 == 0 && period1StartHour == 12) ||
+        (id2 == AAMUPAIVA && id1 == ILTAPAIVA && periodLength2 == 0 && period2StartHour == 12))
+      return true;
 
-  return (get_part_of_the_day_id_narrow(thePeriod1) == get_part_of_the_day_id_narrow(thePeriod2));
+    return (get_part_of_the_day_id_narrow(thePeriod1) == get_part_of_the_day_id_narrow(thePeriod2));
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void get_part_of_the_day(part_of_the_day_id thePartOfTheDayId, int& theStartHour, int& theEndHour)
@@ -520,91 +541,105 @@ void get_part_of_the_day(part_of_the_day_id thePartOfTheDayId, int& theStartHour
 WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
                                   const WeatherPeriod& theWeatherPeriod2)
 {
-  if (theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localStartTime() ||
-      theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localEndTime())
-    return {TextGenPosixTime(1970, 1, 1), TextGenPosixTime(1970, 1, 1)};
+  try
+  {
+    if (theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localStartTime() ||
+        theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localEndTime())
+      return {TextGenPosixTime(1970, 1, 1), TextGenPosixTime(1970, 1, 1)};
 
-  if (is_inside(theWeatherPeriod1.localStartTime(), theWeatherPeriod2) &&
-      is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2))
-    return theWeatherPeriod1;
-  if (is_inside(theWeatherPeriod2.localStartTime(), theWeatherPeriod1) &&
-      is_inside(theWeatherPeriod2.localEndTime(), theWeatherPeriod1))
-    return theWeatherPeriod2;
+    if (is_inside(theWeatherPeriod1.localStartTime(), theWeatherPeriod2) &&
+        is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2))
+      return theWeatherPeriod1;
+    if (is_inside(theWeatherPeriod2.localStartTime(), theWeatherPeriod1) &&
+        is_inside(theWeatherPeriod2.localEndTime(), theWeatherPeriod1))
+      return theWeatherPeriod2;
 
-  TextGenPosixTime startTime(theWeatherPeriod1.localStartTime() >=
-                                     theWeatherPeriod2.localStartTime()
-                                 ? theWeatherPeriod1.localStartTime()
-                                 : theWeatherPeriod2.localStartTime());
-  TextGenPosixTime endTime(theWeatherPeriod1.localEndTime() <= theWeatherPeriod2.localEndTime()
-                               ? theWeatherPeriod1.localEndTime()
-                               : theWeatherPeriod2.localEndTime());
+    TextGenPosixTime startTime(theWeatherPeriod1.localStartTime() >=
+                                       theWeatherPeriod2.localStartTime()
+                                   ? theWeatherPeriod1.localStartTime()
+                                   : theWeatherPeriod2.localStartTime());
+    TextGenPosixTime endTime(theWeatherPeriod1.localEndTime() <= theWeatherPeriod2.localEndTime()
+                                 ? theWeatherPeriod1.localEndTime()
+                                 : theWeatherPeriod2.localEndTime());
 
-  return {startTime, endTime};
+    return {startTime, endTime};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 WeatherPeriod get_period_for_id(part_of_the_day_id& id, const WeatherPeriod& thePeriod)
 {
-  TextGenPosixTime startTime = thePeriod.localStartTime();
-  TextGenPosixTime endTime = thePeriod.localStartTime();
-
-  switch (id)
+  try
   {
-    case AAMU:
+    TextGenPosixTime startTime = thePeriod.localStartTime();
+    TextGenPosixTime endTime = thePeriod.localStartTime();
+
+    switch (id)
     {
-      startTime.SetHour(6);
-      endTime.SetHour(9);
-      break;
+      case AAMU:
+      {
+        startTime.SetHour(6);
+        endTime.SetHour(9);
+        break;
+      }
+      case AAMUPAIVA:
+      {
+        startTime.SetHour(9);
+        endTime.SetHour(12);
+        break;
+      }
+      case KESKIPAIVA:
+      {
+        startTime.SetHour(11);
+        endTime.SetHour(13);
+        break;
+      }
+      case ILTAPAIVA:
+      {
+        startTime.SetHour(12);
+        endTime.SetHour(18);
+        break;
+      }
+      case ILTA:
+      {
+        startTime.SetHour(17);
+        endTime.SetHour(22);
+        break;
+      }
+      case ILTAYO:
+      {
+        startTime.SetHour(21);
+        endTime.SetHour(23);
+        break;
+      }
+      case AAMUYO:
+      {
+        startTime.SetHour(2);
+        endTime.SetHour(6);
+        break;
+      }
+      case KESKIYO:
+      {
+        startTime.SetHour(23);
+        endTime.ChangeByDays(1);
+        endTime.SetHour(1);
+        break;
+      }
+      default:
+        break;
     }
-    case AAMUPAIVA:
-    {
-      startTime.SetHour(9);
-      endTime.SetHour(12);
-      break;
-    }
-    case KESKIPAIVA:
-    {
-      startTime.SetHour(11);
-      endTime.SetHour(13);
-      break;
-    }
-    case ILTAPAIVA:
-    {
-      startTime.SetHour(12);
-      endTime.SetHour(18);
-      break;
-    }
-    case ILTA:
-    {
-      startTime.SetHour(17);
-      endTime.SetHour(22);
-      break;
-    }
-    case ILTAYO:
-    {
-      startTime.SetHour(21);
-      endTime.SetHour(23);
-      break;
-    }
-    case AAMUYO:
-    {
-      startTime.SetHour(2);
-      endTime.SetHour(6);
-      break;
-    }
-    case KESKIYO:
-    {
-      startTime.SetHour(23);
-      endTime.ChangeByDays(1);
-      endTime.SetHour(1);
-      break;
-    }
-    default:
-      break;
+
+    WeatherPeriod comparePeriod(startTime, endTime);
+
+    return intersecting_period(thePeriod, comparePeriod);
   }
-
-  WeatherPeriod comparePeriod(startTime, endTime);
-
-  return intersecting_period(thePeriod, comparePeriod);
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool is_keskiyo_phrase(const std::string& phrase)
@@ -614,53 +649,60 @@ bool is_keskiyo_phrase(const std::string& phrase)
 
 part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod)
 {
-  part_of_the_day_id idLarge = get_part_of_the_day_id_large(thePeriod);
-
-  if (idLarge < PAIVA)
-    return idLarge;
-
-  // if long period return id from start
-  if (get_period_length(thePeriod) > 6)
+  try
   {
-    int firstHour = thePeriod.localStartTime().GetHour();
-    if (firstHour == 12)
-      return ILTAPAIVA;
-    if (firstHour == 0)
-      return AAMUYO;
-    if (firstHour == 17 || firstHour == 18)
-      return ILTA;
-    if (firstHour == 6)
-      return AAMU;
+    part_of_the_day_id idLarge = get_part_of_the_day_id_large(thePeriod);
 
-    return get_part_of_the_day_id_narrow(
-        WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime()));
-  }
+    if (idLarge < PAIVA)
+      return idLarge;
 
-  std::vector<int> intersectingHours;
-  for (unsigned int i = 0; i <= AAMUYO; i++)
-  {
-    auto id = static_cast<part_of_the_day_id>(i);
-    intersectingHours.push_back(get_period_length(get_period_for_id(id, thePeriod)));
-  }
-
-  part_of_the_day_id ret = MISSING_PART_OF_THE_DAY_ID;
-  unsigned int maxHoursIndex = 0;
-  for (unsigned int i = 0; i <= AAMUYO; i++)
-  {
-    if (i == 0)
+    // if long period return id from start
+    if (get_period_length(thePeriod) > 6)
     {
-      ret = static_cast<part_of_the_day_id>(i);
-      continue;
-    }
-    auto id = static_cast<part_of_the_day_id>(i);
-    if (intersectingHours[id] > intersectingHours[maxHoursIndex])
-    {
-      ret = static_cast<part_of_the_day_id>(i);
-      maxHoursIndex = i;
-    }
-  }
+      int firstHour = thePeriod.localStartTime().GetHour();
+      if (firstHour == 12)
+        return ILTAPAIVA;
+      if (firstHour == 0)
+        return AAMUYO;
+      if (firstHour == 17 || firstHour == 18)
+        return ILTA;
+      if (firstHour == 6)
+        return AAMU;
 
-  return ret;
+      return get_part_of_the_day_id_narrow(
+          WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime()));
+    }
+
+    std::vector<int> intersectingHours;
+    for (unsigned int i = 0; i <= AAMUYO; i++)
+    {
+      auto id = static_cast<part_of_the_day_id>(i);
+      intersectingHours.push_back(get_period_length(get_period_for_id(id, thePeriod)));
+    }
+
+    part_of_the_day_id ret = MISSING_PART_OF_THE_DAY_ID;
+    unsigned int maxHoursIndex = 0;
+    for (unsigned int i = 0; i <= AAMUYO; i++)
+    {
+      if (i == 0)
+      {
+        ret = static_cast<part_of_the_day_id>(i);
+        continue;
+      }
+      auto id = static_cast<part_of_the_day_id>(i);
+      if (intersectingHours[id] > intersectingHours[maxHoursIndex])
+      {
+        ret = static_cast<part_of_the_day_id>(i);
+        maxHoursIndex = i;
+      }
+    }
+
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool is_inside(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& theWeatherPeriod2)
@@ -683,69 +725,83 @@ bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& th
 
 bool is_inside(const TextGenPosixTime& theTimeStamp, part_of_the_day_id thePartOfTheDayId)
 {
-  int startHour = 0;
-  int endHour = 0;
-  int timestampHour(theTimeStamp.GetHour());
-  get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
-
-  if (endHour == 0)
-    return timestampHour >= startHour || endHour == timestampHour;
-  if (startHour == 0)
-    return timestampHour <= endHour;
-
-  if (thePartOfTheDayId == YO || thePartOfTheDayId == ILTAYO_JA_KESKIYO)
+  try
   {
-    return timestampHour >= startHour || timestampHour <= endHour;
-  }
+    int startHour = 0;
+    int endHour = 0;
+    int timestampHour(theTimeStamp.GetHour());
+    get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 
-  return (timestampHour >= startHour && timestampHour <= endHour);
+    if (endHour == 0)
+      return timestampHour >= startHour || endHour == timestampHour;
+    if (startHour == 0)
+      return timestampHour <= endHour;
+
+    if (thePartOfTheDayId == YO || thePartOfTheDayId == ILTAYO_JA_KESKIYO)
+    {
+      return timestampHour >= startHour || timestampHour <= endHour;
+    }
+
+    return (timestampHour >= startHour && timestampHour <= endHour);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePartOfTheDayId)
 {
-  int numberOfDays(theWeatherPeriod.localEndTime().GetJulianDay() -
-                   theWeatherPeriod.localStartTime().GetJulianDay());
-  if (theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 10)
+  try
   {
-    return false;
-  }
-  if (numberOfDays == 1)
-  {
-    if (thePartOfTheDayId != ILTAYO && thePartOfTheDayId != YO &&
-        thePartOfTheDayId != ILTAYO_JA_KESKIYO && thePartOfTheDayId != ILTA_JA_ILTAYO)
+    int numberOfDays(theWeatherPeriod.localEndTime().GetJulianDay() -
+                     theWeatherPeriod.localStartTime().GetJulianDay());
+    if (theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 10)
+    {
       return false;
+    }
+    if (numberOfDays == 1)
+    {
+      if (thePartOfTheDayId != ILTAYO && thePartOfTheDayId != YO &&
+          thePartOfTheDayId != ILTAYO_JA_KESKIYO && thePartOfTheDayId != ILTA_JA_ILTAYO)
+        return false;
+    }
+
+    if (thePartOfTheDayId == YO && is_inside(theWeatherPeriod.localStartTime(), YO) &&
+        is_inside(theWeatherPeriod.localEndTime(), YO))
+      return true;
+    if (thePartOfTheDayId == ILTAYO_JA_KESKIYO &&
+        is_inside(theWeatherPeriod.localStartTime(), ILTAYO_JA_KESKIYO) &&
+        is_inside(theWeatherPeriod.localEndTime(), ILTAYO_JA_KESKIYO))
+      return true;
+
+    int startHour = 0;
+    int endHour = 0;
+    get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
+    TextGenPosixTime startTimeCompare(theWeatherPeriod.localStartTime());
+    TextGenPosixTime endTimeCompare(theWeatherPeriod.localStartTime());
+
+    startTimeCompare.SetHour(startHour);
+    startTimeCompare.SetMin(0);
+    startTimeCompare.SetSec(0);
+    endTimeCompare.SetHour(endHour);
+    endTimeCompare.SetMin(0);
+    endTimeCompare.SetSec(0);
+
+    if (endHour == 0)
+    {
+      endTimeCompare.ChangeByDays(1);
+    }
+
+    return (theWeatherPeriod.localStartTime() >= startTimeCompare &&
+            theWeatherPeriod.localStartTime() <= endTimeCompare &&
+            theWeatherPeriod.localEndTime() >= startTimeCompare &&
+            theWeatherPeriod.localEndTime() <= endTimeCompare);
   }
-
-  if (thePartOfTheDayId == YO && is_inside(theWeatherPeriod.localStartTime(), YO) &&
-      is_inside(theWeatherPeriod.localEndTime(), YO))
-    return true;
-  if (thePartOfTheDayId == ILTAYO_JA_KESKIYO &&
-      is_inside(theWeatherPeriod.localStartTime(), ILTAYO_JA_KESKIYO) &&
-      is_inside(theWeatherPeriod.localEndTime(), ILTAYO_JA_KESKIYO))
-    return true;
-
-  int startHour = 0;
-  int endHour = 0;
-  get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
-  TextGenPosixTime startTimeCompare(theWeatherPeriod.localStartTime());
-  TextGenPosixTime endTimeCompare(theWeatherPeriod.localStartTime());
-
-  startTimeCompare.SetHour(startHour);
-  startTimeCompare.SetMin(0);
-  startTimeCompare.SetSec(0);
-  endTimeCompare.SetHour(endHour);
-  endTimeCompare.SetMin(0);
-  endTimeCompare.SetSec(0);
-
-  if (endHour == 0)
+  catch (...)
   {
-    endTimeCompare.ChangeByDays(1);
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  return (theWeatherPeriod.localStartTime() >= startTimeCompare &&
-          theWeatherPeriod.localStartTime() <= endTimeCompare &&
-          theWeatherPeriod.localEndTime() >= startTimeCompare &&
-          theWeatherPeriod.localEndTime() <= endTimeCompare);
 }
 
 std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
@@ -813,6 +869,8 @@ Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
                                std::string& thePhraseString,
                                part_of_the_day_id& thePartOfTheDay)
 {
+  try
+  {
   Sentence sentence;
 
   short weekday = theWeatherPeriod.localStartTime().GetWeekday();
@@ -871,6 +929,11 @@ Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
     sentence << thePhraseString;
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag));
+  }
 }
 
 std::string parse_time_phrase(short theWeekday,
@@ -909,6 +972,8 @@ Sentence resolve_wide_period_phrase(const WeatherPeriod& theWeatherPeriod,
                                     std::string& thePhraseString,
                                     part_of_the_day_id& thePartOfTheDay)
 {
+  try
+  {
   Sentence sentence;
 
   // Try to shrink period by 1 hour on each end to fit a narrow day-part
@@ -964,6 +1029,11 @@ Sentence resolve_wide_period_phrase(const WeatherPeriod& theWeatherPeriod,
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag)).addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
+  }
 }
 }  // namespace
 
@@ -974,6 +1044,8 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
                                bool theAlkaenPhrase,
                                part_of_the_day_id& thePartOfTheDay)
 {
+  try
+  {
   Sentence sentence;
 
   if (!Settings::optional_bool(theVar + "::specify_part_of_the_day", true))
@@ -1023,6 +1095,11 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag)).addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
+  }
 }
 
 std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
@@ -1053,6 +1130,8 @@ std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
 
 Sentence get_direction_phrase(direction_id theDirectionId, bool theAlkaenPhrase /*= false*/)
 {
+  try
+  {
   Sentence sentence;
 
   switch (theDirectionId)
@@ -1086,6 +1165,11 @@ Sentence get_direction_phrase(direction_id theDirectionId, bool theAlkaenPhrase 
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
+  }
 }
 
 int get_period_length(const WeatherPeriod& thePeriod)
@@ -1100,6 +1184,8 @@ int get_today_vector(const string& theVariable,
                      const TextGenPosixTime& theForecastTime,
                      vector<Sentence*>& theTodayVector)
 {
+  try
+  {
   int retval = -1;
 
   NightAndDayPeriodGenerator generator(thePeriod, theVariable);
@@ -1120,6 +1206,11 @@ int get_today_vector(const string& theVariable,
     }
   }
   return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
@@ -1128,6 +1219,8 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const WeatherPeriod& thePeriod,
                           const TextGenPosixTime& theForecastTime)
 {
+  try
+  {
   Sentence sentence;
 
   part_of_the_day_id partOfTheDayId = get_part_of_the_day_id(theEventTimestamp);
@@ -1161,6 +1254,11 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
+  }
 }
 
 void get_precipitation_limit_value(const wf_story_params& theParameters,
@@ -1169,6 +1267,8 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
                                    float& theLowerLimit,
                                    float& theUpperLimit)
 {
+  try
+  {
   switch (thePrecipitationForm)
   {
     case WATER_FREEZING_FORM:
@@ -1328,6 +1428,11 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
     default:
       break;
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm));
+  }
 }
 
 void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
@@ -1335,6 +1440,8 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
                                           float& theDryWeatherLimit,
                                           float& theWeakPrecipitationLimit)
 {
+  try
+  {
   switch (thePrecipitationForm)
   {
     case WATER_FREEZING_FORM:
@@ -1396,6 +1503,11 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
     default:
       break;
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm));
+  }
 }
 
 namespace
@@ -1419,6 +1531,8 @@ precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipi
                                                          float thePrecipitationIntensity,
                                                          const wf_story_params& theParameters)
 {
+  try
+  {
   if (thePrecipitationForm & SNOW_FORM)
     return intensity_from_thresholds(thePrecipitationIntensity,
                                      theParameters.theDryWeatherLimitSnow,
@@ -1444,6 +1558,11 @@ precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipi
                                    theParameters.theDryWeatherLimitWater,
                                    theParameters.theWeakPrecipitationLimitWater,
                                    theParameters.theHeavyPrecipitationLimitWater);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm)).addParameter("thePrecipitationIntensity", Fmi::to_string(thePrecipitationIntensity));
+  }
 }
 
 precipitation_form_id get_complete_precipitation_form(const string& /*theVariable*/,
@@ -1454,6 +1573,8 @@ precipitation_form_id get_complete_precipitation_form(const string& /*theVariabl
                                                       float thePrecipitationFormFreezingRain,
                                                       float thePrecipitationFormFreezingDrizzle)
 {
+  try
+  {
   unsigned int precipitation_form = 0;
 
   using precipitation_form_type = std::pair<float, precipitation_form_id>;
@@ -1513,17 +1634,29 @@ precipitation_form_id get_complete_precipitation_form(const string& /*theVariabl
   precipitation_form |= tertiaryPrecipitationForm;
 
   return static_cast<precipitation_form_id>(precipitation_form);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void get_sub_time_series(const WeatherPeriod& thePeriod,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
+  try
+  {
   for (const auto& item : theSourceVector)
   {
     if (item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
         item->thePeriod.localEndTime() <= thePeriod.localEndTime())
       theDestinationVector.push_back(item);
+  }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 
@@ -1531,10 +1664,17 @@ void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
+  try
+  {
   for (const auto& item : theSourceVector)
   {
     if (item->thePartOfTheDay == thePartOfTheDay)
       theDestinationVector.push_back(item);
+  }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
 
@@ -1542,6 +1682,8 @@ float get_mean(const weather_result_data_item_vector& theTimeSeries,
                int theStartIndex /*= 0*/,
                int theEndIndex /*= 0*/)
 {
+  try
+  {
   float precipitation_sum = 0.0;
   int counter = 0;
   unsigned int startIndex = theStartIndex > 0 ? theStartIndex : 0;
@@ -1561,10 +1703,17 @@ float get_mean(const weather_result_data_item_vector& theTimeSeries,
   if ((counter == 0 && !theTimeSeries.empty()) || theTimeSeries.empty())
     return kFloatMissing;
   return precipitation_sum / counter;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartIndex", Fmi::to_string(theStartIndex)).addParameter("theEndIndex", Fmi::to_string(theEndIndex));
+  }
 }
 
 float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries)
 {
+  try
+  {
   float deviation_sum_pow2 = 0.0;
   float mean = get_mean(theTimeSeries);
   int counter = 0;
@@ -1577,10 +1726,17 @@ float get_standard_deviation(const weather_result_data_item_vector& theTimeSerie
   }
 
   return std::sqrt(deviation_sum_pow2 / counter);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax)
 {
+  try
+  {
   theMin = theMax = kFloatMissing;
 
   for (unsigned int i = 0; i < theTimeSeries.size(); i++)
@@ -1600,6 +1756,11 @@ void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& th
         theMax = theTimeSeries[i]->theResult.value();
     }
   }
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
@@ -1607,6 +1768,8 @@ double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSer
                                unsigned int theEndIndex,
                                bool theUseErrorValueFlag /*= false*/)
 {
+  try
+  {
   vector<double> precipitation;
 
   for (unsigned int i = theStartIndex; i <= theEndIndex; i++)
@@ -1618,6 +1781,11 @@ double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSer
   }
 
   return MathTools::pearson_coefficient(precipitation);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartIndex", Fmi::to_string(theStartIndex)).addParameter("theEndIndex", Fmi::to_string(theEndIndex)).addParameter("theUseErrorValueFlag", Fmi::to_string(theUseErrorValueFlag));
+  }
 }
 
 Sentence area_specific_sentence(float north,
@@ -1630,6 +1798,8 @@ Sentence area_specific_sentence(float north,
                                 float northWest,
                                 bool mostlyFlag /*= true*/)
 {
+  try
+  {
   Sentence sentence;
 
   area_specific_sentence_id sentenceId = get_area_specific_sentence_id(
@@ -1682,6 +1852,11 @@ Sentence area_specific_sentence(float north,
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("mostlyFlag", Fmi::to_string(mostlyFlag));
+  }
 }
 
 area_specific_sentence_id get_area_specific_sentence_id(float north,
@@ -1720,6 +1895,8 @@ float get_area_percentage(const std::string& theVar,
                           const AnalysisSources& theSources,
                           const WeatherPeriod& thePeriod)
 {
+  try
+  {
   if (Settings::isset(theVar))
     return Settings::require_double(theVar);
 
@@ -1749,6 +1926,11 @@ float get_area_percentage(const std::string& theVar,
 
   return (static_cast<float>(indexMask.size()) / static_cast<float>(comparisonIndexMask.size())) *
          100.0;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 std::string parse_weekday_phrase(short weekday, const std::string& part_of_the_day)
@@ -1765,6 +1947,8 @@ std::string parse_weekday_phrase(short weekday, const std::string& part_of_the_d
 
 Sentence parse_weekday_phrase(short weekday, const Sentence& part_of_the_day)
 {
+  try
+  {
   Sentence sentence;
   Sentence partOfTheDay(part_of_the_day);
   std::ostringstream oss;
@@ -1780,12 +1964,19 @@ Sentence parse_weekday_phrase(short weekday, const Sentence& part_of_the_day)
   }
 
   return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
                                       const WeatherPeriod& thePeriod2,
                                       bool& theIntersectionPeriodFound)
 {
+  try
+  {
   int start_year = 0;
   int start_month = 0;
   int start_day = 0;
@@ -1859,6 +2050,11 @@ WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
   }
 
   return thePeriod1;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 split_method split_the_area(const std::string& theVar,
@@ -1868,6 +2064,8 @@ split_method split_the_area(const std::string& theVar,
                             double& theDivisionLine,
                             MessageLogger& theLog)
 {
+  try
+  {
   if (!Settings::isset(theVar + "::areas_to_split"))
     return NO_SPLITTING;
 
@@ -1918,6 +2116,11 @@ split_method split_the_area(const std::string& theVar,
          << (retval == HORIZONTAL ? "latitude " : "longitude ") << divisionLine
          << " is out of the area!\n";
   return NO_SPLITTING;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 bool test_temperature_split_criterion(const std::string& theVar,
@@ -1928,6 +2131,8 @@ bool test_temperature_split_criterion(const std::string& theVar,
                                       const TextGen::AnalysisSources& theSources,
                                       MessageLogger& theLog)
 {
+  try
+  {
   bool retval = false;
 
   WeatherResult minAreaOne(kFloatMissing, 0.0);
@@ -2034,6 +2239,11 @@ bool test_temperature_split_criterion(const std::string& theVar,
          << '\n';
 
   return retval;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("morningTemperature", Fmi::to_string(morningTemperature));
+  }
 }
 
 split_method check_area_splitting(const std::string& theVar,
@@ -2044,6 +2254,8 @@ split_method check_area_splitting(const std::string& theVar,
                                   TextGen::WeatherArea& theSecondArea,
                                   MessageLogger& theLog)
 {
+  try
+  {
   bool splitCriterionFulfilled = false;
 
   double divisionLine = 0.0;
@@ -2097,6 +2309,11 @@ split_method check_area_splitting(const std::string& theVar,
   }
 
   return splitMethod;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
 }
 
 }  // namespace TextGen

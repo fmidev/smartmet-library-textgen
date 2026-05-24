@@ -118,35 +118,42 @@ NorthernMaskSource::Pimple::Pimple(const WeatherArea& theArea) : itsArea(theArea
 NorthernMaskSource::mask_type NorthernMaskSource::Pimple::find(const WeatherId& theID,
                                                                const WeatherArea& theArea) const
 {
-  static std::shared_ptr<NFmiIndexMask> dummy;
-
-  mask_storage::const_iterator it;
-
-  for (it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
+  try
   {
-    // identicalArea-function compares more than operator ==
-    if (it->first.itsArea.identicalArea(theArea))
-      return it->second;
-  }
+    static std::shared_ptr<NFmiIndexMask> dummy;
 
-  mask_storage::iterator iter;
+    mask_storage::const_iterator it;
 
-  WeatherAreaAndID key(theID, theArea);
-  iter = itsMaskStorage.find(key);
-  if (iter != itsMaskStorage.end())
-    itsMaskStorage.erase(iter);
+    for (it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
+    {
+      // identicalArea-function compares more than operator ==
+      if (it->first.itsArea.identicalArea(theArea))
+        return it->second;
+    }
 
-  return dummy;
+    mask_storage::iterator iter;
 
-  /*
-  WeatherAreaAndID key(theID,theArea);
+    WeatherAreaAndID key(theID, theArea);
+    iter = itsMaskStorage.find(key);
+    if (iter != itsMaskStorage.end())
+      itsMaskStorage.erase(iter);
 
-  mask_storage::const_iterator it = itsMaskStorage.find(key);
-  if(it == itsMaskStorage.end())
     return dummy;
 
-  return it->second;
-  */
+    /*
+    WeatherAreaAndID key(theID,theArea);
+
+    mask_storage::const_iterator it = itsMaskStorage.find(key);
+    if(it == itsMaskStorage.end())
+      return dummy;
+
+    return it->second;
+    */
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -163,14 +170,21 @@ void NorthernMaskSource::Pimple::insert(const WeatherId& theID,
                                         const WeatherArea& theArea,
                                         const mask_type& theMask) const
 {
-  using value_type = mask_storage::value_type;
+  try
+  {
+    using value_type = mask_storage::value_type;
 
-  WeatherAreaAndID key(theID, theArea);
+    WeatherAreaAndID key(theID, theArea);
 
-  itsMaskStorage.insert(value_type(key, theMask));
+    itsMaskStorage.insert(value_type(key, theMask));
 
-  if (itsMaskStorage.insert(value_type(key, theMask)).second)
-    throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
+    if (itsMaskStorage.insert(value_type(key, theMask)).second)
+      throw Fmi::Exception(BCP, "Could not cache mask for " + theArea.name());
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -187,19 +201,27 @@ void NorthernMaskSource::Pimple::insert(const WeatherId& theID,
 NorthernMaskSource::mask_type NorthernMaskSource::Pimple::create_mask(
     const WeatherArea& theArea, const std::string& theData, const WeatherSource& theWeatherSource)
 {
-  // Establish the grid which to mask
+  try
+  {
+    // Establish the grid which to mask
 
-  std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
-  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
-  if (!qi.IsGrid())
-    throw Fmi::Exception(
-        BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
+    std::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+    NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+    if (!qi.IsGrid())
+      throw Fmi::Exception(
+          BCP, "The data in " + theData + " is not gridded - cannot generate mask for it");
 
-  // First build the area mask
+    // First build the area mask
 
-  mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi.Grid()), theArea, AreaTools::NORTH)));
+    mask_type return_mask(
+        new NFmiIndexMask(MaskDirection(*(qi.Grid()), theArea, AreaTools::NORTH)));
 
-  return return_mask;
+    return return_mask;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theData", theData);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -226,26 +248,33 @@ NorthernMaskSource::mask_type NorthernMaskSource::mask(const WeatherArea& theAre
                                                        const std::string& theData,
                                                        const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint())
-    throw Fmi::Exception(BCP, "Trying to generate mask for point");
+  try
+  {
+    if (theArea.isPoint())
+      throw Fmi::Exception(BCP, "Trying to generate mask for point");
 
-  // Establish the ID for the data
+    // Establish the ID for the data
 
-  WeatherId id = theWeatherSource.id(theData);
+    WeatherId id = theWeatherSource.id(theData);
 
-  // Try to find cached mask first
+    // Try to find cached mask first
 
-  mask_type areamask = itsPimple->find(id, theArea);
+    mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != nullptr)
+    if (areamask.get() != nullptr)
+      return areamask;
+
+    // Calculate new mask and cache it
+
+    areamask = Pimple::create_mask(theArea, theData, theWeatherSource);
+    itsPimple->insert(id, theArea, areamask);
+
     return areamask;
-
-  // Calculate new mask and cache it
-
-  areamask = Pimple::create_mask(theArea, theData, theWeatherSource);
-  itsPimple->insert(id, theArea, areamask);
-
-  return areamask;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theData", theData);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -263,7 +292,14 @@ NorthernMaskSource::masks_type NorthernMaskSource::masks(
     const std::string& /*theData*/,
     const WeatherSource& /*theWeatherSource*/) const
 {
-  throw Fmi::Exception(BCP, "NorthernMaskSource::masks not implemented");
+  try
+  {
+    throw Fmi::Exception(BCP, "NorthernMaskSource::masks not implemented");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

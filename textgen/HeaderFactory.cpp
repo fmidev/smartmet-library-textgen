@@ -54,11 +54,18 @@ namespace
 
 TextGen::Header header_none()
 {
-  MessageLogger log("header_none");
-  using namespace TextGen;
-  Header header;
-  log << header;
-  return header;
+  try
+  {
+    MessageLogger log("header_none");
+    using namespace TextGen;
+    Header header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -77,29 +84,43 @@ TextGen::Header header_none()
 TextGen::Header header_until(const TextGenPosixTime& theForecastTime,
                              const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_until");
-  using namespace TextGen;
-  Header header;
+  try
+  {
+    MessageLogger log("header_until");
+    using namespace TextGen;
+    Header header;
 
-  header << "odotettavissa"
-         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
+    header << "odotettavissa"
+           << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 TextGen::Header header_until_weekday(const TextGenPosixTime& theForecastTime,
                                      const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_until_weekday");
-  using namespace TextGen;
-  Header header;
+  try
+  {
+    MessageLogger log("header_until_weekday");
+    using namespace TextGen;
+    Header header;
 
-  header << "odotettavissa"
-         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
+    header << "odotettavissa"
+           << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -118,31 +139,45 @@ TextGen::Header header_until_weekday(const TextGenPosixTime& theForecastTime,
 TextGen::Header header_from_until(const TextGenPosixTime& theForecastTime,
                                   const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_from_until");
-  using namespace TextGen;
-  Header header;
+  try
+  {
+    MessageLogger log("header_from_until");
+    using namespace TextGen;
+    Header header;
 
-  header << "odotettavissa"
-         << WeekdayTools::from_weekday_time(thePeriod.localStartTime(), theForecastTime)
-         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
+    header << "odotettavissa"
+           << WeekdayTools::from_weekday_time(thePeriod.localStartTime(), theForecastTime)
+           << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 TextGen::Header header_from_until_weekday(const TextGenPosixTime& theForecastTime,
                                           const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_from_until_weekday");
-  using namespace TextGen;
-  Header header;
+  try
+  {
+    MessageLogger log("header_from_until_weekday");
+    using namespace TextGen;
+    Header header;
 
-  header << "odotettavissa"
-         << WeekdayTools::from_weekday_time(thePeriod.localStartTime(), theForecastTime)
-         << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
+    header << "odotettavissa"
+           << WeekdayTools::from_weekday_time(thePeriod.localStartTime(), theForecastTime)
+           << WeekdayTools::until_weekday_time(thePeriod.localEndTime(), theForecastTime);
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -160,22 +195,29 @@ TextGen::Header header_from_until_weekday(const TextGenPosixTime& theForecastTim
 
 TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_several_days");
-  using namespace TextGen;
-  Header header;
+  try
+  {
+    MessageLogger log("header_several_days");
+    using namespace TextGen;
+    Header header;
 
-  const TextGenPosixTime& startTime = thePeriod.localStartTime();
-  const TextGenPosixTime& endTime = thePeriod.localEndTime();
-  const long diff = endTime.DifferenceInHours(startTime);
-  const long days = diff / 24;
+    const TextGenPosixTime& startTime = thePeriod.localStartTime();
+    const TextGenPosixTime& endTime = thePeriod.localEndTime();
+    const long diff = endTime.DifferenceInHours(startTime);
+    const long days = diff / 24;
 
-  if (diff % 24 != 0)
-    throw Fmi::Exception(BCP, "HeaderFactory:: several_days must be N*24 hours long");
-  header << WeekdayTools::from_weekday_time(thePeriod.localStartTime()) << "alkavan"
-         << std::to_string(days) + "-vuorokauden saa";
+    if (diff % 24 != 0)
+      throw Fmi::Exception(BCP, "HeaderFactory:: several_days must be N*24 hours long");
+    header << WeekdayTools::from_weekday_time(thePeriod.localStartTime()) << "alkavan"
+           << std::to_string(days) + "-vuorokauden saa";
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -194,49 +236,56 @@ TextGen::Header header_report_area(const TextGenPosixTime& theForecastTime,
                                    const WeatherPeriod& thePeriod,
                                    const string& theVariable)
 {
-  MessageLogger log("header_report_area");
-  using namespace TextGen;
-
-  Header header;
-
-  if (!theArea.isNamed())
-    throw Fmi::Exception(BCP, "Cannot generate report_area title for an unnamed point");
-
-  if (theArea.isPoint())
-    log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
-        << theArea.point().Y() << '\n';
-  else
-    log << "** area = " << theArea.name() << '\n';
-
-  const int starthour = thePeriod.localStartTime().GetHour();
-
-  const bool compact = Settings::optional_bool(theVariable + "::compact", false);
-  const bool dated = Settings::optional_bool(theVariable + "::date", true);
-  const bool timed = Settings::optional_bool(theVariable + "::time", true);
-
-  if (!compact)
-    header << "saaennuste" << LocationPhrase(theArea.name() + ":lle");
-  else
-    header << LocationPhrase(theArea.name());
-
-  if (dated || timed)
-    header.setForecastTime(theForecastTime);
-
-  TimePhrase timephrase(theForecastTime);
-  if (dated)
+  try
   {
-    if (timed)
-      timephrase << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-                 << TextGen::Integer(starthour) << "o'clock";
-    else
-      timephrase << WeekdayTools::on_weekday(thePeriod.localStartTime());
-  }
-  else if (timed)
-    timephrase << "kello" << TextGen::Integer(starthour) << "o'clock";
-  header << timephrase;
+    MessageLogger log("header_report_area");
+    using namespace TextGen;
 
-  log << header;
-  return header;
+    Header header;
+
+    if (!theArea.isNamed())
+      throw Fmi::Exception(BCP, "Cannot generate report_area title for an unnamed point");
+
+    if (theArea.isPoint())
+      log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
+          << theArea.point().Y() << '\n';
+    else
+      log << "** area = " << theArea.name() << '\n';
+
+    const int starthour = thePeriod.localStartTime().GetHour();
+
+    const bool compact = Settings::optional_bool(theVariable + "::compact", false);
+    const bool dated = Settings::optional_bool(theVariable + "::date", true);
+    const bool timed = Settings::optional_bool(theVariable + "::time", true);
+
+    if (!compact)
+      header << "saaennuste" << LocationPhrase(theArea.name() + ":lle");
+    else
+      header << LocationPhrase(theArea.name());
+
+    if (dated || timed)
+      header.setForecastTime(theForecastTime);
+
+    TimePhrase timephrase(theForecastTime);
+    if (dated)
+    {
+      if (timed)
+        timephrase << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
+                   << TextGen::Integer(starthour) << "o'clock";
+      else
+        timephrase << WeekdayTools::on_weekday(thePeriod.localStartTime());
+    }
+    else if (timed)
+      timephrase << "kello" << TextGen::Integer(starthour) << "o'clock";
+    header << timephrase;
+
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -252,24 +301,31 @@ TextGen::Header header_report_area(const TextGenPosixTime& theForecastTime,
 
 TextGen::Header header_report_location(const WeatherArea& theArea)
 {
-  MessageLogger log("header_report_location");
-  using namespace TextGen;
+  try
+  {
+    MessageLogger log("header_report_location");
+    using namespace TextGen;
 
-  Header header;
+    Header header;
 
-  if (!theArea.isNamed())
-    throw Fmi::Exception(BCP, "Cannot generate report_location title for an unnamed point");
+    if (!theArea.isNamed())
+      throw Fmi::Exception(BCP, "Cannot generate report_location title for an unnamed point");
 
-  if (theArea.isPoint())
-    log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
-        << theArea.point().Y() << '\n';
-  else
-    log << "** area = " << theArea.name() << '\n';
+    if (theArea.isPoint())
+      log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
+          << theArea.point().Y() << '\n';
+    else
+      log << "** area = " << theArea.name() << '\n';
 
-  header << LocationPhrase(theArea.name());
+    header << LocationPhrase(theArea.name());
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -286,21 +342,28 @@ TextGen::Header header_report_location(const WeatherArea& theArea)
 TextGen::Header header_report_time(const TextGenPosixTime& theForecastTime,
                                    const WeatherPeriod& thePeriod)
 {
-  MessageLogger log("header_report_time");
-  using namespace TextGen;
+  try
+  {
+    MessageLogger log("header_report_time");
+    using namespace TextGen;
 
-  Header header;
-  header.setForecastTime(theForecastTime);
+    Header header;
+    header.setForecastTime(theForecastTime);
 
-  const int starthour = thePeriod.localStartTime().GetHour();
+    const int starthour = thePeriod.localStartTime().GetHour();
 
-  TimePhrase timephrase(theForecastTime);
-  timephrase << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-             << TextGen::Integer(starthour) << "o'clock";
-  header << "saaennuste" << timephrase;
+    TimePhrase timephrase(theForecastTime);
+    timephrase << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
+               << TextGen::Integer(starthour) << "o'clock";
+    header << "saaennuste" << timephrase;
 
-  log << header;
-  return header;
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -315,24 +378,31 @@ TextGen::Header header_report_time(const TextGenPosixTime& theForecastTime,
 
 TextGen::Header header_morning(const WeatherPeriod& thePeriod, const string& theVariable)
 {
-  MessageLogger log("header_morning");
-  using namespace TextGen;
-  Header header;
-
-  const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
-
-  if (!weekdays)
+  try
   {
-    header << "odotettavissa"
-           << "aamulla";
-  }
-  else
-  {
-    header << "odotettavissa" << WeekdayTools::on_weekday_morning(thePeriod.localStartTime());
-  }
+    MessageLogger log("header_morning");
+    using namespace TextGen;
+    Header header;
 
-  log << header;
-  return header;
+    const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
+
+    if (!weekdays)
+    {
+      header << "odotettavissa"
+             << "aamulla";
+    }
+    else
+    {
+      header << "odotettavissa" << WeekdayTools::on_weekday_morning(thePeriod.localStartTime());
+    }
+
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -347,24 +417,31 @@ TextGen::Header header_morning(const WeatherPeriod& thePeriod, const string& the
 
 TextGen::Header header_forenoon(const WeatherPeriod& thePeriod, const string& theVariable)
 {
-  MessageLogger log("header_forenoon");
-  using namespace TextGen;
-  Header header;
-
-  const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
-
-  if (!weekdays)
+  try
   {
-    header << "odotettavissa"
-           << "aamupaivalla";
-  }
-  else
-  {
-    header << "odotettavissa" << WeekdayTools::on_weekday_forenoon(thePeriod.localStartTime());
-  }
+    MessageLogger log("header_forenoon");
+    using namespace TextGen;
+    Header header;
 
-  log << header;
-  return header;
+    const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
+
+    if (!weekdays)
+    {
+      header << "odotettavissa"
+             << "aamupaivalla";
+    }
+    else
+    {
+      header << "odotettavissa" << WeekdayTools::on_weekday_forenoon(thePeriod.localStartTime());
+    }
+
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -379,24 +456,31 @@ TextGen::Header header_forenoon(const WeatherPeriod& thePeriod, const string& th
 
 TextGen::Header header_afternoon(const WeatherPeriod& thePeriod, const string& theVariable)
 {
-  MessageLogger log("header_afternoon");
-  using namespace TextGen;
-  Header header;
-
-  const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
-
-  if (!weekdays)
+  try
   {
-    header << "odotettavissa"
-           << "iltapaivalla";
-  }
-  else
-  {
-    header << "odotettavissa" << WeekdayTools::on_weekday_afternoon(thePeriod.localStartTime());
-  }
+    MessageLogger log("header_afternoon");
+    using namespace TextGen;
+    Header header;
 
-  log << header;
-  return header;
+    const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
+
+    if (!weekdays)
+    {
+      header << "odotettavissa"
+             << "iltapaivalla";
+    }
+    else
+    {
+      header << "odotettavissa" << WeekdayTools::on_weekday_afternoon(thePeriod.localStartTime());
+    }
+
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -411,24 +495,31 @@ TextGen::Header header_afternoon(const WeatherPeriod& thePeriod, const string& t
 
 TextGen::Header header_evening(const WeatherPeriod& thePeriod, const string& theVariable)
 {
-  MessageLogger log("header_evening");
-  using namespace TextGen;
-  Header header;
-
-  const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
-
-  if (!weekdays)
+  try
   {
-    header << "odotettavissa"
-           << "illalla";
-  }
-  else
-  {
-    header << "odotettavissa" << WeekdayTools::on_weekday_evening(thePeriod.localStartTime());
-  }
+    MessageLogger log("header_evening");
+    using namespace TextGen;
+    Header header;
 
-  log << header;
-  return header;
+    const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
+
+    if (!weekdays)
+    {
+      header << "odotettavissa"
+             << "illalla";
+    }
+    else
+    {
+      header << "odotettavissa" << WeekdayTools::on_weekday_evening(thePeriod.localStartTime());
+    }
+
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -443,27 +534,34 @@ TextGen::Header header_evening(const WeatherPeriod& thePeriod, const string& the
 
 TextGen::Header header_clock_range(const WeatherPeriod& thePeriod, const string& theVariable)
 {
-  MessageLogger log("header_clock_range");
-  using namespace TextGen;
-  Header header;
-
-  const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
-  const int starthour = thePeriod.localStartTime().GetHour();
-  const int endhour = thePeriod.localEndTime().GetHour();
-
-  if (!weekdays)
+  try
   {
-    header << "odotettavissa"
-           << "kello" << PositiveRange(starthour, endhour, "-") << "o'clock";
-  }
-  else
-  {
-    header << "odotettavissa" << WeekdayTools::on_weekday(thePeriod.localStartTime()) << "kello"
-           << PositiveRange(starthour, endhour, "-") << "o'clock";
-  }
+    MessageLogger log("header_clock_range");
+    using namespace TextGen;
+    Header header;
 
-  log << header;
-  return header;
+    const bool weekdays = Settings::optional_bool(theVariable + "::weekdays", false);
+    const int starthour = thePeriod.localStartTime().GetHour();
+    const int endhour = thePeriod.localEndTime().GetHour();
+
+    if (!weekdays)
+    {
+      header << "odotettavissa"
+             << "kello" << PositiveRange(starthour, endhour, "-") << "o'clock";
+    }
+    else
+    {
+      header << "odotettavissa" << WeekdayTools::on_weekday(thePeriod.localStartTime()) << "kello"
+             << PositiveRange(starthour, endhour, "-") << "o'clock";
+    }
+
+    log << header;
+    return header;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 }  // namespace
@@ -496,40 +594,47 @@ Header create(const TextGenPosixTime& theForecastTime,
               const WeatherPeriod& thePeriod,
               const std::string& theVariable)
 {
-  MessageLogger log("HeaderFactory::create");
+  try
+  {
+    MessageLogger log("HeaderFactory::create");
 
-  const string type = Settings::require_string(theVariable + "::type");
+    const string type = Settings::require_string(theVariable + "::type");
 
-  if (type == "none")
-    return header_none();
-  if (type == "until")
-    return header_until(theForecastTime, thePeriod);
-  if (type == "until_weekday")
-    return header_until_weekday(theForecastTime, thePeriod);
-  if (type == "from_until")
-    return header_from_until(theForecastTime, thePeriod);
-  if (type == "from_until_weekday")
-    return header_from_until_weekday(theForecastTime, thePeriod);
-  if (type == "several_days")
-    return header_several_days(thePeriod);
-  if (type == "report_area")
-    return header_report_area(theForecastTime, theArea, thePeriod, theVariable);
-  if (type == "report_time")
-    return header_report_time(theForecastTime, thePeriod);
-  if (type == "report_location")
-    return header_report_location(theArea);
-  if (type == "morning")
-    return header_morning(thePeriod, theVariable);
-  if (type == "forenoon")
-    return header_forenoon(thePeriod, theVariable);
-  if (type == "afternoon")
-    return header_afternoon(thePeriod, theVariable);
-  if (type == "evening")
-    return header_evening(thePeriod, theVariable);
-  if (type == "clock_range")
-    return header_clock_range(thePeriod, theVariable);
+    if (type == "none")
+      return header_none();
+    if (type == "until")
+      return header_until(theForecastTime, thePeriod);
+    if (type == "until_weekday")
+      return header_until_weekday(theForecastTime, thePeriod);
+    if (type == "from_until")
+      return header_from_until(theForecastTime, thePeriod);
+    if (type == "from_until_weekday")
+      return header_from_until_weekday(theForecastTime, thePeriod);
+    if (type == "several_days")
+      return header_several_days(thePeriod);
+    if (type == "report_area")
+      return header_report_area(theForecastTime, theArea, thePeriod, theVariable);
+    if (type == "report_time")
+      return header_report_time(theForecastTime, thePeriod);
+    if (type == "report_location")
+      return header_report_location(theArea);
+    if (type == "morning")
+      return header_morning(thePeriod, theVariable);
+    if (type == "forenoon")
+      return header_forenoon(thePeriod, theVariable);
+    if (type == "afternoon")
+      return header_afternoon(thePeriod, theVariable);
+    if (type == "evening")
+      return header_evening(thePeriod, theVariable);
+    if (type == "clock_range")
+      return header_clock_range(thePeriod, theVariable);
 
-  throw Fmi::Exception(BCP, "HeaderFactory does not recognize header type " + type);
+    throw Fmi::Exception(BCP, "HeaderFactory does not recognize header type " + type);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("variable", theVariable);
+  }
 }
 
 }  // namespace HeaderFactory

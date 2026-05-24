@@ -29,6 +29,7 @@
 #include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -59,7 +60,14 @@ void HtmlTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 
 string HtmlTextFormatter::format(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*this);
+  try
+  {
+    return theGlyph.realize(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -71,7 +79,14 @@ string HtmlTextFormatter::format(const Glyph& theGlyph) const
 
 string HtmlTextFormatter::visit(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*itsDictionary);
+  try
+  {
+    return theGlyph.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -82,7 +97,14 @@ string HtmlTextFormatter::visit(const Glyph& theGlyph) const
 
 string HtmlTextFormatter::visit(const Integer& theInteger) const
 {
-  return theInteger.realize(*itsDictionary);
+  try
+  {
+    return theInteger.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -93,7 +115,14 @@ string HtmlTextFormatter::visit(const Integer& theInteger) const
 
 string HtmlTextFormatter::visit(const Real& theReal) const
 {
-  return theReal.realize(*itsDictionary);
+  try
+  {
+    return theReal.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -104,7 +133,14 @@ string HtmlTextFormatter::visit(const Real& theReal) const
 
 string HtmlTextFormatter::visit(const IntegerRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -115,7 +151,14 @@ string HtmlTextFormatter::visit(const IntegerRange& theRange) const
 
 string HtmlTextFormatter::visit(const PositiveRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -126,9 +169,16 @@ string HtmlTextFormatter::visit(const PositiveRange& theRange) const
 
 string HtmlTextFormatter::visit(const TimePhrase& theTime) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
-  return ret;
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -139,13 +189,20 @@ string HtmlTextFormatter::visit(const TimePhrase& theTime) const
 
 string HtmlTextFormatter::visit(const Sentence& theSentence) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
-  ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty())
-    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    ret = TextFormatterTools::capitalize(ret);
+    if (!ret.empty())
+      ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -156,21 +213,28 @@ string HtmlTextFormatter::visit(const Sentence& theSentence) const
 
 string HtmlTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  const string tags = Settings::optional_string(itsSectionVar + "::paragraph::html::tags", "");
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-
-  string tmp =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
-
-  ostringstream out;
-  if (!tmp.empty())
+  try
   {
-    out << "<p";
-    if (!tags.empty())
-      out << ' ' << tags;
-    out << '>' << tmp << "</p>";
+    const string tags = Settings::optional_string(itsSectionVar + "::paragraph::html::tags", "");
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+
+    string tmp =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, sep, "");
+
+    ostringstream out;
+    if (!tmp.empty())
+    {
+      out << "<p";
+      if (!tags.empty())
+        out << ' ' << tags;
+      out << '>' << tmp << "</p>";
+    }
+    return out.str();
   }
-  return out.str();
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -181,25 +245,32 @@ string HtmlTextFormatter::visit(const Paragraph& theParagraph) const
 
 string HtmlTextFormatter::visit(const Header& theHeader) const
 {
-  bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
-  colon = Settings::optional_bool(itsSectionVar + "::header::html::colon", colon);
+  try
+  {
+    bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
+    colon = Settings::optional_bool(itsSectionVar + "::header::html::colon", colon);
 
-  const int level = Settings::optional_int(itsSectionVar + "::header::html::level", 1);
-  const string tags = Settings::optional_string(itsSectionVar + "::header::html::tags", "");
+    const int level = Settings::optional_int(itsSectionVar + "::header::html::level", 1);
+    const string tags = Settings::optional_string(itsSectionVar + "::header::html::tags", "");
 
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
-  text = TextFormatterTools::capitalize(text);
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
+    text = TextFormatterTools::capitalize(text);
 
-  if (text.empty())
-    return "";
+    if (text.empty())
+      return "";
 
-  ostringstream out;
-  out << "<h" << level;
-  if (!tags.empty())
-    out << ' ' << tags;
-  out << '>' << text << (colon ? ":" : "") << "</h" << level << '>';
-  return out.str();
+    ostringstream out;
+    out << "<h" << level;
+    if (!tags.empty())
+      out << ' ' << tags;
+    out << '>' << text << (colon ? ":" : "") << "</h" << level << '>';
+    return out.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -210,17 +281,24 @@ string HtmlTextFormatter::visit(const Header& theHeader) const
 
 string HtmlTextFormatter::visit(const Document& theDocument) const
 {
-  const string tags = Settings::optional_string("textgen::document::html::tags", "");
+  try
+  {
+    const string tags = Settings::optional_string("textgen::document::html::tags", "");
 
-  ostringstream out;
-  if (tags.empty())
-    out << "<div>";
-  else
-    out << "<div " << tags << '>';
+    ostringstream out;
+    if (tags.empty())
+      out << "<div>";
+    else
+      out << "<div " << tags << '>';
 
-  out << TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n\n", "");
-  out << "</div>";
-  return out.str();
+    out << TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n\n", "");
+    out << "</div>";
+    return out.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -231,8 +309,15 @@ string HtmlTextFormatter::visit(const Document& theDocument) const
 
 string HtmlTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(*itsDictionary);
-  return "";
+  try
+  {
+    itsSectionVar = theSection.realize(*itsDictionary);
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -243,14 +328,21 @@ string HtmlTextFormatter::visit(const SectionTag& theSection) const
 
 string HtmlTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(*itsDictionary);
-
-  if (theStory.isPrefixTag())
+  try
   {
-    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-  }
+    itsStoryVar = theStory.realize(*itsDictionary);
 
-  return "";
+    if (theStory.isPrefixTag())
+    {
+      return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    }
+
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -261,7 +353,14 @@ string HtmlTextFormatter::visit(const StoryTag& theStory) const
 
 string HtmlTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "html");
+  try
+  {
+    return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "html");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -272,7 +371,14 @@ string HtmlTextFormatter::visit(const WeatherTime& theTime) const
 
 string HtmlTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "html");
+  try
+  {
+    return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "html");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

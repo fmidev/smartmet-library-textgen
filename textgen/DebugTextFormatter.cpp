@@ -29,6 +29,7 @@
 #include "TimePhrase.h"
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 #include <sstream>
 #include <string>
@@ -47,7 +48,14 @@ namespace TextGen
 
 string DebugTextFormatter::format(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*this);
+  try
+  {
+    return theGlyph.realize(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -59,7 +67,14 @@ string DebugTextFormatter::format(const Glyph& theGlyph) const
 
 string DebugTextFormatter::visit(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(itsDictionary);
+  try
+  {
+    return theGlyph.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -70,7 +85,14 @@ string DebugTextFormatter::visit(const Glyph& theGlyph) const
 
 string DebugTextFormatter::visit(const Integer& theInteger) const
 {
-  return theInteger.realize(itsDictionary);
+  try
+  {
+    return theInteger.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -81,7 +103,14 @@ string DebugTextFormatter::visit(const Integer& theInteger) const
 
 string DebugTextFormatter::visit(const Real& theReal) const
 {
-  return theReal.realize(itsDictionary);
+  try
+  {
+    return theReal.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -92,7 +121,14 @@ string DebugTextFormatter::visit(const Real& theReal) const
 
 string DebugTextFormatter::visit(const IntegerRange& theRange) const
 {
-  return theRange.realize(itsDictionary);
+  try
+  {
+    return theRange.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -103,7 +139,14 @@ string DebugTextFormatter::visit(const IntegerRange& theRange) const
 
 string DebugTextFormatter::visit(const PositiveRange& theRange) const
 {
-  return theRange.realize(itsDictionary);
+  try
+  {
+    return theRange.realize(itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -114,8 +157,15 @@ string DebugTextFormatter::visit(const PositiveRange& theRange) const
 
 string DebugTextFormatter::visit(const TimePhrase& theTime) const
 {
-  string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
-  return ret;
+  try
+  {
+    string ret = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, " ", "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -126,11 +176,19 @@ string DebugTextFormatter::visit(const TimePhrase& theTime) const
 
 string DebugTextFormatter::visit(const Sentence& theSentence) const
 {
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, "", "\n");
-  ret = TextFormatterTools::capitalize(ret);
-  TextFormatterTools::punctuate(ret);
+  try
+  {
+    string ret =
+        TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, "", "\n");
+    ret = TextFormatterTools::capitalize(ret);
+    TextFormatterTools::punctuate(ret);
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -141,9 +199,16 @@ string DebugTextFormatter::visit(const Sentence& theSentence) const
 
 string DebugTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  string ret =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
-  return ret;
+  try
+  {
+    string ret =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -154,12 +219,19 @@ string DebugTextFormatter::visit(const Paragraph& theParagraph) const
 
 string DebugTextFormatter::visit(const Header& theHeader) const
 {
-  string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, "", "\n");
-  ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty())
-    ret += ':';
+  try
+  {
+    string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, "", "\n");
+    ret = TextFormatterTools::capitalize(ret);
+    if (!ret.empty())
+      ret += ':';
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -170,8 +242,16 @@ string DebugTextFormatter::visit(const Header& theHeader) const
 
 string DebugTextFormatter::visit(const Document& theDocument) const
 {
-  string ret = TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, " ", "");
-  return ret;
+  try
+  {
+    string ret =
+        TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, " ", "");
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -182,8 +262,15 @@ string DebugTextFormatter::visit(const Document& theDocument) const
 
 string DebugTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(itsDictionary);
-  return "";
+  try
+  {
+    itsSectionVar = theSection.realize(itsDictionary);
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -194,14 +281,21 @@ string DebugTextFormatter::visit(const SectionTag& theSection) const
 
 string DebugTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(itsDictionary);
-
-  if (theStory.isPrefixTag())
+  try
   {
-    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-  }
+    itsStoryVar = theStory.realize(itsDictionary);
 
-  return "";
+    if (theStory.isPrefixTag())
+    {
+      return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    }
+
+    return "";
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -212,7 +306,14 @@ string DebugTextFormatter::visit(const StoryTag& theStory) const
 
 string DebugTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "debug");
+  try
+  {
+    return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "debug");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -223,7 +324,14 @@ string DebugTextFormatter::visit(const WeatherTime& theTime) const
 
 string DebugTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
+  try
+  {
+    return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 }  // namespace TextGen
 

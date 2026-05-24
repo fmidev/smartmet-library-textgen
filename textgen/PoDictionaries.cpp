@@ -80,70 +80,121 @@ const std::string& PoDictionaries::language() const
 
 void PoDictionaries::init(const std::string& theLanguage)
 {
-  if (theLanguage == itsPimple->itsLanguage)
-    return;
+  try
+  {
+    if (theLanguage == itsPimple->itsLanguage)
+      return;
 
-  itsPimple->itsLanguage = theLanguage;
+    itsPimple->itsLanguage = theLanguage;
 
-  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
-  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end())
-    return;
+    itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
+    if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end())
+      return;
 
-  std::shared_ptr<PoDictionary> dict(new PoDictionary);
-  if (dict == nullptr)
-    throw Fmi::Exception(BCP, "Failed to allocate a new PoDictionary");
+    std::shared_ptr<PoDictionary> dict(new PoDictionary);
+    if (dict == nullptr)
+      throw Fmi::Exception(BCP, "Failed to allocate a new PoDictionary");
 
-  dict->init(theLanguage);
+    dict->init(theLanguage);
 
-  itsPimple->itsData.insert(Pimple::storage_type::value_type(theLanguage, dict));
-  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
+    itsPimple->itsData.insert(Pimple::storage_type::value_type(theLanguage, dict));
+    itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 
-  itsPimple->itsInitialized = true;
+    itsPimple->itsInitialized = true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLanguage", theLanguage);
+  }
 }
 
 bool PoDictionaries::contains(const std::string& theKey) const
 {
-  if (!itsPimple->itsInitialized)
-    throw Fmi::Exception(BCP, "Error: PoDictionaries::contains() called before init()");
+  try
+  {
+    if (!itsPimple->itsInitialized)
+      throw Fmi::Exception(BCP, "Error: PoDictionaries::contains() called before init()");
 
-  return (itsPimple->itsCurrentDictionary->second->contains(theKey));
+    return (itsPimple->itsCurrentDictionary->second->contains(theKey));
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theKey", theKey);
+  }
 }
 
 std::string PoDictionaries::find(const std::string& theKey) const
 {
-  if (!itsPimple->itsInitialized)
-    throw Fmi::Exception(BCP, "Error: PoDictionaries::find() called before init()");
+  try
+  {
+    if (!itsPimple->itsInitialized)
+      throw Fmi::Exception(BCP, "Error: PoDictionaries::find() called before init()");
 
-  return itsPimple->itsCurrentDictionary->second->find(theKey);
+    return itsPimple->itsCurrentDictionary->second->find(theKey);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theKey", theKey);
+  }
 }
 
-void PoDictionaries::insert(const std::string& /*theKey*/, const std::string& /*thePhrase*/)
+void PoDictionaries::insert(const std::string& theKey, const std::string& thePhrase)
 {
-  throw Fmi::Exception(BCP, "Error: PoDictionaries::insert() is not allowed");
+  try
+  {
+    throw Fmi::Exception(BCP, "Error: PoDictionaries::insert() is not allowed");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theKey", theKey)
+        .addParameter("thePhrase", thePhrase);
+  }
 }
 
 PoDictionaries::size_type PoDictionaries::size() const
 {
-  if (!itsPimple->itsInitialized)
-    throw Fmi::Exception(BCP, "Error: PoDictionaries::size() called before init()");
-  return itsPimple->itsCurrentDictionary->second->size();
+  try
+  {
+    if (!itsPimple->itsInitialized)
+      throw Fmi::Exception(BCP, "Error: PoDictionaries::size() called before init()");
+    return itsPimple->itsCurrentDictionary->second->size();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 bool PoDictionaries::empty() const
 {
-  if (!itsPimple->itsInitialized)
-    throw Fmi::Exception(BCP, "Error: PoDictionaries::empty() called before init()");
+  try
+  {
+    if (!itsPimple->itsInitialized)
+      throw Fmi::Exception(BCP, "Error: PoDictionaries::empty() called before init()");
 
-  return itsPimple->itsCurrentDictionary->second->empty();
+    return itsPimple->itsCurrentDictionary->second->empty();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 void PoDictionaries::changeLanguage(const std::string& theLanguage)
 {
-  if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
-    throw Fmi::Exception(BCP, "Error: The requested language not supported: " + theLanguage);
+  try
+  {
+    if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
+      throw Fmi::Exception(BCP, "Error: The requested language not supported: " + theLanguage);
 
-  itsPimple->itsLanguage = theLanguage;
-  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
+    itsPimple->itsLanguage = theLanguage;
+    itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLanguage", theLanguage);
+  }
 }
 
 }  // namespace TextGen

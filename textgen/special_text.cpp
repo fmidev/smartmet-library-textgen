@@ -10,6 +10,7 @@
 #include "SpecialStory.h"
 #include "Text.h"
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 #include <filesystem>
 
@@ -114,46 +115,53 @@ string execute(const string& cmd)
 
 Paragraph SpecialStory::text() const
 {
-  MessageLogger log("SpecialStory::text");
-
-  // Get the options
-
-  using namespace Settings;
-
-  const string default_text = Settings::optional_string(itsVar + "::value", "");
-
-  Paragraph paragraph;
-
-  if (default_text.empty() || default_text[0] != '@')
+  try
   {
-    // text is set in formatter, since you must be able to give format-specific text
-    //	paragraph << Text(default_text);
-  }
-  else
-  {
-    string filename = default_text.substr(1, string::npos);
-    log << "File to be included: " << filename << '\n';
-    if (!std::filesystem::exists(filename))
-    {
-      log << "The file does not exist!\n";
-      throw runtime_error("File '" + filename + "' is not readable");
-    }
+    MessageLogger log("SpecialStory::text");
 
-    // Execute and catch stdout if the file is executable
+    // Get the options
 
-    if (is_executable(filename))
+    using namespace Settings;
+
+    const string default_text = Settings::optional_string(itsVar + "::value", "");
+
+    Paragraph paragraph;
+
+    if (default_text.empty() || default_text[0] != '@')
     {
-      string txt = execute(filename);
-      paragraph << Text(txt);
+      // text is set in formatter, since you must be able to give format-specific text
+      //	paragraph << Text(default_text);
     }
     else
     {
-      string txt = read_file(filename);
-      paragraph << Text(txt);
-    }
-  }
+      string filename = default_text.substr(1, string::npos);
+      log << "File to be included: " << filename << '\n';
+      if (!std::filesystem::exists(filename))
+      {
+        log << "The file does not exist!\n";
+        throw runtime_error("File '" + filename + "' is not readable");
+      }
 
-  return paragraph;
+      // Execute and catch stdout if the file is executable
+
+      if (is_executable(filename))
+      {
+        string txt = execute(filename);
+        paragraph << Text(txt);
+      }
+      else
+      {
+        string txt = read_file(filename);
+        paragraph << Text(txt);
+      }
+    }
+
+    return paragraph;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen

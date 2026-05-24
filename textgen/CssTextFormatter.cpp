@@ -30,6 +30,7 @@
 #include "WeatherTime.h"
 #include <boost/lexical_cast.hpp>
 #include <calculator/Settings.h>
+#include <macgyver/Exception.h>
 
 using namespace std;
 
@@ -59,7 +60,14 @@ void CssTextFormatter::dictionary(const std::shared_ptr<Dictionary>& theDict)
 
 string CssTextFormatter::format(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*this);
+  try
+  {
+    return theGlyph.realize(*this);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 // ----------------------------------------------------------------------
 /*!
@@ -71,7 +79,14 @@ string CssTextFormatter::format(const Glyph& theGlyph) const
 
 string CssTextFormatter::visit(const Glyph& theGlyph) const
 {
-  return theGlyph.realize(*itsDictionary);
+  try
+  {
+    return theGlyph.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -82,7 +97,14 @@ string CssTextFormatter::visit(const Glyph& theGlyph) const
 
 string CssTextFormatter::visit(const Integer& theInteger) const
 {
-  return theInteger.realize(*itsDictionary);
+  try
+  {
+    return theInteger.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -93,7 +115,14 @@ string CssTextFormatter::visit(const Integer& theInteger) const
 
 string CssTextFormatter::visit(const Real& theReal) const
 {
-  return theReal.realize(*itsDictionary);
+  try
+  {
+    return theReal.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -104,7 +133,14 @@ string CssTextFormatter::visit(const Real& theReal) const
 
 string CssTextFormatter::visit(const IntegerRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -115,7 +151,14 @@ string CssTextFormatter::visit(const IntegerRange& theRange) const
 
 string CssTextFormatter::visit(const PositiveRange& theRange) const
 {
-  return theRange.realize(*itsDictionary);
+  try
+  {
+    return theRange.realize(*itsDictionary);
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -126,28 +169,35 @@ string CssTextFormatter::visit(const PositiveRange& theRange) const
 
 string CssTextFormatter::visit(const TimePhrase& theTime) const
 {
-  const string css_timeclass =
-      Settings::optional_string(itsSectionVar + "::header::css::time::class", "");
-  const bool css_timefloor =
-      Settings::optional_bool(itsSectionVar + "::header::css::time::floor", true);
-
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
-
-  // Round local time down to even hour
-  auto ftime = theTime.getForecastTime();
-  if (css_timefloor)
+  try
   {
-    ftime.SetMin(0);
-    ftime.SetSec(0);
-  }
+    const string css_timeclass =
+        Settings::optional_string(itsSectionVar + "::header::css::time::class", "");
+    const bool css_timefloor =
+        Settings::optional_bool(itsSectionVar + "::header::css::time::floor", true);
 
-  ostringstream out;
-  out << "<time";
-  if (!css_timeclass.empty())
-    out << " class=\"" << css_timeclass << "\"";
-  out << " datetime=\"" << ftime.ToIsoExtendedStr() << "\">" << txt << "</time>";
-  return out.str();
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string txt = TextFormatterTools::realize(theTime.begin(), theTime.end(), *this, sep, "");
+
+    // Round local time down to even hour
+    auto ftime = theTime.getForecastTime();
+    if (css_timefloor)
+    {
+      ftime.SetMin(0);
+      ftime.SetSec(0);
+    }
+
+    ostringstream out;
+    out << "<time";
+    if (!css_timeclass.empty())
+      out << " class=\"" << css_timeclass << "\"";
+    out << " datetime=\"" << ftime.ToIsoExtendedStr() << "\">" << txt << "</time>";
+    return out.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -158,13 +208,20 @@ string CssTextFormatter::visit(const TimePhrase& theTime) const
 
 string CssTextFormatter::visit(const Sentence& theSentence) const
 {
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
-  ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty())
-    ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
+  try
+  {
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    ret = TextFormatterTools::capitalize(ret);
+    if (!ret.empty())
+      ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
 
-  return ret;
+    return ret;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -175,42 +232,49 @@ string CssTextFormatter::visit(const Sentence& theSentence) const
 
 string CssTextFormatter::visit(const Paragraph& theParagraph) const
 {
-  const string content = Settings::optional_string(itsSectionVar + "::content", "");
-
-  if (content == "none")
-    return "";
-
-  string text =
-      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
-
-  ostringstream out;
-  if (!text.empty())
+  try
   {
-    const string css_tag = Settings::optional_string(itsSectionVar + "::content::css::tag", "div");
-    const string css_class = Settings::optional_string(itsSectionVar + "::content::css::class", "");
+    const string content = Settings::optional_string(itsSectionVar + "::content", "");
 
-    // add tag if class is not empty and starting-tag for the class has not been already defined
-    bool addCssTag =
-        !css_class.empty() && !(itsUsedCssClasses.find(css_class) != itsUsedCssClasses.end());
+    if (content == "none")
+      return "";
 
-    if (addCssTag)
+    string text =
+        TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
+
+    ostringstream out;
+    if (!text.empty())
     {
-      out << '<' << css_tag << (" class=\"" + css_class + "\"") << ">\n";
+      const string css_tag = Settings::optional_string(itsSectionVar + "::content::css::tag", "div");
+      const string css_class = Settings::optional_string(itsSectionVar + "::content::css::class", "");
 
-      itsUsedCssClasses.insert(css_class);
+      // add tag if class is not empty and starting-tag for the class has not been already defined
+      bool addCssTag =
+          !css_class.empty() && !(itsUsedCssClasses.find(css_class) != itsUsedCssClasses.end());
+
+      if (addCssTag)
+      {
+        out << '<' << css_tag << (" class=\"" + css_class + "\"") << ">\n";
+
+        itsUsedCssClasses.insert(css_class);
+      }
+
+      out << text;
+
+      if (addCssTag)
+      {
+        out << "</" << css_tag << ">\n";
+
+        itsUsedCssClasses.erase(css_class);
+      }
     }
 
-    out << text;
-
-    if (addCssTag)
-    {
-      out << "</" << css_tag << ">\n";
-
-      itsUsedCssClasses.erase(css_class);
-    }
+    return out.str();
   }
-
-  return out.str();
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -221,31 +285,38 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
 
 string CssTextFormatter::visit(const Header& theHeader) const
 {
-  bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
-  colon = Settings::optional_bool(itsSectionVar + "::header::css::colon", colon);
-
-  const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-  string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
-  text = TextFormatterTools::capitalize(text);
-
-  if (text.empty())
-    return "";
-
-  ostringstream out;
-  const string css_tag = Settings::optional_string(itsSectionVar + "::header::css::tag", "div");
-  const string css_class = Settings::optional_string(itsSectionVar + "::header::css::class", "");
-
-  if (!css_tag.empty())
+  try
   {
-    out << "<" << css_tag;
-    if (!css_class.empty())
-      out << " class=\"" << css_class << "\"";
-    out << '>';
-    out << text << (colon ? ":" : "");
-    out << "</" << css_tag << ">\n";
-  }
+    bool colon = Settings::optional_bool(itsSectionVar + "::header::colon", false);
+    colon = Settings::optional_bool(itsSectionVar + "::header::css::colon", colon);
 
-  return out.str();
+    const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
+    string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, sep, "");
+    text = TextFormatterTools::capitalize(text);
+
+    if (text.empty())
+      return "";
+
+    ostringstream out;
+    const string css_tag = Settings::optional_string(itsSectionVar + "::header::css::tag", "div");
+    const string css_class = Settings::optional_string(itsSectionVar + "::header::css::class", "");
+
+    if (!css_tag.empty())
+    {
+      out << "<" << css_tag;
+      if (!css_class.empty())
+        out << " class=\"" << css_class << "\"";
+      out << '>';
+      out << text << (colon ? ":" : "");
+      out << "</" << css_tag << ">\n";
+    }
+
+    return out.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -256,26 +327,33 @@ string CssTextFormatter::visit(const Header& theHeader) const
 
 string CssTextFormatter::visit(const Document& theDocument) const
 {
-  ostringstream out;
+  try
+  {
+    ostringstream out;
 
-  const string css_class = Settings::optional_string("textgen::css::class", "forecast");
-  const string css_tag = Settings::optional_string("textgen::css::tag", "div");
-  string css_id = Settings::optional_string("textgen::css::id", "${AREA}");
+    const string css_class = Settings::optional_string("textgen::css::class", "forecast");
+    const string css_tag = Settings::optional_string("textgen::css::tag", "div");
+    string css_id = Settings::optional_string("textgen::css::id", "${AREA}");
 
-  if (!css_id.empty())
-    boost::algorithm::replace_all(css_id, "${AREA}", itsArea);
+    if (!css_id.empty())
+      boost::algorithm::replace_all(css_id, "${AREA}", itsArea);
 
-  out << "<" << css_tag;
-  if (!css_id.empty())
-    out << " id=\"" << css_id << "\"";
-  if (!css_class.empty())
-    out << " class=\"" << css_class << "\"";
-  out << ">\n";
+    out << "<" << css_tag;
+    if (!css_id.empty())
+      out << " id=\"" << css_id << "\"";
+    if (!css_class.empty())
+      out << " class=\"" << css_class << "\"";
+    out << ">\n";
 
-  out << TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n", "");
-  out << "\n</" << css_tag << ">";
+    out << TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, "\n", "");
+    out << "\n</" << css_tag << ">";
 
-  return out.str();
+    return out.str();
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -286,35 +364,42 @@ string CssTextFormatter::visit(const Document& theDocument) const
 
 string CssTextFormatter::visit(const SectionTag& theSection) const
 {
-  itsSectionVar = theSection.realize(*itsDictionary);
-
-  //	const string content = Settings::optional_string(itsSectionVar+"::content","");
-  const string css_class = Settings::optional_string(itsSectionVar + "::css::class", "");
-
-  // if class name not defined or starting-tag for the class already defined but not terminated
-  if (css_class.empty() ||
-      (itsUsedCssClasses.find(css_class) != itsUsedCssClasses.end() && theSection.isPrefixTag()))
-    return "";
-
-  ostringstream out;
-  const string css_tag = Settings::optional_string(itsSectionVar + "::css::tag", "div");
-
-  if (theSection.isPrefixTag())
+  try
   {
-    out << "<" << css_tag;
-    out << " class=\"" << css_class << "\"";
-    out << ">\n";
+    itsSectionVar = theSection.realize(*itsDictionary);
 
-    itsUsedCssClasses.insert(css_class);
+    //	const string content = Settings::optional_string(itsSectionVar+"::content","");
+    const string css_class = Settings::optional_string(itsSectionVar + "::css::class", "");
+
+    // if class name not defined or starting-tag for the class already defined but not terminated
+    if (css_class.empty() ||
+        (itsUsedCssClasses.find(css_class) != itsUsedCssClasses.end() && theSection.isPrefixTag()))
+      return "";
+
+    ostringstream out;
+    const string css_tag = Settings::optional_string(itsSectionVar + "::css::tag", "div");
+
+    if (theSection.isPrefixTag())
+    {
+      out << "<" << css_tag;
+      out << " class=\"" << css_class << "\"";
+      out << ">\n";
+
+      itsUsedCssClasses.insert(css_class);
+    }
+    else
+    {
+      out << "</" << css_tag << ">\n";
+
+      itsUsedCssClasses.erase(css_class);
+    }
+
+    return out.str();
   }
-  else
+  catch (...)
   {
-    out << "</" << css_tag << ">\n";
-
-    itsUsedCssClasses.erase(css_class);
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
-
-  return out.str();
 }
 
 // ----------------------------------------------------------------------
@@ -325,31 +410,38 @@ string CssTextFormatter::visit(const SectionTag& theSection) const
 
 string CssTextFormatter::visit(const StoryTag& theStory) const
 {
-  itsStoryVar = theStory.realize(*itsDictionary);
-
-  ostringstream out;
-  const string css_tag = Settings::optional_string(itsStoryVar + "::css::tag", "span");
-  const string css_class = Settings::optional_string(itsStoryVar + "::css::class", "");
-
-  if (!css_tag.empty())
+  try
   {
-    if (theStory.isPrefixTag())
-    {
-      auto txt = TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+    itsStoryVar = theStory.realize(*itsDictionary);
 
-      out << '<' << css_tag;
-      if (!css_class.empty())
-        out << " class=\"" << css_class << "\"";
-      out << ">";
-      out << txt;
-    }
-    else
+    ostringstream out;
+    const string css_tag = Settings::optional_string(itsStoryVar + "::css::tag", "span");
+    const string css_class = Settings::optional_string(itsStoryVar + "::css::class", "");
+
+    if (!css_tag.empty())
     {
-      out << "</" << css_tag << ">";
+      if (theStory.isPrefixTag())
+      {
+        auto txt = TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+
+        out << '<' << css_tag;
+        if (!css_class.empty())
+          out << " class=\"" << css_class << "\"";
+        out << ">";
+        out << txt;
+      }
+      else
+      {
+        out << "</" << css_tag << ">";
+      }
     }
+
+    return out.str();
   }
-
-  return out.str();
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -360,7 +452,14 @@ string CssTextFormatter::visit(const StoryTag& theStory) const
 
 string CssTextFormatter::visit(const WeatherTime& theTime) const
 {
-  return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "css");
+  try
+  {
+    return TextFormatterTools::format_time(theTime.time(), itsStoryVar, "css");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -371,7 +470,14 @@ string CssTextFormatter::visit(const WeatherTime& theTime) const
 
 string CssTextFormatter::visit(const TimePeriod& thePeriod) const
 {
-  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "css");
+  try
+  {
+    return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "css");
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
 }
 
 }  // namespace TextGen
