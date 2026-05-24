@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.4.17
+Version: 26.5.24
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -26,12 +26,12 @@ BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 26.4.13
-BuildRequires: smartmet-library-macgyver-devel >= 26.4.13
+BuildRequires: smartmet-library-macgyver-devel >= 26.5.21
 BuildRequires: smartmet-library-newbase-devel >= 26.2.4
-BuildRequires: smartmet-library-gis-devel >= 26.4.13
+BuildRequires: smartmet-library-gis-devel >= 26.5.21
 Requires: gdal312-libs
 Requires: smartmet-library-calculator >= 26.4.13
-Requires: smartmet-library-macgyver >= 26.4.13
+Requires: smartmet-library-macgyver >= 26.5.21
 Requires: smartmet-library-newbase >= 26.2.4
 
 %if 0%{?rhel} && 0%{rhel} == 8
@@ -63,9 +63,9 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 26.4.13
-#TestRequires: smartmet-library-macgyver-devel >= 26.4.13
+#TestRequires: smartmet-library-macgyver-devel >= 26.5.21
 #TestRequires: smartmet-library-newbase-devel >= 26.2.4
-#TestRequires: smartmet-library-gis-devel >= 26.4.13
+#TestRequires: smartmet-library-gis-devel >= 26.5.21
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-1.fmi
+- textgen::podictionaries is now optional and has default value /usr/share/smartmet/textgen
+
 * Fri Apr 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.4.17-1.fmi
 - Bundled the .po language dictionaries into the library package
 - Fixed PoDictionary to compile with GCC 11
