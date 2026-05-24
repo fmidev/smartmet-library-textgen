@@ -5155,6 +5155,9 @@ msgstr "upepo unaongeza nguvu na unakuwa wa ubadilishaji [1]"
 msgid "voimistuvaa tuulta"
 msgstr "upepo unaongeza nguvu"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "upepo mkali sana wa vipande vipande"
+
 msgid "kovimmillaan"
 msgstr "hadi"
 

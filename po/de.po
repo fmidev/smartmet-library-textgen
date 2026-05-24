@@ -5158,6 +5158,9 @@ msgstr "[1] nimmt der Wind zu und wird wechselnd"
 msgid "voimistuvaa tuulta"
 msgstr "zunehmender Wind"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "sehr starke Böen"
+
 msgid "kovimmillaan"
 msgstr "bis zu"
 

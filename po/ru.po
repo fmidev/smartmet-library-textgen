@@ -5155,6 +5155,9 @@ msgstr "ветер усиливается и становится перемен
 msgid "voimistuvaa tuulta"
 msgstr "усиливающийся ветер"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "очень сильные порывы ветра"
+
 msgid "kovimmillaan"
 msgstr "до"
 

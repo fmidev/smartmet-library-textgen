@@ -5164,6 +5164,9 @@ msgstr "[1] 바람이 강해지고 방향 가변으로 바뀜"
 msgid "voimistuvaa tuulta"
 msgstr "강해지는 바람"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "매우 강한 돌풍"
+
 msgid "kovimmillaan"
 msgstr "최대"
 

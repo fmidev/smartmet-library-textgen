@@ -5155,6 +5155,9 @@ msgstr "il vento si intensifica e diventa variabile [1]"
 msgid "voimistuvaa tuulta"
 msgstr "vento in intensificazione"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "raffiche molto forti"
+
 msgid "kovimmillaan"
 msgstr "fino a"
 

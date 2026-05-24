@@ -5164,6 +5164,9 @@ msgstr "ลมแรงขึ้นและกลายเป็นแปรป
 msgid "voimistuvaa tuulta"
 msgstr "ลมแรงขึ้น"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "ลมกระโชกแรงมาก"
+
 msgid "kovimmillaan"
 msgstr "ถึง"
 

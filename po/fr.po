@@ -5158,6 +5158,9 @@ msgstr "le vent se renforce et devient variable [1]"
 msgid "voimistuvaa tuulta"
 msgstr "vent se renforçant"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "rafales très fortes"
+
 msgid "kovimmillaan"
 msgstr "jusqu'à"
 

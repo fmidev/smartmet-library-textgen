@@ -5155,6 +5155,9 @@ msgstr "angin menguat dan menjadi berubah-ubah [1]"
 msgid "voimistuvaa tuulta"
 msgstr "angin menguat"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "hembusan angin sangat kencang"
+
 msgid "kovimmillaan"
 msgstr "hingga"
 

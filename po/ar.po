@@ -5158,6 +5158,9 @@ msgstr "الرياح تشتد وتصبح متقلبة [1]"
 msgid "voimistuvaa tuulta"
 msgstr "رياح آخذة في الاشتداد"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "هبات قوية جداً"
+
 msgid "kovimmillaan"
 msgstr "يصل إلى"
 

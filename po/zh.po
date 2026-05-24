@@ -5164,6 +5164,9 @@ msgstr "[1]风增强并变为方向多变"
 msgid "voimistuvaa tuulta"
 msgstr "增强的风"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "非常强的阵风"
+
 msgid "kovimmillaan"
 msgstr "最大"
 

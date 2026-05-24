@@ -5164,6 +5164,9 @@ msgstr "[1]風が強まり風向き不定になる"
 msgid "voimistuvaa tuulta"
 msgstr "強まる風"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "非常に強い突風"
+
 msgid "kovimmillaan"
 msgstr "最大"
 

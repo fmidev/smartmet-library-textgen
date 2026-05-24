@@ -5158,6 +5158,9 @@ msgstr "[1] neemt de wind toe en wordt veranderlijk"
 msgid "voimistuvaa tuulta"
 msgstr "toenemende wind"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "zeer krachtige windstoten"
+
 msgid "kovimmillaan"
 msgstr "op zijn sterkst"
 

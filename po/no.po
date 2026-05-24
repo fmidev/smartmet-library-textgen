@@ -1693,6 +1693,9 @@ msgstr "for Iitti"
 msgid "ikaalinen:lle"
 msgstr "for Ikalis"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "svært kraftige vindkast"
+
 msgid "kovimmillaan"
 msgstr "opp til"
 

@@ -5158,6 +5158,9 @@ msgstr "tuul tugevneb ja muutub muutlikuks [1]"
 msgid "voimistuvaa tuulta"
 msgstr "tugevnev tuul"
 
+msgid "hyvin voimakkaita puuskia"
+msgstr "väga tugevad puhangud"
+
 msgid "kovimmillaan"
 msgstr "kuni"
 
