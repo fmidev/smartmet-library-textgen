@@ -114,6 +114,7 @@ FMI textgen development files
 %changelog
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-3.fmi
 - Fixed integer underflow in code generating wind speed ranges
+- Added new translations to po-files
 
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-2.fmi
 - Added Fmi::Exception::Trace try/catch wrappers throughout the library for better stack traces
