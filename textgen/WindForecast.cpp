@@ -518,12 +518,15 @@ WindDirectionInfo negotiateWindDirection(WindDirectionInfo& theProposedWindDirec
         (theProposedWindDirection.id == KOILLISEN_PUOLEINEN &&
          thePreviousWindDirection.id == KOILLINEN) ||
         (theProposedWindDirection.id == IDAN_PUOLEINEN && thePreviousWindDirection.id == ITA) ||
-        (theProposedWindDirection.id == KAAKON_PUOLEINEN && thePreviousWindDirection.id == KAAKKO) ||
+        (theProposedWindDirection.id == KAAKON_PUOLEINEN &&
+         thePreviousWindDirection.id == KAAKKO) ||
         (theProposedWindDirection.id == ETELAN_PUOLEINEN && thePreviousWindDirection.id == ETELA) ||
-        (theProposedWindDirection.id == LOUNAAN_PUOLEINEN && thePreviousWindDirection.id == LOUNAS) ||
+        (theProposedWindDirection.id == LOUNAAN_PUOLEINEN &&
+         thePreviousWindDirection.id == LOUNAS) ||
         (theProposedWindDirection.id == LANNEN_PUOLEINEN && thePreviousWindDirection.id == LANSI) ||
         (theProposedWindDirection.id == LUOTEEN_PUOLEINEN && thePreviousWindDirection.id == LUODE))
-      theProposedWindDirection.id = direction_between_id(theProposedWindDirection.direction.value());
+      theProposedWindDirection.id =
+          direction_between_id(theProposedWindDirection.direction.value());
 
     return theProposedWindDirection;
   }
@@ -941,7 +944,7 @@ float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& thePar
   }
 }
 
-void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
+bool windspeed_distribution_interval(const WeatherPeriod& thePeriod,
                                      const wo_story_params& theParameter,
                                      float coverage,
                                      float& lowerLimit,
@@ -951,7 +954,7 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
   try
   {
     if (lowerLimit == kFloatMissing || upperLimit == kFloatMissing)
-      return;
+      return false;
 
     value_distribution_data_vector windSpeedDistributionVector;
 
@@ -994,19 +997,34 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
         mostTypicalWindSpeed = i;
     }
 
-    // Make sure that there is enough values (coverage) inside the interval
+    // Make sure that there is enough values (coverage) inside the interval.
     int lower_index = std::lround(upperLimit);
     if (lower_index >= static_cast<int>(windSpeedDistributionVector.size()))
+    {
       lower_index = windSpeedDistributionVector.size() - 1;
+    }
 
     float sumDistribution = 0.0;
+    auto last_positive_contrib = lower_index;  // keep track where last positive contribution was
     while (sumDistribution < coverage && lower_index >= 0)
     {
-      sumDistribution += windSpeedDistributionVector[lower_index].second.value();
+      auto subcoverage = windSpeedDistributionVector[lower_index].second.value();
+      sumDistribution += subcoverage;
       lower_index--;
+      if (subcoverage > 0)
+        last_positive_contrib = lower_index;
     }
 
     lowerLimit = lower_index;
+    if (last_positive_contrib > lowerLimit)
+    {
+      std::cerr << "WARNING: Changing limit from " << lowerLimit << " to " << last_positive_contrib
+                << "\n";
+      lowerLimit = last_positive_contrib;
+    }
+
+    // Did we succeed in getting a sufficient percentage?
+    return (sumDistribution >= coverage);
   }
   catch (...)
   {
@@ -1039,20 +1057,23 @@ void get_wind_speed_interval(const WeatherPeriod& thePeriod,
     unsigned int mostTypicalWindSpeed = 0;
     // interval must contain 67% of winds
     float intervalCoverage = 67.0;
-    windspeed_distribution_interval(thePeriod,
-                                    theParameter,
-                                    intervalCoverage,
-                                    distributionLowerLimit67,
-                                    distributionUpperLimit67,
-                                    mostTypicalWindSpeed);
+
+    bool got_coverage = windspeed_distribution_interval(thePeriod,
+                                                        theParameter,
+                                                        intervalCoverage,
+                                                        distributionLowerLimit67,
+                                                        distributionUpperLimit67,
+                                                        mostTypicalWindSpeed);
 
     /*
     ss_log << " distribution interval 67: " << distributionLowerLimit67 << "..."
            << distributionUpperLimit67 << " most typical: " << mostTypicalWindSpeed << '\n';
     */
 
-    if (abs(distributionUpperLimit67 - distributionLowerLimit67) >
-        theParameter.theContextualMaxIntervalSize)
+    bool too_large_interval = abs(distributionUpperLimit67 - distributionLowerLimit67) >
+                              theParameter.theContextualMaxIntervalSize;
+
+    if (!got_coverage || too_large_interval)
     {
       float distributionLowerLimit50 = plainLowerLimit;
       float distributionUpperLimit50 = plainUpperLimit;
@@ -1081,7 +1102,8 @@ void get_wind_speed_interval(const WeatherPeriod& thePeriod,
     }
     upperLimit = plainUpperLimit;
 
-    // we may cut peak wind based on areal coverage (wind_speed_top_coverage configuration parameter)
+    // we may cut peak wind based on areal coverage (wind_speed_top_coverage configuration
+    // parameter)
     int peakWind = get_peak_wind(thePeriod, theParameter, peakWindTime);
 
     /*
@@ -1380,31 +1402,36 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
   {
     Sentence sentence;
 
-    if (intervalInfo.peakWind > intervalInfo.upperLimit)
+    auto lowerLimit = intervalInfo.lowerLimit;
+    auto upperLimit = intervalInfo.upperLimit;
+    auto peakWind = intervalInfo.peakWind;
+    bool warning = (lowerLimit < 0);
+
+    if (warning)
+    {
+      std::cerr << "Warning: Changing lower limit from negative to zero\n";
+      lowerLimit = 0;
+    }
+
+    if (peakWind > upperLimit)
     {
       if (theUseAtItsStrongestPhrase)
       {
-        sentence << PositiveRange(intervalInfo.lowerLimit,
-                                  intervalInfo.upperLimit,
-                                  theParameters.theRangeSeparator)
+        sentence << PositiveRange(lowerLimit, upperLimit, theParameters.theRangeSeparator)
                  << *UnitFactory::create(MetersPerSecond);
         sentence << Delimiter(COMMA_PUNCTUATION_MARK) << timePhrase << KOVIMMILLAAN_PHRASE
-                 << intervalInfo.peakWind << *UnitFactory::create(MetersPerSecond);
+                 << peakWind << *UnitFactory::create(MetersPerSecond);
       }
       else
       {
-        sentence << PositiveRange(
-                        intervalInfo.peakWind - theParameters.theContextualMaxIntervalSize,
-                        intervalInfo.peakWind,
-                        theParameters.theRangeSeparator)
+        int lolimit = peakWind - theParameters.theContextualMaxIntervalSize;
+        sentence << PositiveRange(lolimit, peakWind, theParameters.theRangeSeparator)
                  << *UnitFactory::create(MetersPerSecond);
       }
     }
     else
     {
-      sentence << PositiveRange(intervalInfo.lowerLimit,
-                                intervalInfo.upperLimit,
-                                theParameters.theRangeSeparator)
+      sentence << PositiveRange(lowerLimit, upperLimit, theParameters.theRangeSeparator)
                << *UnitFactory::create(MetersPerSecond);
     }
 
@@ -1412,7 +1439,11 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!")
+        .addParameter("peakWind", Fmi::to_string(intervalInfo.peakWind))
+        .addParameter("lowerLimit", Fmi::to_string(intervalInfo.lowerLimit))
+        .addParameter("upperLimit", Fmi::to_string(intervalInfo.upperLimit))
+        .addParameter("maxInterval", Fmi::to_string(theParameters.theContextualMaxIntervalSize));
   }
 }
 
@@ -2029,10 +2060,9 @@ bool WindForecast::processOneDirectionChange(
       negotiateWindDirection(windDirectionInfo, previousWindDirectionInfo);
       if (windDirectionInfo.id == VAIHTELEVA)
       {
-        si.sentence
-            << (directionPeriodLen <= 5
-                    ? ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                    : ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE);
+        si.sentence << (directionPeriodLen <= 5
+                            ? ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+                            : ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE);
         si.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
       }
       else
@@ -2055,11 +2085,10 @@ bool WindForecast::processOneDirectionChange(
             windDirectionPeriod.localStartTime())) < 4)
     {
       if (windDirectionInfo.id != VAIHTELEVA)
-        theParameters.theLog
-            << "Direction changes about same time as wind speed starts to change: "
-            << windDirectionPeriod.localStartTime() << " ~ "
-            << windSpeedChangePeriod.localStartTime() << ", "
-            << wind_direction_string(windDirectionInfo.id) << '\n';
+        theParameters.theLog << "Direction changes about same time as wind speed starts to change: "
+                             << windDirectionPeriod.localStartTime() << " ~ "
+                             << windSpeedChangePeriod.localStartTime() << ", "
+                             << wind_direction_string(windDirectionInfo.id) << '\n';
 
       if (!sentenceInfo.intervalSentences.empty())
       {
@@ -2858,7 +2887,9 @@ void WindForecast::processNonSkippedInterval(paragraph_info& pi,
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!")
+        .addParameter("lowerLimit", Fmi::to_string(isi.intervalInfo.lowerLimit))
+        .addParameter("upperLimit", Fmi::to_string(isi.intervalInfo.upperLimit));
   }
 }
 
@@ -2945,7 +2976,8 @@ void WindForecast::processWindSpeedIntervalParam(paragraph_info& pi,
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!")
+        .addParameter("numberOfIntervals", Fmi::to_string(sentenceInfo.intervalSentences.size()));
   }
 }
 
@@ -3786,7 +3818,9 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePerio
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+    throw Fmi::Exception::Trace(BCP, "Operation failed!")
+        .addParameter("lowerLimit", Fmi::to_string(intervalInfo.lowerLimit))
+        .addParameter("upperLimit", Fmi::to_string(intervalInfo.upperLimit));
   }
 }
 
