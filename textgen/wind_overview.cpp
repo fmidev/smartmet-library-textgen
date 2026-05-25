@@ -3794,7 +3794,7 @@ void calculate_equalized_data(wo_story_params& storyParams)
 }
 
 // ----------------------------------------------------------------------------------------------
-// Local convective anomaly handling.
+// Local convective cell handling.
 //
 // Modern NWP models simulate short-lived, spatially confined convective cells that can produce
 // transient storm-level winds in a small portion of the forecast area. These are NOT synoptic
@@ -3803,27 +3803,27 @@ void calculate_equalized_data(wo_story_params& storyParams)
 // Pipeline (invoked after populate_time_series, before calculate_equalized_data):
 //
 //   1. detect_convective_anomalies() scans raw per-timestep data in the primary area. A timestep
-//      is flagged when some fraction of the area exceeds theConvectiveStormCutoff but that
-//      fraction is smaller than theConvectiveStormMinAreaFraction %. Contiguous flagged
-//      timesteps form an anomaly period; periods shorter than theConvectiveStormMinDuration
-//      hours are kept as anomalies.
+//      is flagged when some fraction of the area exceeds theConvectiveCellCutoff but that
+//      fraction is smaller than theConvectiveCellMaxAreaFraction %. Contiguous flagged
+//      timesteps form a candidate period; periods shorter than theConvectiveCellMaxDuration
+//      hours are kept as cells (longer runs are assumed synoptic and left alone).
 //
-//   2. remove_cell_from_timestep_stats() reruns the GridForecaster analyses for each anomalous
+//   2. remove_cell_from_timestep_stats() reruns the GridForecaster analyses for each flagged
 //      timestep with a RangeAcceptor upper limit = cutoff. This excludes the cell's grid points
 //      from area statistics (Top / Max / Mean / Median). The tail of the per-timestep histogram
 //      (buckets >= cutoff) is zeroed so downstream consumers of theWindSpeedDistribution(Top)
 //      see a clean distribution.
 //
 //   3. determine_anomaly_quadrant() reruns Peak MaximumWind over each of Northern / Southern /
-//      Eastern / Western for the anomaly period. If one quadrant's peak is clearly above the
-//      others (configurable margin) the anomaly is tagged with that quadrant; otherwise the
+//      Eastern / Western for the cell period. If one quadrant's peak is clearly above the
+//      others (configurable margin) the cell is tagged with that quadrant; otherwise the
 //      cell is deemed to have moved / been ambiguous and the tag stays at WeatherArea::Full.
 //
 //   4. calculate_equalized_data() and find_out_wind_event_periods() then run on the cleaned
 //      data as usual — no special casing in the forecast code.
 //
-//   5. append_convective_anomaly_sentences() appends one follow-up sentence per anomaly,
-//      selecting the phrasing by theConvectiveStormStyle.
+//   5. append_convective_anomaly_sentences() appends one follow-up sentence per cell,
+//      selecting the phrasing by theConvectiveCellStyle.
 // ----------------------------------------------------------------------------------------------
 
 namespace
@@ -3850,35 +3850,48 @@ std::string quadrant_phrase_fi(WeatherArea::Type type)
 }
 }  // namespace
 
-// Groups contiguous flagged timesteps in the primary area into anomaly periods. Timesteps are
-// flagged when 0 < getTopWindSpeedShare(cutoff, +inf) < theConvectiveStormMinAreaFraction.
-// Anomaly periods shorter than theConvectiveStormMinDuration hours are returned. The peak top
-// wind over the period (pre-removal) is recorded for reporting.
-std::vector<ConvectiveStormAnomaly> detect_convective_anomalies(const wo_story_params& storyParams)
+// Groups contiguous flagged timesteps in the primary area into candidate cell periods. Timesteps
+// are flagged when 0 < getTopWindSpeedShare(cutoff, +inf) < theConvectiveCellMaxAreaFraction.
+// Candidate periods shorter than theConvectiveCellMaxDuration hours are returned (longer runs are
+// assumed synoptic). The peak top wind over the period (pre-removal) is recorded for reporting.
+//
+// Diagnostic logging: every timestep with topShare > 0 is logged with its share and the
+// flagging decision, and every candidate run is logged whether or not it survives the duration
+// gate. This makes it possible to tune the thresholds from data instead of guessing.
+std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_params& storyParams)
 {
   try
   {
-    std::vector<ConvectiveStormAnomaly> anomalies;
+    std::vector<ConvectiveCellAnomaly> anomalies;
 
-    if (storyParams.theConvectiveStormMinDuration <= 0.0 &&
-        storyParams.theConvectiveStormMinAreaFraction <= 0.0)
+    if (storyParams.theConvectiveCellMaxDuration <= 0.0 &&
+        storyParams.theConvectiveCellMaxAreaFraction <= 0.0)
       return anomalies;
 
     // Detection runs only on the primary (full) area; split sub-areas are recomputed in lockstep.
     const WeatherArea::Type areaType = storyParams.theWeatherAreas[0].type();
     const unsigned int n = storyParams.theWindDataVector.size();
-    const float cutoff = static_cast<float>(storyParams.theConvectiveStormCutoff);
-    const double minAreaFraction = storyParams.theConvectiveStormMinAreaFraction;
+    const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
+    const double maxAreaFraction = storyParams.theConvectiveCellMaxAreaFraction;
+    const double maxDuration = storyParams.theConvectiveCellMaxDuration;
 
     auto timestepIsAnomalous = [&](unsigned int i)
     {
       const WindDataItemUnit& item = storyParams.theWindDataVector[i]->getDataItem(areaType);
       const float topShare = item.getTopWindSpeedShare(cutoff, std::numeric_limits<float>::max());
-      // An anomaly timestep has SOME cell exceeding cutoff but covering less than minAreaFraction
-      // %. minAreaFraction == 0 disables the spatial check (any cell above cutoff becomes
-      // anomalous).
-      return topShare > 0.0F &&
-             (minAreaFraction <= 0.0 || topShare < static_cast<float>(minAreaFraction));
+      // A cell timestep has SOME grid points exceeding cutoff but covering less than
+      // maxAreaFraction %. maxAreaFraction == 0 disables the spatial check (any grid points
+      // above cutoff become a candidate).
+      const bool flagged = topShare > 0.0F &&
+                           (maxAreaFraction <= 0.0 ||
+                            topShare < static_cast<float>(maxAreaFraction));
+      if (topShare > 0.0F)
+        storyParams.theLog << "Convective candidate t="
+                           << item.thePeriod.localStartTime() << ": top-share>=" << cutoff
+                           << " m/s = " << fixed << setprecision(2) << topShare
+                           << "% (max area fraction=" << maxAreaFraction
+                           << "%, flagged=" << (flagged ? "yes" : "no") << ")\n";
+      return flagged;
     };
 
     unsigned int i = 0;
@@ -3902,12 +3915,8 @@ std::vector<ConvectiveStormAnomaly> detect_convective_anomalies(const wo_story_p
       const unsigned int runEnd = i;  // exclusive
 
       const unsigned int durationHours = runEnd - runStart;
-      const bool tooShort =
-          (storyParams.theConvectiveStormMinDuration <= 0.0 ||
-           static_cast<double>(durationHours) < storyParams.theConvectiveStormMinDuration);
-
-      if (!tooShort)
-        continue;
+      const bool withinDuration =
+          (maxDuration <= 0.0 || static_cast<double>(durationHours) < maxDuration);
 
       const WeatherPeriod period(
           storyParams.theWindDataVector[runStart]->getDataItem(areaType).thePeriod.localStartTime(),
@@ -3915,12 +3924,20 @@ std::vector<ConvectiveStormAnomaly> detect_convective_anomalies(const wo_story_p
               ->getDataItem(areaType)
               .thePeriod.localEndTime());
 
-      storyParams.theLog << "Convective anomaly: " << period.localStartTime() << " - "
+      if (!withinDuration)
+      {
+        storyParams.theLog << "Convective candidate run rejected: " << period.localStartTime()
+                           << " - " << period.localEndTime() << " duration=" << durationHours
+                           << "h >= max duration=" << maxDuration
+                           << "h (treated as synoptic, not a cell).\n";
+        continue;
+      }
+
+      storyParams.theLog << "Convective cell: " << period.localStartTime() << " - "
                          << period.localEndTime() << " duration=" << durationHours
                          << "h peak_top=" << fixed << setprecision(1) << peakTopWind << " m/s"
-                         << " (cutoff=" << cutoff << " m/s, min area fraction=" << minAreaFraction
-                         << "%, max duration=" << storyParams.theConvectiveStormMinDuration
-                         << "h). Removing cell.\n";
+                         << " (cutoff=" << cutoff << " m/s, max area fraction=" << maxAreaFraction
+                         << "%, max duration=" << maxDuration << "h). Removing cell.\n";
 
       anomalies.emplace_back(period, peakTopWind);
     }
@@ -4038,9 +4055,9 @@ void remove_cell_from_timestep_stats(wo_story_params& storyParams,
   }
 }
 
-// Iterates every anomaly period and every (timestep, area) pair inside it, removing the cell.
+// Iterates every cell period and every (timestep, area) pair inside it, removing the cell.
 void remove_cells_from_area_stats(wo_story_params& storyParams,
-                                  const std::vector<ConvectiveStormAnomaly>& anomalies)
+                                  const std::vector<ConvectiveCellAnomaly>& anomalies)
 {
   try
   {
@@ -4048,7 +4065,7 @@ void remove_cells_from_area_stats(wo_story_params& storyParams,
       return;
 
     GridForecaster forecaster;
-    const float cutoff = static_cast<float>(storyParams.theConvectiveStormCutoff);
+    const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
 
     for (const auto& anomaly : anomalies)
     {
@@ -4070,12 +4087,12 @@ void remove_cells_from_area_stats(wo_story_params& storyParams,
   }
 }
 
-// Picks the dominant quadrant for one anomaly period, or returns WeatherArea::Full when the
+// Picks the dominant quadrant for one cell period, or returns WeatherArea::Full when the
 // cell moved / was ambiguous. Uses the primary area's existing name (coordinates) with the
 // quadrant type applied — mask resolution is handled by the NorthernMaskSource etc. already
 // registered in AnalysisSources.
 void determine_anomaly_quadrants(wo_story_params& storyParams,
-                                 std::vector<ConvectiveStormAnomaly>& anomalies)
+                                 std::vector<ConvectiveCellAnomaly>& anomalies)
 {
   try
   {
@@ -4141,13 +4158,13 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
   }
 }
 
-// Emits one follow-up sentence per anomaly period. Phrasing is controlled by
-// theConvectiveStormStyle: "sentence" produces an undirected form, "quadrant" injects the
+// Emits one follow-up sentence per cell period. Phrasing is controlled by
+// theConvectiveCellStyle: "sentence" produces an undirected form, "quadrant" injects the
 // dominant quadrant if one was found (falling back to the undirected form otherwise).
 // The Finnish surface text is intentionally kept hardcoded here while meteorologists review
 // real-world output; once the phrasing stabilises this will be migrated to dictionary keys.
 void append_convective_anomaly_sentences(const wo_story_params& storyParams,
-                                         const std::vector<ConvectiveStormAnomaly>& anomalies,
+                                         const std::vector<ConvectiveCellAnomaly>& anomalies,
                                          Paragraph& paragraph)
 {
   try
@@ -4156,7 +4173,7 @@ void append_convective_anomaly_sentences(const wo_story_params& storyParams,
     {
       Sentence sentence;
       const int peakMs = static_cast<int>(std::round(anomaly.peakWindSpeed));
-      const bool useQuadrant = (storyParams.theConvectiveStormStyle == "quadrant" &&
+      const bool useQuadrant = (storyParams.theConvectiveCellStyle == "quadrant" &&
                                 anomaly.dominantQuadrant != WeatherArea::Full);
 
       if (useQuadrant)
@@ -4206,16 +4223,16 @@ void read_configuration_params(wo_story_params& storyParams)
 
     bool weekdaysUsed = Settings::optional_bool(storyParams.theVar + "::weekdays", true);
 
-    double convectiveStormMinDuration =
-        Settings::optional_double(storyParams.theVar + "::convective_storm_min_duration", 3.0);
-    double convectiveStormMinAreaFraction = Settings::optional_double(
-        storyParams.theVar + "::convective_storm_min_area_fraction", 10.0);
-    double convectiveStormCutoff = Settings::optional_double(
-        storyParams.theVar + "::convective_storm_cutoff", MYRSKY_LOWER_LIMIT);
-    bool convectiveStormReporting =
-        Settings::optional_bool(storyParams.theVar + "::convective_storm_reporting", false);
-    std::string convectiveStormStyle =
-        Settings::optional_string(storyParams.theVar + "::convective_storm_style", "sentence");
+    double convectiveCellMaxDuration =
+        Settings::optional_double(storyParams.theVar + "::convective_cell_max_duration", 3.0);
+    double convectiveCellMaxAreaFraction = Settings::optional_double(
+        storyParams.theVar + "::convective_cell_max_area_fraction", 10.0);
+    double convectiveCellCutoff = Settings::optional_double(
+        storyParams.theVar + "::convective_cell_cutoff", MYRSKY_LOWER_LIMIT);
+    bool convectiveCellReporting =
+        Settings::optional_bool(storyParams.theVar + "::convective_cell_reporting", false);
+    std::string convectiveCellStyle =
+        Settings::optional_string(storyParams.theVar + "::convective_cell_style", "sentence");
 
     storyParams.theWindSpeedMaxError = windSpeedMaxError;
     storyParams.theWindDirectionMaxError = windDirectionMaxError;
@@ -4232,11 +4249,11 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theMaxIntervalSize = maxIntervalSize;
     storyParams.theContextualMaxIntervalSize = maxIntervalSize;
     storyParams.theWeekdaysUsed = weekdaysUsed;
-    storyParams.theConvectiveStormMinDuration = convectiveStormMinDuration;
-    storyParams.theConvectiveStormMinAreaFraction = convectiveStormMinAreaFraction;
-    storyParams.theConvectiveStormCutoff = convectiveStormCutoff;
-    storyParams.theConvectiveStormReporting = convectiveStormReporting;
-    storyParams.theConvectiveStormStyle = convectiveStormStyle;
+    storyParams.theConvectiveCellMaxDuration = convectiveCellMaxDuration;
+    storyParams.theConvectiveCellMaxAreaFraction = convectiveCellMaxAreaFraction;
+    storyParams.theConvectiveCellCutoff = convectiveCellCutoff;
+    storyParams.theConvectiveCellReporting = convectiveCellReporting;
+    storyParams.theConvectiveCellStyle = convectiveCellStyle;
 
     storyParams.theWeatherAreas.push_back(storyParams.theArea);
 
@@ -4426,7 +4443,7 @@ Paragraph WindStory::overview() const
 
       paragraph << windForecast.getWindStory(itsPeriod);
 
-      if (storyParams.theConvectiveStormReporting && !convectiveAnomalies.empty())
+      if (storyParams.theConvectiveCellReporting && !convectiveAnomalies.empty())
         append_convective_anomaly_sentences(storyParams, convectiveAnomalies, paragraph);
 
       std::size_t js_id = generateUniqueID();

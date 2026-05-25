@@ -114,6 +114,9 @@ FMI textgen development files
 %changelog
 * Mon May 25 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.25-1.fmi
 - Restored Latvian language support: added po/lv.po (2146 translated entries)
+- Renamed convective_storm_* configuration keys and types to convective_cell_* (the detector flags local cells, not storms)
+- Renamed convective_storm_min_duration/min_area_fraction to convective_cell_max_duration/max_area_fraction to reflect their actual upper-bound semantics
+- Added per-timestep diagnostic logging to the convective cell detector
 
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-3.fmi
 - Fixed integer underflow in code generating wind speed ranges
