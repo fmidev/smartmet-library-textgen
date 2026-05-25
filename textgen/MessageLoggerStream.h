@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <cassert>
 #include <memory>
 #include <ostream>
@@ -66,7 +67,10 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   {
     if (CharTraits::not_eof(nChar))
     {
-      GetStreamBuffer() << char_type(nChar);
+      const char_type c(nChar);
+      GetStreamBuffer() << c;
+      if (c == char_type('\n'))
+        sync();
     }
     return CharTraits::not_eof(nChar);
   }
@@ -74,6 +78,8 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   std::streamsize xsputn(const char_type* S, std::streamsize N) override
   {
     GetStreamBuffer().write(S, N);
+    if (std::find(S, S + N, char_type('\n')) != S + N)
+      sync();
     return N;
   }
 

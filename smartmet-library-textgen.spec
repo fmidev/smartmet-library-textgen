@@ -117,6 +117,7 @@ FMI textgen development files
 - Renamed convective_storm_* configuration keys and types to convective_cell_* (the detector flags local cells, not storms)
 - Renamed convective_storm_min_duration/min_area_fraction to convective_cell_max_duration/max_area_fraction to reflect their actual upper-bound semantics
 - Added per-timestep diagnostic logging to the convective cell detector
+- Fixed MessageLoggerStream so that plain text streamed via theLog << "..." actually reaches the log file (previously buffered in the streambuf and silently dropped — only [Entering]/[Leaving] markers and Glyph dumps were ever flushed)
 
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-3.fmi
 - Fixed integer underflow in code generating wind speed ranges
