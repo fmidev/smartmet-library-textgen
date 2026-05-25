@@ -3875,6 +3875,10 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
     const double maxAreaFraction = storyParams.theConvectiveCellMaxAreaFraction;
     const double maxDuration = storyParams.theConvectiveCellMaxDuration;
 
+    storyParams.theLog << "Convective cell detection: n=" << n << " timesteps, cutoff=" << cutoff
+                       << " m/s, max area fraction=" << maxAreaFraction
+                       << "%, max duration=" << maxDuration << "h\n";
+
     auto timestepIsAnomalous = [&](unsigned int i)
     {
       const WindDataItemUnit& item = storyParams.theWindDataVector[i]->getDataItem(areaType);
@@ -3885,12 +3889,10 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
       const bool flagged = topShare > 0.0F &&
                            (maxAreaFraction <= 0.0 ||
                             topShare < static_cast<float>(maxAreaFraction));
-      if (topShare > 0.0F)
-        storyParams.theLog << "Convective candidate t="
-                           << item.thePeriod.localStartTime() << ": top-share>=" << cutoff
-                           << " m/s = " << fixed << setprecision(2) << topShare
-                           << "% (max area fraction=" << maxAreaFraction
-                           << "%, flagged=" << (flagged ? "yes" : "no") << ")\n";
+      storyParams.theLog << "Convective candidate t=" << item.thePeriod.localStartTime()
+                         << ": top-share>=" << cutoff << " m/s = " << fixed << setprecision(2)
+                         << topShare << "% (max area fraction=" << maxAreaFraction
+                         << "%, flagged=" << (flagged ? "yes" : "no") << ")\n";
       return flagged;
     };
 

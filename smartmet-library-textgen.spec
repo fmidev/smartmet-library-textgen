@@ -116,7 +116,7 @@ FMI textgen development files
 - Restored Latvian language support: added po/lv.po (2146 translated entries)
 - Renamed convective_storm_* configuration keys and types to convective_cell_* (the detector flags local cells, not storms)
 - Renamed convective_storm_min_duration/min_area_fraction to convective_cell_max_duration/max_area_fraction to reflect their actual upper-bound semantics
-- Added per-timestep diagnostic logging to the convective cell detector
+- Added per-timestep diagnostic logging to the convective cell detector (one entry summary + a top-share line per timestep, fired even when the share is zero, so thresholds can be tuned from data)
 - Fixed MessageLoggerStream so that plain text streamed via theLog << "..." actually reaches the log file (previously buffered in the streambuf and silently dropped — only [Entering]/[Leaving] markers and Glyph dumps were ever flushed)
 
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-3.fmi
