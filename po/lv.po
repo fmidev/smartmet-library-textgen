@@ -1,0 +1,6455 @@
+# SmartMet textgen dictionary: Latvian (lv)
+# Restored from the legacy translation_lv MySQL table
+#
+# Keywords are opaque identifiers and must not be translated.
+# Tokens in [brackets] are placeholders and must be kept as-is.
+msgid ""
+msgstr ""
+"Project-Id-Version: smartmet-library-textgen\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lv\n"
+"X-SmartMet-Language-Name: Latvian\n"
+"X-SmartMet-Full: no\n"
+
+msgid "o'clock"
+msgstr "pulksten"
+
+msgid "meri-lappi:lle"
+msgstr "Jūrlapijai"
+
+msgid "pohjois-pohjanmaan itaosa:lle"
+msgstr "Ziemeļpohjanmā austrumdaļai"
+
+msgid "pohjois-pohjanmaan lansiosa:lle"
+msgstr "Ziemeļpohjanmā rietumdaļai"
+
+msgid "pohjanmaa ja etela-pohjanmaa:lle"
+msgstr "Pohjanmā un Dienvidpohjanmā"
+
+msgid "etela-lappi:lle"
+msgstr "Dienvidlapijai"
+
+msgid "keski-lappi:lle"
+msgstr "Centrāllapijai"
+
+msgid "utsjoki ja inari:lle"
+msgstr "Utsjoki un Inari"
+
+msgid "finnmarkin lansiosa:lle"
+msgstr "Finnmarkas rietumdaļai"
+
+msgid "finnmarkin itaosa:lle"
+msgstr "Finnmarkas austrumdaļai"
+
+msgid "murmanskin alueen lansiosa:lle"
+msgstr "Murmanskas apgabala rietumdaļai"
+
+msgid "pohjois-ruotsi:lle"
+msgstr "Ziemeļzviedrijai"
+
+msgid "[iltapaivalla] lumikuurot voivat olla sakeita"
+msgstr "[iltapaivalla] īslaicīgs sniegs var būt biezs"
+
+msgid "[iltapaivalla] lumisade voi olla sakeaa"
+msgstr "[iltapaivalla] sniegs var būt biezs"
+
+msgid "huomiseen iltapaivaan asti"
+msgstr "līdz rītdienas pēcpusdienai"
+
+msgid "aamuyosta"
+msgstr "no agra rīta"
+
+msgid "astetta(noin n)"
+msgstr "grādi"
+
+msgid "huomattavasti lampimampi"
+msgstr "ievērojami siltāks"
+
+msgid "lampimampi"
+msgstr "siltāks"
+
+msgid "seuraava yo"
+msgstr "nākamajā naktī"
+
+msgid "seuraavana yona"
+msgstr "nākamajā naktī"
+
+msgid "on"
+msgstr "ir"
+
+msgid "ankaran hallan todennakoisyys"
+msgstr "stipras sarmas iespējamība"
+
+msgid "hallan todennakoisyys"
+msgstr "salnas iespējamība"
+
+msgid "7-vastaisena yona"
+msgstr "naktī uz svētdienu"
+
+msgid "6-vastaisena yona"
+msgstr "naktī uz sestdienu"
+
+msgid "5-vastaisena yona"
+msgstr "naktī uz piektdienu"
+
+msgid "4-vastaisena yona"
+msgstr "naktī uz ceturtdienu"
+
+msgid "3-vastaisena yona"
+msgstr "naktī uz trešdienu"
+
+msgid "2-vastaisena yona"
+msgstr "naktī uz otrdienu"
+
+msgid "1-vastaisena yona"
+msgstr "naktī uz pirmdienu"
+
+msgid "sama"
+msgstr "tas pats"
+
+msgid "hieman pienempi"
+msgstr "nedaudz mazāks"
+
+msgid "hieman suurempi"
+msgstr "nedaudz lielāks"
+
+msgid "pienempi"
+msgstr "mazāk"
+
+msgid "suurempi"
+msgstr "lielāks"
+
+msgid "alin suhteellinen kosteus"
+msgstr "viszemākais gaisa relatīvais mitrums"
+
+msgid "7-na"
+msgstr "svētdien"
+
+msgid "6-na"
+msgstr "sestdien"
+
+msgid "5-na"
+msgstr "piektdien"
+
+msgid "4-na"
+msgstr "ceturtdien"
+
+msgid "3-na"
+msgstr "trešdien"
+
+msgid "2-na"
+msgstr "otrdien"
+
+msgid "1-na"
+msgstr "pirmdien"
+
+msgid "odotettavissa"
+msgstr "gaidāmie laika apstākļi"
+
+msgid "7-illasta"
+msgstr "sākot no svētdienas vakara"
+
+msgid "1-illasta"
+msgstr "sākot no pirmdienas vakara"
+
+msgid "2-illasta"
+msgstr "sākot no otrdienas vakara"
+
+msgid "3-illasta"
+msgstr "sākot no trešdienas vakara"
+
+msgid "4-illasta"
+msgstr "sākot no ceturtdienas vakara"
+
+msgid "5-illasta"
+msgstr "sākot no piektdienas vakara"
+
+msgid "6-illasta"
+msgstr "sākot no sestdienas vakara"
+
+msgid "7-aamuun"
+msgstr "līdz svētdienas rītam"
+
+msgid "1-aamuun"
+msgstr "līdz pirmdienas rītam"
+
+msgid "2-aamuun"
+msgstr "līdz otrdienas rītam"
+
+msgid "3-aamuun"
+msgstr "līdz trešdienas rītam"
+
+msgid "4-aamuun"
+msgstr "līdz ceturtdienas rītam"
+
+msgid "5-aamuun"
+msgstr "līdz piektdienas rītam"
+
+msgid "6-aamuun"
+msgstr "līdz sestdienas rītam"
+
+msgid "saa"
+msgstr "laika apstākļi"
+
+msgid "keskilampotila"
+msgstr "vidējā gaisa temperatūra"
+
+msgid "keskimaarainen ylin lampotila"
+msgstr "vidējā maksimālā gaisa temperatūra"
+
+msgid "keskimaarainen alin lampotila"
+msgstr "vidējā minimālā gaisa temperatūra"
+
+msgid "sadesumma"
+msgstr "kopējais nokrišņu daudzums"
+
+msgid "astetta"
+msgstr "grādi"
+
+msgid "millimetria"
+msgstr "milimetri"
+
+msgid "1-aamusta"
+msgstr "sākot no pirmdienas rīta"
+
+msgid "2-aamusta"
+msgstr "sākot no otrdienas rīta"
+
+msgid "3-aamusta"
+msgstr "sākot no trešdienas rīta"
+
+msgid "4-aamusta"
+msgstr "sākot no ceturtdienas rīta"
+
+msgid "5-aamusta"
+msgstr "sākot no piektdienas rīta"
+
+msgid "6-aamusta"
+msgstr "sākot no sestdienas rīta"
+
+msgid "7-aamusta"
+msgstr "sākot no svētdienas rīta"
+
+msgid "alkavan"
+msgstr "sāks"
+
+msgid "1-iltaan"
+msgstr "līdz pirmdienas vakaram"
+
+msgid "2-vuorokauden saa"
+msgstr "nākamajās 2 dienās"
+
+msgid "3-vuorokauden saa"
+msgstr "nākamajās 3 dienās"
+
+msgid "4-vuorokauden saa"
+msgstr "nākamajās 4 dienās"
+
+msgid "5-vuorokauden saa"
+msgstr "nākamajās 5 dienās"
+
+msgid "6-vuorokauden saa"
+msgstr "nākamajās 6 dienās"
+
+msgid "7-vuorokauden saa"
+msgstr "nākamajās 7 dienās"
+
+msgid "8-vuorokauden saa"
+msgstr "nākamajās 8 dienās"
+
+msgid "9-vuorokauden saa"
+msgstr "nākamajās 9 dienās"
+
+msgid "10-vuorokauden saa"
+msgstr "nākamajās 10 dienās"
+
+msgid "1-keskipaivaan asti"
+msgstr "līdz pirmdienas pusdienlaikam"
+
+msgid "2-keskipaivaan asti"
+msgstr "līdz otrdienas pusdienlaikam"
+
+msgid "3-keskipaivaan asti"
+msgstr "līdz trešdienas pusdienlaikam"
+
+msgid "4-keskipaivaan asti"
+msgstr "līdz ceturtdienas pusdienlaikam"
+
+msgid "5-keskipaivaan asti"
+msgstr "līdz piektdienas pusdienlaikam"
+
+msgid "6-keskipaivaan asti"
+msgstr "līdz sestdienas pusdienlaikam"
+
+msgid "7-keskipaivaan asti"
+msgstr "līdz svētdienas pusdienlaikam"
+
+msgid "yli"
+msgstr "virs"
+
+msgid "2-iltaan"
+msgstr "līdz otrdienas vakaram"
+
+msgid "3-iltaan"
+msgstr "līdz trešdienas vakaram"
+
+msgid "4-iltaan"
+msgstr "līdz ceturtdienas vakaram"
+
+msgid "5-iltaan"
+msgstr "līdz piektdienas vakaram"
+
+msgid "6-iltaan"
+msgstr "līdz sestdienas vakaram"
+
+msgid "7-iltaan"
+msgstr "līdz svētdienas vakaram"
+
+msgid "monin paikoin enemman"
+msgstr "daudzviet vairāk"
+
+msgid "paikoin enemman"
+msgstr "dažviet vairāk"
+
+msgid "monin paikoin"
+msgstr "daudzviet"
+
+msgid "paikoin"
+msgstr "dažviet"
+
+msgid "asti"
+msgstr "līdz"
+
+msgid "huomattavasti korkeampi"
+msgstr "ievērojami augstāks"
+
+msgid "korkeampi"
+msgstr "augstāk"
+
+msgid "hieman korkeampi"
+msgstr "nedaudz augstāks"
+
+msgid "suunnilleen sama"
+msgstr "aptuveni tāds pats "
+
+msgid "hieman alempi"
+msgstr "nedaudz mazāk"
+
+msgid "alempi"
+msgstr "zemāks"
+
+msgid "huomattavasti alempi"
+msgstr "ievērojami zemāks"
+
+msgid "noin"
+msgstr "ap"
+
+msgid "seuraavana paivana"
+msgstr "nākamajā dienā"
+
+msgid "paivan ylin lampotila"
+msgstr "diennakts maksimālā temperatūra"
+
+msgid "yon alin lampotila"
+msgstr "minimālā gaisa temperatūra naktī"
+
+msgid "paivien ylin lampotila"
+msgstr "maksimālā gaisa temperatūra dienā"
+
+msgid "oiden alin lampotila"
+msgstr "nakts minimālā gaisa temperatūra"
+
+msgid "paivalampotila"
+msgstr "gaisa temperatūra dienā"
+
+msgid "yolampotila"
+msgstr "gaisa temperatūra naktī"
+
+msgid "lopuksi"
+msgstr "beigās"
+
+msgid "8-suunnasta"
+msgstr "no ziemeļrietumiem"
+
+msgid "7-suunnasta"
+msgstr "no rietumiem"
+
+msgid "6-suunnasta"
+msgstr "no dienvidrietumiem"
+
+msgid "5-suunnasta"
+msgstr "no dienvidiem"
+
+msgid "4-suunnasta"
+msgstr "no dienvidaustrumiem"
+
+msgid "3-suunnasta"
+msgstr "no austrumiem"
+
+msgid "2-suunnasta"
+msgstr "no ziemeļaustrumiem"
+
+msgid "1-suunnasta"
+msgstr "no ziemeļiem"
+
+msgid "8-suuntaan"
+msgstr "uz ziemeļrietumiem"
+
+msgid "7-suuntaan"
+msgstr "uz rietumiem"
+
+msgid "6-suuntaan"
+msgstr "uz dienvidrietumiem"
+
+msgid "5-suuntaan"
+msgstr "uz dienvidiem"
+
+msgid "4-suuntaan"
+msgstr "uz dienvidaustrumiem"
+
+msgid "3-suuntaan"
+msgstr "uz austrumiem"
+
+msgid "2-suuntaan"
+msgstr "uz ziemeļaustrumiem"
+
+msgid "1-suuntaan"
+msgstr "uz ziemeļiem"
+
+msgid "alueen yli"
+msgstr "teritorijā"
+
+msgid "liikkuu"
+msgstr "virzīsies"
+
+msgid "kosteammaksi"
+msgstr "mitrāks"
+
+msgid "kuivemmaksi"
+msgstr "sausāks"
+
+msgid "muuttuu"
+msgstr "mainās"
+
+msgid "viilenee"
+msgstr "kļūs aukstāks"
+
+msgid "lampenee"
+msgstr "kļūs siltāks"
+
+msgid "sadealue"
+msgstr "nokrišņu zona"
+
+msgid "leviaa"
+msgstr "izplatīsies"
+
+msgid "loittonee"
+msgstr "atkāpsies"
+
+msgid "lahestyy"
+msgstr "tuvosies"
+
+msgid "laaja"
+msgstr "dienas vidū"
+
+msgid "korkeapaineen alue"
+msgstr "paaugstināta spiediena apgabals"
+
+msgid "matalapaineen alue"
+msgstr "zema spiediena apgabals"
+
+msgid "syvenee"
+msgstr "padziļināsies"
+
+msgid "korkeapaine"
+msgstr "augsts spiediens"
+
+msgid "matalapaine"
+msgstr "zems spiediens"
+
+msgid "lampotila"
+msgstr "gaisa temperatūra"
+
+msgid "m/s"
+msgstr "m/s"
+
+msgid "heikkoa"
+msgstr "neliels"
+
+msgid "kohtalaista"
+msgstr "mērens"
+
+msgid "navakkaa"
+msgstr "svaigs"
+
+msgid "kovaa"
+msgstr "stiprs"
+
+msgid "myrskya"
+msgstr "vētrains"
+
+msgid "tuulta"
+msgstr "vējš"
+
+msgid "suunnaltaan vaihtelevaa"
+msgstr "mainīgs"
+
+msgid "1-tuulta"
+msgstr "ziemeļu vējš"
+
+msgid "2-tuulta"
+msgstr "ziemeļaustrumu vējš"
+
+msgid "3-tuulta"
+msgstr "austrumu vējš"
+
+msgid "4-tuulta"
+msgstr "dienvidaustrumu vējš"
+
+msgid "5-tuulta"
+msgstr "dienvidu vējš"
+
+msgid "6-tuulta"
+msgstr "dienvidrietumu vējš"
+
+msgid "7-tuulta"
+msgstr "rietumu vējš"
+
+msgid "8-tuulta"
+msgstr "ziemeļrietumu vējš"
+
+msgid "yolla"
+msgstr "naktī"
+
+msgid "heikkenevaa"
+msgstr "mazinās"
+
+msgid "tuuli"
+msgstr "vējš"
+
+msgid "1-puoleista tuulta"
+msgstr "ziemeļu puses vējš"
+
+msgid "2-puoleista tuulta"
+msgstr "ziemeļu puses vējš"
+
+msgid "3-puoleista tuulta"
+msgstr "ziemeļu puses vējš"
+
+msgid "4-puoleista tuulta"
+msgstr "ziemeļu puses vējš"
+
+msgid "5-puoleista tuulta"
+msgstr "dienvidu puses vējš"
+
+msgid "6-puoleista tuulta"
+msgstr "dienvidrietumu puses vējš"
+
+msgid "7-puoleista tuulta"
+msgstr "rietumu puses vējš"
+
+msgid "8-puoleista tuulta"
+msgstr "ziemeļrietumu puses vējš"
+
+msgid "ajoittain lumisadetta"
+msgstr "īslaicīgs sniegs"
+
+msgid "ajoittain sadetta"
+msgstr "īslaicīgs lietus"
+
+msgid "ajoittain ukkosta"
+msgstr "pērkona negaiss"
+
+msgid "heikkoa sadetta"
+msgstr "neliels lietus"
+
+msgid "lumikuuroja"
+msgstr "īslaicīgs sniegs"
+
+msgid "lumisadetta"
+msgstr "sniegs"
+
+msgid "voimistuvaa"
+msgstr "pastiprināsies"
+
+msgid "vahvistuu"
+msgstr "pastiprināsies"
+
+msgid "uusimaa"
+msgstr "Uusimā"
+
+msgid "mahdollisesti ukkosta"
+msgstr "pērkona negaisa iespējamība"
+
+msgid "paikoin ukkosta"
+msgstr "vietām pērkona negaiss"
+
+msgid "ukkosta"
+msgstr "pērkona negaiss"
+
+msgid "melko selkeaa"
+msgstr "pārsvarā skaidrs laiks"
+
+msgid "miinus"
+msgstr "mīnus"
+
+msgid "pilvistyvaa"
+msgstr "mākoņu daudzums palielināsies"
+
+msgid "pilvista"
+msgstr "mākoņains"
+
+msgid "poutaa"
+msgstr "labi laika apstākļi"
+
+msgid "puolipilvista"
+msgstr "daļēji mākoņains laiks"
+
+msgid "runsasta sadetta"
+msgstr "stiprs lietus"
+
+msgid "sadetta"
+msgstr "lietus"
+
+msgid "sakeaa lumisadetta"
+msgstr "stiprs lietus"
+
+msgid "sakeita lumikuuroja"
+msgstr "stiprs īslaicīgs lietus"
+
+msgid "selkenevaa"
+msgstr "mākoņu daudzums samazināsies"
+
+msgid "selkeaa"
+msgstr "saulains"
+
+msgid "tai"
+msgstr "vai"
+
+msgid "tuuli heikkenee"
+msgstr "vējš pierims līdz"
+
+msgid "vaihtelevaa pilvisyytta"
+msgstr "mainīgs mākoņu daudzums"
+
+msgid "vesisadetta"
+msgstr "lietus"
+
+msgid "voimakkaita kuuroja"
+msgstr "stiprs lietus"
+
+msgid "vahaisia kuuroja"
+msgstr "neliels īslaicīgs lietus"
+
+msgid "vahaista lumisadetta"
+msgstr "neliels sniegs"
+
+msgid "heikoksi"
+msgstr "neliels"
+
+msgid "kohtalaiseksi"
+msgstr "mērens"
+
+msgid "navakaksi"
+msgstr "svaigs"
+
+msgid "kovaksi"
+msgstr "stiprs"
+
+msgid "myrskyksi"
+msgstr "vētrains"
+
+msgid "1-tuuleksi"
+msgstr "ziemeļu vējš"
+
+msgid "2-tuuleksi"
+msgstr "ziemeļaustrumu vējš"
+
+msgid "3-tuuleksi"
+msgstr "austrumu vējš"
+
+msgid "4-tuuleksi"
+msgstr "dienvidaustrumu vējš"
+
+msgid "5-tuuleksi"
+msgstr "dienvidu vējš"
+
+msgid "6-tuuleksi"
+msgstr "dienvidrietumu vējš"
+
+msgid "7-tuuleksi"
+msgstr "rietumu vējš"
+
+msgid "8-tuuleksi"
+msgstr "ziemeļrietumu vējš"
+
+msgid "1-puoleiseksi tuuleksi"
+msgstr "ziemeļu puses vējš"
+
+msgid "2-puoleiseksi tuuleksi"
+msgstr "ziemeļu puses vējš"
+
+msgid "3-puoleiseksi tuuleksi"
+msgstr "ziemeļu puses vējš"
+
+msgid "4-puoleiseksi tuuleksi"
+msgstr "ziemeļu puses vējš"
+
+msgid "5-puoleiseksi tuuleksi"
+msgstr "dienvidu puses vējš"
+
+msgid "6-puoleiseksi tuuleksi"
+msgstr "dienvidrietumu puses vējš"
+
+msgid "7-puoleiseksi tuuleksi"
+msgstr "rietumu puses vējš"
+
+msgid "8-puoleiseksi tuuleksi"
+msgstr "ziemeļrietumu puses vējš"
+
+msgid "tuuli tyyntyy"
+msgstr "vējš pierims"
+
+msgid "tyyneksi"
+msgstr "mierīgs"
+
+msgid "tyynta"
+msgstr "lēns vējš"
+
+msgid "viiva"
+msgstr "līdz"
+
+msgid "rantasadetta"
+msgstr "slapjš sniegs"
+
+msgid "saa on epavakaista"
+msgstr "laiks būs nestabils"
+
+msgid "lumi-"
+msgstr "sniegs"
+
+msgid "ranta-"
+msgstr "slapjš sniegs"
+
+msgid "vesi-"
+msgstr "lietus"
+
+msgid "edelleen"
+msgstr "ilgstošs"
+
+msgid "enimmakseen"
+msgstr "lielākoties"
+
+msgid "ajoittain sateista"
+msgstr "īslaicīgs lietus"
+
+msgid "paivalla"
+msgstr "dienas laikā"
+
+msgid "hirmumyrskya"
+msgstr "stipra vētra"
+
+msgid "hirmumyrskyksi"
+msgstr "stipra vētra"
+
+msgid "saaennuste"
+msgstr "laika ziņas"
+
+msgid "kello"
+msgstr "pulksten"
+
+msgid "aland:lle"
+msgstr "Ālandiem"
+
+msgid "etela-karjala:lle"
+msgstr "Dienvidkarēlijai"
+
+msgid "etela-pohjanmaa:lle"
+msgstr "Dienvidpohjanmā"
+
+msgid "etela-savo:lle"
+msgstr "Dienvidsavonijai"
+
+msgid "hame:lle"
+msgstr "Hāmei"
+
+msgid "kainuu:lle"
+msgstr "Kainū"
+
+msgid "keski-pohjanmaa:lle"
+msgstr "Viduspohjanmā"
+
+msgid "keski-suomi:lle"
+msgstr "Centrālajai Somijai"
+
+msgid "koillismaa:lle"
+msgstr "Koilismā"
+
+msgid "kymenlaakso:lle"
+msgstr "Kīmenlāksai"
+
+msgid "lansi-lappi:lle"
+msgstr "Rietumlapijai"
+
+msgid "nyland:lle"
+msgstr "Ūsimā"
+
+msgid "osterbotten:lle"
+msgstr "Pohjanmā"
+
+msgid "paijat-hame:lle"
+msgstr "Pejatehāmei"
+
+msgid "pirkanmaa:lle"
+msgstr "Pirkanmā"
+
+msgid "pohjois-karjala:lle"
+msgstr "Ziemeļkarēlijai"
+
+msgid "pohjois-lappi:lle"
+msgstr "Ziemeļlapijai"
+
+msgid "pohjois-pohjanmaa:lle"
+msgstr "Ziemeļpohjanmā"
+
+msgid "pohjois-savo:lle"
+msgstr "Ziemeļsavonijai"
+
+msgid "satakunta:lle"
+msgstr "Satakuntai"
+
+msgid "uusimaa:lle"
+msgstr "Ūsimā"
+
+msgid "varsinais-suomi:lle"
+msgstr "Īstajai Somijai"
+
+msgid "huomattavasti suurempi"
+msgstr "ievērojami lielāks"
+
+msgid "huomattavasti pienempi"
+msgstr "ievērojami mazāks"
+
+msgid "rannikolla"
+msgstr "piekrastē"
+
+msgid "metria sekunnissa"
+msgstr "metri sekundē"
+
+msgid "1-alkaen"
+msgstr "sākot no pirmdienas"
+
+msgid "2-alkaen"
+msgstr "sākot no otrdienas"
+
+msgid "3-alkaen"
+msgstr "sākot no trešdienas"
+
+msgid "4-alkaen"
+msgstr "sākot no ceturtdienas"
+
+msgid "5-alkaen"
+msgstr "sākot no piektdienas"
+
+msgid "6-alkaen"
+msgstr "sākot no sestdienas"
+
+msgid "7-alkaen"
+msgstr "sākot no svētdienas"
+
+msgid "tanaan"
+msgstr "šodien"
+
+msgid "huomenna"
+msgstr "rīt"
+
+msgid "ylihuomenna"
+msgstr "parīt"
+
+msgid "ensi yona"
+msgstr "naktī"
+
+msgid "huomisaamuna"
+msgstr "rīt no rīta"
+
+msgid "aamulla"
+msgstr "no rīta"
+
+msgid "illalla"
+msgstr "vakarā"
+
+msgid "iltapaivalla"
+msgstr "pēcpusdienā"
+
+msgid "aamuyolla"
+msgstr "nakts otrajā pusē"
+
+msgid "keskipaivalla"
+msgstr "dienas vidū"
+
+msgid "iltayolla"
+msgstr "nakts pirmajā pusē"
+
+msgid "keskiyolla"
+msgstr "nakts vidū"
+
+msgid "yosta alkaen"
+msgstr "sākot no nākamās nakts"
+
+msgid "aamuyosta alkaen"
+msgstr "sākot no agra rīta"
+
+msgid "aamusta alkaen"
+msgstr "sākot ar rītu"
+
+msgid "aamupaivasta alkaen"
+msgstr "sākot ar priekšpusdienu"
+
+msgid "keskipaivasta alkaen"
+msgstr "sākot no dienas vidus"
+
+msgid "iltapaivasta alkaen"
+msgstr "sākot no pēcpusdienas"
+
+msgid "illasta alkaen"
+msgstr "sākot no vakara"
+
+msgid "iltayosta alkaen"
+msgstr "sākot no vēla vakara"
+
+msgid "keskiyosta alkaen"
+msgstr "sākot no nakts vidus"
+
+msgid "prosenttia"
+msgstr "procenti"
+
+msgid "ajoittain"
+msgstr "brīžiem "
+
+msgid "1-na kello"
+msgstr "pirmdien"
+
+msgid "2-na kello"
+msgstr "otrdien"
+
+msgid "3-na kello"
+msgstr "trešdien"
+
+msgid "4-na kello"
+msgstr "ceturtdien"
+
+msgid "5-na kello"
+msgstr "piektdien"
+
+msgid "6-na kello"
+msgstr "sestdien"
+
+msgid "7-na kello"
+msgstr "svētdien"
+
+msgid "ei suuria muutoksia saassa"
+msgstr "laika apstākļos ievērojamas izmaiņas nav gaidāmas"
+
+msgid "saa selkenee"
+msgstr "laiks uzlabosies"
+
+msgid "saa muuttuu epavakaisemmaksi"
+msgstr "laiks kļūs nepastāvīgāks"
+
+msgid "sateinen saa jatkuu"
+msgstr "saglabāsies lietains laiks"
+
+msgid "epavakainen saa jatkuu"
+msgstr "nepastāvīgi laika apstākļi turpināsies"
+
+msgid "saa lauhtuu"
+msgstr "laiks kļūs maigāks"
+
+msgid "saa on enimmakseen poutaista"
+msgstr "laiks ir pārsvarā labs "
+
+msgid "saa poutaantuu"
+msgstr "laiks uzlabosies"
+
+msgid "saa muuttuu helteiseksi"
+msgstr "laiks kļūs karstāks"
+
+msgid "saa lampenee"
+msgstr "laiks kļūs siltāks"
+
+msgid "saa viilenee"
+msgstr "laiks kļūs vēsāks"
+
+msgid "saa muuttuu koleaksi"
+msgstr "laiks kļūs nepatīkams"
+
+msgid "saa kylmenee"
+msgstr "laiks kļūs aukstāks"
+
+msgid "helteinen saa jatkuu"
+msgstr "karsts laiks turpināsies "
+
+msgid "lammin saa jatkuu"
+msgstr "saglabāsies silts laiks"
+
+msgid "viilea saa jatkuu"
+msgstr "saglabāsies vēss laiks"
+
+msgid "kolea saa jatkuu"
+msgstr "saglabāsies nepatīkams laiks"
+
+msgid "kylma saa jatkuu"
+msgstr "saglabāsies auksts laiks"
+
+msgid "virtaa"
+msgstr "plūsmas"
+
+msgid "tilapaisesti"
+msgstr "īslaicīgi"
+
+msgid "lamminta"
+msgstr "silts"
+
+msgid "kylmaa"
+msgstr "auksts"
+
+msgid "viileaa"
+msgstr "vēss"
+
+msgid "viileampaa"
+msgstr "vēsāks"
+
+msgid "lampimampaa"
+msgstr "siltāks"
+
+msgid "kylmempaa"
+msgstr "aukstāks"
+
+msgid "hyvin"
+msgstr "daudz"
+
+msgid "vahan"
+msgstr "nedaudz"
+
+msgid "ilmaa"
+msgstr "gaiss"
+
+msgid "Suomeen"
+msgstr "uz Somiju"
+
+msgid "maan"
+msgstr "valstis"
+
+msgid "etelaosiin"
+msgstr "dienvidu daļā"
+
+msgid "keskiosiin"
+msgstr "centrālā daļa"
+
+msgid "pohjoisosiin"
+msgstr "ziemeļu daļā"
+
+msgid "itaosiin"
+msgstr "austrumu daļā"
+
+msgid "lansiosiin"
+msgstr "rietumu daļā"
+
+msgid "etela-"
+msgstr "dienvidu"
+
+msgid "keski-"
+msgstr "centrālajā"
+
+msgid "pohjois-"
+msgstr "ziemeļu"
+
+msgid "ita-"
+msgstr "austrumu"
+
+msgid "lansi-"
+msgstr "rietumu"
+
+msgid "kuivempaa"
+msgstr "sausāks"
+
+msgid "kosteampaa"
+msgstr "mitrāks"
+
+msgid "sadealueita"
+msgstr "lietus zonas"
+
+msgid "Suomen yli"
+msgstr "virs Somijas"
+
+msgid "Etela-Suomen yli"
+msgstr "virs Somijas dienvidiem"
+
+msgid "Keski-Suomen yli"
+msgstr "virs Somijas centrālo daļu"
+
+msgid "Pohjois-Suomen yli"
+msgstr "virs Somijas ziemeļiem"
+
+msgid "Ita-Suomen yli"
+msgstr "virs Somijas austrumiem"
+
+msgid "Lansi-Suomen yli"
+msgstr "virs Somijas rietumiem"
+
+msgid "Kaakkois-Suomen yli"
+msgstr "virs Somijas dienvidaustrumiem"
+
+msgid "uusi"
+msgstr "jauns"
+
+msgid "sateen todennakoisyys"
+msgstr "nokrišņu iespējamība"
+
+msgid "kuurosateen todennakoisyys"
+msgstr "īslaicīga lietus iespējamība"
+
+msgid "ukkosen todennakoisyys"
+msgstr "pērkona negaisa iespējamība"
+
+msgid "pakkanen jatkuu"
+msgstr "sals turpināsies"
+
+msgid "pakkanen kiristyy"
+msgstr "sals pieņemsies spēkā"
+
+msgid "pakkanen heikkenee"
+msgstr "sals mazināsies"
+
+msgid "kuuluu"
+msgstr "pieder"
+
+msgid "sateineen"
+msgstr "ar lietu"
+
+msgid "sadealueineen"
+msgstr "ar lietus zonām"
+
+msgid "hajanaisine sadealueineen"
+msgstr "atsevišķos rajonos īslaicīgi līs"
+
+msgid "Lounais-Suomen yli"
+msgstr "virs Somijas dienvidrietumiem"
+
+msgid "saapuu"
+msgstr "tuvosies"
+
+msgid "saa muuttuu sateisemmaksi"
+msgstr "laiks kļūs lietaināks"
+
+msgid "alue"
+msgstr "platībā"
+
+msgid "pohjanmaa:lle"
+msgstr "Pohjanmā"
+
+msgid "suomi:lle"
+msgstr "Somijai"
+
+msgid "aluksi"
+msgstr "sākumā"
+
+msgid "ahvenanmaa:lle"
+msgstr "Ālandiem"
+
+msgid "huomisesta alkaen"
+msgstr "sākot no rītdienas"
+
+msgid "ja"
+msgstr "and"
+
+msgid "tiepiiri-hame:lle"
+msgstr "Hāmes ceļu rajonam"
+
+msgid "tiepiiri-kaakkois-lappi:lle"
+msgstr "Dienvidaustrumlapijai"
+
+msgid "tiepiiri-kaakkois-suomi:lle"
+msgstr "Dienvidaustrumsomijas ceļu rajonam"
+
+msgid "tiepiiri-kasivarsi:lle"
+msgstr "Ziemeļrietumlapijai"
+
+msgid "tiepiiri-keski-lappi:lle"
+msgstr "Centrāllapijai"
+
+msgid "tiepiiri-keski-suomi:lle"
+msgstr "Centrālsomijas ceļu rajonam"
+
+msgid "tiepiiri-lounais-lappi:lle"
+msgstr "Dienvidrietumlapijai"
+
+msgid "tiepiiri-oulu-ita:lle"
+msgstr "Oulu ceļu rajona austrumdaļai"
+
+msgid "tiepiiri-oulu-lansi:lle"
+msgstr "Oulu ceļu rajona rietumdaļai"
+
+msgid "tiepiiri-savo-karjala:lle"
+msgstr "Savonijas-Karēlijas ceļu rajonam"
+
+msgid "tiepiiri-turku:lle"
+msgstr "Turku ceļu rajonam"
+
+msgid "tiepiiri-uusimaa:lle"
+msgstr "Ūsimā ceļu rajonam"
+
+msgid "tiepiiri-vaasa:lle"
+msgstr "Vāsas ceļu rajonam"
+
+msgid "tiepiiri-yla-lappi:lle"
+msgstr "Augšlapijai"
+
+msgid "tienpintalampotila"
+msgstr "ceļu virsmas temperatūra"
+
+msgid "ensimmaisen 12 tunnin sademaara"
+msgstr "kopējais nokrišņu daudzums tuvākajās 12 stundās"
+
+msgid "seuraavan 12 tunnin"
+msgstr "nākamajās 12 stundās"
+
+msgid "seuraavan 24 tunnin sademaara"
+msgstr "kopējais nokrišņu daudzums nākamajās 24 stundās"
+
+msgid "tiet ovat"
+msgstr "ceļi būs"
+
+msgid "teilla on"
+msgstr "ceļi būs"
+
+msgid "jaisia"
+msgstr "apledojis"
+
+msgid "osittain jaisia"
+msgstr "daļēji apledojis"
+
+msgid "kuuraa"
+msgstr "pārklāts ar sarmu"
+
+msgid "sohjoa"
+msgstr "klāts ar šķīdoni"
+
+msgid "lunta"
+msgstr "pārklāts ar sniegu"
+
+msgid "markia"
+msgstr "slapjš"
+
+msgid "kosteita"
+msgstr "mitrs"
+
+msgid "kuivia"
+msgstr "sauss"
+
+msgid "kuuraisia"
+msgstr "pārklāts ar sarmu"
+
+msgid "sohjoisia"
+msgstr "klāts ar šķīdoni"
+
+msgid "lumisia"
+msgstr "pārklāts ar sniegu"
+
+msgid "tiet ovat (sivulause)"
+msgstr "ceļi būs"
+
+msgid "yleisesti"
+msgstr "pārsvarā"
+
+msgid "kanta-hame:lle"
+msgstr "īstajai Hāmei"
+
+msgid "ita-uusimaa:lle"
+msgstr "Austrumūsimā"
+
+msgid "lappi:lle"
+msgstr "Lapijai"
+
+msgid "lapin-laani:lle"
+msgstr "Lapijas apgabalam"
+
+msgid "oulun-laani:lle"
+msgstr "Oulu apgabalam"
+
+msgid "ita-suomen-laani:lle"
+msgstr "Austrumsomijas apgabalam"
+
+msgid "lansi-suomen-laani:lle"
+msgstr "Rietumsomijas apgabalam"
+
+msgid "etela-suomen-laani:lle"
+msgstr "Dienvidsomijas apgabalam"
+
+msgid "ahvenanmaan-laani:lle"
+msgstr "Ālandu apgabalam"
+
+msgid "7-paivalla"
+msgstr "svētdien dienas laikā"
+
+msgid "2-aamuna"
+msgstr "otrdien no rīta"
+
+msgid "3-aamuna"
+msgstr "trešdien no rīta"
+
+msgid "4-aamuna"
+msgstr "ceturtdien no rīta"
+
+msgid "5-aamuna"
+msgstr "piektdien no rīta"
+
+msgid "6-aamuna"
+msgstr "sestdien no rīta"
+
+msgid "7-aamuna"
+msgstr "svētdien no rīta"
+
+msgid "1-aamupaivasta alkaen"
+msgstr "sākot ar pirmdienas priekšpusdienu"
+
+msgid "2-aamupaivasta alkaen"
+msgstr "sākot ar otrdienas priekšpusdienu"
+
+msgid "3-aamupaivasta alkaen"
+msgstr "sākot ar trešdienas priekšpusdienu"
+
+msgid "4-aamupaivasta alkaen"
+msgstr "sākot ar ceturtdienas priekšpusdienu"
+
+msgid "5-aamupaivasta alkaen"
+msgstr "sākot ar piektdienas priekšpusdienu"
+
+msgid "6-aamupaivasta alkaen"
+msgstr "sākot ar sestdienas priekšpusdienu"
+
+msgid "1-aamusta alkaen"
+msgstr "sākot no pirmdienas rīta"
+
+msgid "2-aamusta alkaen"
+msgstr "sākot no otrdienas rīta"
+
+msgid "3-aamusta alkaen"
+msgstr "sākot no trešdienas rīta"
+
+msgid "4-aamusta alkaen"
+msgstr "sākot no ceturtdienas rīta"
+
+msgid "5-aamusta alkaen"
+msgstr "sākot no piektdienas rīta"
+
+msgid "6-aamusta alkaen"
+msgstr "sākot no sestdienas rīta"
+
+msgid "7-aamusta alkaen"
+msgstr "sākot no svētdienas rīta"
+
+msgid "1-iltana"
+msgstr "pirmdien vakarā"
+
+msgid "2-iltana"
+msgstr "otrdien vakarā"
+
+msgid "3-iltana"
+msgstr "trešdien vakarā"
+
+msgid "4-iltana"
+msgstr "ceturtdien vakarā"
+
+msgid "5-iltana"
+msgstr "piektdien vakarā"
+
+msgid "6-iltana"
+msgstr "sestdien vakarā"
+
+msgid "7-iltana"
+msgstr "svētdien vakarā"
+
+msgid "1-illasta alkaen"
+msgstr "sākot no pirmdienas vakara"
+
+msgid "2-illasta alkaen"
+msgstr "sākot no otrdienas vakara"
+
+msgid "3-illasta alkaen"
+msgstr "sākot no trešdienas vakara"
+
+msgid "4-illasta alkaen"
+msgstr "sākot no ceturtdienas vakara"
+
+msgid "5-illasta alkaen"
+msgstr "sākot no piektdienas vakara"
+
+msgid "6-illasta alkaen"
+msgstr "sākot no sestdienas vakara"
+
+msgid "7-illasta alkaen"
+msgstr "sākot no svētdienas vakara"
+
+msgid "1-paivalla"
+msgstr "pirmdien dienas laikā"
+
+msgid "2-paivalla"
+msgstr "otrdien dienas laikā"
+
+msgid "3-paivalla"
+msgstr "trešdien dienas laikā"
+
+msgid "4-paivalla"
+msgstr "trešdien dienas laikā"
+
+msgid "5-paivalla"
+msgstr "piektdien dienas vidū"
+
+msgid "6-paivalla"
+msgstr "sestdien dienas laikā"
+
+msgid "1-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz pirmdienu"
+
+msgid "2-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz otrdienu"
+
+msgid "3-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz trešdienu"
+
+msgid "4-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz ceturtdienu"
+
+msgid "5-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz piektdienu"
+
+msgid "6-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz sestdienu"
+
+msgid "7-vastaisesta yosta alkaen"
+msgstr "sākot no nakts uz svētdienu"
+
+msgid "huomisaamusta alkaen"
+msgstr "sākot no nākamās dienas rīta"
+
+msgid "huomisaamupaivasta alkaen"
+msgstr "sākot no rītdienas priekšpusdienas"
+
+msgid "huomisillasta alkaen"
+msgstr "sākot no nākamās dienas vakara"
+
+msgid "huomenna paivalla"
+msgstr "rīt dienas laikā"
+
+msgid "huomisiltana"
+msgstr "rīt vakarā"
+
+msgid "1-aamuna"
+msgstr "pirmdien no rīta"
+
+msgid "7-aamupaivasta alkaen"
+msgstr "sākot ar svētdienas priekšpusdienu"
+
+msgid "B1:lle"
+msgstr "Botnijas līcis"
+
+msgid "B2:lle"
+msgstr "Kvarkens"
+
+msgid "B3:lle"
+msgstr "Botnijas jūra"
+
+msgid "B4:lle"
+msgstr "Arhipelāga jūra un Ālandu jūra"
+
+msgid "B5:lle"
+msgstr "Somu līcis"
+
+msgid "B6:lle"
+msgstr "Rīgas līcis"
+
+msgid "B7:lle"
+msgstr "Baltijas jūras ziemeļu daļa"
+
+msgid "B8:lle"
+msgstr "Baltijas jūras vidus daļa"
+
+msgid "B9:lle"
+msgstr "Baltijas jūras dienvidaustrumu daļa"
+
+msgid "B10:lle"
+msgstr "Baltijas jūras dienvidu daļa"
+
+msgid "B11:lle"
+msgstr "Arkonas jūra"
+
+msgid "B12:lle"
+msgstr "Erezunds un Beltu jūra"
+
+msgid "B13:lle"
+msgstr "Kategats"
+
+msgid "B1N:lle"
+msgstr "Botnijas līča ziemeļu daļa"
+
+msgid "B1S:lle"
+msgstr "Botnijas līča dienvidu daļa"
+
+msgid "B4E:lle"
+msgstr "Arhipelāga jūra"
+
+msgid "B4W:lle"
+msgstr "Ālandu jūra"
+
+msgid "B5E:lle"
+msgstr "Somu līča austrumu daļa"
+
+msgid "B5W:lle"
+msgstr "Somu līča rietumu daļa"
+
+msgid "B8E:lle"
+msgstr "Baltijas jūras vidus daļa"
+
+msgid "B8W:lle"
+msgstr "Gotlandes jūra"
+
+msgid "B10N:lle"
+msgstr "Ēlandes jūra"
+
+msgid "B10S:lle"
+msgstr "Bornholmas jūra"
+
+msgid "osittain jaisiksi"
+msgstr "daļēji apledojis"
+
+msgid "kuuraisiksi"
+msgstr "pārklāts ar sarmu"
+
+msgid "keli on"
+msgstr "braukšanas apstākļi uz ceļiem būs"
+
+msgid "tienpinnat muuttuvat"
+msgstr "ceļi būs"
+
+msgid "jaisiksi"
+msgstr "apledojis"
+
+msgid "pakkasliukkautta"
+msgstr "atkala"
+
+msgid "rannasta ja liukkaista"
+msgstr "pasliktināti slidenu ceļu un slapja sniega dēļ"
+
+msgid "tieto puuttuu"
+msgstr "trūkst datu"
+
+msgid "liukkaiksi jaatavasta sateesta"
+msgstr "ledus lietus ietemē būs slidens"
+
+msgid "rannasta ja osittain liukkaista"
+msgstr "pasliktināti daļēji slidenu ceļu un slapja sniega dēļ"
+
+msgid "sateesta ja osittain liukkaista"
+msgstr "nokrišņu un daļēji slidena seguma dēļ"
+
+msgid "sateesta ja liukkaista"
+msgstr "nokrišņu un slidena seguma dēļ"
+
+msgid "normaali"
+msgstr "normāls"
+
+msgid "aanekoski:lle"
+msgstr "Aanekoski"
+
+msgid "aetsa:lle"
+msgstr "Aetsa"
+
+msgid "ahtari:lle"
+msgstr "Ahtari"
+
+msgid "alaharma:lle"
+msgstr "Alaharma"
+
+msgid "alajarvi:lle"
+msgstr "Alajarvi"
+
+msgid "alastaro:lle"
+msgstr "Alastaro"
+
+msgid "alavieska:lle"
+msgstr "Alavieska"
+
+msgid "alavus:lle"
+msgstr "Alavus"
+
+msgid "anjalankoski:lle"
+msgstr "Anjalankoski"
+
+msgid "artjarvi:lle"
+msgstr "Artjarvi"
+
+msgid "asikkala:lle"
+msgstr "Asikkala"
+
+msgid "askainen:lle"
+msgstr "Askainen"
+
+msgid "askola:lle"
+msgstr "Askola"
+
+msgid "aura:lle"
+msgstr "Aura"
+
+msgid "brando:lle"
+msgstr "Brando"
+
+msgid "dragsfjard:lle"
+msgstr "Dragsfjard"
+
+msgid "eckero:lle"
+msgstr "Eckero"
+
+msgid "elimaki:lle"
+msgstr "Elimaki"
+
+msgid "enonkoski:lle"
+msgstr "Enonkoski"
+
+msgid "enontekio:lle"
+msgstr "Enontekio"
+
+msgid "eno:lle"
+msgstr "Eno"
+
+msgid "espoo:lle"
+msgstr "Espoo"
+
+msgid "eurajoki:lle"
+msgstr "Eurajoki"
+
+msgid "eura:lle"
+msgstr "Eura"
+
+msgid "evijarvi:lle"
+msgstr "Evijarvi"
+
+msgid "finstrom:lle"
+msgstr "Finstrom"
+
+msgid "foglo:lle"
+msgstr "Foglo"
+
+msgid "forssa:lle"
+msgstr "Forssa"
+
+msgid "geta:lle"
+msgstr "Geta"
+
+msgid "haapajarvi:lle"
+msgstr "Haapajarvi"
+
+msgid "haapavesi:lle"
+msgstr "Haapavesi"
+
+msgid "hailuoto:lle"
+msgstr "Hailuoto"
+
+msgid "halikko:lle"
+msgstr "Halikko"
+
+msgid "halsua:lle"
+msgstr "Halsua"
+
+msgid "hameenkoski:lle"
+msgstr "Hameenkoski"
+
+msgid "hameenkyro:lle"
+msgstr "Hameenkyro"
+
+msgid "hameenlinna:lle"
+msgstr "Hameenlinna"
+
+msgid "hamina:lle"
+msgstr "Hamina"
+
+msgid "hammarland:lle"
+msgstr "Hammarland"
+
+msgid "hankasalmi:lle"
+msgstr "Hankasalmi"
+
+msgid "hanko:lle"
+msgstr "Hanko"
+
+msgid "harjavalta:lle"
+msgstr "Harjavalta"
+
+msgid "B3S:lle"
+msgstr "Botnijas jūras dienvidu daļa"
+
+msgid "B7E:lle"
+msgstr "Baltijas jūras ziemeļu daļas austrumi"
+
+msgid "B7W:lle"
+msgstr "Baltijas jūras ziemeļu daļas rietumi"
+
+msgid "hartola:lle"
+msgstr "Hartola"
+
+msgid "hattula:lle"
+msgstr "Hattula"
+
+msgid "hauho:lle"
+msgstr "Hauho"
+
+msgid "haukipudas:lle"
+msgstr "Haukipudas"
+
+msgid "haukivuori:lle"
+msgstr "Haukivuori"
+
+msgid "hausjarvi:lle"
+msgstr "Hausjarvi"
+
+msgid "heinavesi:lle"
+msgstr "Heinavesi"
+
+msgid "heinola:lle"
+msgstr "Heinola"
+
+msgid "helsinki:lle"
+msgstr "Helsinki"
+
+msgid "himanka:lle"
+msgstr "Himanka"
+
+msgid "hirvensalmi:lle"
+msgstr "Hirvensalmi"
+
+msgid "hollola:lle"
+msgstr "Hollola"
+
+msgid "honkajoki:lle"
+msgstr "Honkajoki"
+
+msgid "houtskari:lle"
+msgstr "Houtskari"
+
+msgid "huittinen:lle"
+msgstr "Huittinen"
+
+msgid "humppila:lle"
+msgstr "Humppila"
+
+msgid "hyrynsalmi:lle"
+msgstr "Hyrynsalmi"
+
+msgid "hyvinkaa:lle"
+msgstr "Hyvinkaa"
+
+msgid "iisalmi:lle"
+msgstr "Iisalmi"
+
+msgid "ii:lle"
+msgstr "Ii"
+
+msgid "iitti:lle"
+msgstr "Iitti"
+
+msgid "ikaalinen:lle"
+msgstr "Ikaalinen"
+
+msgid "ilmajoki:lle"
+msgstr "Ilmajoki"
+
+msgid "ilomantsi:lle"
+msgstr "Ilomantsi"
+
+msgid "imatra:lle"
+msgstr "Imatra"
+
+msgid "inari:lle"
+msgstr "Inari"
+
+msgid "inio:lle"
+msgstr "Inio"
+
+msgid "inkoo:lle"
+msgstr "Inkoo"
+
+msgid "isojoki:lle"
+msgstr "Isojoki"
+
+msgid "isokyro:lle"
+msgstr "Isokyro"
+
+msgid "jaala:lle"
+msgstr "Jaala"
+
+msgid "jalasjarvi:lle"
+msgstr "Jalasjarvi"
+
+msgid "jamijarvi:lle"
+msgstr "Jamijarvi"
+
+msgid "jamsankoski:lle"
+msgstr "Jamsankoski"
+
+msgid "jamsa:lle"
+msgstr "Jamsa"
+
+msgid "janakkala:lle"
+msgstr "Janakkala"
+
+msgid "jarvenpaa:lle"
+msgstr "Jarvenpaa"
+
+msgid "joensuu:lle"
+msgstr "Joensuu"
+
+msgid "jokioinen:lle"
+msgstr "Jokioinen"
+
+msgid "jomala:lle"
+msgstr "Jomala"
+
+msgid "joroinen:lle"
+msgstr "Joroinen"
+
+msgid "joutsa:lle"
+msgstr "Joutsa"
+
+msgid "joutseno:lle"
+msgstr "Joutseno"
+
+msgid "juankoski:lle"
+msgstr "Juankoski"
+
+msgid "jurva:lle"
+msgstr "Jurva"
+
+msgid "juuka:lle"
+msgstr "Juuka"
+
+msgid "juupajoki:lle"
+msgstr "Juupajoki"
+
+msgid "juva:lle"
+msgstr "Juva"
+
+msgid "jyvaskylan_mlk:lle"
+msgstr "Jyvaskylan_Mlk"
+
+msgid "jyvaskyla:lle"
+msgstr "Jyvaskyla"
+
+msgid "kaarina:lle"
+msgstr "Kaarina"
+
+msgid "kaavi:lle"
+msgstr "Kaavi"
+
+msgid "kajaani:lle"
+msgstr "Kajaani"
+
+msgid "kalajoki:lle"
+msgstr "Kalajoki"
+
+msgid "kalvia:lle"
+msgstr "Kalvia"
+
+msgid "kalvola:lle"
+msgstr "Kalvola"
+
+msgid "kangasala:lle"
+msgstr "Kangasala"
+
+msgid "kangasniemi:lle"
+msgstr "Kangasniemi"
+
+msgid "kankaanpaa:lle"
+msgstr "Kankaanpaa"
+
+msgid "kannonkoski:lle"
+msgstr "Kannonkoski"
+
+msgid "kannus:lle"
+msgstr "Kannus"
+
+msgid "karijoki:lle"
+msgstr "Karijoki"
+
+msgid "karjaa:lle"
+msgstr "Karjaa"
+
+msgid "karjalohja:lle"
+msgstr "Karjalohja"
+
+msgid "karkkila:lle"
+msgstr "Karkkila"
+
+msgid "karkola:lle"
+msgstr "Karkola"
+
+msgid "karsamaki:lle"
+msgstr "Karsamaki"
+
+msgid "karstula:lle"
+msgstr "Karstula"
+
+msgid "karttula:lle"
+msgstr "Karttula"
+
+msgid "karvia:lle"
+msgstr "Karvia"
+
+msgid "kaskinen:lle"
+msgstr "Kaskinen"
+
+msgid "kauhajoki:lle"
+msgstr "Kauhajoki"
+
+msgid "kauhava:lle"
+msgstr "Kauhava"
+
+msgid "kauniainen:lle"
+msgstr "Kauniainen"
+
+msgid "kaustinen:lle"
+msgstr "Kaustinen"
+
+msgid "keitele:lle"
+msgstr "Keitele"
+
+msgid "kemijarvi:lle"
+msgstr "Kemijarvi"
+
+msgid "keminmaa:lle"
+msgstr "Keminmaa"
+
+msgid "kemio:lle"
+msgstr "Kemio"
+
+msgid "kemi:lle"
+msgstr "Kemi"
+
+msgid "kempele:lle"
+msgstr "Kempele"
+
+msgid "kerava:lle"
+msgstr "Kerava"
+
+msgid "kerimaki:lle"
+msgstr "Kerimaki"
+
+msgid "kesalahti:lle"
+msgstr "Kesalahti"
+
+msgid "kestila:lle"
+msgstr "Kestila"
+
+msgid "keuruu:lle"
+msgstr "Keuruu"
+
+msgid "kihnio:lle"
+msgstr "Kihnio"
+
+msgid "kiikala:lle"
+msgstr "Kiikala"
+
+msgid "kiikoinen:lle"
+msgstr "Kiikoinen"
+
+msgid "kiiminki:lle"
+msgstr "Kiiminki"
+
+msgid "kinnula:lle"
+msgstr "Kinnula"
+
+msgid "kirkkonummi:lle"
+msgstr "Kirkkonummi"
+
+msgid "kisko:lle"
+msgstr "Kisko"
+
+msgid "kitee:lle"
+msgstr "Kitee"
+
+msgid "kittila:lle"
+msgstr "Kittila"
+
+msgid "kiukainen:lle"
+msgstr "Kiukainen"
+
+msgid "kiuruvesi:lle"
+msgstr "Kiuruvesi"
+
+msgid "kivijarvi:lle"
+msgstr "Kivijarvi"
+
+msgid "kodisjoki:lle"
+msgstr "Kodisjoki"
+
+msgid "kokar:lle"
+msgstr "Kokar"
+
+msgid "kokemaki:lle"
+msgstr "Kokemaki"
+
+msgid "kokkola:lle"
+msgstr "Kokkola"
+
+msgid "kolari:lle"
+msgstr "Kolari"
+
+msgid "konnevesi:lle"
+msgstr "Konnevesi"
+
+msgid "kontiolahti:lle"
+msgstr "Kontiolahti"
+
+msgid "korpilahti:lle"
+msgstr "Korpilahti"
+
+msgid "korppoo:lle"
+msgstr "Korppoo"
+
+msgid "korsnas:lle"
+msgstr "Korsnas"
+
+msgid "kortesjarvi:lle"
+msgstr "Kortesjarvi"
+
+msgid "koski_tl:lle"
+msgstr "Koski_Tl"
+
+msgid "kotka:lle"
+msgstr "Kotka"
+
+msgid "kouvola:lle"
+msgstr "Kouvola"
+
+msgid "koylio:lle"
+msgstr "Koylio"
+
+msgid "kristiinankaupunki:lle"
+msgstr "Kristiinankaupunki"
+
+msgid "kronoby:lle"
+msgstr "Kronoby"
+
+msgid "kuhmalahti:lle"
+msgstr "Kuhmalahti"
+
+msgid "kuhmoinen:lle"
+msgstr "Kuhmoinen"
+
+msgid "kuhmo:lle"
+msgstr "Kuhmo"
+
+msgid "kuivaniemi:lle"
+msgstr "Kuivaniemi"
+
+msgid "kumlinge:lle"
+msgstr "Kumlinge"
+
+msgid "kuopio:lle"
+msgstr "Kuopio"
+
+msgid "kuortane:lle"
+msgstr "Kuortane"
+
+msgid "kurikka:lle"
+msgstr "Kurikka"
+
+msgid "kuru:lle"
+msgstr "Kuru"
+
+msgid "kustavi:lle"
+msgstr "Kustavi"
+
+msgid "kuusamo:lle"
+msgstr "Kuusamo"
+
+msgid "kuusankoski:lle"
+msgstr "Kuusankoski"
+
+msgid "kuusjoki:lle"
+msgstr "Kuusjoki"
+
+msgid "kylmakoski:lle"
+msgstr "Kylmakoski"
+
+msgid "kyyjarvi:lle"
+msgstr "Kyyjarvi"
+
+msgid "lahti:lle"
+msgstr "Lahti"
+
+msgid "laihia:lle"
+msgstr "Laihia"
+
+msgid "laitila:lle"
+msgstr "Laitila"
+
+msgid "lammi:lle"
+msgstr "Lammi"
+
+msgid "langelmaki:lle"
+msgstr "Langelmaki"
+
+msgid "lapinjarvi:lle"
+msgstr "Lapinjarvi"
+
+msgid "lapinlahti:lle"
+msgstr "Lapinlahti"
+
+msgid "lappajarvi:lle"
+msgstr "Lappajarvi"
+
+msgid "lappeenranta:lle"
+msgstr "Lappeenranta"
+
+msgid "lapin kuntaan:lle"
+msgstr "Lapin Kuntaan"
+
+msgid "lapua:lle"
+msgstr "Lapua"
+
+msgid "larsmo:lle"
+msgstr "Larsmo"
+
+msgid "laukaa:lle"
+msgstr "Laukaa"
+
+msgid "lavia:lle"
+msgstr "Lavia"
+
+msgid "lehtimaki:lle"
+msgstr "Lehtimaki"
+
+msgid "leivonmaki:lle"
+msgstr "Leivonmaki"
+
+msgid "lemi:lle"
+msgstr "Lemi"
+
+msgid "lemland:lle"
+msgstr "Lemland"
+
+msgid "lempaala:lle"
+msgstr "Lempaala"
+
+msgid "lemu:lle"
+msgstr "Lemu"
+
+msgid "leppavirta:lle"
+msgstr "Leppavirta"
+
+msgid "lestijarvi:lle"
+msgstr "Lestijarvi"
+
+msgid "lieksa:lle"
+msgstr "Lieksa"
+
+msgid "lieto:lle"
+msgstr "Lieto"
+
+msgid "liljendal:lle"
+msgstr "Liljendal"
+
+msgid "liminka:lle"
+msgstr "Liminka"
+
+msgid "liperi:lle"
+msgstr "Liperi"
+
+msgid "lohja:lle"
+msgstr "Lohja"
+
+msgid "lohtaja:lle"
+msgstr "Lohtaja"
+
+msgid "loimaa:lle"
+msgstr "Loimaa"
+
+msgid "loppi:lle"
+msgstr "Loppi"
+
+msgid "loviisa:lle"
+msgstr "Loviisa"
+
+msgid "luhanka:lle"
+msgstr "Luhanka"
+
+msgid "lumijoki:lle"
+msgstr "Lumijoki"
+
+msgid "lumparland:lle"
+msgstr "Lumparland"
+
+msgid "luopioinen:lle"
+msgstr "Luopioinen"
+
+msgid "luumaki:lle"
+msgstr "Luumaki"
+
+msgid "luvia:lle"
+msgstr "Luvia"
+
+msgid "maalahti:lle"
+msgstr "Maalahti"
+
+msgid "maaninka:lle"
+msgstr "Maaninka"
+
+msgid "maarianhamina:lle"
+msgstr "Maarianhamina"
+
+msgid "maksamaa:lle"
+msgstr "Maksamaa"
+
+msgid "mantsala:lle"
+msgstr "Mantsala"
+
+msgid "mantta:lle"
+msgstr "Mantta"
+
+msgid "mantyharju:lle"
+msgstr "Mantyharju"
+
+msgid "marttila:lle"
+msgstr "Marttila"
+
+msgid "masku:lle"
+msgstr "Masku"
+
+msgid "mellila:lle"
+msgstr "Mellila"
+
+msgid "merijarvi:lle"
+msgstr "Merijarvi"
+
+msgid "merikarvia:lle"
+msgstr "Merikarvia"
+
+msgid "merimasku:lle"
+msgstr "Merimasku"
+
+msgid "miehikkala:lle"
+msgstr "Miehikkala"
+
+msgid "mietoinen:lle"
+msgstr "Mietoinen"
+
+msgid "mikkeli:lle"
+msgstr "Mikkeli"
+
+msgid "mouhijarvi:lle"
+msgstr "Mouhijarvi"
+
+msgid "muhos:lle"
+msgstr "Muhos"
+
+msgid "multia:lle"
+msgstr "Multia"
+
+msgid "muonio:lle"
+msgstr "Muonio"
+
+msgid "mustasaari:lle"
+msgstr "Mustasaari"
+
+msgid "muurame:lle"
+msgstr "Muurame"
+
+msgid "muurla:lle"
+msgstr "Muurla"
+
+msgid "mynamaki:lle"
+msgstr "Mynamaki"
+
+msgid "myrskyla:lle"
+msgstr "Myrskyla"
+
+msgid "naantali:lle"
+msgstr "Naantali"
+
+msgid "nakkila:lle"
+msgstr "Nakkila"
+
+msgid "narpio:lle"
+msgstr "Narpio"
+
+msgid "nastola:lle"
+msgstr "Nastola"
+
+msgid "nauvo:lle"
+msgstr "Nauvo"
+
+msgid "nilsia:lle"
+msgstr "Nilsia"
+
+msgid "nivala:lle"
+msgstr "Nivala"
+
+msgid "nokia:lle"
+msgstr "Nokia"
+
+msgid "noormarkku:lle"
+msgstr "Noormarkku"
+
+msgid "nousiainen:lle"
+msgstr "Nousiainen"
+
+msgid "nummipusula:lle"
+msgstr "Nummipusula"
+
+msgid "nurmes:lle"
+msgstr "Nurmes"
+
+msgid "nurmijarvi:lle"
+msgstr "Nurmijarvi"
+
+msgid "nurmo:lle"
+msgstr "Nurmo"
+
+msgid "oravainen:lle"
+msgstr "Oravainen"
+
+msgid "orimattila:lle"
+msgstr "Orimattila"
+
+msgid "oripaa:lle"
+msgstr "Oripaa"
+
+msgid "orivesi:lle"
+msgstr "Orivesi"
+
+msgid "oulainen:lle"
+msgstr "Oulainen"
+
+msgid "oulunsalo:lle"
+msgstr "Oulunsalo"
+
+msgid "oulu:lle"
+msgstr "Oulu"
+
+msgid "outokumpu:lle"
+msgstr "Outokumpu"
+
+msgid "padasjoki:lle"
+msgstr "Padasjoki"
+
+msgid "paimio:lle"
+msgstr "Paimio"
+
+msgid "palkane:lle"
+msgstr "Palkane"
+
+msgid "paltamo:lle"
+msgstr "Paltamo"
+
+msgid "parainen:lle"
+msgstr "Parainen"
+
+msgid "parikkala:lle"
+msgstr "Parikkala"
+
+msgid "parkano:lle"
+msgstr "Parkano"
+
+msgid "pedersoren_kunta:lle"
+msgstr "Pedersoren_Kunta"
+
+msgid "pelkosenniemi:lle"
+msgstr "Pelkosenniemi"
+
+msgid "pello:lle"
+msgstr "Pello"
+
+msgid "perho:lle"
+msgstr "Perho"
+
+msgid "pernaja:lle"
+msgstr "Pernaja"
+
+msgid "pernio:lle"
+msgstr "Pernio"
+
+msgid "pertteli:lle"
+msgstr "Pertteli"
+
+msgid "pertunmaa:lle"
+msgstr "Pertunmaa"
+
+msgid "petajavesi:lle"
+msgstr "Petajavesi"
+
+msgid "pieksanmaa:lle"
+msgstr "Pieksanmaa"
+
+msgid "pielavesi:lle"
+msgstr "Pielavesi"
+
+msgid "pietarsaari:lle"
+msgstr "Pietarsaari"
+
+msgid "pihtipudas:lle"
+msgstr "Pihtipudas"
+
+msgid "piikkio:lle"
+msgstr "Piikkio"
+
+msgid "piippola:lle"
+msgstr "Piippola"
+
+msgid "pirkkala:lle"
+msgstr "Pirkkala"
+
+msgid "pohja:lle"
+msgstr "Pohja"
+
+msgid "polvijarvi:lle"
+msgstr "Polvijarvi"
+
+msgid "pomarkku:lle"
+msgstr "Pomarkku"
+
+msgid "pori:lle"
+msgstr "Pori"
+
+msgid "pornainen:lle"
+msgstr "Pornainen"
+
+msgid "porvoo:lle"
+msgstr "Porvoo"
+
+msgid "posio:lle"
+msgstr "Posio"
+
+msgid "poytya:lle"
+msgstr "Poytya"
+
+msgid "pudasjarvi:lle"
+msgstr "Pudasjarvi"
+
+msgid "pukkila:lle"
+msgstr "Pukkila"
+
+msgid "pulkkila:lle"
+msgstr "Pulkkila"
+
+msgid "punkaharju:lle"
+msgstr "Punkaharju"
+
+msgid "punkalaidun:lle"
+msgstr "Punkalaidun"
+
+msgid "puolanka:lle"
+msgstr "Puolanka"
+
+msgid "puumala:lle"
+msgstr "Puumala"
+
+msgid "pyhajarvi:lle"
+msgstr "Pyhajarvi"
+
+msgid "pyhajoki:lle"
+msgstr "Pyhajoki"
+
+msgid "pyhanta:lle"
+msgstr "Pyhanta"
+
+msgid "pyharanta:lle"
+msgstr "Pyharanta"
+
+msgid "pyhaselka:lle"
+msgstr "Pyhaselka"
+
+msgid "pyhtaa:lle"
+msgstr "Pyhtaa"
+
+msgid "pylkonmaki:lle"
+msgstr "Pylkonmaki"
+
+msgid "raahe:lle"
+msgstr "Raahe"
+
+msgid "raakkyla:lle"
+msgstr "Raakkyla"
+
+msgid "raisio:lle"
+msgstr "Raisio"
+
+msgid "rantasalmi:lle"
+msgstr "Rantasalmi"
+
+msgid "rantsila:lle"
+msgstr "Rantsila"
+
+msgid "ranua:lle"
+msgstr "Ranua"
+
+msgid "rauma:lle"
+msgstr "Rauma"
+
+msgid "rautalampi:lle"
+msgstr "Rautalampi"
+
+msgid "rautavaara:lle"
+msgstr "Rautavaara"
+
+msgid "rautjarvi:lle"
+msgstr "Rautjarvi"
+
+msgid "reisjarvi:lle"
+msgstr "Reisjarvi"
+
+msgid "renko:lle"
+msgstr "Renko"
+
+msgid "riihimaki:lle"
+msgstr "Riihimaki"
+
+msgid "ristiina:lle"
+msgstr "Ristiina"
+
+msgid "ristijarvi:lle"
+msgstr "Ristijarvi"
+
+msgid "rovaniemen_mlk:lle"
+msgstr "Rovaniemen_Mlk"
+
+msgid "rovaniemi:lle"
+msgstr "Rovaniemi"
+
+msgid "ruokolahti:lle"
+msgstr "Ruokolahti"
+
+msgid "ruotsinpyhtaa:lle"
+msgstr "Ruotsinpyhtaa"
+
+msgid "ruovesi:lle"
+msgstr "Ruovesi"
+
+msgid "rusko:lle"
+msgstr "Rusko"
+
+msgid "ruukki:lle"
+msgstr "Ruukki"
+
+msgid "rymattyla:lle"
+msgstr "Rymattyla"
+
+msgid "saarijarvi:lle"
+msgstr "Saarijarvi"
+
+msgid "sakyla:lle"
+msgstr "Sakyla"
+
+msgid "salla:lle"
+msgstr "Salla"
+
+msgid "salo:lle"
+msgstr "Salo"
+
+msgid "saltvik:lle"
+msgstr "Saltvik"
+
+msgid "sammatti:lle"
+msgstr "Sammatti"
+
+msgid "sarkisalo:lle"
+msgstr "Sarkisalo"
+
+msgid "sauvo:lle"
+msgstr "Sauvo"
+
+msgid "savitaipale:lle"
+msgstr "Savitaipale"
+
+msgid "savonlinna:lle"
+msgstr "Savonlinna"
+
+msgid "savonranta:lle"
+msgstr "Savonranta"
+
+msgid "savukoski:lle"
+msgstr "Savukoski"
+
+msgid "seinajoki:lle"
+msgstr "Seinajoki"
+
+msgid "sievi:lle"
+msgstr "Sievi"
+
+msgid "siikainen:lle"
+msgstr "Siikainen"
+
+msgid "siikajoki:lle"
+msgstr "Siikajoki"
+
+msgid "siilinjarvi:lle"
+msgstr "Siilinjarvi"
+
+msgid "simo:lle"
+msgstr "Simo"
+
+msgid "sipoo:lle"
+msgstr "Sipoo"
+
+msgid "siuntio:lle"
+msgstr "Siuntio"
+
+msgid "sodankyla:lle"
+msgstr "Sodankyla"
+
+msgid "soini:lle"
+msgstr "Soini"
+
+msgid "somero:lle"
+msgstr "Somero"
+
+msgid "sonkajarvi:lle"
+msgstr "Sonkajarvi"
+
+msgid "sotkamo:lle"
+msgstr "Sotkamo"
+
+msgid "sottunga:lle"
+msgstr "Sottunga"
+
+msgid "sulkava:lle"
+msgstr "Sulkava"
+
+msgid "sumiainen:lle"
+msgstr "Sumiainen"
+
+msgid "sund:lle"
+msgstr "Sund"
+
+msgid "suodenniemi:lle"
+msgstr "Suodenniemi"
+
+msgid "suolahti:lle"
+msgstr "Suolahti"
+
+msgid "suomenniemi:lle"
+msgstr "Suomenniemi"
+
+msgid "suomusjarvi:lle"
+msgstr "Suomusjarvi"
+
+msgid "suomussalmi:lle"
+msgstr "Suomussalmi"
+
+msgid "suonenjoki:lle"
+msgstr "Suonenjoki"
+
+msgid "sysma:lle"
+msgstr "Sysma"
+
+msgid "taipalsaari:lle"
+msgstr "Taipalsaari"
+
+msgid "taivalkoski:lle"
+msgstr "Taivalkoski"
+
+msgid "taivassalo:lle"
+msgstr "Taivassalo"
+
+msgid "tammela:lle"
+msgstr "Tammela"
+
+msgid "tammisaari:lle"
+msgstr "Tammisaari"
+
+msgid "tampere:lle"
+msgstr "Tampere"
+
+msgid "tarvasjoki:lle"
+msgstr "Tarvasjoki"
+
+msgid "tervola:lle"
+msgstr "Tervola"
+
+msgid "tervo:lle"
+msgstr "Tervo"
+
+msgid "teuva:lle"
+msgstr "Teuva"
+
+msgid "tohmajarvi:lle"
+msgstr "Tohmajarvi"
+
+msgid "toholampi:lle"
+msgstr "Toholampi"
+
+msgid "toijala:lle"
+msgstr "Toijala"
+
+msgid "toivakka:lle"
+msgstr "Toivakka"
+
+msgid "tornio:lle"
+msgstr "Tornio"
+
+msgid "toysa:lle"
+msgstr "Toysa"
+
+msgid "turku:lle"
+msgstr "Turku"
+
+msgid "tuulos:lle"
+msgstr "Tuulos"
+
+msgid "tuusniemi:lle"
+msgstr "Tuusniemi"
+
+msgid "tuusula:lle"
+msgstr "Tuusula"
+
+msgid "tyrnava:lle"
+msgstr "Tyrnava"
+
+msgid "ullava:lle"
+msgstr "Ullava"
+
+msgid "ulvila:lle"
+msgstr "Ulvila"
+
+msgid "urjala:lle"
+msgstr "Urjala"
+
+msgid "utajarvi:lle"
+msgstr "Utajarvi"
+
+msgid "utsjoki:lle"
+msgstr "Utsjoki"
+
+msgid "uurainen:lle"
+msgstr "Uurainen"
+
+msgid "uusikaarlepyy:lle"
+msgstr "Uusikaarlepyy"
+
+msgid "uusikaupunki:lle"
+msgstr "Uusikaupunki"
+
+msgid "vaala:lle"
+msgstr "Vaala"
+
+msgid "vaasa:lle"
+msgstr "Vaasa"
+
+msgid "vahakyro:lle"
+msgstr "Vahakyro"
+
+msgid "vahto:lle"
+msgstr "Vahto"
+
+msgid "valkeakoski:lle"
+msgstr "Valkeakoski"
+
+msgid "valkeala:lle"
+msgstr "Valkeala"
+
+msgid "valtimo:lle"
+msgstr "Valtimo"
+
+msgid "vammala:lle"
+msgstr "Vammala"
+
+msgid "vampula:lle"
+msgstr "Vampula"
+
+msgid "vantaa:lle"
+msgstr "Vantaa"
+
+msgid "vardo:lle"
+msgstr "Vardo"
+
+msgid "varkaus:lle"
+msgstr "Varkaus"
+
+msgid "varpaisjarvi:lle"
+msgstr "Varpaisjarvi"
+
+msgid "vastanfjard:lle"
+msgstr "Vastanfjard"
+
+msgid "vehmaa:lle"
+msgstr "Vehmaa"
+
+msgid "velkua:lle"
+msgstr "Velkua"
+
+msgid "vesanto:lle"
+msgstr "Vesanto"
+
+msgid "vesilahti:lle"
+msgstr "Vesilahti"
+
+msgid "veteli:lle"
+msgstr "Veteli"
+
+msgid "vierema:lle"
+msgstr "Vierema"
+
+msgid "vihanti:lle"
+msgstr "Vihanti"
+
+msgid "vihti:lle"
+msgstr "Vihti"
+
+msgid "viiala:lle"
+msgstr "Viiala"
+
+msgid "viitasaari:lle"
+msgstr "Viitasaari"
+
+msgid "viljakkala:lle"
+msgstr "Viljakkala"
+
+msgid "vilppula:lle"
+msgstr "Vilppula"
+
+msgid "vimpeli:lle"
+msgstr "Vimpeli"
+
+msgid "virolahti:lle"
+msgstr "Virolahti"
+
+msgid "virrat:lle"
+msgstr "Virrat"
+
+msgid "voyri:lle"
+msgstr "Voyri"
+
+msgid "vuolijoki:lle"
+msgstr "Vuolijoki"
+
+msgid "ylamaa:lle"
+msgstr "Ylamaa"
+
+msgid "ylane:lle"
+msgstr "Ylane"
+
+msgid "yliharma:lle"
+msgstr "Yliharma"
+
+msgid "yliii:lle"
+msgstr "Yliii"
+
+msgid "ylikiiminki:lle"
+msgstr "Ylikiiminki"
+
+msgid "ylistaro:lle"
+msgstr "Ylistaro"
+
+msgid "ylitornio:lle"
+msgstr "Ylitornio"
+
+msgid "ylivieska:lle"
+msgstr "Ylivieska"
+
+msgid "ylojarvi:lle"
+msgstr "Ylojarvi"
+
+msgid "ypaja:lle"
+msgstr "Ypaja"
+
+msgid "poudan todennakoisyys"
+msgstr "iespējams bez nokrišņiem"
+
+msgid "metsapaloindeksi"
+msgstr "brīdinājums par paaugstinātu mežu degamības indekss"
+
+msgid "haihdunta on erittain huono"
+msgstr "iztvaikošana būs ļoti vāja"
+
+msgid "haihdunta on huono"
+msgstr "iztvaikošana būs vāja"
+
+msgid "haihdunta on tyydyttava"
+msgstr "iztvaikošana būs apmierinoša"
+
+msgid "haihdunta on hyva"
+msgstr "iztvaikošana būs intensīva"
+
+msgid "haihdunta on erinomainen"
+msgstr "iztvaikošana būs ļoti intensīva"
+
+msgid "metsapalovaroitus on voimassa"
+msgstr "brīdinājums par paaugstinātu mežu degamības indeksu ir spēkā"
+
+msgid "metsapalovaroitus ei ole voimassa"
+msgstr "brīdinājums par paaugstinātu mežu degamības indeksu nav spēkā"
+
+msgid "luoto:lle"
+msgstr "Luoto"
+
+msgid "kruunupyy:lle"
+msgstr "Kruunupyy"
+
+msgid "1-aamulla"
+msgstr "pirmdien no rīta"
+
+msgid "2-aamulla"
+msgstr "otrdien no rīta"
+
+msgid "3-aamulla"
+msgstr "trešdien no rīta"
+
+msgid "4-aamulla"
+msgstr "ceturtdien no rīta"
+
+msgid "5-aamulla"
+msgstr "piektdien no rīta"
+
+msgid "6-aamulla"
+msgstr "sestdien no rīta"
+
+msgid "7-aamulla"
+msgstr "svētdien no rīta"
+
+msgid "1-aamupaivalla"
+msgstr "pirmdien priekšpusdienā"
+
+msgid "2-aamupaivalla"
+msgstr "otrdien priekšpusdienā"
+
+msgid "3-aamupaivalla"
+msgstr "trešdien priekšpusdienā"
+
+msgid "4-aamupaivalla"
+msgstr "ceturtdien priekšpusdienā"
+
+msgid "5-aamupaivalla"
+msgstr "piektdien priekšpusdienā"
+
+msgid "6-aamupaivalla"
+msgstr "sestdien priekšpusdienā"
+
+msgid "7-aamupaivalla"
+msgstr "svētdien priekšpusdienā"
+
+msgid "1-iltapaivalla"
+msgstr "pirmdien pēcpusdienā"
+
+msgid "2-iltapaivalla"
+msgstr "otrdien pēcpusdienā"
+
+msgid "3-iltapaivalla"
+msgstr "trešdien pēcpusdienā"
+
+msgid "4-iltapaivalla"
+msgstr "ceturtdien pēcpusdienā"
+
+msgid "5-iltapaivalla"
+msgstr "piektdien pēcpusdienā"
+
+msgid "6-iltapaivalla"
+msgstr "sestdien pēcpusdienā"
+
+msgid "7-iltapaivalla"
+msgstr "svētdien pēcpusdienā"
+
+msgid "1-illalla"
+msgstr "pirmdien vakarā"
+
+msgid "2-illalla"
+msgstr "otrdien vakarā"
+
+msgid "3-illalla"
+msgstr "trešdien vakarā"
+
+msgid "4-illalla"
+msgstr "ceturtdien vakarā"
+
+msgid "5-illalla"
+msgstr "piektdien vakarā"
+
+msgid "6-illalla"
+msgstr "sestdien vakarā"
+
+msgid "7-illalla"
+msgstr "svētdien vakarā"
+
+msgid "kastepiste"
+msgstr "rasas punkts"
+
+msgid "suhteellinen kosteus"
+msgstr "gaisa relatīvais mitrums"
+
+msgid "hehtopascalia"
+msgstr "hektopaskāli"
+
+msgid "paine"
+msgstr "spiediens"
+
+msgid "keli muuttuu"
+msgstr "braukšanas apstākļi uz ceļiem "
+
+msgid "lumisateesta"
+msgstr "snigšanas ietekmē būs sliktāks"
+
+msgid "haukivesi:lle"
+msgstr "Haukivesi"
+
+msgid "kallavesi:lle"
+msgstr "Kallavesi"
+
+msgid "malaren:lle"
+msgstr "Malaren"
+
+msgid "pihlajavesi:lle"
+msgstr "Pihlajavesi"
+
+msgid "suur-saimaa:lle"
+msgstr "Suur-Saimaa"
+
+msgid "vanern:lle"
+msgstr "Vanern"
+
+msgid "tie on muuttumassa"
+msgstr "ceļu virsma kļūs"
+
+msgid "keli huononee"
+msgstr "braukšanas apstākļi uz ceļiem pasliktināsies"
+
+msgid "vaikeuttaa liikennetta"
+msgstr "traucēta satiksme"
+
+msgid "kuuraiseksi"
+msgstr "pārklāts ar sarmu"
+
+msgid "marka"
+msgstr "slapjš"
+
+msgid "lumisateen takia"
+msgstr "snigšanas dēļ"
+
+msgid "pakkasliukkaus"
+msgstr "atkalas dēļ būs slidens"
+
+msgid "voimakas puuskainen tuuli"
+msgstr "stiprs brāzmains vējš"
+
+msgid "lumipyry"
+msgstr "virpulis"
+
+msgid "kelin nopea huononeminen"
+msgstr "braukšanas apstākļi uz ceļiem strauji pasliktināsies"
+
+msgid "rantasade jaiselle"
+msgstr "slapjš sniegs uz sasalušas vai daļēji sasalušas ceļa virsmas"
+
+msgid "jaiseksi vesisateesta johtuen"
+msgstr "lietus dēļ būs apledojis"
+
+msgid "alijaahtynyt sade"
+msgstr "pārdzesēts lietus"
+
+msgid "jaiseksi tai osittain jaiseksi"
+msgstr "daļēji vai pilnībā apledojis"
+
+msgid "runsas lumisade"
+msgstr "stiprs sniegs"
+
+msgid "tienpinta muuttuu"
+msgstr "ceļu virsma kļūs"
+
+msgid "ukkoskuurot todennakoisia"
+msgstr "iespējamas pērkona lietusgāzes"
+
+msgid "ukkoskuurot paikoin mahdollisia"
+msgstr "iespējami lokāli pērkona negaisi"
+
+msgid "pohjoispohjanmeri:lle"
+msgstr "Pohjoispohjanmeri"
+
+msgid "etelapohjanmeri:lle"
+msgstr "Etelapohjanmeri"
+
+msgid "biskaja:lle"
+msgstr "Biskaja"
+
+msgid "uusimaa_ita-uusim:lle"
+msgstr "Uusimaa_Ita-Uusim"
+
+msgid "paakaupunkiseutu:lle"
+msgstr "Paakaupunkiseutu"
+
+msgid "kaakkois-suomi:lle"
+msgstr "Kaakkois-Suomi"
+
+msgid "ita-lappi:lle"
+msgstr "Ita-Lappi"
+
+msgid "pohjois-pohjanmaa-itaosa:lle"
+msgstr "Pohjois-Pohjanmaa-Itaosa"
+
+msgid "pohjois-pohjanmaa-lansiosa:lle"
+msgstr "Pohjois-Pohjanmaa-Lansiosa"
+
+msgid "merilappi:lle"
+msgstr "Merilappi"
+
+msgid "pohjanmaa-etela-pohjanmaa:lle"
+msgstr "Pohjanmaa-Etela-Pohjanmaa"
+
+msgid "marka tienpinta muuttuu"
+msgstr "slapjā ceļu virsma kļūs"
+
+msgid "alle"
+msgstr "zem"
+
+msgid "yksi millimetri"
+msgstr "viens milimetrs"
+
+msgid "lahella [1] astetta"
+msgstr "ap [1] grādiem"
+
+msgid "[1] asteen tienoilla"
+msgstr "gaisa temperatūra būs ap [1] grādiem"
+
+msgid "kello [1]"
+msgstr "pulksten [1]"
+
+msgid "1-na kello [1]"
+msgstr "pirmdien [1] plkst."
+
+msgid "2-na kello [1]"
+msgstr "otrdien [1] plkst."
+
+msgid "3-na kello [1]"
+msgstr "trešdien [1] plkst."
+
+msgid "4-na kello [1]"
+msgstr "ceturtdien [1] plkst."
+
+msgid "5-na kello [1]"
+msgstr "piektdien [1] plkst."
+
+msgid "6-na kello [1]"
+msgstr "sestdien [1] plkst."
+
+msgid "7-na kello [1]"
+msgstr "svētdien [1] plkst."
+
+msgid "[1] asteen tuntumassa"
+msgstr "gaisa temperatūra būs tuvu [1] grādiem"
+
+msgid "ita-suomi:lle"
+msgstr "Ita-Suomi"
+
+msgid "itainen-uusimaa:lle"
+msgstr "Itainen-Uusimaa"
+
+msgid "koleaa"
+msgstr "vēss"
+
+msgid "lantinen-uusimaa:lle"
+msgstr "Lantinen-Uusimaa"
+
+msgid "lounais-suomi:lle"
+msgstr "Lounais-Suomi"
+
+msgid "pohjois-suomi:lle"
+msgstr "Pohjois-Suomi"
+
+msgid "pikkupakkasta"
+msgstr "gaisa temperatūra ir nedaudz zem nulles"
+
+msgid "yksittaiset vesikuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus"
+
+msgid "yksittaiset vesi- tai rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus vai slapjš sniegs"
+
+msgid "yksittaiset vesi- tai lumikuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs vai lietus"
+
+msgid "yksittaiset sadekuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus"
+
+msgid "yksittaiset rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs slapjš sniegs "
+
+msgid "yksittaiset ranta- tai vesikuurot mahdollisia"
+msgstr "iespējams īslaicīgs slapjš sniegs vai lietus"
+
+msgid "yksittaiset lumikuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs "
+
+msgid "yksittaiset lumi- tai rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs vai slapjš sniegs"
+
+msgid "vahan plussan puolella"
+msgstr "nedaudz virs nulles"
+
+msgid "voimakkaita vesikuuroja"
+msgstr "intensīvas lietusgāzes"
+
+msgid "voimakkaita sadekuuroja"
+msgstr "spēcīgs īslaicīgs lietus"
+
+msgid "vesikuuroja"
+msgstr "īslaicīgs lietus"
+
+msgid "vajaat"
+msgstr "gandrīz"
+
+msgid "verrattain pilvinen"
+msgstr "diezgan mākoņains"
+
+msgid "vaihtelee puolipilvisesta pilviseen"
+msgstr "mainīsies no daļēji mākoņaina uz mākoņainu"
+
+msgid "tuulinen"
+msgstr "vējains"
+
+msgid "tuulista"
+msgstr "vējains"
+
+msgid "tuuli saa saan tuntumaan viileammalta"
+msgstr "vēja ietekmē laiks šķitīs vēsāks"
+
+msgid "tuuli saa saan tuntumaan kylmemmalta"
+msgstr "vēja ietekmē laiks šķitīs aukstāks"
+
+msgid "tuntumassa"
+msgstr "tuvu"
+
+msgid "tihkusadetta"
+msgstr "smidzinošs lietus"
+
+msgid "tienoilla"
+msgstr "ap"
+
+msgid "saa on helteista"
+msgstr "laiks būs ļoti karsts"
+
+msgid "saa on edelleen lauhaa"
+msgstr "laiks joprojām būs maigs"
+
+msgid "sumua"
+msgstr "migla"
+
+msgid "sisamaassa"
+msgstr "iekšzemē"
+
+msgid "selkea"
+msgstr "skaidrs"
+
+msgid "sakeita"
+msgstr "blīvs"
+
+msgid "sakeaa"
+msgstr "blīvs"
+
+msgid "sadekuuroja"
+msgstr "īslaicīgas lietusgāzes"
+
+msgid "sade alkaa"
+msgstr "sāksies nokrišņi"
+
+msgid "saadaan"
+msgstr "iegūs"
+
+msgid "rantakuuroja"
+msgstr "īslaicīgs slapjš sniegs"
+
+msgid "runsasta vesisadetta"
+msgstr "stiprs lietus"
+
+msgid "runsaita"
+msgstr "stiprs"
+
+msgid "puolipilvinen"
+msgstr "daļēji mākoņains laiks"
+
+msgid "poutainen"
+msgstr "labs laiks"
+
+msgid "poikkeuksellisen"
+msgstr "ārkārtēji"
+
+msgid "pohjoisesta"
+msgstr "no ziemeļiem"
+
+msgid "pohjoisesta alkaen"
+msgstr "sākot no ziemeļiem"
+
+msgid "pilvinen"
+msgstr "mākoņains"
+
+msgid "pieni ukkosen todennakoisyys"
+msgstr "neliela pērkona negaisa iespējamība"
+
+msgid "pakkasta"
+msgstr "auksts"
+
+msgid "pakkanen"
+msgstr "sals"
+
+msgid "pakkanen on purevaa"
+msgstr "sals būs stiprs"
+
+msgid "pakkanen on erittain purevaa"
+msgstr "sals būs ļoti stiprs"
+
+msgid "pakkanen hellittaa"
+msgstr "sals sāks mazināties"
+
+msgid "paikkeilla"
+msgstr "ap"
+
+msgid "nollan tienoilla"
+msgstr "ap nulle grādiem"
+
+msgid "melko selkea"
+msgstr "pārsvarā skaidrs laiks"
+
+msgid "mahdollisesti"
+msgstr "iespējams"
+
+msgid "lannesta"
+msgstr "no rietumiem"
+
+msgid "lannesta alkaen"
+msgstr "sākot no rietumiem"
+
+msgid "lampotila nousee"
+msgstr "gaisa temperatūra paaugstināsies"
+
+msgid "lahella"
+msgstr "tuvu"
+
+msgid "luoteesta"
+msgstr "no ziemeļrietumiem"
+
+msgid "luoteesta alkaen"
+msgstr "sākot no ziemeļrietumiem"
+
+msgid "lounaasta"
+msgstr "no dienvidrietumiem"
+
+msgid "lounaasta alkaen"
+msgstr "sākot no dienvidrietumiem"
+
+msgid "leutoa"
+msgstr "mērens"
+
+msgid "koillisesta"
+msgstr "no ziemeļaustrumiem"
+
+msgid "koillisesta alkaen"
+msgstr "sākot no ziemeļaustrumiem"
+
+msgid "kirea"
+msgstr "stiprs"
+
+msgid "kirea pakkanen jatkuu"
+msgstr "saglabāsies stiprs sals"
+
+msgid "kaakosta"
+msgstr "no dienvidaustrumiem"
+
+msgid "kaakosta alkaen"
+msgstr "sākot no dienvidaustrumiem"
+
+msgid "jaatavaa vesisadetta"
+msgstr "sasalstošs lietus"
+
+msgid "jotka voivat olla jaatavia"
+msgstr ", kas var būt sasalstoša"
+
+msgid "joka voi olla sakeaa"
+msgstr ", kas var būt bieza"
+
+msgid "joka voi olla jaatavaa"
+msgstr ", kas var būt sasalstošs"
+
+msgid "joka voi olla ankaraa"
+msgstr ", kas var būt stiprs"
+
+msgid "joka muuttuu vesisateeksi"
+msgstr ", kas pāries lietū"
+
+msgid "joka muuttuu tihkusateeksi"
+msgstr ", kas pāries smidzinošā lietū"
+
+msgid "joka muuttuu rantasateeksi"
+msgstr ", kas pāries slapjā sniegā"
+
+msgid "joka muuttuu lumisateeksi"
+msgstr ", kas pāries sniegā"
+
+msgid "idasta"
+msgstr "no austrumiem"
+
+msgid "idasta alkaen"
+msgstr "sākot no austrumiem"
+
+msgid "huomattavasti"
+msgstr "būtiski"
+
+msgid "hieman lauhempaa"
+msgstr "nedaudz maigāks"
+
+msgid "hieman kylmempaa"
+msgstr "nedaudz aukstāks"
+
+msgid "hieman kireampaa"
+msgstr "mazliet pastiprināsies"
+
+msgid "hieman heikompaa"
+msgstr "nedaudz mazināsies"
+
+msgid "heikkoja"
+msgstr "neliels"
+
+msgid "heikkoja vesikuuroja"
+msgstr "neliels īslaicīgs lietus"
+
+msgid "heikkoja sadekuuroja"
+msgstr "neliels īslaicīgs lietus"
+
+msgid "heikkoa vesisadetta"
+msgstr "neliels lietus"
+
+msgid "harvinaisen"
+msgstr "neierasti"
+
+msgid "hallan vaara"
+msgstr "salnas risks"
+
+msgid "hallaa"
+msgstr "salna"
+
+msgid "etelasta"
+msgstr "no dienvidiem"
+
+msgid "etelasta alkaen"
+msgstr "no dienvidiem"
+
+msgid "asteen"
+msgstr "grādi"
+
+msgid "alueen pohjoisosassa"
+msgstr "ziemeļos"
+
+msgid "alueen lansiosassa"
+msgstr "rietumos"
+
+msgid "alueen luoteisosassa"
+msgstr "ziemeļrietumos"
+
+msgid "alueen lounaisosassa"
+msgstr "dienvidrietumos"
+
+msgid "alueen koillisosassa"
+msgstr "ziemeļaustrumos"
+
+msgid "alueen kaakkoisosassa"
+msgstr "dienvidaustrumos"
+
+msgid "alueen itaosassa"
+msgstr "austrumos"
+
+msgid "alueen etelaosassa"
+msgstr "dienvidos"
+
+msgid "alavilla mailla"
+msgstr "zemienēs un ieplakās"
+
+msgid "myohemmin"
+msgstr "vēlāk"
+
+msgid "[1-na] saa on [poikkeuksellisen] [kylmaa]"
+msgstr "laiks būs [2] [3] [1]"
+
+msgid "[1-na] [saa lampenee]"
+msgstr "[2] [1]"
+
+msgid "kirea pakkanen heikkenee"
+msgstr "stiprais sals pierims"
+
+msgid "saa lampenee huomattavasti"
+msgstr "laiks kļūs ievērojami siltāks"
+
+msgid "saa lampenee vahan"
+msgstr "laiks kļūs nedaudz siltāks"
+
+msgid "saa viilenee huomattavasti"
+msgstr "laiks kļūs ievērojami vēsāks"
+
+msgid "saa viilenee vahan"
+msgstr "laiks kļūs nedaudz vēsāks"
+
+msgid "[iltapaivalla] saa poutaantuu ja vaihtelee puolipilvisesta pilviseen"
+msgstr "laiks uzlabosies, bet mākoņu daudzums mainīsies no daļēji mākoņaina līdz mākoņainam [1]"
+
+msgid "empty_string"
+msgstr ""
+
+msgid "[rannikolla] [paikoin] hallaa, joka voi olla ankaraa"
+msgstr "iespējams stiprs sals [2] [1]"
+
+msgid "[rannikolla] mahdollisesti hallaa"
+msgstr "[1] iespējama salna"
+
+msgid "[sisamaassa] hallan vaara"
+msgstr "sala risks [1]"
+
+msgid "[rannikolla] [paikoin] hallaa"
+msgstr "frost [2] [1]"
+
+msgid "aamusta"
+msgstr "no rīta"
+
+msgid "[huomenna] [sisamaassa] [paikoin] sumua, joka voi olla sakeaa"
+msgstr "[1] iespējama bieza miga [3] [2]"
+
+msgid "[huomenna] [sisamaassa] [paikoin] sumua"
+msgstr "[1] migla [3] [2]"
+
+msgid "keskiyolla ja aamuyolla"
+msgstr "nakts vidū un nakts otrajā pusē"
+
+msgid "iltayolla ja keskiyolla"
+msgstr "nakts pirmajā pusē un nakts vidū"
+
+msgid "aamuyolla ja aamulla"
+msgstr "nakts otrajā pusē un no rīta"
+
+msgid "illalla ja iltayolla"
+msgstr "vakarā un nakts pirmajā pusē"
+
+msgid "iltapaivalla ja illalla"
+msgstr "pēcpusdienā un vakarā"
+
+msgid "aamulla ja aamupaivalla"
+msgstr "no rīta un priekšpudienā"
+
+msgid "7-iltapaivalla ja illalla"
+msgstr "svētdien pēcpusdienā un vakarā"
+
+msgid "6-iltapaivalla ja illalla"
+msgstr "sestdien pēcpusdienā un vakarā"
+
+msgid "5-iltapaivalla ja illalla"
+msgstr "piektdien pēcpusdienā un vakarā"
+
+msgid "4-iltapaivalla ja illalla"
+msgstr "ceturtdien pēcpusdienā un vakarā"
+
+msgid "3-iltapaivalla ja illalla"
+msgstr "trešdien pēcpusdienā un vakarā"
+
+msgid "2-iltapaivalla ja illalla"
+msgstr "otrdien pēcpusdienā un vakarā"
+
+msgid "1-iltapaivalla ja illalla"
+msgstr "pirmdien pēcpusdienā un vakarā"
+
+msgid "7-aamulla ja aamupaivalla"
+msgstr "svētdien no rīta un priekšpusdienā"
+
+msgid "6-aamulla ja aamupaivalla"
+msgstr "sestdien no rīta un priekšpusdienā"
+
+msgid "5-aamulla ja aamupaivalla"
+msgstr "piektdien no rīta un priekšpusdienā"
+
+msgid "4-aamulla ja aamupaivalla"
+msgstr "ceturtdien no rīta un priekšpusdienā"
+
+msgid "3-aamulla ja aamupaivalla"
+msgstr "trešdien no rīta un priekšpusdienā"
+
+msgid "2-aamulla ja aamupaivalla"
+msgstr "otrdien no rīta un priekšpusdienā"
+
+msgid "1-aamulla ja aamupaivalla"
+msgstr "pirmdien no rīta un priekšpusdienā"
+
+msgid "7-illalla ja iltayolla"
+msgstr "svētdien vakarā un nakts pirmajā pusē"
+
+msgid "6-illalla ja iltayolla"
+msgstr "sestdien vakarā un nakts pirmajā pusē"
+
+msgid "5-illalla ja iltayolla"
+msgstr "piektdien vakarā un nakts pirmajā pusē"
+
+msgid "4-illalla ja iltayolla"
+msgstr "ceturtdien vakarā un nakts pirmajā pusē"
+
+msgid "3-illalla ja iltayolla"
+msgstr "trešdien vakarā un nakts pirmajā pusē"
+
+msgid "2-illalla ja iltayolla"
+msgstr "otrdien vakarā un nakts pirmajā pusē"
+
+msgid "1-illalla ja iltayolla"
+msgstr "pirmdien vakarā un nakts pirmajā pusē"
+
+msgid "aamupaivasta"
+msgstr "no priekšpusdienas"
+
+msgid "7-iltayolla"
+msgstr "svētdien pirms pusnakts"
+
+msgid "6-iltayolla"
+msgstr "sestdien pirms pusnakts"
+
+msgid "5-iltayolla"
+msgstr "piektdien pirms pusnakts"
+
+msgid "4-iltayolla"
+msgstr "ceturtdien pirms pusnakts"
+
+msgid "3-iltayolla"
+msgstr "trešdien pirms pusnakts"
+
+msgid "2-iltayolla"
+msgstr "otrdien pirms pusnakts"
+
+msgid "1-iltayolla"
+msgstr "pirmdien pirms pusnakts"
+
+msgid "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
+msgstr "[1] laiks būs daļēji mākoņains vai mākoņains [2]"
+
+msgid "[huomenna] [sisamaassa] saa on [selkea]"
+msgstr "[1] laika apstākļi būs [3] [2]"
+
+msgid "hyvin tuulinen"
+msgstr "ļoti vējains"
+
+msgid "hyvin tuulista"
+msgstr "ļoti vējains"
+
+msgid "[iltapaivalla] [rannikolla] pakkanen on purevaa"
+msgstr "sals būs siprs [2] [1]"
+
+msgid "7-aamuyolla"
+msgstr "svētdien  nakts otrajā pusē"
+
+msgid "6-aamuyolla"
+msgstr "sestdien  nakts otrajā pusē"
+
+msgid "5-aamuyolla"
+msgstr "piektdien  nakts otrajā pusē"
+
+msgid "4-aamuyolla"
+msgstr "ceturtdien  nakts otrajā pusē"
+
+msgid "3-aamuyolla"
+msgstr "trešdien  nakts otrajā pusē"
+
+msgid "2-aamuyolla"
+msgstr "otrdien  nakts otrajā pusē"
+
+msgid "2-aamuyolla ja aamulla"
+msgstr "otrdien nakts otrajā pusē un no rīta"
+
+msgid "3-aamuyolla ja aamulla"
+msgstr "trešdien nakts otrajā pusē un no rīta"
+
+msgid "5-aamuyolla ja aamulla"
+msgstr "piektdien nakts otrajā pusē un no rīta"
+
+msgid "6-aamuyolla ja aamulla"
+msgstr "sestdien nakts otrajā pusē un no rīta"
+
+msgid "7-aamuyolla ja aamulla"
+msgstr "svētdien nakts otrajā pusē un no rīta"
+
+msgid "1-aamuyolla ja aamulla"
+msgstr "pirmdien nakts otrajā pusē un no rīta"
+
+msgid "saa on tuulinen"
+msgstr "laiks būs vējains"
+
+msgid "[iltapaivalla] [rannikolla] on [tuulista]"
+msgstr "[1] tas būs [3] [2]"
+
+msgid "rannikolla lahella [N] [astetta]"
+msgstr "piekrastē tuvu [1] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on vahan yli [N] [astetta]"
+msgstr "[1] [3] būs mazliet virs [4] [5] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on vajaat [N] [astetta]"
+msgstr "[1] [3] būs gandrīz [4] [5] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on lahella [N] [astetta]"
+msgstr "[1] [3] būs tuvu [4] [5] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on [N] asteen tuntumassa"
+msgstr "[1] [3] būs tuvu [4] grādiem [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on [N] asteen tienoilla"
+msgstr "[1] [3] būs ap [4] grādiem [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on noin [N] [astetta]"
+msgstr "[1] [3] būs ap [4] [5] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on [M...N] [astetta]"
+msgstr "[1] [3] būs [4] [5] [2]"
+
+msgid "[yolla] on [hieman kylmempaa]"
+msgstr "tas būs [2] [1]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on [suunnilleen sama]"
+msgstr "[1] [3] būs [4] [2]"
+
+msgid "[huomenna] [sisamaassa] pakkasta on [M...N] [astetta]"
+msgstr "[1] temperatūra būs [3] [4] [2]"
+
+msgid "[yolla] lampotila nousee"
+msgstr "temperatūra paaugstinās [1]"
+
+msgid "[huomenna] [sisamaassa] pakkanen on [hieman kireampaa]"
+msgstr "[1] aukstums būs [3] [2]"
+
+msgid "[huomenna] [rannikolla] on pikkupakkasta"
+msgstr "[1] [2] gaisa temperatūra būs nedaudz zem nulles"
+
+msgid "rannikolla noin [N] [astetta]"
+msgstr "piekrastē ap [1] [2]"
+
+msgid "rannikolla vajaat [N] [astetta]"
+msgstr "piekrastē gandrīz [1] [2]"
+
+msgid "rannikolla vahan yli [N] [astetta]"
+msgstr "piekrastē nedaudz vairāk par [1][2]"
+
+msgid "rannikolla [M...N] [astetta]"
+msgstr "piekrastes rajonos [1] [2] "
+
+msgid "rannikolla [N] asteen tienoilla"
+msgstr "ap [1] grādiem piekrastes rajonos"
+
+msgid "rannikolla [N] asteen tuntumassa"
+msgstr "līdz [1] grādiem piekrastes rajonos"
+
+msgid "rannikolla [suunnilleen sama]"
+msgstr "[1] piekrastes rajonos"
+
+msgid "[huomenna] [sisamaassa] [M...N] [astetta]"
+msgstr "[1] [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] noin [N] [astetta]"
+msgstr "[1] aptuveni [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] [N] asteen tienoilla"
+msgstr "[1] ap [3] grādiem [2]"
+
+msgid "[huomenna] [sisamaassa] [N] asteen tuntumassa"
+msgstr "[1] tuvu [3] grādiem [2]"
+
+msgid "[huomenna] [sisamaassa] lahella [N] [astetta]"
+msgstr "[1] tuvu [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] vajaat [N] [astetta]"
+msgstr "[1] gandrīz [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] vahan yli [N] [astetta]"
+msgstr "[1] nedaudz virs [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
+msgstr "laika apstākļi būs pārsvarā labi [2] [1], [3]"
+
+msgid "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta]"
+msgstr "[1] [4] [5] [3] [2]"
+
+msgid "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3] [4] [5], kas var būt sasalstošs"
+
+msgid "[huomenna] [sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3] [4] [5], kas var būt sasalstošs"
+
+msgid "saa on poutainen"
+msgstr "laiks būs labs"
+
+msgid "6-keskiyolla"
+msgstr "sestdien nakts vidū"
+
+msgid "5-keskiyolla"
+msgstr "piektdien nakts vidū"
+
+msgid "4-keskiyolla"
+msgstr "ceturtdien nakts vidū"
+
+msgid "3-keskiyolla"
+msgstr "trešdien nakts vidū"
+
+msgid "2-keskiyolla"
+msgstr "otrdien nakts vidū"
+
+msgid "1-keskiyolla"
+msgstr "pirmdien nakts vidū"
+
+msgid "[sisamaassa] alavilla mailla hallan vaara"
+msgstr "sala risks ieplakās un zemienēs [1]"
+
+msgid "7-keskiyolla"
+msgstr "svētdien nakts vidū"
+
+msgid "[huomenna] [sisamaassa] [suunnilleen sama]"
+msgstr "[1] [3] [2]"
+
+msgid "7-iltapaivasta alkaen"
+msgstr "sākot no svētdienas pēcpusdienas"
+
+msgid "6-iltapaivasta alkaen"
+msgstr "sākot no sestdienas pēcpusdienas"
+
+msgid "5-iltapaivasta alkaen"
+msgstr "sākot no piektdienas pēcpusdienas"
+
+msgid "4-iltapaivasta alkaen"
+msgstr "sākot no ceturtdienas pēcpusdienas"
+
+msgid "3-iltapaivasta alkaen"
+msgstr "sākot no trešdienas pēcpusdienas"
+
+msgid "2-iltapaivasta alkaen"
+msgstr "sākot no otrdienas pēcpusdienas"
+
+msgid "1-iltapaivasta alkaen"
+msgstr "sākot no pirmdienas pēcpusdienas"
+
+msgid "7-iltayosta alkaen"
+msgstr "sākot no vēla svētdienas vakara"
+
+msgid "6-iltayosta alkaen"
+msgstr "sākot no vēla sestdienas vakara"
+
+msgid "5-iltayosta alkaen"
+msgstr "sākot no vēla piektdienas vakara"
+
+msgid "4-iltayosta alkaen"
+msgstr "sākot no vēla ceturtdienas vakara"
+
+msgid "3-iltayosta alkaen"
+msgstr "sākot no vēla trešdienas vakara"
+
+msgid "2-iltayosta alkaen"
+msgstr "sākot no vēla otrdienas vakara"
+
+msgid "1-iltayosta alkaen"
+msgstr "sākot no vēla pirmdienas vakara"
+
+msgid "7-aamuyosta alkaen"
+msgstr "sākot no agra svētdienas rīta"
+
+msgid "6-aamuyosta alkaen"
+msgstr "sākot no agra sestdienas rīta"
+
+msgid "5-aamuyosta alkaen"
+msgstr "sākot no agra piektdienas rīta"
+
+msgid "4-aamuyosta alkaen"
+msgstr "sākot no agra ceturtdienas rīta"
+
+msgid "3-aamuyosta alkaen"
+msgstr "sākot no agra trešdienas rīta"
+
+msgid "2-aamuyosta alkaen"
+msgstr "sākot no agra otrdienas rīta"
+
+msgid "1-aamuyosta alkaen"
+msgstr "sākot no agra pirmdienas rīta"
+
+msgid "7-keskiyosta alkaen"
+msgstr "sākot no svētdienas nakts vidus"
+
+msgid "6-keskiyosta alkaen"
+msgstr "sākot no sestdienas nakts vidus"
+
+msgid "5-keskiyosta alkaen"
+msgstr "sākot no piektdienas nakts vidus"
+
+msgid "4-keskiyosta alkaen"
+msgstr "sākot no ceturtdienas nakts vidus"
+
+msgid "3-keskiyosta alkaen"
+msgstr "sākot no trešdienas nakts vidus"
+
+msgid "2-keskiyosta alkaen"
+msgstr "sākot no otrdienas nakts vidus"
+
+msgid "1-keskiyosta alkaen"
+msgstr "sākot no pirmdienas nakts vidus"
+
+msgid "1 hehtopascal"
+msgstr "viens hektopaskāls"
+
+msgid "0 hehtopascalia"
+msgstr "nulle hektopaskāli"
+
+msgid "1 prosentti"
+msgstr "viens procents"
+
+msgid "0 prosenttia"
+msgstr "nulle procenti"
+
+msgid "1 millimetri"
+msgstr "viens milimetrs"
+
+msgid "0 millimetria"
+msgstr "nulle milimetri"
+
+msgid "1 metri sekunnissa"
+msgstr "viens metrs sekundē"
+
+msgid "0 metria sekunnissa"
+msgstr "nulle metri sekundē"
+
+msgid "1 aste"
+msgstr "viens grāds"
+
+msgid "0 astetta"
+msgstr "nulle grādi"
+
+msgid "ranta- tai lumisadetta"
+msgstr "slapjš sniegs vai sniegs"
+
+msgid "lumi- tai rantasadetta"
+msgstr "sniegs vai slapjš sniegs"
+
+msgid "lumi- tai vesisadetta"
+msgstr "sniegs vai lietus"
+
+msgid "vesi- tai lumisadetta"
+msgstr "lietus vai sniegs"
+
+msgid "ranta- tai vesisadetta"
+msgstr "slapjš sniegs vai sniegs"
+
+msgid "vesi- tai rantasadetta"
+msgstr "lietus vai slapjš sniegs"
+
+msgid "ranta- tai vesikuuroja"
+msgstr "īslaicīgs slapjš sniegs vai lietus"
+
+msgid "vesi- tai rantakuuroja"
+msgstr "īslaicīgs lietus vai slapjš sniegs"
+
+msgid "vesi- tai lumikuuroja"
+msgstr "īslaicīgs lietus vai sniegs"
+
+msgid "lumi- tai vesikuuroja"
+msgstr "īslaicīgs lietus vai sniegs"
+
+msgid "[huomenna] [sisamaassa] pakkanen on [N] asteen tuntumassa"
+msgstr "[1] temperatūra būs tuvu [3] grādiem [2]"
+
+msgid "[huomenna] [sisamaassa] saa on poutainen"
+msgstr "laika apstākļi būs labi [2] [1]"
+
+msgid "[huomenna] [sisamaassa] pakkanen on [N] asteen tienoilla"
+msgstr "temperatūra būs ap [3] grādiem [2] [1]"
+
+msgid "[huomenna] [sisamaassa] pakkanen on lahella [N] [astetta]"
+msgstr "[1] temperatūra būs tuvu [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]"
+msgstr "[1] temperature būs nedaudz virs [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] pakkasta on vajaat [N] [astetta]"
+msgstr "[1] temperatūra būs gandrīz [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]"
+msgstr "[1] temperatūra būs ap [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+msgstr "[1] laiks būs labs, bet lielākoties mākoņains [2]"
+
+msgid "[huomenna] [sisamaassa] saa on [selkea] ja poutainen"
+msgstr "[1] laika apstākļi būs [3] un labi [2]"
+
+msgid "[iltapaivalla] saa poutaantuu"
+msgstr "laiks uzlabosies [1]"
+
+msgid "todennakoisesti myos ukkostaa"
+msgstr "iespējams arī pērkona negaiss"
+
+msgid "mahdollisesti myos ukkostaa"
+msgstr "iespējams pērkona negaiss"
+
+msgid "paikoin myos ukkostaa"
+msgstr "atsevišķos rajonos pērkona negaiss"
+
+msgid "paikoin voi myos ukkostaa"
+msgstr "atsevišķos rajonos iespējams pērkona negaiss"
+
+msgid "myos ukkosta esiintyy"
+msgstr "tiek novēroti atsevišķi pērkona negaisi"
+
+msgid "[iltapaivasta alkaen] [pilvistyvaa]"
+msgstr "[2] [1]"
+
+msgid "[iltapaivalla] saa poutaantuu ja on [selkea]"
+msgstr "laiks uzlabosies un būs [2] [1]"
+
+msgid "[lampotila] on [suunnilleen sama]"
+msgstr "[1] būs [2]"
+
+msgid "[lampotila] on [M...N] [astetta]"
+msgstr "[1] būs [2] [3]"
+
+msgid "[lampotila] on noin [N] [astetta]"
+msgstr "[1] būs ap [2] [3]"
+
+msgid "[lampotila] on [N] asteen tienoilla"
+msgstr "[1] būs ap [2] grādiem"
+
+msgid "[lampotila] on [N] asteen tuntumassa"
+msgstr "[1] būs tuvu [2] grādiem"
+
+msgid "[lampotila] on lahella [N] [astetta]"
+msgstr "[1] būs tuvu [2] [3]"
+
+msgid "[lampotila] on vajaat [N] [astetta]"
+msgstr "[1] būs gandrīz [2] [3]"
+
+msgid "[lampotila] on vahan yli [N] [astetta]"
+msgstr "[1] būs mazliet virs [2] [3]"
+
+msgid "saa on [poikkeuksellisen] [kylmaa]"
+msgstr "laiks būs [1] [2]"
+
+msgid "[sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
+msgstr "laiks būs pārsvarā labs [1], [2]"
+
+msgid "[sisamaassa] saa on poutainen"
+msgstr "laiks būs labs [1]"
+
+msgid "[sisamaassa] [paikoin] [heikkoa] [sadetta]"
+msgstr "[3] [4] [2] [1]"
+
+msgid "[sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[paikoin] [heikkoa] [sadetta]"
+msgstr "[1] [2] [3]"
+
+msgid "[paikoin] sumua"
+msgstr "migla [1]"
+
+msgid "[sisamaassa] [paikoin] sumua"
+msgstr "migla [2] [1]"
+
+msgid "[huomenna] sumua"
+msgstr "[1] migla"
+
+msgid "[sisamaassa] sumua"
+msgstr "migla [1]"
+
+msgid "[huomenna] [paikoin] sumua"
+msgstr "[1] [2] migla"
+
+msgid "[huomenna] [sisamaassa] sumua"
+msgstr "[1] [2] migla"
+
+msgid "[huomenna] [sisamaassa] sumua, joka voi olla sakeaa"
+msgstr "[1] iespējama bieza migla [2]"
+
+msgid "[paikoin] sumua, joka voi olla sakeaa"
+msgstr "[1] iespējama bieza migla"
+
+msgid "[sisamaassa] sumua, joka voi olla sakeaa"
+msgstr "iespējama bieza migla [1]"
+
+msgid "[sisamaassa] [paikoin] sumua, joka voi olla sakeaa"
+msgstr "iespējama bieza migla [2] [1]"
+
+msgid "[huomenna] [paikoin] sumua, joka voi olla sakeaa"
+msgstr "[1] [2] iespējama bieza migla"
+
+msgid "[huomenna] sumua, joka voi olla sakeaa"
+msgstr "[1] iespējama bieza migla"
+
+msgid "[huomenna] [paikoin] [heikkoa] [sadetta]"
+msgstr "[1] [3] [4] [2]"
+
+msgid "[paikoin] [sadetta]"
+msgstr "[2] [1]"
+
+msgid "[huomenna] [sisamaassa] [heikkoa] [sadetta]"
+msgstr "[1] [3] [4] [2]"
+
+msgid "[sisamaassa] [heikkoa] [sadetta]"
+msgstr "[2] [3] [1]"
+
+msgid "[huomenna] [heikkoa] [sadetta]"
+msgstr "[1] [2] [3]"
+
+msgid "[sisamaassa] [sadetta]"
+msgstr "[2] [1]"
+
+msgid "[sisamaassa] [paikoin] [sadetta]"
+msgstr "[3] [2] [1]"
+
+msgid "[huomenna] [sadetta]"
+msgstr "[1] [2]"
+
+msgid "[huomenna] [paikoin] [sadetta]"
+msgstr "[1] [3] [2]"
+
+msgid "[huomenna] [sisamaassa] [sadetta]"
+msgstr "[1] [3] [2]"
+
+msgid "[huomenna] [sisamaassa] [paikoin] [sadetta]"
+msgstr "[1] [4] [3] [2]"
+
+msgid "[huomenna] saa on poutainen"
+msgstr "laiks būs labs [1], [2]"
+
+msgid "[huomenna] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
+msgstr "laiks būs pārsvarā labs [1], [2]"
+
+msgid "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
+msgstr "laiks būs daļēji mākoņains vai mākoņains [1]"
+
+msgid "[huomenna] saa vaihtelee puolipilvisesta pilviseen"
+msgstr "[1] laiks būs daļēji mākoņains vai mākoņains"
+
+msgid "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+msgstr "laiks būs labs, bet diezgan mākoņains [1]"
+
+msgid "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+msgstr "[1] laiks būs labs, bet diezgan mākoņains"
+
+msgid "[sisamaassa] saa on [selkea]"
+msgstr "laiks būs [2] [1]"
+
+msgid "[huomenna] saa on [selkea]"
+msgstr "[1] laiks būs [2]"
+
+msgid "[sisamaassa] saa on [selkea] ja poutainen"
+msgstr "laiks būs [2] un skaidrs [1]"
+
+msgid "[huomenna] saa on [selkea] ja poutainen"
+msgstr "[1] laiks būs [2] un sauss"
+
+msgid "[huomenna] [sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[huomenna] [sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[huomenna] [sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[huomenna] [sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[huomenna] [sisamaassa] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[huomenna] [sisamaassa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[heikkoa] [sadetta]"
+msgstr "[1] [2]"
+
+msgid "[sadetta], joka voi olla jaatavaa"
+msgstr "[1], kas var būt sasalstošs"
+
+msgid "[heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[paikoin] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2], which may be freezing"
+
+msgid "[sisamaassa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[huomenna] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[huomenna] [heikkoa] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[huomenna] [paikoin] [sadetta], joka voi olla jaatavaa"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1], kas var būt sasalstošs"
+
+msgid "[heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[sisamaassa] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[huomenna] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2], kas var būt sasalstošs"
+
+msgid "[huomenna] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[huomenna] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3], kas var būt sasalstošs"
+
+msgid "[huomenna] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+msgstr "[1] [2] [3] [4], kas var būt sasalstošs"
+
+msgid "[iltapaivalla] [rannikolla] pakkanen on erittain purevaa"
+msgstr "sals būs ļoti stiprs [2] [1]"
+
+msgid "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan kylmemmalta"
+msgstr "[1] [2] vēja ietekmē laiks šķitīs aukstāks"
+
+msgid "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan viileammalta"
+msgstr "[1] [2] vēja ietekmē laiks šķitīs vēsāks"
+
+msgid "saa on hyvin tuulinen"
+msgstr "laiks būs ļoti vējains"
+
+msgid "saa on [iltapaivalla] [rannikolla] [tuulinen]"
+msgstr "[3] [2] būs [1]"
+
+msgid "[iltapaivalla] [rannikolla] [pakkanen on purevaa]"
+msgstr "[1] [2] [1]"
+
+msgid "pakkasta on vahan yli [N] [astetta]"
+msgstr "gaisa temperatūra būs gandrīz [1] [2]"
+
+msgid "pakkasta on vajaat [N] [astetta]"
+msgstr "gaisa temperatūra būs gandrīz [1] [2]"
+
+msgid "pakkanen on lahella [N] [astetta]"
+msgstr "temperatūra būs tuvu [1] [2]"
+
+msgid "pakkanen on [N] asteen tienoilla"
+msgstr "gaisa temperatūra būs ap [1] grādiem"
+
+msgid "pakkanen on [N] asteen tuntumassa"
+msgstr "gaisa temperatūra būs tuvu [1] grādiem"
+
+msgid "pakkasta on noin [N] [astetta]"
+msgstr "gaisa temperatūra būs ap [1] [2]"
+
+msgid "pakkasta on [M...N] [astetta]"
+msgstr "gaisa temperatūra būs [1] [2]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen"
+msgstr "laiks uzlabosies [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on selkea"
+msgstr "laiks uzlabosies un debesis būs skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on selkea"
+msgstr "laiks uzlabosies un debesis būs skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on selkea"
+msgstr "laiks uzlabosies un debesis būs skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on selkea"
+msgstr "laiks uzlabosies un debesis būs skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+msgstr "laiks uzlabosies, bet mākoņu daudzums mainīsies no daļēji mākoņaina līdz mākoņainam [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+msgstr "laiks uzlabosies, bet mākoņu daudzums mainīsies no daļēji mākoņaina līdz mākoņainam [1]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+msgstr "laiks uzlabosies, bet mākoņu daudzums mainīsies no daļēji mākoņaina līdz mākoņainam [1]"
+
+msgid "6-keskiyohon asti"
+msgstr "līdz sestdienas pusnaktij"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+msgstr "laiks uzlabosies, bet mākoņu daudzums mainīsies no daļēji mākoņaina līdz mākoņainam [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen"
+msgstr "laiks uzlabosies [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen"
+msgstr "laiks uzlabosies [1]"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen"
+msgstr "laiks uzlabosies [1]"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on verrattain pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies diezgan mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on verrattain pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies diezgan mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on verrattain pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies diezgan mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on verrattain pilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies diezgan mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on puolipilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies daļēji mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on puolipilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies daļēji mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on puolipilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies daļēji mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on puolipilvinen"
+msgstr "laiks uzlabosies, bet saglabāsies daļēji mākoņains [1]"
+
+msgid "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on melko selkea"
+msgstr "laiks uzlabosies un debesis būs diezgan skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on melko selkea"
+msgstr "laiks uzlabosies un debesis būs diezgan skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on melko selkea"
+msgstr "laiks uzlabosies un debesis būs diezgan skaidras [1]"
+
+msgid "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on melko selkea"
+msgstr "laiks uzlabosies un debesis būs diezgan skaidras [1]"
+
+msgid "[rannikolla] on [tuulista]"
+msgstr "tas būs [2] [1]"
+
+msgid "[iltapaivalla] on [tuulista]"
+msgstr "tas būs [2] [1]"
+
+msgid "[rannikolla] tuuli saa saan tuntumaan kylmemmalta"
+msgstr "vēja ietekmē laiks šķitīs aukstāks [1]"
+
+msgid "[iltapaivalla] tuuli saa saan tuntumaan kylmemmalta"
+msgstr "vēja ietekmē laiks šķitīs aukstāks [1]"
+
+msgid "[rannikolla] tuuli saa saan tuntumaan viileammalta"
+msgstr "vēja ietekmē laiks šķitīs vēsāks [1]"
+
+msgid "[iltapaivalla] tuuli saa saan tuntumaan viileammalta"
+msgstr "vēja ietekmē laiks šķitīs vēsāks [1]"
+
+msgid "[rannikolla] pakkanen on erittain purevaa"
+msgstr "sals būs ļoti spēcīgs [1]"
+
+msgid "[iltapaivalla] pakkanen on erittain purevaa"
+msgstr "sals būs ļoti stiprs [1]"
+
+msgid "[rannikolla] pakkanen on purevaa"
+msgstr "sals būs spēcīgs [1]"
+
+msgid "[iltapaivalla] pakkanen on purevaa"
+msgstr "sals būs stiprs [1]"
+
+msgid "saa on ajankohtaan nahden tavanomaista lampimampaa"
+msgstr "laiks būs ievērojami siltāks nekā ierasti šajā laikā"
+
+msgid "[huomenna] pakkasta on [M...N] [astetta]"
+msgstr "[1] gaisa temperatūra būs [2] [3]"
+
+msgid "[huomenna] pakkasta on noin [N] [astetta]"
+msgstr "[1] gaisa temperatūra būs ap [2] [3]"
+
+msgid "[huomenna] pakkanen on [hieman kireampaa]"
+msgstr "[1] sals būs [2]"
+
+msgid "[huomenna] pakkasta on vahan yli [N] [astetta]"
+msgstr "[1] gaisa temperatūra būs nedaudz zem [2] [3]"
+
+msgid "[huomenna] pakkasta on vajaat [N] [astetta]"
+msgstr "[1] gaisa temperatūra būs gandrīz [2] [3]"
+
+msgid "[huomenna] pakkanen on lahella [N] [astetta]"
+msgstr "[1] gaisa temperatūra būs ap [2] [3]"
+
+msgid "[huomenna] pakkanen on [N] asteen tuntumassa"
+msgstr "[1] gaisa temperatūra būs tuvu [2] grādiem"
+
+msgid "[huomenna] pakkanen on [N] asteen tienoilla"
+msgstr "[1] gaisa temperatūra būs ap [2] grādiem"
+
+msgid "[sisamaassa] pakkasta on [M...N] [astetta]"
+msgstr "temperatūra būs [2] [3] [1]"
+
+msgid "[sisamaassa] pakkasta on noin [N] [astetta]"
+msgstr "temperatūra būs ap [2] [3] [1]"
+
+msgid "[sisamaassa] pakkanen on [hieman kireampaa]"
+msgstr "aukstums būs [2] [1]"
+
+msgid "[sisamaassa] pakkasta on vahan yli [N] [astetta]"
+msgstr "temperatūra būs mazliet zem [2] [3] [1]"
+
+msgid "[sisamaassa] pakkanen on lahella [N] [astetta]"
+msgstr "the temperature is near [2] [3] [1]"
+
+msgid "[sisamaassa] pakkasta on vajaat [N] [astetta]"
+msgstr "temperatūra būs gandrīz [2] [3] [1]"
+
+msgid "[sisamaassa] pakkanen on [N] asteen tuntumassa"
+msgstr "temperatūra būs tuvu [2] grādiem [1]"
+
+msgid "[sisamaassa] pakkanen on [N] asteen tienoilla"
+msgstr "temperatūra būs ap [2] grādiem [1]"
+
+msgid "[sisamaassa] [lampotila] on [suunnilleen sama]"
+msgstr "[2] būs [3] [1]"
+
+msgid "[sisamaassa] [lampotila] on [M...N] [astetta]"
+msgstr "[2] būs [3] [4] [1]"
+
+msgid "[sisamaassa] [lampotila] on noin [N] [astetta]"
+msgstr "[2] būs ap [3] [4] [1]"
+
+msgid "[sisamaassa] [lampotila] on [N] asteen tienoilla"
+msgstr "[2] būs ap [3] grādiem [1]"
+
+msgid "[sisamaassa] [lampotila] on [N] asteen tuntumassa"
+msgstr "[2] būs tuvu [3] grādiem [1]"
+
+msgid "[sisamaassa] [lampotila] on lahella [N] [astetta]"
+msgstr "[2] būs tuvu [3] [1]"
+
+msgid "[sisamaassa] [lampotila] on vajaat [N] [astetta]"
+msgstr "[2] būs gandrīz [3] [4] [1]"
+
+msgid "[sisamaassa] [lampotila] on vahan yli [N] [astetta]"
+msgstr "[2] būs nedaudz virss [3] [4] [1]"
+
+msgid "[huomenna] [lampotila] on [suunnilleen sama]"
+msgstr "[1] [2] būs [3]"
+
+msgid "[huomenna] [lampotila] on [M...N] [astetta]"
+msgstr "[1] [2] būs [3] [4]"
+
+msgid "[huomenna] [lampotila] on noin [N] [astetta]"
+msgstr "[1] [2] būs ap [3] [4]"
+
+msgid "[huomenna] [lampotila] on [N] asteen tienoilla"
+msgstr "[1] [2] būs aptuveni [3] grādi"
+
+msgid "[huomenna] [lampotila] on [N] asteen tuntumassa"
+msgstr "[1] [2] būs tuvu [3] grādiem"
+
+msgid "[huomenna] [lampotila] on lahella [N] [astetta]"
+msgstr "[1] [2] būs tuvu [3]"
+
+msgid "[huomenna] [lampotila] on vajaat [N] [astetta]"
+msgstr "[1] [2] būs gandrīz [3] [4]"
+
+msgid "2-keskiyohon asti"
+msgstr "līdz otrdienas pusnaktij"
+
+msgid "[huomenna] [lampotila] on vahan yli [N] [astetta]"
+msgstr "[1] [2] būs nedaudz vbūss [3] [4]"
+
+msgid "[rannikolla] on pikkupakkasta"
+msgstr "temperatūra būs mazliet zem nulles [1]"
+
+msgid "[huomenna] on pikkupakkasta"
+msgstr "[1] gaisa temperatūra būs nedaudz zem nulles"
+
+msgid "[sisamaassa] [M...N] [astetta]"
+msgstr "[2] [3] [1]"
+
+msgid "[huomenna] [M...N] [astetta]"
+msgstr "[1] [2] [3]"
+
+msgid "[sisamaassa] [suunnilleen sama]"
+msgstr "[2] [1]"
+
+msgid "[huomenna] [suunnilleen sama]"
+msgstr "[1] [2]"
+
+msgid "[sisamaassa] noin [N] [astetta]"
+msgstr "ap [2] [3] [1]"
+
+msgid "[huomenna] noin [N] [astetta]"
+msgstr "[1] ap [2] [3]"
+
+msgid "[sisamaassa] [N] asteen tienoilla"
+msgstr "ap [2] grādiem [1]"
+
+msgid "[huomenna] [N] asteen tienoilla"
+msgstr "[1] tuvu [2] grādiem"
+
+msgid "[sisamaassa] [N] asteen tuntumassa"
+msgstr "tuvu [2] grādiem [1]"
+
+msgid "[huomenna] [N] asteen tuntumassa"
+msgstr "[1] tuvu [2] grādiem"
+
+msgid "[sisamaassa] lahella [N] [astetta]"
+msgstr "tuvu [2] [3] [1]"
+
+msgid "[huomenna] lahella [N] [astetta]"
+msgstr "[1] tuvu [2] [3]"
+
+msgid "[sisamaassa] vahan yli [N] [astetta]"
+msgstr "mazliet virs [2] [3] [1]"
+
+msgid "[huomenna] vahan yli [N] [astetta]"
+msgstr "[1] nedaudz virs [2] [3]"
+
+msgid "[sisamaassa] vajaat [N] [astetta]"
+msgstr "gandrīz [2] [3] [1]"
+
+msgid "[huomenna] vajaat [N] [astetta]"
+msgstr "[1] gandrīz [2] [3]"
+
+msgid "[1-na] saa on ajankohtaan nahden tavanomaista lampimampaa"
+msgstr "[1] laiks būs ievērojami siltāks nekā ierasti šajā laikā"
+
+msgid "asteen(tienoilla)"
+msgstr "grādi"
+
+msgid "asteen(tuntumassa)"
+msgstr "grādi"
+
+msgid "[N] [asteen] tienoilla"
+msgstr "ap [1] [2]"
+
+msgid "[N] [asteen] tuntumassa"
+msgstr "tuvu [1] [2]"
+
+msgid "[sisamaassa] [N] [asteen] tuntumassa"
+msgstr "tuvu [2] [3] [1]"
+
+msgid "[sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
+msgstr "[2] būs tuvu [3] [4] [1]"
+
+msgid "[sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+msgstr "temperatūra būs tuvu [2] [3] [1]"
+
+msgid "[lampotila] on [N] [asteen] tuntumassa"
+msgstr "[1] būs tuvu [2] [3]"
+
+msgid "[huomenna] [sisamaassa] [N] [asteen] tuntumassa"
+msgstr "[1] tuvu [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
+msgstr "[1] [3] būs tuvu [4] [5] [2]"
+
+msgid "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+msgstr "[1] temperatūra būs tuvu [3] [4] [2]"
+
+msgid "[huomenna] [N] [asteen] tuntumassa"
+msgstr "[1] tuvu [2] [3]"
+
+msgid "[huomenna] [lampotila] on [N] [asteen] tuntumassa"
+msgstr "[1] [2] būs tuvu [3] [4]"
+
+msgid "[huomenna] pakkanen on [N] [asteen] tuntumassa"
+msgstr "[1] gaisa temperatūra būstuvu [2] [3]"
+
+msgid "rannikolla [N] [asteen] tuntumassa"
+msgstr "līdz [1] [2] grādiem piekrastes rajonos"
+
+msgid "pakkanen on [N] [asteen] tuntumassa"
+msgstr "gaisa temperatūra būs tuvu [1] [2]"
+
+msgid "[sisamaassa] [N] [asteen] tienoilla"
+msgstr "ap [2] [3] [1]"
+
+msgid "[sisamaassa] [lampotila] on [N] [asteen] tienoilla"
+msgstr "[2] būs ap [3] [4] [1]"
+
+msgid "[sisamaassa] pakkanen on [N] [asteen] tienoilla"
+msgstr "temperatūra būs ap [2] [3] [1]"
+
+msgid "[lampotila] on [N] [asteen] tienoilla"
+msgstr "[1] būs [2]"
+
+msgid "[huomenna] [sisamaassa] [N] [asteen] tienoilla"
+msgstr "[1] round about [3] [4] [2]"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tienoilla"
+msgstr "[1] [3] būs ap [4] [5] [2]"
+
+msgid "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tienoilla"
+msgstr "temperatūra būs ap [3] [4] [2] [1] "
+
+msgid "[huomenna] [N] [asteen] tienoilla"
+msgstr "[1] tuvu [2] [3]"
+
+msgid "[huomenna] [lampotila] on [N] [asteen] tienoilla"
+msgstr "[1] [2] būs aptuveni [3] grādi"
+
+msgid "[huomenna] pakkanen on [N] [asteen] tienoilla"
+msgstr "[1] gaisa temperatūra būs ap [2] [3]"
+
+msgid "rannikolla [N] [asteen] tienoilla"
+msgstr "[1] piekrastes rajonos"
+
+msgid "pakkanen on [N] [asteen] tienoilla"
+msgstr "gaisa temperatūra būs ap [1] [2]"
+
+msgid "saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+msgstr " laiks būs labs, bet diezgan mākoņains"
+
+msgid "saa on [selkea] ja poutainen"
+msgstr "laiks būs [1] un labs"
+
+msgid "[alueella] saa on ajankohtaan nahden tavanomaista lampimampaa"
+msgstr "laiks būs ievērojami siltāks nekā ierasti šajā laikā [1]"
+
+msgid "[1-na] [alueella] saa on ajankohtaan nahden tavanomaista lampimampaa"
+msgstr "[1] laiks būs ievērojami siltāks nekā ierasti šajā laikā [2]"
+
+msgid "[alueella] [saa lampenee]"
+msgstr "[2] [1]"
+
+msgid "[1-na] [alueella] [saa lampenee]"
+msgstr "[3] [1] [2]"
+
+msgid "[alueella] saa on [poikkeuksellisen] [kylmaa]"
+msgstr "laiks būs [2] [3] [1]"
+
+msgid "[1-na] [alueella] saa on [poikkeuksellisen] [kylmaa]"
+msgstr "laiks būs [3] [4] [2] [1]"
+
+msgid "yon alin"
+msgstr "minimālā gaisa temperatūra naktī"
+
+msgid "[1-na] [alueella] saa lauhtuu"
+msgstr "[1] laiks kļūs maigāks [2]"
+
+msgid "[alueella] saa lauhtuu"
+msgstr "laiks kļūs maigāks [1]"
+
+msgid "[1-na] saa lauhtuu"
+msgstr "[1] laiks kļūs maigāks"
+
+msgid "[1-na] [alueella] saa on edelleen lauhaa"
+msgstr "[1] laiks vēlarvien būs maigs [2]"
+
+msgid "[alueella] saa on edelleen lauhaa"
+msgstr "laiks vēlarvien būs maigs [1]"
+
+msgid "[1-na] saa on edelleen lauhaa"
+msgstr "[1] laiks vēlarvien būs maigs"
+
+msgid "[alueella] pakkanen kiristyy"
+msgstr "sals pieņemsies spēkā [1]"
+
+msgid "[1-na] pakkanen kiristyy"
+msgstr "[1] sals pieņemsies spēkā"
+
+msgid "[1-na] [alueella] pakkanen kiristyy"
+msgstr "[1] sals pieņemsies spēkā [2]"
+
+msgid "[alueella] kirea pakkanen jatkuu"
+msgstr "saglabāsies stiprs sals [1]"
+
+msgid "[1-na] kirea pakkanen jatkuu"
+msgstr "[1] stiprs sals saglabāsies"
+
+msgid "[1-na] [alueella] kirea pakkanen jatkuu"
+msgstr "[1] saglabāsies stiprs sals [2]"
+
+msgid "[alueella] pakkanen hellittaa"
+msgstr "sals sāks mazināties [1]"
+
+msgid "[1-na] pakkanen hellittaa"
+msgstr "[1] sals sāks mazināties"
+
+msgid "[1-na] [alueella] pakkanen hellittaa"
+msgstr "[1] sals sāks mazināties [2]"
+
+msgid "[alueella] kirea pakkanen heikkenee"
+msgstr "stiprais sals pierims [1] "
+
+msgid "[1-na] kirea pakkanen heikkenee"
+msgstr "[1] stiprais sals mazināsies"
+
+msgid "[1-na] [alueella] kirea pakkanen heikkenee"
+msgstr "[1] stiprais sals pierims [2] "
+
+msgid "[alueella] pakkanen heikkenee"
+msgstr "sals mazināsies [1]"
+
+msgid "[1-na] pakkanen heikkenee"
+msgstr "[1] sals mazināsies"
+
+msgid "[1-na] [alueella] pakkanen heikkenee"
+msgstr "[1] sals mazināsies [2]"
+
+msgid "[alueella] saa on helteista"
+msgstr "laiks būs ļoti karsts [1]"
+
+msgid "[1-na] saa on helteista"
+msgstr "[1] laiks būs ļoti karsts"
+
+msgid "[1-na] [alueella] saa on helteista"
+msgstr "[1] laiks būs ļoti karsts [2]"
+
+msgid "[alueella] saa muuttuu helteiseksi"
+msgstr "laiks kļūs karsts [1]"
+
+msgid "[1-na] saa muuttuu helteiseksi"
+msgstr "[1] laiks kļūs karsts"
+
+msgid "[1-na] [alueella] saa muuttuu helteiseksi"
+msgstr "[1] laiks kļūs karsts [2]"
+
+msgid "[alueella] helteinen saa jatkuu"
+msgstr "karsts laiks turpināsies [1]"
+
+msgid "[1-na] helteinen saa jatkuu"
+msgstr "[1] karsts laiks turpināsies "
+
+msgid "[1-na] [alueella] helteinen saa jatkuu"
+msgstr "[1] karsts laiks turpināsies [2] "
+
+msgid "[alueella] saa viilenee huomattavasti"
+msgstr " laiks kļūs ievērojami vēsāks [1]"
+
+msgid "[1-na] saa viilenee huomattavasti"
+msgstr "[1] laiks kļūs ievērojami vēsāks"
+
+msgid "[1-na] [alueella] saa viilenee huomattavasti"
+msgstr "[1] laiks kļūs ievērojami vēsāks [2]"
+
+msgid "[alueella] saa viilenee vahan"
+msgstr " laiks kļūs nedaudz vēsāks [1]"
+
+msgid "[1-na] saa viilenee vahan"
+msgstr "[1] laiks kļūs nedaudz vēsāks"
+
+msgid "[1-na] [alueella] saa viilenee vahan"
+msgstr "[1] laiks kļūs nedaudz vēsāks [2]"
+
+msgid "[alueella] saa viilenee"
+msgstr "laiks būs [2] [3] [1]"
+
+msgid "[1-na] saa viilenee"
+msgstr "[1] laiks kļūs vēsāks"
+
+msgid "[1-na] [alueella] saa viilenee"
+msgstr "[1] laiks kļūs vēsāks [2]"
+
+msgid "[alueella] viilea saa jatkuu"
+msgstr " saglabāsies vēss laiks [1]"
+
+msgid "[1-na] viilea saa jatkuu"
+msgstr "[1] saglabāsies vēss laiks"
+
+msgid "[1-na] [alueella] viilea saa jatkuu"
+msgstr "[1] saglabāsies vēss laiks [2]"
+
+msgid "[alueella] kolea saa jatkuu"
+msgstr "saglabāsies nepatīkams laiks [1]"
+
+msgid "[1-na] kolea saa jatkuu"
+msgstr "[1] turpināsies nepatīkams laiks"
+
+msgid "[1-na] [alueella] kolea saa jatkuu"
+msgstr "[1] saglabāsies nepatīkams laiks [2]"
+
+msgid "[alueella] saa lampenee huomattavasti"
+msgstr "laiks būs ievērojami siltāks [1]"
+
+msgid "[1-na] saa lampenee huomattavasti"
+msgstr "[1] laiks būs ievērojami siltāks"
+
+msgid "[1-na] [alueella] saa lampenee huomattavasti"
+msgstr "[1] laiks būs ievērojami siltāks [2]"
+
+msgid "[alueella] saa lampenee vahan"
+msgstr "laiks būs nedaudz siltāks [1]"
+
+msgid "[1-na] saa lampenee vahan"
+msgstr "[1] laiks būs nedaudz siltāks"
+
+msgid "[1-na] [alueella] saa lampenee vahan"
+msgstr "[1] laiks būs nedaudz siltāks [2]"
+
+msgid "[alueella] saa lampenee"
+msgstr "laiks kļūs siltāks  [1]"
+
+msgid "[1-na] saa lampenee"
+msgstr "[1] laiks kļūs siltāks"
+
+msgid "[1-na] [alueella] saa lampenee"
+msgstr "[1] laiks kļūs siltāks  [2]"
+
+msgid "7-keskiyolla ja aamuyolla"
+msgstr "svētdien nakts vidū un otrajā pusē"
+
+msgid "6-keskiyolla ja aamuyolla"
+msgstr "sestdien nakts vidū un otrajā pusē"
+
+msgid "5-keskiyolla ja aamuyolla"
+msgstr "piektdien nakts vidū un otrajā pusē"
+
+msgid "4-keskiyolla ja aamuyolla"
+msgstr "ceturtdien nakts vidū un otrajā pusē"
+
+msgid "3-keskiyolla ja aamuyolla"
+msgstr "trešdien nakts vidū un otrajā pusē"
+
+msgid "2-keskiyolla ja aamuyolla"
+msgstr "otrdien nakts vidū un otrajā pusē"
+
+msgid "1-keskiyolla ja aamuyolla"
+msgstr "pirmdien nakts vidū un nakts otrajā pusē"
+
+msgid "[huomenna] yksittaiset vesikuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs lietus"
+
+msgid "[huomenna] yksittaiset vesi- tai rantakuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs lietus vai slapjš sniegs"
+
+msgid "[huomenna] yksittaiset vesi- tai lumikuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs sniegs vai lietus"
+
+msgid "[huomenna] yksittaiset sadekuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs lietus"
+
+msgid "[huomenna] yksittaiset rantakuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs slapjš sniegs "
+
+msgid "[huomenna] yksittaiset ranta- tai vesikuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs slapjš sniegs vai lietus"
+
+msgid "[huomenna] yksittaiset lumikuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs sniegs "
+
+msgid "[huomenna] yksittaiset lumi- tai rantakuurot mahdollisia"
+msgstr "[1] iespējams īslaicīgs sniegs vai slapjš sniegs"
+
+msgid "[huomenna] [sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs vai slapjš sniegs [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset lumikuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia"
+msgstr "iespējams īslaicīgs slapjš sniegs vai lietus [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs slapjš sniegs [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset sadekuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs vai lietus [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus vai slapjš sniegs [2] [1]"
+
+msgid "[huomenna] [sisamaassa] yksittaiset vesikuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus [2] [1]"
+
+msgid "[sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia"
+msgstr "iespējams īslaicīgs slapjš sniegs vai lietus [1]"
+
+msgid "[sisamaassa] yksittaiset rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs slapjš sniegs [1] "
+
+msgid "[sisamaassa] yksittaiset sadekuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus [1]"
+
+msgid "1-keskiyohon asti"
+msgstr "līdz pirmdienas pusnaktij"
+
+msgid "[sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs vai lietus [1]"
+
+msgid "[sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus vai slapjš sniegs [1]"
+
+msgid "[sisamaassa] yksittaiset vesikuurot mahdollisia"
+msgstr "iespējams īslaicīgs lietus [1]"
+
+msgid "[sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs vai slapjš sniegs"
+
+msgid "[sisamaassa] yksittaiset lumikuurot mahdollisia"
+msgstr "iespējams īslaicīgs sniegs [1]"
+
+msgid "[sisamaassa] on [hieman lauhempaa]"
+msgstr "[sisamaassa] ir [hieman lauhempaa]"
+
+msgid "[huomenna] on [hieman lauhempaa]"
+msgstr "[huomenna] ir [hieman lauhempaa]"
+
+msgid "[huomenna] [sisamaassa] on [hieman lauhempaa]"
+msgstr "[huomenna] [sisamaassa] ir [hieman lauhempaa]"
+
+msgid "[lampotila] [M...N] [astetta]"
+msgstr "[1] [2] [3]"
+
+msgid "paivan ylin"
+msgstr "diennakts maksimālā temperatūra"
+
+msgid "[lampotila] [suunnilleen sama]"
+msgstr "[1] [2]"
+
+msgid "[lampotila] vahan yli [N] [astetta]"
+msgstr "[1] nedaudz virs [2] [3]"
+
+msgid "[lampotila] vajaat [N] [astetta]"
+msgstr "[1] gandrīz [2] [3]"
+
+msgid "[lampotila] lahella [N] [astetta]"
+msgstr "[1] tuvu [2] [3]"
+
+msgid "[lampotila] [N] [asteen] tuntumassa"
+msgstr "[1] būs tuvu [2] [3]"
+
+msgid "[lampotila] [N] [asteen] tienoilla"
+msgstr "[1] būs ap [2] [3]"
+
+msgid "[lampotila] noin [N] [astetta]"
+msgstr "[1] ap [2] [3]"
+
+msgid "luoteeseen"
+msgstr "uz ziemeļrietumiem"
+
+msgid "lounaaseen"
+msgstr "uz dienvidrietumiem"
+
+msgid "kaakkoon"
+msgstr "uz dienvidaustrumiem"
+
+msgid "koilliseen"
+msgstr "uz ziemeļaustrumiem"
+
+msgid "lanteen"
+msgstr "uz rietumiem"
+
+msgid "itaan"
+msgstr "uz austrumiem"
+
+msgid "etelaan"
+msgstr "uz dienvidiem"
+
+msgid "pohjoiseen"
+msgstr "uz ziemeļiem"
+
+msgid "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
+msgstr "[iltapaivalla] vējš pagriežas [etelaan] un turpina stiprināties"
+
+msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka muuttuu [iltapaivalla] vaihtelevaksi"
+msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas [iltapaivalla] kļūst mainīgs"
+
+msgid "vahitellen"
+msgstr "pakāpeniski"
+
+msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
+msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas [iltapaivalla] pagriežas [etelaan]"
+
+msgid "[iltapaivalla] tuuli kaantyy [etelaan]"
+msgstr "[iltapaivalla] vējš pagriežas [etelaan]"
+
+msgid "suunnaltaan vaihtelevaa tuulta"
+msgstr "mainīga virziena vēju"
+
+msgid "latvia:lle"
+msgstr "Latvia"
+
+msgid "astetta (n...0)"
+msgstr "grādi"
+
+msgid "1- ja 2-valille"
+msgstr "uz ziemeļiem-ziemeļaustrumiem"
+
+msgid "3- ja 2-valille"
+msgstr "uz austrumiem-ziemeļaustrumiem"
+
+msgid "3- ja 4-valille"
+msgstr "uz austrumiem-dienvidaustrumiem"
+
+msgid "5- ja 4-valille"
+msgstr "uz dienvidiem-dienvidaustrumiem"
+
+msgid "5- ja 6-valille"
+msgstr "uz dienvidiem-dienvidrietumiem"
+
+msgid "7- ja 6-valille"
+msgstr "uz rietumiem-dienvidrietumiem"
+
+msgid "7- ja 8-valille"
+msgstr "uz rietumiem-ziemeļrietumiem"
+
+msgid "1- ja 8-valille"
+msgstr "uz ziemeļiem-ziemeļrietumiem"
+
+msgid "[huomenna] [etelatuulta]"
+msgstr "[huomenna] [etelatuulta]"
+
+msgid "ivalo:lle"
+msgstr "Ivalo"
+
+msgid "pieksamaki:lle"
+msgstr "Pieksamaki"
+
+msgid "[iltapaivalla] [etelaan] kaantyvaa tuulta"
+msgstr "[iltapaivalla] uz [etelaan] pagriežošu vēju"
+
+msgid "heikkenevaa tuulta"
+msgstr "vājinošu vēju"
+
+msgid "8-puolelle"
+msgstr "galvenokārt uz ziemeļrietumiem"
+
+msgid "7-puolelle"
+msgstr "galvenokārt uz rietumiem"
+
+msgid "6-puolelle"
+msgstr "galvenokārt uz dienvidrietumiem"
+
+msgid "5-puolelle"
+msgstr "galvenokārt uz dienvidiem"
+
+msgid "4-puolelle"
+msgstr "galvenokārt uz dienvidaustrumiem"
+
+msgid "3-puolelle"
+msgstr "galvenokārt uz austrumiem"
+
+msgid "2-puolelle"
+msgstr "galvenokārt uz ziemeļaustrumiem"
+
+msgid "1-puolelle"
+msgstr "galvenokārt uz ziemeļiem"
+
+msgid "tuuli muuttuu vaihtelevaksi"
+msgstr "vējš kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] vējš kļūst mainīgs"
+
+msgid "[iltapaivalla] [etelatuulta]"
+msgstr "[iltapaivalla] [etelatuulta]"
+
+msgid "astetta (1)"
+msgstr "grāds"
+
+msgid "astetta (0)"
+msgstr "grādi"
+
+msgid "astetta (4)"
+msgstr "grādi"
+
+msgid "astetta (3)"
+msgstr "grādi"
+
+msgid "astetta (n...(mod 10=1))"
+msgstr "grādi"
+
+msgid "astetta (n...4)"
+msgstr "grādi"
+
+msgid "astetta (n...3)"
+msgstr "grādi"
+
+msgid "astetta (n...2)"
+msgstr "grādi"
+
+msgid "astetta (n...1)"
+msgstr "grādi"
+
+msgid "astetta (2)"
+msgstr "grādi"
+
+msgid "aallonkorkeus on enimmillaan [N] [metria]"
+msgstr "viļņa augstums ir vislielākais [N] [metria]"
+
+msgid "latgale:lle"
+msgstr "Latgales regions"
+
+msgid "vidzeme:lle"
+msgstr "Vidzemes regions"
+
+msgid "zemgale:lle"
+msgstr "Zemgales regions"
+
+msgid "kurzeme:lle"
+msgstr "Kurzemes regions"
+
+msgid "rigaregion:lle"
+msgstr "Lielrîga regions"
+
+msgid "tuuli kaantyy"
+msgstr "vējš mainās"
+
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
+msgstr "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
+
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
+msgstr "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
+
+msgid "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] vējš īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
+msgstr "[1] tuuli heikkenee ja muuttuu vaihtelevaksi"
+
+msgid "astetta (m...n)"
+msgstr "grādi"
+
+msgid "astetta (n)"
+msgstr "grādi"
+
+msgid "[iltapaivalla] tuuli heikkenee ja kaantyy [etelaan]"
+msgstr "[1] tuuli heikkenee ja kääntyy [2]"
+
+msgid "keskipaivasta"
+msgstr "no pusdienlaika"
+
+msgid "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]"
+msgstr "[1] tuuli voimistuu ja kääntyy [2]"
+
+msgid "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi"
+msgstr "[1] tuuli voimistuu ja muuttuu vaihtelevaksi"
+
+msgid "voimistuvaa tuulta"
+msgstr "pieaugošu vēju"
+
+msgid "hyvin voimakkaita puuskia"
+msgstr "ļoti stipras brāzmas"
+
+msgid "kovimmillaan"
+msgstr "līdz"
+
+msgid "nopeasti"
+msgstr "strauji"
+
+msgid "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
+msgstr "[iltapaivalla] vējš kļūst mainīgs un turpina vājināties"
+
+msgid "[iltapaivalla] [heikkenevaa tuulta]"
+msgstr "[1] [2]"
+
+msgid "[iltapaivalla] [heikkenevaa] [etelatuulta]"
+msgstr "[1] [2] [3]"
+
+msgid "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] vājinās un kļūst mainīgs"
+
+msgid "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] vājinās un pagriežas [etelaan]"
+
+msgid "1- ja 8-valista tuulta"
+msgstr "ziemeļu-ziemeļrietumu vēju"
+
+msgid "7- ja 8-valista tuulta"
+msgstr "rietumu-ziemeļrietumu vēju"
+
+msgid "7- ja 6-valista tuulta"
+msgstr "rietumu-dienvidrietumu vēju"
+
+msgid "5- ja 6-valista tuulta"
+msgstr "dienvidu-dienvidrietumu vēju"
+
+msgid "5- ja 4-valista tuulta"
+msgstr "dienvidu-dienvidaustrumu vēju"
+
+msgid "3- ja 4-valista tuulta"
+msgstr "austrumu-dienvidaustrumu vēju"
+
+msgid "3- ja 2-valista tuulta"
+msgstr "austrumu-ziemeļaustrumu vēju"
+
+msgid "1- ja 2-valista tuulta"
+msgstr "ziemeļu-ziemeļaustrumu vēju"
+
+msgid "1- ja 8-valinen tuuli"
+msgstr "ziemeļu-ziemeļrietumu vējš"
+
+msgid "7- ja 8-valinen tuuli"
+msgstr "rietumu-ziemeļrietumu vējš"
+
+msgid "7- ja 6-valinen tuuli"
+msgstr "rietumu-dienvidrietumu vējš"
+
+msgid "5- ja 6-valinen tuuli"
+msgstr "dienvidu-dienvidrietumu vējš"
+
+msgid "5- ja 4-valinen tuuli"
+msgstr "dienvidu-dienvidaustrumu vējš"
+
+msgid "3- ja 4-valinen tuuli"
+msgstr "austrumu-dienvidaustrumu vējš"
+
+msgid "3- ja 2-valinen tuuli"
+msgstr "austrumu-ziemeļaustrumu vējš"
+
+msgid "1- ja 2-valinen tuuli"
+msgstr "ziemeļu-ziemeļaustrumu vējš"
+
+msgid "8-puoleinen tuuli"
+msgstr "galvenokārt ziemeļrietumu vējš"
+
+msgid "7-puoleinen tuuli"
+msgstr "galvenokārt rietumu vējš"
+
+msgid "6-puoleinen tuuli"
+msgstr "galvenokārt dienvidrietumu vējš"
+
+msgid "5-puoleinen tuuli"
+msgstr "galvenokārt dienvidu vējš"
+
+msgid "4-puoleinen tuuli"
+msgstr "galvenokārt dienvidaustrumu vējš"
+
+msgid "3-puoleinen tuuli"
+msgstr "galvenokārt austrumu vējš"
+
+msgid "2-puoleinen tuuli"
+msgstr "galvenokārt ziemeļaustrumu vējš"
+
+msgid "1-puoleinen tuuli"
+msgstr "galvenokārt ziemeļu vējš"
+
+msgid "8-tuuli"
+msgstr "ziemeļrietumu vējš"
+
+msgid "7-tuuli"
+msgstr "rietumu vējš"
+
+msgid "6-tuuli"
+msgstr "dienvidrietumu vējš"
+
+msgid "5-tuuli"
+msgstr "dienvidu vējš"
+
+msgid "4-tuuli"
+msgstr "dienvidaustrumu vējš"
+
+msgid "3-tuuli"
+msgstr "austrumu vējš"
+
+msgid "2-tuuli"
+msgstr "ziemeļaustrumu vējš"
+
+msgid "1-tuuli"
+msgstr "ziemeļu vējš"
+
+msgid "suunnaltaan vaihteleva tuuli"
+msgstr "mainīga virziena vējš"
+
+msgid "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen"
+msgstr "[iltapaivalla] vējš īslaicīgi kļūst mainīgs un turpina vājināties"
+
+msgid "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] vējš vājinās un īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+
+msgid "iltapaivasta"
+msgstr "no pēcpusdienas"
+
+msgid "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
+msgstr "[iltapaivalla] [etelatuuli] sāk vājināties [nopeasti]"
+
+msgid "illasta"
+msgstr "no vakara"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un pagriezties [etelaan]"
+
+msgid "astetta (mod 10=1)"
+msgstr "grādi"
+
+msgid "aste"
+msgstr "grāds"
+
+msgid "nolla"
+msgstr "nulle"
+
+msgid "asteen(tienoilla (mod 10=1))"
+msgstr "grādi"
+
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
+msgstr "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], kas pagriežas [pohjoiseen]"
+
+msgid "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
+msgstr "[iltapaivalla] turpina [heikkenevaa] [pohjoistuulta]"
+
+msgid "hehtopascalia (mod 10=1)"
+msgstr "hektopaskāli"
+
+msgid "prosenttia (mod 10=1)"
+msgstr "procenti"
+
+msgid "millimetria (mod 10=1)"
+msgstr "milimetri"
+
+msgid "metria sekunnissa (mod 10=1)"
+msgstr "metri sekundē"
+
+msgid "4 astetta"
+msgstr "4 grādi"
+
+msgid "3 astetta"
+msgstr "3 grādi"
+
+msgid "2 astetta"
+msgstr "2 grādi"
+
+msgid "puuskittaista [etelatuulta]"
+msgstr "brāzmaina [etelatuulta]"
+
+msgid "aallonkorkeus on alle [N] [metria]"
+msgstr "viļņa augstums ir mazāks par [N] [metria]"
+
+msgid "aallonkorkeus on [N...M] [metria]"
+msgstr "viļņa augstums ir [N...M] [metria]"
+
+msgid "aallonkorkeus on noin [N] [metria]"
+msgstr "viļņa augstums ir aptuveni [N] [metria]"
+
+msgid "asteen(tuntumassa (mod 10=1))"
+msgstr "grādi"
+
+msgid "astetta(noin 0)"
+msgstr "grādi"
+
+msgid "astetta(noin 4)"
+msgstr "grādi"
+
+msgid "astetta(noin 3)"
+msgstr "grādi"
+
+msgid "astetta(noin 2)"
+msgstr "grādi"
+
+msgid "astetta(noin 1)"
+msgstr "grāds"
+
+msgid "astetta(noin (mod 10=1))"
+msgstr "grāds"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un pagriežas [etelaan]"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un pagriezties [etelaan]"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un pagriežas [etelaan]"
+
+msgid "[iltapaivalla] [pohjoistuuli] voimistuu ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] stiprinās un pagriežas [etelaan]"
+
+msgid "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] stiprinās un kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen"
+msgstr "[iltapaivalla] vējš īslaicīgi kļūst mainīgs un turpina stiprināties"
+
+msgid "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
+msgstr "[iltapaivalla] vējš kļūst mainīgs un turpina stiprināties"
+
+msgid "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] vējš stiprinās un īslaicīgi kļūst mainīgs"
+
+msgid "iltayosta"
+msgstr "no vakarpuses"
+
+msgid "keskiyosta"
+msgstr "no pusnakts"
+
+msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
+msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas sāk vājināties"
+
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]"
+msgstr "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], kas [illalla] pagriežas [pohjoiseen]"
+
+msgid "yosta"
+msgstr "naktī"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[ip] [p-tuulta] [m...n] [m/s], kas sāk vājināties [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]"
+msgstr "[iltapaivalla] [etelatuuli] vājinās [nopeasti]"
+
+msgid "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
+msgstr "[iltapaivalla] [pohjoistuuli] turpina vājināties"
+
+msgid "[iltapaivalla] sade voi olla runsasta"
+msgstr "[iltapaivalla] lietus var būt stiprs"
+
+msgid "1-asti"
+msgstr "līdz pirmdienai"
+
+msgid "2-asti"
+msgstr "līdz otrdienai"
+
+msgid "3-asti"
+msgstr "līdz trešdienai"
+
+msgid "4-asti"
+msgstr "līdz ceturtdienai"
+
+msgid "6-asti"
+msgstr "līdz sestdienai"
+
+msgid "5-asti"
+msgstr "līdz piektdienai"
+
+msgid "7-asti"
+msgstr "līdz svētdienai"
+
+msgid "yohon asti"
+msgstr "līdz naktij"
+
+msgid "aamuun asti"
+msgstr "līdz rītam"
+
+msgid "aamupaivaan asti"
+msgstr "līdz priekšpusdienai"
+
+msgid "keskipaivaan asti"
+msgstr "līdz pusdienlaikam"
+
+msgid "iltapaivaan asti"
+msgstr "līdz pēcpusdienai"
+
+msgid "iltaan asti"
+msgstr "līdz vakaram"
+
+msgid "iltayohon asti"
+msgstr "līdz nakts pirmajai pusei"
+
+msgid "keskiyohon asti"
+msgstr "līdz pusnaktij"
+
+msgid "huomiseen asti"
+msgstr "līdz rītdienai"
+
+msgid "1-aamupaivaan asti"
+msgstr "līdz pirmdienas priekšpusdienai"
+
+msgid "2-aamupaivaan asti"
+msgstr "līdz otrdienas priekšpusdienai"
+
+msgid "3-aamupaivaan asti"
+msgstr "līdz trešdienas priekšpusdienai"
+
+msgid "4-aamupaivaan asti"
+msgstr "līdz ceturtdienas priekšpusdienai"
+
+msgid "5-aamupaivaan asti"
+msgstr "līdz piektdienas priekšpusdienai"
+
+msgid "6-aamupaivaan asti"
+msgstr "līdz sestdienas priekšpusdienai"
+
+msgid "7-aamupaivaan asti"
+msgstr "līdz svētdienas priekšpusdienai"
+
+msgid "1-aamuun asti"
+msgstr "līdz pirmdienas rītam"
+
+msgid "2-aamuun asti"
+msgstr "līdz otrdienas rītam"
+
+msgid "3-aamuun asti"
+msgstr "līdz trešdienas rītam"
+
+msgid "4-aamuun asti"
+msgstr "līdz ceturtdienas rītam"
+
+msgid "5-aamuun asti"
+msgstr "līdz piektdienas rītam"
+
+msgid "6-aamuun asti"
+msgstr "līdz sestdienas rītam"
+
+msgid "7-aamuun asti"
+msgstr "līdz svētdienas rītam"
+
+msgid "1-iltaan asti"
+msgstr "līdz pirmdienas vakaram"
+
+msgid "2-iltaan asti"
+msgstr "līdz otrdienas vakaram"
+
+msgid "3-iltaan asti"
+msgstr "līdz trešdienas vakaram"
+
+msgid "4-iltaan asti"
+msgstr "līdz ceturtdienas vakaram"
+
+msgid "5-iltaan asti"
+msgstr "līdz piektdienas vakaram"
+
+msgid "6-iltaan asti"
+msgstr "līdz sestdienas vakaram"
+
+msgid "7-iltaan asti"
+msgstr "līdz svētdienas vakaram"
+
+msgid "1-vastaiseen yohon asti"
+msgstr "līdz naktij uz pirmdienu"
+
+msgid "2-vastaiseen yohon asti"
+msgstr "līdz naktij uz otrdienu"
+
+msgid "3-vastaiseen yohon asti"
+msgstr "līdz naktij uz trešdienu"
+
+msgid "4-vastaiseen yohon asti"
+msgstr "līdz naktij uz ceturtdienu"
+
+msgid "5-vastaiseen yohon asti"
+msgstr "līdz naktij uz piektdienu"
+
+msgid "6-vastaiseen yohon asti"
+msgstr "līdz naktij uz sestdienu"
+
+msgid "7-vastaiseen yohon asti"
+msgstr "līdz naktij uz svētdienu"
+
+msgid "huomisaamuun asti"
+msgstr "līdz rītdienas rītam"
+
+msgid "huomisaamupaivaan asti"
+msgstr "līdz rītdienas priekšpusdienai"
+
+msgid "huomisiltaan asti"
+msgstr "līdz rītdienas vakaram"
+
+msgid "7-iltapaivaan asti"
+msgstr "līdz svētdienas pēcpusdienai"
+
+msgid "6-iltapaivaan asti"
+msgstr "līdz sestdienas pēcpusdienai"
+
+msgid "5-iltapaivaan asti"
+msgstr "līdz piektdienas pēcpusdienai"
+
+msgid "4-iltapaivaan asti"
+msgstr "līdz ceturtdienas pēcpusdienai"
+
+msgid "3-iltapaivaan asti"
+msgstr "līdz trešdienas pēcpusdienai"
+
+msgid "2-iltapaivaan asti"
+msgstr "līdz otrdienas pēcpusdienai"
+
+msgid "1-iltapaivaan asti"
+msgstr "līdz pirmdienas pēcpusdienai"
+
+msgid "7-iltayohon asti"
+msgstr "līdz svētdienas nakts pirmajai pusei"
+
+msgid "6-iltayohon asti"
+msgstr "līdz sestdienas nakts pirmajai pusei"
+
+msgid "5-iltayohon asti"
+msgstr "līdz piektdienas nakts pirmajai pusei"
+
+msgid "4-iltayohon asti"
+msgstr "līdz ceturtdienas nakts pirmajai pusei"
+
+msgid "3-iltayohon asti"
+msgstr "līdz trešdienas nakts pirmajai pusei"
+
+msgid "2-iltayohon asti"
+msgstr "līdz otrdienas nakts pirmajai pusei"
+
+msgid "1-iltayohon asti"
+msgstr "līdz pirmdienas nakts pirmajai pusei"
+
+msgid "7-keskiyohon asti"
+msgstr "līdz svētdienas pusnaktij"
+
+msgid "5-keskiyohon asti"
+msgstr "līdz piektdienas pusnaktij"
+
+msgid "4-keskiyohon asti"
+msgstr "līdz ceturtdienas pusnaktij"
+
+msgid "3-keskiyohon asti"
+msgstr "līdz trešdienas pusnaktij"
+
+msgid "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
+msgstr "[iltapaivalla] [pohjoistuuli] turpina stiprināties"
+
+msgid "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[ip] [p-tuulta] [m...n] [m/s], kas sāk stiprināties [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
+msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas sāk stiprināties"
+
+msgid "aamuyohon asti"
+msgstr "līdz nakts otrajai pusei"
+
+msgid "7-aamuyohon asti"
+msgstr "līdz svētdienas nakts otrajai pusei"
+
+msgid "6-aamuyohon asti"
+msgstr "līdz sestdienas nakts otrajai pusei"
+
+msgid "5-aamuyohon asti"
+msgstr "līdz piektdienas nakts otrajai pusei"
+
+msgid "4-aamuyohon asti"
+msgstr "līdz ceturtdienas nakts otrajai pusei"
+
+msgid "3-aamuyohon asti"
+msgstr "līdz trešdienas nakts otrajai pusei"
+
+msgid "2-aamuyohon asti"
+msgstr "līdz otrdienas nakts otrajai pusei"
+
+msgid "1-aamuyohon asti"
+msgstr "līdz pirmdienas nakts otrajai pusei"
+
+msgid "[iltapaivalla] kuurot voivat olla voimakkaita"
+msgstr "[iltapaivalla] gāzieni var būt stipri"
+
+msgid "B3N:lle"
+msgstr "Botnijas jūras ziemeļu daļa"
+
+msgid "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] vējš sāk vājināties un kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] vējš sāk vājināties un īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un kļūst mainīgs"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+
+msgid "inari_utsjoki:lle"
+msgstr "Inari_Utsjoki"
+
+msgid "ita_finnmark:lle"
+msgstr "Ita_Finnmark"
+
+msgid "lansi_finnmark:lle"
+msgstr "Lansi_Finnmark"
+
+msgid "pohjois_ruotsi:lle"
+msgstr "Pohjois_Ruotsi"
+
+msgid "kasivarsi:lle"
+msgstr "Kasivarsi"
+
+msgid "kova"
+msgstr "stiprs"
+
+msgid "voimakas"
+msgstr "ļoti stiprs"
+
+msgid "heikkenee"
+msgstr "vājinās"
+
+msgid "kuola:lle"
+msgstr "Kuola"
+
+msgid "[voimakas pohjoistuuli] kaantyy [etelaan] ja heikkenee edelleen"
+msgstr "[voimakas pohjoistuuli] pagriežas [etelaan] un turpina vājināties"
+
+msgid "[voimakas pohjoistuuli] heikkenee ja kaantyy [etelaan]"
+msgstr "[voimakas pohjoistuuli] vājinās un pagriežas [etelaan]"
+
+msgid "[voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
+msgstr "[voimakas pohjoistuuli] sāk vājināties un pagriežas [etelaan]"
+
+msgid "[voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
+msgstr "[voimakas pohjoistuuli] vājinās un kļūst mainīgs"
+
+msgid "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
+msgstr "[voimakas pohjoistuuli] sāk vājināties un kļūst mainīgs"
+
+msgid "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[voimakas pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+
+msgid "[voimakas pohjoistuuli] heikkenee edelleen"
+msgstr "[voimakas pohjoistuuli] turpina vājināties"
+
+msgid "[voimakas pohjoistuuli] alkaa heiketa [nopeasti]"
+msgstr "[voimakas pohjoistuuli] sāk vājināties [nopeasti]"
+
+msgid "[voimakas pohjoistuuli] heikkenee [nopeasti]"
+msgstr "[voimakas pohjoistuuli] vājinās [nopeasti]"
+
+msgid "[voimakas pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[voimakas pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+
+msgid "voimakas 3- ja 4-valinen tuuli"
+msgstr "ļoti stiprs austrumu-dienvidaustrumu vējš"
+
+msgid "voimakas 4-tuuli"
+msgstr "ļoti stiprs dienvidaustrumu vējš"
+
+msgid "voimakas 4-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt dienvidaustrumu vējš"
+
+msgid "voimakas 5- ja 4-valinen tuuli"
+msgstr "ļoti stiprs dienvidu-dienvidaustrumu vējš"
+
+msgid "voimakas 5-tuuli"
+msgstr "ļoti stiprs dienvidu vējš"
+
+msgid "voimakas 5-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt dienvidu vējš"
+
+msgid "voimakas 5- ja 6-valinen tuuli"
+msgstr "ļoti stiprs dienvidu-dienvidrietumu vējš"
+
+msgid "voimakas 6-tuuli"
+msgstr "ļoti stiprs dienvidrietumu vējš"
+
+msgid "voimakas 6-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt dienvidrietumu vējš"
+
+msgid "voimakas 7- ja 6-valinen tuuli"
+msgstr "ļoti stiprs rietumu-dienvidrietumu vējš"
+
+msgid "voimakas 7-tuuli"
+msgstr "ļoti stiprs rietumu vējš"
+
+msgid "voimakas 7-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt rietumu vējš"
+
+msgid "voimakas 7- ja 8-valinen tuuli"
+msgstr "ļoti stiprs rietumu-ziemeļrietumu vējš"
+
+msgid "voimakas 8-tuuli"
+msgstr "ļoti stiprs ziemeļrietumu vējš"
+
+msgid "voimakas 8-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt ziemeļrietumu vējš"
+
+msgid "voimakas 1- ja 8-valinen tuuli"
+msgstr "ļoti stiprs ziemeļu-ziemeļrietumu vējš"
+
+msgid "voimakas tuuli"
+msgstr "vētras stipruma vējš"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti]"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās [nopeasti]"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee edelleen"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] turpina vājināties"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa [nopeasti]"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties [nopeasti]"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+
+msgid "voimakas 2-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt ziemeļaustrumu vējš"
+
+msgid "voimakas 3-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt austrumu vējš"
+
+msgid "voimakas 3-tuuli"
+msgstr "ļoti stiprs austrumu vējš"
+
+msgid "voimakas 1-tuuli"
+msgstr "ļoti stiprs ziemeļu vējš"
+
+msgid "voimakas 1-puoleinen tuuli"
+msgstr "ļoti stiprs galvenokārt ziemeļu vējš"
+
+msgid "voimakas 3- ja 2-valinen tuuli"
+msgstr "ļoti stiprs austrumu-ziemeļaustrumu vējš"
+
+msgid "voimakas 2-tuuli"
+msgstr "ļoti stiprs ziemeļaustrumu vējš"
+
+msgid "voimakas 1- ja 2-valinen tuuli"
+msgstr "ļoti stiprs ziemeļu-ziemeļaustrumu vējš"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties un kļūst mainīgs"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās un kļūst mainīgs"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties un pagriežas [etelaan]"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās un pagriežas [etelaan]"
+
+msgid "tiepiiri-o4:lle"
+msgstr "O4 ceļu rajonam"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] kaantyy [etelaan] ja heikkenee edelleen"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] pagriežas [etelaan] un turpina vājināties"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[etelatuuli] alkaa voimistua [nopeasti]"
+msgstr "[etelatuuli] sāk stiprināties [nopeasti]"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] vējš sāk stiprināties un īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi"
+msgstr "[iltapaivalla] vējš sāk stiprināties un kļūst mainīgs"
+
+msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās [nopeasti] un pagriežas [etelaan]"
+
+msgid "[pohjoistuuli] heikkenee [nopeasti]"
+msgstr "[pohjoistuuli] vājinās [nopeasti]"
+
+msgid "[voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[voimakas pohjoistuuli] vājinās [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [etelaan]"
+msgstr "[voimakas pohjoistuuli] vājinās [nopeasti] un pagriežas [etelaan]"
+
+msgid "[pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
+msgstr "[pohjoistuuli] vājinās un kļūst mainīgs"
+
+msgid "[etelatuuli] alkaa heiketa [nopeasti]"
+msgstr "[etelatuuli] sāk vājināties [nopeasti]"
+
+msgid "[pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+
+msgid "[pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
+msgstr "[pohjoistuuli] sāk vājināties un pagriezties [etelaan]"
+
+msgid "[pohjoistuuli] alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[pohjoistuuli] sāk vājināties [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[etelatuuli] heikkenee [nopeasti]"
+msgstr "[etelatuuli] vājinās [nopeasti]"
+
+msgid "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
+msgstr "[pohjoistuuli] sāk stiprināties un kļūst mainīgs"
+
+msgid "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+
+msgid "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
+msgstr "[pohjoistuuli] sāk vājināties un kļūst mainīgs"
+
+msgid "1-keskipaivaan"
+msgstr "līdz pirmdienas pusdienlaikam"
+
+msgid "2-keskipaivaan"
+msgstr "līdz otrdienas pusdienlaikam"
+
+msgid "3-keskipaivaan"
+msgstr "līdz trešdienas pusdienlaikam"
+
+msgid "4-keskipaivaan"
+msgstr "līdz ceturtdienas pusdienlaikam"
+
+msgid "5-keskipaivaan"
+msgstr "līdz piektdienas pusdienlaikam"
+
+msgid "6-keskipaivaan"
+msgstr "līdz sestdienas pusdienlaikam"
+
+msgid "7-keskipaivaan"
+msgstr "līdz svētdienas pusdienlaikam"
+
+msgid "1-keskipaivasta"
+msgstr "no pirmdienas pusdienlaika"
+
+msgid "2-keskipaivasta"
+msgstr "no otrdienas pusdienlaika"
+
+msgid "3-keskipaivasta"
+msgstr "no trešdienas pusdienlaika"
+
+msgid "4-keskipaivasta"
+msgstr "no ceturtdienas pusdienlaika"
+
+msgid "5-keskipaivasta"
+msgstr "no piektdienas pusdienlaika"
+
+msgid "6-keskipaivasta"
+msgstr "no sestdienas pusdienlaika"
+
+msgid "7-keskipaivasta"
+msgstr "no svētdienas pusdienlaika"
+
+msgid "kemi-tornio:lle"
+msgstr "Kemi-Tornio"
+
+msgid "rovaniemen seutu:lle"
+msgstr "Rovaniemen Seutu"
+
+msgid "tornionlaakso:lle"
+msgstr "Tornionlaakso"
+
+msgid "tunturi-lappi:lle"
+msgstr "Tunturi-Lappi"
+
+msgid "elyalue-epo:lle"
+msgstr "Elyalue-Epo"
+
+msgid "elyalue-kas:lle"
+msgstr "Elyalue-Kas"
+
+msgid "elyalue-kes:lle"
+msgstr "Elyalue-Kes"
+
+msgid "elyalue-lap:lle"
+msgstr "Elyalue-Lap"
+
+msgid "elyalue-pir:lle"
+msgstr "Elyalue-Pir"
+
+msgid "elyalue-pkp:lle"
+msgstr "Elyalue-Pkp"
+
+msgid "elyalue-pos:lle"
+msgstr "Elyalue-Pos"
+
+msgid "elyalue-uud:lle"
+msgstr "Elyalue-Uud"
+
+msgid "elyalue-var:lle"
+msgstr "Elyalue-Var"
+
+msgid "tiepiiri-h1:lle"
+msgstr "H1 ceļu rajonam"
+
+msgid "tiepiiri-h2:lle"
+msgstr "H2 ceļu rajonam"
+
+msgid "tiepiiri-h3:lle"
+msgstr "H3 ceļu rajonam"
+
+msgid "tiepiiri-h4:lle"
+msgstr "H4 ceļu rajonam"
+
+msgid "tiepiiri-h5:lle"
+msgstr "H5 ceļu rajonam"
+
+msgid "tiepiiri-k1:lle"
+msgstr "K1 ceļu rajonam"
+
+msgid "tiepiiri-k2:lle"
+msgstr "K2 ceļu rajonam"
+
+msgid "tiepiiri-k3:lle"
+msgstr "K3 ceļu rajonam"
+
+msgid "tiepiiri-k4:lle"
+msgstr "K4 ceļu rajonam"
+
+msgid "tiepiiri-ke1:lle"
+msgstr "Ke1 ceļu rajonam"
+
+msgid "tiepiiri-ke2:lle"
+msgstr "Ke2 ceļu rajonam"
+
+msgid "tiepiiri-l1:lle"
+msgstr "L1 ceļu rajonam"
+
+msgid "tiepiiri-l2:lle"
+msgstr "L2 ceļu rajonam"
+
+msgid "tiepiiri-l3:lle"
+msgstr "L3 ceļu rajonam"
+
+msgid "tiepiiri-l4:lle"
+msgstr "L4 ceļu rajonam"
+
+msgid "tiepiiri-l5:lle"
+msgstr "L5 ceļu rajonam"
+
+msgid "tiepiiri-o1e:lle"
+msgstr "O1E ceļu rajonam"
+
+msgid "tiepiiri-o1p:lle"
+msgstr "O1P ceļu rajonam"
+
+msgid "tiepiiri-o2:lle"
+msgstr "O2 ceļu rajonam"
+
+msgid "tiepiiri-o3:lle"
+msgstr "O3 ceļu rajonam"
+
+msgid "tiepiiri-o5:lle"
+msgstr "O5 ceļu rajonam"
+
+msgid "tiepiiri-s1:lle"
+msgstr "S1 ceļu rajonam"
+
+msgid "tiepiiri-s2:lle"
+msgstr "S2 ceļu rajonam"
+
+msgid "[etelatuuli] voimistuu [nopeasti]"
+msgstr "[etelatuuli] stiprinās [nopeasti]"
+
+msgid "[iltapaivalla] [pohjoistuuli] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] vējš sāk stiprināties un īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli alkaa voimistua ja kaantyy [etelaan]"
+msgstr "[iltapaivalla] vējš sāk stiprināties un pagriežas [etelaan]"
+
+msgid "[pohjoistuuli] alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[pohjoistuuli] sāk stiprināties [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
+msgstr "[pohjoistuuli] sāk stiprināties un pagriezties [etelaan]"
+
+msgid "[pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[pohjoistuuli] sāk stiprināties un īslaicīgi kļūst mainīgs"
+
+msgid "[pohjoistuuli] voimistuu [nopeasti]"
+msgstr "[pohjoistuuli] stiprinās [nopeasti]"
+
+msgid "[pohjoistuuli] voimistuu ja kaantyy [etelaan]"
+msgstr "[pohjoistuuli] stiprinās un pagriežas [etelaan]"
+
+msgid "[pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[pohjoistuuli] stiprinās un īslaicīgi kļūst mainīgs"
+
+msgid "[pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
+msgstr "[pohjoistuuli] stiprinās un kļūst mainīgs"
+
+msgid "1-aamuyolla"
+msgstr "pirmdien  nakts otrajā pusē"
+
+msgid "tiepiiri-s3:lle"
+msgstr "S3 ceļu rajonam"
+
+msgid "tiepiiri-s4:lle"
+msgstr "S4 ceļu rajonam"
+
+msgid "tiepiiri-s5:lle"
+msgstr "S5 ceļu rajonam"
+
+msgid "tiepiiri-t1:lle"
+msgstr "T1 ceļu rajonam"
+
+msgid "tiepiiri-t2:lle"
+msgstr "T2 ceļu rajonam"
+
+msgid "tiepiiri-t3:lle"
+msgstr "T3 ceļu rajonam"
+
+msgid "tiepiiri-t4:lle"
+msgstr "T4 ceļu rajonam"
+
+msgid "tiepiiri-t5:lle"
+msgstr "T5 ceļu rajonam"
+
+msgid "tiepiiri-u1:lle"
+msgstr "U1 ceļu rajonam"
+
+msgid "tiepiiri-u2:lle"
+msgstr "U2 ceļu rajonam"
+
+msgid "tiepiiri-u3:lle"
+msgstr "U3 ceļu rajonam"
+
+msgid "tiepiiri-u4:lle"
+msgstr "U4 ceļu rajonam"
+
+msgid "tiepiiri-u5:lle"
+msgstr "U5 ceļu rajonam"
+
+msgid "tiepiiri-v1:lle"
+msgstr "V1 ceļu rajonam"
+
+msgid "tiepiiri-v2:lle"
+msgstr "V2 ceļu rajonam"
+
+msgid "tiepiiri-v4:lle"
+msgstr "V4 ceļu rajonam"
+
+msgid "tiepiiri-v5:lle"
+msgstr "V5 ceļu rajonam"
+
+msgid "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]"
+msgstr "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], kas pagriežas [illalla] [pohj]"
+
+msgid "[lampotila] vahan nollan alapuolella"
+msgstr "[lampotila] nedaudz zem nulles"
+
+msgid "[lampotila] on vahan nollan alapuolella"
+msgstr "[lampotila] ir nedaudz zem nulles"
+
+msgid "[huomenna] vahan nollan alapuolella"
+msgstr "[huomenna] nedaudz zem nulles"
+
+msgid "[sismaassa] vahan nollan alapuolella"
+msgstr "[sismaassa] nedaudz zem nulles"
+
+msgid "[huomenna] [lampotila] on vahan nollan alapuolella"
+msgstr "[huomenna] [lampotila] ir nedaudz zem nulles"
+
+msgid "[sisamaassa] [lampotila] on vahan nollan alapuolella"
+msgstr "[sisamaassa] [lampotila] ir nedaudz zem nulles"
+
+msgid "[huomenna] [sisamaassa] vahan nollan alapuolella"
+msgstr "[huomenna] [sisamaassa] nedaudz zem nulles"
+
+msgid "[huomenna] [sisamaassa] [lampotila] on vahan nollan alapuolella"
+msgstr "[huomenna] [sisamaassa] [lampotila] ir nedaudz zem nulles"
+
+msgid "rannikolla vahan nollan alapuolella"
+msgstr "piekrastē nedaudz zem nulles"
+
+msgid "muuten hyva nakyvyys"
+msgstr "citur laba redzamība"
+
+msgid "hyva nakyvyys"
+msgstr "laba redzamība"
+
+msgid "enimmakseen hyva nakyvyys"
+msgstr "pārsvarā laba redzamība"
+
+msgid "yolla ja aamulla"
+msgstr "naktī un no rīta"
+
+msgid "aamulla ja paivalla"
+msgstr "no rīta un dienā"
+
+msgid "paivalla ja illalla"
+msgstr "dienā un vakarā"
+
+msgid "illalla ja yolla"
+msgstr "vakarā un naktī"
+
+msgid "1-keskipaivalla"
+msgstr "pirmdien pusdienlaikā"
+
+msgid "2-keskipaivalla"
+msgstr "otrdien pusdienlaikā"
+
+msgid "3-keskipaivalla"
+msgstr "trešdien pusdienlaikā"
+
+msgid "4-keskipaivalla"
+msgstr "ceturtdien pusdienlaikā"
+
+msgid "5-keskipaivalla"
+msgstr "piektdien pusdienlaikā"
+
+msgid "6-keskipaivalla"
+msgstr "sestdien pusdienlaikā"
+
+msgid "7-keskipaivalla"
+msgstr "svētdien pusdienlaikā"
+
+msgid "ja huono nakyvyys"
+msgstr "un slikta redzamība"
+
+msgid "B2_B1S:lle"
+msgstr "Kvarkens un Botnijas līča dienvidu daļa"
+
+msgid "B2_B1:lle"
+msgstr "Kvarkens un Botnijas līcis"
+
+msgid "B3_B2_B1:lle"
+msgstr "Botnijas jūra, Kvarkens un Botnijas līcis"
+
+msgid "B3_B2:lle"
+msgstr "Botnijas jūra un Kvarkens"
+
+msgid "B4E_B3:lle"
+msgstr "Arhipelāga jūra un Botnijas jūra"
+
+msgid "B4_B3:lle"
+msgstr "Arhipelāga jūra un Ālandu jūra un Botnijas jūra"
+
+msgid "B7_B4:lle"
+msgstr "Baltijas jūras ziemeļu daļa, Arhipelāga jūra un Ālandu jūra"
+
+msgid "B7_B4_B3:lle"
+msgstr "Baltijas jūras ziemeļu daļa, Arhipelāga jūra un Ālandu jūra un Botnijas jūra"
+
+msgid "B5W_B7:lle"
+msgstr "Somu līča rietumu daļa un Baltijas jūras ziemeļu daļa"
+
+msgid "B5_B7:lle"
+msgstr "Somu līcis un Baltijas jūras ziemeļu daļa"
+
+msgid "B3N_B2:lle"
+msgstr "Botnijas jūras ziemeļu daļa un Kvarkens"
+
+msgid "vesi- tai tihkusadetta"
+msgstr "lietus vai smidzinošs lietus"
+
+msgid "lumi- tai tihkusadetta"
+msgstr "sniegs vai smidzinošs lietus"
+
+msgid "ranta- tai tihkusadetta"
+msgstr "slapjdraņķis vai smidzinošs lietus"
+
+msgid "jaatavaa tihkusadetta"
+msgstr "smidzinošs lietus ar apledojumu"
+
+msgid "jotka muuttuvat lumikuuroiksi"
+msgstr "kas pārvēršas par īslaicīgu sniegu"
+
+msgid "jotka muuttuvat rantakuuroiksi"
+msgstr "kas pārvēršas par slapjdraņķi"
+
+msgid "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
+msgstr "[iltapaivalla] [etelatuuli] sāk stiprināties [nopeasti]"
+
+msgid "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]"
+msgstr "[iltapaivalla] [etelatuuli] stiprinās [nopeasti]"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties [nopeasti] un [illalla] pagriežas [etelaan]"
+
+msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un īslaicīgi kļūst mainīgs"
+
+msgid "4-aamuyolla ja aamulla"
+msgstr "ceturtdien nakts otrajā pusē un no rīta"
+
+msgid "B5W_B7E_B4E:lle"
+msgstr "Somu līča rietumu daļa, Baltijas jūras ziemeļu daļas austrumi un Arhipelāga jūra"
+
+msgid "B5W_B7E:lle"
+msgstr "Somu līča rietumu daļa un Baltijas jūras ziemeļu daļas austrumi"
+
+msgid "B7_B4_B3S:lle"
+msgstr "Baltijas jūras ziemeļu daļa, Arhipelāga jūra un Ālandu jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B7E_B4E_B3S:lle"
+msgstr "Baltijas jūras ziemeļu daļas austrumi, Arhipelāga jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B7E_B4E:lle"
+msgstr "Baltijas jūras ziemeļu daļas austrumi un Arhipelāga jūra"
+
+msgid "B7W_B4:lle"
+msgstr "Somu līča rietumu daļa, Arhipelāga jūra un Ālandu jūra"
+
+msgid "B7W_B4W_B3S:lle"
+msgstr "Somu līča rietumu daļa, Ālandu jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B7W_B4W:lle"
+msgstr "Somu līča rietumu daļa un Ālandu jūra"
+
+msgid "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
+msgstr "[iltapaivalla] [pohjoistuuli] stiprinās un īslaicīgi kļūst mainīgs"
+
+msgid "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen"
+msgstr "[iltapaivalla] vējš pagriežas [etelaan] un turpina vājināties"
+
+msgid "tuuli voimistuu"
+msgstr "vējš pastiprināsies līdz"
+
+msgid "B4_B3S:lle"
+msgstr "Arhipelāga jūra un Ālandu jūra un Botnijas jūras dienvidu daļa"
+
+msgid "aamupaivalla"
+msgstr "priekšpusdienā"
+
+msgid "huomisen keskipaivaan asti"
+msgstr "līdz rītdienas pusdienlaikam"
+
+msgid "huono nakyvyys"
+msgstr "slikta redzamība"
+
+msgid "B1"
+msgstr "Botnijas līcis"
+
+msgid "B2"
+msgstr "Kvarkens"
+
+msgid "B3"
+msgstr "Botnijas jūra"
+
+msgid "B4"
+msgstr "Arhipelāga jūra un Ālandu jūra"
+
+msgid "B5"
+msgstr "Somu līcis"
+
+msgid "B6"
+msgstr "Rīgas līcis"
+
+msgid "B7"
+msgstr "Baltijas jūras ziemeļu daļa"
+
+msgid "B8"
+msgstr "Baltijas jūras vidus daļa"
+
+msgid "B9"
+msgstr "Baltijas jūras dienvidaustrumu daļa"
+
+msgid "B10"
+msgstr "Baltijas jūras dienvidu daļa"
+
+msgid "B11"
+msgstr "Arkonas jūra"
+
+msgid "B12"
+msgstr "Erezunds un Beltu jūra"
+
+msgid "B13"
+msgstr "Kategats"
+
+msgid "B1N"
+msgstr "Botnijas līča ziemeļu daļa"
+
+msgid "B1S"
+msgstr "Botnijas līča dienvidu daļa"
+
+msgid "B4E"
+msgstr "Arhipelāga jūra"
+
+msgid "B4W"
+msgstr "Ālandu jūra"
+
+msgid "B5E"
+msgstr "Somu līča austrumu daļa"
+
+msgid "B5W"
+msgstr "Somu līča rietumu daļa"
+
+msgid "B8E"
+msgstr "Baltijas jūras vidus daļa"
+
+msgid "B8W"
+msgstr "Gotlandes jūra"
+
+msgid "B10N"
+msgstr "Ēlandes jūra"
+
+msgid "B10S"
+msgstr "Bornholmas jūra"
+
+msgid "B2_B1S"
+msgstr "Kvarkens un Botnijas līča dienvidu daļa"
+
+msgid "B2_B1"
+msgstr "Kvarkens un Botnijas līcis"
+
+msgid "B3_B2_B1"
+msgstr "Botnijas jūra, Kvarkens un Botnijas līcis"
+
+msgid "B3_B2"
+msgstr "Botnijas jūra un Kvarkens"
+
+msgid "B4E_B3"
+msgstr "Arhipelāga jūra un Botnijas jūra"
+
+msgid "B4_B3"
+msgstr "Arhipelāga jūra un Ālandu jūra un Botnijas jūra"
+
+msgid "B7_B4"
+msgstr "Baltijas jūras ziemeļu daļa, Arhipelāga jūra un Ālandu jūra"
+
+msgid "B7_B4_B3"
+msgstr "Baltijas jūras ziemeļu daļa, Arhipelāga jūra un Ālandu jūra un Botnijas jūra"
+
+msgid "B5W_B7"
+msgstr "Somu līča rietumu daļa un Baltijas jūras ziemeļu daļa"
+
+msgid "B5_B7"
+msgstr "Somu līcis un Baltijas jūras ziemeļu daļa"
+
+msgid "B3N_B2"
+msgstr "Botnijas jūras ziemeļu daļa un Kvarkens"
+
+msgid "B3N"
+msgstr "Botnijas jūras ziemeļu daļa"
+
+msgid "B3S"
+msgstr "Botnijas jūras dienvidu daļa"
+
+msgid "B4_B3S"
+msgstr "Arhipelāga jūra un Ālandu jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B5W_B7E_B4E"
+msgstr "Somu līča rietumu daļa, Baltijas jūras ziemeļu daļas austrumi un Arhipelāga jūra"
+
+msgid "B5W_B7E"
+msgstr "Somu līča rietumu daļa un Baltijas jūras ziemeļu daļas austrumi"
+
+msgid "B7_B4_B3S"
+msgstr "Baltijas jūras ziemeļu daļa, Arhipelāga jūra un Ālandu jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B7E_B4E_B3S"
+msgstr "Baltijas jūras ziemeļu daļas austrumi, Arhipelāga jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B7E_B4E"
+msgstr "Baltijas jūras ziemeļu daļas austrumi un Arhipelāga jūra"
+
+msgid "B7E"
+msgstr "Baltijas jūras ziemeļu daļas austrumi"
+
+msgid "B7W_B4W_B3S"
+msgstr "Somu līča rietumu daļa, Ālandu jūra un Botnijas jūras dienvidu daļa"
+
+msgid "B7W_B4"
+msgstr "Somu līča rietumu daļa, Arhipelāga jūra un Ālandu jūra"
+
+msgid "B7W_B4W"
+msgstr "Somu līča rietumu daļa un Ālandu jūra"
+
+msgid "B7W"
+msgstr "Baltijas jūras ziemeļu daļas rietumi"

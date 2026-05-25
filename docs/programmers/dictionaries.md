@@ -95,9 +95,9 @@ formats can share the same underlying language data.
 
 Test dictionaries live under `test/dictionaries/` in both the legacy
 pipe-delimited form (`<lang>.txt`) and the new gettext form
-(`<lang>.po`), for the 22 languages the library is actively translated
+(`<lang>.po`), for the 23 languages the library is actively translated
 into (`fi`, `en`, `sv`, `de`, `fr`, `es`, `it`, `ru`, `ja`, `ko`, `zh`,
-`ar`, …). The `.po` files are generated from the `.txt` sources by
+`ar`, `lv`, …). The `.po` files are generated from the `.txt` sources by
 `tools/txt_to_po.py` and will replace the `.txt` files once all
 downstream tests have moved over. A test typically loads one
 `PoDictionary` (or `FileDictionary`) per language and runs the target

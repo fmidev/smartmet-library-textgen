@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.5.24
-Release: 3%{?dist}.fmi
+Version: 26.5.25
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon May 25 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.25-1.fmi
+- Restored Latvian language support: added po/lv.po (2146 translated entries)
+
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-3.fmi
 - Fixed integer underflow in code generating wind speed ranges
 - Added new translations to po-files

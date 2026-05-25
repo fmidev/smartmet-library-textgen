@@ -47,6 +47,7 @@ LANG_NAMES = {
     "it": "Italian",
     "ja": "Japanese",
     "ko": "Korean",
+    "lv": "Latvian",
     "nl": "Dutch",
     "no": "Norwegian",
     "ru": "Russian",

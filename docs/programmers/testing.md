@@ -131,9 +131,9 @@ o'clock|o'clock
 meri-lappi:lle|for Meri-Lappi
 ```
 
-There are currently 22 languages covered (`ar`, `da`, `de`, `en`,
-`en-marine`, `es`, `et`, `fi`, `fr`, `id`, `it`, `ja`, `ko`, `no`,
-`pl`, `ru`, `sv`, `sw`, `th`, `vi`, `zh`, plus the special
+There are currently 23 languages covered (`ar`, `da`, `de`, `en`,
+`en-marine`, `es`, `et`, `fi`, `fr`, `id`, `it`, `ja`, `ko`, `lv`,
+`no`, `pl`, `ru`, `sv`, `sw`, `th`, `vi`, `zh`, plus the special
 `en-marine` for `weather_forecast_at_sea`).
 
 Each file is approximately 2 148 lines. Adding a new phrase means:
