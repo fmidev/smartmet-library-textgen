@@ -1818,7 +1818,8 @@ void populate_windspeed_distribution_time_series(
     const WeatherPeriod& thePeriod,
     const string& theVar,
     vector<pair<float, WeatherResult> >& theWindSpeedDistribution,
-    vector<pair<float, WeatherResult> >& theWindSpeedDistributionTop)
+    vector<pair<float, WeatherResult> >& theWindSpeedDistributionTop,
+    vector<pair<float, WeatherResult> >& theGustSpeedDistribution)
 {
   try
   {
@@ -1861,6 +1862,25 @@ void populate_windspeed_distribution_time_series(
 
       pair<float, WeatherResult> shareItemTop(ws_lower_limit, share);
       theWindSpeedDistributionTop.push_back(shareItemTop);
+
+      // Gust distribution (HourlyMaximumGust). Used for convective cell detection — the
+      // base wind / MaximumWind path does not resolve transient gustiness in high-resolution
+      // NWP, so we have to look at the proper gust diagnostic. If the data lacks the gust
+      // parameter, GustSpeed analyze returns missing and the bucket share is just zero,
+      // which makes the cell detector a safe no-op on legacy datasets.
+      share = forecaster.analyze(theVar + "::fake::tyyni::share",
+                                 theSources,
+                                 GustSpeed,
+                                 Mean,
+                                 Percentage,
+                                 theArea,
+                                 thePeriod,
+                                 DefaultAcceptor(),
+                                 DefaultAcceptor(),
+                                 acceptor);
+
+      pair<float, WeatherResult> shareItemGust(ws_lower_limit, share);
+      theGustSpeedDistribution.push_back(shareItemGust);
 
       ws_lower_limit += (ws_lower_limit == 0.0 ? 0.5 : 1.0);
       ws_upper_limit += 1.0;
@@ -1982,7 +2002,8 @@ void populate_data_item_for_area(wo_story_params& storyParams,
                                                 dataItem.thePeriod,
                                                 storyParams.theVar,
                                                 dataItem.theWindSpeedDistribution,
-                                                dataItem.theWindSpeedDistributionTop);
+                                                dataItem.theWindSpeedDistributionTop,
+                                                dataItem.theGustSpeedDistribution);
 
     populate_winddirection_distribution_time_series(
         storyParams.theSources,
@@ -3796,23 +3817,28 @@ void calculate_equalized_data(wo_story_params& storyParams)
 // ----------------------------------------------------------------------------------------------
 // Local convective cell handling.
 //
-// Modern NWP models simulate short-lived, spatially confined convective cells that can produce
-// transient storm-level winds in a small portion of the forecast area. These are NOT synoptic
-// storms and should not be reported as such.
+// Modern NWP models (e.g. 2.5 km HARMONIE) simulate short-lived, spatially confined convective
+// cells whose signature is in the gust diagnostic (HourlyMaximumGust / GustSpeed), not in the
+// base wind speed — at that resolution the model's MaximumWind plateau is typically several
+// m/s below the gust. The cells are NOT synoptic storms and should not be reported as such.
 //
 // Pipeline (invoked after populate_time_series, before calculate_equalized_data):
 //
-//   1. detect_convective_anomalies() scans raw per-timestep data in the primary area. A timestep
-//      is flagged when some fraction of the area exceeds theConvectiveCellCutoff but that
-//      fraction is smaller than theConvectiveCellMaxAreaFraction %. Contiguous flagged
-//      timesteps form a candidate period; periods shorter than theConvectiveCellMaxDuration
-//      hours are kept as cells (longer runs are assumed synoptic and left alone).
+//   1. detect_convective_anomalies() scans the gust distribution (theGustSpeedDistribution)
+//      per timestep. A timestep is flagged when some fraction of the area has gusts above
+//      theConvectiveCellCutoff but that fraction is smaller than theConvectiveCellMaxAreaFraction
+//      %. Contiguous flagged timesteps form a candidate period; periods shorter than
+//      theConvectiveCellMaxDuration hours are kept as cells (longer runs are assumed synoptic
+//      and left alone). The peak gust over the period (pre-removal) is recorded for reporting.
 //
 //   2. remove_cell_from_timestep_stats() reruns the GridForecaster analyses for each flagged
-//      timestep with a RangeAcceptor upper limit = cutoff. This excludes the cell's grid points
-//      from area statistics (Top / Max / Mean / Median). The tail of the per-timestep histogram
-//      (buckets >= cutoff) is zeroed so downstream consumers of theWindSpeedDistribution(Top)
-//      see a clean distribution.
+//      timestep with a RangeAcceptor upper limit = cutoff on WindSpeed. This excludes elevated
+//      grid points from base-wind area statistics (Top / Max / Mean / Median). The tails of all
+//      three per-timestep histograms — base wind, top wind, and gust — are zeroed so downstream
+//      consumers see a cleaned distribution. The filter is by base WindSpeed rather than gust,
+//      so the cleanup is a heuristic: it correlates with the cell's footprint without exactly
+//      matching the gust grid points, which is acceptable since the goal is to keep the regular
+//      wind-overview text free of transient convective influence.
 //
 //   3. determine_anomaly_quadrant() reruns Peak MaximumWind over each of Northern / Southern /
 //      Eastern / Western for the cell period. If one quadrant's peak is clearly above the
@@ -3820,10 +3846,11 @@ void calculate_equalized_data(wo_story_params& storyParams)
 //      cell is deemed to have moved / been ambiguous and the tag stays at WeatherArea::Full.
 //
 //   4. calculate_equalized_data() and find_out_wind_event_periods() then run on the cleaned
-//      data as usual — no special casing in the forecast code.
+//      base-wind data as usual — no special casing in the forecast code.
 //
 //   5. append_convective_anomaly_sentences() appends one follow-up sentence per cell,
-//      selecting the phrasing by theConvectiveCellStyle.
+//      selecting the phrasing by theConvectiveCellStyle and the intensity tier from the peak
+//      gust (myrsky → "hyvin voimakkaita puuskia", lower → "voimakkaita puuskia").
 // ----------------------------------------------------------------------------------------------
 
 namespace
@@ -3850,14 +3877,15 @@ std::string quadrant_phrase_fi(WeatherArea::Type type)
 }
 }  // namespace
 
-// Groups contiguous flagged timesteps in the primary area into candidate cell periods. Timesteps
-// are flagged when 0 < getTopWindSpeedShare(cutoff, +inf) < theConvectiveCellMaxAreaFraction.
+// Groups contiguous flagged timesteps in the primary area into candidate cell periods.
+// Detection runs against the gust diagnostic (HourlyMaximumGust via GustSpeed): timesteps are
+// flagged when 0 < getGustSpeedShare(cutoff, +inf) < theConvectiveCellMaxAreaFraction.
 // Candidate periods shorter than theConvectiveCellMaxDuration hours are returned (longer runs are
-// assumed synoptic). The peak top wind over the period (pre-removal) is recorded for reporting.
+// assumed synoptic). The peak gust over the period (pre-removal) is recorded for reporting.
 //
-// Diagnostic logging: every timestep with topShare > 0 is logged with its share and the
-// flagging decision, and every candidate run is logged whether or not it survives the duration
-// gate. This makes it possible to tune the thresholds from data instead of guessing.
+// Diagnostic logging: every candidate timestep is logged with its share and the flagging
+// decision (fired even when the share is zero), and every candidate run is logged whether or
+// not it survives the duration gate. This makes it possible to tune the thresholds from data.
 std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_params& storyParams)
 {
   try
@@ -3876,22 +3904,22 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
     const double maxDuration = storyParams.theConvectiveCellMaxDuration;
 
     storyParams.theLog << "Convective cell detection: n=" << n << " timesteps, cutoff=" << cutoff
-                       << " m/s, max area fraction=" << maxAreaFraction
+                       << " m/s (on gust), max area fraction=" << maxAreaFraction
                        << "%, max duration=" << maxDuration << "h\n";
 
     auto timestepIsAnomalous = [&](unsigned int i)
     {
       const WindDataItemUnit& item = storyParams.theWindDataVector[i]->getDataItem(areaType);
-      const float topShare = item.getTopWindSpeedShare(cutoff, std::numeric_limits<float>::max());
-      // A cell timestep has SOME grid points exceeding cutoff but covering less than
+      const float gustShare = item.getGustSpeedShare(cutoff, std::numeric_limits<float>::max());
+      // A cell timestep has SOME grid points whose gust exceeds cutoff but covering less than
       // maxAreaFraction %. maxAreaFraction == 0 disables the spatial check (any grid points
       // above cutoff become a candidate).
-      const bool flagged = topShare > 0.0F &&
+      const bool flagged = gustShare > 0.0F &&
                            (maxAreaFraction <= 0.0 ||
-                            topShare < static_cast<float>(maxAreaFraction));
+                            gustShare < static_cast<float>(maxAreaFraction));
       storyParams.theLog << "Convective candidate t=" << item.thePeriod.localStartTime()
-                         << ": top-share>=" << cutoff << " m/s = " << fixed << setprecision(2)
-                         << topShare << "% (max area fraction=" << maxAreaFraction
+                         << ": gust-share>=" << cutoff << " m/s = " << fixed << setprecision(2)
+                         << gustShare << "% (max area fraction=" << maxAreaFraction
                          << "%, flagged=" << (flagged ? "yes" : "no") << ")\n";
       return flagged;
     };
@@ -3906,12 +3934,12 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
       }
 
       const unsigned int runStart = i;
-      float peakTopWind = 0.0F;
+      float peakGust = 0.0F;
       while (i < n && timestepIsAnomalous(i))
       {
-        peakTopWind = std::max(
-            peakTopWind,
-            storyParams.theWindDataVector[i]->getDataItem(areaType).theWindSpeedTop.value());
+        peakGust = std::max(
+            peakGust,
+            storyParams.theWindDataVector[i]->getDataItem(areaType).theGustSpeed.value());
         ++i;
       }
       const unsigned int runEnd = i;  // exclusive
@@ -3937,11 +3965,11 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
 
       storyParams.theLog << "Convective cell: " << period.localStartTime() << " - "
                          << period.localEndTime() << " duration=" << durationHours
-                         << "h peak_top=" << fixed << setprecision(1) << peakTopWind << " m/s"
+                         << "h peak_gust=" << fixed << setprecision(1) << peakGust << " m/s"
                          << " (cutoff=" << cutoff << " m/s, max area fraction=" << maxAreaFraction
                          << "%, max duration=" << maxDuration << "h). Removing cell.\n";
 
-      anomalies.emplace_back(period, peakTopWind);
+      anomalies.emplace_back(period, peakGust);
     }
 
     return anomalies;
@@ -4050,6 +4078,7 @@ void remove_cell_from_timestep_stats(wo_story_params& storyParams,
 
     zero_distribution_tail(dataItem.theWindSpeedDistribution, cutoff);
     zero_distribution_tail(dataItem.theWindSpeedDistributionTop, cutoff);
+    zero_distribution_tail(dataItem.theGustSpeedDistribution, cutoff);
   }
   catch (...)
   {
@@ -4179,10 +4208,10 @@ void append_convective_anomaly_sentences(const wo_story_params& storyParams,
     for (const auto& anomaly : anomalies)
     {
       Sentence sentence;
-      const int peakMs = static_cast<int>(std::round(anomaly.peakWindSpeed));
+      const int peakMs = static_cast<int>(std::round(anomaly.peakGustSpeed));
       const bool useQuadrant = (storyParams.theConvectiveCellStyle == "quadrant" &&
                                 anomaly.dominantQuadrant != WeatherArea::Full);
-      const char* gustsPhrase = (anomaly.peakWindSpeed >= MYRSKY_LOWER_LIMIT)
+      const char* gustsPhrase = (anomaly.peakGustSpeed >= MYRSKY_LOWER_LIMIT)
                                     ? "hyvin voimakkaita puuskia"
                                     : "voimakkaita puuskia";
 
@@ -4366,6 +4395,19 @@ float WindDataItemUnit::getTopWindSpeedShare(float theLowerLimit, float theUpper
   float retval = 0.0;
 
   for (const auto& i : theWindSpeedDistributionTop)
+  {
+    if (i.first >= theLowerLimit && i.first < theUpperLimit)
+      retval += i.second.value();
+  }
+
+  return retval;
+}
+
+float WindDataItemUnit::getGustSpeedShare(float theLowerLimit, float theUpperLimit) const
+{
+  float retval = 0.0;
+
+  for (const auto& i : theGustSpeedDistribution)
   {
     if (i.first >= theLowerLimit && i.first < theUpperLimit)
       retval += i.second.value();

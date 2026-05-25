@@ -119,6 +119,7 @@ FMI textgen development files
 - Added per-timestep diagnostic logging to the convective cell detector (one entry summary + a top-share line per timestep, fired even when the share is zero, so thresholds can be tuned from data)
 - Lowered convective_cell_cutoff default from MYRSKY_LOWER_LIMIT (20.5) to KOVA_LOWER_LIMIT (13.5), matching the FMI "kova tuuli" warning level — the previous default only ever flagged cells reaching storm intensity
 - Convective cell sentence is now intensity-tiered: cells whose peak top wind reaches MYRSKY_LOWER_LIMIT use "hyvin voimakkaita puuskia", lower-peak cells use "voimakkaita puuskia"
+- Convective cell detection now runs against the gust diagnostic (HourlyMaximumGust / GustSpeed) instead of MaximumWind: in high-resolution NWP the cells' signature lives in the gust parameter, not the base wind speed, so the previous MaximumWind-based detection found nothing. The cell's peak gust is what gets reported in the follow-up sentence, and the gust distribution's tail is also zeroed alongside the base-wind distributions when the cell is removed
 - Fixed MessageLoggerStream so that plain text streamed via theLog << "..." actually reaches the log file (previously buffered in the streambuf and silently dropped — only [Entering]/[Leaving] markers and Glyph dumps were ever flushed)
 
 * Sun May 24 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.24-3.fmi

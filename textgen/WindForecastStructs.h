@@ -174,6 +174,7 @@ struct WindDataItemUnit
   }
 
   float getTopWindSpeedShare(float theLowerLimit, float theUpperLimit) const;
+  float getGustSpeedShare(float theLowerLimit, float theUpperLimit) const;
   float getWindSpeedShare(float theLowerLimit, float theUpperLimit) const;
   float getWindDirectionShare(WindStoryTools::WindDirectionId windDirectionId,
                               double theWindDirectionMinSpeed,
@@ -204,6 +205,7 @@ struct WindDataItemUnit
   WeatherResult theEqualizedWindDirection;
   value_distribution_data_vector theWindSpeedDistribution;
   value_distribution_data_vector theWindSpeedDistributionTop;
+  value_distribution_data_vector theGustSpeedDistribution;
   value_distribution_data_vector theWindDirectionDistribution16;
   value_distribution_data_vector theWindDirectionDistribution8;
 };
@@ -338,13 +340,15 @@ struct TimePhraseInfo
   bool empty() const { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
 };
 
-// A detected local convective cell period whose grid points have been removed from the area
-// statistics before equalization. Used for optional follow-up sentence reporting.
+// A detected local convective cell period. Detection runs against the gust diagnostic
+// (HourlyMaximumGust); the cell's grid points are removed from the base-wind area statistics
+// before equalization so the regular wind-overview text doesn't carry their influence. Used
+// for optional follow-up sentence reporting.
 struct ConvectiveCellAnomaly
 {
-  ConvectiveCellAnomaly(WeatherPeriod p, float peak) : period(std::move(p)), peakWindSpeed(peak) {}
+  ConvectiveCellAnomaly(WeatherPeriod p, float peak) : period(std::move(p)), peakGustSpeed(peak) {}
   WeatherPeriod period;
-  float peakWindSpeed;  // pre-removal peak top wind, m/s (for reporting)
+  float peakGustSpeed;  // pre-removal peak gust (HourlyMaximumGust), m/s, for reporting
   // Dominant quadrant if spatially concentrated (Northern/Southern/Eastern/Western),
   // else WeatherArea::Full meaning "undirected — cell moved or was ambiguous".
   WeatherArea::Type dominantQuadrant = WeatherArea::Full;
