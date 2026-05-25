@@ -92,7 +92,8 @@ struct wo_story_params
   // feature entirely.
   double theConvectiveCellMaxDuration = 3.0;       // hours — runs at or above this are NOT cells
   double theConvectiveCellMaxAreaFraction = 10.0;  // percent — at or above this is NOT a cell
-  double theConvectiveCellCutoff = 20.5;           // m/s, MYRSKY_LOWER_LIMIT by default
+  double theConvectiveCellCutoff = KOVA_LOWER_LIMIT;  // m/s — lower bound of the "hard wind" tier
+                                                      // (FMI warning level for kova tuuli)
 
   // When true, each detected cell period generates an extra forecast sentence reporting the
   // pre-removal peak top wind, e.g. "paikoin hyvin voimakkaita puuskia, kovimmillaan 23 m/s."

@@ -4163,6 +4163,11 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
 // Emits one follow-up sentence per cell period. Phrasing is controlled by
 // theConvectiveCellStyle: "sentence" produces an undirected form, "quadrant" injects the
 // dominant quadrant if one was found (falling back to the undirected form otherwise).
+// The intensity adjective is keyed off the cell's peak top wind against the FMI warning
+// ladder: cells reaching myrsky (>= MYRSKY_LOWER_LIMIT) get "hyvin voimakkaita puuskia",
+// otherwise "voimakkaita puuskia". The hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is
+// deliberately not split out yet — current NWP rarely resolves downbursts at that level
+// reliably, so adding it would just produce spurious extreme phrasing.
 // The Finnish surface text is intentionally kept hardcoded here while meteorologists review
 // real-world output; once the phrasing stabilises this will be migrated to dictionary keys.
 void append_convective_anomaly_sentences(const wo_story_params& storyParams,
@@ -4177,12 +4182,14 @@ void append_convective_anomaly_sentences(const wo_story_params& storyParams,
       const int peakMs = static_cast<int>(std::round(anomaly.peakWindSpeed));
       const bool useQuadrant = (storyParams.theConvectiveCellStyle == "quadrant" &&
                                 anomaly.dominantQuadrant != WeatherArea::Full);
+      const char* gustsPhrase = (anomaly.peakWindSpeed >= MYRSKY_LOWER_LIMIT)
+                                    ? "hyvin voimakkaita puuskia"
+                                    : "voimakkaita puuskia";
 
       if (useQuadrant)
         sentence << quadrant_phrase_fi(anomaly.dominantQuadrant);
 
-      sentence << "paikoin"
-               << "hyvin voimakkaita puuskia" << Delimiter(",") << "kovimmillaan" << peakMs
+      sentence << "paikoin" << gustsPhrase << Delimiter(",") << "kovimmillaan" << peakMs
                << *UnitFactory::create(MetersPerSecond);
       paragraph << sentence;
     }
@@ -4230,7 +4237,7 @@ void read_configuration_params(wo_story_params& storyParams)
     double convectiveCellMaxAreaFraction = Settings::optional_double(
         storyParams.theVar + "::convective_cell_max_area_fraction", 10.0);
     double convectiveCellCutoff = Settings::optional_double(
-        storyParams.theVar + "::convective_cell_cutoff", MYRSKY_LOWER_LIMIT);
+        storyParams.theVar + "::convective_cell_cutoff", KOVA_LOWER_LIMIT);
     bool convectiveCellReporting =
         Settings::optional_bool(storyParams.theVar + "::convective_cell_reporting", false);
     std::string convectiveCellStyle =
