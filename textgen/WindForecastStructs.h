@@ -81,17 +81,21 @@ struct wo_story_params
   bool theWeekdaysUsed = true;
 
   // Convective cell anomaly handling. A timestep is flagged as containing a local convective
-  // cell when the fraction of the area with top wind above theConvectiveCellCutoff stays below
-  // theConvectiveCellMaxAreaFraction % (i.e. the high-wind region is small enough to look local
-  // rather than synoptic). Contiguous flagged timesteps form an anomaly period; periods shorter
+  // cell when the fraction of the area with gust above theConvectiveCellCutoff (HourlyMaximumGust)
+  // is strictly between theConvectiveCellMinAreaFraction % and theConvectiveCellMaxAreaFraction %.
+  // The min bound keeps the detector from chaining isolated cells through low-share intermediate
+  // hours (e.g. a 1-3% trickle bridging two distinct cells); the max bound separates local cells
+  // from synoptic events. Contiguous flagged timesteps form an anomaly period; periods shorter
   // than theConvectiveCellMaxDuration hours are treated as convective cells (longer runs are
   // assumed synoptic and left alone). For each cell the grid points above cutoff are removed
   // from the area statistics before equalization (raw Top/Max/Mean/Median and distribution
   // buckets >= cutoff are recomputed/zeroed via a RangeAcceptor upper limit).
-  // Set a threshold to 0 to disable that individual criterion. Set BOTH to 0 to disable the
-  // feature entirely.
+  // Set a threshold to 0 to disable that individual criterion. Set MAX duration AND MAX area
+  // fraction to 0 to disable the feature entirely.
   double theConvectiveCellMaxDuration = 3.0;       // hours — runs at or above this are NOT cells
   double theConvectiveCellMaxAreaFraction = 10.0;  // percent — at or above this is NOT a cell
+  double theConvectiveCellMinAreaFraction = 0.0;   // percent — at or below this the timestep is
+                                                   // not considered part of any cell run
   double theConvectiveCellCutoff = KOVA_LOWER_LIMIT;  // m/s — lower bound of the "hard wind" tier
                                                       // (FMI warning level for kova tuuli)
 

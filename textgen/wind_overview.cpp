@@ -3901,26 +3901,36 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
     const unsigned int n = storyParams.theWindDataVector.size();
     const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
     const double maxAreaFraction = storyParams.theConvectiveCellMaxAreaFraction;
+    const double minAreaFraction = storyParams.theConvectiveCellMinAreaFraction;
     const double maxDuration = storyParams.theConvectiveCellMaxDuration;
 
     storyParams.theLog << "Convective cell detection: n=" << n << " timesteps, cutoff=" << cutoff
-                       << " m/s (on gust), max area fraction=" << maxAreaFraction
-                       << "%, max duration=" << maxDuration << "h\n";
+                       << " m/s (on gust), area fraction window=(" << minAreaFraction << "%, "
+                       << maxAreaFraction << "%), max duration=" << maxDuration << "h\n";
+
+    // Cache last-logged index so the lambda doesn't double-log when called from both the outer
+    // run-start check and the inner accumulator loop for the same i.
+    int lastLoggedIndex = -1;
 
     auto timestepIsAnomalous = [&](unsigned int i)
     {
       const WindDataItemUnit& item = storyParams.theWindDataVector[i]->getDataItem(areaType);
       const float gustShare = item.getGustSpeedShare(cutoff, std::numeric_limits<float>::max());
-      // A cell timestep has SOME grid points whose gust exceeds cutoff but covering less than
-      // maxAreaFraction %. maxAreaFraction == 0 disables the spatial check (any grid points
-      // above cutoff become a candidate).
-      const bool flagged = gustShare > 0.0F &&
+      // A cell timestep has its gust-share strictly inside (minAreaFraction, maxAreaFraction).
+      // minAreaFraction defaults to 0 so the lower bound is just "some grid points above cutoff";
+      // raising it breaks runs at the troughs between discrete cells. maxAreaFraction == 0
+      // disables the spatial cap (any positive share above the min becomes a candidate).
+      const bool flagged = gustShare > static_cast<float>(minAreaFraction) &&
                            (maxAreaFraction <= 0.0 ||
                             gustShare < static_cast<float>(maxAreaFraction));
-      storyParams.theLog << "Convective candidate t=" << item.thePeriod.localStartTime()
-                         << ": gust-share>=" << cutoff << " m/s = " << fixed << setprecision(2)
-                         << gustShare << "% (max area fraction=" << maxAreaFraction
-                         << "%, flagged=" << (flagged ? "yes" : "no") << ")\n";
+      if (static_cast<int>(i) != lastLoggedIndex)
+      {
+        storyParams.theLog << "Convective candidate t=" << item.thePeriod.localStartTime()
+                           << ": gust-share>=" << cutoff << " m/s = " << fixed << setprecision(2)
+                           << gustShare << "% (window=" << minAreaFraction << "%..."
+                           << maxAreaFraction << "%, flagged=" << (flagged ? "yes" : "no") << ")\n";
+        lastLoggedIndex = static_cast<int>(i);
+      }
       return flagged;
     };
 
@@ -4265,6 +4275,8 @@ void read_configuration_params(wo_story_params& storyParams)
         Settings::optional_double(storyParams.theVar + "::convective_cell_max_duration", 3.0);
     double convectiveCellMaxAreaFraction = Settings::optional_double(
         storyParams.theVar + "::convective_cell_max_area_fraction", 10.0);
+    double convectiveCellMinAreaFraction = Settings::optional_double(
+        storyParams.theVar + "::convective_cell_min_area_fraction", 0.0);
     double convectiveCellCutoff = Settings::optional_double(
         storyParams.theVar + "::convective_cell_cutoff", KOVA_LOWER_LIMIT);
     bool convectiveCellReporting =
@@ -4289,6 +4301,7 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theWeekdaysUsed = weekdaysUsed;
     storyParams.theConvectiveCellMaxDuration = convectiveCellMaxDuration;
     storyParams.theConvectiveCellMaxAreaFraction = convectiveCellMaxAreaFraction;
+    storyParams.theConvectiveCellMinAreaFraction = convectiveCellMinAreaFraction;
     storyParams.theConvectiveCellCutoff = convectiveCellCutoff;
     storyParams.theConvectiveCellReporting = convectiveCellReporting;
     storyParams.theConvectiveCellStyle = convectiveCellStyle;
