@@ -6453,3 +6453,6 @@ msgstr "Western Gulf of Finland and Sea of Åland"
 
 msgid "B7W"
 msgstr "Western part of Northern Baltic"
+
+msgid "voimakkaita puuskia"
+msgstr "strong gusts"

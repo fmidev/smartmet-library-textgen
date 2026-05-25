@@ -6453,3 +6453,6 @@ msgstr "golfe occidental de Finlande et mer d'Åland"
 
 msgid "B7W"
 msgstr "partie occidentale de la Baltique nord"
+
+msgid "voimakkaita puuskia"
+msgstr "rafales fortes"

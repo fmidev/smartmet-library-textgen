@@ -6453,3 +6453,6 @@ msgstr "parte occidental del Báltico norte"
 
 msgid "lumisateesta"
 msgstr "empeora debido a las nevadas"
+
+msgid "voimakkaita puuskia"
+msgstr "rachas fuertes"

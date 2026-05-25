@@ -6459,3 +6459,6 @@ msgstr "fra og med i natt"
 
 msgid "[iltapaivalla] tuuli saa saan tuntumaan viileammalta"
 msgstr "[1] får vinden været til å kjennes kjøligere"
+
+msgid "voimakkaita puuskia"
+msgstr "kraftige vindkast"

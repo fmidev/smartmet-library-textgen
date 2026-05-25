@@ -6453,3 +6453,6 @@ msgstr "Somu līča rietumu daļa un Ālandu jūra"
 
 msgid "B7W"
 msgstr "Baltijas jūras ziemeļu daļas rietumi"
+
+msgid "voimakkaita puuskia"
+msgstr "stipras brāzmas"

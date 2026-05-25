@@ -6456,3 +6456,6 @@ msgstr "Westelijk deel van Noordelijke Oostzee"
 
 msgid "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan viileammalta"
 msgstr "[1] doet de wind het weer koeler aanvoelen [2]"
+
+msgid "voimakkaita puuskia"
+msgstr "krachtige windstoten"

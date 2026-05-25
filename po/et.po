@@ -6453,3 +6453,6 @@ msgstr "Soome lahe lääneosa ja Ahvenamaa meri"
 
 msgid "B7W"
 msgstr "Põhja-Läänemere lääneosa"
+
+msgid "voimakkaita puuskia"
+msgstr "tugevad puhangud"

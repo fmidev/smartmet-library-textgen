@@ -6456,3 +6456,6 @@ msgstr "phần Tây Biển Baltic Bắc"
 
 msgid "lumisateesta"
 msgstr "tệ hơn do tuyết rơi"
+
+msgid "voimakkaita puuskia"
+msgstr "gió giật mạnh"

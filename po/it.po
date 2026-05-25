@@ -6453,3 +6453,6 @@ msgstr "parte occidentale del Baltico settentrionale"
 
 msgid "lumisateesta"
 msgstr "peggiora a causa delle nevicate"
+
+msgid "voimakkaita puuskia"
+msgstr "raffiche forti"

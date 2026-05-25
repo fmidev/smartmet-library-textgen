@@ -6453,3 +6453,6 @@ msgstr "Sehemu ya Kaskazini ya Bahari ya Baltic Kaskazini"
 
 msgid "lumisateesta"
 msgstr "inazidi kuwa mbaya kwa sababu ya theluji"
+
+msgid "voimakkaita puuskia"
+msgstr "upepo mkali wa vipande vipande"

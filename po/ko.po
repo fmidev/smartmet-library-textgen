@@ -6459,3 +6459,6 @@ msgstr "서핀란드만 및 올란드해"
 
 msgid "B7W"
 msgstr "북발트해 서부"
+
+msgid "voimakkaita puuskia"
+msgstr "강한 돌풍"

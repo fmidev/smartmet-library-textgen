@@ -6459,3 +6459,6 @@ msgstr "西フィンランド湾およびオーランド海"
 
 msgid "B7W"
 msgstr "北バルト海西部"
+
+msgid "voimakkaita puuskia"
+msgstr "強い突風"

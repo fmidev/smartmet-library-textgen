@@ -6459,3 +6459,6 @@ msgstr "芬兰湾西部及奥兰海"
 
 msgid "B7W"
 msgstr "北波罗的海西部"
+
+msgid "voimakkaita puuskia"
+msgstr "强的阵风"

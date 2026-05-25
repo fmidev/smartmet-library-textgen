@@ -6393,3 +6393,6 @@ msgstr "yöstä"
 
 msgid "huomisen keskipaivaan asti"
 msgstr "huomiseen keskipäivään asti"
+
+msgid "voimakkaita puuskia"
+msgstr "voimakkaita puuskia"

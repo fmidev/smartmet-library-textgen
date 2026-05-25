@@ -6453,3 +6453,6 @@ msgstr "Westlicher Teil der Nördlichen Ostsee und Ålandsee"
 
 msgid "B7W"
 msgstr "Westlicher Teil der Nördlichen Ostsee"
+
+msgid "voimakkaita puuskia"
+msgstr "starke Böen"

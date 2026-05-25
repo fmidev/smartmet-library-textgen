@@ -6453,3 +6453,6 @@ msgstr "Bagian Barat Baltik Utara"
 
 msgid "lumisateesta"
 msgstr "lebih buruk karena salju"
+
+msgid "voimakkaita puuskia"
+msgstr "hembusan angin kencang"

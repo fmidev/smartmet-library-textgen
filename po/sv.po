@@ -6456,3 +6456,6 @@ msgstr "från och med midnatten"
 
 msgid "yosta"
 msgstr "från och med i natt"
+
+msgid "voimakkaita puuskia"
+msgstr "kraftiga vindbyar"

@@ -6453,3 +6453,6 @@ msgstr "الجزء الغربي من بحر البلطيق الشمالي"
 
 msgid "asteen(tuntumassa (mod 10=1))"
 msgstr "درجات"
+
+msgid "voimakkaita puuskia"
+msgstr "هبات قوية"

@@ -6453,3 +6453,6 @@ msgstr "Западная часть Северной Балтики"
 
 msgid "lumisateesta"
 msgstr "ухудшение из-за снегопада"
+
+msgid "voimakkaita puuskia"
+msgstr "сильные порывы ветра"
