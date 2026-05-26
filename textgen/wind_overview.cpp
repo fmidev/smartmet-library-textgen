@@ -4218,73 +4218,101 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
   }
 }
 
-// Emits one follow-up sentence per cell period. Sentence shape is built from one of three
-// template phrases keyed by which optional qualifiers are present:
+// Emits a single follow-up sentence summarising ALL detected cells: the union period
+// (earliest start to latest end), the strongest peak gust across cells, and a shared
+// dominant quadrant if every cell agrees on one (else undirected).
+//
+// Per-cell sentences were rejected as too noisy — multiple consecutive cells produced a
+// long list of near-identical "paikoin … kovimmillaan N m/s" lines. Readers care about
+// (a) when gusty conditions are expected and (b) the worst they get; the individual
+// per-cell breakdown is for the diagnostic log, not the surface text.
+//
+// Sentence shape is built from one of three template phrases keyed by which optional
+// qualifiers are present:
 //
 //   - no time, no quadrant      → CONVECTIVE_CELL_PLAIN_PHRASE
 //   - time XOR quadrant         → CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE
 //   - both time AND quadrant    → CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE
 //
-// Each template uses positional [N] placeholders so each language's msgstr can reorder the
-// pieces freely (e.g. "illalla pohjoisosissa" in Finnish vs the reverse in another language
-// via "[2] [1]"). Time qualifier comes from get_narrow_time_phrase; quadrant only fires when
-// theConvectiveCellStyle == "quadrant" AND a dominant quadrant was found.
-//
-// The intensity adjective is keyed off the cell's peak gust against the FMI warning ladder:
-// cells reaching myrsky (>= MYRSKY_LOWER_LIMIT) get "hyvin voimakkaita puuskia", otherwise
-// "voimakkaita puuskia". The hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is deliberately
-// not split out yet — current NWP rarely resolves downbursts at that level reliably.
+// Each template uses positional [N] placeholders so each language's msgstr can reorder
+// the pieces freely. Time qualifier comes from get_narrow_time_phrase(unionPeriod, ...);
+// quadrant only fires under theConvectiveCellStyle == "quadrant" AND every detected cell
+// shares the same dominant quadrant. The intensity adjective is keyed off the MAX peak
+// gust against MYRSKY_LOWER_LIMIT — if any cell reaches myrsky-level, the whole summary
+// uses "hyvin voimakkaita puuskia". The hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is
+// deliberately not split out yet — current NWP rarely resolves downbursts at that level
+// reliably.
 void append_convective_anomaly_sentences(const wo_story_params& storyParams,
                                          const std::vector<ConvectiveCellAnomaly>& anomalies,
                                          Paragraph& paragraph)
 {
   try
   {
-    for (const auto& anomaly : anomalies)
+    if (anomalies.empty())
+      return;
+
+    // Aggregate: union period, strongest cell, shared dominant quadrant.
+    const ConvectiveCellAnomaly* strongest = &anomalies[0];
+    TextGenPosixTime unionStart = anomalies[0].period.localStartTime();
+    TextGenPosixTime unionEnd = anomalies[0].period.localEndTime();
+    WeatherArea::Type sharedQuadrant = anomalies[0].dominantQuadrant;
+    for (std::size_t i = 1; i < anomalies.size(); ++i)
     {
-      Sentence sentence;
-      const int peakMs = static_cast<int>(std::round(anomaly.peakGustSpeed));
-      const std::string gustsPhrase = (anomaly.peakGustSpeed >= MYRSKY_LOWER_LIMIT)
-                                          ? "hyvin voimakkaita puuskia"
-                                          : "voimakkaita puuskia";
-
-      // Optional time-of-day phrase derived from the cell period (e.g. "illalla",
-      // "illalla ja iltayolla"). Honours the existing <var>::specify_part_of_the_day
-      // setting and returns empty when the period doesn't fit a labelled part of day.
-      part_of_the_day_id partOfDay;
-      const std::string timePhrase =
-          get_narrow_time_phrase(anomaly.period, storyParams.theVar, partOfDay);
-
-      // Optional quadrant phrase ("pohjoisosissa" etc.), only when configured and a
-      // dominant quadrant was found by determine_anomaly_quadrants.
-      std::string quadrantPhrase;
-      if (storyParams.theConvectiveCellStyle == "quadrant" &&
-          anomaly.dominantQuadrant != WeatherArea::Full)
-        quadrantPhrase = quadrant_phrase_key(anomaly.dominantQuadrant);
-
-      if (!timePhrase.empty() && !quadrantPhrase.empty())
-      {
-        sentence << CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE << timePhrase << quadrantPhrase
-                 << gustsPhrase << peakMs << *UnitFactory::create(MetersPerSecond);
-      }
-      else if (!timePhrase.empty())
-      {
-        sentence << CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE << timePhrase << gustsPhrase << peakMs
-                 << *UnitFactory::create(MetersPerSecond);
-      }
-      else if (!quadrantPhrase.empty())
-      {
-        sentence << CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE << quadrantPhrase << gustsPhrase << peakMs
-                 << *UnitFactory::create(MetersPerSecond);
-      }
-      else
-      {
-        sentence << CONVECTIVE_CELL_PLAIN_PHRASE << gustsPhrase << peakMs
-                 << *UnitFactory::create(MetersPerSecond);
-      }
-
-      paragraph << sentence;
+      const auto& a = anomalies[i];
+      if (a.peakGustSpeed > strongest->peakGustSpeed)
+        strongest = &a;
+      if (a.period.localStartTime() < unionStart)
+        unionStart = a.period.localStartTime();
+      if (a.period.localEndTime() > unionEnd)
+        unionEnd = a.period.localEndTime();
+      if (a.dominantQuadrant != sharedQuadrant)
+        sharedQuadrant = WeatherArea::Full;  // cells disagree → undirected
     }
+    const WeatherPeriod unionPeriod(unionStart, unionEnd);
+
+    const int peakMs = static_cast<int>(std::round(strongest->peakGustSpeed));
+    const std::string gustsPhrase = (strongest->peakGustSpeed >= MYRSKY_LOWER_LIMIT)
+                                        ? "hyvin voimakkaita puuskia"
+                                        : "voimakkaita puuskia";
+
+    // Time-of-day phrase: try the union period first so a wide enough span gets the
+    // combined "illalla ja iltayolla" label. get_narrow_time_phrase only knows one- or
+    // two-part combinations, so when cells span three+ parts (e.g. evening + late-evening
+    // + around-midnight) the union returns empty — in that case pin the time to the
+    // strongest cell, since that is the most informative anchor for a single sentence.
+    part_of_the_day_id partOfDay;
+    std::string timePhrase = get_narrow_time_phrase(unionPeriod, storyParams.theVar, partOfDay);
+    if (timePhrase.empty())
+      timePhrase = get_narrow_time_phrase(strongest->period, storyParams.theVar, partOfDay);
+
+    // Optional quadrant phrase, only when configured AND every cell agrees on one.
+    std::string quadrantPhrase;
+    if (storyParams.theConvectiveCellStyle == "quadrant" && sharedQuadrant != WeatherArea::Full)
+      quadrantPhrase = quadrant_phrase_key(sharedQuadrant);
+
+    Sentence sentence;
+    if (!timePhrase.empty() && !quadrantPhrase.empty())
+    {
+      sentence << CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE << timePhrase << quadrantPhrase
+               << gustsPhrase << peakMs << *UnitFactory::create(MetersPerSecond);
+    }
+    else if (!timePhrase.empty())
+    {
+      sentence << CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE << timePhrase << gustsPhrase << peakMs
+               << *UnitFactory::create(MetersPerSecond);
+    }
+    else if (!quadrantPhrase.empty())
+    {
+      sentence << CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE << quadrantPhrase << gustsPhrase << peakMs
+               << *UnitFactory::create(MetersPerSecond);
+    }
+    else
+    {
+      sentence << CONVECTIVE_CELL_PLAIN_PHRASE << gustsPhrase << peakMs
+               << *UnitFactory::create(MetersPerSecond);
+    }
+
+    paragraph << sentence;
   }
   catch (...)
   {
