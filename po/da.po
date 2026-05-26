@@ -6459,3 +6459,24 @@ msgstr "fra og med i nat"
 
 msgid "voimakkaita puuskia"
 msgstr "kraftige vindstød"
+
+msgid "pohjoisosissa"
+msgstr "i de nordlige dele"
+
+msgid "etelaosissa"
+msgstr "i de sydlige dele"
+
+msgid "itaosissa"
+msgstr "i de østlige dele"
+
+msgid "lansiosissa"
+msgstr "i de vestlige dele"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "lokalt [1], op til [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] lokalt [2], op til [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] lokalt [3], op til [4] [5]"

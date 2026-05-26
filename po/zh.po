@@ -6462,3 +6462,24 @@ msgstr "北波罗的海西部"
 
 msgid "voimakkaita puuskia"
 msgstr "强的阵风"
+
+msgid "pohjoisosissa"
+msgstr "北部地区"
+
+msgid "etelaosissa"
+msgstr "南部地区"
+
+msgid "itaosissa"
+msgstr "东部地区"
+
+msgid "lansiosissa"
+msgstr "西部地区"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "局部[1]，最大[2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1]局部[2]，最大[3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2]局部[3]，最大[4] [5]"

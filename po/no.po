@@ -6462,3 +6462,24 @@ msgstr "[1] får vinden været til å kjennes kjøligere"
 
 msgid "voimakkaita puuskia"
 msgstr "kraftige vindkast"
+
+msgid "pohjoisosissa"
+msgstr "i de nordlige delene"
+
+msgid "etelaosissa"
+msgstr "i de sørlige delene"
+
+msgid "itaosissa"
+msgstr "i de østlige delene"
+
+msgid "lansiosissa"
+msgstr "i de vestlige delene"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "lokalt [1], opp til [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] lokalt [2], opp til [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] lokalt [3], opp til [4] [5]"

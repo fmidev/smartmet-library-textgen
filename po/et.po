@@ -6456,3 +6456,24 @@ msgstr "Põhja-Läänemere lääneosa"
 
 msgid "voimakkaita puuskia"
 msgstr "tugevad puhangud"
+
+msgid "pohjoisosissa"
+msgstr "põhjaosades"
+
+msgid "etelaosissa"
+msgstr "lõunaosades"
+
+msgid "itaosissa"
+msgstr "idaosades"
+
+msgid "lansiosissa"
+msgstr "lääneosades"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "kohati [1], kuni [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] kohati [2], kuni [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] kohati [3], kuni [4] [5]"

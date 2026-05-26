@@ -6462,3 +6462,24 @@ msgstr "북발트해 서부"
 
 msgid "voimakkaita puuskia"
 msgstr "강한 돌풍"
+
+msgid "pohjoisosissa"
+msgstr "북부 지역에서"
+
+msgid "etelaosissa"
+msgstr "남부 지역에서"
+
+msgid "itaosissa"
+msgstr "동부 지역에서"
+
+msgid "lansiosissa"
+msgstr "서부 지역에서"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "일부 지역에서 [1], 최대 [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] 일부 지역에서 [2], 최대 [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] 일부 지역에서 [3], 최대 [4] [5]"

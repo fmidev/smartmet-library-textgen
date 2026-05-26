@@ -6396,3 +6396,24 @@ msgstr "huomiseen keskipäivään asti"
 
 msgid "voimakkaita puuskia"
 msgstr "voimakkaita puuskia"
+
+msgid "pohjoisosissa"
+msgstr "pohjoisosissa"
+
+msgid "etelaosissa"
+msgstr "eteläosissa"
+
+msgid "itaosissa"
+msgstr "itäosissa"
+
+msgid "lansiosissa"
+msgstr "länsiosissa"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "paikoin [1], kovimmillaan [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] paikoin [2], kovimmillaan [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] paikoin [3], kovimmillaan [4] [5]"

@@ -6456,3 +6456,24 @@ msgstr "درجات"
 
 msgid "voimakkaita puuskia"
 msgstr "هبات قوية"
+
+msgid "pohjoisosissa"
+msgstr "في الأجزاء الشمالية"
+
+msgid "etelaosissa"
+msgstr "في الأجزاء الجنوبية"
+
+msgid "itaosissa"
+msgstr "في الأجزاء الشرقية"
+
+msgid "lansiosissa"
+msgstr "في الأجزاء الغربية"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "في بعض المناطق [1]، يصل إلى [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] في بعض المناطق [2]، يصل إلى [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] في بعض المناطق [3]، يصل إلى [4] [5]"

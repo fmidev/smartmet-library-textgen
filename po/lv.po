@@ -6456,3 +6456,24 @@ msgstr "Baltijas jūras ziemeļu daļas rietumi"
 
 msgid "voimakkaita puuskia"
 msgstr "stipras brāzmas"
+
+msgid "pohjoisosissa"
+msgstr "ziemeļu daļās"
+
+msgid "etelaosissa"
+msgstr "dienvidu daļās"
+
+msgid "itaosissa"
+msgstr "austrumu daļās"
+
+msgid "lansiosissa"
+msgstr "rietumu daļās"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "dažviet [1], līdz [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] dažviet [2], līdz [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] dažviet [3], līdz [4] [5]"

@@ -6456,3 +6456,24 @@ msgstr "partie occidentale de la Baltique nord"
 
 msgid "voimakkaita puuskia"
 msgstr "rafales fortes"
+
+msgid "pohjoisosissa"
+msgstr "dans les parties nord"
+
+msgid "etelaosissa"
+msgstr "dans les parties sud"
+
+msgid "itaosissa"
+msgstr "dans les parties est"
+
+msgid "lansiosissa"
+msgstr "dans les parties ouest"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "par endroits [1], jusqu'à [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1], par endroits [2], jusqu'à [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2], par endroits [3], jusqu'à [4] [5]"

@@ -6456,3 +6456,24 @@ msgstr "inazidi kuwa mbaya kwa sababu ya theluji"
 
 msgid "voimakkaita puuskia"
 msgstr "upepo mkali wa vipande vipande"
+
+msgid "pohjoisosissa"
+msgstr "sehemu za kaskazini"
+
+msgid "etelaosissa"
+msgstr "sehemu za kusini"
+
+msgid "itaosissa"
+msgstr "sehemu za mashariki"
+
+msgid "lansiosissa"
+msgstr "sehemu za magharibi"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "sehemu fulani [1], hadi [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] sehemu fulani [2], hadi [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] sehemu fulani [3], hadi [4] [5]"

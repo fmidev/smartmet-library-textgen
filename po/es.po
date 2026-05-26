@@ -6456,3 +6456,24 @@ msgstr "empeora debido a las nevadas"
 
 msgid "voimakkaita puuskia"
 msgstr "rachas fuertes"
+
+msgid "pohjoisosissa"
+msgstr "en las partes del norte"
+
+msgid "etelaosissa"
+msgstr "en las partes del sur"
+
+msgid "itaosissa"
+msgstr "en las partes del este"
+
+msgid "lansiosissa"
+msgstr "en las partes del oeste"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "en algunos lugares [1], hasta [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1], en algunos lugares [2], hasta [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2], en algunos lugares [3], hasta [4] [5]"

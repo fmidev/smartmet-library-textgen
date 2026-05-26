@@ -6459,3 +6459,24 @@ msgstr "[1] doet de wind het weer koeler aanvoelen [2]"
 
 msgid "voimakkaita puuskia"
 msgstr "krachtige windstoten"
+
+msgid "pohjoisosissa"
+msgstr "in de noordelijke delen"
+
+msgid "etelaosissa"
+msgstr "in de zuidelijke delen"
+
+msgid "itaosissa"
+msgstr "in de oostelijke delen"
+
+msgid "lansiosissa"
+msgstr "in de westelijke delen"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "op sommige plaatsen [1], op zijn sterkst [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] op sommige plaatsen [2], op zijn sterkst [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] op sommige plaatsen [3], op zijn sterkst [4] [5]"

@@ -6456,3 +6456,24 @@ msgstr "lebih buruk karena salju"
 
 msgid "voimakkaita puuskia"
 msgstr "hembusan angin kencang"
+
+msgid "pohjoisosissa"
+msgstr "di bagian utara"
+
+msgid "etelaosissa"
+msgstr "di bagian selatan"
+
+msgid "itaosissa"
+msgstr "di bagian timur"
+
+msgid "lansiosissa"
+msgstr "di bagian barat"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "di beberapa tempat [1], hingga [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] di beberapa tempat [2], hingga [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] di beberapa tempat [3], hingga [4] [5]"

@@ -6456,3 +6456,24 @@ msgstr "ухудшение из-за снегопада"
 
 msgid "voimakkaita puuskia"
 msgstr "сильные порывы ветра"
+
+msgid "pohjoisosissa"
+msgstr "в северных частях"
+
+msgid "etelaosissa"
+msgstr "в южных частях"
+
+msgid "itaosissa"
+msgstr "в восточных частях"
+
+msgid "lansiosissa"
+msgstr "в западных частях"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "местами [1], до [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] местами [2], до [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] местами [3], до [4] [5]"

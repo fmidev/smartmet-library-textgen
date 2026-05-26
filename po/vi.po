@@ -6459,3 +6459,24 @@ msgstr "tệ hơn do tuyết rơi"
 
 msgid "voimakkaita puuskia"
 msgstr "gió giật mạnh"
+
+msgid "pohjoisosissa"
+msgstr "ở khu vực phía bắc"
+
+msgid "etelaosissa"
+msgstr "ở khu vực phía nam"
+
+msgid "itaosissa"
+msgstr "ở khu vực phía đông"
+
+msgid "lansiosissa"
+msgstr "ở khu vực phía tây"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "một số nơi [1], lên đến [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] một số nơi [2], lên đến [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] một số nơi [3], lên đến [4] [5]"

@@ -3859,22 +3859,41 @@ namespace
 // the second-highest by at least this much. Otherwise the cell is treated as moving/ambiguous.
 constexpr float CONVECTIVE_ANOMALY_QUADRANT_MARGIN = 1.0F;
 
-std::string quadrant_phrase_fi(WeatherArea::Type type)
+// Quadrant phrase used as a Phrase dictionary key. The ASCII (diacritic-stripped)
+// Finnish forms match the convention used by ILTAPAIVALLA_WORD etc. — the .po files
+// resolve these keys to the proper-form Finnish (with diacritics) or to the
+// language-specific translation.
+std::string quadrant_phrase_key(WeatherArea::Type type)
 {
   switch (type)
   {
     case WeatherArea::Northern:
       return "pohjoisosissa";
     case WeatherArea::Southern:
-      return "eteläosissa";
+      return "etelaosissa";
     case WeatherArea::Eastern:
-      return "itäosissa";
+      return "itaosissa";
     case WeatherArea::Western:
-      return "länsiosissa";
+      return "lansiosissa";
     default:
       return "";
   }
 }
+
+// Template phrases for the convective cell sentence. Positional placeholders are
+// resolved against the args pushed after the template key. Each language's msgstr
+// can reorder [N] freely (e.g. put time-of-day after quadrant in some languages).
+//
+//   PLAIN:         args = (gustsPhrase, peakInt, mpsUnit)               → [1] [2] [3]
+//   ONE_QUALIFIER: args = (qualifier,   gustsPhrase, peakInt, mpsUnit)  → [1] [2] [3] [4]
+//   TWO_QUALIFIER: args = (time, quadrant, gustsPhrase, peakInt, mpsUnit) → [1] [2] [3] [4] [5]
+#define CONVECTIVE_CELL_PLAIN_PHRASE \
+  "paikoin [puuskia], kovimmillaan [n] [m/s]"
+#define CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE \
+  "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+#define CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE \
+  "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+
 }  // namespace
 
 // Groups contiguous flagged timesteps in the primary area into candidate cell periods.
@@ -4199,16 +4218,22 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
   }
 }
 
-// Emits one follow-up sentence per cell period. Phrasing is controlled by
-// theConvectiveCellStyle: "sentence" produces an undirected form, "quadrant" injects the
-// dominant quadrant if one was found (falling back to the undirected form otherwise).
-// The intensity adjective is keyed off the cell's peak top wind against the FMI warning
-// ladder: cells reaching myrsky (>= MYRSKY_LOWER_LIMIT) get "hyvin voimakkaita puuskia",
-// otherwise "voimakkaita puuskia". The hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is
-// deliberately not split out yet — current NWP rarely resolves downbursts at that level
-// reliably, so adding it would just produce spurious extreme phrasing.
-// The Finnish surface text is intentionally kept hardcoded here while meteorologists review
-// real-world output; once the phrasing stabilises this will be migrated to dictionary keys.
+// Emits one follow-up sentence per cell period. Sentence shape is built from one of three
+// template phrases keyed by which optional qualifiers are present:
+//
+//   - no time, no quadrant      → CONVECTIVE_CELL_PLAIN_PHRASE
+//   - time XOR quadrant         → CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE
+//   - both time AND quadrant    → CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE
+//
+// Each template uses positional [N] placeholders so each language's msgstr can reorder the
+// pieces freely (e.g. "illalla pohjoisosissa" in Finnish vs the reverse in another language
+// via "[2] [1]"). Time qualifier comes from get_narrow_time_phrase; quadrant only fires when
+// theConvectiveCellStyle == "quadrant" AND a dominant quadrant was found.
+//
+// The intensity adjective is keyed off the cell's peak gust against the FMI warning ladder:
+// cells reaching myrsky (>= MYRSKY_LOWER_LIMIT) get "hyvin voimakkaita puuskia", otherwise
+// "voimakkaita puuskia". The hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is deliberately
+// not split out yet — current NWP rarely resolves downbursts at that level reliably.
 void append_convective_anomaly_sentences(const wo_story_params& storyParams,
                                          const std::vector<ConvectiveCellAnomaly>& anomalies,
                                          Paragraph& paragraph)
@@ -4219,17 +4244,45 @@ void append_convective_anomaly_sentences(const wo_story_params& storyParams,
     {
       Sentence sentence;
       const int peakMs = static_cast<int>(std::round(anomaly.peakGustSpeed));
-      const bool useQuadrant = (storyParams.theConvectiveCellStyle == "quadrant" &&
-                                anomaly.dominantQuadrant != WeatherArea::Full);
-      const char* gustsPhrase = (anomaly.peakGustSpeed >= MYRSKY_LOWER_LIMIT)
-                                    ? "hyvin voimakkaita puuskia"
-                                    : "voimakkaita puuskia";
+      const std::string gustsPhrase = (anomaly.peakGustSpeed >= MYRSKY_LOWER_LIMIT)
+                                          ? "hyvin voimakkaita puuskia"
+                                          : "voimakkaita puuskia";
 
-      if (useQuadrant)
-        sentence << quadrant_phrase_fi(anomaly.dominantQuadrant);
+      // Optional time-of-day phrase derived from the cell period (e.g. "illalla",
+      // "illalla ja iltayolla"). Honours the existing <var>::specify_part_of_the_day
+      // setting and returns empty when the period doesn't fit a labelled part of day.
+      part_of_the_day_id partOfDay;
+      const std::string timePhrase =
+          get_narrow_time_phrase(anomaly.period, storyParams.theVar, partOfDay);
 
-      sentence << "paikoin" << gustsPhrase << Delimiter(",") << "kovimmillaan" << peakMs
-               << *UnitFactory::create(MetersPerSecond);
+      // Optional quadrant phrase ("pohjoisosissa" etc.), only when configured and a
+      // dominant quadrant was found by determine_anomaly_quadrants.
+      std::string quadrantPhrase;
+      if (storyParams.theConvectiveCellStyle == "quadrant" &&
+          anomaly.dominantQuadrant != WeatherArea::Full)
+        quadrantPhrase = quadrant_phrase_key(anomaly.dominantQuadrant);
+
+      if (!timePhrase.empty() && !quadrantPhrase.empty())
+      {
+        sentence << CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE << timePhrase << quadrantPhrase
+                 << gustsPhrase << peakMs << *UnitFactory::create(MetersPerSecond);
+      }
+      else if (!timePhrase.empty())
+      {
+        sentence << CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE << timePhrase << gustsPhrase << peakMs
+                 << *UnitFactory::create(MetersPerSecond);
+      }
+      else if (!quadrantPhrase.empty())
+      {
+        sentence << CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE << quadrantPhrase << gustsPhrase << peakMs
+                 << *UnitFactory::create(MetersPerSecond);
+      }
+      else
+      {
+        sentence << CONVECTIVE_CELL_PLAIN_PHRASE << gustsPhrase << peakMs
+                 << *UnitFactory::create(MetersPerSecond);
+      }
+
       paragraph << sentence;
     }
   }

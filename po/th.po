@@ -6462,3 +6462,24 @@ msgstr "Western part of Northern Baltic Proper"
 
 msgid "voimakkaita puuskia"
 msgstr "ลมกระโชกแรง"
+
+msgid "pohjoisosissa"
+msgstr "ในส่วนเหนือ"
+
+msgid "etelaosissa"
+msgstr "ในส่วนใต้"
+
+msgid "itaosissa"
+msgstr "ในส่วนตะวันออก"
+
+msgid "lansiosissa"
+msgstr "ในส่วนตะวันตก"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "ในบางพื้นที่ [1] ถึง [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] ในบางพื้นที่ [2] ถึง [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] ในบางพื้นที่ [3] ถึง [4] [5]"

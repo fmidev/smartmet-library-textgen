@@ -6456,3 +6456,24 @@ msgstr "Westlicher Teil der Nördlichen Ostsee"
 
 msgid "voimakkaita puuskia"
 msgstr "starke Böen"
+
+msgid "pohjoisosissa"
+msgstr "in den nördlichen Teilen"
+
+msgid "etelaosissa"
+msgstr "in den südlichen Teilen"
+
+msgid "itaosissa"
+msgstr "in den östlichen Teilen"
+
+msgid "lansiosissa"
+msgstr "in den westlichen Teilen"
+
+msgid "paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "stellenweise [1], bis zu [2] [3]"
+
+msgid "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] stellenweise [2], bis zu [3] [4]"
+
+msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+msgstr "[1] [2] stellenweise [3], bis zu [4] [5]"
