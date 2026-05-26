@@ -3834,11 +3834,14 @@ void calculate_equalized_data(wo_story_params& storyParams)
 //   2. remove_cell_from_timestep_stats() reruns the GridForecaster analyses for each flagged
 //      timestep with a RangeAcceptor upper limit = cutoff on WindSpeed. This excludes elevated
 //      grid points from base-wind area statistics (Top / Max / Mean / Median). The tails of all
-//      three per-timestep histograms — base wind, top wind, and gust — are zeroed so downstream
-//      consumers see a cleaned distribution. The filter is by base WindSpeed rather than gust,
-//      so the cleanup is a heuristic: it correlates with the cell's footprint without exactly
-//      matching the gust grid points, which is acceptable since the goal is to keep the regular
-//      wind-overview text free of transient convective influence.
+//      three per-timestep histograms — base wind, top wind, and gust — are truncated AND the
+//      surviving buckets renormalized so each distribution still sums to its original total
+//      (representing 100% of the post-removal "non-cell" area). Bare truncation without
+//      renormalization would leave the distribution short of 100%, silently breaking downstream
+//      coverage walks like WindForecast::get_peak_wind. The filter is by base WindSpeed rather
+//      than gust, so the cleanup is a heuristic: it correlates with the cell's footprint
+//      without exactly matching the gust grid points, which is acceptable since the goal is to
+//      keep the regular wind-overview text free of transient convective influence.
 //
 //   3. determine_anomaly_quadrant() reruns Peak MaximumWind over each of Northern / Southern /
 //      Eastern / Western for the cell period. If one quadrant's peak is clearly above the
@@ -4009,15 +4012,40 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
   }
 }
 
-// Zero out the tail of a distribution (buckets whose lower_limit >= cutoff) so downstream
-// code sees the anomalous cell as absent from the area.
-void zero_distribution_tail(value_distribution_data_vector& dist, float cutoff)
+// Truncate the tail of a distribution (buckets whose lower_limit >= cutoff) and renormalize
+// the surviving buckets so the distribution still sums to its original total. Conceptually:
+// after we declare that the high-wind grid points belong to the cell and are excluded from
+// the area, the remaining buckets should represent 100% of the post-removal area, not the
+// 100% - cell-share deficit. Without renormalization downstream consumers that walk the
+// distribution looking for a coverage threshold (e.g. WindForecast::get_peak_wind seeking
+// theWindSpeedTopCoverage = 98%) can silently fail when the truncated distribution never
+// crosses the threshold — leaving peak/peak-time fields at their default (0 / current time),
+// which then propagates as a bogus "interval_info: 4...6 peak: 0" downstream.
+void truncate_and_renormalize_distribution(value_distribution_data_vector& dist, float cutoff)
 {
   try
   {
+    float originalSum = 0.0F;
+    float retainedSum = 0.0F;
+    for (const auto& bucket : dist)
+    {
+      originalSum += bucket.second.value();
+      if (bucket.first < cutoff)
+        retainedSum += bucket.second.value();
+    }
+
     for (auto& bucket : dist)
       if (bucket.first >= cutoff)
         bucket.second = WeatherResult(0.0F, 0.0F);
+
+    if (retainedSum <= 0.0F || originalSum <= 0.0F)
+      return;  // nothing to renormalize (e.g. an entirely-missing distribution)
+
+    const float scale = originalSum / retainedSum;
+    for (auto& bucket : dist)
+      if (bucket.first < cutoff)
+        bucket.second =
+            WeatherResult(bucket.second.value() * scale, bucket.second.error() * scale);
   }
   catch (...)
   {
@@ -4105,9 +4133,9 @@ void remove_cell_from_timestep_stats(wo_story_params& storyParams,
         0.0F);
     dataItem.theEqualizedCalcWind = dataItem.theWindSpeedCalc;
 
-    zero_distribution_tail(dataItem.theWindSpeedDistribution, cutoff);
-    zero_distribution_tail(dataItem.theWindSpeedDistributionTop, cutoff);
-    zero_distribution_tail(dataItem.theGustSpeedDistribution, cutoff);
+    truncate_and_renormalize_distribution(dataItem.theWindSpeedDistribution, cutoff);
+    truncate_and_renormalize_distribution(dataItem.theWindSpeedDistributionTop, cutoff);
+    truncate_and_renormalize_distribution(dataItem.theGustSpeedDistribution, cutoff);
   }
   catch (...)
   {
