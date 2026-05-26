@@ -2385,6 +2385,14 @@ WeatherPeriod WindForecast::findMovedPeriod(part_of_the_day_id partOfTheDay,
         break;
       if (!backwards && endTime >= guardPeriod.localStartTime())
         break;
+      // The moved period must still overlap the original; otherwise the tautology resolver
+      // would pick a time phrase pointing to a slot in which nothing actually happens for
+      // this sentence (e.g. a 1-hour ilta weakening getting its time phrase shifted forward
+      // into iltayö, two hours after the actual event ended). Stop when overlap is lost.
+      if (backwards && endTime < period.localStartTime())
+        break;
+      if (!backwards && startTime > period.localEndTime())
+        break;
       WeatherPeriod phrasePeriod(startTime, endTime);
       TimePhraseInfo tpi;
       getTimePhrase(phrasePeriod, tpi, get_period_length(phrasePeriod) > 6);
@@ -3102,6 +3110,28 @@ std::vector<WindStoryPart> WindForecast::getWindStoryParts(const WeatherPeriod& 
           (i < theParameters.theWindSpeedEventPeriodVector.size() - 1
                ? theParameters.theWindSpeedEventPeriodVector[i + 1]
                : nullptr);
+
+      // Suppress very short weakening events: a 1-hour weakening sandwiched between
+      // strengthening (or strengthening + a brief missing) is usually a spurious dip —
+      // e.g. the tail of a convective spike that survived cell removal — and reading it
+      // as a standalone "wind weakens" sentence misleads the reader. Skip the event and
+      // also consume the following missing-event slot if present, so the next strengthening
+      // still gets its merge-with-preceding-missing treatment.
+      if (windSpeedEventPeriodDataItem->theWindEvent == TUULI_HEIKKENEE &&
+          theParameters.theMinWeakeningDuration > 0.0 &&
+          get_period_length(windSpeedEventPeriodDataItem->thePeriod) <
+              theParameters.theMinWeakeningDuration)
+      {
+        theParameters.theLog << "Skipping short weakening event "
+                             << as_string(windSpeedEventPeriodDataItem->thePeriod)
+                             << " (duration "
+                             << get_period_length(windSpeedEventPeriodDataItem->thePeriod)
+                             << "h < min " << theParameters.theMinWeakeningDuration << "h)\n";
+        if (nextWindSpeedEventPeriodDataItem &&
+            nextWindSpeedEventPeriodDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT)
+          i++;
+        continue;
+      }
 
       constructWindSentence(windSpeedEventPeriodDataItem,
                             nextWindSpeedEventPeriodDataItem,

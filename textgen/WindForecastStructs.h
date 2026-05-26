@@ -92,6 +92,12 @@ struct wo_story_params
   // buckets >= cutoff are recomputed/zeroed via a RangeAcceptor upper limit).
   // Set a threshold to 0 to disable that individual criterion. Set MAX duration AND MAX area
   // fraction to 0 to disable the feature entirely.
+  // Skip "wind weakens" sentences whose detected weakening event is shorter than this many
+  // hours. Brief dips (often 1-hour drops sandwiched between strengthening events) are usually
+  // noise — e.g. a convective spike's tail surviving cell removal — and reading them as a
+  // standalone "weakens" sentence is misleading. Set to 0 to disable the suppression.
+  double theMinWeakeningDuration = 2.0;            // hours
+
   double theConvectiveCellMaxDuration = 3.0;       // hours — runs at or above this are NOT cells
   double theConvectiveCellMaxAreaFraction = 10.0;  // percent — at or above this is NOT a cell
   double theConvectiveCellMinAreaFraction = 0.0;   // percent — at or below this the timestep is

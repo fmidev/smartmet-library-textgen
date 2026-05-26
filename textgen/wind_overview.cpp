@@ -4394,6 +4394,9 @@ void read_configuration_params(wo_story_params& storyParams)
 
     bool weekdaysUsed = Settings::optional_bool(storyParams.theVar + "::weekdays", true);
 
+    double minWeakeningDuration =
+        Settings::optional_double(storyParams.theVar + "::min_weakening_duration", 2.0);
+
     double convectiveCellMaxDuration =
         Settings::optional_double(storyParams.theVar + "::convective_cell_max_duration", 3.0);
     double convectiveCellMaxAreaFraction = Settings::optional_double(
@@ -4422,6 +4425,7 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theMaxIntervalSize = maxIntervalSize;
     storyParams.theContextualMaxIntervalSize = maxIntervalSize;
     storyParams.theWeekdaysUsed = weekdaysUsed;
+    storyParams.theMinWeakeningDuration = minWeakeningDuration;
     storyParams.theConvectiveCellMaxDuration = convectiveCellMaxDuration;
     storyParams.theConvectiveCellMaxAreaFraction = convectiveCellMaxAreaFraction;
     storyParams.theConvectiveCellMinAreaFraction = convectiveCellMinAreaFraction;
