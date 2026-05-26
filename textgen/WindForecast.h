@@ -93,10 +93,25 @@ struct paragraph_info
 {
   Sentence sentence;
   std::vector<sentence_parameter> sentenceParameters;
+  // The WeatherPeriod this paragraph entry was generated from (sentence_info::period).
+  // Two paragraph_infos that share the same period belong to the same logical sentence
+  // (the "piAfterLastInterval" split in getParagraphInfo). Default-constructed for
+  // backward compat — getParagraphInfo sets it explicitly.
+  WeatherPeriod period{TextGenPosixTime(), TextGenPosixTime()};
 };
 
 using WindSpeedSentenceInfo = std::vector<sentence_info>;
 using ParagraphInfoVector = std::vector<paragraph_info>;
+
+// One sentence-info-sized slice of the wind story, plus the WeatherPeriod that it covers.
+// Used by callers (e.g. wind_overview.cpp's convective cell sentence) that need to
+// interleave extra sentences at a specific point in time. The combined paragraph (output
+// of getWindStory) is equivalent to concatenating these parts in their original order.
+struct WindStoryPart
+{
+  WeatherPeriod period;
+  Paragraph paragraph;
+};
 
 class WindForecast
 {
@@ -105,6 +120,10 @@ class WindForecast
 
   ~WindForecast() = default;
   Paragraph getWindStory(const WeatherPeriod& thePeriod) const;
+
+  // Returns the wind story decomposed into per-sentence-info parts, each tagged with the
+  // sentence_info::period it was generated from. The order matches the wind story flow.
+  std::vector<WindStoryPart> getWindStoryParts(const WeatherPeriod& thePeriod) const;
 
  private:
   wo_story_params& theParameters;

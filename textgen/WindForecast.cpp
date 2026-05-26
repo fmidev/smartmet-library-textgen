@@ -3003,6 +3003,9 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
           !sentenceInfo.changeType.empty())
         continue;
 
+      pi.period = sentenceInfo.period;
+      piAfterLastInterval.period = sentenceInfo.period;
+
       pi.sentence << sentenceInfo.sentence;
       for (SentenceParameterType parameterType : sentenceInfo.sentenceParameterTypes)
       {
@@ -3050,15 +3053,10 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
   }
 }
 
-Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
+std::vector<WindStoryPart> WindForecast::getWindStoryParts(const WeatherPeriod& thePeriod) const
 {
   try
   {
-    Paragraph paragraph;
-    std::vector<Sentence> sentences;
-
-    WindDirectionInfo previouslyReportedWindDirection;
-
     theParameters.theLog << "*** WIND DIRECTION REPORTING PERIODS ***\n";
 
     for (const WeatherPeriod& period : theParameters.theWindDirectionPeriods)
@@ -3128,15 +3126,50 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
 
     checkWindDirections(sentenceInfoVector);
 
-    Paragraph newParagraph;
-    newParagraph << getParagraphInfo(thePeriod, sentenceInfoVector);
+    // Build the final ParagraphInfoVector and then group its entries by their originating
+    // sentence_info::period (which getParagraphInfo stamps onto each paragraph_info it emits).
+    // A single sentence_info can produce two paragraph_infos via the "piAfterLastInterval"
+    // split — both share the same period, so consecutive same-period entries are merged into
+    // one WindStoryPart.
+    ParagraphInfoVector paragraphInfo = getParagraphInfo(thePeriod, sentenceInfoVector);
 
-    /*
-    for(const Sentence & s : sentences)
-    paragraph << s;
-    */
-    paragraph << newParagraph;
+    std::vector<WindStoryPart> parts;
+    for (paragraph_info& pi : paragraphInfo)
+    {
+      const WeatherPeriod piPeriod = pi.period;  // save before the move
+      ParagraphInfoVector single;
+      single.push_back(std::move(pi));
 
+      if (!parts.empty() &&
+          parts.back().period.localStartTime() == piPeriod.localStartTime() &&
+          parts.back().period.localEndTime() == piPeriod.localEndTime())
+      {
+        // Continuation of the previous part (piAfterLastInterval split) — append.
+        parts.back().paragraph << single;
+      }
+      else
+      {
+        Paragraph part;
+        part << single;
+        parts.push_back({piPeriod, std::move(part)});
+      }
+    }
+
+    return parts;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+  }
+}
+
+Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
+{
+  try
+  {
+    Paragraph paragraph;
+    for (const WindStoryPart& part : getWindStoryParts(thePeriod))
+      paragraph << part.paragraph;
     return paragraph;
   }
   catch (...)

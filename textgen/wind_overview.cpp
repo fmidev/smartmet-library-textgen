@@ -4246,7 +4246,7 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
   }
 }
 
-// Emits a single follow-up sentence summarising ALL detected cells: the union period
+// Builds a single follow-up sentence summarising ALL detected cells: the union period
 // (earliest start to latest end), the strongest peak gust across cells, and a shared
 // dominant quadrant if every cell agrees on one (else undirected).
 //
@@ -4255,29 +4255,27 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
 // (a) when gusty conditions are expected and (b) the worst they get; the individual
 // per-cell breakdown is for the diagnostic log, not the surface text.
 //
-// Sentence shape is built from one of three template phrases keyed by which optional
-// qualifiers are present:
+// The intensity adjective is keyed off the MAX peak gust against MYRSKY_LOWER_LIMIT — if
+// any cell reaches myrsky-level, the whole summary uses "hyvin voimakkaita puuskia". The
+// hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is deliberately not split out yet — current
+// NWP rarely resolves downbursts at that level reliably.
 //
-//   - no time, no quadrant      → CONVECTIVE_CELL_PLAIN_PHRASE
-//   - time XOR quadrant         → CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE
-//   - both time AND quadrant    → CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE
+// Time qualifier: if `anchorTime` is true the caller is going to position the sentence
+// between wind sentences whose own time phrases already pin the time, so dropping the
+// time qualifier here avoids repeating "in the evening" three lines in a row. When the
+// caller cannot anchor (no wind sentences), the time qualifier stays in so the reader
+// still knows when the gust event is.
 //
-// Each template uses positional [N] placeholders so each language's msgstr can reorder
-// the pieces freely. Time qualifier comes from get_narrow_time_phrase(unionPeriod, ...);
-// quadrant only fires under theConvectiveCellStyle == "quadrant" AND every detected cell
-// shares the same dominant quadrant. The intensity adjective is keyed off the MAX peak
-// gust against MYRSKY_LOWER_LIMIT — if any cell reaches myrsky-level, the whole summary
-// uses "hyvin voimakkaita puuskia". The hirmumyrsky tier (>= HIRMUMYRSKY_LOWER_LIMIT) is
-// deliberately not split out yet — current NWP rarely resolves downbursts at that level
-// reliably.
-void append_convective_anomaly_sentences(const wo_story_params& storyParams,
+// Returns an empty paragraph if anomalies is empty.
+Paragraph build_collapsed_cell_paragraph(const wo_story_params& storyParams,
                                          const std::vector<ConvectiveCellAnomaly>& anomalies,
-                                         Paragraph& paragraph)
+                                         bool anchorTime)
 {
   try
   {
+    Paragraph paragraph;
     if (anomalies.empty())
-      return;
+      return paragraph;
 
     // Aggregate: union period, strongest cell, shared dominant quadrant.
     const ConvectiveCellAnomaly* strongest = &anomalies[0];
@@ -4303,15 +4301,19 @@ void append_convective_anomaly_sentences(const wo_story_params& storyParams,
                                         ? "hyvin voimakkaita puuskia"
                                         : "voimakkaita puuskia";
 
-    // Time-of-day phrase: try the union period first so a wide enough span gets the
-    // combined "illalla ja iltayolla" label. get_narrow_time_phrase only knows one- or
-    // two-part combinations, so when cells span three+ parts (e.g. evening + late-evening
-    // + around-midnight) the union returns empty — in that case pin the time to the
-    // strongest cell, since that is the most informative anchor for a single sentence.
-    part_of_the_day_id partOfDay;
-    std::string timePhrase = get_narrow_time_phrase(unionPeriod, storyParams.theVar, partOfDay);
-    if (timePhrase.empty())
-      timePhrase = get_narrow_time_phrase(strongest->period, storyParams.theVar, partOfDay);
+    // Time-of-day phrase: skip when the caller will anchor it between wind sentences
+    // (the surrounding wind text already supplies the time and a repeated "illalla" reads
+    // poorly). Otherwise try the union period first so a wide enough span gets the combined
+    // "illalla ja iltayolla" label; if that returns empty (union spans 3+ parts of day),
+    // pin to the strongest cell.
+    std::string timePhrase;
+    if (!anchorTime)
+    {
+      part_of_the_day_id partOfDay;
+      timePhrase = get_narrow_time_phrase(unionPeriod, storyParams.theVar, partOfDay);
+      if (timePhrase.empty())
+        timePhrase = get_narrow_time_phrase(strongest->period, storyParams.theVar, partOfDay);
+    }
 
     // Optional quadrant phrase, only when configured AND every cell agrees on one.
     std::string quadrantPhrase;
@@ -4341,11 +4343,23 @@ void append_convective_anomaly_sentences(const wo_story_params& storyParams,
     }
 
     paragraph << sentence;
+    return paragraph;
   }
   catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
+}
+
+// Returns the start time of the strongest cell, for positioning the collapsed cell
+// sentence between wind story parts.
+TextGenPosixTime strongest_cell_start_time(const std::vector<ConvectiveCellAnomaly>& anomalies)
+{
+  const ConvectiveCellAnomaly* strongest = &anomalies[0];
+  for (const auto& a : anomalies)
+    if (a.peakGustSpeed > strongest->peakGustSpeed)
+      strongest = &a;
+  return strongest->period.localStartTime();
 }
 
 void read_configuration_params(wo_story_params& storyParams)
@@ -4614,10 +4628,41 @@ Paragraph WindStory::overview() const
 #endif
       WindForecast windForecast(storyParams);
 
-      paragraph << windForecast.getWindStory(itsPeriod);
+      auto windParts = windForecast.getWindStoryParts(itsPeriod);
 
-      if (storyParams.theConvectiveCellReporting && !convectiveAnomalies.empty())
-        append_convective_anomaly_sentences(storyParams, convectiveAnomalies, paragraph);
+      const bool emitCell =
+          storyParams.theConvectiveCellReporting && !convectiveAnomalies.empty();
+
+      if (!emitCell)
+      {
+        for (const auto& part : windParts)
+          paragraph << part.paragraph;
+      }
+      else
+      {
+        // Position the collapsed cell sentence between wind sentences so the narrative is
+        // chronological. Drop the cell sentence's time qualifier when we have wind sentences
+        // to anchor against — the surrounding wind text already supplies the time and a
+        // repeated "in the evening" reads poorly.
+        const bool anchorTime = !windParts.empty();
+        Paragraph cellParagraph =
+            build_collapsed_cell_paragraph(storyParams, convectiveAnomalies, anchorTime);
+        const TextGenPosixTime cellAnchor = strongest_cell_start_time(convectiveAnomalies);
+
+        bool inserted = false;
+        for (const auto& part : windParts)
+        {
+          paragraph << part.paragraph;
+          if (!inserted && cellAnchor >= part.period.localStartTime() &&
+              cellAnchor < part.period.localEndTime())
+          {
+            paragraph << cellParagraph;
+            inserted = true;
+          }
+        }
+        if (!inserted)
+          paragraph << cellParagraph;
+      }
 
       std::size_t js_id = generateUniqueID();
 
