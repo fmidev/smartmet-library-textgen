@@ -843,6 +843,16 @@ void get_plain_wind_speed_interval(const WeatherPeriod& period,
 {
   try
   {
+    // Reset the contextual cap to the configured default before evaluating this period.
+    // The cap is per-period (lowered to 4 when this period's top wind is below the warning
+    // threshold). Without this reset the cap "stuck" across calls — e.g. evaluating the
+    // start of a long strengthening (top wind 9.9, below threshold) lowered the cap to 4
+    // for the rest of the run, which then narrowed the report at the strengthening's tail
+    // (top wind 14.6, well above threshold) from a sensible 7..15 down to 7..11. The fix:
+    // start each call from the configured maximum and only narrow it when this period
+    // itself warrants it.
+    theParameter.theContextualMaxIntervalSize = theParameter.theMaxIntervalSize;
+
     bool firstMatchProcessed(false);
 
     float minValue(lowerLimit);
