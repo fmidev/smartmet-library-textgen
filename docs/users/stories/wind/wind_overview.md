@@ -4,12 +4,13 @@
 > every wind product.
 >
 > **Owner:** `WindStory::overview()`.
-> **Implementation:** `textgen/wind_overview.cpp` (~3 959 LOC).
+> **Implementation:** `textgen/wind_overview.cpp` (~4 750 LOC).
 >
-> This page reflects the 2011–2016 specification. The older 2005 design
-> described a much simpler period-based algorithm; that design is gone.
-> The current implementation uses time-series smoothing and change-point
-> detection, as documented below.
+> This page reflects the 2011–2016 specification, extended in 2026 with
+> [local convective cell handling](#paikalliset-konvektiosolut-local-convective-cells).
+> The older 2005 design described a much simpler period-based algorithm;
+> that design is gone. The current implementation uses time-series
+> smoothing and change-point detection, as documented below.
 
 ## What it produces
 
@@ -133,6 +134,123 @@ A puuska (gust) phrase is emitted when:
 
 Example: if the range is "itätuulta 15…20 m/s" and the gust mean is
 26 m/s, the sentence becomes "puuskittaista itätuulta".
+
+## Paikalliset konvektiosolut (local convective cells)
+
+> **Status:** Added 2026. Off for surface text by default
+> (`convective_cell_reporting` is `false`); detection and data cleaning
+> still run.
+
+### The problem
+
+High-resolution NWP models (e.g. the 2.5 km HARMONIE) resolve
+short-lived, spatially confined convective cells. Their signature is in
+the **gust** diagnostic (`HourlyMaximumGust` / `GustSpeed`), not in the
+base wind speed — at that resolution the model's `MaximumWind` plateau
+typically sits several m/s below the gust. These cells are **not**
+synoptic storms, but the plain wind-overview pipeline treated every
+elevated grid point as part of the area-wide wind statistics. A single
+one-hour cell over a small patch could therefore drag the whole region's
+reported peak wind upward and make the text read like a region-wide
+storm was on the way.
+
+The goal is twofold: keep the regular wind narrative free of transient
+convective influence, while still being able to tell the reader
+"locally gusty, worst around N m/s".
+
+### The approach
+
+Rather than special-casing convection inside the forecast and
+change-point code, the story **cleans the raw data first** and then lets
+the normal machinery run unchanged. The pipeline runs on the raw
+per-hour time series, after [raw data](#1-raw-data) is read but
+**before** [time-series smoothing](#2-time-series-smoothing) and event
+detection:
+
+```
+detect → remove → quadrant → (smooth + equalize + detect events) → report
+```
+
+### The steps
+
+1. **Detect.** Walk the gust distribution hour by hour. An hour is
+   flagged when the share of the area with gusts above
+   `convective_cell_cutoff` is positive but *small* — strictly between
+   `convective_cell_min_area_fraction` and
+   `convective_cell_max_area_fraction`. The "small fraction" test is
+   what separates a local cell from a region-wide blow. Contiguous
+   flagged hours form a candidate period; runs **shorter** than
+   `convective_cell_max_duration` hours are kept as cells, while longer
+   runs are assumed synoptic and left untouched. The peak gust over the
+   period (before removal) is recorded for the report sentence. Every
+   candidate hour and run is written to the diagnostic log with its
+   share and the keep/reject decision, so the thresholds can be tuned
+   from data.
+
+2. **Remove.** For each flagged hour the base-wind area statistics
+   (Top / Max / Mean / Median wind speed) are re-analysed with an upper
+   limit at the cutoff, excluding the elevated grid points. The tails of
+   all three per-hour histograms (base wind, top wind, gust) are
+   truncated **and renormalized** so each distribution still sums to
+   100 % of the remaining "non-cell" area. The renormalization matters:
+   bare truncation would leave the distribution short of 100 %, silently
+   breaking the downstream coverage walk that looks for the
+   `wind_speed_top_coverage` threshold (it would never cross the
+   threshold and would emit a bogus peak of 0). The filter is by base
+   wind speed, which *correlates* with the gust footprint without
+   matching it exactly — this is a deliberate heuristic, since the only
+   aim is to keep transient convection out of the regional text.
+
+3. **Quadrant.** Re-run the peak `MaximumWind` over each of the
+   Northern / Southern / Eastern / Western quarters for the cell period.
+   If one quarter's peak clearly beats the others (by at least 1.0 m/s)
+   the cell is tagged with that quarter; otherwise it is treated as
+   moving / ambiguous and stays undirected. Only used when
+   `convective_cell_style` is `quadrant`.
+
+4. **Smooth, equalize, detect events as usual.** The standard
+   smoothing, equalization and change-point phases now run on the
+   cleaned base-wind data — there is no convection-specific code in the
+   forecast path.
+
+5. **Report.** When `convective_cell_reporting` is on and at least one
+   cell was found, **all** cells are collapsed into a single follow-up
+   sentence: the union time span, the strongest peak gust across cells,
+   and a shared quarter only if every cell agrees on one. Per-cell
+   sentences were rejected as too noisy — consecutive cells produced a
+   wall of near-identical lines, and readers care about *when* gusty
+   conditions are expected and *the worst they get*, not the per-cell
+   breakdown (that stays in the log). The intensity adjective is keyed
+   off the **max** peak gust: ≥ 20.5 m/s (myrsky tier) →
+   "hyvin voimakkaita puuskia", otherwise "voimakkaita puuskia". The
+   hirmumyrsky / downburst tier (≥ 32.5 m/s) is deliberately not split
+   out — current NWP rarely resolves it reliably. The sentence is placed
+   **chronologically** between the wind sentences (anchored on the
+   strongest cell's start time), and its time-of-day qualifier is
+   dropped when surrounding wind text already pins the time, to avoid
+   repeating e.g. "illalla" on consecutive lines.
+
+Examples:
+
+* "Illalla paikoin voimakkaita puuskia, kovimmillaan 18 m/s."
+* "Iltapäivällä eteläosissa paikoin hyvin voimakkaita puuskia,
+  kovimmillaan 23 m/s." (`convective_cell_style = quadrant`, all cells
+  agree on the southern quarter)
+
+### Configuration parameters
+
+These live under `textgen::[section]::story::wind_overview::*` like the
+rest. Setting both `convective_cell_max_duration` and
+`convective_cell_max_area_fraction` to ≤ 0 disables detection entirely.
+
+| Parameter | Default | Meaning |
+| --- | --- | --- |
+| `convective_cell_cutoff` | 13.5 m/s (`KOVA_LOWER_LIMIT`) | Gust speed above which grid points count as "cell". Also the upper limit of the base-wind removal filter. |
+| `convective_cell_min_area_fraction` | 0 % | Lower bound on the gusty-area share for an hour to be a candidate. 0 means "some grid points above the cutoff"; raising it tends to break runs at the troughs between discrete cells. |
+| `convective_cell_max_area_fraction` | 10 % | Upper bound on the gusty-area share for an hour to count as a *local* cell. ≤ 0 disables the spatial cap (any positive share above the minimum qualifies). |
+| `convective_cell_max_duration` | 3 h | Maximum length of a flagged run still treated as a cell; longer runs are assumed synoptic and left alone. |
+| `convective_cell_reporting` | `false` | Whether to emit the follow-up sentence at all. When off, cells are still detected and removed from the statistics — this only controls the surface text. |
+| `convective_cell_style` | `sentence` | `sentence` for the plain phrasing, or `quadrant` to add the N/S/E/W direction phrase when all cells agree on a quarter. |
 
 ## Wind direction
 
@@ -366,6 +484,9 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `max_error_wind_speed` | 2.0 | Smoothing tolerance for the speed time series (small = smooth lightly, large = smooth aggressively) |
 | `max_error_wind_direction` | 10.0 | Smoothing tolerance for the direction time series |
 | `gusty_wind_max_wind_difference` | 5.0 | Minimum difference (gust mean − range upper bound) that triggers the "puuskittaista" phrase |
+
+The `convective_cell_*` parameters are documented in
+[Paikalliset konvektiosolut](#paikalliset-konvektiosolut-local-convective-cells).
 
 ## See also
 
