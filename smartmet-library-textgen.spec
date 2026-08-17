@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 26.8.17
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Aug 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.8.17-2.fmi
+- Fixed a memory leak in merge_missing_wind_speed_event_periods2: event periods replaced by merged or re-examined ones were dropped from the vector without being deleted, and deallocate_data_structures only frees what is left in it (1.3 kB per wind story area in the new test case)
+- Removed the unused merge_missing_wind_speed_event_periods and its helpers; the live code path is merge_missing_wind_speed_event_periods2
+- Added test/WindEventPeriodMergeTest.cpp covering the event period merge pass and its ownership contract
+
 * Mon Aug 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.8.17-1.fmi
 - Fixed spurious 'edelleen' ('continues to strengthen/weaken') in wind stories: WindEventPeriodDataItem::theSuccessiveEventFlag was read uninitialized, so the phrase appeared at random and replaced the correct 'vähitellen'/'nopeasti' qualifier even when the wind had previously been weakening
 - The successive-event flag is now recomputed on every remove_short_missing_periods pass instead of accumulating stale decisions, and is propagated when event periods are merged or split, so 'edelleen' reflects the final event sequence

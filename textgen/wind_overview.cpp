@@ -2466,27 +2466,6 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
   }
 }
 
-void get_calculated_max_min(const wo_story_params& storyParams,
-                            const WindEventPeriodDataItem& dataItem,
-                            float& max,
-                            float& min)
-{
-  try
-  {
-    float begSpeed = calculate_weighted_wind_speed(storyParams, dataItem.thePeriodBeginDataItem);
-    float endSpeed = calculate_weighted_wind_speed(storyParams, dataItem.thePeriodEndDataItem);
-
-    max = std::max(begSpeed, max);
-    max = std::max(endSpeed, max);
-    min = std::min(begSpeed, min);
-    min = std::min(endSpeed, min);
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
 // iterate merged event periods and remove short (<= 6h) missing period if it is between
 // strenghtening/weakening period
 wind_event_period_data_item_vector remove_short_missing_periods(
@@ -2734,11 +2713,34 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
   }
 }
 
+// The passes below replace merged event periods with new items. deallocate_data_structures only
+// frees what is left in theWindSpeedEventPeriodVector, so an item that no longer appears in a
+// pass's result is owned by nobody and has to be deleted here.
+void delete_dropped_event_periods(const wind_event_period_data_item_vector& before,
+                                  const wind_event_period_data_item_vector& after)
+{
+  try
+  {
+    for (auto* item : before)
+      if (item && std::find(after.begin(), after.end(), item) == after.end())
+        delete item;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed");
+  }
+}
+
 void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
 {
   try
   {
     wind_event_period_data_item_vector mergedEventPeriods;
+
+    // step 1 replaces merged periods with new items, so keep the incoming ones around to see
+    // which of them get dropped
+    const wind_event_period_data_item_vector originalEventPeriods =
+        storyParams.theWindSpeedEventPeriodVector;
 
     // 1) merge all successive missing periods
     for (unsigned int i = 0; i < storyParams.theWindSpeedEventPeriodVector.size(); i++)
@@ -2784,9 +2786,16 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
       i = lastMissingIndex;
     }
 
+    // cleared before anything is deleted so no dangling pointer is left behind; it is repopulated
+    // from the final result at the end
+    storyParams.theWindSpeedEventPeriodVector.clear();
+    delete_dropped_event_periods(originalEventPeriods, mergedEventPeriods);
+
     // iterate merged event periods and remove short (<= 6h) missing period if it is between
     // strenghtening/weakening period
-    mergedEventPeriods = remove_short_missing_periods(storyParams, mergedEventPeriods);
+    const wind_event_period_data_item_vector beforeMergedCleanup = mergedEventPeriods;
+    mergedEventPeriods = remove_short_missing_periods(storyParams, beforeMergedCleanup);
+    delete_dropped_event_periods(beforeMergedCleanup, mergedEventPeriods);
 
     wind_event_period_data_item_vector cleanedEventPeriods;
 
@@ -2806,7 +2815,12 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
           examine_merged_missing_event_period(storyParams, *mergedEventPeriod);
 
       if (!retVector.empty())
+      {
+        // the sub-periods replace the merged missing period, which nothing owns any more
         cleanedEventPeriods.insert(cleanedEventPeriods.end(), retVector.begin(), retVector.end());
+        delete mergedEventPeriod;
+        mergedEventPeriod = nullptr;
+      }
       else
         cleanedEventPeriods.push_back(mergedEventPeriod);
     }
@@ -2837,306 +2851,15 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
 
     // iterate merged event periods and remove short (<= 6h) missing period if it is between
     // strenghtening/weakening period
-    cleanedEventPeriods = remove_short_missing_periods(storyParams, cleanedEventPeriods);
-
-    storyParams.theWindSpeedEventPeriodVector.clear();
+    const wind_event_period_data_item_vector beforeFinalCleanup = cleanedEventPeriods;
+    cleanedEventPeriods = remove_short_missing_periods(storyParams, beforeFinalCleanup);
+    delete_dropped_event_periods(beforeFinalCleanup, cleanedEventPeriods);
 
     for (WindEventPeriodDataItem* eventPeriod : cleanedEventPeriods)
     {
       if (eventPeriod)
         storyParams.theWindSpeedEventPeriodVector.push_back(eventPeriod);
     }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-namespace
-{
-// Append merged events for a run of consecutive MISSING items.
-// even if wind speed strengthens/weakens on merged period, there can be MISSING period in the beg.
-void append_missing_merge_events(wo_story_params& storyParams,
-                                 wind_event_period_data_item_vector& result,
-                                 WindEventPeriodDataItem* firstItem,
-                                 WindEventPeriodDataItem* lastItem,
-                                 WindEventPeriodDataItem* maxSpeedDataItem,
-                                 WindEventPeriodDataItem* nextDataItemAfterMax,
-                                 WindEventPeriodDataItem* minSpeedDataItem,
-                                 WindEventPeriodDataItem* nextDataItemAfterMin)
-{
-  try
-  {
-    WeatherPeriod newPeriod(firstItem->thePeriod.localStartTime(),
-                            lastItem->thePeriod.localEndTime());
-    float begSpeed = calculate_weighted_wind_speed(storyParams, firstItem->thePeriodBeginDataItem);
-    float endSpeed = calculate_weighted_wind_speed(storyParams, lastItem->thePeriodEndDataItem);
-    WindEventId newWindEvent =
-        get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
-
-    bool modifyPeriod = (newWindEvent == TUULI_HEIKKENEE && maxSpeedDataItem != lastItem) ||
-                        (newWindEvent == TUULI_VOIMISTUU && minSpeedDataItem != lastItem);
-
-    if (modifyPeriod)
-    {
-      bool tuuliHeikkenee = (newWindEvent == TUULI_HEIKKENEE);
-      WindEventPeriodDataItem* splitItem = tuuliHeikkenee ? minSpeedDataItem : maxSpeedDataItem;
-      newPeriod = WeatherPeriod(firstItem->thePeriod.localStartTime(),
-                                splitItem->thePeriod.localEndTime());
-      endSpeed = calculate_weighted_wind_speed(storyParams, splitItem->thePeriodEndDataItem);
-      newWindEvent = get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
-      result.push_back(new WindEventPeriodDataItem(newPeriod,
-                                                   newWindEvent,
-                                                   firstItem->thePeriodBeginDataItem,
-                                                   splitItem->thePeriodEndDataItem));
-
-      if (nextDataItemAfterMin &&
-          nextDataItemAfterMin->thePeriod.localStartTime() < newPeriod.localEndTime())
-        nextDataItemAfterMin = nullptr;
-      if (nextDataItemAfterMax &&
-          nextDataItemAfterMax->thePeriod.localStartTime() < newPeriod.localEndTime())
-        nextDataItemAfterMax = nullptr;
-
-      WindEventPeriodDataItem* tailItem =
-          tuuliHeikkenee ? nextDataItemAfterMin : nextDataItemAfterMax;
-      if (tailItem)
-      {
-        WeatherPeriod tailPeriod(tailItem->thePeriod.localStartTime(),
-                                 lastItem->thePeriod.localEndTime());
-        float tb = calculate_weighted_wind_speed(storyParams, tailItem->thePeriodBeginDataItem);
-        float te = calculate_weighted_wind_speed(storyParams, lastItem->thePeriodEndDataItem);
-        WindEventId tailEvent = get_wind_speed_event(tb, te, storyParams.theWindSpeedThreshold);
-        result.push_back(new WindEventPeriodDataItem(tailPeriod,
-                                                     tailEvent,
-                                                     tailItem->thePeriodBeginDataItem,
-                                                     lastItem->thePeriodEndDataItem));
-      }
-    }
-    else
-    {
-      result.push_back(new WindEventPeriodDataItem(newPeriod,
-                                                   newWindEvent,
-                                                   firstItem->thePeriodBeginDataItem,
-                                                   lastItem->thePeriodEndDataItem));
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-struct MissingRunInfo
-{
-  WindEventPeriodDataItem* lastMissing = nullptr;
-  WindEventPeriodDataItem* maxItem = nullptr;
-  WindEventPeriodDataItem* nextAfterMax = nullptr;
-  WindEventPeriodDataItem* minItem = nullptr;
-  WindEventPeriodDataItem* nextAfterMin = nullptr;
-  float prevMax = 0;
-  float prevMin = 0;
-};
-
-MissingRunInfo scan_missing_run(const wind_event_period_data_item_vector& epv,
-                                wo_story_params& storyParams,
-                                unsigned int& i,
-                                float initMax,
-                                float initMin)
-{
-  try
-  {
-    MissingRunInfo info;
-    info.prevMax = initMax;
-    info.prevMin = initMin;
-    info.maxItem = epv[i];
-    info.minItem = epv[i];
-    info.nextAfterMax = (i + 1 < epv.size() ? epv[i + 1] : nullptr);
-    info.nextAfterMin = info.nextAfterMax;
-    size_t n = epv.size();
-    for (unsigned int k = i + 1; k < n; k++)
-    {
-      if (epv[k]->theWindEvent != MISSING_WIND_SPEED_EVENT)
-        break;
-      info.lastMissing = epv[k];
-      i = k;
-      float mx = info.prevMax, mn = info.prevMin;
-      get_calculated_max_min(storyParams, *info.lastMissing, mx, mn);
-      if (mx > info.prevMax)
-      {
-        info.prevMax = mx;
-        info.maxItem = info.lastMissing;
-        info.nextAfterMax = (k + 1 < n ? epv[k + 1] : nullptr);
-      }
-      if (mn < info.prevMin)
-      {
-        info.prevMin = mn;
-        info.minItem = info.lastMissing;
-        info.nextAfterMin = (k + 1 < n ? epv[k + 1] : nullptr);
-      }
-    }
-    return info;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-wind_event_period_data_item_vector merge_missing_first_pass(wo_story_params& storyParams)
-{
-  try
-  {
-    wind_event_period_data_item_vector result;
-    const auto& epv = storyParams.theWindSpeedEventPeriodVector;
-    size_t n = epv.size();
-
-    for (unsigned int i = 0; i < n; i++)
-    {
-      auto* current = epv[i];
-      if (current->theWindEvent != MISSING_WIND_SPEED_EVENT)
-      {
-        result.push_back(current);
-        continue;
-      }
-
-      float prevMax = -kFloatMissing;
-      float prevMin = kFloatMissing;
-      get_calculated_max_min(storyParams, *current, prevMax, prevMin);
-
-      auto info = scan_missing_run(epv, storyParams, i, prevMax, prevMin);
-
-      if (!info.lastMissing)
-      {
-        result.push_back(current);
-        continue;
-      }
-
-      append_missing_merge_events(storyParams,
-                                  result,
-                                  current,
-                                  info.lastMissing,
-                                  info.maxItem,
-                                  info.nextAfterMax,
-                                  info.minItem,
-                                  info.nextAfterMin);
-    }
-    return result;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-wind_event_period_data_item_vector split_missing_periods_pass(
-    wo_story_params& storyParams, const wind_event_period_data_item_vector& cleaned)
-{
-  try
-  {
-    wind_event_period_data_item_vector result;
-    WeatherArea::Type areaType(storyParams.theArea.type());
-
-    for (WindEventPeriodDataItem* p : cleaned)
-    {
-      if (p->theWindEvent != MISSING_WIND_SPEED_EVENT)
-      {
-        result.push_back(p);
-        continue;
-      }
-
-      bool split = false;
-      float endSpeed = calculate_weighted_wind_speed(storyParams, p->thePeriodEndDataItem);
-
-      for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
-      {
-        const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
-        if (dataItem.thePeriod.localStartTime() <= p->thePeriod.localStartTime() ||
-            dataItem.thePeriod.localStartTime() >= p->thePeriod.localEndTime())
-          continue;
-        float begSpeed = calculate_weighted_wind_speed(storyParams, dataItem);
-        WindEventId newEvent =
-            get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
-        if (newEvent == MISSING_WIND_SPEED_EVENT)
-          continue;
-        // split missing period into two
-        WeatherPeriod p1(p->thePeriod.localStartTime(), dataItem.thePeriod.localStartTime());
-        WeatherPeriod p2(dataItem.thePeriod.localStartTime(), p->thePeriod.localEndTime());
-        auto* item1 =
-            new WindEventPeriodDataItem(p1, p->theWindEvent, p->thePeriodBeginDataItem, dataItem);
-        item1->theSuccessiveEventFlag = p->theSuccessiveEventFlag;
-        result.push_back(item1);
-        // p2 carries a newly detected event, so it starts out as a non-continuation and the
-        // following remove_short_missing_periods pass decides whether it continues an earlier one
-        result.push_back(
-            new WindEventPeriodDataItem(p2, newEvent, dataItem, p->thePeriodEndDataItem));
-        split = true;
-        storyParams.theLog << "Missing wind speed event period " << as_string(p->thePeriod)
-                           << " split into two:\n"
-                           << as_string(p1) << " -> " << get_wind_event_string(p->theWindEvent)
-                           << " and " << as_string(p2) << " -> " << get_wind_event_string(newEvent)
-                           << '\n';
-        break;
-      }
-
-      if (!split)
-        result.push_back(p);
-    }
-    return result;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-void merge_consecutive_same_events(wind_event_period_data_item_vector& v)
-{
-  try
-  {
-    for (size_t i = v.size() - 1; i > 0; i--)
-    {
-      auto* prev = v[i - 1];
-      auto* curr = v[i];
-      if (curr->theWindEvent != prev->theWindEvent)
-        continue;
-      auto* merged = new WindEventPeriodDataItem(
-          WeatherPeriod(prev->thePeriod.localStartTime(), curr->thePeriod.localEndTime()),
-          prev->theWindEvent,
-          prev->thePeriodBeginDataItem,
-          curr->thePeriodEndDataItem);
-      merged->theSuccessiveEventFlag = prev->theSuccessiveEventFlag;
-      v[i - 1] = merged;
-      delete v[i];
-      v[i] = nullptr;
-      delete prev;
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-}  // namespace
-
-void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
-{
-  try
-  {
-    auto merged = merge_missing_first_pass(storyParams);
-    auto cleaned = remove_short_missing_periods(storyParams, merged);
-    merged.clear();
-
-    auto split = split_missing_periods_pass(storyParams, cleaned);
-    cleaned = remove_short_missing_periods(storyParams, split);
-
-    // in the end merge successive strengthening/weakening periods if there are any
-    merge_consecutive_same_events(cleaned);
-
-    storyParams.theWindSpeedEventPeriodVector.clear();
-    for (WindEventPeriodDataItem* ep : cleaned)
-      if (ep)
-        storyParams.theWindSpeedEventPeriodVector.push_back(ep);
   }
   catch (...)
   {
