@@ -2494,6 +2494,13 @@ wind_event_period_data_item_vector remove_short_missing_periods(
 {
   try
   {
+    // The flag is recomputed from scratch on every pass: intervening passes may have split a long
+    // MISSING period into real events, or merged periods together, which invalidates what an
+    // earlier pass concluded. A stale flag would produce a bogus 'edelleen' phrase.
+    for (WindEventPeriodDataItem* item : eventPeriodVector)
+      if (item)
+        item->theSuccessiveEventFlag = false;
+
     if (eventPeriodVector.size() <= 2)
       return eventPeriodVector;
 
@@ -2538,12 +2545,17 @@ wind_event_period_data_item_vector remove_short_missing_periods(
                                                           newWindEvent,
                                                           currentDataItem->thePeriodBeginDataItem,
                                                           afterNextDataItem->thePeriodEndDataItem);
+          // the merged period starts where currentDataItem started, so it continues whatever
+          // currentDataItem continued
+          newDataItem->theSuccessiveEventFlag = currentDataItem->theSuccessiveEventFlag;
           cleanedEventPeriods.push_back(newDataItem);
           i += 2;
         }
         else
         {
-          afterNextDataItem->theSuccessiveEventFlag = true;
+          // only a real strenghtening/weakening period can continue an earlier one
+          if (currentDataItem->theWindEvent != MISSING_WIND_SPEED_EVENT)
+            afterNextDataItem->theSuccessiveEventFlag = true;
           cleanedEventPeriods.push_back(currentDataItem);
         }
       }
@@ -2815,6 +2827,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
                                         prevItem->theWindEvent,
                                         prevItem->thePeriodBeginDataItem,
                                         currentItem->thePeriodEndDataItem);
+        newWindEventPeriodDataItem->theSuccessiveEventFlag = prevItem->theSuccessiveEventFlag;
         delete cleanedEventPeriods[i];
         cleanedEventPeriods[i] = nullptr;
         delete cleanedEventPeriods[i - 1];
@@ -3049,8 +3062,12 @@ wind_event_period_data_item_vector split_missing_periods_pass(
         // split missing period into two
         WeatherPeriod p1(p->thePeriod.localStartTime(), dataItem.thePeriod.localStartTime());
         WeatherPeriod p2(dataItem.thePeriod.localStartTime(), p->thePeriod.localEndTime());
-        result.push_back(
-            new WindEventPeriodDataItem(p1, p->theWindEvent, p->thePeriodBeginDataItem, dataItem));
+        auto* item1 =
+            new WindEventPeriodDataItem(p1, p->theWindEvent, p->thePeriodBeginDataItem, dataItem);
+        item1->theSuccessiveEventFlag = p->theSuccessiveEventFlag;
+        result.push_back(item1);
+        // p2 carries a newly detected event, so it starts out as a non-continuation and the
+        // following remove_short_missing_periods pass decides whether it continues an earlier one
         result.push_back(
             new WindEventPeriodDataItem(p2, newEvent, dataItem, p->thePeriodEndDataItem));
         split = true;
@@ -3083,11 +3100,13 @@ void merge_consecutive_same_events(wind_event_period_data_item_vector& v)
       auto* curr = v[i];
       if (curr->theWindEvent != prev->theWindEvent)
         continue;
-      v[i - 1] = new WindEventPeriodDataItem(
+      auto* merged = new WindEventPeriodDataItem(
           WeatherPeriod(prev->thePeriod.localStartTime(), curr->thePeriod.localEndTime()),
           prev->theWindEvent,
           prev->thePeriodBeginDataItem,
           curr->thePeriodEndDataItem);
+      merged->theSuccessiveEventFlag = prev->theSuccessiveEventFlag;
+      v[i - 1] = merged;
       delete v[i];
       v[i] = nullptr;
       delete prev;
@@ -3183,6 +3202,7 @@ void check_first_period(wo_story_params& storyParams)
                                                      firstSpeedDataItem->theWindEvent,
                                                      *afterLastDataItem,
                                                      firstSpeedDataItem->thePeriodEndDataItem);
+          newDataItem2->theSuccessiveEventFlag = firstSpeedDataItem->theSuccessiveEventFlag;
         }
 
         delete firstSpeedDataItem;

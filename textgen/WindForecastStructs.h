@@ -305,7 +305,7 @@ struct WindEventPeriodDataItem
   WindEventId theWindEvent;
   const WindDataItemUnit& thePeriodBeginDataItem;
   const WindDataItemUnit& thePeriodEndDataItem;
-  bool theSuccessiveEventFlag;  // if there is a long MISSING_WIND_EVENT period between two
+  bool theSuccessiveEventFlag = false;  // if there is a long MISSING_WIND_EVENT period between two
   // strenghtening/weakening period, theSuccessiveEventFlag is set true to the latter
   // strenghtening/weakening period, so that we can use phrase 'voimistuu/heikkenee edelleen'
 };

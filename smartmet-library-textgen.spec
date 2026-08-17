@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.5.25
+Version: 26.8.17
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -112,6 +112,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Aug 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.8.17-1.fmi
+- Fixed spurious 'edelleen' ('continues to strengthen/weaken') in wind stories: WindEventPeriodDataItem::theSuccessiveEventFlag was read uninitialized, so the phrase appeared at random and replaced the correct 'vähitellen'/'nopeasti' qualifier even when the wind had previously been weakening
+- The successive-event flag is now recomputed on every remove_short_missing_periods pass instead of accumulating stale decisions, and is propagated when event periods are merged or split, so 'edelleen' reflects the final event sequence
+- Added test/WindSuccessiveEventTest.cpp covering the successive-event flag (wind_overview itself is still untested)
+
 * Mon May 25 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.5.25-1.fmi
 - Restored Latvian language support: added po/lv.po (2146 translated entries)
 - Renamed convective_storm_* configuration keys and types to convective_cell_* (the detector flags local cells, not storms)
