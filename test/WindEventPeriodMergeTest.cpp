@@ -48,12 +48,12 @@ namespace WindEventPeriodMergeTest
 {
 const string var = "merge";
 
-TextGenPosixTime at(int hour)
+TextGenPosixTime at(short hour)
 {
   return {2026, 7, 23, hour, 0, 0};
 }
 
-WeatherPeriod hours(int beginHour, int endHour)
+WeatherPeriod hours(short beginHour, short endHour)
 {
   return {at(beginHour), at(endHour)};
 }
