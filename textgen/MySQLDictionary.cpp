@@ -15,8 +15,8 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include <mysql++/mysql++.h>
 #include <mysql++/mystring.h>
+#include <mysql++/mysql++.h>
 
 using namespace std;
 
