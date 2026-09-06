@@ -70,6 +70,9 @@ struct wo_story_params
   double theWindCalcTopShare = 80;
   double theWindCalcTopShareWeak = 80;
   double theWindSpeedTopCoverage = 98;
+  // Intermediate speed intervals inside one strengthening/weakening sentence are reported only
+  // if the top wind at that point is at least this limit (m/s); 0 disables the rule
+  double theIntermediateReportLimit = 0;
   double theGustyWindTopWindDifference = 5;
   std::string theRangeSeparator = "-";
   int theMinIntervalSize = 2;

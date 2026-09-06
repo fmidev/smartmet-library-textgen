@@ -3585,6 +3585,30 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
       }
       endIndex = i;
     }
+
+    // Optionally drop intermediate reporting points where the wind is below the configured
+    // limit. The start of the story (case A) and the last point of the event are always kept,
+    // so the end result of the change is still reported.
+    if (theParameters.theIntermediateReportLimit > 0.0 && reportingIndexes.size() > 1)
+    {
+      std::vector<unsigned int> kept;
+      for (unsigned int k = 0; k < reportingIndexes.size(); k++)
+      {
+        const bool isStart = (k == 0 && firstSentenceInTheStory);
+        const bool isLast = (k == reportingIndexes.size() - 1);
+        const WindDataItemUnit& item =
+            (*theParameters.theWindDataVector[reportingIndexes[k]])(theParameters.theArea.type());
+        if (isStart || isLast ||
+            item.theEqualizedTopWind.value() >= theParameters.theIntermediateReportLimit)
+          kept.push_back(reportingIndexes[k]);
+        else
+          theParameters.theLog << "Skipping intermediate wind speed report at "
+                               << as_string(item.thePeriod) << " (top wind "
+                               << item.theEqualizedTopWind.value() << " < "
+                               << theParameters.theIntermediateReportLimit << ")\n";
+      }
+      reportingIndexes = kept;
+    }
     return reportingIndexes;
   }
   catch (...)

@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.8.17
-Release: 2%{?dist}.fmi
+Version: 26.9.6
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sun Sep  6 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.6-1.fmi
+- wind_overview: added optional setting wind_speed_intermediate_report_limit (m/s, default 0 = unchanged behaviour). When set, intermediate wind speed intervals inside a strengthening/weakening sentence are reported only where the top wind reaches the limit; the start of the story and the end of each change are always reported. Lets marine texts drop e.g. "aamuyöllä 3-7 m/s" between "illasta alkaen heikkenevää tuulta" and "aamulla 1-4 m/s"
+
 * Mon Aug 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.8.17-2.fmi
 - Fixed a memory leak in merge_missing_wind_speed_event_periods2: event periods replaced by merged or re-examined ones were dropped from the vector without being deleted, and deallocate_data_structures only frees what is left in it (1.3 kB per wind story area in the new test case)
 - Removed the unused merge_missing_wind_speed_event_periods and its helpers; the live code path is merge_missing_wind_speed_event_periods2
