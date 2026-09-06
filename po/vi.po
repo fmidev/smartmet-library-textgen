@@ -6480,3 +6480,16 @@ msgstr "[1] một số nơi [2], lên đến [3] [4]"
 
 msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
 msgstr "[1] [2] một số nơi [3], lên đến [4] [5]"
+
+# wind_sea_overview: clockwise (veering) and counterclockwise (backing) turns
+msgid "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]"
+msgstr "gió xoay theo chiều kim đồng hồ [2] [1]"
+
+msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
+msgstr "gió xoay ngược chiều kim đồng hồ [2] [1]"
+
+msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
+msgstr "[2] xoay theo chiều kim đồng hồ [1]"
+
+msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
+msgstr "[2] xoay ngược chiều kim đồng hồ [1]"

@@ -71,6 +71,8 @@ bool WindStory::hasStory(const string& theName)
   {
     if (theName == "wind_overview")
       return true;
+    if (theName == "wind_sea_overview")
+      return true;
     if (theName == "wind_simple_overview")
       return true;
     if (theName == "wind_daily_ranges")
@@ -105,6 +107,8 @@ Paragraph WindStory::makeStory(const string& theName) const
   {
     if (theName == "wind_overview")
       return overview();
+    if (theName == "wind_sea_overview")
+      return sea_overview();
     if (theName == "wind_simple_overview")
       return simple_overview();
     if (theName == "wind_daily_ranges")

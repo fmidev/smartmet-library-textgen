@@ -6480,3 +6480,16 @@ msgstr "[1] lokalt [2], op til [3] [4]"
 
 msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
 msgstr "[1] [2] lokalt [3], op til [4] [5]"
+
+# wind_sea_overview: clockwise (veering) and counterclockwise (backing) turns
+msgid "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]"
+msgstr "[1] drejer vinden med uret [2]"
+
+msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
+msgstr "[1] drejer vinden mod uret [2]"
+
+msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] med uret drejende [2]"
+
+msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] mod uret drejende [2]"

@@ -512,6 +512,8 @@ The `convective_cell_*` parameters are documented in
 
 ## See also
 
+* [`wind_sea_overview`](wind_sea_overview.md) — open-sea variant built on the
+  area mean wind, without the top wind statistic
 * [`wind_anomaly`](wind_anomaly.md) — wind relative to climatology
 * [`wind_daily_ranges`](wind_daily_ranges.md) — per-day summary (Legacy)
 * [`wind_range`](wind_range.md) — single-sentence range (Trivial)

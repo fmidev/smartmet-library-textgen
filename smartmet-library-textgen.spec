@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 26.9.6
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sun Sep  6 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.6-2.fmi
+- Added story wind_sea_overview for open-sea areas: change detection on the time smoothed area mean wind, ranges from spatial percentiles around the mean, vector mean direction, optional gust sentence. No "top wind" statistic is used
+- Added veering/backing turn phrases (turn_phrases = veering_backing) with translations in all dictionaries; non fi/sv/en translations await native review
+- Fixed lv.po: 117 phrases had unconverted named placeholders instead of [1]...[N]
+- Added test/WindSeaOverviewTest.cpp and docs/users/stories/wind/wind_sea_overview.md
+
 * Sun Sep  6 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.6-1.fmi
 - wind_overview: added optional setting wind_speed_intermediate_report_limit (m/s, default 0 = unchanged behaviour). When set, intermediate wind speed intervals inside a strengthening/weakening sentence are reported only where the top wind reaches the limit; the start of the story and the end of each change are always reported. Lets marine texts drop e.g. "aamuyöllä 3-7 m/s" between "illasta alkaen heikkenevää tuulta" and "aamulla 1-4 m/s"
 

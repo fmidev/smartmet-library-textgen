@@ -6483,3 +6483,16 @@ msgstr "[1] 일부 지역에서 [2], 최대 [3] [4]"
 
 msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
 msgstr "[1] [2] 일부 지역에서 [3], 최대 [4] [5]"
+
+# wind_sea_overview: clockwise (veering) and counterclockwise (backing) turns
+msgid "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]"
+msgstr "[1] 바람이 시계 방향으로 [2]으로 바뀜"
+
+msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
+msgstr "[1] 바람이 시계 반대 방향으로 [2]으로 바뀜"
+
+msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] 시계 방향으로 바뀌는 [2]"
+
+msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] 시계 반대 방향으로 바뀌는 [2]"

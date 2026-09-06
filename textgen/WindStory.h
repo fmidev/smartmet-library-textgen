@@ -43,6 +43,7 @@ class WindStory : public Story
 
   Paragraph simple_overview() const;
   Paragraph overview() const;
+  Paragraph sea_overview() const;
   Paragraph daily_ranges() const;
   Paragraph range() const;
   Paragraph anomaly() const;

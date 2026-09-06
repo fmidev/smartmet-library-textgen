@@ -30,6 +30,7 @@ documentation pass).
 
 | Story | Status | LOC | Notes |
 | --- | --- | --- | --- |
+| [`wind_sea_overview`](wind/wind_sea_overview.md) | **Primary (sea)** | ~900 | Open-sea wind narrative on the area mean wind: percentile ranges, vector-mean direction, optional veering/backing and gust sentence. No "top wind". Use for marine warning areas. |
 | [`wind_overview`](wind/wind_overview.md) | **Primary** | 3 959 | Modern wind narrative using time-series smoothing and change-point detection. 8-way/16-way compass, tuulihaarukka range, gusty-wind handling, rate phrases ("vähän", "nopeasti", "vähitellen"). The one to use. |
 | [`wind_anomaly`](wind/wind_anomaly.md) | **Primary** | 2 075 | Wind compared to climatology. |
 | [`wind_daily_ranges`](wind/wind_daily_ranges.md) | Legacy | 567 | Per-day range+direction. Superseded by `wind_overview` for most products; keep for products that explicitly need one entry per forecast day. |

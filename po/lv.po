@@ -50,10 +50,10 @@ msgid "pohjois-ruotsi:lle"
 msgstr "Ziemeļzviedrijai"
 
 msgid "[iltapaivalla] lumikuurot voivat olla sakeita"
-msgstr "[iltapaivalla] īslaicīgs sniegs var būt biezs"
+msgstr "[1] īslaicīgs sniegs var būt biezs"
 
 msgid "[iltapaivalla] lumisade voi olla sakeaa"
-msgstr "[iltapaivalla] sniegs var būt biezs"
+msgstr "[1] sniegs var būt biezs"
 
 msgid "huomiseen iltapaivaan asti"
 msgstr "līdz rītdienas pēcpusdienai"
@@ -4919,13 +4919,13 @@ msgid "[sisamaassa] yksittaiset lumikuurot mahdollisia"
 msgstr "iespējams īslaicīgs sniegs [1]"
 
 msgid "[sisamaassa] on [hieman lauhempaa]"
-msgstr "[sisamaassa] ir [hieman lauhempaa]"
+msgstr "[1] ir [2]"
 
 msgid "[huomenna] on [hieman lauhempaa]"
-msgstr "[huomenna] ir [hieman lauhempaa]"
+msgstr "[1] ir [2]"
 
 msgid "[huomenna] [sisamaassa] on [hieman lauhempaa]"
-msgstr "[huomenna] [sisamaassa] ir [hieman lauhempaa]"
+msgstr "[1] [2] ir [3]"
 
 msgid "[lampotila] [M...N] [astetta]"
 msgstr "[1] [2] [3]"
@@ -4979,19 +4979,19 @@ msgid "pohjoiseen"
 msgstr "uz ziemeļiem"
 
 msgid "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
-msgstr "[iltapaivalla] vējš pagriežas [etelaan] un turpina stiprināties"
+msgstr "[1] vējš pagriežas [2] un turpina stiprināties"
 
 msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka muuttuu [iltapaivalla] vaihtelevaksi"
-msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas [iltapaivalla] kļūst mainīgs"
+msgstr "[1] [2] [3], kas [4] kļūst mainīgs"
 
 msgid "vahitellen"
 msgstr "pakāpeniski"
 
 msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
-msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas [iltapaivalla] pagriežas [etelaan]"
+msgstr "[1] [2] [3], kas [4] pagriežas [5]"
 
 msgid "[iltapaivalla] tuuli kaantyy [etelaan]"
-msgstr "[iltapaivalla] vējš pagriežas [etelaan]"
+msgstr "[1] vējš pagriežas [2]"
 
 msgid "suunnaltaan vaihtelevaa tuulta"
 msgstr "mainīga virziena vēju"
@@ -5027,7 +5027,7 @@ msgid "1- ja 8-valille"
 msgstr "uz ziemeļiem-ziemeļrietumiem"
 
 msgid "[huomenna] [etelatuulta]"
-msgstr "[huomenna] [etelatuulta]"
+msgstr "[1] [2]"
 
 msgid "ivalo:lle"
 msgstr "Ivalo"
@@ -5036,7 +5036,7 @@ msgid "pieksamaki:lle"
 msgstr "Pieksamaki"
 
 msgid "[iltapaivalla] [etelaan] kaantyvaa tuulta"
-msgstr "[iltapaivalla] uz [etelaan] pagriežošu vēju"
+msgstr "[1] uz [2] pagriežošu vēju"
 
 msgid "heikkenevaa tuulta"
 msgstr "vājinošu vēju"
@@ -5069,10 +5069,10 @@ msgid "tuuli muuttuu vaihtelevaksi"
 msgstr "vējš kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] vējš kļūst mainīgs"
+msgstr "[1] vējš kļūst mainīgs"
 
 msgid "[iltapaivalla] [etelatuulta]"
-msgstr "[iltapaivalla] [etelatuulta]"
+msgstr "[1] [2]"
 
 msgid "astetta (1)"
 msgstr "grāds"
@@ -5105,7 +5105,7 @@ msgid "astetta (2)"
 msgstr "grādi"
 
 msgid "aallonkorkeus on enimmillaan [N] [metria]"
-msgstr "viļņa augstums ir vislielākais [N] [metria]"
+msgstr "viļņa augstums ir vislielākais [1] [2]"
 
 msgid "latgale:lle"
 msgstr "Latgales regions"
@@ -5126,13 +5126,13 @@ msgid "tuuli kaantyy"
 msgstr "vējš mainās"
 
 msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
-msgstr "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
+msgstr "[1] [2] [3] [4]"
 
 msgid "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
-msgstr "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
+msgstr "[1] [2] [3]"
 
 msgid "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] vējš īslaicīgi kļūst mainīgs"
+msgstr "[1] vējš īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
 msgstr "[1] tuuli heikkenee ja muuttuu vaihtelevaksi"
@@ -5168,7 +5168,7 @@ msgid "nopeasti"
 msgstr "strauji"
 
 msgid "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
-msgstr "[iltapaivalla] vējš kļūst mainīgs un turpina vājināties"
+msgstr "[1] vējš kļūst mainīgs un turpina vājināties"
 
 msgid "[iltapaivalla] [heikkenevaa tuulta]"
 msgstr "[1] [2]"
@@ -5177,10 +5177,10 @@ msgid "[iltapaivalla] [heikkenevaa] [etelatuulta]"
 msgstr "[1] [2] [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] vājinās un kļūst mainīgs"
+msgstr "[1] [2] vājinās un kļūst mainīgs"
 
 msgid "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] vājinās un pagriežas [etelaan]"
+msgstr "[1] [2] vājinās un pagriežas [3]"
 
 msgid "1- ja 8-valista tuulta"
 msgstr "ziemeļu-ziemeļrietumu vēju"
@@ -5282,25 +5282,25 @@ msgid "suunnaltaan vaihteleva tuuli"
 msgstr "mainīga virziena vējš"
 
 msgid "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen"
-msgstr "[iltapaivalla] vējš īslaicīgi kļūst mainīgs un turpina vājināties"
+msgstr "[1] vējš īslaicīgi kļūst mainīgs un turpina vājināties"
 
 msgid "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] vējš vājinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] vējš vājinās un īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] vājinās un īslaicīgi kļūst mainīgs"
 
 msgid "iltapaivasta"
 msgstr "no pēcpusdienas"
 
 msgid "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
-msgstr "[iltapaivalla] [etelatuuli] sāk vājināties [nopeasti]"
+msgstr "[1] [2] sāk vājināties [3]"
 
 msgid "illasta"
 msgstr "no vakara"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un pagriezties [etelaan]"
+msgstr "[1] [2] sāk vājināties un pagriezties [3]"
 
 msgid "astetta (mod 10=1)"
 msgstr "grādi"
@@ -5315,10 +5315,10 @@ msgid "asteen(tienoilla (mod 10=1))"
 msgstr "grādi"
 
 msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
-msgstr "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], kas pagriežas [pohjoiseen]"
+msgstr "[1] [2] [3] [4], kas pagriežas [5]"
 
 msgid "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
-msgstr "[iltapaivalla] turpina [heikkenevaa] [pohjoistuulta]"
+msgstr "[1] turpina [2] [3]"
 
 msgid "hehtopascalia (mod 10=1)"
 msgstr "hektopaskāli"
@@ -5342,16 +5342,16 @@ msgid "2 astetta"
 msgstr "2 grādi"
 
 msgid "puuskittaista [etelatuulta]"
-msgstr "brāzmaina [etelatuulta]"
+msgstr "brāzmaina [1]"
 
 msgid "aallonkorkeus on alle [N] [metria]"
-msgstr "viļņa augstums ir mazāks par [N] [metria]"
+msgstr "viļņa augstums ir mazāks par [1] [2]"
 
 msgid "aallonkorkeus on [N...M] [metria]"
-msgstr "viļņa augstums ir [N...M] [metria]"
+msgstr "viļņa augstums ir [1] [2]"
 
 msgid "aallonkorkeus on noin [N] [metria]"
-msgstr "viļņa augstums ir aptuveni [N] [metria]"
+msgstr "viļņa augstums ir aptuveni [1] [2]"
 
 msgid "asteen(tuntumassa (mod 10=1))"
 msgstr "grādi"
@@ -5375,28 +5375,28 @@ msgid "astetta(noin (mod 10=1))"
 msgstr "grāds"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un pagriežas [etelaan]"
+msgstr "[1] [2] sāk vājināties un pagriežas [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un pagriezties [etelaan]"
+msgstr "[1] [2] sāk stiprināties un pagriezties [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un pagriežas [etelaan]"
+msgstr "[1] [2] sāk stiprināties un pagriežas [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] voimistuu ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] stiprinās un pagriežas [etelaan]"
+msgstr "[1] [2] stiprinās un pagriežas [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] stiprinās un kļūst mainīgs"
+msgstr "[1] [2] stiprinās un kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen"
-msgstr "[iltapaivalla] vējš īslaicīgi kļūst mainīgs un turpina stiprināties"
+msgstr "[1] vējš īslaicīgi kļūst mainīgs un turpina stiprināties"
 
 msgid "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
-msgstr "[iltapaivalla] vējš kļūst mainīgs un turpina stiprināties"
+msgstr "[1] vējš kļūst mainīgs un turpina stiprināties"
 
 msgid "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] vējš stiprinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] vējš stiprinās un īslaicīgi kļūst mainīgs"
 
 msgid "iltayosta"
 msgstr "no vakarpuses"
@@ -5405,28 +5405,28 @@ msgid "keskiyosta"
 msgstr "no pusnakts"
 
 msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
-msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas sāk vājināties"
+msgstr "[1] [2] [3], kas sāk vājināties"
 
 msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]"
-msgstr "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], kas [illalla] pagriežas [pohjoiseen]"
+msgstr "[1] [2] [3] [4], kas [5] pagriežas [6]"
 
 msgid "yosta"
 msgstr "naktī"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] [2] sāk vājināties [3] un [4] pagriežas [5]"
 
 msgid "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[ip] [p-tuulta] [m...n] [m/s], kas sāk vājināties [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] [2] [3] [4], kas sāk vājināties [5] un [6] pagriežas [7]"
 
 msgid "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]"
-msgstr "[iltapaivalla] [etelatuuli] vājinās [nopeasti]"
+msgstr "[1] [2] vājinās [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
-msgstr "[iltapaivalla] [pohjoistuuli] turpina vājināties"
+msgstr "[1] [2] turpina vājināties"
 
 msgid "[iltapaivalla] sade voi olla runsasta"
-msgstr "[iltapaivalla] lietus var būt stiprs"
+msgstr "[1] lietus var būt stiprs"
 
 msgid "1-asti"
 msgstr "līdz pirmdienai"
@@ -5624,13 +5624,13 @@ msgid "3-keskiyohon asti"
 msgstr "līdz trešdienas pusnaktij"
 
 msgid "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
-msgstr "[iltapaivalla] [pohjoistuuli] turpina stiprināties"
+msgstr "[1] [2] turpina stiprināties"
 
 msgid "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[ip] [p-tuulta] [m...n] [m/s], kas sāk stiprināties [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] [2] [3] [4], kas sāk stiprināties [5] un [6] pagriežas [7]"
 
 msgid "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
-msgstr "[pohjoistuulta] [m...n] [metria sekunnissa], kas sāk stiprināties"
+msgstr "[1] [2] [3], kas sāk stiprināties"
 
 msgid "aamuyohon asti"
 msgstr "līdz nakts otrajai pusei"
@@ -5657,22 +5657,22 @@ msgid "1-aamuyohon asti"
 msgstr "līdz pirmdienas nakts otrajai pusei"
 
 msgid "[iltapaivalla] kuurot voivat olla voimakkaita"
-msgstr "[iltapaivalla] gāzieni var būt stipri"
+msgstr "[1] gāzieni var būt stipri"
 
 msgid "B3N:lle"
 msgstr "Botnijas jūras ziemeļu daļa"
 
 msgid "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] vējš sāk vājināties un kļūst mainīgs"
+msgstr "[1] vējš sāk vājināties un kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] vējš sāk vājināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] vējš sāk vājināties un īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un kļūst mainīgs"
+msgstr "[1] [2] sāk vājināties un kļūst mainīgs"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] sāk vājināties un īslaicīgi kļūst mainīgs"
 
 msgid "inari_utsjoki:lle"
 msgstr "Inari_Utsjoki"
@@ -5702,34 +5702,34 @@ msgid "kuola:lle"
 msgstr "Kuola"
 
 msgid "[voimakas pohjoistuuli] kaantyy [etelaan] ja heikkenee edelleen"
-msgstr "[voimakas pohjoistuuli] pagriežas [etelaan] un turpina vājināties"
+msgstr "[1] pagriežas [2] un turpina vājināties"
 
 msgid "[voimakas pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-msgstr "[voimakas pohjoistuuli] vājinās un pagriežas [etelaan]"
+msgstr "[1] vājinās un pagriežas [2]"
 
 msgid "[voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-msgstr "[voimakas pohjoistuuli] sāk vājināties un pagriežas [etelaan]"
+msgstr "[1] sāk vājināties un pagriežas [2]"
 
 msgid "[voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-msgstr "[voimakas pohjoistuuli] vājinās un kļūst mainīgs"
+msgstr "[1] vājinās un kļūst mainīgs"
 
 msgid "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-msgstr "[voimakas pohjoistuuli] sāk vājināties un kļūst mainīgs"
+msgstr "[1] sāk vājināties un kļūst mainīgs"
 
 msgid "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[voimakas pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] sāk vājināties un īslaicīgi kļūst mainīgs"
 
 msgid "[voimakas pohjoistuuli] heikkenee edelleen"
-msgstr "[voimakas pohjoistuuli] turpina vājināties"
+msgstr "[1] turpina vājināties"
 
 msgid "[voimakas pohjoistuuli] alkaa heiketa [nopeasti]"
-msgstr "[voimakas pohjoistuuli] sāk vājināties [nopeasti]"
+msgstr "[1] sāk vājināties [2]"
 
 msgid "[voimakas pohjoistuuli] heikkenee [nopeasti]"
-msgstr "[voimakas pohjoistuuli] vājinās [nopeasti]"
+msgstr "[1] vājinās [2]"
 
 msgid "[voimakas pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[voimakas pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] vājinās un īslaicīgi kļūst mainīgs"
 
 msgid "voimakas 3- ja 4-valinen tuuli"
 msgstr "ļoti stiprs austrumu-dienvidaustrumu vējš"
@@ -5783,19 +5783,19 @@ msgid "voimakas tuuli"
 msgstr "vētras stipruma vējš"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti]"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās [nopeasti]"
+msgstr "[1] [2] vājinās [3]"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee edelleen"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] turpina vājināties"
+msgstr "[1] [2] turpina vājināties"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa [nopeasti]"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties [nopeasti]"
+msgstr "[1] [2] sāk vājināties [3]"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] sāk vājināties un īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] vājinās un īslaicīgi kļūst mainīgs"
 
 msgid "voimakas 2-puoleinen tuuli"
 msgstr "ļoti stiprs galvenokārt ziemeļaustrumu vējš"
@@ -5822,76 +5822,76 @@ msgid "voimakas 1- ja 2-valinen tuuli"
 msgstr "ļoti stiprs ziemeļu-ziemeļaustrumu vējš"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties un kļūst mainīgs"
+msgstr "[1] [2] sāk vājināties un kļūst mainīgs"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās un kļūst mainīgs"
+msgstr "[1] [2] vājinās un kļūst mainīgs"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] sāk vājināties un pagriežas [etelaan]"
+msgstr "[1] [2] sāk vājināties un pagriežas [3]"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās un pagriežas [etelaan]"
+msgstr "[1] [2] vājinās un pagriežas [3]"
 
 msgid "tiepiiri-o4:lle"
 msgstr "O4 ceļu rajonam"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] kaantyy [etelaan] ja heikkenee edelleen"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] pagriežas [etelaan] un turpina vājināties"
+msgstr "[1] [2] pagriežas [3] un turpina vājināties"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] [2] vājinās [3] un [4] pagriežas [5]"
 
 msgid "[etelatuuli] alkaa voimistua [nopeasti]"
-msgstr "[etelatuuli] sāk stiprināties [nopeasti]"
+msgstr "[1] sāk stiprināties [2]"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un kļūst mainīgs"
+msgstr "[1] [2] sāk stiprināties un kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] vējš sāk stiprināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] vējš sāk stiprināties un īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi"
-msgstr "[iltapaivalla] vējš sāk stiprināties un kļūst mainīgs"
+msgstr "[1] vējš sāk stiprināties un kļūst mainīgs"
 
 msgid "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] [voimakas pohjoistuuli] vājinās [nopeasti] un pagriežas [etelaan]"
+msgstr "[1] [2] vājinās [3] un pagriežas [4]"
 
 msgid "[pohjoistuuli] heikkenee [nopeasti]"
-msgstr "[pohjoistuuli] vājinās [nopeasti]"
+msgstr "[1] vājinās [2]"
 
 msgid "[voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[voimakas pohjoistuuli] vājinās [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] vājinās [2] un [3] pagriežas [4]"
 
 msgid "[voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [etelaan]"
-msgstr "[voimakas pohjoistuuli] vājinās [nopeasti] un pagriežas [etelaan]"
+msgstr "[1] vājinās [2] un pagriežas [3]"
 
 msgid "[pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-msgstr "[pohjoistuuli] vājinās un kļūst mainīgs"
+msgstr "[1] vājinās un kļūst mainīgs"
 
 msgid "[etelatuuli] alkaa heiketa [nopeasti]"
-msgstr "[etelatuuli] sāk vājināties [nopeasti]"
+msgstr "[1] sāk vājināties [2]"
 
 msgid "[pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[pohjoistuuli] vājinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] vājinās un īslaicīgi kļūst mainīgs"
 
 msgid "[pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
-msgstr "[pohjoistuuli] sāk vājināties un pagriezties [etelaan]"
+msgstr "[1] sāk vājināties un pagriezties [2]"
 
 msgid "[pohjoistuuli] alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[pohjoistuuli] sāk vājināties [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] sāk vājināties [2] un [3] pagriežas [4]"
 
 msgid "[etelatuuli] heikkenee [nopeasti]"
-msgstr "[etelatuuli] vājinās [nopeasti]"
+msgstr "[1] vājinās [2]"
 
 msgid "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
-msgstr "[pohjoistuuli] sāk stiprināties un kļūst mainīgs"
+msgstr "[1] sāk stiprināties un kļūst mainīgs"
 
 msgid "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[pohjoistuuli] sāk vājināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] sāk vājināties un īslaicīgi kļūst mainīgs"
 
 msgid "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-msgstr "[pohjoistuuli] sāk vājināties un kļūst mainīgs"
+msgstr "[1] sāk vājināties un kļūst mainīgs"
 
 msgid "1-keskipaivaan"
 msgstr "līdz pirmdienas pusdienlaikam"
@@ -6044,34 +6044,34 @@ msgid "tiepiiri-s2:lle"
 msgstr "S2 ceļu rajonam"
 
 msgid "[etelatuuli] voimistuu [nopeasti]"
-msgstr "[etelatuuli] stiprinās [nopeasti]"
+msgstr "[1] stiprinās [2]"
 
 msgid "[iltapaivalla] [pohjoistuuli] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] vējš sāk stiprināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] vējš sāk stiprināties un īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli alkaa voimistua ja kaantyy [etelaan]"
-msgstr "[iltapaivalla] vējš sāk stiprināties un pagriežas [etelaan]"
+msgstr "[1] vējš sāk stiprināties un pagriežas [2]"
 
 msgid "[pohjoistuuli] alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[pohjoistuuli] sāk stiprināties [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] sāk stiprināties [2] un [3] pagriežas [4]"
 
 msgid "[pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
-msgstr "[pohjoistuuli] sāk stiprināties un pagriezties [etelaan]"
+msgstr "[1] sāk stiprināties un pagriezties [2]"
 
 msgid "[pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[pohjoistuuli] sāk stiprināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] sāk stiprināties un īslaicīgi kļūst mainīgs"
 
 msgid "[pohjoistuuli] voimistuu [nopeasti]"
-msgstr "[pohjoistuuli] stiprinās [nopeasti]"
+msgstr "[1] stiprinās [2]"
 
 msgid "[pohjoistuuli] voimistuu ja kaantyy [etelaan]"
-msgstr "[pohjoistuuli] stiprinās un pagriežas [etelaan]"
+msgstr "[1] stiprinās un pagriežas [2]"
 
 msgid "[pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[pohjoistuuli] stiprinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] stiprinās un īslaicīgi kļūst mainīgs"
 
 msgid "[pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
-msgstr "[pohjoistuuli] stiprinās un kļūst mainīgs"
+msgstr "[1] stiprinās un kļūst mainīgs"
 
 msgid "1-aamuyolla"
 msgstr "pirmdien  nakts otrajā pusē"
@@ -6128,31 +6128,31 @@ msgid "tiepiiri-v5:lle"
 msgstr "V5 ceļu rajonam"
 
 msgid "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]"
-msgstr "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], kas pagriežas [illalla] [pohj]"
+msgstr "[1] [2] [3] [4] [5] [6], kas pagriežas [7] [8]"
 
 msgid "[lampotila] vahan nollan alapuolella"
-msgstr "[lampotila] nedaudz zem nulles"
+msgstr "[1] nedaudz zem nulles"
 
 msgid "[lampotila] on vahan nollan alapuolella"
-msgstr "[lampotila] ir nedaudz zem nulles"
+msgstr "[1] ir nedaudz zem nulles"
 
 msgid "[huomenna] vahan nollan alapuolella"
-msgstr "[huomenna] nedaudz zem nulles"
+msgstr "[1] nedaudz zem nulles"
 
 msgid "[sismaassa] vahan nollan alapuolella"
-msgstr "[sismaassa] nedaudz zem nulles"
+msgstr "[1] nedaudz zem nulles"
 
 msgid "[huomenna] [lampotila] on vahan nollan alapuolella"
-msgstr "[huomenna] [lampotila] ir nedaudz zem nulles"
+msgstr "[1] [2] ir nedaudz zem nulles"
 
 msgid "[sisamaassa] [lampotila] on vahan nollan alapuolella"
-msgstr "[sisamaassa] [lampotila] ir nedaudz zem nulles"
+msgstr "[1] [2] ir nedaudz zem nulles"
 
 msgid "[huomenna] [sisamaassa] vahan nollan alapuolella"
-msgstr "[huomenna] [sisamaassa] nedaudz zem nulles"
+msgstr "[1] [2] nedaudz zem nulles"
 
 msgid "[huomenna] [sisamaassa] [lampotila] on vahan nollan alapuolella"
-msgstr "[huomenna] [sisamaassa] [lampotila] ir nedaudz zem nulles"
+msgstr "[1] [2] [3] ir nedaudz zem nulles"
 
 msgid "rannikolla vahan nollan alapuolella"
 msgstr "piekrastē nedaudz zem nulles"
@@ -6254,16 +6254,16 @@ msgid "jotka muuttuvat rantakuuroiksi"
 msgstr "kas pārvēršas par slapjdraņķi"
 
 msgid "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
-msgstr "[iltapaivalla] [etelatuuli] sāk stiprināties [nopeasti]"
+msgstr "[1] [2] sāk stiprināties [3]"
 
 msgid "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]"
-msgstr "[iltapaivalla] [etelatuuli] stiprinās [nopeasti]"
+msgstr "[1] [2] stiprinās [3]"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties [nopeasti] un [illalla] pagriežas [etelaan]"
+msgstr "[1] [2] sāk stiprināties [3] un [4] pagriežas [5]"
 
 msgid "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] sāk stiprināties un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] sāk stiprināties un īslaicīgi kļūst mainīgs"
 
 msgid "4-aamuyolla ja aamulla"
 msgstr "ceturtdien nakts otrajā pusē un no rīta"
@@ -6293,10 +6293,10 @@ msgid "B7W_B4W:lle"
 msgstr "Somu līča rietumu daļa un Ālandu jūra"
 
 msgid "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[iltapaivalla] [pohjoistuuli] stiprinās un īslaicīgi kļūst mainīgs"
+msgstr "[1] [2] stiprinās un īslaicīgi kļūst mainīgs"
 
 msgid "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen"
-msgstr "[iltapaivalla] vējš pagriežas [etelaan] un turpina vājināties"
+msgstr "[1] vējš pagriežas [2] un turpina vājināties"
 
 msgid "tuuli voimistuu"
 msgstr "vējš pastiprināsies līdz"
@@ -6477,3 +6477,16 @@ msgstr "[1] dažviet [2], līdz [3] [4]"
 
 msgid "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
 msgstr "[1] [2] dažviet [3], līdz [4] [5]"
+
+# wind_sea_overview: clockwise (veering) and counterclockwise (backing) turns
+msgid "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]"
+msgstr "[1] vējš pagriežas pulksteņrādītāja virzienā [2]"
+
+msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
+msgstr "[1] vējš pagriežas pretēji pulksteņrādītāja virzienam [2]"
+
+msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] [2], kas griežas pulksteņrādītāja virzienā"
+
+msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] [2], kas griežas pretēji pulksteņrādītāja virzienam"
