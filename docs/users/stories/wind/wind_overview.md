@@ -51,6 +51,24 @@ over the whole period. The wind is then described either as
 Gustiness is reported separately when it matters — see
 [Puuskatuuli](#puuskatuuli) below.
 
+### Intermediate speed reports inside a change
+
+A strengthening or weakening sentence can carry more than one speed
+range: the speed is reported at the start of the story, at each point
+inside the change where it has again moved by at least
+`wind_speed_threshold`, and at the end of the change. At most two
+ranges are kept per sentence, e.g. "Illasta alkaen vähitellen
+heikkenevää tuulta, aamuyöllä 3-7 m/s, aamulla 1-4 m/s."
+
+For products where only the end result of a change matters unless the
+wind is strong, set `wind_speed_intermediate_report_limit` (m/s).
+Intermediate points where the top wind stays below the limit are then
+dropped; the start of the story and the last point of each change are
+always kept, so the outcome of the change is still stated. With the
+limit set to the warning level (10 m/s) the example above becomes
+"Illasta alkaen vähitellen heikkenevää tuulta, aamulla 1-4 m/s." The
+default 0 disables the filter.
+
 ### Rate-of-change phrases
 
 When a speed change is reported, the story qualifies the *rate* of the
@@ -439,6 +457,9 @@ After potential periods are identified they are merged:
   `wind_direction_threshold` (default 45°).
 * A speed change is reported when it is at least
   `wind_speed_threshold` (default 3.0 m/s).
+* Intermediate speeds inside a change are reported only where the top
+  wind reaches `wind_speed_intermediate_report_limit` (default 0 = no
+  filtering).
 
 **Direction refinements:**
 
@@ -477,6 +498,7 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `wind_speed_interval_min_size` | 2 m/s | Minimum wind-speed range size |
 | `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
 | `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
+| `wind_speed_intermediate_report_limit` | 0 m/s | When > 0, intermediate speed ranges inside a strengthening/weakening sentence are reported only where the top wind reaches this limit; the story start and the end of each change are always reported. 0 disables the filter. |
 | `wind_speed_warning_threshold` | 11.0 m/s | Warning-value threshold above which the warning is used as the range upper bound |
 | `wind_speed_top_coverage` | 98 % | 98 % of points must fall below the range upper bound (i.e. ≤ 2 % may be above); a localised strong wind therefore does not bloat the range |
 | `wind_direction_threshold` | 45° | Minimum direction change that is reported |
