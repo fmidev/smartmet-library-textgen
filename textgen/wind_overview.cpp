@@ -4127,6 +4127,8 @@ void read_configuration_params(wo_story_params& storyParams)
         Settings::optional_double(storyParams.theVar + "::wind_speed_top_coverage", 98.0);
     double intermediateReportLimit = Settings::optional_double(
         storyParams.theVar + "::wind_speed_intermediate_report_limit", 0.0);
+    bool reportFinalLevel =
+        Settings::optional_bool(storyParams.theVar + "::wind_speed_report_final_level", false);
     double gustyWindTopWindDifference =
         Settings::optional_double(storyParams.theVar + "::gusty_wind_max_wind_difference", 5.0);
     string rangeSeparator = Settings::optional_string(storyParams.theVar + "::rangeseparator", "-");
@@ -4164,6 +4166,7 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theWindCalcTopShareWeak = windCalcTopShareWeak;
     storyParams.theWindSpeedTopCoverage = windSpeedTopCoverage;
     storyParams.theIntermediateReportLimit = intermediateReportLimit;
+    storyParams.theReportFinalLevel = reportFinalLevel;
     storyParams.theWindDirectionMinSpeed = windDirectionMinSpeed;
     storyParams.theGustyWindTopWindDifference = gustyWindTopWindDifference;
     storyParams.theRangeSeparator = rangeSeparator;

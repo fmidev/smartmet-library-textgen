@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.9.6
-Release: 2%{?dist}.fmi
+Version: 26.9.16
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Sep 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.16-1.fmi
+- wind_overview: optional wind_speed_report_final_level setting; inside a strengthening/weakening sentence the new speed range is reported from the first hour at which the hourly range has settled at the end-of-change range, instead of where the cumulative change reaches wind_speed_threshold. Default false keeps the old behaviour
+
 * Sun Sep  6 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.6-2.fmi
 - Added story wind_sea_overview for open-sea areas: change detection on the time smoothed area mean wind, ranges from spatial percentiles around the mean, vector mean direction, optional gust sentence. No "top wind" statistic is used
 - Added veering/backing turn phrases (turn_phrases = veering_backing) with translations in all dictionaries; non fi/sv/en translations await native review

@@ -69,6 +69,18 @@ limit set to the warning level (10 m/s) the example above becomes
 "Illasta alkaen vähitellen heikkenevää tuulta, aamulla 1-4 m/s." The
 default 0 disables the filter.
 
+When a change is front-loaded (most of it happens in the first hours,
+followed by a long slow tail), the threshold rule alone places the
+second range only where the cumulative change finally reaches
+`wind_speed_threshold`, which can be 20 hours after "aluksi". With
+`wind_speed_report_final_level = true` the new range is instead reported
+from the first hour at which the hourly range has settled within 1 m/s
+per limit of the range at the end of the change (and stays there), if it
+differs enough from the previous range; e.g. "Heikkenevää lounaistuulta,
+aluksi 11-14 m/s, aamupäivällä 7-10 m/s" becomes "..., illasta alkaen
+8-11 m/s". The rule only brings a report forward; once a threshold-based
+point has been reported it is not applied. Default false.
+
 ### Rate-of-change phrases
 
 When a speed change is reported, the story qualifies the *rate* of the
@@ -498,6 +510,7 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `wind_speed_interval_min_size` | 2 m/s | Minimum wind-speed range size |
 | `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
 | `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
+| `wind_speed_report_final_level` | false | When true, inside a strengthening/weakening sentence the new speed range is reported from the first hour at which the hourly range has settled at the range of the end of the change, instead of where the cumulative change reaches `wind_speed_threshold`. |
 | `wind_speed_intermediate_report_limit` | 0 m/s | When > 0, intermediate speed ranges inside a strengthening/weakening sentence are reported only where the top wind reaches this limit; the story start and the end of each change are always reported. 0 disables the filter. |
 | `wind_speed_warning_threshold` | 11.0 m/s | Warning-value threshold above which the warning is used as the range upper bound |
 | `wind_speed_top_coverage` | 98 % | 98 % of points must fall below the range upper bound (i.e. ≤ 2 % may be above); a localised strong wind therefore does not bloat the range |

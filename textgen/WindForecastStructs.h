@@ -73,6 +73,9 @@ struct wo_story_params
   // Intermediate speed intervals inside one strengthening/weakening sentence are reported only
   // if the top wind at that point is at least this limit (m/s); 0 disables the rule
   double theIntermediateReportLimit = 0;
+  // Inside one strengthening/weakening sentence, report the new speed range from the first hour
+  // at which the hourly range has effectively reached the range at the end of the change
+  bool theReportFinalLevel = false;
   double theGustyWindTopWindDifference = 5;
   std::string theRangeSeparator = "-";
   int theMinIntervalSize = 2;
