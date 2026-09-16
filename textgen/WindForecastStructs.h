@@ -76,6 +76,14 @@ struct wo_story_params
   // Inside one strengthening/weakening sentence, report the new speed range from the first hour
   // at which the hourly range has effectively reached the range at the end of the change
   bool theReportFinalLevel = false;
+  // When a strengthening/weakening starts at the beginning of the story, write a steady sentence
+  // for the hours before the range changes and then the change sentence, instead of one sentence
+  // with "aluksi": "Lounaistuulta 10-14 m/s. Iltapäivällä heikkenevää tuulta, illasta alkaen ..."
+  bool theSeparateInitialSentence = false;
+  // Speed range reported last in the previous sentence (kFloatMissing = none); used as the
+  // reference when the final-level rule decides whether a range differs enough
+  float thePreviousRangeLower = kFloatMissing;
+  float thePreviousRangeUpper = kFloatMissing;
   double theGustyWindTopWindDifference = 5;
   std::string theRangeSeparator = "-";
   int theMinIntervalSize = 2;
@@ -102,12 +110,12 @@ struct wo_story_params
   // hours. Brief dips (often 1-hour drops sandwiched between strengthening events) are usually
   // noise — e.g. a convective spike's tail surviving cell removal — and reading them as a
   // standalone "weakens" sentence is misleading. Set to 0 to disable the suppression.
-  double theMinWeakeningDuration = 2.0;            // hours
+  double theMinWeakeningDuration = 2.0;  // hours
 
-  double theConvectiveCellMaxDuration = 3.0;       // hours — runs at or above this are NOT cells
-  double theConvectiveCellMaxAreaFraction = 10.0;  // percent — at or above this is NOT a cell
-  double theConvectiveCellMinAreaFraction = 0.0;   // percent — at or below this the timestep is
-                                                   // not considered part of any cell run
+  double theConvectiveCellMaxDuration = 3.0;          // hours — runs at or above this are NOT cells
+  double theConvectiveCellMaxAreaFraction = 10.0;     // percent — at or above this is NOT a cell
+  double theConvectiveCellMinAreaFraction = 0.0;      // percent — at or below this the timestep is
+                                                      // not considered part of any cell run
   double theConvectiveCellCutoff = KOVA_LOWER_LIMIT;  // m/s — lower bound of the "hard wind" tier
                                                       // (FMI warning level for kova tuuli)
 

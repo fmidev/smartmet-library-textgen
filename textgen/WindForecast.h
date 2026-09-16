@@ -68,7 +68,10 @@ struct sentence_info
   bool useWindBasicForm{false};  // basic form: 'tuuli', partitive form: 'tuulta'
   bool firstSentence{false};
   bool skip{false};
-  interval_info intervalInfo;                        // for first period
+  bool separateInitial{false};  // change sentence of the separate-initial-sentence rule; its
+                                // range covers the settled tail, so it is not dropped as a
+                                // short trailing change
+  interval_info intervalInfo;   // for first period
   std::optional<WindDirectionInfo> directionChange;  // wind direction change nearby
                                                      // sentence start time (so that we can
                                                      // report them together)
@@ -145,6 +148,11 @@ class WindForecast
                                            WindDirectionInfo& thePreviousWindDirection,
                                            const WeatherPeriod& windSpeedEventPeriod) const;
 
+  bool constructSeparateInitialSentences(const WindEventPeriodDataItem* windSpeedItem,
+                                         const WindEventPeriodDataItem* nextWindSpeedItem,
+                                         const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+                                         WindDirectionInfo& thePreviousWindDirection,
+                                         WindSpeedSentenceInfo& sentenceInfoVector) const;
   void constructWindSentence(const WindEventPeriodDataItem* windSpeedItem,
                              const WindEventPeriodDataItem* nextWindSpeedItem,
                              const WindDirectionPeriodInfo& firstDirectionPeriodInfo,

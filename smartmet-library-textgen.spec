@@ -113,6 +113,8 @@ FMI textgen development files
 
 %changelog
 * Wed Sep 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.16-1.fmi
+- wind_overview: optional wind_speed_separate_initial_sentence setting; a change that begins at the start of the story is written as a steady sentence plus a time-phrased change sentence ("Lounaistuulta 10-14 m/s. Iltapäivällä heikkenevää tuulta, illasta alkaen 8-11 m/s.") instead of one sentence with "aluksi". Default false keeps the old behaviour
+- wind_overview: with wind_speed_report_final_level the range reported last in the previous sentence is the reference for later sentences
 - wind_overview: optional wind_speed_report_final_level setting; inside a strengthening/weakening sentence the new speed range is reported from the first hour at which the hourly range has settled at the end-of-change range, instead of where the cumulative change reaches wind_speed_threshold. Default false keeps the old behaviour
 
 * Sun Sep  6 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.6-2.fmi

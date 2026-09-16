@@ -81,6 +81,21 @@ aluksi 11-14 m/s, aamupäivällä 7-10 m/s" becomes "..., illasta alkaen
 8-11 m/s". The rule only brings a report forward; once a threshold-based
 point has been reported it is not applied. Default false.
 
+### Two sentences instead of "aluksi"
+
+When a strengthening or weakening begins at the start of the story the
+default form is one sentence: "Heikkenevää lounaistuulta, aluksi 11-14
+m/s, illasta alkaen 8-11 m/s". With `wind_speed_separate_initial_sentence
+= true` the same content is written as a steady sentence for the hours
+before the speed range has changed, followed by the change sentence with
+a time phrase and the settled range: "Lounaistuulta 10-14 m/s.
+Iltapäivällä heikkenevää tuulta, illasta alkaen 8-11 m/s." The settled
+range and its time are the ones the single sentence would have used; the
+change is considered to start at the first hour whose range differs
+enough from the range at the start of the story. If the wind has already
+settled within the first hours the single-sentence form is kept. Default
+false.
+
 ### Rate-of-change phrases
 
 When a speed change is reported, the story qualifies the *rate* of the
@@ -511,6 +526,7 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
 | `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
 | `wind_speed_report_final_level` | false | When true, inside a strengthening/weakening sentence the new speed range is reported from the first hour at which the hourly range has settled at the range of the end of the change, instead of where the cumulative change reaches `wind_speed_threshold`. |
+| `wind_speed_separate_initial_sentence` | false | When true, a change that begins at the start of the story is written as a steady sentence plus a time-phrased change sentence instead of one sentence with "aluksi". |
 | `wind_speed_intermediate_report_limit` | 0 m/s | When > 0, intermediate speed ranges inside a strengthening/weakening sentence are reported only where the top wind reaches this limit; the story start and the end of each change are always reported. 0 disables the filter. |
 | `wind_speed_warning_threshold` | 11.0 m/s | Warning-value threshold above which the warning is used as the range upper bound |
 | `wind_speed_top_coverage` | 98 % | 98 % of points must fall below the range upper bound (i.e. ≤ 2 % may be above); a localised strong wind therefore does not bloat the range |

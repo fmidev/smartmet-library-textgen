@@ -650,8 +650,7 @@ void write_html_row(std::ostream& out,
     if (cols.test(10))
       out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMedian.value() << "</td>\n";
     if (cols.test(9))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedMedianWind.value()
-          << "</td>\n";
+      out << "<td>" << fixed << setprecision(2) << item.theEqualizedMedianWind.value() << "</td>\n";
     if (cols.test(8))
       out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMean.value() << "</td>\n";
     if (cols.test(7))
@@ -940,12 +939,11 @@ void save_raw_data(wo_story_params& storyParams, const string& id_str = "_origin
                       storyParams.originalWindDataIndexes(storyParams.theArea.type()),
                       columnSelectionBitset);
 
-      print_windspeed_distribution(
-          weatherArea,
-          "_windspeed_distribution",
-          storyParams.theVar,
-          storyParams.theWindDataVector,
-          storyParams.originalWindDataIndexes(storyParams.theArea.type()));
+      print_windspeed_distribution(weatherArea,
+                                   "_windspeed_distribution",
+                                   storyParams.theVar,
+                                   storyParams.theWindDataVector,
+                                   storyParams.originalWindDataIndexes(storyParams.theArea.type()));
 
       print_winddirection_distribution(weatherArea, "_winddirection_distribution", storyParams);
     }
@@ -2013,13 +2011,12 @@ void populate_data_item_for_area(wo_story_params& storyParams,
         dataItem.theWindDirectionDistribution16,
         WindStoryTools::CompassType::sixteen_directions);
 
-    populate_winddirection_distribution_time_series(
-        storyParams.theSources,
-        weatherArea,
-        dataItem.thePeriod,
-        storyParams.theVar,
-        dataItem.theWindDirectionDistribution8,
-        WindStoryTools::CompassType::eight_directions);
+    populate_winddirection_distribution_time_series(storyParams.theSources,
+                                                    weatherArea,
+                                                    dataItem.thePeriod,
+                                                    storyParams.theVar,
+                                                    dataItem.theWindDirectionDistribution8,
+                                                    WindStoryTools::CompassType::eight_directions);
 
     WeatherResult correctedDirection =
         WindStoryTools::mode_wind_direction(storyParams.theSources,
@@ -2515,8 +2512,8 @@ wind_event_period_data_item_vector remove_short_missing_periods(
 
           float begSpeed =
               calculate_weighted_wind_speed(storyParams, currentDataItem->thePeriodBeginDataItem);
-          float endSpeed = calculate_weighted_wind_speed(storyParams,
-                                                         afterNextDataItem->thePeriodEndDataItem);
+          float endSpeed =
+              calculate_weighted_wind_speed(storyParams, afterNextDataItem->thePeriodEndDataItem);
           WindEventId newWindEvent =
               get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
@@ -3633,10 +3630,8 @@ std::string quadrant_phrase_key(WeatherArea::Type type)
 //   PLAIN:         args = (gustsPhrase, peakInt, mpsUnit)               → [1] [2] [3]
 //   ONE_QUALIFIER: args = (qualifier,   gustsPhrase, peakInt, mpsUnit)  → [1] [2] [3] [4]
 //   TWO_QUALIFIER: args = (time, quadrant, gustsPhrase, peakInt, mpsUnit) → [1] [2] [3] [4] [5]
-#define CONVECTIVE_CELL_PLAIN_PHRASE \
-  "paikoin [puuskia], kovimmillaan [n] [m/s]"
-#define CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE \
-  "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
+#define CONVECTIVE_CELL_PLAIN_PHRASE "paikoin [puuskia], kovimmillaan [n] [m/s]"
+#define CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
 #define CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE \
   "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
 
@@ -3685,9 +3680,9 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
       // minAreaFraction defaults to 0 so the lower bound is just "some grid points above cutoff";
       // raising it breaks runs at the troughs between discrete cells. maxAreaFraction == 0
       // disables the spatial cap (any positive share above the min becomes a candidate).
-      const bool flagged = gustShare > static_cast<float>(minAreaFraction) &&
-                           (maxAreaFraction <= 0.0 ||
-                            gustShare < static_cast<float>(maxAreaFraction));
+      const bool flagged =
+          gustShare > static_cast<float>(minAreaFraction) &&
+          (maxAreaFraction <= 0.0 || gustShare < static_cast<float>(maxAreaFraction));
       if (static_cast<int>(i) != lastLoggedIndex)
       {
         storyParams.theLog << "Convective candidate t=" << item.thePeriod.localStartTime()
@@ -3713,8 +3708,7 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
       while (i < n && timestepIsAnomalous(i))
       {
         peakGust = std::max(
-            peakGust,
-            storyParams.theWindDataVector[i]->getDataItem(areaType).theGustSpeed.value());
+            peakGust, storyParams.theWindDataVector[i]->getDataItem(areaType).theGustSpeed.value());
         ++i;
       }
       const unsigned int runEnd = i;  // exclusive
@@ -3787,8 +3781,7 @@ void truncate_and_renormalize_distribution(value_distribution_data_vector& dist,
     const float scale = originalSum / retainedSum;
     for (auto& bucket : dist)
       if (bucket.first < cutoff)
-        bucket.second =
-            WeatherResult(bucket.second.value() * scale, bucket.second.error() * scale);
+        bucket.second = WeatherResult(bucket.second.value() * scale, bucket.second.error() * scale);
   }
   catch (...)
   {
@@ -4129,6 +4122,8 @@ void read_configuration_params(wo_story_params& storyParams)
         storyParams.theVar + "::wind_speed_intermediate_report_limit", 0.0);
     bool reportFinalLevel =
         Settings::optional_bool(storyParams.theVar + "::wind_speed_report_final_level", false);
+    bool separateInitialSentence = Settings::optional_bool(
+        storyParams.theVar + "::wind_speed_separate_initial_sentence", false);
     double gustyWindTopWindDifference =
         Settings::optional_double(storyParams.theVar + "::gusty_wind_max_wind_difference", 5.0);
     string rangeSeparator = Settings::optional_string(storyParams.theVar + "::rangeseparator", "-");
@@ -4146,10 +4141,10 @@ void read_configuration_params(wo_story_params& storyParams)
 
     double convectiveCellMaxDuration =
         Settings::optional_double(storyParams.theVar + "::convective_cell_max_duration", 3.0);
-    double convectiveCellMaxAreaFraction = Settings::optional_double(
-        storyParams.theVar + "::convective_cell_max_area_fraction", 10.0);
-    double convectiveCellMinAreaFraction = Settings::optional_double(
-        storyParams.theVar + "::convective_cell_min_area_fraction", 0.0);
+    double convectiveCellMaxAreaFraction =
+        Settings::optional_double(storyParams.theVar + "::convective_cell_max_area_fraction", 10.0);
+    double convectiveCellMinAreaFraction =
+        Settings::optional_double(storyParams.theVar + "::convective_cell_min_area_fraction", 0.0);
     double convectiveCellCutoff = Settings::optional_double(
         storyParams.theVar + "::convective_cell_cutoff", KOVA_LOWER_LIMIT);
     bool convectiveCellReporting =
@@ -4167,6 +4162,7 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theWindSpeedTopCoverage = windSpeedTopCoverage;
     storyParams.theIntermediateReportLimit = intermediateReportLimit;
     storyParams.theReportFinalLevel = reportFinalLevel;
+    storyParams.theSeparateInitialSentence = separateInitialSentence;
     storyParams.theWindDirectionMinSpeed = windDirectionMinSpeed;
     storyParams.theGustyWindTopWindDifference = gustyWindTopWindDifference;
     storyParams.theRangeSeparator = rangeSeparator;
@@ -4383,8 +4379,7 @@ Paragraph WindStory::overview() const
 
       auto windParts = windForecast.getWindStoryParts(itsPeriod);
 
-      const bool emitCell =
-          storyParams.theConvectiveCellReporting && !convectiveAnomalies.empty();
+      const bool emitCell = storyParams.theConvectiveCellReporting && !convectiveAnomalies.empty();
 
       if (!emitCell)
       {

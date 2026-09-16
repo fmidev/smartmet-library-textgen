@@ -1539,6 +1539,135 @@ std::vector<WeatherPeriod> WindForecast::computeReportingPeriods(
   }
 }
 
+// Two-sentence form for a strengthening/weakening that begins at the start of the story:
+// a steady sentence for the hours before the hourly range has changed, then the change sentence
+// whose speed range is reported from the hour the wind has settled, e.g.
+// "Lounaistuulta 10-14 m/s. Iltapäivällä heikkenevää tuulta, illasta alkaen 8-11 m/s."
+// instead of "Heikkenevää lounaistuulta, aluksi 11-14 m/s, illasta alkaen 8-11 m/s."
+// Returns false (nothing added) when the split is not possible; the caller then falls back
+// to the single sentence.
+bool WindForecast::constructSeparateInitialSentences(
+    const WindEventPeriodDataItem* windSpeedItem,
+    const WindEventPeriodDataItem* nextWindSpeedItem,
+    const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+    WindDirectionInfo& thePreviousWindDirection,
+    WindSpeedSentenceInfo& sentenceInfoVector) const
+{
+  try
+  {
+    const WeatherPeriod& eventPeriod = windSpeedItem->thePeriod;
+    const WeatherArea::Type areaType = theParameters.theArea.type();
+    const auto& data = theParameters.theWindDataVector;
+
+    auto indexAt = [&](const TextGenPosixTime& t) -> int
+    {
+      for (unsigned int i = 0; i < data.size(); i++)
+        if ((*data[i])(areaType).thePeriod.localStartTime() == t)
+          return static_cast<int>(i);
+      return -1;
+    };
+
+    TextGenPosixTime storyStart = theParameters.theForecastPeriod.localStartTime();
+    int startIndex = indexAt(storyStart);
+    if (startIndex < 0)
+    {
+      storyStart = eventPeriod.localStartTime();
+      startIndex = indexAt(storyStart);
+      if (startIndex < 0)
+      {
+        theParameters.theLog << "Separate initial sentence: no data at story start\n";
+        return false;
+      }
+    }
+
+    // 1. reporting periods as the single "aluksi" sentence would have them: the second one is
+    //    the settled range and tells when the wind has settled
+    std::vector<WeatherPeriod> periods =
+        computeReportingPeriods(windSpeedItem, nextWindSpeedItem, true, eventPeriod);
+    if (periods.size() < 2)
+    {
+      theParameters.theLog << "Separate initial sentence: only one reporting period -> single "
+                              "sentence\n";
+      return false;
+    }
+    const WeatherPeriod& settledPeriod = periods[1];
+    TextGenPosixTime settleTime = settledPeriod.localStartTime();
+
+    // 2. the change is considered to start at the first hour whose range differs enough from
+    //    the range at the start of the story, but no later than the hour before settling
+    interval_info startInfo = windSpeedIntervalInfo((*data[startIndex])(areaType).thePeriod);
+    TextGenPosixTime changeStart = settleTime;
+    changeStart.ChangeByHours(-1);
+    for (unsigned int i = startIndex + 1; i < data.size(); i++)
+    {
+      const WindDataItemUnit& item = (*data[i])(areaType);
+      if (item.thePeriod.localStartTime() >= settleTime)
+        break;
+      if (wind_speed_differ_enough(windSpeedIntervalInfo(item.thePeriod), startInfo))
+      {
+        changeStart = item.thePeriod.localStartTime();
+        break;
+      }
+    }
+    TextGenPosixTime steadyEnd = changeStart;
+    steadyEnd.ChangeByHours(-1);
+    if (steadyEnd < storyStart)
+    {
+      theParameters.theLog << "Separate initial sentence: wind settles already at " << settleTime
+                           << " -> single sentence\n";
+      return false;
+    }
+    TextGenPosixTime changeEnd = settleTime;
+    if (changeEnd > changeStart)
+      changeEnd.ChangeByHours(-1);
+    WeatherPeriod steadyPeriod(storyStart, steadyEnd);
+    WeatherPeriod changePeriod(changeStart, changeEnd);
+
+    theParameters.theLog << "Separate initial sentence: steady " << as_string(steadyPeriod)
+                         << ", change " << as_string(changePeriod) << ", settled "
+                         << as_string(settledPeriod) << '\n';
+
+    // 3. steady sentence for the start of the story
+    sentenceInfoVector.push_back(
+        buildSimpleSentenceInfo(steadyPeriod, firstDirectionPeriodInfo, true));
+    thePreviousWindDirection =
+        get_wind_direction(theParameters, WeatherPeriod(changeStart, changeStart));
+
+    // 4. change sentence with the settled range as its only interval
+    bool windStrenghtens = (windSpeedItem->theWindEvent == TUULI_VOIMISTUU);
+    sentence_info sentenceInfo;
+    sentenceInfo.changeSpeed = EMPTY_STRING;
+    bool smallChange = false;
+    bool gradualChange = false;
+    bool fastChange = false;
+    getWindSpeedChangeAttribute(
+        changePeriod, sentenceInfo.changeSpeed, smallChange, gradualChange, fastChange);
+    if (!windStrenghtens && sentenceInfo.changeSpeed == VAHAN_WORD)
+      sentenceInfo.changeSpeed = EMPTY_STRING;
+    sentenceInfo.period = changePeriod;
+    sentenceInfo.separateInitial = true;
+    interval_sentence_info isi;
+    isi.period = settledPeriod;
+    isi.intervalInfo = windSpeedIntervalInfo(settledPeriod);
+    sentenceInfo.intervalSentences.push_back(isi);
+    theParameters.theLog << "Reporting " << (windStrenghtens ? "strenghtening" : "weakening")
+                         << " wind at " << as_string(settledPeriod) << '\n';
+    populateFirstReportingPointSentence(sentenceInfo,
+                                        false,
+                                        windStrenghtens,
+                                        windSpeedItem,
+                                        firstDirectionPeriodInfo,
+                                        thePreviousWindDirection,
+                                        changePeriod);
+    sentenceInfoVector.push_back(sentenceInfo);
+    return true;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+  }
+}
+
 void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpeedItem,
                                          const WindEventPeriodDataItem* nextWindSpeedItem,
                                          const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
@@ -1593,6 +1722,24 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
     theParameters.theLog << (windStrenghtens ? "Processing TUULI_VOIMISTUU event at "
                                              : "Processing TUULI_HEIKKENEE event at ")
                          << as_string(windSpeedEventPeriod) << '\n';
+
+    // range reported last in the previous sentence, reference for the final-level rule
+    theParameters.thePreviousRangeLower = kFloatMissing;
+    theParameters.thePreviousRangeUpper = kFloatMissing;
+    if (!firstSentence && !sentenceInfoVector.back().intervalSentences.empty())
+    {
+      const interval_info& prev = sentenceInfoVector.back().intervalSentences.back().intervalInfo;
+      theParameters.thePreviousRangeLower = prev.lowerLimit;
+      theParameters.thePreviousRangeUpper = prev.upperLimit;
+    }
+
+    if (firstSentence && theParameters.theSeparateInitialSentence &&
+        constructSeparateInitialSentences(windSpeedItem,
+                                          nextWindSpeedItem,
+                                          firstDirectionPeriodInfo,
+                                          thePreviousWindDirection,
+                                          sentenceInfoVector))
+      return;
 
     std::vector<WeatherPeriod> windSpeedReportingPeriods = computeReportingPeriods(
         windSpeedItem, nextWindSpeedItem, firstSentence, windSpeedEventPeriod);
@@ -3018,7 +3165,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
       if (sentenceInfo.skip)
         continue;
       if (i == sentenceInfoVector.size() - 1 && get_period_length(sentenceInfo.period) < 3 &&
-          !sentenceInfo.changeType.empty())
+          !sentenceInfo.changeType.empty() && !sentenceInfo.separateInitial)
         continue;
 
       pi.period = sentenceInfo.period;
@@ -3123,8 +3270,7 @@ std::vector<WindStoryPart> WindForecast::getWindStoryParts(const WeatherPeriod& 
               theParameters.theMinWeakeningDuration)
       {
         theParameters.theLog << "Skipping short weakening event "
-                             << as_string(windSpeedEventPeriodDataItem->thePeriod)
-                             << " (duration "
+                             << as_string(windSpeedEventPeriodDataItem->thePeriod) << " (duration "
                              << get_period_length(windSpeedEventPeriodDataItem->thePeriod)
                              << "h < min " << theParameters.theMinWeakeningDuration << "h)\n";
         if (nextWindSpeedEventPeriodDataItem &&
@@ -3180,8 +3326,7 @@ std::vector<WindStoryPart> WindForecast::getWindStoryParts(const WeatherPeriod& 
       ParagraphInfoVector single;
       single.push_back(std::move(pi));
 
-      if (!parts.empty() &&
-          parts.back().period.localStartTime() == piPeriod.localStartTime() &&
+      if (!parts.empty() && parts.back().period.localStartTime() == piPeriod.localStartTime() &&
           parts.back().period.localEndTime() == piPeriod.localEndTime())
       {
         // Continuation of the previous part (piAfterLastInterval split) — append.
@@ -3563,9 +3708,7 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
     }
     // "reached" is stricter than wind_speed_differ_enough: both limits within 1 m/s in total 2
     auto sameLevel = [](const interval_info& a, const interval_info& b) -> bool
-    {
-      return (abs(a.lowerLimit - b.lowerLimit) + abs(a.upperLimit - b.upperLimit) <= 2);
-    };
+    { return (abs(a.lowerLimit - b.lowerLimit) + abs(a.upperLimit - b.upperLimit) <= 2); };
     auto finalLevelReachedAt = [&](unsigned int i) -> bool
     {
       const interval_info& endInfo = hourlyInfo.back();
@@ -3613,10 +3756,22 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
         bool notWeak = (windDataItem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT ||
                         previousTopWind > WEAK_WIND_SPEED_UPPER_LIMIT);
         bool reported = false;
+        interval_info referenceInfo;
+        if (theParameters.theReportFinalLevel)
+        {
+          referenceInfo = hourlyInfo[previousReportIndex - begIndex];
+          if (!firstSentenceInTheStory && previousReportIndex == begIndex &&
+              theParameters.thePreviousRangeLower != kFloatMissing)
+          {
+            referenceInfo.lowerLimit = static_cast<decltype(referenceInfo.lowerLimit)>(
+                theParameters.thePreviousRangeLower);
+            referenceInfo.upperLimit = static_cast<decltype(referenceInfo.upperLimit)>(
+                theParameters.thePreviousRangeUpper);
+          }
+        }
         if (theParameters.theReportFinalLevel && !finalLevelReported && notWeak &&
             i < lastInsideIndex && finalLevelReachedAt(i) &&
-            wind_speed_differ_enough(hourlyInfo[i - begIndex],
-                                     hourlyInfo[previousReportIndex - begIndex]))
+            wind_speed_differ_enough(hourlyInfo[i - begIndex], referenceInfo))
         {
           reportingIndexes.push_back(i);
           previousTime = windDataItem.thePeriod.localStartTime();
