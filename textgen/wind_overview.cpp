@@ -4142,6 +4142,8 @@ void read_configuration_params(wo_story_params& storyParams)
     bool dayPhrasesUsed = Settings::isset(storyParams.theVar + "::day::phrases") || !weekdaysUsed;
     std::vector<std::string> dayPhrasePreferences =
         WeekdayTools::day_phrase_preferences(storyParams.theVar, weekdaysUsed);
+    bool veeringBacking = (Settings::optional_string(storyParams.theVar + "::turn_phrases",
+                                                     "plain") == "veering_backing");
 
     double minWeakeningDuration =
         Settings::optional_double(storyParams.theVar + "::min_weakening_duration", 2.0);
@@ -4179,6 +4181,7 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theWeekdaysUsed = weekdaysUsed && !dayPhrasesUsed;
     storyParams.theDayPhrasesUsed = dayPhrasesUsed;
     storyParams.theDayPhrasePreferences = dayPhrasePreferences;
+    storyParams.theVeeringBacking = veeringBacking;
     storyParams.theMinWeakeningDuration = minWeakeningDuration;
     storyParams.theConvectiveCellMaxDuration = convectiveCellMaxDuration;
     storyParams.theConvectiveCellMaxAreaFraction = convectiveCellMaxAreaFraction;

@@ -6536,3 +6536,16 @@ msgstr "từ tối muộn mai"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "từ nửa đêm mai"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] xoay theo chiều kim đồng hồ"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] xoay ngược chiều kim đồng hồ"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "[1] xoay theo chiều kim đồng hồ"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "[1] xoay ngược chiều kim đồng hồ"

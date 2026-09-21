@@ -130,6 +130,12 @@ class WindForecast
 
  private:
   wo_story_params& theParameters;
+  // The latest direction written to the text, for veering and backing qualifiers
+  mutable WindDirectionInfo itsReportedDirection;
+
+  Sentence turnQualified(const WindDirectionInfo& theDirection,
+                         const Sentence& thePlain,
+                         bool theBasicForm) const;
 
   sentence_info buildSimpleSentenceInfo(const WeatherPeriod& period,
                                         const WindDirectionPeriodInfo& firstDirectionPeriodInfo,

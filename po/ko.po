@@ -6539,3 +6539,16 @@ msgstr "내일 자정 전부터"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "내일 자정부터"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "시계 방향으로 바뀌는 [1]"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "시계 반대 방향으로 바뀌는 [1]"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "시계 방향으로 바뀌는 [1]"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "시계 반대 방향으로 바뀌는 [1]"

@@ -6533,3 +6533,16 @@ msgstr "من وقت متأخر من ليل الغد"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "من منتصف ليل الغد"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] متجهة باتجاه عقارب الساعة"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] متجهة عكس اتجاه عقارب الساعة"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "[1] متجهة باتجاه عقارب الساعة"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "[1] متجهة عكس اتجاه عقارب الساعة"

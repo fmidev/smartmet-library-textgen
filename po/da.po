@@ -6536,3 +6536,16 @@ msgstr "fra og med i morgen sent på aftenen"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "fra og med i morgen midnat"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "med uret drejende [1]"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "mod uret drejende [1]"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "med uret drejende [1]"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "mod uret drejende [1]"

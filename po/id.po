@@ -6533,3 +6533,16 @@ msgstr "mulai besok larut malam"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "mulai besok tengah malam"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] berputar searah jarum jam"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] berputar berlawanan arah jarum jam"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "[1] berputar searah jarum jam"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "[1] berputar berlawanan arah jarum jam"

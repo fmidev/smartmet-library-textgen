@@ -7,14 +7,18 @@
 
 #include "WindForecast.h"
 #include "Delimiter.h"
+#include "Dictionary.h"
+#include "Phrase.h"
 #include "PositiveRange.h"
 #include "UnitFactory.h"
 #include "WeekdayTools.h"
 #include <boost/algorithm/string/case_conv.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <algorithm>
+#include <iomanip>
 
 // #define BOOST_STACKTRACE_USE_ADDR2LINE
 #include <boost/stacktrace.hpp>
@@ -686,7 +690,8 @@ std::string get_wind_event_string(WindEventId theWindEventId)
   return retval;
 }
 
-Sentence windDirectionSentence(WindDirectionId theWindDirectionId, bool theBasicForm = false)
+// The dictionary key of a wind direction, in the basic or the partitive form
+const char* windDirectionPhraseKey(WindDirectionId theWindDirectionId, bool theBasicForm)
 {
   // Lookup table: maps direction id to {basic_form, partitive_form}
   static const std::map<WindDirectionId, std::pair<const char*, const char*>> directionPhrases = {
@@ -719,17 +724,50 @@ Sentence windDirectionSentence(WindDirectionId theWindDirectionId, bool theBasic
 
   try
   {
-    Sentence sentence;
     auto it = directionPhrases.find(theWindDirectionId);
-    if (it != directionPhrases.end())
-      sentence << (theBasicForm ? it->second.first : it->second.second);
-    return sentence;
+    if (it == directionPhrases.end())
+      return "";
+    return (theBasicForm ? it->second.first : it->second.second);
   }
   catch (...)
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+
+Sentence windDirectionSentence(WindDirectionId theWindDirectionId, bool theBasicForm = false)
+{
+  Sentence sentence;
+  const char* key = windDirectionPhraseKey(theWindDirectionId, theBasicForm);
+  if (*key != 0)
+    sentence << key;
+  return sentence;
+}
+
+// A direction qualified as veering or backing, realized as one glyph so that it fits a
+// single slot of a sentence template: the qualifier phrase "myotapaivaan kaantyen
+// [etelatuulta]" with the direction substituted for [1].
+class QualifiedDirectionPhrase : public Phrase
+{
+ public:
+  QualifiedDirectionPhrase(const std::string& theQualifier, const std::string& theDirection)
+      : Phrase(theQualifier), itsDirection(theDirection)
+  {
+  }
+  std::shared_ptr<Glyph> clone() const override
+  {
+    return std::make_shared<QualifiedDirectionPhrase>(*this);
+  }
+  std::string realize(const Dictionary& theDictionary) const override
+  {
+    std::string text = Phrase::realize(theDictionary);
+    boost::algorithm::replace_first(text, "[1]", theDictionary.find(itsDirection));
+    return text;
+  }
+
+ private:
+  std::string itsDirection;
+};
 
 Sentence windDirectionSentence(const WindDirectionInfo& theWindDirectionInfo,
                                bool theBasicForm = false)
@@ -742,6 +780,54 @@ Sentence windDirectionSentence(const WindDirectionInfo& theWindDirectionInfo,
 
     sentence << windDirectionSentence(theWindDirectionInfo.id, theBasicForm);
 
+    return sentence;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed!");
+  }
+}
+
+// The direction written to the text. With turn_phrases = veering_backing a direction that
+// differs from the previously written one is qualified as clockwise (veering) or
+// counterclockwise (backing), except for variable winds.
+Sentence WindForecast::turnQualified(const WindDirectionInfo& theDirection,
+                                     const Sentence& thePlain,
+                                     bool theBasicForm) const
+{
+  try
+  {
+    const WindDirectionInfo previous = itsReportedDirection;
+    if (theDirection.id != MISSING_WIND_DIRECTION_ID)
+      itsReportedDirection = theDirection;
+
+    if (!theParameters.theVeeringBacking || previous.id == MISSING_WIND_DIRECTION_ID ||
+        previous.id == VAIHTELEVA || theDirection.id == MISSING_WIND_DIRECTION_ID ||
+        theDirection.id == VAIHTELEVA || theDirection.id == previous.id ||
+        previous.direction.value() == kFloatMissing ||
+        theDirection.direction.value() == kFloatMissing)
+      return thePlain;
+
+    const char* key = windDirectionPhraseKey(theDirection.id, theBasicForm);
+    if (*key == 0)
+      return thePlain;
+
+    // signed shortest turn, positive = clockwise
+    double turn = fmod(theDirection.direction.value() - previous.direction.value(), 360.0);
+    if (turn > 180.0)
+      turn -= 360.0;
+    if (turn <= -180.0)
+      turn += 360.0;
+    const bool veering = (turn > 0.0);
+    const char* qualifier = (theBasicForm ? (veering ? "myotapaivaan kaantyen [etelatuuli]"
+                                                     : "vastapaivaan kaantyen [etelatuuli]")
+                                          : (veering ? "myotapaivaan kaantyen [etelatuulta]"
+                                                     : "vastapaivaan kaantyen [etelatuulta]"));
+    theParameters.theLog << "Direction " << key << " is " << (veering ? "veering" : "backing")
+                         << " from the previous one, turn " << static_cast<int>(lround(turn))
+                         << " degrees\n";
+    Sentence sentence;
+    sentence << QualifiedDirectionPhrase(qualifier, key);
     return sentence;
   }
   catch (...)
@@ -2946,8 +3032,10 @@ void WindForecast::addWindDirectionParam(paragraph_info& pi,
   {
     sentence_parameter sp(WIND_DIRECTION);
     if (sentenceInfo.directionChange)
-      sp.sentence << windDirectionSentence(sentenceInfo.directionChange->id,
-                                           sentenceInfo.useWindBasicForm);
+      sp.sentence << turnQualified(
+          *sentenceInfo.directionChange,
+          windDirectionSentence(sentenceInfo.directionChange->id, sentenceInfo.useWindBasicForm),
+          sentenceInfo.useWindBasicForm);
     else
       sp.sentence << (sentenceInfo.useWindBasicForm ? TUULI_WORD : TUULTA_WORD);
     pi.sentenceParameters.push_back(sp);
@@ -3034,7 +3122,8 @@ void WindForecast::processNonSkippedInterval(paragraph_info& pi,
     if (isi.directionChange)
     {
       sentence_parameter sp(WIND_DIRECTION);
-      sp.sentence << windDirectionSentence(*(isi.directionChange));
+      sp.sentence << turnQualified(
+          *isi.directionChange, windDirectionSentence(*(isi.directionChange)), false);
       if (!pi.sentenceParameters.empty() && pi.sentenceParameters.back().type == WIND_DIRECTION)
         pi.sentenceParameters.back() = sp;
       else
@@ -3082,7 +3171,8 @@ void WindForecast::processSkippedInterval(paragraph_info& pi,
       pi.sentenceParameters.push_back(sp);
     }
     sentence_parameter sp(WIND_DIRECTION);
-    sp.sentence << windDirectionSentence(*(isi.directionChange));
+    sp.sentence << turnQualified(
+        *isi.directionChange, windDirectionSentence(*(isi.directionChange)), false);
     pi.sentenceParameters.push_back(sp);
   }
   catch (...)
@@ -3225,6 +3315,7 @@ std::vector<WindStoryPart> WindForecast::getWindStoryParts(const WeatherPeriod& 
 {
   try
   {
+    itsReportedDirection = WindDirectionInfo();
     theParameters.theLog << "*** WIND DIRECTION REPORTING PERIODS ***\n";
 
     for (const WeatherPeriod& period : theParameters.theWindDirectionPeriods)
@@ -3355,6 +3446,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
 {
   try
   {
+    itsReportedDirection = WindDirectionInfo();
     Paragraph paragraph;
     for (const WindStoryPart& part : getWindStoryParts(thePeriod))
       paragraph << part.paragraph;
@@ -4233,7 +4325,7 @@ std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges(
       ret.push_back(sp2);
 
       sentence_parameter sp3(WIND_DIRECTION);
-      sp3.sentence << windDirectionSentence(directionInfo);
+      sp3.sentence << turnQualified(directionInfo, windDirectionSentence(directionInfo), false);
       ret.push_back(sp3);
     }
 

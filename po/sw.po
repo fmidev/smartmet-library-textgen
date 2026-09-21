@@ -6533,3 +6533,16 @@ msgstr "kuanzia kesho jioni ya manane"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "kuanzia kesho usiku wa manane"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] unaogeuka kwa mwendo wa saa"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] unaogeuka kinyume cha mwendo wa saa"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "[1] unaogeuka kwa mwendo wa saa"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "[1] unaogeuka kinyume cha mwendo wa saa"

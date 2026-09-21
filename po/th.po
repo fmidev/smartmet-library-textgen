@@ -6539,3 +6539,16 @@ msgstr "ตั้งแต่ช่วงค่ำพรุ่งนี้"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "ตั้งแต่เที่ยงคืนพรุ่งนี้"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "[1] เปลี่ยนทิศตามเข็มนาฬิกา"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "[1] เปลี่ยนทิศทวนเข็มนาฬิกา"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "[1] เปลี่ยนทิศตามเข็มนาฬิกา"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "[1] เปลี่ยนทิศทวนเข็มนาฬิกา"

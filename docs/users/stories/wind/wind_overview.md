@@ -315,6 +315,13 @@ rest. Setting both `convective_cell_max_duration` and
 * When between two compass directions, the main compass direction is
   always reported first: "pohjoisen ja koillisen välistä tuulta", NOT
   "koillisen ja pohjoisen välistä tuulta".
+* With `turn_phrases = veering_backing` a direction that differs from the
+  one written before it is qualified as clockwise or counterclockwise, as
+  in `wind_sea_overview`: "Illasta alkaen vähitellen heikkenevää tuulta,
+  aamulla myötäpäivään kääntyvää pohjoistuulta 2-4 m/s", English "veering
+  northerly wind", `en-marine` "veering north". Variable winds are never
+  qualified. The default `plain` keeps the direction alone. Translations
+  outside Finnish, Swedish and English await native review.
 
 ### 8-way compass
 
@@ -525,6 +532,7 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `wind_speed_interval_min_size` | 2 m/s | Minimum wind-speed range size |
 | `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
 | `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
+| `turn_phrases` | `plain` | `veering_backing` to qualify a changed direction as clockwise or counterclockwise |
 | `weekdays` | true | Name the weekday when a time phrase moves to another day. With false a change of day is marked with "huomenna" where the reader could not infer it, see `day::phrases` |
 | `day::phrases` | from `weekdays` | Preference list of `tomorrow`, `weekday`, `none` for marking a change of day, as in `wind_sea_overview` |
 | `wind_speed_report_final_level` | false | When true, inside a strengthening/weakening sentence the new speed range is reported from the first hour at which the hourly range has settled at the range of the end of the change, instead of where the cumulative change reaches `wind_speed_threshold`. |

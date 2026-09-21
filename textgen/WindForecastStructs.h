@@ -98,6 +98,9 @@ struct wo_story_params
   // above: on when day::phrases is set or weekdays is false
   bool theDayPhrasesUsed = false;
   std::vector<std::string> theDayPhrasePreferences;
+  // turn_phrases = veering_backing: a reported direction that differs from the previously
+  // reported one is qualified as clockwise (veering) or counterclockwise (backing)
+  bool theVeeringBacking = false;
 
   // Convective cell anomaly handling. A timestep is flagged as containing a local convective
   // cell when the fraction of the area with gust above theConvectiveCellCutoff (HourlyMaximumGust)

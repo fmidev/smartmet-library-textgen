@@ -6539,3 +6539,16 @@ msgstr "从明天深夜起"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "从明天午夜起"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "顺时针转向的[1]"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "逆时针转向的[1]"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "顺时针转向的[1]"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "逆时针转向的[1]"

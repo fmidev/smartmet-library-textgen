@@ -6533,3 +6533,16 @@ msgstr "ab morgen Spätabend"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "ab morgen Mitternacht"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "rechtdrehend [1]"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "rückdrehend [1]"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "rechtdrehend [1]"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "rückdrehend [1]"

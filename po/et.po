@@ -6533,3 +6533,16 @@ msgstr "homme hilisõhtust alates"
 
 msgid "huomenna keskiyosta alkaen"
 msgstr "homme südaööst alates"
+
+# wind_overview: a reported direction qualified as veering or backing, [1] = the direction
+msgid "myotapaivaan kaantyen [etelatuulta]"
+msgstr "päripäeva pöörduv [1]"
+
+msgid "vastapaivaan kaantyen [etelatuulta]"
+msgstr "vastupäeva pöörduv [1]"
+
+msgid "myotapaivaan kaantyen [etelatuuli]"
+msgstr "päripäeva pöörduv [1]"
+
+msgid "vastapaivaan kaantyen [etelatuuli]"
+msgstr "vastupäeva pöörduv [1]"
