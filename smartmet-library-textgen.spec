@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 26.9.21
-Release: 2%{?dist}.fmi
+Release: 3%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-3.fmi
+- wind_overview, wind_sea_overview: a change of day that the reader could not infer is marked also with weekdays = false ("huomenna iltapaivalla"), chosen with the new day::phrases preference list (tomorrow, weekday, none); with weekdays = true wind_overview is unchanged
+- wind_sea_overview: the latest time phrase is kept in the WeatherArea history shared by the stories of a product
+- New "huomenna <part of day>" dictionary keys in all languages; translations outside fi, sv and en await native review
+- Documented that string settings are written without quotes (tolerated from smartmet-library-calculator 26.9.21)
+
 * Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-2.fmi
 - wind_sea_overview: convective gust cells are detected and removed from the area statistics as in wind_overview (convective_cell_* settings) and reported in a separate sentence only with convective_cell_reporting = true
 - wind_sea_overview: weekdays setting (default true) names the day when a time phrase moves to another day; storm level gusts are "hyvin voimakkaita puuskia"

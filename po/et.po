@@ -6490,3 +6490,46 @@ msgstr "päripäeva pöörduv [2] [1]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "vastupäeva pöörduv [2] [1]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "homme pärast südaööd"
+
+msgid "huomenna aamulla"
+msgstr "homme hommikul"
+
+msgid "huomenna aamupaivalla"
+msgstr "homme ennelõunal"
+
+msgid "huomenna iltapaivalla"
+msgstr "homme pärastlõunal"
+
+msgid "huomenna illalla"
+msgstr "homme õhtul"
+
+msgid "huomenna iltayolla"
+msgstr "homme enne südaööd"
+
+msgid "huomenna keskiyolla"
+msgstr "homme südaööl"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "homme varahommikust alates"
+
+msgid "huomenna aamusta alkaen"
+msgstr "homme hommikust alates"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "homme ennelõunast alates"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "homme pärastlõunast alates"
+
+msgid "huomenna illasta alkaen"
+msgstr "homme õhtust alates"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "homme hilisõhtust alates"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "homme südaööst alates"

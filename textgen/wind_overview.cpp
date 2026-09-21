@@ -6,6 +6,7 @@
 #include "SubMaskExtractor.h"
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
+#include "WeekdayTools.h"
 #include "WindForecast.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
@@ -4135,6 +4136,12 @@ void read_configuration_params(wo_story_params& storyParams)
         Settings::optional_double(storyParams.theVar + "::wind_direction_min_speed", 6.5);
 
     bool weekdaysUsed = Settings::optional_bool(storyParams.theVar + "::weekdays", true);
+    // A change of day is marked by the weekday logic of WindForecast as before, or with
+    // WeekdayTools::day_phase_phrase when day::phrases is set or weekdays is false: then
+    // "huomenna" is written where the reader could not otherwise tell the day has changed
+    bool dayPhrasesUsed = Settings::isset(storyParams.theVar + "::day::phrases") || !weekdaysUsed;
+    std::vector<std::string> dayPhrasePreferences =
+        WeekdayTools::day_phrase_preferences(storyParams.theVar, weekdaysUsed);
 
     double minWeakeningDuration =
         Settings::optional_double(storyParams.theVar + "::min_weakening_duration", 2.0);
@@ -4169,7 +4176,9 @@ void read_configuration_params(wo_story_params& storyParams)
     storyParams.theMinIntervalSize = minIntervalSize;
     storyParams.theMaxIntervalSize = maxIntervalSize;
     storyParams.theContextualMaxIntervalSize = maxIntervalSize;
-    storyParams.theWeekdaysUsed = weekdaysUsed;
+    storyParams.theWeekdaysUsed = weekdaysUsed && !dayPhrasesUsed;
+    storyParams.theDayPhrasesUsed = dayPhrasesUsed;
+    storyParams.theDayPhrasePreferences = dayPhrasePreferences;
     storyParams.theMinWeakeningDuration = minWeakeningDuration;
     storyParams.theConvectiveCellMaxDuration = convectiveCellMaxDuration;
     storyParams.theConvectiveCellMaxAreaFraction = convectiveCellMaxAreaFraction;

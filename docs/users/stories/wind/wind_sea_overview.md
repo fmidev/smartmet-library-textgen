@@ -49,7 +49,8 @@ Sentence forms:
 | Weak variable wind | "Suunnaltaan vaihtelevaa tuulta 1-3 m/s." | "Variable wind 1-3 m/s." |
 | Strong gusts (optional) | "Iltapäivällä paikoin voimakkaita puuskia, kovimmillaan 18 m/s." | "In the afternoon, in some places strong gusts, up to 18 m/s." |
 | Convective cell (optional) | "Iltapäivällä paikoin hyvin voimakkaita puuskia, kovimmillaan 22 m/s." | "In the afternoon, in some places very strong gusts, up to 22 m/s." |
-| Next day (weekdays on) | "…maanantaina aamulla pohjoistuulta 2-4 m/s." | "…northerly wind on Monday morning 2-4 m/s." |
+| Next day (weekdays off) | "…huomenna iltapäivällä lännenpuoleista tuulta 1-3 m/s." | "…mainly westerly wind tomorrow afternoon 1-3 m/s." |
+| Next day (weekdays on) | "…maanantaina iltapäivällä lännenpuoleista tuulta 1-3 m/s." | "…mainly westerly wind on Monday afternoon 1-3 m/s." |
 
 All phrases exist in every po dictionary shipped with the library
 (`sonera` excepted).
@@ -202,17 +203,42 @@ only the gusts outside the cell. The default is off because official
 gust warnings are written by meteorologists and the generator cannot see
 them.
 
-### 9. Weekdays
+### 9. Change of day
 
-A time phrase names the day when it moves to another day than the
-previous time phrase, or than the start of the forecast for the first
-one: "maanantaina aamulla pohjoistuulta 2-4 m/s". As in `wind_overview`,
-"keskiyöllä" never names the day, so the following phrase does. Set
-`weekdays = false` to never name the day.
+A forecast made at noon runs from one afternoon to the next, so "iltapäivästä
+alkaen heikkenevää tuulta, iltapäivällä 1-3 m/s" would leave the reader
+unable to tell that the second afternoon is tomorrow. A time phrase is
+therefore given a day marker when it falls on another day than the
+previous time phrase, or than the forecast time for the first one, and
+the reader could not infer the change. The change is inferred when the
+text moves from a later part of the day to an earlier one, "illasta
+alkaen ... aamulla", and midnight belongs to both days.
+
+The marker is chosen from `day::phrases`, a list in order of preference:
+
+| Token | Marker |
+| --- | --- |
+| `tomorrow` | "huomenna iltapäivällä", only for the day after the forecast time |
+| `weekday` | "maanantaina iltapäivällä" |
+| `none` | no marker, stop |
+
+When `day::phrases` is not set, `weekdays = true` (the default) means
+`weekday` and `weekdays = false` means `tomorrow`. A marine forecast with
+`weekdays = false` thus reads "Iltapäivästä alkaen vähitellen heikkenevää
+tuulta, huomenna iltapäivällä lännenpuoleista tuulta 1-3 m/s." The
+history of the latest time phrase is kept in the WeatherArea, shared by
+all stories of the product, so a following story knows which day the
+text has reached. `wind_overview` follows the same rules when
+`day::phrases` is set or `weekdays` is false.
 
 ## Configuration parameters
 
 All variables live under `textgen::[section]::story::wind_sea_overview::*`.
+
+String values such as `turn_phrases = veering_backing` are written
+without quotes. Quotes are tolerated from smartmet-library-calculator
+26.9.21 on; with older versions they become part of the value and the
+setting is silently ignored.
 
 | Parameter | Default | Meaning |
 | --- | --- | --- |
@@ -244,7 +270,8 @@ All variables live under `textgen::[section]::story::wind_sea_overview::*`.
 | `convective_cell_min_area_fraction` | 0 % | Smaller shares are not candidates |
 | `convective_cell_reporting` | `false` | Emit the convective cell sentence |
 | `convective_cell_style` | `sentence` | `quadrant` adds the part of the area |
-| `weekdays` | `true` | Name the day when a time phrase moves to another day |
+| `weekdays` | `true` | Default marker for a change of day: true = `weekday`, false = `tomorrow` |
+| `day::phrases` | from `weekdays` | Preference list of `tomorrow`, `weekday`, `none` for marking a change of day |
 | `rangeseparator` | `-` | Separator in "6-8 m/s" |
 | `specify_part_of_the_day` | `true` | Set to false to drop all time phrases |
 

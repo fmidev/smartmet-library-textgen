@@ -9,6 +9,7 @@
 #include "Delimiter.h"
 #include "PositiveRange.h"
 #include "UnitFactory.h"
+#include "WeekdayTools.h"
 #include <boost/algorithm/string/case_conv.hpp>
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
@@ -3553,6 +3554,15 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
     bool specifyDay = false;
     WeatherPeriod actualPeriod = thePeriod;
     int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
+    // The previous time phrase, or the start of the forecast period for the first one, is the
+    // reference for marking a change of day
+    TextGenPosixTime previousTime = timePhraseInfo.starttime;
+    std::string previousPhrase = timePhraseInfo.phrase;
+    if (previousPhrase.empty())
+    {
+      previousTime = theParameters.theForecastPeriod.localStartTime();
+      previousPhrase = get_time_phrase(previousTime, theParameters.theVar, false);
+    }
     part_of_the_day_id previousPartOfTheDay = timePhraseInfo.part_of_the_day;
 
     if (get_period_length(thePeriod) == 6 && thePeriod.localStartTime().GetHour() == 12 &&
@@ -3586,6 +3596,19 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
 
     normalizeTimePhraseString(
         tps, timePhraseInfo, thePeriod, previousPartOfTheDay, specifyDay, forecastPeriodLength);
+
+    // Mark a change of day ("huomenna iltapaivalla", "2-iltapaivalla") when the weekday logic
+    // above is not in use. The previous phrase comes from the same TimePhraseInfo, so that
+    // tentative phrases built on a copy do not disturb the real sequence.
+    timePhraseInfo.phrase = tps;
+    if (theParameters.theDayPhrasesUsed && !tps.empty() && isdigit(tps[0]) == 0)
+      tps = WeekdayTools::day_phase_phrase(actualPeriod.localStartTime(),
+                                           theParameters.theForecastTime,
+                                           tps,
+                                           theParameters.theDayPhrasePreferences,
+                                           true,
+                                           previousTime,
+                                           previousPhrase);
 
     Sentence sentence;
     sentence << tps;
@@ -4109,6 +4132,8 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePerio
       TimePhraseInfo tpi;
       tpi.day_number = timePhraseInfo.day_number;
       tpi.part_of_the_day = timePhraseInfo.part_of_the_day;
+      tpi.starttime = timePhraseInfo.starttime;
+      tpi.phrase = timePhraseInfo.phrase;
 
       timePhrase << getTimePhrase(intervalInfo.peakWindTime, tpi, false);
 
@@ -4152,6 +4177,8 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
       TimePhraseInfo tpi;
       tpi.day_number = timePhraseInfo.day_number;
       tpi.part_of_the_day = timePhraseInfo.part_of_the_day;
+      tpi.starttime = timePhraseInfo.starttime;
+      tpi.phrase = timePhraseInfo.phrase;
 
       timePhrase << getTimePhrase(intervalInfo.peakWindTime, tpi, false);
 

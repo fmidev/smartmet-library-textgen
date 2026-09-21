@@ -3,6 +3,7 @@
 #include "Sentence.h"
 #include "WeatherForecast.h"
 #include "WindStoryTools.h"
+#include <vector>
 
 namespace TextGen
 {
@@ -93,6 +94,10 @@ struct wo_story_params
   bool theAlkaenPhraseUsed = false;
   bool theWeakTopWind = false;  // if top wind strays under 10 m/s the whole period
   bool theWeekdaysUsed = true;
+  // Marking a change of day with WeekdayTools::day_phase_phrase instead of the weekday logic
+  // above: on when day::phrases is set or weekdays is false
+  bool theDayPhrasesUsed = false;
+  std::vector<std::string> theDayPhrasePreferences;
 
   // Convective cell anomaly handling. A timestep is flagged as containing a local convective
   // cell when the fraction of the area with gust above theConvectiveCellCutoff (HourlyMaximumGust)
@@ -349,6 +354,7 @@ struct WindDirectionInfo
 struct TimePhraseInfo
 {
   TextGenPosixTime starttime;
+  std::string phrase;  // the latest time phrase without a day marker
   TextGenPosixTime endtime;
   short day_number = -1;
   part_of_the_day_id part_of_the_day = MISSING_PART_OF_THE_DAY_ID;

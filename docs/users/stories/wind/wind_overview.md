@@ -525,6 +525,8 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `wind_speed_interval_min_size` | 2 m/s | Minimum wind-speed range size |
 | `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
 | `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
+| `weekdays` | true | Name the weekday when a time phrase moves to another day. With false a change of day is marked with "huomenna" where the reader could not infer it, see `day::phrases` |
+| `day::phrases` | from `weekdays` | Preference list of `tomorrow`, `weekday`, `none` for marking a change of day, as in `wind_sea_overview` |
 | `wind_speed_report_final_level` | false | When true, inside a strengthening/weakening sentence the new speed range is reported from the first hour at which the hourly range has settled at the range of the end of the change, instead of where the cumulative change reaches `wind_speed_threshold`. |
 | `wind_speed_separate_initial_sentence` | false | When true, a change that begins at the start of the story is written as a steady sentence plus a time-phrased change sentence instead of one sentence with "aluksi". |
 | `wind_speed_intermediate_report_limit` | 0 m/s | When > 0, intermediate speed ranges inside a strengthening/weakening sentence are reported only where the top wind reaches this limit; the story start and the end of each change are always reported. 0 disables the filter. |

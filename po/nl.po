@@ -6493,3 +6493,46 @@ msgstr "[1] ruimende [2]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[1] krimpende [2]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "morgen na middernacht"
+
+msgid "huomenna aamulla"
+msgstr "morgenochtend"
+
+msgid "huomenna aamupaivalla"
+msgstr "morgen in de voormiddag"
+
+msgid "huomenna iltapaivalla"
+msgstr "morgenmiddag"
+
+msgid "huomenna illalla"
+msgstr "morgenavond"
+
+msgid "huomenna iltayolla"
+msgstr "morgen voor middernacht"
+
+msgid "huomenna keskiyolla"
+msgstr "morgen om middernacht"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "vanaf morgen in de vroege ochtend"
+
+msgid "huomenna aamusta alkaen"
+msgstr "vanaf morgenochtend"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "vanaf morgen in de voormiddag"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "vanaf morgenmiddag"
+
+msgid "huomenna illasta alkaen"
+msgstr "vanaf morgenavond"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "vanaf morgen in de late avond"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "vanaf morgen middernacht"

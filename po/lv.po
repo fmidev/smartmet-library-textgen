@@ -6490,3 +6490,46 @@ msgstr "[1] [2], kas griežas pulksteņrādītāja virzienā"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[1] [2], kas griežas pretēji pulksteņrādītāja virzienam"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "rīt nakts otrajā pusē"
+
+msgid "huomenna aamulla"
+msgstr "rīt no rīta"
+
+msgid "huomenna aamupaivalla"
+msgstr "rīt priekšpusdienā"
+
+msgid "huomenna iltapaivalla"
+msgstr "rīt pēcpusdienā"
+
+msgid "huomenna illalla"
+msgstr "rīt vakarā"
+
+msgid "huomenna iltayolla"
+msgstr "rīt nakts pirmajā pusē"
+
+msgid "huomenna keskiyolla"
+msgstr "rīt nakts vidū"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "sākot no rītdienas agra rīta"
+
+msgid "huomenna aamusta alkaen"
+msgstr "sākot no rītdienas rīta"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "sākot no rītdienas priekšpusdienas"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "sākot no rītdienas pēcpusdienas"
+
+msgid "huomenna illasta alkaen"
+msgstr "sākot no rītdienas vakara"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "sākot no rītdienas vēla vakara"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "sākot no rītdienas nakts vidus"

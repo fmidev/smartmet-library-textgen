@@ -24,12 +24,14 @@
 #include "Sentence.h"
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
+#include "WeekdayTools.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
 
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
@@ -104,7 +106,7 @@ struct SeaParams
   bool veeringBacking = false;  // distinguish clockwise (veering) and counterclockwise turns
   bool separateInitialSentence = false;  // steady sentence + change sentence instead of "aluksi"
   string rangeSeparator = "-";
-  bool weekdays = true;  // name the day when a time phrase moves to another day
+  bool weekdays = true;  // default for marking a change of day, see day::phrases
 
   // Local convective gust cells (see wind_overview): hours where a small part of the area has
   // gusts above the cutoff for a short time are cleaned from the area statistics and
@@ -1066,19 +1068,23 @@ string rate_word(const Phase& ph, const SeaParams& params)
   return EMPTY_STRING;
 }
 
-// Time phrases with an optional weekday. The day is named when the phrase moves to another day
-// than the previous phrase (initially the start of the forecast) and weekdays are enabled. As
-// in wind_overview "keskiyolla" never names the day and does not count as a move to the next
-// day, so the following phrase names it. The dictionaries have the keys "5-aamuyolla" etc.
+// Time phrases of the story. A change of day is marked with WeekdayTools::day_phase_phrase,
+// using the history of the area so that the stories of one product agree on the day.
 class TimeWords
 {
  public:
-  TimeWords(const string& var, bool weekdays, const TextGenPosixTime& start)
-      : itsVar(var), itsWeekdays(weekdays), itsDay(start.GetWeekday())
+  TimeWords(const string& var,
+            const TextGenPosixTime& forecastTime,
+            vector<string> preferences,
+            WeatherHistory& history)
+      : itsVar(var),
+        itsForecastTime(forecastTime),
+        itsPreferences(std::move(preferences)),
+        itsHistory(history)
   {
   }
 
-  // The phrase without a weekday, for comparisons
+  // The phrase without a day marker, for comparisons
   string plain(const TextGenPosixTime& t, bool alkaen) const
   {
     string phrase = get_time_phrase(t, itsVar, alkaen);
@@ -1088,23 +1094,17 @@ class TimeWords
   // The phrase as it is written; call in the order the phrases appear in the text
   string operator()(const TextGenPosixTime& t, bool alkaen)
   {
-    string phrase = plain(t, alkaen);
-    if (phrase == EMPTY_STRING || phrase.find("keskiyo") != string::npos)
+    const string phrase = plain(t, alkaen);
+    if (phrase == EMPTY_STRING)
       return phrase;
-    const short day = t.GetWeekday();
-    if (day != itsDay)
-    {
-      itsDay = day;
-      if (itsWeekdays)
-        phrase = to_string(day) + "-" + phrase;
-    }
-    return phrase;
+    return WeekdayTools::day_phase_phrase(t, itsForecastTime, phrase, itsPreferences, itsHistory);
   }
 
  private:
   const string& itsVar;
-  bool itsWeekdays;
-  short itsDay;
+  TextGenPosixTime itsForecastTime;
+  vector<string> itsPreferences;
+  WeatherHistory& itsHistory;
 };
 
 // Sentence about the strongest of the detected cells, covering all of them
@@ -1190,7 +1190,17 @@ Paragraph WindStory::sea_overview() const
         collect_hours(itsVar, itsSources, itsArea, itsPeriod, params, cells, log);
     if (hours.empty())
       return paragraph;
-    TimeWords timeWord(itsVar, params.weekdays, itsPeriod.localStartTime());
+    WeatherHistory& history = const_cast<WeatherArea&>(itsArea).history();
+    WeekdayTools::forget_history_outside(history, itsPeriod);
+    TimeWords timeWord(itsVar,
+                       itsForecastTime,
+                       WeekdayTools::day_phrase_preferences(itsVar, params.weekdays),
+                       history);
+    // The reader starts from the beginning of the forecast period: a phrase for an earlier
+    // part of the day than that on the next day needs no marker
+    if (history.latestDayPhasePhrase.empty())
+      history.updateTimePhrase(
+          "", timeWord.plain(itsPeriod.localStartTime(), false), itsPeriod.localStartTime());
 
     // 1. phases of the smoothed area mean
     vector<int> pts = turning_points(hours);
@@ -1375,7 +1385,7 @@ Paragraph WindStory::sea_overview() const
         else
         {
           if (timeWord.plain(startTime, false) == timeWord.plain(endTime, false) &&
-              !tailHasDirection)
+              TimeTools::isSameDay(startTime, endTime) && !tailHasDirection)
           {
             // change within one part of the day
             sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << timeWord(startTime, false) << rate

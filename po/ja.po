@@ -6496,3 +6496,46 @@ msgstr "[1]時計回りに変わる[2]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[1]反時計回りに変わる[2]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "明日の深夜過ぎ"
+
+msgid "huomenna aamulla"
+msgstr "明日の朝"
+
+msgid "huomenna aamupaivalla"
+msgstr "明日の午前中"
+
+msgid "huomenna iltapaivalla"
+msgstr "明日の午後"
+
+msgid "huomenna illalla"
+msgstr "明日の夕方"
+
+msgid "huomenna iltayolla"
+msgstr "明日の深夜前"
+
+msgid "huomenna keskiyolla"
+msgstr "明日の真夜中"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "明日の早朝から"
+
+msgid "huomenna aamusta alkaen"
+msgstr "明日の朝から"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "明日の午前中から"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "明日の午後から"
+
+msgid "huomenna illasta alkaen"
+msgstr "明日の夕方から"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "明日の夜遅くから"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "明日の真夜中から"

@@ -6496,3 +6496,46 @@ msgstr "[2] เปลี่ยนทิศตามเข็มนาฬิก�
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[2] เปลี่ยนทิศทวนเข็มนาฬิกา [1]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "หลังเที่ยงคืนพรุ่งนี้"
+
+msgid "huomenna aamulla"
+msgstr "เช้าพรุ่งนี้"
+
+msgid "huomenna aamupaivalla"
+msgstr "ช่วงสายพรุ่งนี้"
+
+msgid "huomenna iltapaivalla"
+msgstr "ตอนบ่ายพรุ่งนี้"
+
+msgid "huomenna illalla"
+msgstr "ตอนเย็นพรุ่งนี้"
+
+msgid "huomenna iltayolla"
+msgstr "ก่อนเที่ยงคืนพรุ่งนี้"
+
+msgid "huomenna keskiyolla"
+msgstr "เที่ยงคืนพรุ่งนี้"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "ตั้งแต่ช่วงเช้าตรู่พรุ่งนี้"
+
+msgid "huomenna aamusta alkaen"
+msgstr "ตั้งแต่เช้าพรุ่งนี้"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "ตั้งแต่ช่วงสายพรุ่งนี้"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "ตั้งแต่ตอนบ่ายพรุ่งนี้"
+
+msgid "huomenna illasta alkaen"
+msgstr "ตั้งแต่ตอนเย็นพรุ่งนี้"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "ตั้งแต่ช่วงค่ำพรุ่งนี้"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "ตั้งแต่เที่ยงคืนพรุ่งนี้"

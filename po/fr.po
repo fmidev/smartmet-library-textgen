@@ -6490,3 +6490,46 @@ msgstr "[2] tournant dans le sens horaire [1]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[2] tournant dans le sens antihoraire [1]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "demain après minuit"
+
+msgid "huomenna aamulla"
+msgstr "demain matin"
+
+msgid "huomenna aamupaivalla"
+msgstr "demain en matinée"
+
+msgid "huomenna iltapaivalla"
+msgstr "demain après-midi"
+
+msgid "huomenna illalla"
+msgstr "demain soir"
+
+msgid "huomenna iltayolla"
+msgstr "demain avant minuit"
+
+msgid "huomenna keskiyolla"
+msgstr "demain à minuit"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "à partir de demain tôt le matin"
+
+msgid "huomenna aamusta alkaen"
+msgstr "à partir de demain matin"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "à partir de demain en matinée"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "à partir de demain après-midi"
+
+msgid "huomenna illasta alkaen"
+msgstr "à partir de demain soir"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "à partir de demain en soirée tardive"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "à partir de demain minuit"

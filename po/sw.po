@@ -6490,3 +6490,46 @@ msgstr "[2] unaogeuka kwa mwendo wa saa [1]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[2] unaogeuka kinyume cha mwendo wa saa [1]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "kesho baada ya usiku wa manane"
+
+msgid "huomenna aamulla"
+msgstr "kesho asubuhi"
+
+msgid "huomenna aamupaivalla"
+msgstr "kesho kabla ya adhuhuri"
+
+msgid "huomenna iltapaivalla"
+msgstr "kesho mchana"
+
+msgid "huomenna illalla"
+msgstr "kesho jioni"
+
+msgid "huomenna iltayolla"
+msgstr "kesho kabla ya usiku wa manane"
+
+msgid "huomenna keskiyolla"
+msgstr "kesho usiku wa manane"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "kuanzia kesho asubuhi na mapema"
+
+msgid "huomenna aamusta alkaen"
+msgstr "kuanzia kesho asubuhi"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "kuanzia kesho kabla ya adhuhuri"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "kuanzia kesho mchana"
+
+msgid "huomenna illasta alkaen"
+msgstr "kuanzia kesho jioni"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "kuanzia kesho jioni ya manane"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "kuanzia kesho usiku wa manane"

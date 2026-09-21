@@ -6493,3 +6493,46 @@ msgstr "[2] xoay theo chiều kim đồng hồ [1]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[2] xoay ngược chiều kim đồng hồ [1]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "sau nửa đêm mai"
+
+msgid "huomenna aamulla"
+msgstr "sáng mai"
+
+msgid "huomenna aamupaivalla"
+msgstr "trước buổi trưa mai"
+
+msgid "huomenna iltapaivalla"
+msgstr "chiều mai"
+
+msgid "huomenna illalla"
+msgstr "tối mai"
+
+msgid "huomenna iltayolla"
+msgstr "trước nửa đêm mai"
+
+msgid "huomenna keskiyolla"
+msgstr "nửa đêm mai"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "từ sáng sớm mai"
+
+msgid "huomenna aamusta alkaen"
+msgstr "từ sáng mai"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "từ trước buổi trưa mai"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "từ chiều mai"
+
+msgid "huomenna illasta alkaen"
+msgstr "từ tối mai"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "từ tối muộn mai"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "từ nửa đêm mai"

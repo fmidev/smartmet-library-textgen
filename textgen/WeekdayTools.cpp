@@ -14,10 +14,14 @@
 
 #include "WeekdayTools.h"
 #include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
+#include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherHistory.h>
+#include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
+#include <newbase/NFmiStringTools.h>
+#include <set>
 
 using namespace std;
 
@@ -894,6 +898,151 @@ const std::string on_weekday_time(const TextGenPosixTime & theTime,
 // tai viikonpaivana.
 }
 */
+
+// ----------------------------------------------------------------------
+// Marking a change of day in the time phrases of the wind stories
+// ----------------------------------------------------------------------
+
+namespace
+{
+// Order of the parts of the day in a phrase key. Longer names first so that "aamupaiva" is not
+// taken as "aamu" and "iltayo" not as "ilta". Returns -1 for an unknown phrase.
+int day_phase_rank(const std::string& thePhrase)
+{
+  static const std::vector<std::pair<const char*, int>> ranks = {{"keskiyo", 0},
+                                                                 {"aamuyo", 1},
+                                                                 {"aamupaiva", 3},
+                                                                 {"aamu", 2},
+                                                                 {"keskipaiva", 4},
+                                                                 {"iltapaiva", 5},
+                                                                 {"iltayo", 7},
+                                                                 {"ilta", 6},
+                                                                 {"illa", 6},
+                                                                 {"paiva", 4},
+                                                                 {"yo", 0}};
+  for (const auto& rank : ranks)
+    if (thePhrase.find(rank.first) != std::string::npos)
+      return rank.second;
+  return -1;
+}
+
+// The phrases for which the dictionaries have a "huomenna <phrase>" key
+bool tomorrow_form_exists(const std::string& thePhrase)
+{
+  static const std::set<std::string> phrases = {"aamuyolla",
+                                                "aamulla",
+                                                "aamupaivalla",
+                                                "iltapaivalla",
+                                                "illalla",
+                                                "iltayolla",
+                                                "keskiyolla",
+                                                "aamuyosta alkaen",
+                                                "aamusta alkaen",
+                                                "aamupaivasta alkaen",
+                                                "iltapaivasta alkaen",
+                                                "illasta alkaen",
+                                                "iltayosta alkaen",
+                                                "keskiyosta alkaen"};
+  return phrases.count(thePhrase) > 0;
+}
+
+TextGenPosixTime date_of(const TextGenPosixTime& theTime)
+{
+  return {theTime.GetYear(), theTime.GetMonth(), theTime.GetDay(), 0, 0};
+}
+}  // namespace
+
+std::vector<std::string> day_phrase_preferences(const std::string& theVar, bool theWeekdays)
+{
+  try
+  {
+    const std::string setting = Settings::optional_string(theVar + "::day::phrases", "");
+    if (!setting.empty())
+      return NFmiStringTools::Split(setting);
+    return {theWeekdays ? "weekday" : "tomorrow"};
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
+  }
+}
+
+void forget_history_outside(TextGen::WeatherHistory& theHistory, const WeatherPeriod& thePeriod)
+{
+  if (theHistory.latestDate < thePeriod.localStartTime() ||
+      theHistory.latestDate > thePeriod.localEndTime())
+    theHistory = TextGen::WeatherHistory();
+}
+
+std::string day_phase_phrase(const TextGenPosixTime& theTime,
+                             const TextGenPosixTime& theForecastTime,
+                             const std::string& thePhrase,
+                             const std::vector<std::string>& thePreferences,
+                             bool theHavePrevious,
+                             const TextGenPosixTime& thePreviousTime,
+                             const std::string& thePreviousPhrase)
+{
+  try
+  {
+    if (thePhrase.empty())
+      return thePhrase;
+
+    const TextGenPosixTime& reference = (theHavePrevious ? thePreviousTime : theForecastTime);
+    const long dayDiff = date_of(theTime).DifferenceInHours(date_of(reference)) / 24;
+    if (dayDiff == 0)
+      return thePhrase;
+
+    // Midnight and the night belong to both days: they need no marker, and after them the next
+    // day is understood. Otherwise the reader infers the next day when the text moves from a
+    // later part of the day to an earlier one: "illasta alkaen ... aamulla".
+    const int current = day_phase_rank(thePhrase);
+    bool inferable = (current == 0);
+    if (dayDiff == 1 && theHavePrevious)
+    {
+      const int previous = day_phase_rank(thePreviousPhrase);
+      if (previous == 0 || (previous > 0 && current >= 0 && current < previous))
+        inferable = true;
+    }
+    if (inferable)
+      return thePhrase;
+
+    for (const auto& preference : thePreferences)
+    {
+      if (preference == "none")
+        break;
+      if (preference == "tomorrow" && TimeTools::isNextDay(theForecastTime, theTime) &&
+          tomorrow_form_exists(thePhrase))
+        return "huomenna " + thePhrase;
+      if (preference == "weekday")
+        return std::to_string(theTime.GetWeekday()) + "-" + thePhrase;
+    }
+    return thePhrase;
+  }
+  catch (...)
+  {
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePhrase", thePhrase);
+  }
+}
+
+std::string day_phase_phrase(const TextGenPosixTime& theTime,
+                             const TextGenPosixTime& theForecastTime,
+                             const std::string& thePhrase,
+                             const std::vector<std::string>& thePreferences,
+                             TextGen::WeatherHistory& theHistory)
+{
+  const bool havePrevious = !theHistory.latestDayPhasePhrase.empty();
+  const std::string phrase = day_phase_phrase(theTime,
+                                              theForecastTime,
+                                              thePhrase,
+                                              thePreferences,
+                                              havePrevious,
+                                              theHistory.latestDate,
+                                              theHistory.latestDayPhasePhrase);
+  if (!thePhrase.empty())
+    theHistory.updateTimePhrase(
+        phrase.substr(0, phrase.size() - thePhrase.size()), thePhrase, theTime);
+  return phrase;
+}
 
 }  // namespace WeekdayTools
 }  // namespace TextGen

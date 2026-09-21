@@ -17,6 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
+#include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiSettings.h>
 
@@ -108,7 +109,12 @@ void set_hour_without_cell(int hourOffset, double mean, double lower, double upp
   Settings::set(base + "::gust::maximum::no_cell", value(gust));
 }
 
-// Reset the story settings to the documented defaults
+// WindStory keeps references to these, so they must outlive the story objects
+TextGen::AnalysisSources sources;
+TextGen::WeatherArea area("25,60");
+TextGen::WeatherPeriod period(START, END);
+
+// Reset the story settings to the documented defaults, and the time phrase history of the area
 void reset_settings()
 {
   Settings::set(VAR + "::speed_change_threshold", "3.0");
@@ -129,6 +135,8 @@ void reset_settings()
   Settings::set(VAR + "::turn_phrases", "plain");
   Settings::set(VAR + "::separate_initial_sentence", "false");
   Settings::set(VAR + "::weekdays", "false");
+  Settings::set(VAR + "::day::phrases", "");
+  area.history() = TextGen::WeatherHistory();
   Settings::set(VAR + "::convective_cell_cutoff", "13.5");
   Settings::set(VAR + "::convective_cell_max_duration", "3");
   Settings::set(VAR + "::convective_cell_max_area_fraction", "10");
@@ -136,11 +144,6 @@ void reset_settings()
   Settings::set(VAR + "::convective_cell_reporting", "false");
   Settings::set(VAR + "::convective_cell_style", "sentence");
 }
-
-// WindStory keeps references to these, so they must outlive the story objects
-TextGen::AnalysisSources sources;
-TextGen::WeatherArea area("25,60");
-TextGen::WeatherPeriod period(START, END);
 
 TextGen::WindStory make_story()
 {
@@ -478,13 +481,74 @@ void convective_cell()
 }
 
 // ----------------------------------------------------------------------
-// With weekdays enabled the day is named when the text moves to the next day
+// A change of day is marked when the reader could not infer it: a
+// weakening from this afternoon to tomorrow afternoon
 // ----------------------------------------------------------------------
 
-void weekdays_named()
+void day_change_marked()
 {
   reset_settings();
-  Settings::set(VAR + "::weekdays", "true");
+  // 30 hour period, Sunday 12:00 - Monday 18:00
+  const TextGenPosixTime end(2026, 9, 7, 18, 0);
+  TextGen::WeatherPeriod longPeriod(START, end);
+  for (int h = 0; h <= 30; h++)
+  {
+    double mean = 9.0;
+    if (h > 2 && h <= 27)
+      mean = 9.0 - (h - 2) * (7.0 / 25.0);  // 9 -> 2 between 14:00 and 15:00 next day
+    else if (h > 27)
+      mean = 2.0;
+    double dir = 45.0;
+    if (h >= 20 && h <= 24)
+      dir = 45.0 - (h - 20) * 33.75;  // turns to west 08:00 - 12:00
+    else if (h > 24)
+      dir = 270.0;
+    set_hour(h, mean, mean - 1.0, mean + 1.0, dir, 5.0);
+  }
+  TextGen::WindStory story(START, sources, area, longPeriod, VAR);
+  string result;
+
+  // weekdays = false: "huomenna" marks the day after the forecast time
+  REQUIRE(story,
+          "fi",
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää tuulta, huomenna "
+          "iltapäivällä länsituulta 1-3 m/s.");
+  REQUIRE(story,
+          "en",
+          "North-easterly wind 8-10 m/s. Gradually weakening wind from the afternoon, westerly "
+          "wind tomorrow afternoon 1-3 m/s.");
+  REQUIRE(story,
+          "sv",
+          "Nordostlig vind 8-10 m/s. Från och med eftermiddagen vind som avtar småningom, i "
+          "morgon på eftermiddagen västlig vind 1-3 m/s.");
+
+  // the weekday when preferred
+  area.history() = TextGen::WeatherHistory();
+  Settings::set(VAR + "::day::phrases", "weekday");
+  REQUIRE(story,
+          "fi",
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää tuulta, "
+          "maanantaina iltapäivällä länsituulta 1-3 m/s.");
+
+  // or no marker at all
+  area.history() = TextGen::WeatherHistory();
+  Settings::set(VAR + "::day::phrases", "none");
+  REQUIRE(story,
+          "fi",
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää tuulta, "
+          "iltapäivällä länsituulta 1-3 m/s.");
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
+// The day is not marked when the text moves from the evening to the
+// morning, since the reader infers the next day
+// ----------------------------------------------------------------------
+
+void day_change_inferred()
+{
+  reset_settings();
+  Settings::set(VAR + "::day::phrases", "weekday");
   for (int h = 0; h <= 24; h++)
   {
     double mean = 10.0;
@@ -502,15 +566,10 @@ void weekdays_named()
 
   TextGen::WindStory story = make_story();
   string result;
-  // the forecast starts on Sunday 6.9.2026, the morning is Monday
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää tuulta, maanantaina "
-          "aamulla pohjoistuulta 2-4 m/s.");
-  REQUIRE(story,
-          "en",
-          "Westerly wind 9-11 m/s. Gradually weakening wind from the evening, northerly wind on "
-          "Monday morning 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää tuulta, aamulla "
+          "pohjoistuulta 2-4 m/s.");
   TEST_PASSED();
 }
 
@@ -568,7 +627,8 @@ class tests : public tframe::tests
     TEST(weak_variable_wind);
     TEST(gust_sentence);
     TEST(convective_cell);
-    TEST(weekdays_named);
+    TEST(day_change_marked);
+    TEST(day_change_inferred);
     TEST(capped_changes);
   }
 

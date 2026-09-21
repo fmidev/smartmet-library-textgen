@@ -6490,3 +6490,46 @@ msgstr "[2] berputar searah jarum jam [1]"
 
 msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
 msgstr "[2] berputar berlawanan arah jarum jam [1]"
+
+# Wind stories: a change of day marked with "tomorrow" and the part of the day
+msgid "huomenna aamuyolla"
+msgstr "besok lewat tengah malam"
+
+msgid "huomenna aamulla"
+msgstr "besok pagi"
+
+msgid "huomenna aamupaivalla"
+msgstr "besok menjelang siang"
+
+msgid "huomenna iltapaivalla"
+msgstr "besok sore"
+
+msgid "huomenna illalla"
+msgstr "besok malam"
+
+msgid "huomenna iltayolla"
+msgstr "besok sebelum tengah malam"
+
+msgid "huomenna keskiyolla"
+msgstr "besok tengah malam"
+
+msgid "huomenna aamuyosta alkaen"
+msgstr "mulai besok dini hari"
+
+msgid "huomenna aamusta alkaen"
+msgstr "mulai besok pagi"
+
+msgid "huomenna aamupaivasta alkaen"
+msgstr "mulai besok menjelang siang"
+
+msgid "huomenna iltapaivasta alkaen"
+msgstr "mulai besok sore"
+
+msgid "huomenna illasta alkaen"
+msgstr "mulai besok malam"
+
+msgid "huomenna iltayosta alkaen"
+msgstr "mulai besok larut malam"
+
+msgid "huomenna keskiyosta alkaen"
+msgstr "mulai besok tengah malam"
