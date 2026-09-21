@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.9.16
+Version: 26.9.21
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-1.fmi
+- wind_sea_overview: optional separate_initial_sentence setting; a change that begins at the start of the story is written as a steady sentence plus a time-phrased change sentence ("Etelätuulta 4-6 m/s. Iltapäivästä alkaen vähitellen voimistuvaa tuulta, illalla 11-13 m/s.") instead of one sentence with "aluksi". Default false keeps the old behaviour
+
 * Wed Sep 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.16-1.fmi
 - wind_overview: optional wind_speed_separate_initial_sentence setting; a change that begins at the start of the story is written as a steady sentence plus a time-phrased change sentence ("Lounaistuulta 10-14 m/s. Iltapäivällä heikkenevää tuulta, illasta alkaen 8-11 m/s.") instead of one sentence with "aluksi". Default false keeps the old behaviour
 - wind_overview: with wind_speed_report_final_level the range reported last in the previous sentence is the reference for later sentences

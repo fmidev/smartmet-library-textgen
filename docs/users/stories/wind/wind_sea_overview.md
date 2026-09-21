@@ -41,6 +41,7 @@ Sentence forms:
 | --- | --- | --- |
 | Steady wind (first sentence) | "Luoteistuulta 6-8 m/s." | "North-westerly wind 6-8 m/s." |
 | Change from the start | "Vähitellen voimistuvaa etelätuulta, aluksi 4-6 m/s, illalla 11-13 m/s." | "Gradually strengthening southerly wind, at first 4-6 m/s, in the evening 11-13 m/s." |
+| Change from the start, two sentences (optional) | "Etelätuulta 4-6 m/s. Iltapäivästä alkaen vähitellen voimistuvaa tuulta, illalla 11-13 m/s." | "Southerly wind 4-6 m/s. Gradually strengthening wind from the afternoon, in the evening 11-13 m/s." |
 | Later change | "Illasta alkaen vähitellen heikkenevää tuulta, aamulla 2-4 m/s." | "Gradually weakening wind from the evening, in the morning 2-4 m/s." |
 | Change with a new direction | "…heikkenevää tuulta, aamulla pohjoistuulta 2-4 m/s." | "…weakening wind from the evening, northerly wind in the morning 2-4 m/s." |
 | Turn without a speed change | "Keskiyöllä tuuli kääntyy länteen." | "The wind turns to the west at midnight." |
@@ -107,6 +108,18 @@ The first sentence of a change reports the range of the first
 `range_hours` (3) hours ("aluksi"). The end state of a change is the
 range of the first `range_hours` hours *after* the change when a steady
 phase follows, otherwise of its last hours.
+
+With `separate_initial_sentence = true` a change that begins at the start
+of the story is written as two sentences instead of one with "aluksi": a
+steady sentence with the start range, then the change sentence with a
+time phrase and the settled range, for example "Etelätuulta 4-6 m/s.
+Iltapäivästä alkaen vähitellen voimistuvaa tuulta, illalla 11-13 m/s."
+The change is considered to start at the first hour whose hourly range
+differs from the start range by at least `range_report_min_difference`.
+The single-sentence form is kept when that hour falls within the first
+`range_hours` (the wind is not steady long enough for its own sentence)
+or when the range moves only at the very end of the change. This is the
+counterpart of `wind_speed_separate_initial_sentence` in `wind_overview`.
 
 ### 4. Direction
 
@@ -175,6 +188,7 @@ All variables live under `textgen::[section]::story::wind_sea_overview::*`.
 | `range_max_width` | 5 m/s | Maximum range width |
 | `range_hours` | 3 | Hours used for the start and end ranges of a change |
 | `range_report_min_difference` | 2 m/s | A steady phase with a new direction repeats the range only if a bound moved at least this much |
+| `separate_initial_sentence` | `false` | Write a change that begins at the start of the story as a steady sentence plus a time-phrased change sentence instead of one sentence with "aluksi" |
 | `direction_change_threshold` | 45° | Minimum turn that is reported |
 | `direction_variable_max_speed` | 6.0 m/s | "Suunnaltaan vaihtelevaa" only below this mean speed |
 | `direction_split_min_hours` | 6 | Minimum steady phase length that may be split by a turn |

@@ -110,6 +110,7 @@ void reset_settings()
   Settings::set(VAR + "::gust_reporting", "false");
   Settings::set(VAR + "::gust_limit", "15");
   Settings::set(VAR + "::turn_phrases", "plain");
+  Settings::set(VAR + "::separate_initial_sentence", "false");
 }
 
 // WindStory keeps references to these, so they must outlive the story objects
@@ -179,6 +180,47 @@ void strengthening_from_start()
   REQUIRE(story,
           "en",
           "Gradually strengthening southerly wind, at first 4-6 m/s, in the evening 11-13 m/s.");
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
+// The same strengthening written as two sentences instead of "aluksi"
+// ----------------------------------------------------------------------
+
+void strengthening_from_start_two_sentences()
+{
+  reset_settings();
+  Settings::set(VAR + "::separate_initial_sentence", "true");
+  for (int h = 0; h <= 24; h++)
+  {
+    const double mean = min(12.0, 4.0 + h);  // 4 -> 12 by 20:00
+    set_hour(h, mean, mean - 1.0, mean + 1.0, 180.0, 5.0);
+  }
+
+  TextGen::WindStory story = make_story();
+  string result;
+  // the hourly range has moved 2 m/s from 4-6 at 15:00
+  REQUIRE(story,
+          "fi",
+          "Etelätuulta 4-6 m/s. Iltapäivästä alkaen vähitellen voimistuvaa tuulta, illalla 11-13 "
+          "m/s.");
+  REQUIRE(story,
+          "en",
+          "Southerly wind 4-6 m/s. Gradually strengthening wind from the afternoon, in the evening "
+          "11-13 m/s.");
+
+  // A fast change: the range moves already within the first range_hours, the single sentence
+  // is kept
+  reset_settings();
+  Settings::set(VAR + "::separate_initial_sentence", "true");
+  for (int h = 0; h <= 24; h++)
+  {
+    const double mean = min(12.0, 4.0 + 3.0 * h);  // 4 -> 12 by 15:00
+    set_hour(h, mean, mean - 1.0, mean + 1.0, 180.0, 5.0);
+  }
+  TextGen::WindStory fastStory = make_story();
+  REQUIRE(
+      fastStory, "fi", "Nopeasti voimistuvaa etelätuulta, aluksi 6-8 m/s, iltapäivällä 11-13 m/s.");
   TEST_PASSED();
 }
 
@@ -394,6 +436,7 @@ class tests : public tframe::tests
     TEST(steady_wind);
     TEST(noisy_steady_wind);
     TEST(strengthening_from_start);
+    TEST(strengthening_from_start_two_sentences);
     TEST(weakening_with_turn);
     TEST(turn_only);
     TEST(veering_and_backing);
@@ -416,7 +459,9 @@ int main(void)
 
   using namespace WindSeaOverviewTest;
 
-  cout << endl << "WindStory::sea_overview tests" << endl << "=============================" << endl;
+  cout << endl
+       << "WindStory::sea_overview tests" << endl
+       << "=============================" << endl;
 
   dict.reset(TextGen::DictionaryFactory::create("po"));
   dict->init("fi");

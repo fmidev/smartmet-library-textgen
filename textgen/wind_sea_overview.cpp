@@ -98,6 +98,7 @@ struct SeaParams
   bool gustReporting = false;
   double gustLimit = 15.0;
   bool veeringBacking = false;  // distinguish clockwise (veering) and counterclockwise turns
+  bool separateInitialSentence = false;  // steady sentence + change sentence instead of "aluksi"
   string rangeSeparator = "-";
 };
 
@@ -129,6 +130,8 @@ SeaParams read_params(const string& var)
   p.gustReporting = optional_bool(var + "::gust_reporting", p.gustReporting);
   p.gustLimit = optional_double(var + "::gust_limit", p.gustLimit);
   p.veeringBacking = (optional_string(var + "::turn_phrases", "plain") == "veering_backing");
+  p.separateInitialSentence =
+      optional_bool(var + "::separate_initial_sentence", p.separateInitialSentence);
   p.rangeSeparator = optional_string(var + "::rangeseparator", p.rangeSeparator);
   if (p.smoothingHours < 1)
     p.smoothingHours = 1;
@@ -773,6 +776,20 @@ Range compute_range(const vector<HourData>& hours, int beg, int end, const SeaPa
   return r;
 }
 
+// First hour after beg whose hourly range has moved from the given range by at least
+// range_report_min_difference, or -1 if there is none up to end
+int range_change_start(const vector<HourData>& hours,
+                       int beg,
+                       int end,
+                       const Range& startRange,
+                       const SeaParams& params)
+{
+  for (int i = beg + 1; i <= end; i++)
+    if (compute_range(hours, i, i, params).differs(startRange, params.rangeReportMinDifference))
+      return i;
+  return -1;
+}
+
 // ----------------------------------------------------------------------
 // Sentence helpers
 // ----------------------------------------------------------------------
@@ -924,17 +941,44 @@ Paragraph WindStory::sea_overview() const
             (steadyFollows ? hours[ph.end].time : hours[(rangeBeg + rangeEnd) / 2].time);
         // the wind at the first point of the leg still has the old value: the change starts after
         // it
-        const TextGenPosixTime startTime = hours[min(ph.end, ph.beg + 1)].time;
+        TextGenPosixTime startTime = hours[min(ph.end, ph.beg + 1)].time;
+        const Range startRange = compute_range(hours, ph.beg, startEnd, params);
         log << "Change phase: " << changeWord << " " << rate << ", direction " << startDir.phrase
             << " -> " << dir.phrase << ", end range " << endRange.lower << "-" << endRange.upper
             << '\n';
+
+        // Optionally a change from the start of the story is written as a steady sentence for
+        // the hours before the range has moved, followed by a time phrased change sentence,
+        // instead of one sentence with "aluksi". The single sentence is kept when the range
+        // already moves within the range_hours the start range describes, or only at the end of
+        // the change.
+        bool splitInitial = false;
+        if (first && params.separateInitialSentence && startRange != endRange)
+        {
+          const int changeStart = range_change_start(hours, ph.beg, ph.end, startRange, params);
+          if (changeStart > startEnd && changeStart < ph.end)
+          {
+            Sentence steady;
+            steady << TIME_DIRECTION_PHRASE << EMPTY_STRING << startDir.phrase;
+            append_range(steady, startRange, params);
+            paragraph << steady;
+            reportedDir = startDir;
+            reportedRange = startRange;
+            haveReported = true;
+            startTime = hours[changeStart].time;
+            splitInitial = true;
+            log << "Separate initial sentence, change starts " << startTime.ToIsoExtendedStr()
+                << '\n';
+          }
+        }
+        const bool singleInitial = first && !splitInitial;
 
         // Head of the sentence: the direction at the start of the change, unless it is variable
         // or has already been reported. The tail carries the end direction when it differs.
         const bool tailHasDirection = !dir.variable && direction_changed(startDir, dir, params);
         string headDirWord = WIND_WORD;
         if (!tailHasDirection && !startDir.variable &&
-            (first || direction_changed(reportedDir, startDir, params)))
+            (singleInitial || direction_changed(reportedDir, startDir, params)))
           headDirWord = startDir.phrase;
         const string endWord = time_word(endTime, itsVar, false);
 
@@ -954,9 +998,8 @@ Paragraph WindStory::sea_overview() const
           append_range(target, endRange, params);
         };
 
-        if (first)
+        if (singleInitial)
         {
-          Range startRange = compute_range(hours, ph.beg, startEnd, params);
           sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << EMPTY_STRING << rate << changeWord
                    << headDirWord;
           if (startRange != endRange)
