@@ -6491,12 +6491,6 @@ msgstr "[1] 바람이 시계 방향으로 [2]으로 바뀜"
 msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
 msgstr "[1] 바람이 시계 반대 방향으로 [2]으로 바뀜"
 
-msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
-msgstr "[1] 시계 방향으로 바뀌는 [2]"
-
-msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
-msgstr "[1] 시계 반대 방향으로 바뀌는 [2]"
-
 # Wind stories: a change of day marked with "tomorrow" and the part of the day
 msgid "huomenna aamuyolla"
 msgstr "내일 새벽에"
@@ -6541,14 +6535,213 @@ msgid "huomenna keskiyosta alkaen"
 msgstr "내일 자정부터"
 
 # wind_overview: a reported direction qualified as veering or backing, [1] = the direction
-msgid "myotapaivaan kaantyen [etelatuulta]"
-msgstr "시계 방향으로 바뀌는 [1]"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "시계 방향으로 바뀌는 [2]"
 
-msgid "vastapaivaan kaantyen [etelatuulta]"
-msgstr "시계 반대 방향으로 바뀌는 [1]"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "시계 반대 방향으로 바뀌는 [2]"
 
-msgid "myotapaivaan kaantyen [etelatuuli]"
-msgstr "시계 방향으로 바뀌는 [1]"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "시계 방향으로 바뀌는 [2]"
 
-msgid "vastapaivaan kaantyen [etelatuuli]"
-msgstr "시계 반대 방향으로 바뀌는 [1]"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "시계 반대 방향으로 바뀌는 [2]"
+
+# wind_sea_overview: the head of a change sentence when the direction follows in the tail
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa]"
+msgstr "[1] [2] [3]"
+
+# wind_sea_overview: the new direction at the end of a change sentence, the turn without its sense
+msgid "kaantyen [etelaan] [etelatuulta]"
+msgstr "[2]"
+
+# wind_sea_overview: the time by which a turn has happened (Finnish translative); languages
+# without the form use the plain phrase
+msgid "aamuyoksi"
+msgstr "새벽에"
+
+msgid "huomenna aamuyoksi"
+msgstr "내일 새벽에"
+
+msgid "1-aamuyoksi"
+msgstr "월요일 새벽에"
+
+msgid "2-aamuyoksi"
+msgstr "화요일 새벽에"
+
+msgid "3-aamuyoksi"
+msgstr "수요일 새벽에"
+
+msgid "4-aamuyoksi"
+msgstr "목요일 새벽에"
+
+msgid "5-aamuyoksi"
+msgstr "금요일 새벽에"
+
+msgid "6-aamuyoksi"
+msgstr "토요일 새벽에"
+
+msgid "7-aamuyoksi"
+msgstr "일요일 새벽에"
+
+msgid "aamuksi"
+msgstr "아침에"
+
+msgid "huomenna aamuksi"
+msgstr "내일 아침에"
+
+msgid "1-aamuksi"
+msgstr "월요일 아침에"
+
+msgid "2-aamuksi"
+msgstr "화요일 아침에"
+
+msgid "3-aamuksi"
+msgstr "수요일 아침에"
+
+msgid "4-aamuksi"
+msgstr "목요일 아침에"
+
+msgid "5-aamuksi"
+msgstr "금요일 아침에"
+
+msgid "6-aamuksi"
+msgstr "토요일 아침에"
+
+msgid "7-aamuksi"
+msgstr "일요일 아침에"
+
+msgid "aamupaivaksi"
+msgstr "오전에"
+
+msgid "huomenna aamupaivaksi"
+msgstr "내일 오전에"
+
+msgid "1-aamupaivaksi"
+msgstr "월요일 오전에"
+
+msgid "2-aamupaivaksi"
+msgstr "화요일 오전에"
+
+msgid "3-aamupaivaksi"
+msgstr "수요일 오전에"
+
+msgid "4-aamupaivaksi"
+msgstr "목요일 오전에"
+
+msgid "5-aamupaivaksi"
+msgstr "금요일 오전에"
+
+msgid "6-aamupaivaksi"
+msgstr "토요일 오전에"
+
+msgid "7-aamupaivaksi"
+msgstr "일요일 오전에"
+
+msgid "iltapaivaksi"
+msgstr "오후에"
+
+msgid "huomenna iltapaivaksi"
+msgstr "내일 오후에"
+
+msgid "1-iltapaivaksi"
+msgstr "월요일 오후에"
+
+msgid "2-iltapaivaksi"
+msgstr "화요일 오후에"
+
+msgid "3-iltapaivaksi"
+msgstr "수요일 오후에"
+
+msgid "4-iltapaivaksi"
+msgstr "목요일 오후에"
+
+msgid "5-iltapaivaksi"
+msgstr "금요일 오후에"
+
+msgid "6-iltapaivaksi"
+msgstr "토요일 오후에"
+
+msgid "7-iltapaivaksi"
+msgstr "일요일 오후에"
+
+msgid "illaksi"
+msgstr "저녁에"
+
+msgid "huomenna illaksi"
+msgstr "내일 저녁에"
+
+msgid "1-illaksi"
+msgstr "월요일 저녁에"
+
+msgid "2-illaksi"
+msgstr "화요일 저녁에"
+
+msgid "3-illaksi"
+msgstr "수요일 저녁에"
+
+msgid "4-illaksi"
+msgstr "목요일 저녁에"
+
+msgid "5-illaksi"
+msgstr "금요일 저녁에"
+
+msgid "6-illaksi"
+msgstr "토요일 저녁에"
+
+msgid "7-illaksi"
+msgstr "일요일 저녁에"
+
+msgid "iltayoksi"
+msgstr "자정 전에"
+
+msgid "huomenna iltayoksi"
+msgstr "내일 자정 전에"
+
+msgid "1-iltayoksi"
+msgstr "월요일 자정 전에"
+
+msgid "2-iltayoksi"
+msgstr "화요일 자정 전에"
+
+msgid "3-iltayoksi"
+msgstr "수요일 자정 전에"
+
+msgid "4-iltayoksi"
+msgstr "목요일 자정 전에"
+
+msgid "5-iltayoksi"
+msgstr "금요일 자정 전에"
+
+msgid "6-iltayoksi"
+msgstr "토요일 자정 전에"
+
+msgid "7-iltayoksi"
+msgstr "일요일 자정 전에"
+
+msgid "keskiyoksi"
+msgstr "자정에"
+
+msgid "huomenna keskiyoksi"
+msgstr "내일 자정에"
+
+msgid "1-keskiyoksi"
+msgstr "월요일 자정에"
+
+msgid "2-keskiyoksi"
+msgstr "화요일 자정에"
+
+msgid "3-keskiyoksi"
+msgstr "수요일 자정에"
+
+msgid "4-keskiyoksi"
+msgstr "목요일 자정에"
+
+msgid "5-keskiyoksi"
+msgstr "금요일 자정에"
+
+msgid "6-keskiyoksi"
+msgstr "토요일 자정에"
+
+msgid "7-keskiyoksi"
+msgstr "일요일 자정에"

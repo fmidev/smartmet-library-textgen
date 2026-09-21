@@ -6485,12 +6485,6 @@ msgstr "le vent tourne dans le sens horaire vers [2] [1]"
 msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
 msgstr "le vent tourne dans le sens antihoraire vers [2] [1]"
 
-msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
-msgstr "[2] tournant dans le sens horaire [1]"
-
-msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
-msgstr "[2] tournant dans le sens antihoraire [1]"
-
 # Wind stories: a change of day marked with "tomorrow" and the part of the day
 msgid "huomenna aamuyolla"
 msgstr "demain après minuit"
@@ -6535,14 +6529,213 @@ msgid "huomenna keskiyosta alkaen"
 msgstr "à partir de demain minuit"
 
 # wind_overview: a reported direction qualified as veering or backing, [1] = the direction
-msgid "myotapaivaan kaantyen [etelatuulta]"
-msgstr "[1] tournant dans le sens horaire"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "[2] tournant dans le sens horaire"
 
-msgid "vastapaivaan kaantyen [etelatuulta]"
-msgstr "[1] tournant dans le sens antihoraire"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "[2] tournant dans le sens antihoraire"
 
-msgid "myotapaivaan kaantyen [etelatuuli]"
-msgstr "[1] tournant dans le sens horaire"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "[2] tournant dans le sens horaire"
 
-msgid "vastapaivaan kaantyen [etelatuuli]"
-msgstr "[1] tournant dans le sens antihoraire"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "[2] tournant dans le sens antihoraire"
+
+# wind_sea_overview: the head of a change sentence when the direction follows in the tail
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa]"
+msgstr "[2] [3] [1]"
+
+# wind_sea_overview: the new direction at the end of a change sentence, the turn without its sense
+msgid "kaantyen [etelaan] [etelatuulta]"
+msgstr "[2]"
+
+# wind_sea_overview: the time by which a turn has happened (Finnish translative); languages
+# without the form use the plain phrase
+msgid "aamuyoksi"
+msgstr "après minuit"
+
+msgid "huomenna aamuyoksi"
+msgstr "demain après minuit"
+
+msgid "1-aamuyoksi"
+msgstr "lundi aux premières heures"
+
+msgid "2-aamuyoksi"
+msgstr "mardi aux premières heures"
+
+msgid "3-aamuyoksi"
+msgstr "mercredi aux premières heures"
+
+msgid "4-aamuyoksi"
+msgstr "jeudi aux premières heures"
+
+msgid "5-aamuyoksi"
+msgstr "vendredi aux premières heures"
+
+msgid "6-aamuyoksi"
+msgstr "samedi aux premières heures"
+
+msgid "7-aamuyoksi"
+msgstr "dimanche aux premières heures"
+
+msgid "aamuksi"
+msgstr "le matin"
+
+msgid "huomenna aamuksi"
+msgstr "demain matin"
+
+msgid "1-aamuksi"
+msgstr "lundi matin"
+
+msgid "2-aamuksi"
+msgstr "mardi matin"
+
+msgid "3-aamuksi"
+msgstr "mercredi matin"
+
+msgid "4-aamuksi"
+msgstr "jeudi matin"
+
+msgid "5-aamuksi"
+msgstr "vendredi matin"
+
+msgid "6-aamuksi"
+msgstr "samedi matin"
+
+msgid "7-aamuksi"
+msgstr "dimanche matin"
+
+msgid "aamupaivaksi"
+msgstr "en matinée"
+
+msgid "huomenna aamupaivaksi"
+msgstr "demain en matinée"
+
+msgid "1-aamupaivaksi"
+msgstr "lundi en matinée"
+
+msgid "2-aamupaivaksi"
+msgstr "mardi en matinée"
+
+msgid "3-aamupaivaksi"
+msgstr "mercredi en matinée"
+
+msgid "4-aamupaivaksi"
+msgstr "jeudi en matinée"
+
+msgid "5-aamupaivaksi"
+msgstr "vendredi en matinée"
+
+msgid "6-aamupaivaksi"
+msgstr "samedi en matinée"
+
+msgid "7-aamupaivaksi"
+msgstr "dimanche en matinée"
+
+msgid "iltapaivaksi"
+msgstr "l'après-midi"
+
+msgid "huomenna iltapaivaksi"
+msgstr "demain après-midi"
+
+msgid "1-iltapaivaksi"
+msgstr "lundi après-midi"
+
+msgid "2-iltapaivaksi"
+msgstr "mardi après-midi"
+
+msgid "3-iltapaivaksi"
+msgstr "mercredi après-midi"
+
+msgid "4-iltapaivaksi"
+msgstr "jeudi après-midi"
+
+msgid "5-iltapaivaksi"
+msgstr "vendredi après-midi"
+
+msgid "6-iltapaivaksi"
+msgstr "samedi après-midi"
+
+msgid "7-iltapaivaksi"
+msgstr "dimanche après-midi"
+
+msgid "illaksi"
+msgstr "le soir"
+
+msgid "huomenna illaksi"
+msgstr "demain soir"
+
+msgid "1-illaksi"
+msgstr "lundi soir"
+
+msgid "2-illaksi"
+msgstr "mardi soir"
+
+msgid "3-illaksi"
+msgstr "mercredi soir"
+
+msgid "4-illaksi"
+msgstr "jeudi soir"
+
+msgid "5-illaksi"
+msgstr "vendredi soir"
+
+msgid "6-illaksi"
+msgstr "samedi soir"
+
+msgid "7-illaksi"
+msgstr "dimanche soir"
+
+msgid "iltayoksi"
+msgstr "avant minuit"
+
+msgid "huomenna iltayoksi"
+msgstr "demain avant minuit"
+
+msgid "1-iltayoksi"
+msgstr "lundi avant minuit"
+
+msgid "2-iltayoksi"
+msgstr "mardi avant minuit"
+
+msgid "3-iltayoksi"
+msgstr "mercredi avant minuit"
+
+msgid "4-iltayoksi"
+msgstr "jeudi avant minuit"
+
+msgid "5-iltayoksi"
+msgstr "vendredi avant minuit"
+
+msgid "6-iltayoksi"
+msgstr "samedi avant minuit"
+
+msgid "7-iltayoksi"
+msgstr "dimanche avant minuit"
+
+msgid "keskiyoksi"
+msgstr "à minuit"
+
+msgid "huomenna keskiyoksi"
+msgstr "demain à minuit"
+
+msgid "1-keskiyoksi"
+msgstr "lundi à minuit"
+
+msgid "2-keskiyoksi"
+msgstr "mardi à minuit"
+
+msgid "3-keskiyoksi"
+msgstr "mercredi à minuit"
+
+msgid "4-keskiyoksi"
+msgstr "jeudi à minuit"
+
+msgid "5-keskiyoksi"
+msgstr "vendredi à minuit"
+
+msgid "6-keskiyoksi"
+msgstr "samedi à minuit"
+
+msgid "7-keskiyoksi"
+msgstr "dimanche à minuit"

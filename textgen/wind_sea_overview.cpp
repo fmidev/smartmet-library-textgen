@@ -21,6 +21,7 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PositiveRange.h"
+#include "QualifiedDirectionPhrase.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
@@ -42,6 +43,7 @@
 #include <array>
 #include <cmath>
 #include <iomanip>
+#include <map>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -57,14 +59,16 @@ namespace
 // Phrase keys (all exist in the po dictionaries, shared with wind_overview)
 const char* const TIME_RATE_CHANGE_DIRECTION_PHRASE =
     "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]";
+const char* const TIME_RATE_CHANGE_PHRASE = "[iltapaivalla] [nopeasti] [heikkenevaa]";
 const char* const TIME_DIRECTION_PHRASE = "[iltapaivalla] [etelatuulta]";
 const char* const TIME_WIND_TURNS_PHRASE = "[iltapaivalla] tuuli kaantyy [etelaan]";
 const char* const TIME_WIND_VEERS_PHRASE = "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]";
 const char* const TIME_WIND_BACKS_PHRASE = "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]";
-const char* const TIME_VEERING_DIRECTION_PHRASE =
-    "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]";
-const char* const TIME_BACKING_DIRECTION_PHRASE =
-    "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]";
+// Qualified direction glyphs: [1] = turn-to form, [2] = noun form, see QualifiedDirectionPhrase
+const char* const VEERING_DIRECTION_KEY = "myotapaivaan kaantyen [etelaan] [etelatuulta]";
+const char* const BACKING_DIRECTION_KEY = "vastapaivaan kaantyen [etelaan] [etelatuulta]";
+// The turn without its sense: Finnish "pohjoiseen kääntyvää tuulta", most languages the noun
+const char* const TURNING_DIRECTION_KEY = "kaantyen [etelaan] [etelatuulta]";
 const char* const GUST_PHRASE = "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]";
 const char* const GUST_QUADRANT_PHRASE =
     "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]";
@@ -1100,6 +1104,25 @@ class TimeWords
     return WeekdayTools::day_phase_phrase(t, itsForecastTime, phrase, itsPreferences, itsHistory);
   }
 
+  // The time by which something has happened, "aamuksi", "by the morning"; used for the
+  // completion of a turn. Languages without the form translate it like the plain phrase.
+  string by(const TextGenPosixTime& t)
+  {
+    static const map<string, string> translative = {{"aamuyolla", "aamuyoksi"},
+                                                    {"aamulla", "aamuksi"},
+                                                    {"aamupaivalla", "aamupaivaksi"},
+                                                    {"iltapaivalla", "iltapaivaksi"},
+                                                    {"illalla", "illaksi"},
+                                                    {"iltayolla", "iltayoksi"},
+                                                    {"keskiyolla", "keskiyoksi"}};
+    const string phrase = plain(t, false);
+    auto it = translative.find(phrase);
+    if (it == translative.end())
+      return (*this)(t, false);
+    return WeekdayTools::day_phase_phrase(
+        t, itsForecastTime, it->second, itsPreferences, itsHistory);
+  }
+
  private:
   const string& itsVar;
   TextGenPosixTime itsForecastTime;
@@ -1162,6 +1185,23 @@ void append_range(Sentence& sentence, const Range& r, const SeaParams& params)
 {
   sentence << PositiveRange(r.lower, r.upper, params.rangeSeparator)
            << *UnitFactory::create(MetersPerSecond);
+}
+
+// The direction of a turn as a qualified direction glyph, or the plain direction when no key is
+// given. Variable winds are never qualified.
+void append_direction(Sentence& sentence, const DirectionInfo& dir, const char* key)
+{
+  if (key != nullptr && !dir.variable)
+    sentence << QualifiedDirectionPhrase(key, dir.turnPhrase, dir.phrase);
+  else
+    sentence << dir.phrase;
+}
+
+const char* turn_key(bool senseKnown, bool veering, const char* plainKey)
+{
+  if (!senseKnown)
+    return plainKey;
+  return (veering ? VEERING_DIRECTION_KEY : BACKING_DIRECTION_KEY);
 }
 
 }  // namespace
@@ -1276,10 +1316,8 @@ Paragraph WindStory::sea_overview() const
           }
           else
           {
-            const char* key = TIME_DIRECTION_PHRASE;
-            if (haveReference && !dir.variable)
-              key = (veering ? TIME_VEERING_DIRECTION_PHRASE : TIME_BACKING_DIRECTION_PHRASE);
-            sentence << key << when << dir.phrase;
+            sentence << TIME_DIRECTION_PHRASE << when;
+            append_direction(sentence, dir, turn_key(haveReference, veering, nullptr));
             if (rangeChanged)
               append_range(sentence, range, params);
           }
@@ -1343,37 +1381,65 @@ Paragraph WindStory::sea_overview() const
                 << '\n';
           }
         }
-        const bool singleInitial = first && !splitInitial;
+        // A change from the start of the story that ends in a turn always starts with the
+        // state at the start: "Koillistuulta 1-3 m/s. Vähitellen voimistuvaa, aamuyöksi etelään
+        // kääntyvää tuulta 5-7 m/s." The change sentence then has no time phrase of its own.
+        const bool tailHasDirection = !dir.variable && direction_changed(startDir, dir, params);
+        bool startStateFirst = false;
+        if (first && !splitInitial && tailHasDirection)
+        {
+          Sentence steady;
+          steady << TIME_DIRECTION_PHRASE << EMPTY_STRING << startDir.phrase;
+          append_range(steady, startRange, params);
+          paragraph << steady;
+          reportedDir = startDir;
+          reportedRange = startRange;
+          haveReported = true;
+          startStateFirst = true;
+          log << "State at the start in its own sentence, the change ends in a turn\n";
+        }
+        const bool singleInitial = first && !splitInitial && !startStateFirst;
 
         // Head of the sentence: the direction at the start of the change, unless it is variable
         // or has already been reported. The tail carries the end direction when it differs.
-        const bool tailHasDirection = !dir.variable && direction_changed(startDir, dir, params);
         string headDirWord = WIND_WORD;
         if (!tailHasDirection && !startDir.variable &&
             (singleInitial || direction_changed(reportedDir, startDir, params)))
           headDirWord = startDir.phrase;
 
+        // When the tail carries the direction, the wind is named once, at the end: "vähitellen
+        // heikkenevää, aamulla pohjoiseen kääntyvää tuulta"
+        auto append_head = [&](Sentence& target, const string& time)
+        {
+          if (tailHasDirection)
+            target << TIME_RATE_CHANGE_PHRASE << time << rate << changeWord;
+          else
+            target << TIME_RATE_CHANGE_DIRECTION_PHRASE << time << rate << changeWord
+                   << headDirWord;
+        };
+
         auto append_tail = [&](Sentence& target)
         {
-          const string endWord = timeWord(endTime, false);
           if (tailHasDirection)
           {
-            const char* key = TIME_DIRECTION_PHRASE;
-            if (params.veeringBacking && !startDir.variable)
-              key =
-                  (signed_turn(startDir.degrees, dir.degrees) > 0 ? TIME_VEERING_DIRECTION_PHRASE
-                                                                  : TIME_BACKING_DIRECTION_PHRASE);
-            target << key << endWord << dir.phrase;
+            // the tail of a change sentence names the turn and the time by which it has
+            // happened, where the language does so: "aamuksi pohjoiseen kääntyvää tuulta"
+            target << TIME_DIRECTION_PHRASE << timeWord.by(endTime);
+            const bool senseKnown = params.veeringBacking && !startDir.variable;
+            append_direction(target,
+                             dir,
+                             turn_key(senseKnown,
+                                      signed_turn(startDir.degrees, dir.degrees) > 0,
+                                      TURNING_DIRECTION_KEY));
           }
           else
-            target << endWord;
+            target << timeWord(endTime, false);
           append_range(target, endRange, params);
         };
 
         if (singleInitial)
         {
-          sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << EMPTY_STRING << rate << changeWord
-                   << headDirWord;
+          append_head(sentence, EMPTY_STRING);
           if (startRange != endRange)
           {
             sentence << Delimiter(COMMA_PUNCTUATION_MARK) << INITIALLY_WORD;
@@ -1388,14 +1454,13 @@ Paragraph WindStory::sea_overview() const
               TimeTools::isSameDay(startTime, endTime) && !tailHasDirection)
           {
             // change within one part of the day
-            sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << timeWord(startTime, false) << rate
-                     << changeWord << headDirWord;
+            append_head(sentence, timeWord(startTime, false));
             append_range(sentence, endRange, params);
           }
           else
           {
-            sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << timeWord(startTime, true) << rate
-                     << changeWord << headDirWord;
+            append_head(sentence,
+                        startStateFirst ? string(EMPTY_STRING) : timeWord(startTime, true));
             sentence << Delimiter(COMMA_PUNCTUATION_MARK);
             append_tail(sentence);
           }

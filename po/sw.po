@@ -6485,12 +6485,6 @@ msgstr "upepo unageuka kwa mwendo wa saa [2] [1]"
 msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
 msgstr "upepo unageuka kinyume cha mwendo wa saa [2] [1]"
 
-msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
-msgstr "[2] unaogeuka kwa mwendo wa saa [1]"
-
-msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
-msgstr "[2] unaogeuka kinyume cha mwendo wa saa [1]"
-
 # Wind stories: a change of day marked with "tomorrow" and the part of the day
 msgid "huomenna aamuyolla"
 msgstr "kesho baada ya usiku wa manane"
@@ -6535,14 +6529,213 @@ msgid "huomenna keskiyosta alkaen"
 msgstr "kuanzia kesho usiku wa manane"
 
 # wind_overview: a reported direction qualified as veering or backing, [1] = the direction
-msgid "myotapaivaan kaantyen [etelatuulta]"
-msgstr "[1] unaogeuka kwa mwendo wa saa"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "[2] unaogeuka kwa mwendo wa saa"
 
-msgid "vastapaivaan kaantyen [etelatuulta]"
-msgstr "[1] unaogeuka kinyume cha mwendo wa saa"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "[2] unaogeuka kinyume cha mwendo wa saa"
 
-msgid "myotapaivaan kaantyen [etelatuuli]"
-msgstr "[1] unaogeuka kwa mwendo wa saa"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "[2] unaogeuka kwa mwendo wa saa"
 
-msgid "vastapaivaan kaantyen [etelatuuli]"
-msgstr "[1] unaogeuka kinyume cha mwendo wa saa"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "[2] unaogeuka kinyume cha mwendo wa saa"
+
+# wind_sea_overview: the head of a change sentence when the direction follows in the tail
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa]"
+msgstr "[2] [3] upepo [1]"
+
+# wind_sea_overview: the new direction at the end of a change sentence, the turn without its sense
+msgid "kaantyen [etelaan] [etelatuulta]"
+msgstr "[2]"
+
+# wind_sea_overview: the time by which a turn has happened (Finnish translative); languages
+# without the form use the plain phrase
+msgid "aamuyoksi"
+msgstr "baada ya usiku wa manane"
+
+msgid "huomenna aamuyoksi"
+msgstr "kesho baada ya usiku wa manane"
+
+msgid "1-aamuyoksi"
+msgstr "Jumatatu asubuhi na mapema"
+
+msgid "2-aamuyoksi"
+msgstr "Jumanne asubuhi na mapema"
+
+msgid "3-aamuyoksi"
+msgstr "Jumatano asubuhi na mapema"
+
+msgid "4-aamuyoksi"
+msgstr "Alhamisi asubuhi na mapema"
+
+msgid "5-aamuyoksi"
+msgstr "Ijumaa asubuhi na mapema"
+
+msgid "6-aamuyoksi"
+msgstr "Jumamosi asubuhi na mapema"
+
+msgid "7-aamuyoksi"
+msgstr "Jumapili asubuhi na mapema"
+
+msgid "aamuksi"
+msgstr "asubuhi"
+
+msgid "huomenna aamuksi"
+msgstr "kesho asubuhi"
+
+msgid "1-aamuksi"
+msgstr "Jumatatu asubuhi"
+
+msgid "2-aamuksi"
+msgstr "Jumanne asubuhi"
+
+msgid "3-aamuksi"
+msgstr "Jumatano asubuhi"
+
+msgid "4-aamuksi"
+msgstr "Alhamisi asubuhi"
+
+msgid "5-aamuksi"
+msgstr "Ijumaa asubuhi"
+
+msgid "6-aamuksi"
+msgstr "Jumamosi asubuhi"
+
+msgid "7-aamuksi"
+msgstr "Jumapili asubuhi"
+
+msgid "aamupaivaksi"
+msgstr "kabla ya adhuhuri"
+
+msgid "huomenna aamupaivaksi"
+msgstr "kesho kabla ya adhuhuri"
+
+msgid "1-aamupaivaksi"
+msgstr "Jumatatu kabla ya adhuhuri"
+
+msgid "2-aamupaivaksi"
+msgstr "Jumanne kabla ya adhuhuri"
+
+msgid "3-aamupaivaksi"
+msgstr "Jumatano kabla ya adhuhuri"
+
+msgid "4-aamupaivaksi"
+msgstr "Alhamisi kabla ya adhuhuri"
+
+msgid "5-aamupaivaksi"
+msgstr "Ijumaa kabla ya adhuhuri"
+
+msgid "6-aamupaivaksi"
+msgstr "Jumamosi kabla ya adhuhuri"
+
+msgid "7-aamupaivaksi"
+msgstr "Jumapili kabla ya adhuhuri"
+
+msgid "iltapaivaksi"
+msgstr "mchana"
+
+msgid "huomenna iltapaivaksi"
+msgstr "kesho mchana"
+
+msgid "1-iltapaivaksi"
+msgstr "Jumatatu mchana"
+
+msgid "2-iltapaivaksi"
+msgstr "Jumanne mchana"
+
+msgid "3-iltapaivaksi"
+msgstr "Jumatano mchana"
+
+msgid "4-iltapaivaksi"
+msgstr "Alhamisi mchana"
+
+msgid "5-iltapaivaksi"
+msgstr "Ijumaa mchana"
+
+msgid "6-iltapaivaksi"
+msgstr "Jumamosi mchana"
+
+msgid "7-iltapaivaksi"
+msgstr "Jumapili mchana"
+
+msgid "illaksi"
+msgstr "jioni"
+
+msgid "huomenna illaksi"
+msgstr "kesho jioni"
+
+msgid "1-illaksi"
+msgstr "Jumatatu jioni"
+
+msgid "2-illaksi"
+msgstr "Jumanne jioni"
+
+msgid "3-illaksi"
+msgstr "Jumatano jioni"
+
+msgid "4-illaksi"
+msgstr "Alhamisi jioni"
+
+msgid "5-illaksi"
+msgstr "Ijumaa jioni"
+
+msgid "6-illaksi"
+msgstr "Jumamosi jioni"
+
+msgid "7-illaksi"
+msgstr "Jumapili jioni"
+
+msgid "iltayoksi"
+msgstr "kabla ya usiku wa manane"
+
+msgid "huomenna iltayoksi"
+msgstr "kesho kabla ya usiku wa manane"
+
+msgid "1-iltayoksi"
+msgstr "Jumatatu kabla ya usiku wa manane"
+
+msgid "2-iltayoksi"
+msgstr "Jumanne kabla ya usiku wa manane"
+
+msgid "3-iltayoksi"
+msgstr "Jumatano kabla ya usiku wa manane"
+
+msgid "4-iltayoksi"
+msgstr "Alhamisi kabla ya usiku wa manane"
+
+msgid "5-iltayoksi"
+msgstr "Ijumaa kabla ya usiku wa manane"
+
+msgid "6-iltayoksi"
+msgstr "Jumamosi kabla ya usiku wa manane"
+
+msgid "7-iltayoksi"
+msgstr "Jumapili kabla ya usiku wa manane"
+
+msgid "keskiyoksi"
+msgstr "usiku wa manane"
+
+msgid "huomenna keskiyoksi"
+msgstr "kesho usiku wa manane"
+
+msgid "1-keskiyoksi"
+msgstr "Jumatatu usiku wa manane"
+
+msgid "2-keskiyoksi"
+msgstr "Jumanne usiku wa manane"
+
+msgid "3-keskiyoksi"
+msgstr "Jumatano usiku wa manane"
+
+msgid "4-keskiyoksi"
+msgstr "Alhamisi usiku wa manane"
+
+msgid "5-keskiyoksi"
+msgstr "Ijumaa usiku wa manane"
+
+msgid "6-keskiyoksi"
+msgstr "Jumamosi usiku wa manane"
+
+msgid "7-keskiyoksi"
+msgstr "Jumapili usiku wa manane"

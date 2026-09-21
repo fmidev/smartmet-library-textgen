@@ -7,9 +7,8 @@
 
 #include "WindForecast.h"
 #include "Delimiter.h"
-#include "Dictionary.h"
-#include "Phrase.h"
 #include "PositiveRange.h"
+#include "QualifiedDirectionPhrase.h"
 #include "UnitFactory.h"
 #include "WeekdayTools.h"
 #include <boost/algorithm/string/case_conv.hpp>
@@ -744,31 +743,6 @@ Sentence windDirectionSentence(WindDirectionId theWindDirectionId, bool theBasic
   return sentence;
 }
 
-// A direction qualified as veering or backing, realized as one glyph so that it fits a
-// single slot of a sentence template: the qualifier phrase "myotapaivaan kaantyen
-// [etelatuulta]" with the direction substituted for [1].
-class QualifiedDirectionPhrase : public Phrase
-{
- public:
-  QualifiedDirectionPhrase(const std::string& theQualifier, const std::string& theDirection)
-      : Phrase(theQualifier), itsDirection(theDirection)
-  {
-  }
-  std::shared_ptr<Glyph> clone() const override
-  {
-    return std::make_shared<QualifiedDirectionPhrase>(*this);
-  }
-  std::string realize(const Dictionary& theDictionary) const override
-  {
-    std::string text = Phrase::realize(theDictionary);
-    boost::algorithm::replace_first(text, "[1]", theDictionary.find(itsDirection));
-    return text;
-  }
-
- private:
-  std::string itsDirection;
-};
-
 Sentence windDirectionSentence(const WindDirectionInfo& theWindDirectionInfo,
                                bool theBasicForm = false)
 {
@@ -787,6 +761,8 @@ Sentence windDirectionSentence(const WindDirectionInfo& theWindDirectionInfo,
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+
+std::string getWindDirectionTurntoString(WindDirectionId theWindDirectionId);
 
 // The direction written to the text. With turn_phrases = veering_backing a direction that
 // differs from the previously written one is qualified as clockwise (veering) or
@@ -819,15 +795,17 @@ Sentence WindForecast::turnQualified(const WindDirectionInfo& theDirection,
     if (turn <= -180.0)
       turn += 360.0;
     const bool veering = (turn > 0.0);
-    const char* qualifier = (theBasicForm ? (veering ? "myotapaivaan kaantyen [etelatuuli]"
-                                                     : "vastapaivaan kaantyen [etelatuuli]")
-                                          : (veering ? "myotapaivaan kaantyen [etelatuulta]"
-                                                     : "vastapaivaan kaantyen [etelatuulta]"));
+    const char* qualifier =
+        (theBasicForm ? (veering ? "myotapaivaan kaantyen [etelaan] [etelatuuli]"
+                                 : "vastapaivaan kaantyen [etelaan] [etelatuuli]")
+                      : (veering ? "myotapaivaan kaantyen [etelaan] [etelatuulta]"
+                                 : "vastapaivaan kaantyen [etelaan] [etelatuulta]"));
     theParameters.theLog << "Direction " << key << " is " << (veering ? "veering" : "backing")
                          << " from the previous one, turn " << static_cast<int>(lround(turn))
                          << " degrees\n";
     Sentence sentence;
-    sentence << QualifiedDirectionPhrase(qualifier, key);
+    sentence << QualifiedDirectionPhrase(
+        qualifier, getWindDirectionTurntoString(theDirection.id), key);
     return sentence;
   }
   catch (...)

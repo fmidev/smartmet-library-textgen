@@ -43,9 +43,11 @@ Sentence forms:
 | Change from the start | "Vähitellen voimistuvaa etelätuulta, aluksi 4-6 m/s, illalla 11-13 m/s." | "Gradually strengthening southerly wind, at first 4-6 m/s, in the evening 11-13 m/s." |
 | Change from the start, two sentences (optional) | "Etelätuulta 4-6 m/s. Iltapäivästä alkaen vähitellen voimistuvaa tuulta, illalla 11-13 m/s." | "Southerly wind 4-6 m/s. Gradually strengthening wind from the afternoon, in the evening 11-13 m/s." |
 | Later change | "Illasta alkaen vähitellen heikkenevää tuulta, aamulla 2-4 m/s." | "Gradually weakening wind from the evening, in the morning 2-4 m/s." |
-| Change with a new direction | "…heikkenevää tuulta, aamulla pohjoistuulta 2-4 m/s." | "…weakening wind from the evening, northerly wind in the morning 2-4 m/s." |
+| Change with a new direction | "…heikkenevää, aamuksi pohjoiseen kääntyvää tuulta 2-4 m/s." | "…weakening from the evening, northerly wind by the morning 2-4 m/s." |
+| Veering / backing tail (optional) | "…heikkenevää, aamuksi pohjoiseen kääntyvää tuulta 2-4 m/s." | "…weakening from the evening, veering northerly wind by the morning 2-4 m/s." |
+| Change from the start ending in a turn | "Koillistuulta 1-3 m/s. Vähitellen voimistuvaa, aamuyöksi etelään kääntyvää tuulta 5-7 m/s." | "North-easterly wind 1-3 m/s. Gradually strengthening, southerly wind by the early hours 5-7 m/s." |
 | Turn without a speed change | "Keskiyöllä tuuli kääntyy länteen." | "The wind turns to the west at midnight." |
-| Veering / backing (optional) | "Keskiyöllä tuuli kääntyy myötäpäivään länteen." | "The wind veers to the west at midnight." |
+| Veering / backing (optional) | "Keskiyöllä tuuli kääntyy länteen." | "The wind veers to the west at midnight." |
 | Weak variable wind | "Suunnaltaan vaihtelevaa tuulta 1-3 m/s." | "Variable wind 1-3 m/s." |
 | Strong gusts (optional) | "Iltapäivällä paikoin voimakkaita puuskia, kovimmillaan 18 m/s." | "In the afternoon, in some places strong gusts, up to 18 m/s." |
 | Convective cell (optional) | "Iltapäivällä paikoin hyvin voimakkaita puuskia, kovimmillaan 22 m/s." | "In the afternoon, in some places very strong gusts, up to 22 m/s." |
@@ -157,12 +159,33 @@ phase only produces a sentence when the direction changed.
 
 With `turn_phrases = veering_backing` a turn is described as clockwise
 (veering) or counterclockwise (backing) relative to the previously
-reported direction. Finnish uses "kääntyy myötäpäivään / vastapäivään",
-Swedish "vrider medurs / moturs", English "veers / backs", `en-marine`
-"veering / backing". The default `plain` keeps the neutral "kääntyy"
-phrases. The translations of the veering and backing phrases in
-languages other than Finnish, Swedish and English were written without a
-native speaker and should be reviewed.
+reported direction, in the languages that have such words: English
+"veers / backs" and "veering northerly wind", `en-marine` "veering
+north", Swedish "vrider medurs / moturs" and "medurs vridande nordlig
+vind". Finnish never states the sense of a turn, so its text is the same
+with both settings. The default `plain` keeps the neutral phrases
+everywhere.
+
+The qualified direction is one glyph whose translation may use the
+turn-to form ("pohjoiseen") or the noun form ("pohjoistuulta") of the
+direction as the language needs. The translations in languages other
+than Finnish, Swedish and English were written without a native speaker
+and should be reviewed.
+
+When a change sentence ends with a new direction, the wind is named once,
+at the end, and the tail names the turn and the time by which it has
+happened where the language does so: Finnish "Illasta alkaen vähitellen
+heikkenevää, aamuksi pohjoiseen kääntyvää tuulta 2-4 m/s", English
+"Gradually weakening from the evening, northerly wind by the morning 2-4
+m/s". The time is the translative "aamuksi", "huomisaamuksi",
+"maanantaiaamuksi"; languages without such a form translate it like the
+plain phrase. Languages whose participle needs a noun, such as Swedish,
+keep it in the head as well.
+
+A change from the start of the story that ends in a turn is never written
+with "aluksi". The state at the start gets its own sentence and the
+change sentence has no time phrase of its own: "Koillistuulta 1-3 m/s.
+Vähitellen voimistuvaa, aamuyöksi etelään kääntyvää tuulta 5-7 m/s."
 
 ### 7. Convective cells
 

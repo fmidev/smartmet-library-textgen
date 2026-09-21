@@ -6485,12 +6485,6 @@ msgstr "ветер поворачивает по часовой стрелке [
 msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
 msgstr "ветер поворачивает против часовой стрелки [2] [1]"
 
-msgid "[iltapaivalla] myotapaivaan kaantyen [etelatuulta]"
-msgstr "[2], поворачивающий по часовой стрелке, [1]"
-
-msgid "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]"
-msgstr "[2], поворачивающий против часовой стрелки, [1]"
-
 # Wind stories: a change of day marked with "tomorrow" and the part of the day
 msgid "huomenna aamuyolla"
 msgstr "завтра после полуночи"
@@ -6535,14 +6529,213 @@ msgid "huomenna keskiyosta alkaen"
 msgstr "с завтрашней полуночи"
 
 # wind_overview: a reported direction qualified as veering or backing, [1] = the direction
-msgid "myotapaivaan kaantyen [etelatuulta]"
-msgstr "[1], поворачивающий по часовой стрелке"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "[2], поворачивающий по часовой стрелке"
 
-msgid "vastapaivaan kaantyen [etelatuulta]"
-msgstr "[1], поворачивающий против часовой стрелки"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuulta]"
+msgstr "[2], поворачивающий против часовой стрелки"
 
-msgid "myotapaivaan kaantyen [etelatuuli]"
-msgstr "[1], поворачивающий по часовой стрелке"
+msgid "myotapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "[2], поворачивающий по часовой стрелке"
 
-msgid "vastapaivaan kaantyen [etelatuuli]"
-msgstr "[1], поворачивающий против часовой стрелки"
+msgid "vastapaivaan kaantyen [etelaan] [etelatuuli]"
+msgstr "[2], поворачивающий против часовой стрелки"
+
+# wind_sea_overview: the head of a change sentence when the direction follows in the tail
+msgid "[iltapaivalla] [nopeasti] [heikkenevaa]"
+msgstr "[2] [3] [1]"
+
+# wind_sea_overview: the new direction at the end of a change sentence, the turn without its sense
+msgid "kaantyen [etelaan] [etelatuulta]"
+msgstr "[2]"
+
+# wind_sea_overview: the time by which a turn has happened (Finnish translative); languages
+# without the form use the plain phrase
+msgid "aamuyoksi"
+msgstr "после полуночи"
+
+msgid "huomenna aamuyoksi"
+msgstr "завтра после полуночи"
+
+msgid "1-aamuyoksi"
+msgstr "в понедельник в ранние часы"
+
+msgid "2-aamuyoksi"
+msgstr "во вторник в ранние часы"
+
+msgid "3-aamuyoksi"
+msgstr "в среду в ранние часы"
+
+msgid "4-aamuyoksi"
+msgstr "в четверг в ранние часы"
+
+msgid "5-aamuyoksi"
+msgstr "в пятницу в ранние часы"
+
+msgid "6-aamuyoksi"
+msgstr "в субботу в ранние часы"
+
+msgid "7-aamuyoksi"
+msgstr "в воскресенье в ранние часы"
+
+msgid "aamuksi"
+msgstr "утром"
+
+msgid "huomenna aamuksi"
+msgstr "завтра утром"
+
+msgid "1-aamuksi"
+msgstr "в понедельник утром"
+
+msgid "2-aamuksi"
+msgstr "во вторник утром"
+
+msgid "3-aamuksi"
+msgstr "в среду утром"
+
+msgid "4-aamuksi"
+msgstr "в четверг утром"
+
+msgid "5-aamuksi"
+msgstr "в пятницу утром"
+
+msgid "6-aamuksi"
+msgstr "в субботу утром"
+
+msgid "7-aamuksi"
+msgstr "в воскресенье утром"
+
+msgid "aamupaivaksi"
+msgstr "в первой половине дня"
+
+msgid "huomenna aamupaivaksi"
+msgstr "завтра в первой половине дня"
+
+msgid "1-aamupaivaksi"
+msgstr "в понедельник в первой половине дня"
+
+msgid "2-aamupaivaksi"
+msgstr "во вторник в первой половине дня"
+
+msgid "3-aamupaivaksi"
+msgstr "в среду в первой половине дня"
+
+msgid "4-aamupaivaksi"
+msgstr "в четверг в первой половине дня"
+
+msgid "5-aamupaivaksi"
+msgstr "в пятницу в первой половине дня"
+
+msgid "6-aamupaivaksi"
+msgstr "в субботу в первой половине дня"
+
+msgid "7-aamupaivaksi"
+msgstr "в воскресенье в первой половине дня"
+
+msgid "iltapaivaksi"
+msgstr "днём"
+
+msgid "huomenna iltapaivaksi"
+msgstr "завтра днём"
+
+msgid "1-iltapaivaksi"
+msgstr "в понедельник днём"
+
+msgid "2-iltapaivaksi"
+msgstr "во вторник днём"
+
+msgid "3-iltapaivaksi"
+msgstr "в среду днём"
+
+msgid "4-iltapaivaksi"
+msgstr "в четверг днём"
+
+msgid "5-iltapaivaksi"
+msgstr "в пятницу днём"
+
+msgid "6-iltapaivaksi"
+msgstr "в субботу днём"
+
+msgid "7-iltapaivaksi"
+msgstr "в воскресенье днём"
+
+msgid "illaksi"
+msgstr "вечером"
+
+msgid "huomenna illaksi"
+msgstr "завтра вечером"
+
+msgid "1-illaksi"
+msgstr "в понедельник вечером"
+
+msgid "2-illaksi"
+msgstr "во вторник вечером"
+
+msgid "3-illaksi"
+msgstr "в среду вечером"
+
+msgid "4-illaksi"
+msgstr "в четверг вечером"
+
+msgid "5-illaksi"
+msgstr "в пятницу вечером"
+
+msgid "6-illaksi"
+msgstr "в субботу вечером"
+
+msgid "7-illaksi"
+msgstr "в воскресенье вечером"
+
+msgid "iltayoksi"
+msgstr "до полуночи"
+
+msgid "huomenna iltayoksi"
+msgstr "завтра до полуночи"
+
+msgid "1-iltayoksi"
+msgstr "в понедельник до полуночи"
+
+msgid "2-iltayoksi"
+msgstr "во вторник до полуночи"
+
+msgid "3-iltayoksi"
+msgstr "в среду до полуночи"
+
+msgid "4-iltayoksi"
+msgstr "в четверг до полуночи"
+
+msgid "5-iltayoksi"
+msgstr "в пятницу до полуночи"
+
+msgid "6-iltayoksi"
+msgstr "в субботу до полуночи"
+
+msgid "7-iltayoksi"
+msgstr "в воскресенье до полуночи"
+
+msgid "keskiyoksi"
+msgstr "в полночь"
+
+msgid "huomenna keskiyoksi"
+msgstr "завтра в полночь"
+
+msgid "1-keskiyoksi"
+msgstr "в понедельник в полночь"
+
+msgid "2-keskiyoksi"
+msgstr "во вторник в полночь"
+
+msgid "3-keskiyoksi"
+msgstr "в среду в полночь"
+
+msgid "4-keskiyoksi"
+msgstr "в четверг в полночь"
+
+msgid "5-keskiyoksi"
+msgstr "в пятницу в полночь"
+
+msgid "6-keskiyoksi"
+msgstr "в субботу в полночь"
+
+msgid "7-keskiyoksi"
+msgstr "в воскресенье в полночь"
