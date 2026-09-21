@@ -30,6 +30,7 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
@@ -63,7 +64,10 @@ const char* const TIME_VEERING_DIRECTION_PHRASE =
 const char* const TIME_BACKING_DIRECTION_PHRASE =
     "[iltapaivalla] vastapaivaan kaantyen [etelatuulta]";
 const char* const GUST_PHRASE = "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]";
+const char* const GUST_QUADRANT_PHRASE =
+    "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]";
 const char* const STRONG_GUSTS_WORD = "voimakkaita puuskia";
+const char* const VERY_STRONG_GUSTS_WORD = "hyvin voimakkaita puuskia";
 const char* const STRENGTHENING_WORD = "voimistuvaa";
 const char* const WEAKENING_WORD = "heikkenevaa";
 const char* const GRADUALLY_WORD = "vahitellen";
@@ -100,6 +104,17 @@ struct SeaParams
   bool veeringBacking = false;  // distinguish clockwise (veering) and counterclockwise turns
   bool separateInitialSentence = false;  // steady sentence + change sentence instead of "aluksi"
   string rangeSeparator = "-";
+  bool weekdays = true;  // name the day when a time phrase moves to another day
+
+  // Local convective gust cells (see wind_overview): hours where a small part of the area has
+  // gusts above the cutoff for a short time are cleaned from the area statistics and
+  // optionally reported in a separate sentence
+  double cellCutoff = KOVA_LOWER_LIMIT;  // m/s on the gust
+  double cellMaxDuration = 3.0;          // hours, longer runs are synoptic
+  double cellMaxAreaFraction = 10.0;     // %, larger shares are synoptic
+  double cellMinAreaFraction = 0.0;      // %
+  bool cellReporting = false;
+  string cellStyle = "sentence";  // "quadrant" adds the part of the area
 };
 
 SeaParams read_params(const string& var)
@@ -133,6 +148,15 @@ SeaParams read_params(const string& var)
   p.separateInitialSentence =
       optional_bool(var + "::separate_initial_sentence", p.separateInitialSentence);
   p.rangeSeparator = optional_string(var + "::rangeseparator", p.rangeSeparator);
+  p.weekdays = optional_bool(var + "::weekdays", p.weekdays);
+  p.cellCutoff = optional_double(var + "::convective_cell_cutoff", p.cellCutoff);
+  p.cellMaxDuration = optional_double(var + "::convective_cell_max_duration", p.cellMaxDuration);
+  p.cellMaxAreaFraction =
+      optional_double(var + "::convective_cell_max_area_fraction", p.cellMaxAreaFraction);
+  p.cellMinAreaFraction =
+      optional_double(var + "::convective_cell_min_area_fraction", p.cellMinAreaFraction);
+  p.cellReporting = optional_bool(var + "::convective_cell_reporting", p.cellReporting);
+  p.cellStyle = optional_string(var + "::convective_cell_style", p.cellStyle);
   if (p.smoothingHours < 1)
     p.smoothingHours = 1;
   if (p.smoothingHours % 2 == 0)
@@ -157,7 +181,24 @@ struct HourData
   float upper = kFloatMissing;                            // spatial upper percentile of wind speed
   WeatherResult direction{kFloatMissing, kFloatMissing};  // vector mean + spread
   float gust = kFloatMissing;                             // area maximum gust
+  float gustShare = kFloatMissing;  // % of the area with gusts at or above the cell cutoff
+  bool cell = false;                // hour belongs to a convective cell, statistics exclude it
 };
+
+// A local convective gust cell: a run of hours
+struct ConvectiveCell
+{
+  int beg = 0;  // first and last hour index
+  int end = 0;
+  int peakIndex = 0;  // hour of the strongest gust
+  float peakGust = 0.0F;
+  WeatherArea::Type quadrant = WeatherArea::Full;  // part of the area, if one dominates
+};
+
+bool cell_detection_enabled(const SeaParams& params)
+{
+  return params.cellMaxDuration > 0.0 || params.cellMaxAreaFraction > 0.0;
+}
 
 string stamp(const TextGenPosixTime& t)
 {
@@ -177,7 +218,8 @@ void spatial_percentiles(GridForecaster& forecaster,
                          int lowerPercentile,
                          int upperPercentile,
                          float& lower,
-                         float& upper)
+                         float& upper,
+                         const Acceptor& pointAcceptor = DefaultAcceptor())
 {
   const int topLimit = static_cast<int>(HIRMUMYRSKY_LOWER_LIMIT);  // last bin is open ended
   float cumulative = 0.0;
@@ -198,7 +240,7 @@ void spatial_percentiles(GridForecaster& forecaster,
                                              area,
                                              period,
                                              DefaultAcceptor(),
-                                             DefaultAcceptor(),
+                                             pointAcceptor,
                                              acceptor);
     if (share.value() == kFloatMissing)
       return;
@@ -213,15 +255,228 @@ void spatial_percentiles(GridForecaster& forecaster,
   }
 }
 
+// Wind speed statistics of one hour. With an acceptor only the grid points it accepts are used
+// (removal of a convective cell); the fake keys then carry the given suffix, and fake data
+// without the suffixed keys is left as it is.
+void analyze_speed(GridForecaster& forecaster,
+                   const AnalysisSources& sources,
+                   const WeatherArea& area,
+                   const string& var,
+                   const SeaParams& params,
+                   HourData& h,
+                   const Acceptor& acceptor = DefaultAcceptor(),
+                   const string& suffix = "")
+{
+  const WeatherPeriod hour(h.time, h.time);
+  const string fakeBase = var + "::fake::" + stamp(h.time);
+  const string meanKey = fakeBase + "::speed::mean" + suffix;
+  if (!suffix.empty() && Settings::isset(fakeBase + "::speed::mean") && !Settings::isset(meanKey))
+    return;
+
+  WeatherResult mean =
+      forecaster.analyze(meanKey, sources, WindSpeed, Mean, Mean, area, hour, acceptor);
+  if (!suffix.empty() && mean.value() == kFloatMissing)
+    return;  // nothing left after the removal, keep the unfiltered statistics
+  WeatherResultTools::checkMissingValue("wind_sea_overview", WindSpeed, mean);
+  h.mean = mean.value();
+
+  // Spatial percentiles: fake values may be given directly for testing
+  const string lowerKey = fakeBase + "::speed::lower" + suffix;
+  const string upperKey = fakeBase + "::speed::upper" + suffix;
+  if (Settings::isset(lowerKey) && Settings::isset(upperKey))
+  {
+    h.lower = Settings::require_result(lowerKey).value();
+    h.upper = Settings::require_result(upperKey).value();
+  }
+  else if (!Settings::isset(meanKey))
+  {
+    spatial_percentiles(forecaster,
+                        sources,
+                        area,
+                        hour,
+                        var,
+                        params.rangeLowerPercentile,
+                        params.rangeUpperPercentile,
+                        h.lower,
+                        h.upper,
+                        acceptor);
+  }
+  if (h.lower == kFloatMissing)
+    h.lower = h.mean;
+  if (h.upper == kFloatMissing)
+    h.upper = h.mean;
+}
+
+// Area maximum gust of one hour, with an optional acceptor as in analyze_speed
+void analyze_gust(GridForecaster& forecaster,
+                  const AnalysisSources& sources,
+                  const WeatherArea& area,
+                  const string& var,
+                  HourData& h,
+                  const Acceptor& acceptor = DefaultAcceptor(),
+                  const string& suffix = "")
+{
+  const WeatherPeriod hour(h.time, h.time);
+  const string fakeBase = var + "::fake::" + stamp(h.time);
+  const string key = fakeBase + "::gust::maximum" + suffix;
+  if (!suffix.empty() && Settings::isset(fakeBase + "::gust::maximum") && !Settings::isset(key))
+    return;
+  WeatherResult gust =
+      forecaster.analyze(key, sources, GustSpeed, Maximum, Maximum, area, hour, acceptor);
+  if (suffix.empty() || gust.value() != kFloatMissing)
+    h.gust = gust.value();
+}
+
+// Share (%) of the area where the gust of one hour is at or above the cell cutoff
+float analyze_gust_share(GridForecaster& forecaster,
+                         const AnalysisSources& sources,
+                         const WeatherArea& area,
+                         const string& var,
+                         const SeaParams& params,
+                         const HourData& h)
+{
+  const WeatherPeriod hour(h.time, h.time);
+  RangeAcceptor aboveCutoff;
+  aboveCutoff.lowerLimit(static_cast<float>(params.cellCutoff));
+  return forecaster
+      .analyze(var + "::fake::" + stamp(h.time) + "::gust::share",
+               sources,
+               GustSpeed,
+               Mean,
+               Percentage,
+               area,
+               hour,
+               DefaultAcceptor(),
+               DefaultAcceptor(),
+               aboveCutoff)
+      .value();
+}
+
+// Runs of hours where a small part of the area has gusts above the cutoff for a short time.
+// Longer runs and larger shares are synoptic and left alone.
+vector<ConvectiveCell> detect_cells(const vector<HourData>& hours,
+                                    const SeaParams& params,
+                                    MessageLogger& log)
+{
+  vector<ConvectiveCell> cells;
+  if (!cell_detection_enabled(params))
+    return cells;
+
+  log << "Convective cell detection: cutoff=" << params.cellCutoff << " m/s on the gust, area "
+      << "share window=(" << params.cellMinAreaFraction << "%, " << params.cellMaxAreaFraction
+      << "%), max duration=" << params.cellMaxDuration << " h\n";
+
+  auto flagged = [&](int i)
+  {
+    const float share = hours[i].gustShare;
+    if (share == kFloatMissing)
+      return false;
+    return share > params.cellMinAreaFraction &&
+           (params.cellMaxAreaFraction <= 0.0 || share < params.cellMaxAreaFraction);
+  };
+
+  const int n = static_cast<int>(hours.size());
+  int i = 0;
+  while (i < n)
+  {
+    if (!flagged(i))
+    {
+      i++;
+      continue;
+    }
+    ConvectiveCell cell;
+    cell.beg = i;
+    cell.peakIndex = i;
+    while (i < n && flagged(i))
+    {
+      if (hours[i].gust != kFloatMissing && hours[i].gust > cell.peakGust)
+      {
+        cell.peakGust = hours[i].gust;
+        cell.peakIndex = i;
+      }
+      i++;
+    }
+    cell.end = i - 1;
+    const int duration = cell.end - cell.beg + 1;
+    if (params.cellMaxDuration > 0.0 && duration >= params.cellMaxDuration)
+    {
+      log << "Convective candidate rejected: " << hours[cell.beg].time.ToIsoExtendedStr() << " - "
+          << hours[cell.end].time.ToIsoExtendedStr() << " lasts " << duration
+          << " h, treated as synoptic\n";
+      continue;
+    }
+    log << "Convective cell: " << hours[cell.beg].time.ToIsoExtendedStr() << " - "
+        << hours[cell.end].time.ToIsoExtendedStr() << " peak gust " << fixed << setprecision(1)
+        << cell.peakGust << " m/s\n";
+    cells.push_back(cell);
+  }
+  return cells;
+}
+
+// The part of the area where a cell is, when the gusts of one quadrant are clearly the
+// strongest. Otherwise the cell moved or is ambiguous and the whole area is kept.
+void determine_cell_quadrants(GridForecaster& forecaster,
+                              const AnalysisSources& sources,
+                              const WeatherArea& area,
+                              const string& var,
+                              const vector<HourData>& hours,
+                              vector<ConvectiveCell>& cells,
+                              MessageLogger& log)
+{
+  if (area.isPoint())
+    return;
+  const array<pair<WeatherArea::Type, const char*>, 4> quadrants = {
+      {{WeatherArea::Northern, "north"},
+       {WeatherArea::Southern, "south"},
+       {WeatherArea::Eastern, "east"},
+       {WeatherArea::Western, "west"}}};
+  for (auto& cell : cells)
+  {
+    const WeatherPeriod period(hours[cell.beg].time, hours[cell.end].time);
+    const string fakeBase = var + "::fake::" + stamp(hours[cell.beg].time) + "::gust::quadrant::";
+    array<float, 4> peak{};
+    bool anyValid = false;
+    for (size_t q = 0; q < quadrants.size(); q++)
+    {
+      WeatherArea quadrant(area);
+      quadrant.type(quadrants[q].first);
+      WeatherResult result = forecaster.analyze(
+          fakeBase + quadrants[q].second, sources, GustSpeed, Maximum, Maximum, quadrant, period);
+      peak[q] = (result.value() == kFloatMissing ? 0.0F : result.value());
+      anyValid = anyValid || result.value() != kFloatMissing;
+    }
+    if (!anyValid)
+      continue;
+    size_t best = 0;
+    for (size_t q = 1; q < quadrants.size(); q++)
+      if (peak[q] > peak[best])
+        best = q;
+    float secondBest = 0.0F;
+    for (size_t q = 0; q < quadrants.size(); q++)
+      if (q != best)
+        secondBest = max(secondBest, peak[q]);
+    if (peak[best] - secondBest >= 1.0F)
+      cell.quadrant = quadrants[best].first;
+    log << "Convective cell quadrant peaks: N=" << fixed << setprecision(1) << peak[0]
+        << " S=" << peak[1] << " E=" << peak[2] << " W=" << peak[3] << " -> "
+        << (cell.quadrant == WeatherArea::Full ? "whole area" : quadrants[best].second) << '\n';
+  }
+}
+
 vector<HourData> collect_hours(const string& var,
                                const AnalysisSources& sources,
                                const WeatherArea& area,
                                const WeatherPeriod& period,
                                const SeaParams& params,
+                               vector<ConvectiveCell>& cells,
                                MessageLogger& log)
 {
   GridForecaster forecaster;
   vector<HourData> hours;
+
+  // Gusts are needed for the gust sentence and for cell detection. Data without gusts is
+  // accepted when only the detection would use them.
+  bool gustsNeeded = params.gustReporting || cell_detection_enabled(params);
 
   TextGenPosixTime t = period.localStartTime();
   while (t <= period.localEndTime())
@@ -231,48 +486,51 @@ vector<HourData> collect_hours(const string& var,
     WeatherPeriod hour(t, t);
     const string fakeBase = var + "::fake::" + stamp(t);
 
-    WeatherResult mean =
-        forecaster.analyze(fakeBase + "::speed::mean", sources, WindSpeed, Mean, Mean, area, hour);
-    WeatherResultTools::checkMissingValue("wind_sea_overview", WindSpeed, mean);
-    h.mean = mean.value();
+    analyze_speed(forecaster, sources, area, var, params, h);
 
     h.direction = forecaster.analyze(
         fakeBase + "::direction::mean", sources, WindDirection, Mean, Mean, area, hour);
     WeatherResultTools::checkMissingValue("wind_sea_overview", WindDirection, h.direction);
 
-    // Spatial percentiles: fake values may be given directly for testing
-    if (Settings::isset(fakeBase + "::speed::lower") &&
-        Settings::isset(fakeBase + "::speed::upper"))
+    if (gustsNeeded)
     {
-      h.lower = Settings::require_result(fakeBase + "::speed::lower").value();
-      h.upper = Settings::require_result(fakeBase + "::speed::upper").value();
-    }
-    else
-    {
-      spatial_percentiles(forecaster,
-                          sources,
-                          area,
-                          hour,
-                          var,
-                          params.rangeLowerPercentile,
-                          params.rangeUpperPercentile,
-                          h.lower,
-                          h.upper);
-    }
-    if (h.lower == kFloatMissing)
-      h.lower = h.mean;
-    if (h.upper == kFloatMissing)
-      h.upper = h.mean;
-
-    if (params.gustReporting)
-    {
-      WeatherResult gust = forecaster.analyze(
-          fakeBase + "::gust::maximum", sources, GustSpeed, Maximum, Maximum, area, hour);
-      h.gust = gust.value();
+      try
+      {
+        analyze_gust(forecaster, sources, area, var, h);
+        if (cell_detection_enabled(params))
+          h.gustShare = analyze_gust_share(forecaster, sources, area, var, params, h);
+      }
+      catch (...)
+      {
+        if (params.gustReporting)
+          throw;
+        log << "Gust data not available, convective cell detection disabled\n";
+        gustsNeeded = false;
+        h.gust = kFloatMissing;
+        h.gustShare = kFloatMissing;
+      }
     }
 
     hours.push_back(h);
     t.ChangeByHours(1);
+  }
+
+  // Convective cells: exclude the grid points above the cutoff from the statistics of the hours
+  // the cells cover, so that a local cell does not disturb the forecast for the whole area
+  cells = detect_cells(hours, params, log);
+  if (!cells.empty())
+  {
+    RangeAcceptor belowCutoff;
+    belowCutoff.upperLimit(static_cast<float>(params.cellCutoff) - 0.0001F);
+    for (const auto& cell : cells)
+      for (int i = cell.beg; i <= cell.end; i++)
+      {
+        analyze_speed(forecaster, sources, area, var, params, hours[i], belowCutoff, "::no_cell");
+        analyze_gust(forecaster, sources, area, var, hours[i], belowCutoff, "::no_cell");
+        hours[i].cell = true;
+      }
+    if (params.cellReporting && params.cellStyle == "quadrant")
+      determine_cell_quadrants(forecaster, sources, area, var, hours, cells, log);
   }
 
   // Time smoothing of the area mean (centered running mean, shrinking at the ends)
@@ -299,6 +557,10 @@ vector<HourData> collect_hours(const string& var,
         << "  dir=" << h.direction.value() << "  spread=" << h.direction.error();
     if (h.gust != kFloatMissing)
       log << "  gust=" << h.gust;
+    if (h.gustShare != kFloatMissing)
+      log << "  gust_share=" << h.gustShare << "%";
+    if (h.cell)
+      log << "  (convective cell removed)";
     log << '\n';
   }
   return hours;
@@ -804,10 +1066,96 @@ string rate_word(const Phase& ph, const SeaParams& params)
   return EMPTY_STRING;
 }
 
-string time_word(const TextGenPosixTime& t, const string& var, bool alkaen)
+// Time phrases with an optional weekday. The day is named when the phrase moves to another day
+// than the previous phrase (initially the start of the forecast) and weekdays are enabled. As
+// in wind_overview "keskiyolla" never names the day and does not count as a move to the next
+// day, so the following phrase names it. The dictionaries have the keys "5-aamuyolla" etc.
+class TimeWords
 {
-  string phrase = get_time_phrase(t, var, alkaen);
-  return (phrase.empty() ? EMPTY_STRING : phrase);
+ public:
+  TimeWords(const string& var, bool weekdays, const TextGenPosixTime& start)
+      : itsVar(var), itsWeekdays(weekdays), itsDay(start.GetWeekday())
+  {
+  }
+
+  // The phrase without a weekday, for comparisons
+  string plain(const TextGenPosixTime& t, bool alkaen) const
+  {
+    string phrase = get_time_phrase(t, itsVar, alkaen);
+    return (phrase.empty() ? EMPTY_STRING : phrase);
+  }
+
+  // The phrase as it is written; call in the order the phrases appear in the text
+  string operator()(const TextGenPosixTime& t, bool alkaen)
+  {
+    string phrase = plain(t, alkaen);
+    if (phrase == EMPTY_STRING || phrase.find("keskiyo") != string::npos)
+      return phrase;
+    const short day = t.GetWeekday();
+    if (day != itsDay)
+    {
+      itsDay = day;
+      if (itsWeekdays)
+        phrase = to_string(day) + "-" + phrase;
+    }
+    return phrase;
+  }
+
+ private:
+  const string& itsVar;
+  bool itsWeekdays;
+  short itsDay;
+};
+
+// Sentence about the strongest of the detected cells, covering all of them
+Sentence cell_sentence(const vector<HourData>& hours,
+                       const vector<ConvectiveCell>& cells,
+                       const SeaParams& params,
+                       TimeWords& timeWord,
+                       MessageLogger& log)
+{
+  const ConvectiveCell* strongest = &cells[0];
+  WeatherArea::Type quadrant = cells[0].quadrant;
+  for (const auto& cell : cells)
+  {
+    if (cell.peakGust > strongest->peakGust)
+      strongest = &cell;
+    if (cell.quadrant != quadrant)
+      quadrant = WeatherArea::Full;  // the cells disagree
+  }
+  const char* quadrantWord = "";
+  if (params.cellStyle == "quadrant")
+    switch (quadrant)
+    {
+      case WeatherArea::Northern:
+        quadrantWord = "pohjoisosissa";
+        break;
+      case WeatherArea::Southern:
+        quadrantWord = "etelaosissa";
+        break;
+      case WeatherArea::Eastern:
+        quadrantWord = "itaosissa";
+        break;
+      case WeatherArea::Western:
+        quadrantWord = "lansiosissa";
+        break;
+      default:
+        break;
+    }
+  const char* gustsWord =
+      (strongest->peakGust >= MYRSKY_LOWER_LIMIT ? VERY_STRONG_GUSTS_WORD : STRONG_GUSTS_WORD);
+  const string when = timeWord(hours[strongest->peakIndex].time, false);
+
+  Sentence sentence;
+  if (*quadrantWord != 0)
+    sentence << GUST_QUADRANT_PHRASE << when << quadrantWord;
+  else
+    sentence << GUST_PHRASE << when;
+  sentence << gustsWord << Integer(static_cast<int>(lround(strongest->peakGust)))
+           << *UnitFactory::create(MetersPerSecond);
+  log << "Convective cell sentence: peak gust " << fixed << setprecision(1) << strongest->peakGust
+      << " m/s at " << hours[strongest->peakIndex].time.ToIsoExtendedStr() << '\n';
+  return sentence;
 }
 
 void append_range(Sentence& sentence, const Range& r, const SeaParams& params)
@@ -837,9 +1185,12 @@ Paragraph WindStory::sea_overview() const
     log << "Period " << itsPeriod.localStartTime().ToIsoExtendedStr() << " - "
         << itsPeriod.localEndTime().ToIsoExtendedStr() << '\n';
 
-    vector<HourData> hours = collect_hours(itsVar, itsSources, itsArea, itsPeriod, params, log);
+    vector<ConvectiveCell> cells;
+    vector<HourData> hours =
+        collect_hours(itsVar, itsSources, itsArea, itsPeriod, params, cells, log);
     if (hours.empty())
       return paragraph;
+    TimeWords timeWord(itsVar, params.weekdays, itsPeriod.localStartTime());
 
     // 1. phases of the smoothed area mean
     vector<int> pts = turning_points(hours);
@@ -855,10 +1206,21 @@ Paragraph WindStory::sea_overview() const
           << hours[ph.end].time.ToIsoExtendedStr() << "  " << phase_type_string(ph.type) << fixed
           << setprecision(1) << "  change=" << ph.change << '\n';
 
-    // 2. sentences
+    // 2. sentences. A sentence about convective cells, when enabled, follows the sentence of
+    //    the phase in which the strongest cell occurs so that the narrative stays chronological
     bool haveReported = false;
     DirectionInfo reportedDir;
     Range reportedRange;
+    bool cellPending = params.cellReporting && !cells.empty();
+    int cellAnchor = -1;  // the strongest cell
+    for (size_t i = 0; cellPending && i < cells.size(); i++)
+      if (cellAnchor < 0 || cells[i].peakGust > cells[cellAnchor].peakGust)
+        cellAnchor = static_cast<int>(i);
+    auto emit_cell_sentence = [&]()
+    {
+      paragraph << cell_sentence(hours, cells, params, timeWord, log);
+      cellPending = false;
+    };
 
     for (size_t p = 0; p < phases.size(); p++)
     {
@@ -892,7 +1254,7 @@ Paragraph WindStory::sea_overview() const
             continue;
           }
           const bool rangeChanged = range.differs(reportedRange, params.rangeReportMinDifference);
-          const string when = time_word(hours[ph.beg].time, itsVar, false);
+          const string when = timeWord(hours[ph.beg].time, false);
           const bool haveReference = params.veeringBacking && !reportedDir.variable;
           const bool veering = haveReference && signed_turn(reportedDir.degrees, dir.degrees) > 0;
           if (!rangeChanged && !dir.variable && !dir.turnPhrase.empty())
@@ -980,10 +1342,10 @@ Paragraph WindStory::sea_overview() const
         if (!tailHasDirection && !startDir.variable &&
             (singleInitial || direction_changed(reportedDir, startDir, params)))
           headDirWord = startDir.phrase;
-        const string endWord = time_word(endTime, itsVar, false);
 
         auto append_tail = [&](Sentence& target)
         {
+          const string endWord = timeWord(endTime, false);
           if (tailHasDirection)
           {
             const char* key = TIME_DIRECTION_PHRASE;
@@ -1012,19 +1374,18 @@ Paragraph WindStory::sea_overview() const
         }
         else
         {
-          const string startWord = time_word(startTime, itsVar, true);
-          const string startPlain = time_word(startTime, itsVar, false);
-          if (startPlain == endWord && !tailHasDirection)
+          if (timeWord.plain(startTime, false) == timeWord.plain(endTime, false) &&
+              !tailHasDirection)
           {
             // change within one part of the day
-            sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << startPlain << rate << changeWord
-                     << headDirWord;
+            sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << timeWord(startTime, false) << rate
+                     << changeWord << headDirWord;
             append_range(sentence, endRange, params);
           }
           else
           {
-            sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << startWord << rate << changeWord
-                     << headDirWord;
+            sentence << TIME_RATE_CHANGE_DIRECTION_PHRASE << timeWord(startTime, true) << rate
+                     << changeWord << headDirWord;
             sentence << Delimiter(COMMA_PUNCTUATION_MARK);
             append_tail(sentence);
           }
@@ -1035,9 +1396,14 @@ Paragraph WindStory::sea_overview() const
 
       paragraph << sentence;
       haveReported = true;
+      if (cellPending && cells[cellAnchor].peakIndex <= ph.end)
+        emit_cell_sentence();
     }
+    if (cellPending)
+      emit_cell_sentence();
 
-    // 3. optional gust sentence
+    // 3. optional gust sentence on the area maximum gust. The hours of a convective cell only
+    //    contribute the gusts outside the cell, so this describes widespread gusts.
     if (params.gustReporting)
     {
       int gustIndex = -1;
@@ -1048,8 +1414,10 @@ Paragraph WindStory::sea_overview() const
       if (gustIndex >= 0 && hours[gustIndex].gust >= params.gustLimit)
       {
         Sentence sentence;
-        sentence << GUST_PHRASE << time_word(hours[gustIndex].time, itsVar, false)
-                 << STRONG_GUSTS_WORD << Integer(static_cast<int>(lround(hours[gustIndex].gust)))
+        const float gust = hours[gustIndex].gust;
+        sentence << GUST_PHRASE << timeWord(hours[gustIndex].time, false)
+                 << (gust >= MYRSKY_LOWER_LIMIT ? VERY_STRONG_GUSTS_WORD : STRONG_GUSTS_WORD)
+                 << Integer(static_cast<int>(lround(gust)))
                  << *UnitFactory::create(MetersPerSecond);
         paragraph << sentence;
         log << "Gust sentence: maximum gust " << hours[gustIndex].gust << " m/s at "

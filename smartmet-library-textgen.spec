@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 26.9.21
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-2.fmi
+- wind_sea_overview: convective gust cells are detected and removed from the area statistics as in wind_overview (convective_cell_* settings) and reported in a separate sentence only with convective_cell_reporting = true
+- wind_sea_overview: weekdays setting (default true) names the day when a time phrase moves to another day; storm level gusts are "hyvin voimakkaita puuskia"
+- wind_overview: fixed the misspelled weekday and an out of range lookup in the story log
+
 * Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-1.fmi
 - wind_sea_overview: optional separate_initial_sentence setting; a change that begins at the start of the story is written as a steady sentence plus a time-phrased change sentence ("Etelätuulta 4-6 m/s. Iltapäivästä alkaen vähitellen voimistuvaa tuulta, illalla 11-13 m/s.") instead of one sentence with "aluksi". Default false keeps the old behaviour
 

@@ -71,24 +71,41 @@ string value(double v, double err = 0.0)
   return os.str();
 }
 
-// One synthetic hour: area mean, spatial percentiles, direction (deg, spread), gust
+string fake_base(int hourOffset)
+{
+  TextGenPosixTime t(START);
+  t.ChangeByHours(hourOffset);
+  return VAR + "::fake::" + stamp(t);
+}
+
+// One synthetic hour: area mean, spatial percentiles, direction (deg, spread), area maximum
+// gust and the share (%) of the area with gusts above the convective cell cutoff
 void set_hour(int hourOffset,
               double mean,
               double lower,
               double upper,
               double direction,
               double spread,
-              double gust = -1.0)
+              double gust = 9.0,
+              double gustShare = 0.0)
 {
-  TextGenPosixTime t(START);
-  t.ChangeByHours(hourOffset);
-  const string base = VAR + "::fake::" + stamp(t);
+  const string base = fake_base(hourOffset);
   Settings::set(base + "::speed::mean", value(mean));
   Settings::set(base + "::speed::lower", value(lower));
   Settings::set(base + "::speed::upper", value(upper));
   Settings::set(base + "::direction::mean", value(direction, spread));
-  if (gust >= 0.0)
-    Settings::set(base + "::gust::maximum", value(gust));
+  Settings::set(base + "::gust::maximum", value(gust));
+  Settings::set(base + "::gust::share", value(gustShare));
+}
+
+// The statistics of one hour after the grid points of a convective cell have been removed
+void set_hour_without_cell(int hourOffset, double mean, double lower, double upper, double gust)
+{
+  const string base = fake_base(hourOffset);
+  Settings::set(base + "::speed::mean::no_cell", value(mean));
+  Settings::set(base + "::speed::lower::no_cell", value(lower));
+  Settings::set(base + "::speed::upper::no_cell", value(upper));
+  Settings::set(base + "::gust::maximum::no_cell", value(gust));
 }
 
 // Reset the story settings to the documented defaults
@@ -111,6 +128,13 @@ void reset_settings()
   Settings::set(VAR + "::gust_limit", "15");
   Settings::set(VAR + "::turn_phrases", "plain");
   Settings::set(VAR + "::separate_initial_sentence", "false");
+  Settings::set(VAR + "::weekdays", "false");
+  Settings::set(VAR + "::convective_cell_cutoff", "13.5");
+  Settings::set(VAR + "::convective_cell_max_duration", "3");
+  Settings::set(VAR + "::convective_cell_max_area_fraction", "10");
+  Settings::set(VAR + "::convective_cell_min_area_fraction", "0");
+  Settings::set(VAR + "::convective_cell_reporting", "false");
+  Settings::set(VAR + "::convective_cell_style", "sentence");
 }
 
 // WindStory keeps references to these, so they must outlive the story objects
@@ -390,6 +414,107 @@ void gust_sentence()
 }
 
 // ----------------------------------------------------------------------
+// A local convective gust cell is removed from the area statistics and
+// reported separately only when enabled
+// ----------------------------------------------------------------------
+
+void convective_cell()
+{
+  reset_settings();
+  for (int h = 0; h <= 24; h++)
+    set_hour(h, 7.0, 6.0, 8.0, 315.0, 5.0);
+  // 15:00-16:00: gusts of 18 m/s in 5 % of the area inflate the area statistics
+  for (int h = 3; h <= 4; h++)
+  {
+    set_hour(h, 13.0, 6.0, 20.0, 315.0, 5.0, 18.0, 5.0);
+    set_hour_without_cell(h, 7.0, 6.0, 8.0, 9.0);
+  }
+
+  TextGen::WindStory story = make_story();
+  string result;
+  // the cell does not disturb the forecast for the whole area and is not mentioned
+  REQUIRE(story, "fi", "Luoteistuulta 6-8 m/s.");
+
+  // the gust sentence sees only the gusts outside the cell
+  Settings::set(VAR + "::gust_reporting", "true");
+  REQUIRE(story, "fi", "Luoteistuulta 6-8 m/s.");
+
+  // reported separately when enabled
+  Settings::set(VAR + "::convective_cell_reporting", "true");
+  REQUIRE(story,
+          "fi",
+          "Luoteistuulta 6-8 m/s. Iltapäivällä paikoin voimakkaita puuskia, kovimmillaan 18 m/s.");
+  REQUIRE(story,
+          "en",
+          "North-westerly wind 6-8 m/s. In the afternoon, in some places strong gusts, up to 18 "
+          "m/s.");
+
+  // storm level gusts
+  for (int h = 3; h <= 4; h++)
+    set_hour(h, 13.0, 6.0, 20.0, 315.0, 5.0, 22.0, 5.0);
+  REQUIRE(story,
+          "fi",
+          "Luoteistuulta 6-8 m/s. Iltapäivällä paikoin hyvin voimakkaita puuskia, kovimmillaan "
+          "22 m/s.");
+
+  // a large share of the area is synoptic, not a cell: the statistics are kept and the gust
+  // sentence reports the gusts
+  for (int h = 3; h <= 4; h++)
+    set_hour(h, 13.0, 11.0, 15.0, 315.0, 5.0, 22.0, 60.0);
+  dict->init("fi");
+  formatter.dictionary(dict);
+  const string text = story.makeStory("wind_sea_overview").realize(formatter);
+  if (text.find("oimistuvaa") == string::npos ||
+      text.find("hyvin voimakkaita puuskia, kovimmillaan 22 m/s") == string::npos)
+    TEST_FAILED(("synoptic gusts should be kept: " + text).c_str());
+
+  // a long run is synoptic as well
+  for (int h = 3; h <= 5; h++)
+    set_hour(h, 13.0, 11.0, 15.0, 315.0, 5.0, 22.0, 5.0);
+  const string text2 = story.makeStory("wind_sea_overview").realize(formatter);
+  if (text2.find("oimistuvaa") == string::npos)
+    TEST_FAILED(("a three hour run should not be a cell: " + text2).c_str());
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
+// With weekdays enabled the day is named when the text moves to the next day
+// ----------------------------------------------------------------------
+
+void weekdays_named()
+{
+  reset_settings();
+  Settings::set(VAR + "::weekdays", "true");
+  for (int h = 0; h <= 24; h++)
+  {
+    double mean = 10.0;
+    if (h > 6 && h <= 18)
+      mean = 10.0 - (h - 6) * (7.0 / 12.0);  // 10 -> 3 between 18:00 and 06:00
+    else if (h > 18)
+      mean = 3.0;
+    double dir = 270.0;
+    if (h >= 12 && h <= 16)
+      dir = 270.0 + (h - 12) * 22.5;  // turns to north 00:00 - 04:00
+    else if (h > 16)
+      dir = 360.0;
+    set_hour(h, mean, mean - 1.0, mean + 1.0, dir, 5.0);
+  }
+
+  TextGen::WindStory story = make_story();
+  string result;
+  // the forecast starts on Sunday 6.9.2026, the morning is Monday
+  REQUIRE(story,
+          "fi",
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää tuulta, maanantaina "
+          "aamulla pohjoistuulta 2-4 m/s.");
+  REQUIRE(story,
+          "en",
+          "Westerly wind 9-11 m/s. Gradually weakening wind from the evening, northerly wind on "
+          "Monday morning 2-4 m/s.");
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
 // The number of reported changes is capped
 // ----------------------------------------------------------------------
 
@@ -442,6 +567,8 @@ class tests : public tframe::tests
     TEST(veering_and_backing);
     TEST(weak_variable_wind);
     TEST(gust_sentence);
+    TEST(convective_cell);
+    TEST(weekdays_named);
     TEST(capped_changes);
   }
 

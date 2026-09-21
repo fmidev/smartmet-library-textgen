@@ -48,6 +48,8 @@ Sentence forms:
 | Veering / backing (optional) | "Keskiyöllä tuuli kääntyy myötäpäivään länteen." | "The wind veers to the west at midnight." |
 | Weak variable wind | "Suunnaltaan vaihtelevaa tuulta 1-3 m/s." | "Variable wind 1-3 m/s." |
 | Strong gusts (optional) | "Iltapäivällä paikoin voimakkaita puuskia, kovimmillaan 18 m/s." | "In the afternoon, in some places strong gusts, up to 18 m/s." |
+| Convective cell (optional) | "Iltapäivällä paikoin hyvin voimakkaita puuskia, kovimmillaan 22 m/s." | "In the afternoon, in some places very strong gusts, up to 22 m/s." |
+| Next day (weekdays on) | "…maanantaina aamulla pohjoistuulta 2-4 m/s." | "…northerly wind on Monday morning 2-4 m/s." |
 
 All phrases exist in every po dictionary shipped with the library
 (`sonera` excepted).
@@ -161,13 +163,52 @@ phrases. The translations of the veering and backing phrases in
 languages other than Finnish, Swedish and English were written without a
 native speaker and should be reviewed.
 
-### 7. Gusts
+### 7. Convective cells
 
-Gusts are reported only when `gust_reporting` is true and the area
-maximum gust of some hour reaches `gust_limit` (15 m/s):
-"[aika] paikoin voimakkaita puuskia, kovimmillaan N m/s". The default is
-off because official gust warnings are written by meteorologists and the
-generator cannot see them.
+High-resolution models produce short-lived, spatially confined
+convective cells whose signature is in the gust field. Left alone they
+would inflate the area mean and the percentile range for the hours they
+cover and produce a spurious strengthening and weakening. As in
+`wind_overview`, an hour is a cell candidate when the share of the area
+with gusts at or above `convective_cell_cutoff` (13.5 m/s) is above
+`convective_cell_min_area_fraction` (0 %) and below
+`convective_cell_max_area_fraction` (10 %). A run of consecutive
+candidate hours shorter than `convective_cell_max_duration` (3 h) is a
+cell; longer runs and larger shares are synoptic and left alone.
+
+For the hours of a cell the mean, the percentiles and the maximum gust
+are recomputed from the grid points whose wind speed, or gust, is below
+the cutoff, so the cell does not disturb the forecast for the whole
+area. Detection runs whenever the data has gusts; set both
+`convective_cell_max_duration` and `convective_cell_max_area_fraction`
+to 0 to disable it.
+
+Cells are mentioned only when `convective_cell_reporting` is true, and
+then in one sentence about the strongest cell, placed after the sentence
+of the phase in which it occurs: "Iltapäivällä paikoin voimakkaita
+puuskia, kovimmillaan 18 m/s", or "hyvin voimakkaita puuskia" from
+storm level (20.5 m/s). With `convective_cell_style = quadrant` the part
+of the area is added when the gusts of one quadrant are clearly the
+strongest: "Iltapäivällä pohjoisosissa paikoin voimakkaita puuskia,
+kovimmillaan 18 m/s".
+
+### 8. Gusts
+
+Widespread gusts are reported only when `gust_reporting` is true and the
+area maximum gust of some hour reaches `gust_limit` (15 m/s):
+"[aika] paikoin voimakkaita puuskia, kovimmillaan N m/s", with "hyvin
+voimakkaita" from storm level. The hours of a convective cell contribute
+only the gusts outside the cell. The default is off because official
+gust warnings are written by meteorologists and the generator cannot see
+them.
+
+### 9. Weekdays
+
+A time phrase names the day when it moves to another day than the
+previous time phrase, or than the start of the forecast for the first
+one: "maanantaina aamulla pohjoistuulta 2-4 m/s". As in `wind_overview`,
+"keskiyöllä" never names the day, so the following phrase does. Set
+`weekdays = false` to never name the day.
 
 ## Configuration parameters
 
@@ -197,15 +238,24 @@ All variables live under `textgen::[section]::story::wind_sea_overview::*`.
 | `turn_phrases` | `plain` | `veering_backing` to distinguish clockwise and counterclockwise turns |
 | `gust_reporting` | `false` | Emit the gust sentence |
 | `gust_limit` | 15 m/s | Area maximum gust that triggers the gust sentence |
+| `convective_cell_cutoff` | 13.5 m/s | Gust above which grid points may belong to a convective cell |
+| `convective_cell_max_duration` | 3 h | Candidate runs at least this long are synoptic |
+| `convective_cell_max_area_fraction` | 10 % | Larger shares of the area above the cutoff are synoptic |
+| `convective_cell_min_area_fraction` | 0 % | Smaller shares are not candidates |
+| `convective_cell_reporting` | `false` | Emit the convective cell sentence |
+| `convective_cell_style` | `sentence` | `quadrant` adds the part of the area |
+| `weekdays` | `true` | Name the day when a time phrase moves to another day |
 | `rangeseparator` | `-` | Separator in "6-8 m/s" |
 | `specify_part_of_the_day` | `true` | Set to false to drop all time phrases |
 
 ## Data requirements
 
 `WindSpeedMS` and `WindDirection` are required. `HourlyMaximumGust` is
-used only for the optional gust sentence. Nothing else is read, so the
-story works identically on data with and without editor-specific
-parameters such as `HourlyMaximumWindSpeed`.
+used for convective cell detection and the optional gust sentence; when
+the data has no gusts, detection is skipped unless `gust_reporting` is
+on, in which case the story fails. Nothing else is read, so the story
+works identically on data with and without editor-specific parameters
+such as `HourlyMaximumWindSpeed`.
 
 ## Testing without gridded data
 
@@ -218,7 +268,15 @@ used by the library tests:
 <var>::fake::YYYYMMDDHHMM::speed::upper     = "8.0,0"
 <var>::fake::YYYYMMDDHHMM::direction::mean  = "315,5"    (degrees, spread)
 <var>::fake::YYYYMMDDHHMM::gust::maximum    = "18,0"
+<var>::fake::YYYYMMDDHHMM::gust::share      = "5,0"     (% of area above the cell cutoff)
 ```
+
+For the hours of a convective cell the statistics after the removal are
+given with the suffix `::no_cell` on the `speed::mean`, `speed::lower`,
+`speed::upper` and `gust::maximum` keys; without them the hour keeps its
+unfiltered values. The quadrant peaks of a cell are read from
+`<var>::fake::YYYYMMDDHHMM::gust::quadrant::{north,south,east,west}` at
+the first hour of the cell.
 
 The time stamp is the local hour of the forecast period. See
 `test/WindSeaOverviewTest.cpp` for complete scenarios.

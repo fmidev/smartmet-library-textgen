@@ -285,10 +285,12 @@ std::ostream& operator<<(std::ostream& os, const TimePhraseInfo& tpi)
   try
   {
     os << tpi.starttime << "..." << tpi.endtime << " -> ";
-    std::array<const char*, 7> weekdays = {
-        "maanantai", "tiistai", "keskiviikko", "rorstai", "perjantai", "lauantai", "sunnuntai"};
+    static const std::array<const char*, 7> weekdays = {
+        "maanantai", "tiistai", "keskiviikko", "torstai", "perjantai", "lauantai", "sunnuntai"};
 
-    os << weekdays[tpi.day_number - 1] << part_of_the_day_string(tpi.part_of_the_day) << '\n';
+    if (tpi.day_number >= 1 && tpi.day_number <= 7)
+      os << weekdays[tpi.day_number - 1];
+    os << part_of_the_day_string(tpi.part_of_the_day) << '\n';
 
     return os;
   }
