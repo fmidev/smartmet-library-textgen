@@ -8,6 +8,16 @@
 
 namespace TextGen
 {
+// An empty period at the current time, for members that have no meaningful value yet. It is
+// built from one time value: two separate TextGenPosixTime() calls may straddle a second
+// boundary, and since the compiler may evaluate the end argument first, the end could then be
+// before the start, which WeatherPeriod rejects.
+inline WeatherPeriod empty_period()
+{
+  TextGenPosixTime now;
+  return {now, now};
+}
+
 class PrecipitationForecast;
 class CloudinessForecast;
 class FogForecast;

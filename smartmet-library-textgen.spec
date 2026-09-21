@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 26.9.21
-Release: 4%{?dist}.fmi
+Release: 5%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-5.fmi
+- Fixed a random "end time must be after start time" failure in wind_overview and the fog forecast: empty periods were built from two separate current-time values that could straddle a second boundary
+
 * Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-4.fmi
 - wind_overview: turn_phrases = veering_backing qualifies a changed direction as clockwise or counterclockwise as in wind_sea_overview; new "myotapaivaan/vastapaivaan kaantyen" dictionary keys in all languages, translations outside fi, sv and en await native review
 

@@ -9,7 +9,7 @@ namespace TextGen
 {
 struct WindDirectionPeriodInfo
 {
-  WindDirectionPeriodInfo() : period(TextGenPosixTime(), TextGenPosixTime()) {}
+  WindDirectionPeriodInfo() : period(empty_period()) {}
   WindDirectionPeriodInfo(WeatherPeriod p, WindDirectionInfo i)
       : period(std::move(p)), info(std::move(i))
   {
@@ -40,7 +40,7 @@ struct interval_sentence_info
   // report them together)
   bool useAlkaenPhrase{false};
   bool skip{false};  // flag to indicate if interval is not reported (too close to previous)
-  interval_sentence_info() : period(TextGenPosixTime(), TextGenPosixTime()) {}
+  interval_sentence_info() : period(empty_period()) {}
 };
 
 // type of parameter in composite sentence
@@ -81,7 +81,7 @@ struct sentence_info
                                                               // sentence
                                                               // parameters
 
-  sentence_info() : period(TextGenPosixTime(), TextGenPosixTime()) {}
+  sentence_info() : period(empty_period()) {}
 };
 
 struct sentence_parameter
@@ -100,7 +100,7 @@ struct paragraph_info
   // Two paragraph_infos that share the same period belong to the same logical sentence
   // (the "piAfterLastInterval" split in getParagraphInfo). Default-constructed for
   // backward compat — getParagraphInfo sets it explicitly.
-  WeatherPeriod period{TextGenPosixTime(), TextGenPosixTime()};
+  WeatherPeriod period{empty_period()};
 };
 
 using WindSpeedSentenceInfo = std::vector<sentence_info>;

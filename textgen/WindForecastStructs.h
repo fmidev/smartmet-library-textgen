@@ -339,8 +339,7 @@ struct WindDirectionInfo
   WindDirectionId id = MISSING_WIND_DIRECTION_ID;
 
   WindDirectionInfo()
-      : period(WeatherPeriod(TextGenPosixTime(), TextGenPosixTime())),
-        direction(WeatherResult(kFloatMissing, kFloatMissing))
+      : period(empty_period()), direction(WeatherResult(kFloatMissing, kFloatMissing))
 
   {
   }
