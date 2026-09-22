@@ -3,13 +3,11 @@ LIB = smartmet-$(SUBNAME)
 SPEC = smartmet-library-$(SUBNAME)
 INCDIR = smartmet/$(SUBNAME)
 
-REQUIRES := libpqxx gdal
+REQUIRES := libpqxx gdal mariadb
 
 include $(shell echo $${PREFIX-/usr})/share/smartmet/devel/makefile.inc
 
 DEFINES = -DUNIX -D_REENTRANT
-
-INCLUDES += -isystem $(includedir)/mysql
 
 LIBS += \
 	-lsmartmet-calculator \
