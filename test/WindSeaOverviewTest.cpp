@@ -277,26 +277,26 @@ void weakening_with_turn()
   string result;
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää, aamuksi pohjoiseen "
-          "kääntyvää tuulta 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää "
+          "tuulta, aamulla 2-4 m/s.");
   REQUIRE(story,
           "en",
-          "Westerly wind 9-11 m/s. Gradually weakening from the evening, northerly wind by the "
+          "Westerly wind 9-11 m/s. Gradually weakening from the evening, northerly wind, in the "
           "morning 2-4 m/s.");
 
   // With veering/backing phrases the westerly wind turning to north is veering (clockwise)
   Settings::set(VAR + "::turn_phrases", "veering_backing");
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää, aamuksi pohjoiseen "
-          "kääntyvää tuulta 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää "
+          "tuulta, aamulla 2-4 m/s.");
   REQUIRE(story,
           "en",
-          "Westerly wind 9-11 m/s. Gradually weakening from the evening, veering northerly wind by "
-          "the morning 2-4 m/s.");
+          "Westerly wind 9-11 m/s. Gradually weakening from the evening, veering northerly wind, "
+          "in the morning 2-4 m/s.");
   REQUIRE(story,
           "en-marine",
-          "West 9-11 m/s. Gradually decreasing from the evening, veering north by the morning 2-4 "
+          "West 9-11 m/s. Gradually decreasing from the evening, veering north, in the morning 2-4 "
           "m/s.");
   TEST_PASSED();
 }
@@ -511,32 +511,32 @@ void day_change_marked()
   // weekdays = false: "huomenna" marks the day after the forecast time
   REQUIRE(story,
           "fi",
-          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää, huomisiltapäiväksi "
-          "länteen kääntyvää tuulta 1-3 m/s.");
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää länteen kääntyvää "
+          "tuulta, huomenna iltapäivällä 1-3 m/s.");
   REQUIRE(story,
           "en",
-          "North-easterly wind 8-10 m/s. Gradually weakening from the afternoon, westerly wind by "
+          "North-easterly wind 8-10 m/s. Gradually weakening from the afternoon, westerly wind, "
           "tomorrow afternoon 1-3 m/s.");
   REQUIRE(story,
           "sv",
-          "Nordostlig vind 8-10 m/s. Från och med eftermiddagen vind som avtar småningom, i "
-          "morgon på eftermiddagen västlig vind 1-3 m/s.");
+          "Nordostlig vind 8-10 m/s. Från och med eftermiddagen västlig vind som avtar småningom, "
+          "i morgon på eftermiddagen 1-3 m/s.");
 
   // the weekday when preferred
   area.history() = TextGen::WeatherHistory();
   Settings::set(VAR + "::day::phrases", "weekday");
   REQUIRE(story,
           "fi",
-          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää, "
-          "maanantai-iltapäiväksi länteen kääntyvää tuulta 1-3 m/s.");
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää länteen kääntyvää "
+          "tuulta, maanantaina iltapäivällä 1-3 m/s.");
 
   // or no marker at all
   area.history() = TextGen::WeatherHistory();
   Settings::set(VAR + "::day::phrases", "none");
   REQUIRE(story,
           "fi",
-          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää, iltapäiväksi "
-          "länteen kääntyvää tuulta 1-3 m/s.");
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää länteen kääntyvää "
+          "tuulta, iltapäivällä 1-3 m/s.");
   TEST_PASSED();
 }
 
@@ -568,8 +568,8 @@ void day_change_inferred()
   string result;
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää, aamuksi pohjoiseen "
-          "kääntyvää tuulta 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää "
+          "tuulta, aamulla 2-4 m/s.");
   TEST_PASSED();
 }
 
@@ -604,7 +604,7 @@ void turn_within_one_part_of_day()
   string result;
   REQUIRE(story,
           "fi",
-          "Itätuulta 7-9 m/s. Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta 11-13 m/s. "
+          "Itätuulta 7-9 m/s. Aamupäivällä voimistuvaa kaakkoon kääntyvää tuulta 11-13 m/s. "
           "Iltapäivällä heikkenevää tuulta 6-8 m/s.");
   REQUIRE(story,
           "en",
