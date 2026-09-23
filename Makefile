@@ -10,6 +10,7 @@ include $(shell echo $${PREFIX-/usr})/share/smartmet/devel/makefile.inc
 DEFINES = -DUNIX -D_REENTRANT
 
 LIBS += \
+	$(PREFIX_LDFLAGS) \
 	-lsmartmet-calculator \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
