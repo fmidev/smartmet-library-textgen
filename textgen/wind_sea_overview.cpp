@@ -1418,13 +1418,20 @@ Paragraph WindStory::sea_overview() const
                    << headDirWord;
         };
 
+        // A change with a turn that starts and ends within one part of the day names the time
+        // once, at the head: "Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta 11-13 m/s"
+        const bool samePart = timeWord.plain(startTime, false) == timeWord.plain(endTime, false) &&
+                              TimeTools::isSameDay(startTime, endTime);
+        const bool timeAtHeadOnly = tailHasDirection && samePart && !startStateFirst;
+
         auto append_tail = [&](Sentence& target)
         {
           if (tailHasDirection)
           {
             // the tail of a change sentence names the turn and the time by which it has
             // happened, where the language does so: "aamuksi pohjoiseen kääntyvää tuulta"
-            target << TIME_DIRECTION_PHRASE << timeWord.by(endTime);
+            target << TIME_DIRECTION_PHRASE
+                   << (timeAtHeadOnly ? string(EMPTY_STRING) : timeWord.by(endTime));
             const bool senseKnown = params.veeringBacking && !startDir.variable;
             append_direction(target,
                              dir,
@@ -1450,8 +1457,7 @@ Paragraph WindStory::sea_overview() const
         }
         else
         {
-          if (timeWord.plain(startTime, false) == timeWord.plain(endTime, false) &&
-              TimeTools::isSameDay(startTime, endTime) && !tailHasDirection)
+          if (samePart && !tailHasDirection)
           {
             // change within one part of the day
             append_head(sentence, timeWord(startTime, false));
@@ -1459,8 +1465,10 @@ Paragraph WindStory::sea_overview() const
           }
           else
           {
-            append_head(sentence,
-                        startStateFirst ? string(EMPTY_STRING) : timeWord(startTime, true));
+            string headTime = timeWord(startTime, !timeAtHeadOnly);
+            if (startStateFirst)
+              headTime = EMPTY_STRING;
+            append_head(sentence, headTime);
             sentence << Delimiter(COMMA_PUNCTUATION_MARK);
             append_tail(sentence);
           }

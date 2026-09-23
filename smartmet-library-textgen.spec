@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 26.9.21
-Release: 6%{?dist}.fmi
+Release: 7%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,6 +112,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-7.fmi
+- wind_sea_overview: a change with a turn within one part of the day names the time once ("Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta"); en.po "from the forenoon"; en-marine turn-to directions without "to the" ("becoming southwest")
+
 * Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-6.fmi
 - Veering and backing directions are one glyph (QualifiedDirectionPhrase) whose translation may use the turn-to or the noun form of the direction; Finnish, which never states the sense of a turn, writes "pohjoiseen kääntyvää tuulta"
 - wind_sea_overview: when a change sentence ends with a new direction the wind is named once, at the end, with the turn and the time by which it has happened ("vähitellen heikkenevää, aamuksi pohjoiseen kääntyvää tuulta 2-4 m/s", "northerly wind by the morning"); a change from the start of the story that ends in a turn begins with the state at the start instead of "aluksi". New dictionary keys "[iltapaivalla] [nopeasti] [heikkenevaa]", "kaantyen [etelaan] [etelatuulta]" and the translative time phrases "aamuksi" etc. with their tomorrow and weekday forms in all languages; outside fi and en the translative forms repeat the plain phrase

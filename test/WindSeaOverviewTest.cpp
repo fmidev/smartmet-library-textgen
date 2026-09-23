@@ -350,7 +350,7 @@ void veering_and_backing()
   REQUIRE(story, "fi", "Etelätuulta 7-9 m/s. Keskiyöllä tuuli kääntyy länteen.");
   REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden medurs mot väst.");
   REQUIRE(story, "en", "Southerly wind 7-9 m/s. The wind veers to the west at midnight.");
-  REQUIRE(story, "en-marine", "South 7-9 m/s. Veering to the west at midnight.");
+  REQUIRE(story, "en-marine", "South 7-9 m/s. Veering west at midnight.");
 
   // south -> east is counterclockwise: backing
   for (int h = 0; h <= 24; h++)
@@ -365,7 +365,7 @@ void veering_and_backing()
   REQUIRE(story, "fi", "Etelätuulta 7-9 m/s. Keskiyöllä tuuli kääntyy itään.");
   REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden moturs mot ost.");
   REQUIRE(story, "en", "Southerly wind 7-9 m/s. The wind backs to the east at midnight.");
-  REQUIRE(story, "en-marine", "South 7-9 m/s. Backing to the east at midnight.");
+  REQUIRE(story, "en-marine", "South 7-9 m/s. Backing east at midnight.");
   TEST_PASSED();
 }
 
@@ -574,6 +574,51 @@ void day_change_inferred()
 }
 
 // ----------------------------------------------------------------------
+// A change with a turn within one part of the day names the time once
+// ----------------------------------------------------------------------
+
+void turn_within_one_part_of_day()
+{
+  reset_settings();
+  // 05:00 - 05:00: easterly 8 m/s, strengthening to 12.5 m/s by noon while turning to south-east
+  // within the forenoon, then slowly weakening
+  const TextGenPosixTime start(2026, 9, 6, 5, 0);
+  const TextGenPosixTime end(2026, 9, 7, 5, 0);
+  TextGen::WeatherPeriod morningPeriod(start, end);
+  for (int h = -7; h <= 17; h++)
+  {
+    const int hour = h + 7;  // hours from 05:00
+    double mean = 8.0;
+    if (hour > 4 && hour <= 7)
+      mean = 8.0 + (hour - 4) * 1.5;  // 8 -> 12.5 between 09:00 and 12:00
+    else if (hour > 7)
+      mean = max(7.0, 12.5 - (hour - 7) * 2.0);  // 12.5 -> 7 by the afternoon
+    double dir = 80.0;
+    if (hour >= 4 && hour <= 6)
+      dir = 80.0 + (hour - 4) * 30.0;  // turns to south-east 09:00 - 11:00
+    else if (hour > 6)
+      dir = 140.0;
+    set_hour(h, mean, mean - 1.0, mean + 1.0, dir, 5.0);
+  }
+  TextGen::WindStory story(start, sources, area, morningPeriod, VAR);
+  string result;
+  REQUIRE(story,
+          "fi",
+          "Itätuulta 7-9 m/s. Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta 11-13 m/s. "
+          "Iltapäivällä heikkenevää tuulta 6-8 m/s.");
+  REQUIRE(story,
+          "en",
+          "Easterly wind 7-9 m/s. Strengthening before noon, south-easterly wind 11-13 m/s. "
+          "Weakening wind in the afternoon 6-8 m/s.");
+  Settings::set(VAR + "::turn_phrases", "veering_backing");
+  REQUIRE(story,
+          "en-marine",
+          "East 7-9 m/s. Increasing before noon, veering southeast 11-13 m/s. Decreasing in "
+          "the afternoon 6-8 m/s.");
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
 // The number of reported changes is capped
 // ----------------------------------------------------------------------
 
@@ -629,6 +674,7 @@ class tests : public tframe::tests
     TEST(convective_cell);
     TEST(day_change_marked);
     TEST(day_change_inferred);
+    TEST(turn_within_one_part_of_day);
     TEST(capped_changes);
   }
 
