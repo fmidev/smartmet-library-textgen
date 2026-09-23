@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.9.21
-Release: 8%{?dist}.fmi
+Version: 26.9.23
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -112,10 +112,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-* Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-8.fmi
+* Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.23-1.fmi
 - wind_sea_overview: a change and its turn are reported when they start, "Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää tuulta, aamulla 2-4 m/s"; the head key "[iltapaivalla] [nopeasti] [heikkenevaa] [kaantyvaa tuulta]" replaces the noun-less head and the translative time phrases ("aamuksi" and their tomorrow and weekday forms) are removed from the dictionaries
-
-* Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-7.fmi
 - wind_sea_overview: a change with a turn within one part of the day names the time once ("Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta"); en.po "from the forenoon"; en-marine turn-to directions without "to the" ("becoming southwest")
 
 * Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-6.fmi
