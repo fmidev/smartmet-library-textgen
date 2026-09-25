@@ -23,7 +23,7 @@ To run a single test:
 cd test && make BasicDictionaryTest && ./BasicDictionaryTest
 ```
 
-Tests link against the locally built `../libsmartmet-textgen.so`. If you get linker errors at runtime, set `LD_LIBRARY_PATH=.. make test`.
+Tests use `regression/tframe.h` (not Boost.Test) and link against the locally built `../libsmartmet-textgen.so`. If you get linker errors at runtime, set `LD_LIBRARY_PATH=.. make test`.
 
 ## Dependencies
 
@@ -63,7 +63,7 @@ See `docs/programmers/dictionaries.md` for the full hierarchy and
 `docs/users/transitioning-from-localized-database-translations.md` for
 migrating database-backed deployments.
 
-Test dictionaries live in `test/dictionaries/` (22 languages: fi, en, sv, de, fr, es, it, ru, ja, ko, zh, ar, etc.).
+The translations are the `.po` files in `po/` (23 files). The story tests read them from `textgen::podictionaries`, which defaults to the **installed** `/usr/share/smartmet/textgen`; only `SpecialStoryTest` uses `../po`. `test/dictionaries/` has just `en.txt` and `fi.txt` for the `FileDictionary` tests.
 
 ### TextFormatter system (Visitor)
 
@@ -77,7 +77,7 @@ Each weather parameter has a `Story` subclass: `TemperatureStory`, `Precipitatio
 
 ### TextGenerator (entry point)
 
-`TextGenerator` ties everything together: takes `AnalysisSources` + `WeatherArea` + configuration → generates a `Document`. Uses Pimple idiom. Configuration is read via `calculator/Settings.h` (libconfig-based global settings).
+`TextGenerator` ties everything together: takes `AnalysisSources` + `WeatherArea` + configuration → generates a `Document`. Uses Pimple idiom. Configuration is read via `calculator/Settings.h`, which is a **thread-local** key-value store (see the calculator developer guide).
 
 ### Supporting infrastructure
 
@@ -91,4 +91,4 @@ Everything is in `namespace TextGen`. Internal includes use `#include "Header.h"
 
 ## Documentation
 
-`docs/` contains Finnish-language documentation for individual story algorithms, period phrases, and configuration variables. Each `story_*.txt` file documents the configuration parameters and output logic for the corresponding story.
+`docs/` contains the English documentation: `docs/users/` for configuring products and `docs/programmers/` for developers (architecture, classes, dictionaries, formatters, stories, testing). Start from `docs/README.md`.
