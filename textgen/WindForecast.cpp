@@ -1587,7 +1587,7 @@ std::vector<WeatherPeriod> WindForecast::computeReportingPeriods(
     if (periods.empty())
     {
       TextGenPosixTime sTime = windSpeedEventPeriod.localStartTime();
-      TextGenPosixTime eTime = windSpeedEventPeriod.localEndTime();
+      const TextGenPosixTime& eTime = windSpeedEventPeriod.localEndTime();
       if (get_period_length(windSpeedEventPeriod) > 3)
       {
         sTime = eTime;
@@ -3408,7 +3408,7 @@ std::vector<WindStoryPart> WindForecast::getWindStoryParts(const WeatherPeriod& 
       {
         Paragraph part;
         part << single;
-        parts.push_back({piPeriod, std::move(part)});
+        parts.push_back({piPeriod, part});
       }
     }
 
