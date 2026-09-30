@@ -47,6 +47,7 @@ void require(const TextGen::Story& theStory,
              const string& theName,
              const string& theExpected)
 {
+  Settings::set("textgen::podictionaries", "../po");
   dict->init(theLanguage);
   formatter.dictionary(dict);
 
@@ -62,6 +63,7 @@ void require(const TextGen::Story& theStory,
 
 string get_story(const TextGen::Story& theStory, const string& theLanguage, const string& theName)
 {
+  Settings::set("textgen::podictionaries", "../po");
   dict->init(theLanguage);
   formatter.dictionary(dict);
 
@@ -12642,6 +12644,7 @@ int main(void)
 
   dict.reset(TextGen::DictionaryFactory::create("po"));
 
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   dict->init("sv");
   dict->init("en");

@@ -893,6 +893,7 @@ int main(void)
   cout << endl << "StoryFactory requirements" << endl << "==========================" << endl;
 
   StoryPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   StoryPhrasesTest::dict->init("fi");
 
   StoryPhrasesTest::tests t;
