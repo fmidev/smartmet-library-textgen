@@ -241,6 +241,7 @@ int main(void)
   cout << endl << "HeaderFactory requirements" << endl << "==========================" << endl;
 
   HeaderPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   HeaderPhrasesTest::dict->init("fi");
 
   HeaderPhrasesTest::tests t;

@@ -43,6 +43,7 @@ const TextGenPosixTime END(2026, 9, 7, 12, 0);
 
 string require(const TextGen::Story& theStory, const string& theLanguage, const string& theExpected)
 {
+  Settings::set("textgen::podictionaries", "../po");
   dict->init(theLanguage);
   formatter.dictionary(dict);
   TextGen::Paragraph para = theStory.makeStory("wind_sea_overview");
@@ -464,6 +465,7 @@ void convective_cell()
   // sentence reports the gusts
   for (int h = 3; h <= 4; h++)
     set_hour(h, 13.0, 11.0, 15.0, 315.0, 5.0, 22.0, 60.0);
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   formatter.dictionary(dict);
   const string text = story.makeStory("wind_sea_overview").realize(formatter);
@@ -637,6 +639,7 @@ void capped_changes()
   TextGen::WindStory story = make_story();
   string result;
   // only the largest change is kept; the rest is described as steady
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   formatter.dictionary(dict);
   TextGen::Paragraph para = story.makeStory("wind_sea_overview");
@@ -697,6 +700,7 @@ int main(void)
        << "=============================" << endl;
 
   dict.reset(TextGen::DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   dict->init("sv");
   dict->init("en");
