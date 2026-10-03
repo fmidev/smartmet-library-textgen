@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.9.23
+Version: 26.10.3
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -25,15 +25,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 26.4.13
-BuildRequires: smartmet-library-macgyver-devel >= 26.5.21
-BuildRequires: smartmet-library-newbase-devel >= 26.2.4
-BuildRequires: smartmet-library-gis-devel >= 26.5.21
+BuildRequires: smartmet-library-calculator-devel >= 26.10.3
+BuildRequires: smartmet-library-macgyver-devel >= 26.10.3
+BuildRequires: smartmet-library-newbase-devel >= 26.10.3
+BuildRequires: smartmet-library-gis-devel >= 26.10.3
 Requires: gdal312-libs
-Requires: smartmet-library-calculator >= 26.4.13
-Requires: smartmet-library-macgyver >= 26.5.21
-Requires: smartmet-library-newbase >= 26.2.4
-
+Requires: smartmet-library-calculator >= 26.10.3
+Requires: smartmet-library-macgyver >= 26.10.3
+Requires: smartmet-library-newbase >= 26.10.3
 %if 0%{?rhel} && 0%{rhel} == 8
 Requires: libpqxx >= 1:7.7.0, libpqxx < 1:7.8.0
 BuildRequires: libpqxx-devel >= 1:7.7.0, libpqxx-devel < 1:7.8.0
@@ -62,10 +61,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 26.4.13
-#TestRequires: smartmet-library-macgyver-devel >= 26.5.21
-#TestRequires: smartmet-library-newbase-devel >= 26.2.4
-#TestRequires: smartmet-library-gis-devel >= 26.5.21
+#TestRequires: smartmet-library-calculator-devel >= 26.10.3
+#TestRequires: smartmet-library-macgyver-devel >= 26.10.3
+#TestRequires: smartmet-library-newbase-devel >= 26.10.3
+#TestRequires: smartmet-library-gis-devel >= 26.10.3
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -112,6 +111,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sat Oct 03 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.3-1.fmi
+- Remove unnecessary copies found by clang-tidy performance checks
+- Test against the repository translations, not the installed ones
+
 * Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.23-1.fmi
 - wind_sea_overview: a change and its turn are reported when they start, "Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää tuulta, aamulla 2-4 m/s"; the head key "[iltapaivalla] [nopeasti] [heikkenevaa] [kaantyvaa tuulta]" replaces the noun-less head and the translative time phrases ("aamuksi" and their tomorrow and weekday forms) are removed from the dictionaries
 - wind_sea_overview: a change with a turn within one part of the day names the time once ("Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta"); en.po "from the forenoon"; en-marine turn-to directions without "to the" ("becoming southwest")
