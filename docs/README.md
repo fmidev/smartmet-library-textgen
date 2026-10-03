@@ -66,7 +66,7 @@ textgen/                  C++ sources
   <Something>.cpp/.h      class files (capital letter) — the infrastructure
   <something_name>.cpp    generator entry points (lowercase) — each
                           implements one named story (e.g. wind_overview)
-test/                     Boost.Test unit tests
+test/                     unit tests (regression/tframe.h)
 sql/                      MariaDB/PostgreSQL schema for the phrase dictionary
 docs/                     this directory
 ```
