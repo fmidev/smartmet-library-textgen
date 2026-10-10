@@ -603,7 +603,7 @@ Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
     return build_fractile88_cold(theSpecifiedDay, theAreaPhrase);
   }
 
-  return Sentence();
+  return {};
   }
   catch (...)
   {
@@ -1106,7 +1106,7 @@ Sentence summer_shortruntrend_sentence(temperature_anomaly_params& theParameters
                                    f37DayAfter,
                                    theSpecifiedDay,
                                    theAreaPhrase);
-  return Sentence();
+  return {};
   }
   catch (...)
   {

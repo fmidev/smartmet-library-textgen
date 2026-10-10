@@ -114,6 +114,7 @@ FMI textgen development files
 * Sat Oct 10 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.10-1.fmi
 - Include <array> where std::array is used, TemperatureStoryTools.cpp did not compile with clang
 - Guard CloudinessForecast against a missing data source
+- Use auto and return {} where clang-tidy suggests it, no functional changes
 
 * Sat Oct 03 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.3-1.fmi
 - Remove unnecessary copies found by clang-tidy performance checks

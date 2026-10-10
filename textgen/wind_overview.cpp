@@ -3660,7 +3660,7 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
     // Detection runs only on the primary (full) area; split sub-areas are recomputed in lockstep.
     const WeatherArea::Type areaType = storyParams.theWeatherAreas[0].type();
     const unsigned int n = storyParams.theWindDataVector.size();
-    const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
+    const auto cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
     const double maxAreaFraction = storyParams.theConvectiveCellMaxAreaFraction;
     const double minAreaFraction = storyParams.theConvectiveCellMinAreaFraction;
     const double maxDuration = storyParams.theConvectiveCellMaxDuration;
@@ -3890,7 +3890,7 @@ void remove_cells_from_area_stats(wo_story_params& storyParams,
       return;
 
     GridForecaster forecaster;
-    const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
+    const auto cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
 
     for (const auto& anomaly : anomalies)
     {
