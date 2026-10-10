@@ -630,7 +630,7 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
 {
   try
   {
-    if (theCloudinessPeriodsSource.empty())
+    if (theCloudinessPeriodsSource.empty() || theCloudinessDataSource == nullptr)
       return;
 
     vector<int> theCloudinessPuolipilvisestaPilviseen;
