@@ -17,6 +17,7 @@
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <algorithm>
+#include <array>
 #include <iomanip>
 
 // #define BOOST_STACKTRACE_USE_ADDR2LINE

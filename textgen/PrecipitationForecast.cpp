@@ -40,6 +40,7 @@
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <newbase/NFmiAreaTools.h>
+#include <array>
 #include <iomanip>
 #include <map>
 #include <vector>

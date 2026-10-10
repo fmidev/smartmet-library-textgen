@@ -26,6 +26,7 @@
 #include <macgyver/StringConversion.h>
 
 #include <boost/lexical_cast.hpp>
+#include <array>
 #include <vector>
 
 using namespace TextGen;

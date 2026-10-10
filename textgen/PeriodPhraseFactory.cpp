@@ -28,6 +28,7 @@
 
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
+#include <array>
 
 using namespace TextGen::TimeTools;
 using namespace std;

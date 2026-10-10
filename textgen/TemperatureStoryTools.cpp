@@ -32,6 +32,7 @@
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
+#include <array>
 #include <memory>
 #include <sstream>
 #include <string>
