@@ -71,6 +71,7 @@ bool is_executable(const string& filename)
 string execute(const string& cmd)
 {
 #ifdef UNIX
+  // NOLINTNEXTLINE(cert-env33-c): runs the configured command by design
   FILE* pipe = popen(cmd.c_str(), "r");
 #else
   FILE* pipe = _popen(cmd.c_str(), "r");
