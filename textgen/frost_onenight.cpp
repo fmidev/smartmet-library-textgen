@@ -606,7 +606,7 @@ struct FrostProbabilities
 
 FrostProbabilities compute_frost_probabilities(MessageLogger& log,
                                                const std::string& theVar,
-                                               GridForecaster& forecaster,
+                                               const GridForecaster& forecaster,
                                                const AnalysisSources& sources,
                                                const WeatherArea& coastalArea,
                                                const WeatherArea& inlandArea,

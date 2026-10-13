@@ -1444,7 +1444,8 @@ bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phra
 
 // if the successive sentences contains the same time phrase, insert
 // aluksi, myohemmin to the beginning of the sentence
-void check_sentences(std::shared_ptr<Glyph>& theSentence1, std::shared_ptr<Glyph>& theSentence2)
+void check_sentences(const std::shared_ptr<Glyph>& theSentence1,
+                     const std::shared_ptr<Glyph>& theSentence2)
 {
   try
   {

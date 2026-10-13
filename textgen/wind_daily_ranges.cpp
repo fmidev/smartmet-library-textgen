@@ -137,7 +137,7 @@ Sentence daily_ranges_2days_bad_accuracy(const DailyWindData& d,
 Sentence daily_ranges_2days(const DailyWindData& d,
                             const string& var,
                             const TextGenPosixTime& forecastTime,
-                            GridForecaster& forecaster,
+                            const GridForecaster& forecaster,
                             const AnalysisSources& sources,
                             const WeatherArea& area,
                             const HourPeriodGenerator& periodgenerator)
@@ -372,7 +372,7 @@ Sentence daily_ranges_3days_no_acc(const DailyWindData& d,
 Sentence daily_ranges_3days(const DailyWindData& d,
                             const string& var,
                             const TextGenPosixTime& forecastTime,
-                            GridForecaster& forecaster,
+                            const GridForecaster& forecaster,
                             const AnalysisSources& sources,
                             const WeatherArea& area)
 {

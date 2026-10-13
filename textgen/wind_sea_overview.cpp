@@ -218,7 +218,7 @@ string stamp(const TextGenPosixTime& t)
 
 // Percentile of the spatial wind speed distribution at one hour, from 1 m/s bins.
 // Returns the lower edge of the bin in which the cumulative share reaches the percentile.
-void spatial_percentiles(GridForecaster& forecaster,
+void spatial_percentiles(const GridForecaster& forecaster,
                          const AnalysisSources& sources,
                          const WeatherArea& area,
                          const WeatherPeriod& period,
@@ -266,7 +266,7 @@ void spatial_percentiles(GridForecaster& forecaster,
 // Wind speed statistics of one hour. With an acceptor only the grid points it accepts are used
 // (removal of a convective cell); the fake keys then carry the given suffix, and fake data
 // without the suffixed keys is left as it is.
-void analyze_speed(GridForecaster& forecaster,
+void analyze_speed(const GridForecaster& forecaster,
                    const AnalysisSources& sources,
                    const WeatherArea& area,
                    const string& var,
@@ -316,7 +316,7 @@ void analyze_speed(GridForecaster& forecaster,
 }
 
 // Area maximum gust of one hour, with an optional acceptor as in analyze_speed
-void analyze_gust(GridForecaster& forecaster,
+void analyze_gust(const GridForecaster& forecaster,
                   const AnalysisSources& sources,
                   const WeatherArea& area,
                   const string& var,
@@ -336,7 +336,7 @@ void analyze_gust(GridForecaster& forecaster,
 }
 
 // Share (%) of the area where the gust of one hour is at or above the cell cutoff
-float analyze_gust_share(GridForecaster& forecaster,
+float analyze_gust_share(const GridForecaster& forecaster,
                          const AnalysisSources& sources,
                          const WeatherArea& area,
                          const string& var,
@@ -423,7 +423,7 @@ vector<ConvectiveCell> detect_cells(const vector<HourData>& hours,
 
 // The part of the area where a cell is, when the gusts of one quadrant are clearly the
 // strongest. Otherwise the cell moved or is ambiguous and the whole area is kept.
-void determine_cell_quadrants(GridForecaster& forecaster,
+void determine_cell_quadrants(const GridForecaster& forecaster,
                               const AnalysisSources& sources,
                               const WeatherArea& area,
                               const string& var,

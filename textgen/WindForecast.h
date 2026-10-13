@@ -151,7 +151,7 @@ class WindForecast
                                            bool windStrenghtens,
                                            const WindEventPeriodDataItem* windSpeedItem,
                                            const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
-                                           WindDirectionInfo& thePreviousWindDirection,
+                                           const WindDirectionInfo& thePreviousWindDirection,
                                            const WeatherPeriod& windSpeedEventPeriod) const;
 
   bool constructSeparateInitialSentences(const WindEventPeriodDataItem* windSpeedItem,
@@ -222,7 +222,7 @@ class WindForecast
   bool processOneDirectionChange(unsigned int j,
                                  sentence_info& sentenceInfo,
                                  const WeatherPeriod& windSpeedChangePeriod,
-                                 WindDirectionInfo& previousWindDirectionInfo,
+                                 const WindDirectionInfo& previousWindDirectionInfo,
                                  unsigned int& directionChangeStartIndex,
                                  unsigned int directionChanges,
                                  bool firstSentence,
@@ -249,7 +249,7 @@ class WindForecast
   void mergeRedundantFirstSentences(WindSpeedSentenceInfo& sentenceInfoVector) const;
   void markSkippedIntervals(sentence_info& sentenceInfo,
                             unsigned int sentenceIndex,
-                            interval_info& intervalInfo,
+                            const interval_info& intervalInfo,
                             interval_info& intervalInfoPrevious) const;
   void checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVector) const;
   interval_info windSpeedIntervalInfo(const WeatherPeriod& thePeriod) const;
@@ -263,7 +263,7 @@ class WindForecast
                               WeatherPeriod* previousPeriod,
                               WeatherPeriod* currentPeriod) const;
 
-  bool negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
+  bool negotiateNewPeriod(const part_of_the_day_id& partOfTheDay,
                           WeatherPeriod& period1,
                           WeatherPeriod& period2,
                           const WeatherPeriod& notEarlierThanPeriod,
@@ -278,7 +278,7 @@ class WindForecast
                                  const WeatherPeriod& guardPeriod,
                                  int& hours_shrunk,
                                  bool backwards) const;
-  WeatherPeriod getNewPeriod(part_of_the_day_id& partOfTheDay,
+  WeatherPeriod getNewPeriod(const part_of_the_day_id& partOfTheDay,
                              const WeatherPeriod& period,
                              const WeatherPeriod& guardPeriod,
                              unsigned int& hours,

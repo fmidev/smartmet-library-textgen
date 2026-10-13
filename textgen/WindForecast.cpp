@@ -1244,7 +1244,7 @@ float get_wind_speed_at(const wo_story_params& theParameters, const TextGenPosix
   }
 }
 
-bool wind_speed_differ_enough(wo_story_params& theParameters, const WeatherPeriod& thePeriod)
+bool wind_speed_differ_enough(const wo_story_params& theParameters, const WeatherPeriod& thePeriod)
 {
   try
   {
@@ -1863,7 +1863,7 @@ void WindForecast::populateFirstReportingPointSentence(
     bool windStrenghtens,
     const WindEventPeriodDataItem* windSpeedItem,
     const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
-    WindDirectionInfo& thePreviousWindDirection,
+    const WindDirectionInfo& thePreviousWindDirection,
     const WeatherPeriod& windSpeedEventPeriod) const
 {
   try
@@ -2231,7 +2231,7 @@ bool WindForecast::processOneDirectionChange(
     unsigned int j,
     sentence_info& sentenceInfo,
     const WeatherPeriod& windSpeedChangePeriod,
-    WindDirectionInfo& previousWindDirectionInfo,
+    const WindDirectionInfo& previousWindDirectionInfo,
     unsigned int& directionChangeStartIndex,
     unsigned int directionChanges,
     bool firstSentence,
@@ -2470,7 +2470,7 @@ void WindForecast::mergeRedundantFirstSentences(WindSpeedSentenceInfo& sentenceI
 // mark intervals to skip when they don't differ enough from each other
 void WindForecast::markSkippedIntervals(sentence_info& sentenceInfo,
                                         unsigned int sentenceIndex,
-                                        interval_info& intervalInfo,
+                                        const interval_info& intervalInfo,
                                         interval_info& intervalInfoPrevious) const
 {
   try
@@ -2676,7 +2676,7 @@ WeatherPeriod WindForecast::findShrunkPeriod(part_of_the_day_id partOfTheDay,
 }
 
 // move or shrink the period till part_of_the_day is different from original
-WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
+WeatherPeriod WindForecast::getNewPeriod(const part_of_the_day_id& partOfTheDay,
                                          const WeatherPeriod& period,
                                          const WeatherPeriod& guardPeriod,
                                          unsigned int& hours,
@@ -2723,7 +2723,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
 // update either period1 (change it to earlier) or period2 (change it to later)
 //
 // TODO: when moving periods check borders
-bool WindForecast::negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
+bool WindForecast::negotiateNewPeriod(const part_of_the_day_id& partOfTheDay,
                                       WeatherPeriod& period1,
                                       WeatherPeriod& period2,
                                       const WeatherPeriod& notEarlierThanPeriod,

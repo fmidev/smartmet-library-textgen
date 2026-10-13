@@ -1837,7 +1837,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
 
 namespace
 {
-void fill_night_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase)
+void fill_night_temperature_phrase(const t36hparams& p, Sentence& theTemperaturePhrase)
 {
   try
   {
@@ -1857,7 +1857,7 @@ void fill_night_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase
   }
 }
 
-void fill_day_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase)
+void fill_day_temperature_phrase(const t36hparams& p, Sentence& theTemperaturePhrase)
 {
   try
   {
@@ -2803,7 +2803,7 @@ bool build_normal_numeric_sentence(Sentence& sentence,
   }
 }
 
-Sentence build_hieman_korkeampi_alempi_sentence(t36hparams& p,
+Sentence build_hieman_korkeampi_alempi_sentence(const t36hparams& p,
                                                 temperature_phrase_id phrase_id,
                                                 bool useDay2Phrase,
                                                 bool dayEmpty,
@@ -2865,7 +2865,7 @@ Sentence build_hieman_korkeampi_alempi_sentence(t36hparams& p,
   }
 }
 
-Sentence build_intervalli_sentence(t36hparams& p,
+Sentence build_intervalli_sentence(const t36hparams& p,
                                    bool useDay2Phrase,
                                    bool dayEmpty,
                                    bool areaEmpty,
@@ -2925,7 +2925,7 @@ Sentence build_intervalli_sentence(t36hparams& p,
   }
 }
 
-Sentence build_suunnilleen_sama_sentence(t36hparams& p,
+Sentence build_suunnilleen_sama_sentence(const t36hparams& p,
                                          bool useDay2Phrase,
                                          bool dayEmpty,
                                          bool areaEmpty,
@@ -3055,7 +3055,7 @@ Sentence build_hieman_heikompaa_sentence(temperature_phrase_id pid,
   }
 }
 
-void fill_area_phrase_from_weather_area(t36hparams& p, Sentence& theAreaPhrase)
+void fill_area_phrase_from_weather_area(const t36hparams& p, Sentence& theAreaPhrase)
 {
   try
   {
@@ -3976,7 +3976,7 @@ vector<int> build_period_areas(processing_order order, bool sepDay1, bool sepDay
   }
 }
 
-void resolve_area_id_for_period(t36hparams& p,
+void resolve_area_id_for_period(const t36hparams& p,
                                 int periodArea,
                                 bool separate,
                                 int inlandCode,
@@ -4402,7 +4402,7 @@ unsigned short calculate_day1_first_results(MessageLogger& theLog,
                                             const std::string& itsVar,
                                             const TextGen::AnalysisSources& itsSources,
                                             const TextGen::WeatherArea& itsArea,
-                                            NightAndDayPeriodGenerator& generator,
+                                            const NightAndDayPeriodGenerator& generator,
                                             forecast_season_id forecast_season,
                                             unsigned short& forecast_period,
                                             weather_result_container_type& weatherResults,
@@ -4505,7 +4505,7 @@ unsigned short calculate_night_first_results(MessageLogger& theLog,
                                              const std::string& itsVar,
                                              const TextGen::AnalysisSources& itsSources,
                                              const TextGen::WeatherArea& itsArea,
-                                             NightAndDayPeriodGenerator& generator,
+                                             const NightAndDayPeriodGenerator& generator,
                                              forecast_season_id forecast_season,
                                              unsigned short& forecast_period,
                                              weather_result_container_type& weatherResults,

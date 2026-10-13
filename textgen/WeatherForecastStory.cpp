@@ -76,7 +76,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
                                            const WeatherArea& weatherArea,
                                            wf_story_params& parameters,
                                            const TextGenPosixTime& forecastTime,
-                                           PrecipitationForecast& precipitationForecast,
+                                           const PrecipitationForecast& precipitationForecast,
                                            const CloudinessForecast& cloudinessForecast,
                                            const FogForecast& fogForecast,
                                            const ThunderForecast& thunderForecast,
@@ -559,7 +559,7 @@ void WeatherForecastStory::processPrecipitationItem(WeatherForecastStoryItem* it
 }
 
 void WeatherForecastStory::appendVisibilitySentence(std::vector<Sentence>& sentences,
-                                                    const SeaStoryStats& stats)
+                                                    const SeaStoryStats& stats) const
 {
   try
   {

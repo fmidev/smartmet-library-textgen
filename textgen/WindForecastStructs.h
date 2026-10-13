@@ -388,7 +388,7 @@ struct ConvectiveCellAnomaly
 
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
-bool wind_speed_differ_enough(wo_story_params& theParameter, const WeatherPeriod& thePeriod);
+bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);
 bool wind_direction_differ_enough(WeatherResult theWindDirection1,
                                   WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
