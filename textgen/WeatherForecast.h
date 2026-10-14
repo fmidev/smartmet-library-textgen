@@ -616,6 +616,7 @@ void get_part_of_the_day(part_of_the_day_id thePartOfTheDayId, int& theStartHour
 part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
                                                  bool ignoreKeskiyo = false);
 part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod);
+part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
 part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod,
                                                    bool theAlkaenPhrase = false);
 part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp,

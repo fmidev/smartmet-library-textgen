@@ -235,8 +235,10 @@ static const std::array<const char*, 17> good_direction_strings = {
     "pohjoisen ja luoteen valista tuulta",    // 16
 };
 
+namespace
+{
 // Return puoleinen string for moderate accuracy, resolving ambiguous sectors by exact angle
-static string moderate_direction_string(int n, double angle)
+string moderate_direction_string(int n, double angle)
 {
   // Simple sectors: 1,3,5,7,9,11,13,15
   static const std::array<const char*, 17> simple = {
@@ -290,6 +292,7 @@ static string moderate_direction_string(int n, double angle)
   }
   return "";
 }
+}  // namespace
 
 string direction16_string(const WeatherResult& theDirection, const string& theVariable)
 {
@@ -640,6 +643,8 @@ WindDirectionId direction_between_id(float theWindDirection)
   return retval;
 }
 
+namespace
+{
 WindDirectionId puoleinen_direction_id(float theWindDirection,
                                        const WindDirectionId& theWindDirectionId)
 {
@@ -697,6 +702,7 @@ WindDirectionId puoleinen_direction_id(float theWindDirection,
   }
   return MISSING_WIND_DIRECTION_ID;
 }
+}  // namespace
 
 WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection,
                                   const TextGen::WeatherResult& theMaxWindSpeed,
@@ -833,6 +839,8 @@ std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
   return retval;
 }
 
+namespace
+{
 bool wind_direction_item_sort(pair<float, WeatherResult> firstItem,
                               pair<float, WeatherResult> secondItem)
 {
@@ -1050,6 +1058,7 @@ pair<float, WeatherResult> get_share_item(
 
   return shareItem;
 }
+}  // namespace
 
 void populate_winddirection_distribution_time_series(
     const AnalysisSources& theSources,
@@ -1101,6 +1110,8 @@ void populate_winddirection_distribution_time_series(
         get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_LUODE, compass_type));
 }
 
+namespace
+{
 float calculate_mean_wind_direction(const float& direction1,
                                     const float& direction2,
                                     const float& share1,
@@ -1172,6 +1183,7 @@ float calculate_wind_direction_from_distribution(
 
   return cumulativeWeightedDirection;
 }
+}  // namespace
 
 WeatherResult mode_wind_direction(const AnalysisSources& theSources,
                                   const WeatherArea& theArea,

@@ -49,7 +49,8 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
     return 0;
   }
 
-  streambuf_type* setbuf(char_type* buffer, std::streamsize n) override
+  streambuf_type* setbuf([[maybe_unused]] char_type* buffer,
+                         [[maybe_unused]] std::streamsize n) override
   {
     // note: this function MUST be called
     // before working with this stream buffer

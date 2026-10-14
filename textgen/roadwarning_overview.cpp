@@ -1466,7 +1466,7 @@ Paragraph RoadStory::warning_overview() const
     {
       // Common periods will be inclusive range i...j
 
-      unsigned int j;
+      unsigned int j = 0;
       for (j = i; j < periods.size() - 1; j++)
         if (realizations[i] != realizations[j + 1])
           break;

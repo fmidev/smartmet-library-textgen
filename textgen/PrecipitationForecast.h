@@ -93,7 +93,6 @@ class PrecipitationForecast
   unsigned int getPrecipitationHours(precipitation_intesity_id intensityId,
                                      const WeatherPeriod& period) const;
 
- public:
   // Helper context for parseFinalSentence (public so anonymous-namespace helpers can use it)
   struct FinalSentenceContext
   {

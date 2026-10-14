@@ -401,6 +401,11 @@ WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
 
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
 
+void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams);
+
+wind_event_period_data_item_vector remove_short_missing_periods(
+    wo_story_params& storyParams, const wind_event_period_data_item_vector& eventPeriodVector);
+
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 

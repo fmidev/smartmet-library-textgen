@@ -165,14 +165,11 @@ SeaParams read_params(const string& var)
       optional_double(var + "::convective_cell_min_area_fraction", p.cellMinAreaFraction);
   p.cellReporting = optional_bool(var + "::convective_cell_reporting", p.cellReporting);
   p.cellStyle = optional_string(var + "::convective_cell_style", p.cellStyle);
-  if (p.smoothingHours < 1)
-    p.smoothingHours = 1;
+  p.smoothingHours = std::max(p.smoothingHours, 1);
   if (p.smoothingHours % 2 == 0)
     p.smoothingHours++;
-  if (p.rangeHours < 1)
-    p.rangeHours = 1;
-  if (p.maxChanges < 0)
-    p.maxChanges = 0;
+  p.rangeHours = std::max(p.rangeHours, 1);
+  p.maxChanges = std::max(p.maxChanges, 0);
   return p;
 }
 
@@ -1041,8 +1038,7 @@ Range compute_range(const vector<HourData>& hours, int beg, int end, const SeaPa
     else
       r.upper--;
   }
-  if (r.lower < 0)
-    r.lower = 0;
+  r.lower = std::max(r.lower, 0);
   return r;
 }
 

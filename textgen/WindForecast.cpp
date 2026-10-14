@@ -215,8 +215,8 @@ namespace TextGen
 #define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
   "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
 
-part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
-
+namespace
+{
 part_of_the_day_id get_part_of_the_day_id_wind(const TextGenPosixTime& theTime)
 {
   int hour = theTime.GetHour();
@@ -255,6 +255,7 @@ part_of_the_day_id get_part_of_the_day_id_wind(const WeatherPeriod& thePeriod)
 
   return ret;
 }
+}  // namespace
 
 bool operator==(const TimePhraseInfo& p1, const TimePhraseInfo& p2)
 {
@@ -328,6 +329,8 @@ Paragraph operator<<(Paragraph& p, const ParagraphInfoVector& piv)
   }
 }
 
+namespace
+{
 float wind_direction_error(const wind_data_item_vector& theWindDataVector,
                            const WeatherArea& theArea,
                            const WeatherPeriod& thePeriod)
@@ -354,6 +357,7 @@ float wind_direction_error(const wind_data_item_vector& theWindDataVector,
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 // return true if equalized top wind is weak during whole period
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod)
@@ -377,6 +381,8 @@ bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& t
   }
 }
 
+namespace
+{
 // find top wind on period
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod,
                            const wo_story_params& theParameters,
@@ -542,6 +548,7 @@ WindDirectionInfo negotiateWindDirection(WindDirectionInfo& theProposedWindDirec
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const TextGenPosixTime& pointOfTime,
@@ -690,6 +697,8 @@ std::string get_wind_event_string(WindEventId theWindEventId)
   return retval;
 }
 
+namespace
+{
 // The dictionary key of a wind direction, in the basic or the partitive form
 const char* windDirectionPhraseKey(WindDirectionId theWindDirectionId, bool theBasicForm)
 {
@@ -764,6 +773,7 @@ Sentence windDirectionSentence(const WindDirectionInfo& theWindDirectionInfo,
 }
 
 std::string getWindDirectionTurntoString(WindDirectionId theWindDirectionId);
+}  // namespace
 
 // The direction written to the text. With turn_phrases = veering_backing a direction that
 // differs from the previously written one is qualified as clockwise (veering) or
@@ -815,6 +825,8 @@ Sentence WindForecast::turnQualified(const WindDirectionInfo& theDirection,
   }
 }
 
+namespace
+{
 std::string getWindDirectionTurntoString(WindDirectionId theWindDirectionId)
 {
   std::string retval;
@@ -995,6 +1007,7 @@ float get_median_wind(const WeatherPeriod& thePeriod, const wo_story_params& the
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters)
 {
@@ -1022,6 +1035,8 @@ float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& thePar
   }
 }
 
+namespace
+{
 bool windspeed_distribution_interval(const WeatherPeriod& thePeriod,
                                      const wo_story_params& theParameter,
                                      float coverage,
@@ -1243,6 +1258,7 @@ float get_wind_speed_at(const wo_story_params& theParameters, const TextGenPosix
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 bool wind_speed_differ_enough(const wo_story_params& theParameters, const WeatherPeriod& thePeriod)
 {
@@ -1405,6 +1421,8 @@ bool wind_direction_differ_enough(const wo_story_params& theParameter,
   }
 }
 
+namespace
+{
 void compose_wind_speed_range(const wo_story_params& theParameters,
                               int& intervalLowerLimit,
                               int& intervalUpperLimit,
@@ -1524,6 +1542,7 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
         .addParameter("maxInterval", Fmi::to_string(theParameters.theContextualMaxIntervalSize));
   }
 }
+}  // namespace
 
 WindForecast::WindForecast(wo_story_params& parameters) : theParameters(parameters) {}
 
@@ -1931,6 +1950,8 @@ void WindForecast::populateFirstReportingPointSentence(
   }
 }
 
+namespace
+{
 void logDirectionList(std::ostream& theOutput,
                       const char* label,
                       const std::vector<WindDirectionInfo>& directions)
@@ -2023,6 +2044,7 @@ void logSentenceParameter(std::ostream& theOutput,
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceInfo)
 {
@@ -2048,6 +2070,8 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
   }
 }
 
+namespace
+{
 void log_sentence_info(MessageLogger& theLog,
                        const std::string& theHeader,
                        const WindSpeedSentenceInfo& sentenceInfoVector)
@@ -2063,6 +2087,7 @@ void log_sentence_info(MessageLogger& theLog,
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 // originally story contains just wind speed changes
 // this function injects wind direction changes into story
@@ -2762,6 +2787,8 @@ bool WindForecast::negotiateNewPeriod(const part_of_the_day_id& partOfTheDay,
   }
 }
 
+namespace
+{
 // collect pointers to all periods that need a time phrase, in sentence order
 std::vector<WeatherPeriod*> collectTimePhrasePeriods(WindSpeedSentenceInfo& sentenceInfoVector)
 {
@@ -2792,6 +2819,7 @@ std::vector<WeatherPeriod*> collectTimePhrasePeriods(WindSpeedSentenceInfo& sent
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 void WindForecast::logTautologyResolution(const WeatherPeriod& original1,
                                           const WeatherPeriod& original2,
@@ -2893,6 +2921,8 @@ void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) c
   }
 }
 
+namespace
+{
 // collect all direction change pointers from a sentence_info into a flat list
 std::vector<WindDirectionInfo*> collectDirectionChanges(sentence_info& si)
 {
@@ -2955,6 +2985,7 @@ void suppressRedundantDirections(std::vector<WindDirectionInfo*>& directionChang
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 // check that wind direction changes  are not reported too often if direction changes
 // a lot at once
@@ -3585,7 +3616,7 @@ void WindForecast::normalizeTimePhraseString(std::string& tps,
       {
         short lastDay = thePeriod.localStartTime().GetWeekday();
         short newDay = (timePhraseInfo.day_number == 7 ? 1 : timePhraseInfo.day_number + 1);
-        if (newDay <= lastDay && !(lastDay == 7 && newDay == 1))
+        if (newDay <= lastDay && (lastDay != 7 || newDay != 1))
           timePhraseInfo.day_number = newDay;
       }
       if (!isdigit(tps[0]) && specifyDay)
@@ -4158,6 +4189,8 @@ interval_info WindForecast::windSpeedIntervalInfo(const WeatherPeriod& thePeriod
   }
 }
 
+namespace
+{
 // returns true if id1 is later than id2 false otherwise
 bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
 {
@@ -4187,6 +4220,7 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
     throw Fmi::Exception::Trace(BCP, "Operation failed!");
   }
 }
+}  // namespace
 
 Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& /*thePeriod*/,
                                                  const interval_info& intervalInfo,

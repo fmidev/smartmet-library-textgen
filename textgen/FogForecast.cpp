@@ -820,9 +820,11 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
   }
 }
 
+namespace
+{
 // Returns {phraseTemplate, argMask} for fog sentence construction.
 // argMask: bit0=time, bit1=place, bit2=inplaces
-static const char* fog_phrase_template(bool time, bool place, bool inplaces, bool dense)
+const char* fog_phrase_template(bool time, bool place, bool inplaces, bool dense)
 {
   // Indexed by (time<<2 | place<<1 | inplaces)
   static const char* normalPhrases[8] = {
@@ -848,6 +850,7 @@ static const char* fog_phrase_template(bool time, bool place, bool inplaces, boo
   int idx = (time ? 4 : 0) | (place ? 2 : 0) | (inplaces ? 1 : 0);
   return dense ? densePhrases[idx] : normalPhrases[idx];
 }
+}  // namespace
 
 Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
                                            const std::string& theAreaString,

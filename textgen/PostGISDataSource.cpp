@@ -143,7 +143,7 @@ bool PostGISDataSource::readData(const std::string& host,
 
       // find name for the area
       std::string area_name;
-      int iField;
+      int iField = 0;
       for (iField = 0; iField < pFDefn->GetFieldCount(); iField++)
       {
         OGRFieldDefn* pFieldDefn = pFDefn->GetFieldDefn(iField);

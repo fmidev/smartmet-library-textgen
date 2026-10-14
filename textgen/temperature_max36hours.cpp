@@ -753,6 +753,8 @@ struct t36hparams
   }
 };
 
+namespace
+{
 void construct_optional_frost_story(t36hparams& theParameters)
 {
   try
@@ -779,6 +781,7 @@ void construct_optional_frost_story(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 // Classify whether min/max values sit below, between, or above the nearest multiple of 5.
 // Returns the case and adjusts theNumberDivisibleByFive for ABOVE case.
@@ -790,6 +793,8 @@ enum proximity_case_t
   PROX_NONE
 };
 
+namespace
+{
 proximity_case_t get_proximity_case(int iMinModFive,
                                     int iMaxModFive,
                                     int iDivFiveMin,
@@ -1023,6 +1028,7 @@ WeatherResult do_calculation(const string& theVar,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 // Lookup tables for weather result IDs per (period, area) combination
 struct period_area_ids
@@ -1035,6 +1041,8 @@ struct period_area_ids
   std::string fakeAfternoonSuffix;
 };
 
+namespace
+{
 period_area_ids get_period_area_ids(forecast_period_id thePeriodId, forecast_area_id theAreaId)
 {
   try
@@ -1511,7 +1519,7 @@ bool separate_day_and_night_winter(const t36hparams& p, forecast_area_id theFore
     // For INLAND_AREA and COASTAL_AREA, first check the primary area, then check the secondary
     weather_result_id primaryMinDay1, primaryMeanDay1, primaryMaxDay1;
     weather_result_id primaryMinDay2, primaryMeanDay2, primaryMaxDay2;
-    unsigned short secondaryAreaMask;
+    unsigned short secondaryAreaMask = 0;
 
     if (theForecastAreaId == INLAND_AREA)
     {
@@ -1619,6 +1627,7 @@ bool separate_day_and_night(const t36hparams& theParameters, forecast_area_id th
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -1809,6 +1818,8 @@ Sentence handle_proximity_phrase(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int& intervalEnd)
 {
   try
@@ -1834,6 +1845,7 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -1878,6 +1890,8 @@ void fill_day_temperature_phrase(const t36hparams& p, Sentence& theTemperaturePh
 }
 }  // namespace
 
+namespace
+{
 void pakkasta_on(t36hparams& theParameters,
                  Sentence& theDayPhasePhrase,
                  Sentence& theTemperaturePhrase)
@@ -1918,6 +1932,7 @@ void pakkasta_on(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -2009,6 +2024,8 @@ void handle_day_undefined_subperiod(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 void temperature_phrase(t36hparams& theParameters,
                         Sentence& theDayPhasePhrase,
                         Sentence& theTemperaturePhrase,
@@ -2060,6 +2077,7 @@ void temperature_phrase(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -2296,6 +2314,8 @@ void append_frost_or_day_phrase(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence temperature_phrase(t36hparams& theParameters)
 {
   try
@@ -2375,6 +2395,7 @@ Sentence temperature_phrase(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -2401,6 +2422,8 @@ string degrees_string_for_phrase(int degrees, temperature_phrase_id phrase_id)
 }
 }  // namespace
 
+namespace
+{
 Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phrase_id)
 {
   try
@@ -2430,6 +2453,7 @@ Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phr
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3076,6 +3100,8 @@ void fill_area_phrase_from_weather_area(const t36hparams& p, Sentence& theAreaPh
 }
 }  // namespace
 
+namespace
+{
 Sentence construct_final_sentence(t36hparams& theParameters,
                                   const Sentence& temperatureSentence,
                                   const Sentence& daySentence,
@@ -3258,6 +3284,7 @@ Sentence construct_final_sentence(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3313,6 +3340,8 @@ void apply_moderate_change_phrase(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence night_sentence(t36hparams& theParameters)
 {
   try
@@ -3395,6 +3424,7 @@ Sentence night_sentence(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3449,6 +3479,8 @@ void apply_moderate_change_phrase_day2(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence day2_sentence(t36hparams& theParameters)
 {
   try
@@ -3569,6 +3601,7 @@ Sentence day1_sentence(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3773,6 +3806,8 @@ AreaWeatherIds make_area_ids_coastal()
 }
 }  // namespace
 
+namespace
+{
 Sentence construct_sentence(t36hparams& theParameters)
 {
   try
@@ -3839,6 +3874,7 @@ void get_interval_details(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3980,7 +4016,6 @@ void resolve_area_id_for_period(const t36hparams& p,
                                 int periodArea,
                                 bool separate,
                                 int inlandCode,
-                                int coastalCode,
                                 forecast_area_id& area_id,
                                 unsigned short& forecastAreaRef)
 {
@@ -4089,14 +4124,14 @@ void process_period_area_item(t36hparams& p,
       period_id = DAY1_PERIOD;
       p.theWeatherPeriod = p.theGenerator.period(1);
       resolve_area_id_for_period(
-          p, periodArea, sep_day1, DAY1_INLAND, DAY1_COASTAL, area_id, p.theForecastAreaDay1);
+          p, periodArea, sep_day1, DAY1_INLAND, area_id, p.theForecastAreaDay1);
     }
     else if (periodArea == NIGHT_INLAND || periodArea == NIGHT_COASTAL || periodArea == NIGHT_FULL)
     {
       period_id = NIGHT_PERIOD;
       p.theWeatherPeriod = p.theGenerator.period(p.theForecastPeriod & DAY1_PERIOD ? 2 : 1);
       resolve_area_id_for_period(
-          p, periodArea, sep_night, NIGHT_INLAND, NIGHT_COASTAL, area_id, p.theForecastAreaNight);
+          p, periodArea, sep_night, NIGHT_INLAND, area_id, p.theForecastAreaNight);
     }
     else if (periodArea == DAY2_INLAND || periodArea == DAY2_COASTAL || periodArea == DAY2_FULL)
     {
@@ -4105,7 +4140,7 @@ void process_period_area_item(t36hparams& p,
           (p.theForecastPeriod & DAY1_PERIOD) ? 3 : (p.theForecastPeriod & NIGHT_PERIOD ? 2 : 1);
       p.theWeatherPeriod = p.theGenerator.period(periodNum);
       resolve_area_id_for_period(
-          p, periodArea, sep_day2, DAY2_INLAND, DAY2_COASTAL, area_id, p.theForecastAreaDay2);
+          p, periodArea, sep_day2, DAY2_INLAND, area_id, p.theForecastAreaDay2);
     }
 
     p.theForecastAreaId = area_id;
@@ -4121,6 +4156,8 @@ void process_period_area_item(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
 {
   try
@@ -4219,6 +4256,7 @@ bool valid_value_period_check(float value, unsigned short& forecast_period, unsi
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -4579,6 +4617,8 @@ unsigned short calculate_night_first_results(MessageLogger& theLog,
 }
 }  // namespace
 
+namespace
+{
 Paragraph max36hours(const TextGen::WeatherArea& itsArea,
                      const TextGen::WeatherPeriod& itsPeriod,
                      const TextGen::AnalysisSources& itsSources,
@@ -4708,6 +4748,7 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 }  // namespace TemperatureMax36Hours
 

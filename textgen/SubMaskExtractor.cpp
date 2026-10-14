@@ -20,6 +20,7 @@
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgTools.h>
 #include <cassert>
+#include <math.h>
 
 #include <boost/lexical_cast.hpp>
 #include <memory>
@@ -230,8 +231,8 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       if (theIndexMask->empty())
         return 0;
 
-      unsigned long startindex;
-      unsigned long endindex;
+      unsigned long startindex = 0;
+      unsigned long endindex = 0;
 
       if (!QueryDataTools::findIndices(
               theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -334,8 +335,8 @@ double ExtractMask(const AnalysisSources& theSources,
       if (theIndexMask->empty())
         return 0;
 
-      unsigned long startindex;
-      unsigned long endindex;
+      unsigned long startindex = 0;
+      unsigned long endindex = 0;
 
       if (!QueryDataTools::findIndices(
               theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -431,10 +432,10 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
   Insert(tree, projectedPath, FmiMin(dx, dy) * resolution_factor);
 
   //
-  double theXmin;
-  double theYmin;
-  double theXmax;
-  double theYmax;
+  double theXmin = NAN;
+  double theYmin = NAN;
+  double theXmax = NAN;
+  double theYmax = NAN;
 
   NFmiSvgTools::BoundingBox(svgPath, theXmin, theYmin, theXmax, theYmax);
 

@@ -37,6 +37,8 @@ constexpr int INITIAL_MERGE_THRESHOLD_HOURS = 3;
 constexpr int SHORT_PERIOD_THRESHOLD_HOURS = 2;
 constexpr int MISSING_EVENT_THRESHOLD_HOURS = 6;
 
+namespace
+{
 std::size_t generateUniqueID()
 {
   static std::random_device rd;
@@ -488,6 +490,7 @@ void printDataItem(std::ostream& theOutput,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 std::ostream& operator<<(std::ostream& theOutput,
                          const WindSpeedPeriodDataItem& theWindSpeedPeriodDataItem)
@@ -544,6 +547,8 @@ std::ostream& operator<<(std::ostream& theOutput,
   }
 }
 
+namespace
+{
 void print_wiki_table(const WeatherArea& theArea,
                       const string& theVar,
                       const wind_data_item_vector& theWindDataItemVector)
@@ -588,6 +593,7 @@ void print_wiki_table(const WeatherArea& theArea,
     throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
+}  // namespace
 
 namespace
 {
@@ -682,6 +688,8 @@ void write_html_row(std::ostream& out,
 }
 }  // namespace
 
+namespace
+{
 void print_csv_table(const WeatherArea& theArea,
                      const std::string& fileIdentifierString,
                      const std::string& theVar,
@@ -1176,6 +1184,7 @@ std::string get_html_winddirection_distribution(
 
   return html_data.str();
 }
+}  // namespace
 
 namespace
 {
@@ -1270,6 +1279,8 @@ void append_html_wind_data_row(std::stringstream& out,
 }
 }  // namespace
 
+namespace
+{
 std::string get_html_windspeed_distribution(wo_story_params& storyParams, const std::string& type)
 {
   if (storyParams.theWindDataVector.empty())
@@ -2134,7 +2145,7 @@ void find_out_wind_speed_periods(wo_story_params& storyParams)
 {
   try
   {
-    unsigned int equalizedDataIndex;
+    unsigned int equalizedDataIndex = 0;
     WeatherArea::Type areaType(storyParams.theArea.type());
 
     vector<unsigned int>& equalizedWSIndexesMedian = storyParams.equalizedWSIndexesMedian(areaType);
@@ -2464,6 +2475,8 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
   }
 }
 
+}  // namespace
+
 // iterate merged event periods and remove short (<= 6h) missing period if it is between
 // strenghtening/weakening period
 wind_event_period_data_item_vector remove_short_missing_periods(
@@ -2551,6 +2564,8 @@ wind_event_period_data_item_vector remove_short_missing_periods(
 }
 
 using SpeedDifferencePeriod = std::pair<float, WeatherPeriod>;
+namespace
+{
 bool comp_sdp(const SpeedDifferencePeriod& sdp1, const SpeedDifferencePeriod& sdp2)
 {
   return sdp1.first > sdp2.first;
@@ -2729,6 +2744,8 @@ void delete_dropped_event_periods(const wind_event_period_data_item_vector& befo
   }
 }
 
+}  // namespace
+
 void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
 {
   try
@@ -2865,6 +2882,9 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
   }
 }
 
+namespace
+{
+
 void check_first_period(wo_story_params& storyParams)
 {
   try
@@ -2987,6 +3007,7 @@ double distance_from_line(const NFmiPoint& point,
 
   return deviation;
 }
+}  // namespace
 
 enum class StatValueType
 {
@@ -3018,6 +3039,8 @@ float get_stat_wind_value(const WindDataItemUnit& item, StatValueType type)
 }
 }  // namespace
 
+namespace
+{
 bool add_local_min_max_values(vector<unsigned int>& eqIndexVector,
                               wo_story_params& storyParams,
                               StatValueType statType)
@@ -3094,9 +3117,9 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
     {
       const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-      unsigned int index1;
-      unsigned int index2;
-      unsigned int index3;
+      unsigned int index1 = 0;
+      unsigned int index2 = 0;
+      unsigned int index3 = 0;
       WeatherArea::Type areaType(weatherArea.type());  // storyParams.theArea.type());
 
       vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMedian(areaType);
@@ -3184,6 +3207,7 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3259,6 +3283,8 @@ void interpolate_max_wind_segment(wo_story_params& storyParams,
 }
 }  // namespace
 
+namespace
+{
 void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& storyParams,
                                                              bool topWind = true)
 {
@@ -3554,6 +3580,7 @@ void calculate_equalized_data(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 // ----------------------------------------------------------------------------------------------
 // Local convective cell handling.
@@ -3638,6 +3665,8 @@ std::string quadrant_phrase_key(WeatherArea::Type type)
 
 }  // namespace
 
+namespace
+{
 // Groups contiguous flagged timesteps in the primary area into candidate cell periods.
 // Detection runs against the gust diagnostic (HourlyMaximumGust via GustSpeed): timesteps are
 // flagged when 0 < getGustSpeedShare(cutoff, +inf) < theConvectiveCellMaxAreaFraction.
@@ -4273,6 +4302,7 @@ float get_wind_direction_share(const wo_story_params& storyParams,
 
   return (counter == 0 ? 0.0 : sumShare / counter);
 }
+}  // namespace
 
 float WindDataItemUnit::getWindSpeedShare(float theLowerLimit, float theUpperLimit) const
 {

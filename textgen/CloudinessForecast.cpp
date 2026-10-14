@@ -34,6 +34,7 @@
 #include <macgyver/Exception.h>
 #include <cmath>
 #include <map>
+#include <math.h>
 #include <vector>
 
 using namespace std;
@@ -426,8 +427,10 @@ bool CloudinessForecast::separateWeatherPeriodCloudiness(
   }
 }
 
+namespace
+{
 // Returns {event_id, changeIndex} for a split at position i, or {MISSING_WEATHER_EVENT, 0}
-static std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
+std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
     const weather_result_data_item_vector* theData,
     unsigned int i,
     float meanFirst,
@@ -461,6 +464,7 @@ static std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
 
   return {MISSING_WEATHER_EVENT, 0};
 }
+}  // namespace
 
 void CloudinessForecast::findOutCloudinessWeatherEvents(
     const weather_result_data_item_vector* theData,
@@ -663,10 +667,10 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
         get_sub_time_series(
             WeatherPeriod(startTime, endTime), *theCloudinessDataSource, thePeriodCloudiness);
 
-        float min;
-        float max;
-        float mean;
-        float stddev;
+        float min = NAN;
+        float max = NAN;
+        float mean = NAN;
+        float stddev = NAN;
 
         get_min_max(thePeriodCloudiness, min, max);
         mean = get_mean(thePeriodCloudiness);
@@ -1071,10 +1075,10 @@ cloudiness_id CloudinessForecast::getCloudinessId(
 
     get_sub_time_series(thePeriod, *theCloudinessData, thePeriodCloudiness);
 
-    float min;
-    float max;
-    float mean;
-    float stddev;
+    float min = NAN;
+    float max = NAN;
+    float mean = NAN;
+    float stddev = NAN;
     get_min_max(thePeriodCloudiness, min, max);
     mean = get_mean(thePeriodCloudiness);
     stddev = get_standard_deviation(thePeriodCloudiness);
