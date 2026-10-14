@@ -310,12 +310,12 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
   {
     Sentence sentence;
 
-    const weather_event_id_vector& cloudinessWeatherEvents =
-        ((itsParameters.theForecastArea & INLAND_AREA &&
-          itsParameters.theForecastArea & COASTAL_AREA)
-             ? itsCloudinessWeatherEventsFull
-             : ((itsParameters.theForecastArea & INLAND_AREA) ? itsCloudinessWeatherEventsInland
-                                                              : itsCloudinessWeatherEventsCoastal));
+    const weather_event_id_vector* cloudinessWeatherEventsPtr = &itsCloudinessWeatherEventsCoastal;
+    if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
+      cloudinessWeatherEventsPtr = &itsCloudinessWeatherEventsFull;
+    else if (itsParameters.theForecastArea & INLAND_AREA)
+      cloudinessWeatherEventsPtr = &itsCloudinessWeatherEventsInland;
+    const weather_event_id_vector& cloudinessWeatherEvents = *cloudinessWeatherEventsPtr;
 
     for (const auto& cloudinessWeatherEvent : cloudinessWeatherEvents)
     {

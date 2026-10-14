@@ -163,8 +163,7 @@ Sentence daily_ranges_2days(const DailyWindData& d,
                        (d.accuracies[0] == bad_accuracy && d.accuracies[1] == bad_accuracy));
   if (goodAccuracy)
     return daily_ranges_2days_good_accuracy(d, var, forecastTime, direction12, similar_speeds, opt);
-  else
-    return daily_ranges_2days_bad_accuracy(d, var, forecastTime, similar_speeds);
+  return daily_ranges_2days_bad_accuracy(d, var, forecastTime, similar_speeds);
 }
 
 void append_3days_day1(Sentence& sentence,

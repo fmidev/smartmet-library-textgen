@@ -1233,11 +1233,12 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
     theParameters.theLog << "Precipitation form is "
                          << precipitation_form_string(thePrecipitationForm) << '\n';
     theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << '\n';
-    theParameters.theLog << "Precipitation type is "
-                         << (thePrecipitationType == 1
-                                 ? "'continuous'"
-                                 : (thePrecipitationType == 2 ? "'showers'" : "'missing'"))
-                         << '\n';
+    const char* precipitationTypeName = "'missing'";
+    if (thePrecipitationType == 1)
+      precipitationTypeName = "'continuous'";
+    else if (thePrecipitationType == 2)
+      precipitationTypeName = "'showers'";
+    theParameters.theLog << "Precipitation type is " << precipitationTypeName << '\n';
 
     if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSnow || !mostly_dry_weather)
       theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
@@ -1656,7 +1657,7 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
     if (theStatFunc == MAX)
       return maxValue;
     // MEAN
-    return (count > 0) ? (cumulativeSum / count) : 0.0f;
+    return (count > 0) ? (cumulativeSum / count) : 0.0F;
   }
   catch (...)
   {
@@ -2077,9 +2078,12 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
     std::shared_ptr<weather_result_data_item_vector> precipitationPointHourly =
         (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_POINT_DATA];
 
-    precipitation_data_vector& dataVector =
-        (theAreaId == COASTAL_AREA ? theCoastalData
-                                   : (theAreaId == INLAND_AREA ? theInlandData : theFullData));
+    precipitation_data_vector* dataVectorPtr = &theFullData;
+    if (theAreaId == COASTAL_AREA)
+      dataVectorPtr = &theCoastalData;
+    else if (theAreaId == INLAND_AREA)
+      dataVectorPtr = &theInlandData;
+    precipitation_data_vector& dataVector = *dataVectorPtr;
 
     for (unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
     {
@@ -2958,10 +2962,11 @@ void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& /*
 {
   try
   {
-    const precipitation_data_vector* precipitationDataVector =
-        ((theParameters.theForecastArea & FULL_AREA)
-             ? &theFullData
-             : ((theParameters.theForecastArea & INLAND_AREA) ? &theInlandData : &theCoastalData));
+    const precipitation_data_vector* precipitationDataVector = &theCoastalData;
+    if (theParameters.theForecastArea & FULL_AREA)
+      precipitationDataVector = &theFullData;
+    else if (theParameters.theForecastArea & INLAND_AREA)
+      precipitationDataVector = &theInlandData;
 
     theNorthPercentage = 0.0;
     theSouthPercentage = 0.0;

@@ -360,12 +360,6 @@ bool wind_event_period_sort(const WindEventPeriodDataItem* first,
   return (first->thePeriod.localStartTime() < second->thePeriod.localStartTime());
 }
 
-bool wind_direction_item_sort(pair<float, WeatherResult> firstItem,
-                              pair<float, WeatherResult> secondItem)
-{
-  return firstItem.second.value() > secondItem.second.value();
-}
-
 std::string get_area_type_string(const WeatherArea::Type& theAreaType)
 {
   std::string retval;
@@ -416,8 +410,8 @@ std::string get_direction_abbreviation(
     float direction, WindStoryTools::CompassType compass_type = sixteen_directions)
 {
   direction = std::fabs(direction);
-  while (direction > 360.0f)
-    direction -= 360.0f;
+  while (direction > 360.0F)
+    direction -= 360.0F;
 
   if (compass_type == sixteen_directions)
   {
@@ -439,12 +433,12 @@ std::string get_direction_abbreviation(
                                                      "w-nw",
                                                      "NW",
                                                      "nw-n"};
-    return dirs[static_cast<int>((direction + 11.25f) / 22.5f) % 16];
+    return dirs[static_cast<int>((direction + 11.25F) / 22.5F) % 16];
   }
 
   // 8-direction compass: each sector spans 45°, offset by 22.5°.
   static const std::array<const char*, 8> dirs = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
-  return dirs[static_cast<int>((direction + 22.5f) / 45.0f) % 8];
+  return dirs[static_cast<int>((direction + 22.5F) / 45.0F) % 8];
 }
 
 void printDataItem(std::ostream& theOutput,
@@ -549,420 +543,6 @@ std::ostream& operator<<(std::ostream& theOutput,
 
 namespace
 {
-void print_wiki_table(const WeatherArea& theArea,
-                      const string& theVar,
-                      const wind_data_item_vector& theWindDataItemVector)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(theArea) + "_rawdata.txt");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    output_file << "|| aika || min || max || ka, k-hajonta || maksimituuli || puuska || suunta || "
-                   "suunnan k-hajonta || fraasi ||"
-                << '\n';
-
-    for (auto* i : theWindDataItemVector)
-    {
-      const WindDataItemUnit& theWindDataItem = (*i)(theArea.type());
-      output_file << "| " << theWindDataItem.thePeriod.localEndTime() << " | " << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMin.value() << " | " << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMax.value() << " | (" << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMean.value() << ", " << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMean.error() << ")"
-                  << " | " << fixed << setprecision(4) << theWindDataItem.theWindSpeedTop.value()
-                  << " | " << fixed << setprecision(4) << theWindDataItem.theGustSpeed.value()
-                  << " | " << fixed << setprecision(4)
-                  << theWindDataItem.theCorrectedWindDirection.value() << " | " << fixed
-                  << setprecision(4) << theWindDataItem.theWindDirection.error() << " | ";
-
-      output_file << directed16_speed_string(theWindDataItem.theWindSpeedMean,
-                                             theWindDataItem.theCorrectedWindDirection,
-                                             theVar)
-                  << " |\n";
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
-  }
-}
-}  // namespace
-
-namespace
-{
-void write_csv_row(std::ostream& out,
-                   const WindDataItemUnit& item,
-                   const bitset<14>& cols,
-                   const std::string& theVar)
-{
-  try
-  {
-    if (cols.test(13))
-      out << item.thePeriod.localEndTime();
-    if (cols.test(12))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMin.value();
-    if (cols.test(11))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMax.value();
-    if (cols.test(10))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMedian.value();
-    if (cols.test(9))
-      out << ", " << fixed << setprecision(4) << item.theEqualizedMedianWind.value();
-    if (cols.test(8))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMean.value();
-    if (cols.test(7))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMean.error();
-    if (cols.test(6))
-      out << ", " << fixed << setprecision(4) << item.theGustSpeed.value();
-    if (cols.test(5))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedTop.value();
-    if (cols.test(4))
-      out << ", " << fixed << setprecision(4) << item.theEqualizedTopWind.value();
-    if (cols.test(3))
-      out << ", " << fixed << setprecision(4) << item.theCorrectedWindDirection.value();
-    if (cols.test(2))
-      out << ", " << fixed << setprecision(4) << item.theEqualizedWindDirection.value();
-    if (cols.test(1))
-      out << ", " << fixed << setprecision(4) << item.theWindDirection.error();
-    if (cols.test(0))
-      out << ", "
-          << directed16_speed_string(item.theWindSpeedMean, item.theCorrectedWindDirection, theVar);
-    out << '\n';
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
-  }
-}
-
-void write_html_row(std::ostream& out,
-                    const WindDataItemUnit& item,
-                    const bitset<14>& cols,
-                    const std::string& theVar)
-{
-  try
-  {
-    if (cols.test(13))
-      out << "<td style=\"white-space: nowrap;\">" << item.thePeriod.localEndTime() << "</td>\n";
-    if (cols.test(12))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMin.value() << "</td>\n";
-    if (cols.test(11))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMax.value() << "</td>\n";
-    if (cols.test(10))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMedian.value() << "</td>\n";
-    if (cols.test(9))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedMedianWind.value() << "</td>\n";
-    if (cols.test(8))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMean.value() << "</td>\n";
-    if (cols.test(7))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMean.error() << "</td>\n";
-    if (cols.test(6))
-      out << "<td>" << fixed << setprecision(2) << item.theGustSpeed.value() << "</td>\n";
-    if (cols.test(5))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedTop.value() << "</td>\n";
-    if (cols.test(4))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedTopWind.value() << "</td>\n";
-    if (cols.test(3))
-      out << "<td>" << fixed << setprecision(2) << item.theCorrectedWindDirection.value()
-          << "</td>\n";
-    if (cols.test(2))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedWindDirection.value()
-          << "</td>\n";
-    if (cols.test(1))
-      out << "<td>" << fixed << setprecision(2) << item.theWindDirection.error() << "</td>\n";
-    if (cols.test(0))
-      out << "<td style=\"white-space: nowrap;\">"
-          << directed16_speed_string(item.theWindSpeedMean, item.theCorrectedWindDirection, theVar)
-          << "</td>\n";
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
-  }
-}
-}  // namespace
-
-namespace
-{
-void print_csv_table(const WeatherArea& theArea,
-                     const std::string& fileIdentifierString,
-                     const std::string& theVar,
-                     const wind_data_item_vector& theWindDataItemVector,
-                     const vector<unsigned int>& theIndexVector,
-                     const bitset<14>& theColumnSelectionBitset)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(theArea) + fileIdentifierString + ".csv");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    constexpr std::array<const char*, 14> column_names = {{"aika",
-                                                           ", min",
-                                                           ", max",
-                                                           ", mediaani",
-                                                           ", tasoitettu mediaani",
-                                                           ", ka",
-                                                           ", nopeuden k-hajonta",
-                                                           ", puuska",
-                                                           ", maksimituuli",
-                                                           ", tasoitettu maksimituuli",
-                                                           ", suunta",
-                                                           ", tasoitettu suunta",
-                                                           ", suunnan k-hajonta",
-                                                           ", fraasi"}};
-
-    const unsigned int number_of_columns = 14;
-    for (unsigned int i = 0; i < number_of_columns; i++)
-      if (theColumnSelectionBitset.test(number_of_columns - i - 1))
-        output_file << column_names[i];
-    output_file << '\n';
-
-    for (unsigned int index : theIndexVector)
-      write_csv_row(output_file,
-                    (*theWindDataItemVector[index])(theArea.type()),
-                    theColumnSelectionBitset,
-                    theVar);
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString)
-        .addParameter("theVar", theVar);
-  }
-}
-
-void print_windspeed_distribution(const WeatherArea& theArea,
-                                  const std::string& fileIdentifierString,
-                                  const std::string& /*theVar*/,
-                                  const wind_data_item_vector& theWindDataItemVector,
-                                  const vector<unsigned int>& theIndexVector)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(theArea) + fileIdentifierString + ".csv");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    const WindDataItemUnit& firstWindDataItem = (*theWindDataItemVector[0])(theArea.type());
-
-    unsigned int numberOfWindSpeedCategories = firstWindDataItem.theWindSpeedDistribution.size();
-
-    for (unsigned int i = 0; i < numberOfWindSpeedCategories; i++)
-    {
-      if (i == numberOfWindSpeedCategories - 1)
-        output_file << ", > " << i + 1 << " m/s";
-      else
-        output_file << ", " << i + 1 << " m/s";
-    }
-    output_file << '\n';
-
-    for (unsigned int index : theIndexVector)
-    {
-      const WindDataItemUnit& theWindDataItem = (*theWindDataItemVector[index])(theArea.type());
-
-      output_file << theWindDataItem.thePeriod.localEndTime();
-
-      for (unsigned int k = 0; k < numberOfWindSpeedCategories; k++)
-      {
-        output_file << ", ";
-        output_file << fixed << setprecision(2) << theWindDataItem.getWindSpeedShare(k, k + 1);
-      }
-      output_file << '\n';
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString);
-  }
-}
-
-void print_winddirection_distribution(const WeatherArea& theArea,
-                                      const std::string& fileIdentifierString,
-                                      wo_story_params& storyParams)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(storyParams.theArea) + fileIdentifierString +
-                         ".csv");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    const vector<unsigned int>& theIndexVector =
-        storyParams.originalWindDataIndexes(storyParams.theArea.type());
-
-    for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE; i++)
-    {
-      output_file << ", ";
-      output_file << wind_direction_string(static_cast<WindDirectionId>(i));
-    }
-    output_file << ", ";
-    output_file << "keskihajonta";
-    output_file << '\n';
-
-    for (unsigned int index : theIndexVector)
-    {
-      const WindDataItemUnit& theWindDataItem =
-          (*storyParams.theWindDataVector[index])(theArea.type());
-
-      output_file << theWindDataItem.thePeriod.localEndTime();
-
-      for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE; i++)
-      {
-        output_file << ", ";
-        output_file << fixed << setprecision(2)
-                    << theWindDataItem.getWindDirectionShare(static_cast<WindDirectionId>(i),
-                                                             storyParams.theWindDirectionMinSpeed);
-      }
-      output_file << ", ";
-      output_file << fixed << setprecision(2) << theWindDataItem.theWindDirection.error();
-      output_file << '\n';
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString);
-  }
-}
-
-void print_html_table(const WeatherArea::Type& theAreaType,
-                      const std::string& fileIdentifierString,
-                      const std::string& theVar,
-                      const wind_data_item_vector& theWindDataItemVector,
-                      const vector<unsigned int>& theIndexVector,
-                      const bitset<14>& theColumnSelectionBitset)
-{
-  try
-  {
-    std::string filename("./" + get_area_type_string(theAreaType) + fileIdentifierString + ".html");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    output_file << "<h1>" << get_area_type_string(theAreaType) << "</h1>\n";
-    output_file << "<table border=\"1\">\n";
-
-    constexpr std::array<const char*, 14> column_names = {{"aika",
-                                                           "min",
-                                                           "max",
-                                                           "mediaani",
-                                                           "tasoitettu mediaani",
-                                                           "ka",
-                                                           "nopeuden k-hajonta",
-                                                           "puuska",
-                                                           "maksimituuli",
-                                                           "tasoitettu maksimituuli",
-                                                           "suunta",
-                                                           "tasoitettu suunta",
-                                                           "suunnan k-hajonta",
-                                                           "fraasi"}};
-
-    output_file << "<tr>\n";
-    const unsigned int number_of_columns = 14;
-    for (unsigned int i = 0; i < number_of_columns; i++)
-      if (theColumnSelectionBitset.test(number_of_columns - i - 1))
-      {
-        output_file << "<td>";
-        output_file << column_names[i];
-        output_file << "</td>";
-      }
-    output_file << "</tr>\n";
-
-    for (unsigned int index : theIndexVector)
-    {
-      output_file << "<tr>\n";
-      write_html_row(output_file,
-                     (*theWindDataItemVector[index])(theAreaType),
-                     theColumnSelectionBitset,
-                     theVar);
-      output_file << "</tr>\n";
-    }
-
-    output_file << "</table>";
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString)
-        .addParameter("theVar", theVar);
-  }
-}
-
-void save_raw_data(wo_story_params& storyParams, const string& id_str = "_original")
-{
-  try
-  {
-    bitset<14> columnSelectionBitset;
-
-    // aika == 13
-    // min, == 12
-    // max == 11
-    // mediaani == 10
-    // tasoitettu mediaani == 9
-    // ka == 8
-    // nopeuden k-hajonta == 7
-    // puuska == 6
-    // maksimituuli == 5
-    // tasoitettu maksimituuli == 4
-    // suunta == 3
-    // tasoitettu suunta == 2
-    // suunnan k-hajonta == 1
-    // fraasi == 0
-
-    for (unsigned int i = 0; i < storyParams.theWeatherAreas.size(); i++)
-    {
-      const WeatherArea& weatherArea = storyParams.theWeatherAreas[i];
-
-      columnSelectionBitset.set();
-      print_csv_table(weatherArea,
-                      id_str,
-                      storyParams.theVar,
-                      storyParams.theWindDataVector,
-                      storyParams.originalWindDataIndexes(storyParams.theArea.type()),
-                      columnSelectionBitset);
-
-      print_windspeed_distribution(weatherArea,
-                                   "_windspeed_distribution",
-                                   storyParams.theVar,
-                                   storyParams.theWindDataVector,
-                                   storyParams.originalWindDataIndexes(storyParams.theArea.type()));
-
-      print_winddirection_distribution(weatherArea, "_winddirection_distribution", storyParams);
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("id_str", id_str);
-  }
-}
-
 std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
 {
   std::stringstream csv_data;
@@ -1412,57 +992,6 @@ std::string get_js_data(wo_story_params& storyParams, const std::string& param, 
   return js_data.str();
 }
 
-void generate_csv_file(wo_story_params& storyParams)
-{
-  try
-  {
-    for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
-    {
-      std::stringstream csv_data;
-      csv_data << '\n'
-               << "time,min,max,eq-max,median,eq-median,mean,sdev,top-wind,eq-top-wind,direction,"
-                  "direction-sdev,eq-direction,gust"
-               << '\n';
-
-      WeatherArea::Type areaType(storyParams.theWeatherAreas[k].type());
-
-      for (auto& i : storyParams.theWindDataVector)
-      {
-        const WindDataItemUnit& windDataItem = (*i)(areaType);
-
-        csv_data << windDataItem.thePeriod.localStartTime() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMin.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMax.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theEqualizedMaxWind.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMedian.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theEqualizedMedianWind.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMean.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMean.error() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedTop.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theEqualizedTopWind.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theCorrectedWindDirection.value() << ", " << fixed
-                 << setprecision(4) << windDataItem.theCorrectedWindDirection.error() << ", "
-                 << fixed << setprecision(4) << windDataItem.theEqualizedWindDirection.value()
-                 << ", " << fixed << setprecision(4) << windDataItem.theGustSpeed.value() << '\n';
-      }
-
-      std::string csv_filename = Settings::require_string("qdtext::outdir") + "html/" +
-                                 storyParams.theArea.name() + ".csv";
-      ofstream output_file(csv_filename.c_str(), ios::out);
-
-      if (output_file.fail())
-      {
-        throw std::runtime_error("wind_overview failed to open '" + csv_filename + "' for writing");
-      }
-      output_file << csv_data.str();
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
 void log_raw_data(wo_story_params& storyParams)
 {
   try
@@ -1495,6 +1024,7 @@ void log_raw_data(wo_story_params& storyParams)
   }
 }
 
+#ifndef NDEBUG
 void log_windirection_distribution(wo_story_params& storyParams)
 {
   try
@@ -1543,7 +1073,9 @@ void log_windirection_distribution(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void log_wind_data_vector(wo_story_params& storyParams,
                           const vector<unsigned int>& indexVector,
                           WeatherArea::Type areaType)
@@ -1563,7 +1095,9 @@ void log_wind_data_vector(wo_story_params& storyParams,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
 {
   try
@@ -1612,7 +1146,9 @@ void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void log_equalized_wind_direction_data_vector(wo_story_params& storyParams)
 {
   try
@@ -1635,6 +1171,7 @@ void log_equalized_wind_direction_data_vector(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
 void log_wind_speed_periods(wo_story_params& storyParams)
 {
@@ -1668,6 +1205,7 @@ void log_wind_direction_periods(wo_story_params& storyParams)
   }
 }
 
+#ifndef NDEBUG
 void log_wind_event_periods(wo_story_params& storyParams)
 {
   try
@@ -1728,6 +1266,7 @@ void log_wind_event_periods(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
 void allocate_data_structures(wo_story_params& storyParams)
 {
@@ -2140,6 +1679,7 @@ bool populate_time_series(wo_story_params& storyParams)
   }
 }
 
+#ifndef NDEBUG
 void find_out_wind_speed_periods(wo_story_params& storyParams)
 
 {
@@ -2209,7 +1749,9 @@ void find_out_wind_speed_periods(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
 {
   try
@@ -2303,6 +1845,7 @@ void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
 WindEventId get_wind_speed_event(float windSpeedAtStart,
                                  float windSpeedAtEnd,
@@ -2318,59 +1861,6 @@ WindEventId get_wind_speed_event(float windSpeedAtStart,
   if (difference < 0.0)
     return TUULI_HEIKKENEE;
   return TUULI_VOIMISTUU;
-}
-
-WindEventId get_wind_direction_event(const WeatherResult& windDirection1,
-                                     const WeatherResult& windDirection2,
-                                     const WeatherResult& maximumWind1,
-                                     const WeatherResult& maximumWind2,
-                                     const string& var,
-                                     double windDirectionThreshold,
-                                     double theWindDirectionMinSpeed)
-{
-  WindDirectionId directionId1 =
-      wind_direction_id(windDirection1, maximumWind1, var, theWindDirectionMinSpeed);
-  WindDirectionId directionId2 =
-      wind_direction_id(windDirection2, maximumWind2, var, theWindDirectionMinSpeed);
-
-  if (directionId1 != VAIHTELEVA && directionId2 == VAIHTELEVA)
-    return TUULI_MUUTTUU_VAIHTELEVAKSI;
-  if (directionId1 == directionId2)
-    return MISSING_WIND_DIRECTION_EVENT;
-  if (directionId1 == VAIHTELEVA)
-  {
-    return TUULI_KAANTYY;
-  }
-
-  bool windDirectionDifferEnough =
-      wind_direction_differ_enough(windDirection1, windDirection2, windDirectionThreshold);
-
-  return (windDirectionDifferEnough && directionId1 != directionId2 ? TUULI_KAANTYY
-                                                                    : MISSING_WIND_DIRECTION_EVENT);
-}
-
-WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
-                                     const string& var,
-                                     double windDirectionThreshold,
-                                     double theWindDirectionMinSpeed)
-
-{
-  const WeatherResult& windDirection1(
-      windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedWindDirection);
-  const WeatherResult& windDirection2(
-      windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedWindDirection);
-  const WeatherResult& maximumWind1(
-      windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedTopWind);
-  const WeatherResult& maximumWind2(
-      windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedTopWind);
-
-  return get_wind_direction_event(windDirection1,
-                                  windDirection2,
-                                  maximumWind1,
-                                  maximumWind2,
-                                  var,
-                                  windDirectionThreshold,
-                                  theWindDirectionMinSpeed);
 }
 
 // find out wind events: strengthening wind, weakening wind,
@@ -3035,7 +2525,7 @@ float get_stat_wind_value(const WindDataItemUnit& item, StatValueType type)
     case StatValueType::CALC:
       return item.theWindSpeedCalc.value();
   }
-  return 0.0f;
+  return 0.0F;
 }
 }  // namespace
 
@@ -3169,10 +2659,10 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
       }  // while
 
       bool valuesToAdd = true;
-      do
+      for (bool more = true; more; more = valuesToAdd)
       {
         valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, StatValueType::MEDIAN);
-      } while (valuesToAdd);
+      }
 
       // re-calculate equalized values for the removed points
       for (unsigned int i = 1; i < eqIndexVector.size(); i++)
@@ -4277,31 +3767,6 @@ float get_wind_direction_share(
   return retval;
 }
 
-float get_wind_direction_share(const wo_story_params& storyParams,
-                               const WeatherPeriod& period,
-                               const WindDirectionId& windDirectionId,
-                               WindStoryTools::CompassType compass_type /*= sixteen_directions*/)
-{
-  float sumShare(0.0);
-  unsigned int counter(0);
-
-  for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
-  {
-    WindDataItemUnit& item =
-        storyParams.theWindDataVector[i]->getDataItem(storyParams.theArea.type());
-    if (is_inside(item.thePeriod.localStartTime(), period))
-    {
-      sumShare += get_wind_direction_share(
-          (compass_type == sixteen_directions ? item.theWindDirectionDistribution16
-                                              : item.theWindDirectionDistribution8),
-          windDirectionId,
-          storyParams.theWindDirectionMinSpeed);
-      counter++;
-    }
-  }
-
-  return (counter == 0 ? 0.0 : sumShare / counter);
-}
 }  // namespace
 
 float WindDataItemUnit::getWindSpeedShare(float theLowerLimit, float theUpperLimit) const

@@ -629,7 +629,7 @@ bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& th
 WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
                                   const WeatherPeriod& theWeatherPeriod2);
 
-Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId,
+Sentence get_direction_phrase(AreaTools::direction_id theDirectionId,
                               bool theAlkaenPhrase = false);
 Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
                                bool theSpecifyDayFlag,
@@ -646,7 +646,7 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const std::string& theVariable,
                           const WeatherArea& theArea,
-                          WeatherPeriod thePeriod,
+                          const WeatherPeriod& thePeriod,
                           const TextGenPosixTime& theForecastTime);
 std::string parse_time_phrase(short theWeekday,
                               bool theSpecifyDayFlag,

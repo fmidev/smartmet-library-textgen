@@ -682,21 +682,21 @@ WindDirectionId puoleinen_direction_id(float theWindDirection,
     WindDirectionId above;
   };
   static const std::array<AmbigEntry, 8> ambig = {{
-      {2, 22.5f, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
-      {4, 67.5f, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
-      {6, 112.5f, IDAN_PUOLEINEN, KAAKON_PUOLEINEN},
-      {8, 157.5f, KAAKON_PUOLEINEN, ETELAN_PUOLEINEN},
-      {10, 202.5f, ETELAN_PUOLEINEN, LOUNAAN_PUOLEINEN},
-      {12, 247.5f, LOUNAAN_PUOLEINEN, LANNEN_PUOLEINEN},
-      {14, 292.5f, LANNEN_PUOLEINEN, LUOTEEN_PUOLEINEN},
-      {16, 337.5f, LUOTEEN_PUOLEINEN, POHJOISEN_PUOLEINEN},
+      {2, 22.5F, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
+      {4, 67.5F, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
+      {6, 112.5F, IDAN_PUOLEINEN, KAAKON_PUOLEINEN},
+      {8, 157.5F, KAAKON_PUOLEINEN, ETELAN_PUOLEINEN},
+      {10, 202.5F, ETELAN_PUOLEINEN, LOUNAAN_PUOLEINEN},
+      {12, 247.5F, LOUNAAN_PUOLEINEN, LANNEN_PUOLEINEN},
+      {14, 292.5F, LANNEN_PUOLEINEN, LUOTEEN_PUOLEINEN},
+      {16, 337.5F, LUOTEEN_PUOLEINEN, POHJOISEN_PUOLEINEN},
   }};
   for (const auto& e : ambig)
   {
     if (n == e.sector)
     {
       if (n == 2)
-        return (theWindDirection > 337.5f || theWindDirection < 22.5f) ? e.above : e.below;
+        return (theWindDirection > 337.5F || theWindDirection < 22.5F) ? e.above : e.below;
       return (theWindDirection < e.threshold) ? e.below : e.above;
     }
   }

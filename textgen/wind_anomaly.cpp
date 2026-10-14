@@ -40,6 +40,7 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <algorithm>
 #include <map>
 
 using namespace std;
@@ -500,12 +501,9 @@ WeatherPeriod build_wind_period(const WeatherPeriod& theCompletePeriod,
 {
   try
   {
-  int noonHour = (theMorningPeriod ? (theCompletePeriod.localEndTime().GetHour() < 12
-                                          ? theCompletePeriod.localEndTime().GetHour()
-                                          : 12)
-                                   : (theCompletePeriod.localStartTime().GetHour() < 12
-                                          ? theCompletePeriod.localStartTime().GetHour()
-                                          : 12));
+  int noonHour = (theMorningPeriod ? theCompletePeriod.localEndTime().GetHour()
+                                   : theCompletePeriod.localStartTime().GetHour());
+  noonHour = std::min(noonHour, 12);
 
   TextGenPosixTime noonTime(theCompletePeriod.localStartTime().GetYear(),
                             theCompletePeriod.localStartTime().GetMonth(),

@@ -1131,8 +1131,6 @@ std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
   return {};
 }
 
-namespace
-{
 Sentence get_direction_phrase(direction_id theDirectionId, bool theAlkaenPhrase /*= false*/)
 {
   try
@@ -1176,7 +1174,6 @@ Sentence get_direction_phrase(direction_id theDirectionId, bool theAlkaenPhrase 
     throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
   }
 }
-}  // namespace
 
 int get_period_length(const WeatherPeriod& thePeriod)
 {
@@ -1219,8 +1216,6 @@ int get_today_vector(const string& theVariable,
   }
 }
 
-namespace
-{
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const string& theVariable,
                           const WeatherArea& theArea,
@@ -1268,7 +1263,6 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
     throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVariable", theVariable);
   }
 }
-}  // namespace
 
 void get_precipitation_limit_value(const wf_story_params& theParameters,
                                    unsigned int thePrecipitationForm,

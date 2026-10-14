@@ -244,7 +244,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       {
         theQI.TimeIndex(startindex);
 
-        do
+        for (bool more = true; more; more = theQI.NextTime() && theQI.TimeIndex() < endindex)
         {
           // possible -1 is handled by IndexFloatValue
           const unsigned long idx =
@@ -256,7 +256,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
             theResultData.push_back(new NFmiPoint(theQI.LatLon(it)));
             retval += tmp;
           }
-        } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
+        }
       }
     }
 
@@ -346,7 +346,7 @@ double ExtractMask(const AnalysisSources& theSources,
       {
         theQI.TimeIndex(startindex);
 
-        do
+        for (bool more = true; more; more = theQI.NextTime() && theQI.TimeIndex() < endindex)
         {
           // possible -1 is handled by IndexFloatValue
           const unsigned long idx =
@@ -358,7 +358,7 @@ double ExtractMask(const AnalysisSources& theSources,
             theResultIndexMask.insert(it);
             retval += tmp;
           }
-        } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
+        }
       }
     }
 

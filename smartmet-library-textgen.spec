@@ -115,6 +115,7 @@ FMI textgen development files
 - Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
 - Requires 26.10.13 versions of newbase, calculator due to their ABI changes
 - Fixed mechanical clang-tidy findings (internal linkage, unused parameters, initialization, redundant code), no functional changes
+- Fixed clang-tidy style findings (loops, nested conditionals, dead code)
 
 * Sun Oct 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.11-1.fmi
 - Include <array> where std::array is used, TemperatureStoryTools.cpp did not compile with clang

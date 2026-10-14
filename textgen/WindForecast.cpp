@@ -429,95 +429,6 @@ unsigned int get_peak_wind(const WeatherPeriod& thePeriod,
   }
 }
 
-WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
-                                           const TextGenPosixTime& pointOfTime,
-                                           const std::string& /*var*/)
-{
-  try
-  {
-    WeatherResult retval(kFloatMissing, 0.0);
-
-    for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
-    {
-      WindDataItemUnit& item =
-          theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
-      if (item.thePeriod.localStartTime() == pointOfTime)
-      {
-        retval = item.theEqualizedWindDirection;
-        break;
-      }
-    }
-
-    return retval;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
-  }
-}
-
-bool is_gusty_wind(const wo_story_params& theParameters,
-                   const TextGenPosixTime& pointOfTime,
-                   const std::string& /*var*/)
-{
-  try
-  {
-    for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
-    {
-      WindDataItemUnit& item =
-          theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
-      if (item.thePeriod.localStartTime() == pointOfTime)
-      {
-        return (item.theEqualizedTopWind.value() >= 20.0 &&
-                item.theGustSpeed.value() - item.theEqualizedTopWind.value() >=
-                    theParameters.theGustyWindTopWindDifference);
-      }
-    }
-    return false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
-  }
-}
-
-bool is_gusty_wind(const wo_story_params& theParameters,
-                   const WeatherPeriod& period,
-                   const std::string& /*var*/)
-{
-  try
-  {
-    float speedSum(0.0);
-    float gustSpeedSum(0.0);
-    unsigned int n(0);
-    for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
-    {
-      WindDataItemUnit& item =
-          theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
-      if (is_inside(item.thePeriod.localStartTime(), period))
-      {
-        speedSum += item.theEqualizedTopWind.value();
-        gustSpeedSum += item.theGustSpeed.value();
-        n++;
-      }
-    }
-
-    if (n > 0)
-    {
-      float avgTopWind(speedSum / n);
-      float avgGustSpeed(gustSpeedSum / n);
-      return (avgTopWind >= 20.0 &&
-              avgGustSpeed - avgTopWind >= theParameters.theGustyWindTopWindDifference);
-    }
-
-    return false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed!");
-  }
-}
-
 // If proposed direction is 'PUOLEINEN' and the previous was in the same direction, change the
 // latter to prevent tautology
 // for example (LOUNAISTUULI, LOUNAAN PUOLEINEN) -> (LOUNAISTUULI, LÄNNEN JA LOUNAAN VÄLINEN)
@@ -806,11 +717,13 @@ Sentence WindForecast::turnQualified(const WindDirectionInfo& theDirection,
     if (turn <= -180.0)
       turn += 360.0;
     const bool veering = (turn > 0.0);
-    const char* qualifier =
-        (theBasicForm ? (veering ? "myotapaivaan kaantyen [etelaan] [etelatuuli]"
-                                 : "vastapaivaan kaantyen [etelaan] [etelatuuli]")
-                      : (veering ? "myotapaivaan kaantyen [etelaan] [etelatuulta]"
-                                 : "vastapaivaan kaantyen [etelaan] [etelatuulta]"));
+    const char* qualifier = nullptr;
+    if (theBasicForm)
+      qualifier = (veering ? "myotapaivaan kaantyen [etelaan] [etelatuuli]"
+                           : "vastapaivaan kaantyen [etelaan] [etelatuuli]");
+    else
+      qualifier = (veering ? "myotapaivaan kaantyen [etelaan] [etelatuulta]"
+                           : "vastapaivaan kaantyen [etelaan] [etelatuulta]");
     theParameters.theLog << "Direction " << key << " is " << (veering ? "veering" : "backing")
                          << " from the previous one, turn " << static_cast<int>(lround(turn))
                          << " degrees\n";
@@ -4002,7 +3915,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
 
     // Find the beginning index inside the speed event period
     unsigned int begIndex = 0;
-    do
+    while (true)
     {
       const WindDataItemUnit& windDataItem =
           (*theParameters.theWindDataVector[begIndex])(theParameters.theArea.type());
@@ -4010,7 +3923,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
           begIndex == theParameters.theWindDataVector.size() - 1)
         break;
       begIndex++;
-    } while (true);
+    }
 
     std::vector<WeatherPeriod> resultVector;
 

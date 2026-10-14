@@ -845,7 +845,7 @@ proximity_id get_proximity_above(float theMinimumCalc,
     float theMinDiff = theMinimumCalc - theNumberDivisibleByFive;
     float theMaxDiff = theMaximumCalc - theNumberDivisibleByFive;
 
-    float vahanYliAstettaLimit = (theMaximumCalc * (bBelowZeroDegrees ? -1.0f : +1.0f)) < -10.0
+    float vahanYliAstettaLimit = (theMaximumCalc * (bBelowZeroDegrees ? -1.0F : +1.0F)) < -10.0
                                      ? VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT
                                      : VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT;
 
@@ -913,7 +913,7 @@ proximity_id get_proximity_between(float theMinimumCalc,
     }
     else
     {
-      float signedMax = theMaximumCalc * (bBelowZeroDegrees ? -1.0f : +1.0f);
+      float signedMax = theMaximumCalc * (bBelowZeroDegrees ? -1.0F : +1.0F);
       float noinAstettaLimit =
           signedMax < -10.0 ? NOIN_ASTETTA_LOW_TEMP_LIMIT : NOIN_ASTETTA_HIGH_TEMP_LIMIT;
       float tienoillaAstettaLimit =
@@ -1050,7 +1050,13 @@ period_area_ids get_period_area_ids(forecast_period_id thePeriodId, forecast_are
     // Helper: pick correct ID based on area
     auto pick =
         [theAreaId](weather_result_id inland, weather_result_id coast, weather_result_id area)
-    { return theAreaId == INLAND_AREA ? inland : (theAreaId == COASTAL_AREA ? coast : area); };
+    {
+      if (theAreaId == INLAND_AREA)
+        return inland;
+      if (theAreaId == COASTAL_AREA)
+        return coast;
+      return area;
+    };
 
     period_area_ids ids{};
     ids.min_morning = UNDEFINED_WEATHER_RESULT_ID;
@@ -1517,8 +1523,12 @@ bool separate_day_and_night_winter(const t36hparams& p, forecast_area_id theFore
     }
 
     // For INLAND_AREA and COASTAL_AREA, first check the primary area, then check the secondary
-    weather_result_id primaryMinDay1, primaryMeanDay1, primaryMaxDay1;
-    weather_result_id primaryMinDay2, primaryMeanDay2, primaryMaxDay2;
+    weather_result_id primaryMinDay1;
+    weather_result_id primaryMeanDay1;
+    weather_result_id primaryMaxDay1;
+    weather_result_id primaryMinDay2;
+    weather_result_id primaryMeanDay2;
+    weather_result_id primaryMaxDay2;
     unsigned short secondaryAreaMask = 0;
 
     if (theForecastAreaId == INLAND_AREA)
@@ -2071,324 +2081,6 @@ void temperature_phrase(t36hparams& theParameters,
       else if (p.theForecastAreaId == INLAND_AREA)
         theAreaPhrase << SISAMAASSA_PHRASE;
     }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-}  // namespace
-
-namespace
-{
-// Shared night period handler for both summer and non-summer: sets dayPhaseString and fills
-// theDayPhasePhrase Returns true if a "yolla" type phrase was used (no tautology reset needed),
-// false otherwise
-void handle_night_tphrase_summer(t36hparams& p,
-                                 Sentence& theDayPhasePhrase,
-                                 std::string& dayPhaseString)
-{
-  try
-  {
-    // bugfix 13.4.2011: "Yon alin lampotila on hieman kylmempaa" => "Yolla on hieman kylmempaa"
-    temperature_phrase_id pid = p.theTemperaturePhraseId;
-    if (pid == PIKKUPAKKASTA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID ||
-        pid == HIEMAN_LAUHEMPAA_PHRASE_ID || pid == HIEMAN_KIREAMPAA_PHRASE_ID ||
-        pid == HIEMAN_KYLMEMPAA_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      if (pid == HIEMAN_KIREAMPAA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID)
-        theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
-      else
-        theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
-    }
-    else if (pid == LAMPOTILA_NOUSEE_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      theDayPhasePhrase << YOLLA_PHRASE;
-    }
-    else
-    {
-      theDayPhasePhrase << (p.theUseLongPhrase ? YON_ALIN_LAMPOTILA_LONG_PHRASE
-                                               : YON_ALIN_LAMPOTILA_SHORT_PHRASE);
-      if (p.theUseLongPhrase)
-        theDayPhasePhrase << ON_WORD;
-      p.theNightPeriodTautologyFlag = true;
-    }
-    p.theDayPeriodTautologyFlag = false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-void handle_night_tphrase_winter(t36hparams& p,
-                                 Sentence& theDayPhasePhrase,
-                                 std::string& dayPhaseString)
-{
-  try
-  {
-    temperature_phrase_id pid = p.theTemperaturePhraseId;
-    if (pid == PIKKUPAKKASTA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID ||
-        pid == HIEMAN_LAUHEMPAA_PHRASE_ID || pid == HIEMAN_KIREAMPAA_PHRASE_ID ||
-        pid == HIEMAN_KYLMEMPAA_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      if (pid == HIEMAN_KIREAMPAA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID)
-        theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
-      else
-        theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
-    }
-    else if (pid == LAMPOTILA_NOUSEE_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      theDayPhasePhrase << YOLLA_PHRASE;
-    }
-    else
-    {
-      if (p.numberOfPeriods() > 1)
-        theDayPhasePhrase << YOLAMPOTILA_PHRASE << ON_WORD;
-      else
-        theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
-      p.theNightPeriodTautologyFlag = true;
-    }
-    p.theDayPeriodTautologyFlag = false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-bool handle_summer_day_use_day_phrase(t36hparams& p, Sentence& theDayPhasePhrase)
-{
-  try
-  {
-    if (p.theTemperaturePhraseId == PIKKUPAKKASTA_PHRASE_ID)
-    {
-      theDayPhasePhrase << ON_WORD;
-      return true;  // plainIsVerbUsed
-    }
-    if (p.theFullDayFlag)
-    {
-      if (p.theUseLongPhrase)
-        theDayPhasePhrase << PAIVAN_YLIN_LAMPOTILA_LONG_PHRASE << ON_WORD;
-      else
-        theDayPhasePhrase << PAIVAN_YLIN_LAMPOTILA_SHORT_PHRASE;
-    }
-    else
-    {
-      theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
-    }
-    p.theDayPeriodTautologyFlag = true;
-    return false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-bool handle_summer_day_phrase(t36hparams& p,
-                              bool useDayTemperaturePhrase,
-                              Sentence& theDayPhasePhrase,
-                              std::string& dayPhaseString)
-{
-  try
-  {
-    bool useDayPhrase =
-        (p.theSubPeriodId == UNDEFINED_SUBPERIOD && useDayTemperaturePhrase &&
-         !p.theDayPeriodTautologyFlag) ||
-        (p.theForecastPeriodId == DAY2_PERIOD &&
-         (p.theForecastAreaId == INLAND_AREA || p.theForecastAreaId == FULL_AREA) &&
-         ((p.inlandAndCoastSeparated(DAY2_PERIOD) && p.theForecastAreaId == INLAND_AREA) ||
-          p.morningAndAfternoonSeparated(DAY1_PERIOD)));
-
-    if (useDayPhrase)
-      return handle_summer_day_use_day_phrase(p, theDayPhasePhrase);
-
-    p.theDayPeriodTautologyFlag = false;
-    bool isPikkupakkasta = (p.theTemperaturePhraseId == PIKKUPAKKASTA_PHRASE_ID);
-
-    if (p.theSubPeriodId == DAY1_MORNING_PERIOD || p.theSubPeriodId == DAY2_MORNING_PERIOD)
-    {
-      if (isPikkupakkasta)
-      {
-        dayPhaseString = AAMULLA_PHRASE;
-        theDayPhasePhrase << AAMULLA_PHRASE << ON_WORD;
-      }
-      else
-      {
-        theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD << AAMULLA_PHRASE;
-      }
-    }
-    else if (p.theSubPeriodId == DAY1_AFTERNOON_PERIOD || p.theSubPeriodId == DAY2_AFTERNOON_PERIOD)
-    {
-      dayPhaseString = ILTAPAIVALLA_PHRASE;
-      theDayPhasePhrase << ILTAPAIVALLA_PHRASE;
-      if (isPikkupakkasta)
-        theDayPhasePhrase << ON_WORD;
-    }
-    return false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-bool handle_winter_day_phrase(t36hparams& p,
-                              Sentence& theDayPhasePhrase,
-                              std::string& dayPhaseString)
-{
-  try
-  {
-    bool plainIsVerbUsed = false;
-    bool useDayPhrase = p.theSubPeriodId == UNDEFINED_SUBPERIOD &&
-                        (!p.theDayPeriodTautologyFlag || (p.inlandAndCoastSeparated(DAY2_PERIOD) &&
-                                                          p.theForecastPeriodId == DAY2_PERIOD &&
-                                                          p.theForecastAreaId == INLAND_AREA));
-
-    if (useDayPhrase)
-    {
-      if (p.theTemperaturePhraseId == PIKKUPAKKASTA_PHRASE_ID)
-      {
-        dayPhaseString = PAIVALLA_PHRASE;
-        theDayPhasePhrase << PAIVALLA_PHRASE << ON_WORD;
-        plainIsVerbUsed = true;
-      }
-      else
-      {
-        if (p.theDayAndNightSeparationFlag)
-          theDayPhasePhrase << PAIVALAMPOTILA_PHRASE << ON_WORD;
-        else
-          theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
-        p.theDayPeriodTautologyFlag = true;
-      }
-    }
-    return plainIsVerbUsed;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-void append_frost_or_day_phrase(t36hparams& p,
-                                Sentence& sentence,
-                                const Sentence& theDayPhasePhrase,
-                                bool coastal)
-{
-  try
-  {
-    if (p.theUseFrostExistsPhrase)
-    {
-      // if only one period exists, dont use word 'yolla'/'paivalla'
-      if (p.numberOfPeriods() > 1 && p.theDayAndNightSeparationFlag)
-      {
-        sentence << (p.theForecastPeriodId == NIGHT_PERIOD ? YOLLA_PHRASE : PAIVALLA_PHRASE);
-      }
-      if (!p.theFrostExistsTautologyFlag)
-      {
-        sentence << PAKKASTA_WORD << ON_WORD;
-        p.theFrostExistsTautologyFlag = true;
-      }
-      else
-      {
-        sentence << LAMPOTILA_WORD << ON_WORD;
-        p.theFrostExistsTautologyFlag = false;
-      }
-      if (!coastal)
-        p.theUseFrostExistsPhrase = false;
-    }
-    else
-    {
-      sentence << theDayPhasePhrase;
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-}  // namespace
-
-namespace
-{
-Sentence temperature_phrase(t36hparams& theParameters)
-{
-  try
-  {
-    Sentence sentence;
-    auto& p = theParameters;
-
-    bool useDayTemperaturePhrase =
-        (p.theForecastPeriodId == DAY1_PERIOD ||
-         ((p.theForecastPeriodId == DAY2_PERIOD && !(p.theForecastPeriod & DAY1_PERIOD)) ||
-          p.inlandAndCoastSeparated(DAY1_PERIOD)));
-
-    std::string dayPhaseString(EMPTY_STRING);
-    Sentence theDayPhasePhrase;
-    Sentence theAreaPhrase;
-    bool plainIsVerbUsed = false;
-
-    if (p.theSeasonId == SUMMER_SEASON)
-    {
-      if (p.theForecastPeriodId == NIGHT_PERIOD && !p.theNightPeriodTautologyFlag)
-      {
-        handle_night_tphrase_summer(p, theDayPhasePhrase, dayPhaseString);
-      }
-      else if (p.theForecastPeriodId != NIGHT_PERIOD)
-      {
-        p.theNightPeriodTautologyFlag = false;
-        plainIsVerbUsed = handle_summer_day_phrase(
-            p, useDayTemperaturePhrase, theDayPhasePhrase, dayPhaseString);
-      }
-    }
-    else
-    {
-      if (p.theForecastPeriodId == NIGHT_PERIOD && !p.theNightPeriodTautologyFlag)
-      {
-        handle_night_tphrase_winter(p, theDayPhasePhrase, dayPhaseString);
-      }
-      else if (p.theForecastPeriodId != NIGHT_PERIOD)
-      {
-        p.theNightPeriodTautologyFlag = false;
-        plainIsVerbUsed = handle_winter_day_phrase(p, theDayPhasePhrase, dayPhaseString);
-      }
-    }
-
-    if (dayPhaseString.empty())
-      dayPhaseString = EMPTY_STRING;
-
-    if (p.theForecastAreaId == COASTAL_AREA && p.inlandAndCoastSeparated() &&
-        !p.theOnCoastalAreaTautologyFlag)
-    {
-      theAreaPhrase << RANNIKOLLA_PHRASE;
-      p.theOnCoastalAreaTautologyFlag = true;
-      p.theOnInlandAreaTautologyFlag = false;
-    }
-    else if (p.theForecastAreaId == INLAND_AREA && p.inlandAndCoastSeparated() &&
-             !p.theOnInlandAreaTautologyFlag)
-    {
-      theAreaPhrase << SISAMAASSA_PHRASE;
-      p.theOnInlandAreaTautologyFlag = true;
-      p.theOnCoastalAreaTautologyFlag = false;
-    }
-
-    if (p.theForecastAreaId == COASTAL_AREA || plainIsVerbUsed)
-    {
-      sentence << theAreaPhrase;
-      append_frost_or_day_phrase(p, sentence, theDayPhasePhrase, true);
-    }
-    else
-    {
-      append_frost_or_day_phrase(p, sentence, theDayPhasePhrase, false);
-      sentence << theAreaPhrase;
-    }
-
-    return sentence;
   }
   catch (...)
   {
@@ -4136,8 +3828,11 @@ void process_period_area_item(t36hparams& p,
     else if (periodArea == DAY2_INLAND || periodArea == DAY2_COASTAL || periodArea == DAY2_FULL)
     {
       period_id = DAY2_PERIOD;
-      int periodNum =
-          (p.theForecastPeriod & DAY1_PERIOD) ? 3 : (p.theForecastPeriod & NIGHT_PERIOD ? 2 : 1);
+      int periodNum = 1;
+      if (p.theForecastPeriod & DAY1_PERIOD)
+        periodNum = 3;
+      else if (p.theForecastPeriod & NIGHT_PERIOD)
+        periodNum = 2;
       p.theWeatherPeriod = p.theGenerator.period(periodNum);
       resolve_area_id_for_period(
           p, periodArea, sep_day2, DAY2_INLAND, area_id, p.theForecastAreaDay2);
