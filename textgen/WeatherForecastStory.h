@@ -168,7 +168,7 @@ class WeatherForecastStory
 
   ~WeatherForecastStory();
   WeatherForecastStory(const WeatherForecastStory&) = default;
-  WeatherForecastStory& operator=(const WeatherForecastStory&) = default;
+  WeatherForecastStory& operator=(const WeatherForecastStory&) = delete;
 
   Paragraph getWeatherForecastStory();
   Paragraph getWeatherForecastStoryAtSea();

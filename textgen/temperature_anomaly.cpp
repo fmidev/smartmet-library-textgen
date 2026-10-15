@@ -45,7 +45,6 @@
 #include <map>
 
 #include <boost/lexical_cast.hpp>
-constexpr int BOOST_FILESYSTEM_VERSION = 3;
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 namespace fs = std::filesystem;
 
@@ -65,7 +64,6 @@ using namespace AreaTools;
 constexpr double MILD_TEMPERATURE_LOWER_LIMIT = (-3.0);
 constexpr double MILD_TEMPERATURE_UPPER_LIMIT = (+5.0);
 constexpr double HOT_WEATHER_LIMIT = (+25.0);
-constexpr double GETTING_COOLER_NOTIFICATION_LIMIT = (+20.0);
 constexpr double ZERO_DEGREES = 0.0;
 constexpr double VERY_COLD_TEMPERATURE_UPPER_LIMIT = (-10.0);
 constexpr double SMALL_CHANGE_LOWER_LIMIT = 2.0;
@@ -76,15 +74,10 @@ constexpr double SIGNIFIGANT_CHANGE_LOWER_LIMIT = 5.0;
 constexpr double NOTABLE_TEMPERATURE_CHANGE_LIMIT = 2.5;
 
 constexpr const char* SAA_LAUHTUU_PHRASE = "saa lauhtuu";
-constexpr const char* SAA_WORD = "saa";
-constexpr const char* ON_WORD = "on";
 constexpr const char* POIKKEUKSELLISEN_WORD = "poikkeuksellisen";
 constexpr const char* KYLMAA_WORD = "kylmaa";
 constexpr const char* KOLEAA_WORD = "koleaa";
 constexpr const char* HYVIN_WORD = "hyvin";
-constexpr const char* VAHAN_WORD = "vahan";
-constexpr const char* HUOMATTAVASTI_WORD = "huomattavasti";
-constexpr const char* HARVINAISEN_WORD = "harvinaisen";
 constexpr const char* LAMMINTA_WORD = "lamminta";
 constexpr const char* LEUTOA_WORD = "leutoa";
 

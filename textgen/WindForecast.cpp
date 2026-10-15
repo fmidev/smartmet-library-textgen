@@ -27,9 +27,6 @@ namespace TextGen
 {
 
 constexpr bool USE_AT_ITS_STRONGEST_PHRASE = true;
-constexpr bool DONT_USE_AT_ITS_STRONGEST_PHRASE = false;
-constexpr bool USE_ALKAEN_PHRASE = true;
-constexpr bool DONT_USE_ALKAEN_PHRASE = false;
 
 constexpr const char* TUULI_WORD = "tuuli";
 constexpr const char* VAHAN_WORD = "vahan";
@@ -39,7 +36,6 @@ constexpr const char* KOVIMMILLAAN_PHRASE = "kovimmillaan";
 constexpr const char* HEIKKENEVAA_WORD = "heikkenevaa";
 constexpr const char* VOIMISTUVAA_WORD = "voimistuvaa";
 constexpr const char* TUULTA_WORD = "tuulta";
-constexpr const char* TUULI_TYYNTYY_PHRASE = "tuuli tyyntyy";
 constexpr const char* POHJOISEEN_PHRASE = "pohjoiseen";
 constexpr const char* ETELAAN_PHRASE = "etelaan";
 constexpr const char* ITAAN_PHRASE = "itaan";
@@ -118,102 +114,20 @@ constexpr const char* POHJOINEN_LUODE_TUULI = "1- ja 8-valinen tuuli";
 constexpr const char* VAIHTELEVA_TUULI_P = "suunnaltaan vaihtelevaa tuulta";
 constexpr const char* VAIHTELEVA_TUULI = "suunnaltaan vaihteleva tuuli";
 
-constexpr const char* POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi";
-constexpr const char* POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi";
-constexpr const char* POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi";
-constexpr const char* POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi";
-constexpr const char* POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE = "[pohjoistuuli] heikkenee [nopeasti]";
-constexpr const char* POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE = "[pohjoistuuli] voimistuu [nopeasti]";
 
-constexpr const char* PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE = "puuskittaista [etelatuulta]";
-constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE =
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa";
 constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE =
   "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua";
 constexpr const char* ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA_COMPOSITE_PHRASE =
   "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]";
-constexpr const char* ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] [pohjoistuuli] heikkenee edelleen";
-constexpr const char* ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] [pohjoistuuli] voimistuu edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]";
-constexpr const char* ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
-  "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]";
-constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi";
-constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE =
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]";
-constexpr const char* ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE = "[iltapaivalla] tuuli kaantyy [etelaan]";
 constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
   "[iltapaivalla] tuuli muuttuu vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE =
-  "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]";
-constexpr const char* ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE =
-  "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]";
 constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE =
   "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]";
-constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]";
-constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]";
-constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE =
-  "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]";
 constexpr const char* ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE = "[iltapaivalla] [etelatuulta]";
 
-constexpr const char* ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen";
-constexpr const char* ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi";
-constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi";
 constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
   "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi";
 
-constexpr const char* ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE =
-  "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]";
-constexpr const char* ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE =
-  "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]";
-constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli alkaa voimistua ja kaantyy [etelaan]";
-constexpr const char* ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
-  "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]";
-constexpr const char* ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE =
-  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]";
-constexpr const char* ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE =
-  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]";
 
 namespace
 {

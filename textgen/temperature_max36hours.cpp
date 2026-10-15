@@ -65,8 +65,6 @@ using Settings::optional_bool;
 using Settings::optional_int;
 using Settings::optional_string;
 
-constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] pakkasta on [M...N] [astetta]";
 
 constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
   "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]";
@@ -82,8 +80,6 @@ constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_P
 constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
   "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]";
 
-constexpr const char* HUOMENNA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] pakkasta on [M...N] [astetta]";
 constexpr const char* HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
   "[huomenna] pakkasta on noin [N] [astetta]";
 constexpr const char* HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
@@ -97,8 +93,6 @@ constexpr const char* HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
   "[huomenna] pakkasta on vajaat [N] [astetta]";
 constexpr const char* HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
   "[huomenna] pakkasta on vahan yli [N] [astetta]";
-constexpr const char* SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
-  "[sisamaassa] pakkasta on [M...N] [astetta]";
 constexpr const char* SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
   "[sisamaassa] pakkasta on noin [N] [astetta]";
 constexpr const char* SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
@@ -112,7 +106,6 @@ constexpr const char* SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
   "[sisamaassa] pakkasta on vajaat [N] [astetta]";
 constexpr const char* SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
   "[sisamaassa] pakkasta on vahan yli [N] [astetta]";
-constexpr const char* PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "pakkasta on [M...N] [astetta]";
 constexpr const char* PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE = "pakkasta on noin [N] [astetta]";
 constexpr const char* PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on [N] [asteen] tienoilla";
 constexpr const char* PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on [N] [asteen] tuntumassa";
@@ -223,20 +216,6 @@ constexpr const char* RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "rannikol
 constexpr const char* RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "rannikolla [suunnilleen sama]";
 constexpr const char* RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE = "rannikolla vahan nollan alapuolella";
 
-constexpr const char* HUOMENNA_SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] lahella [N] [astetta]";
-constexpr const char* HUOMENNA_SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] noin [N] [astetta]";
-constexpr const char* HUOMENNA_SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] vajaat [N] [astetta]";
-constexpr const char* HUOMENNA_SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] vahan yli [N] [astetta]";
-constexpr const char* HUOMENNA_SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] [M...N] [astetta]";
-constexpr const char* HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] [N] [asteen] tienoilla";
-constexpr const char* HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] [N] [asteen] tuntumassa";
 constexpr const char* HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
   "[huomenna] [sisamaassa] [suunnilleen sama]";
 constexpr const char* HUOMENNA_SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE =
@@ -250,13 +229,6 @@ constexpr const char* HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] 
 constexpr const char* HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [N] [asteen] tuntumassa";
 constexpr const char* HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[huomenna] [suunnilleen sama]";
 constexpr const char* HUOMENNA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE = "[huomenna] on [hieman lauhempaa]";
-constexpr const char* SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] lahella [N] [astetta]";
-constexpr const char* SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] noin [N] [astetta]";
-constexpr const char* SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] vajaat [N] [astetta]";
-constexpr const char* SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] vahan yli [N] [astetta]";
-constexpr const char* SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] [M...N] [astetta]";
-constexpr const char* SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] [N] [asteen] tienoilla";
-constexpr const char* SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] [N] [asteen] tuntumassa";
 constexpr const char* SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[sisamaassa] [suunnilleen sama]";
 constexpr const char* SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE = "[sisamaassa] on [hieman lauhempaa]";
 
@@ -307,7 +279,6 @@ constexpr const char* YOLAMPOTILA_PHRASE = "yolampotila";
 constexpr const char* PAIVALAMPOTILA_PHRASE = "paivalampotila";
 constexpr const char* LAMPOTILA_WORD = "lampotila";
 constexpr const char* PAKKASTA_WORD = "pakkasta";
-constexpr const char* PAKKANEN_WORD = "pakkanen";
 constexpr const char* ON_WORD = "on";
 constexpr const char* NOIN_PHRASE = "noin";
 constexpr const char* TIENOILLA_PHRASE = "[1] asteen tienoilla";
@@ -321,7 +292,6 @@ constexpr const char* YLI_PHRASE = "yli";
 constexpr const char* TAI_PHRASE = "tai";
 constexpr const char* NOLLA_WORD = "nolla";
 
-constexpr const char* NOLLA_ASTETTA_PHRASE = "0 astetta";
 
 enum proximity_id
 {

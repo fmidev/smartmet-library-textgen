@@ -65,13 +65,10 @@ constexpr const char* RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE = "[rannikolla] on
 constexpr const char* ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE =
   "[iltapaivalla] [rannikolla] pakkanen on purevaa";
 constexpr const char* ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE = "[iltapaivalla] pakkanen on purevaa";
-constexpr const char* RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE = "[rannikolla] pakkanen on purevaa";
 constexpr const char* ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE =
   "[iltapaivalla] [rannikolla] pakkanen on erittain purevaa";
 constexpr const char* ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE =
   "[iltapaivalla] pakkanen on erittain purevaa";
-constexpr const char* RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE =
-  "[rannikolla] pakkanen on erittain purevaa";
 
 constexpr const char* ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE =
   "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan kylmemmalta";
@@ -91,7 +88,6 @@ constexpr double EXTREMELY_WINDY_WEATHER_LIMIT = 10.0;
 constexpr double WIND_COOLING_THE_WEATHER_LIMIT = 6.0;
 constexpr double EXTREME_WINDCHILL_LIMIT = (-35.0);
 constexpr double MILD_WINDCHILL_LIMIT = (-25.0);
-constexpr double ZERO_DEGREES = 0.0;
 constexpr double TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT = 7.0;
 
 constexpr double TUULI_KYLMENTAA_SAATA_LOWER_LIMIT = 0.0;
@@ -99,9 +95,6 @@ constexpr double TUULI_KYLMENTAA_SAATA_UPPER_LIMIT = 10.0;
 constexpr double TUULI_VIILENTAA_SAATA_LOWER_LIMIT = 10.0;
 constexpr double TUULI_VIILENTAA_SAATA_UPPER_LIMIT = 15.0;
 
-constexpr const char* SAA_WORD = "saa";
-constexpr const char* ON_WORD = "on";
-constexpr const char* HYVIN_WORD = "hyvin";
 constexpr const char* SAA_ON_TUULINEN_PHRASE = "saa on tuulinen";
 constexpr const char* SAA_ON_HYVIN_TUULINEN_PHRASE = "saa on hyvin tuulinen";
 constexpr const char* HYVIN_TUULINEN_PHRASE = "hyvin tuulinen";
@@ -113,8 +106,6 @@ constexpr const char* PAKKANEN_ON_PUREVAA_PHRASE = "pakkanen on purevaa";
 constexpr const char* PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE = "pakkanen on erittain purevaa";
 constexpr const char* TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE = "tuuli saa saan tuntumaan viileammalta";
 constexpr const char* TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE = "tuuli saa saan tuntumaan kylmemmalta";
-constexpr const char* TANAAN_WORD = "tanaan";
-constexpr const char* HUOMENNA_WORD = "huomenna";
 
 namespace
 {

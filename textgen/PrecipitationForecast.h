@@ -33,7 +33,7 @@ class PrecipitationForecast
   PrecipitationForecast(wf_story_params& parameters);
   ~PrecipitationForecast();
   PrecipitationForecast(const PrecipitationForecast&) = default;
-  PrecipitationForecast& operator=(const PrecipitationForecast&) = default;
+  PrecipitationForecast& operator=(const PrecipitationForecast&) = delete;
 
   Sentence precipitationChangeSentence(
       const WeatherPeriod& thePeriod,

@@ -35,7 +35,6 @@
 #include <newbase/NFmiStringTools.h>
 #include <iomanip>
 #include <map>
-constexpr int BOOST_FILESYSTEM_VERSION = 3;
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 namespace boostfs = std::filesystem;
 
