@@ -26,194 +26,194 @@
 namespace TextGen
 {
 
-#define USE_AT_ITS_STRONGEST_PHRASE true
-#define DONT_USE_AT_ITS_STRONGEST_PHRASE false
-#define USE_ALKAEN_PHRASE true
-#define DONT_USE_ALKAEN_PHRASE false
+constexpr bool USE_AT_ITS_STRONGEST_PHRASE = true;
+constexpr bool DONT_USE_AT_ITS_STRONGEST_PHRASE = false;
+constexpr bool USE_ALKAEN_PHRASE = true;
+constexpr bool DONT_USE_ALKAEN_PHRASE = false;
 
-#define TUULI_WORD "tuuli"
-#define VAHAN_WORD "vahan"
-#define NOPEASTI_WORD "nopeasti"
-#define VAHITELLEN_WORD "vahitellen"
-#define KOVIMMILLAAN_PHRASE "kovimmillaan"
-#define HEIKKENEVAA_WORD "heikkenevaa"
-#define VOIMISTUVAA_WORD "voimistuvaa"
-#define TUULTA_WORD "tuulta"
-#define TUULI_TYYNTYY_PHRASE "tuuli tyyntyy"
-#define POHJOISEEN_PHRASE "pohjoiseen"
-#define ETELAAN_PHRASE "etelaan"
-#define ITAAN_PHRASE "itaan"
-#define LANTEEN_PHRASE "lanteen"
-#define KOILLISEEN_PHRASE "koilliseen"
-#define KAAKKOON_PHRASE "kaakkoon"
-#define LOUNAASEEN_PHRASE "lounaaseen"
-#define LUOTEESEEN_PHRASE "luoteeseen"
-#define POHJOISEN_PUOLELLE_PHRASE "1-puolelle"
-#define ETELAN_PUOLELLE_PHRASE "5-puolelle"
-#define IDAN_PUOLELLE_PHRASE "3-puolelle"
-#define LANNEN_PUOLELLE_PHRASE "7-puolelle"
-#define KOILLISEN_PUOLELLE_PHRASE "2-puolelle"
-#define KAAKON_PUOLELLE_PHRASE "4-puolelle"
-#define LOUNAAN_PUOLELLE_PHRASE "6-puolelle"
-#define LUOTEEN_PUOLELLE_PHRASE "8-puolelle"
+constexpr const char* TUULI_WORD = "tuuli";
+constexpr const char* VAHAN_WORD = "vahan";
+constexpr const char* NOPEASTI_WORD = "nopeasti";
+constexpr const char* VAHITELLEN_WORD = "vahitellen";
+constexpr const char* KOVIMMILLAAN_PHRASE = "kovimmillaan";
+constexpr const char* HEIKKENEVAA_WORD = "heikkenevaa";
+constexpr const char* VOIMISTUVAA_WORD = "voimistuvaa";
+constexpr const char* TUULTA_WORD = "tuulta";
+constexpr const char* TUULI_TYYNTYY_PHRASE = "tuuli tyyntyy";
+constexpr const char* POHJOISEEN_PHRASE = "pohjoiseen";
+constexpr const char* ETELAAN_PHRASE = "etelaan";
+constexpr const char* ITAAN_PHRASE = "itaan";
+constexpr const char* LANTEEN_PHRASE = "lanteen";
+constexpr const char* KOILLISEEN_PHRASE = "koilliseen";
+constexpr const char* KAAKKOON_PHRASE = "kaakkoon";
+constexpr const char* LOUNAASEEN_PHRASE = "lounaaseen";
+constexpr const char* LUOTEESEEN_PHRASE = "luoteeseen";
+constexpr const char* POHJOISEN_PUOLELLE_PHRASE = "1-puolelle";
+constexpr const char* ETELAN_PUOLELLE_PHRASE = "5-puolelle";
+constexpr const char* IDAN_PUOLELLE_PHRASE = "3-puolelle";
+constexpr const char* LANNEN_PUOLELLE_PHRASE = "7-puolelle";
+constexpr const char* KOILLISEN_PUOLELLE_PHRASE = "2-puolelle";
+constexpr const char* KAAKON_PUOLELLE_PHRASE = "4-puolelle";
+constexpr const char* LOUNAAN_PUOLELLE_PHRASE = "6-puolelle";
+constexpr const char* LUOTEEN_PUOLELLE_PHRASE = "8-puolelle";
 
-#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "1- ja 2-valille"
-#define IDAN_JA_KOILLISEN_VALILLE_PHRASE "3- ja 2-valille"
-#define IDAN_JA_KAAKON_VALILLE_PHRASE "3- ja 4-valille"
-#define ETELAN_JA_KAAKON_VALILLE_PHRASE "5- ja 4-valille"
-#define ETELAN_JA_LOUNAAN_VALILLE_PHRASE "5- ja 6-valille"
-#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "7- ja 6-valille"
-#define LANNEN_JA_LUOTEEN_VALILLE_PHRASE "7- ja 8-valille"
-#define POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE "1- ja 8-valille"
-#define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
+constexpr const char* POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE = "1- ja 2-valille";
+constexpr const char* IDAN_JA_KOILLISEN_VALILLE_PHRASE = "3- ja 2-valille";
+constexpr const char* IDAN_JA_KAAKON_VALILLE_PHRASE = "3- ja 4-valille";
+constexpr const char* ETELAN_JA_KAAKON_VALILLE_PHRASE = "5- ja 4-valille";
+constexpr const char* ETELAN_JA_LOUNAAN_VALILLE_PHRASE = "5- ja 6-valille";
+constexpr const char* LANNEN_JA_LOUNAAN_VALILLE_PHRASE = "7- ja 6-valille";
+constexpr const char* LANNEN_JA_LUOTEEN_VALILLE_PHRASE = "7- ja 8-valille";
+constexpr const char* POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE = "1- ja 8-valille";
+constexpr const char* TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE = "tuuli muuttuu vaihtelevaksi";
 
-#define POHJOINEN_TUULI_P "1-tuulta"
-#define POHJOINEN_TUULI "1-tuuli"
-#define POHJOISEN_PUOLEINEN_TUULI_P "1-puoleista tuulta"
-#define POHJOISEN_PUOLEINEN_TUULI "1-puoleinen tuuli"
-#define POHJOINEN_KOILLINEN_TUULI_P "1- ja 2-valista tuulta"
-#define POHJOINEN_KOILLINEN_TUULI "1- ja 2-valinen tuuli"
-#define KOILLINEN_TUULI_P "2-tuulta"
-#define KOILLINEN_TUULI "2-tuuli"
-#define KOILLISEN_PUOLEINEN_TUULI_P "2-puoleista tuulta"
-#define KOILLISEN_PUOLEINEN_TUULI "2-puoleinen tuuli"
-#define ITA_KOILLINEN_TUULI_P "3- ja 2-valista tuulta"
-#define ITA_KOILLINEN_TUULI "3- ja 2-valinen tuuli"
-#define ITA_TUULI_P "3-tuulta"
-#define ITA_TUULI "3-tuuli"
-#define IDAN_PUOLEINEN_TUULI_P "3-puoleista tuulta"
-#define IDAN_PUOLEINEN_TUULI "3-puoleinen tuuli"
-#define ITA_KAAKKO_TUULI_P "3- ja 4-valista tuulta"
-#define ITA_KAAKKO_TUULI "3- ja 4-valinen tuuli"
-#define KAAKKO_TUULI_P "4-tuulta"
-#define KAAKKO_TUULI "4-tuuli"
-#define KAAKON_PUOLEINEN_TUULI_P "4-puoleista tuulta"
-#define KAAKON_PUOLEINEN_TUULI "4-puoleinen tuuli"
-#define ETELA_KAAKKO_TUULI_P "5- ja 4-valista tuulta"
-#define ETELA_KAAKKO_TUULI "5- ja 4-valinen tuuli"
-#define ETELA_TUULI_P "5-tuulta"
-#define ETELA_TUULI "5-tuuli"
-#define ETELAN_PUOLEINEN_TUULI_P "5-puoleista tuulta"
-#define ETELAN_PUOLEINEN_TUULI "5-puoleinen tuuli"
-#define ETELA_LOUNAS_TUULI_P "5- ja 6-valista tuulta"
-#define ETELA_LOUNAS_TUULI "5- ja 6-valinen tuuli"
-#define LOUNAS_TUULI_P "6-tuulta"
-#define LOUNAS_TUULI "6-tuuli"
-#define LOUNAAN_PUOLEINEN_TUULI_P "6-puoleista tuulta"
-#define LOUNAAN_PUOLEINEN_TUULI "6-puoleinen tuuli"
-#define LANSI_LOUNAS_TUULI_P "7- ja 6-valista tuulta"
-#define LANSI_LOUNAS_TUULI "7- ja 6-valinen tuuli"
-#define LANSI_TUULI_P "7-tuulta"
-#define LANSI_TUULI "7-tuuli"
-#define LANNEN_PUOLEINEN_TUULI_P "7-puoleista tuulta"
-#define LANNEN_PUOLEINEN_TUULI "7-puoleinen tuuli"
-#define LANSI_LUODE_TUULI_P "7- ja 8-valista tuulta"
-#define LANSI_LUODE_TUULI "7- ja 8-valinen tuuli"
-#define LUODE_TUULI_P "8-tuulta"
-#define LUODE_TUULI "8-tuuli"
-#define LUOTEEN_PUOLEINEN_TUULI_P "8-puoleista tuulta"
-#define LUOTEEN_PUOLEINEN_TUULI "8-puoleinen tuuli"
-#define POHJOINEN_LUODE_TUULI_P "1- ja 8-valista tuulta"
-#define POHJOINEN_LUODE_TUULI "1- ja 8-valinen tuuli"
-#define VAIHTELEVA_TUULI_P "suunnaltaan vaihtelevaa tuulta"
-#define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
+constexpr const char* POHJOINEN_TUULI_P = "1-tuulta";
+constexpr const char* POHJOINEN_TUULI = "1-tuuli";
+constexpr const char* POHJOISEN_PUOLEINEN_TUULI_P = "1-puoleista tuulta";
+constexpr const char* POHJOISEN_PUOLEINEN_TUULI = "1-puoleinen tuuli";
+constexpr const char* POHJOINEN_KOILLINEN_TUULI_P = "1- ja 2-valista tuulta";
+constexpr const char* POHJOINEN_KOILLINEN_TUULI = "1- ja 2-valinen tuuli";
+constexpr const char* KOILLINEN_TUULI_P = "2-tuulta";
+constexpr const char* KOILLINEN_TUULI = "2-tuuli";
+constexpr const char* KOILLISEN_PUOLEINEN_TUULI_P = "2-puoleista tuulta";
+constexpr const char* KOILLISEN_PUOLEINEN_TUULI = "2-puoleinen tuuli";
+constexpr const char* ITA_KOILLINEN_TUULI_P = "3- ja 2-valista tuulta";
+constexpr const char* ITA_KOILLINEN_TUULI = "3- ja 2-valinen tuuli";
+constexpr const char* ITA_TUULI_P = "3-tuulta";
+constexpr const char* ITA_TUULI = "3-tuuli";
+constexpr const char* IDAN_PUOLEINEN_TUULI_P = "3-puoleista tuulta";
+constexpr const char* IDAN_PUOLEINEN_TUULI = "3-puoleinen tuuli";
+constexpr const char* ITA_KAAKKO_TUULI_P = "3- ja 4-valista tuulta";
+constexpr const char* ITA_KAAKKO_TUULI = "3- ja 4-valinen tuuli";
+constexpr const char* KAAKKO_TUULI_P = "4-tuulta";
+constexpr const char* KAAKKO_TUULI = "4-tuuli";
+constexpr const char* KAAKON_PUOLEINEN_TUULI_P = "4-puoleista tuulta";
+constexpr const char* KAAKON_PUOLEINEN_TUULI = "4-puoleinen tuuli";
+constexpr const char* ETELA_KAAKKO_TUULI_P = "5- ja 4-valista tuulta";
+constexpr const char* ETELA_KAAKKO_TUULI = "5- ja 4-valinen tuuli";
+constexpr const char* ETELA_TUULI_P = "5-tuulta";
+constexpr const char* ETELA_TUULI = "5-tuuli";
+constexpr const char* ETELAN_PUOLEINEN_TUULI_P = "5-puoleista tuulta";
+constexpr const char* ETELAN_PUOLEINEN_TUULI = "5-puoleinen tuuli";
+constexpr const char* ETELA_LOUNAS_TUULI_P = "5- ja 6-valista tuulta";
+constexpr const char* ETELA_LOUNAS_TUULI = "5- ja 6-valinen tuuli";
+constexpr const char* LOUNAS_TUULI_P = "6-tuulta";
+constexpr const char* LOUNAS_TUULI = "6-tuuli";
+constexpr const char* LOUNAAN_PUOLEINEN_TUULI_P = "6-puoleista tuulta";
+constexpr const char* LOUNAAN_PUOLEINEN_TUULI = "6-puoleinen tuuli";
+constexpr const char* LANSI_LOUNAS_TUULI_P = "7- ja 6-valista tuulta";
+constexpr const char* LANSI_LOUNAS_TUULI = "7- ja 6-valinen tuuli";
+constexpr const char* LANSI_TUULI_P = "7-tuulta";
+constexpr const char* LANSI_TUULI = "7-tuuli";
+constexpr const char* LANNEN_PUOLEINEN_TUULI_P = "7-puoleista tuulta";
+constexpr const char* LANNEN_PUOLEINEN_TUULI = "7-puoleinen tuuli";
+constexpr const char* LANSI_LUODE_TUULI_P = "7- ja 8-valista tuulta";
+constexpr const char* LANSI_LUODE_TUULI = "7- ja 8-valinen tuuli";
+constexpr const char* LUODE_TUULI_P = "8-tuulta";
+constexpr const char* LUODE_TUULI = "8-tuuli";
+constexpr const char* LUOTEEN_PUOLEINEN_TUULI_P = "8-puoleista tuulta";
+constexpr const char* LUOTEEN_PUOLEINEN_TUULI = "8-puoleinen tuuli";
+constexpr const char* POHJOINEN_LUODE_TUULI_P = "1- ja 8-valista tuulta";
+constexpr const char* POHJOINEN_LUODE_TUULI = "1- ja 8-valinen tuuli";
+constexpr const char* VAIHTELEVA_TUULI_P = "suunnaltaan vaihtelevaa tuulta";
+constexpr const char* VAIHTELEVA_TUULI = "suunnaltaan vaihteleva tuuli";
 
-#define POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE "[pohjoistuuli] heikkenee [nopeasti]"
-#define POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE "[pohjoistuuli] voimistuu [nopeasti]"
+constexpr const char* POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi";
+constexpr const char* POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi";
+constexpr const char* POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi";
+constexpr const char* POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi";
+constexpr const char* POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE = "[pohjoistuuli] heikkenee [nopeasti]";
+constexpr const char* POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE = "[pohjoistuuli] voimistuu [nopeasti]";
 
-#define PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE "puuskittaista [etelatuulta]"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE \
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE \
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
-#define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
-#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]"
-#define ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE \
-  "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]"
-#define ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelatuulta]"
+constexpr const char* PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE = "puuskittaista [etelatuulta]";
+constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE =
+  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa";
+constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE =
+  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua";
+constexpr const char* ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA_COMPOSITE_PHRASE =
+  "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]";
+constexpr const char* ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] [pohjoistuuli] heikkenee edelleen";
+constexpr const char* ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] [pohjoistuuli] voimistuu edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]";
+constexpr const char* ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
+  "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]";
+constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi";
+constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE =
+  "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]";
+constexpr const char* ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE = "[iltapaivalla] tuuli kaantyy [etelaan]";
+constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli muuttuu vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE =
+  "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]";
+constexpr const char* ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE =
+  "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]";
+constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE =
+  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]";
+constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]";
+constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]";
+constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE =
+  "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]";
+constexpr const char* ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE = "[iltapaivalla] [etelatuulta]";
 
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
+constexpr const char* ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen";
+constexpr const char* ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi";
+constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi";
 
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
-#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa voimistua ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
+constexpr const char* ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE =
+  "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]";
+constexpr const char* ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE =
+  "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]";
+constexpr const char* ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli alkaa voimistua ja kaantyy [etelaan]";
+constexpr const char* ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE =
+  "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]";
+constexpr const char* ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE =
+  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]";
+constexpr const char* ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE =
+  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]";
 
 namespace
 {

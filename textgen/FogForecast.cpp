@@ -46,23 +46,23 @@ using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 
-#define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] sumua"
-#define TIME_PLACE_FOG_COMPOSITE_PHRASE "[huomenna] [sisamaassa] sumua"
-#define PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[sisamaassa] [paikoin] sumua"
-#define PLACE_FOG_COMPOSITE_PHRASE "[sisamaassa] sumua"
-#define TIME_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua"
-#define TIME_FOG_COMPOSITE_PHRASE "[huomenna] sumua"
-#define INPLACES_FOG_COMPOSITE_PHRASE "[paikoin] sumua"
+constexpr const char* TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] [paikoin] sumua";
+constexpr const char* TIME_PLACE_FOG_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] sumua";
+constexpr const char* PLACE_INPLACES_FOG_COMPOSITE_PHRASE = "[sisamaassa] [paikoin] sumua";
+constexpr const char* PLACE_FOG_COMPOSITE_PHRASE = "[sisamaassa] sumua";
+constexpr const char* TIME_INPLACES_FOG_COMPOSITE_PHRASE = "[huomenna] [paikoin] sumua";
+constexpr const char* TIME_FOG_COMPOSITE_PHRASE = "[huomenna] sumua";
+constexpr const char* INPLACES_FOG_COMPOSITE_PHRASE = "[paikoin] sumua";
 
-#define TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] sumua, joka voi olla sakeaa"
-#define TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sisamaassa] sumua, joka voi olla sakeaa"
-#define PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE \
-  "[sisamaassa] [paikoin] sumua, joka voi olla sakeaa"
-#define PLACE_FOG_DENSE_COMPOSITE_PHRASE "[sisamaassa] sumua, joka voi olla sakeaa"
-#define TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua, joka voi olla sakeaa"
-#define TIME_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] sumua, joka voi olla sakeaa"
-#define INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[paikoin] sumua, joka voi olla sakeaa"
+constexpr const char* TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] sumua, joka voi olla sakeaa";
+constexpr const char* TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] sumua, joka voi olla sakeaa";
+constexpr const char* PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE =
+  "[sisamaassa] [paikoin] sumua, joka voi olla sakeaa";
+constexpr const char* PLACE_FOG_DENSE_COMPOSITE_PHRASE = "[sisamaassa] sumua, joka voi olla sakeaa";
+constexpr const char* TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE = "[huomenna] [paikoin] sumua, joka voi olla sakeaa";
+constexpr const char* TIME_FOG_DENSE_COMPOSITE_PHRASE = "[huomenna] sumua, joka voi olla sakeaa";
+constexpr const char* INPLACES_FOG_DENSE_COMPOSITE_PHRASE = "[paikoin] sumua, joka voi olla sakeaa";
 
 namespace
 {

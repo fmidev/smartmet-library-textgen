@@ -3148,10 +3148,10 @@ std::string quadrant_phrase_key(WeatherArea::Type type)
 //   PLAIN:         args = (gustsPhrase, peakInt, mpsUnit)               → [1] [2] [3]
 //   ONE_QUALIFIER: args = (qualifier,   gustsPhrase, peakInt, mpsUnit)  → [1] [2] [3] [4]
 //   TWO_QUALIFIER: args = (time, quadrant, gustsPhrase, peakInt, mpsUnit) → [1] [2] [3] [4] [5]
-#define CONVECTIVE_CELL_PLAIN_PHRASE "paikoin [puuskia], kovimmillaan [n] [m/s]"
-#define CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
-#define CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE \
-  "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+constexpr const char* CONVECTIVE_CELL_PLAIN_PHRASE = "paikoin [puuskia], kovimmillaan [n] [m/s]";
+constexpr const char* CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE = "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]";
+constexpr const char* CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE =
+  "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]";
 
 }  // namespace
 

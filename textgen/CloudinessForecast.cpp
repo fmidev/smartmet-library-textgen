@@ -45,36 +45,36 @@ using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 
-#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
-#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
-#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
-  "[huomenna] saa vaihtelee puolipilvisesta pilviseen"
+constexpr const char* HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
+constexpr const char* SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
+constexpr const char* HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
+  "[huomenna] saa vaihtelee puolipilvisesta pilviseen";
 
-#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
-#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
-#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+constexpr const char* HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+constexpr const char* SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+constexpr const char* HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 
-#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa on [selkea]"
-#define SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[sisamaassa] saa on [selkea]"
-#define HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] saa on [selkea]"
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] saa on [selkea]";
+constexpr const char* SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[sisamaassa] saa on [selkea]";
+constexpr const char* HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[huomenna] saa on [selkea]";
 
-#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa on [selkea] ja poutainen"
-#define SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa on [selkea] ja poutainen"
-#define HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] saa on [selkea] ja poutainen"
-#define SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "saa on [selkea] ja poutainen"
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa on [selkea] ja poutainen";
+constexpr const char* SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa on [selkea] ja poutainen";
+constexpr const char* HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] saa on [selkea] ja poutainen";
+constexpr const char* SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE = "saa on [selkea] ja poutainen";
 
-#define ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE "[iltapaivasta alkaen] [pilvistyvaa]"
+constexpr const char* ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE = "[iltapaivasta alkaen] [pilvistyvaa]";
 
-#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE \
-  "saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+constexpr const char* PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE =
+  "saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 
 namespace
 {

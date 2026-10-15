@@ -21,7 +21,7 @@
 #ifdef UNIX
 #include <unistd.h>
 #else
-#define R_OK 4
+constexpr int R_OK = 4;
 #include <io.h>
 #endif
 

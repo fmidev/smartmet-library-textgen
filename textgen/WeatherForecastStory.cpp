@@ -23,12 +23,12 @@
 
 using namespace std;
 
-#define USE_FROM_SPECIFIER true
-#define DONT_USE_FROM_SPECIFIER false
-#define USE_SHORT_FORM true
-#define DONT_USE_SHORT_FORM false
-#define USE_TIME_SPECIFIER true
-#define DONT_USE_TIME_SPECIFIER false
+constexpr bool USE_FROM_SPECIFIER = true;
+constexpr bool DONT_USE_FROM_SPECIFIER = false;
+constexpr bool USE_SHORT_FORM = true;
+constexpr bool DONT_USE_SHORT_FORM = false;
+constexpr bool USE_TIME_SPECIFIER = true;
+constexpr bool DONT_USE_TIME_SPECIFIER = false;
 
 namespace TextGen
 {

@@ -35,7 +35,7 @@
 #include <newbase/NFmiStringTools.h>
 #include <iomanip>
 #include <map>
-#define BOOST_FILESYSTEM_VERSION 3
+constexpr int BOOST_FILESYSTEM_VERSION = 3;
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 namespace boostfs = std::filesystem;
 
@@ -49,12 +49,12 @@ using namespace TextGen;
 using namespace AreaTools;
 using namespace SeasonTools;
 
-#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisamaassa] hallan vaara"
-#define ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE "[sisamaassa] alavilla mailla hallan vaara"
-#define MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE "[rannikolla] mahdollisesti hallaa"
-#define PAIKOIN_HALLAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa"
-#define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE \
-  "[rannikolla] [paikoin] hallaa, joka voi olla ankaraa"
+constexpr const char* HALLAN_VAARA_COMPOSITE_PHRASE = "[sisamaassa] hallan vaara";
+constexpr const char* ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE = "[sisamaassa] alavilla mailla hallan vaara";
+constexpr const char* MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE = "[rannikolla] mahdollisesti hallaa";
+constexpr const char* PAIKOIN_HALLAA_COMPOSITE_PHRASE = "[rannikolla] [paikoin] hallaa";
+constexpr const char* PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE =
+  "[rannikolla] [paikoin] hallaa, joka voi olla ankaraa";
 
 namespace
 {

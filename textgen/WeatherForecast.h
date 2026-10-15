@@ -25,253 +25,251 @@ class ThunderForecast;
 class Sentence;
 class GlyphContainer;
 
-#define EMPTY_STRING "empty_string"
-#define SPACE_STRING " "
-#define COMMA_PUNCTUATION_MARK ","
-#define COLON_PUNCTUATION_MARK ":"
-#define INTENSITY_PARAMETER "intensity"
-#define PRECIPITATION_PARAMETER "precipitation"
-#define IN_PLACES_PARAMETER "paikoin"
-#define PLAIN_PRECIPITATION_PHRASE "precipitation phrase"
+constexpr const char* EMPTY_STRING = "empty_string";
+constexpr const char* SPACE_STRING = " ";
+constexpr const char* COMMA_PUNCTUATION_MARK = ",";
+constexpr const char* COLON_PUNCTUATION_MARK = ":";
+constexpr const char* INTENSITY_PARAMETER = "intensity";
+constexpr const char* PRECIPITATION_PARAMETER = "precipitation";
+constexpr const char* IN_PLACES_PARAMETER = "paikoin";
+constexpr const char* PLAIN_PRECIPITATION_PHRASE = "precipitation phrase";
 
-#define INLAND_PHRASE "sisamaassa"
-#define COAST_PHRASE "rannikolla"
-#define SADE_ALKAA_PHRASE "sade alkaa"
-#define AAMULLA_WORD "aamulla"
-#define AAMUPAIVALLA_WORD "aamupaivalla"
-#define ILTAPAIVALLA_WORD "iltapaivalla"
-#define PAIVALLA_WORD "paivalla"
-#define ILLALLA_WORD "illalla"
-#define ILTAYOLLA_WORD "iltayolla"
-#define KESKIYOLLA_WORD "keskiyolla"
-#define KESKIPAIVALLA_WORD "keskipaivalla"
-#define AAMUYOLLA_WORD "aamuyolla"
-#define YOLLA_WORD "yolla"
-#define TANAAN_WORD "tanaan"
-#define HUOMENNA_WORD "huomenna"
-#define ALUKSI_WORD "aluksi"
-#define MYOHEMMIN_WORD "myohemmin"
-#define TILAPAISESTI_WORD "tilapaisesti"
+constexpr const char* INLAND_PHRASE = "sisamaassa";
+constexpr const char* COAST_PHRASE = "rannikolla";
+constexpr const char* SADE_ALKAA_PHRASE = "sade alkaa";
+constexpr const char* AAMULLA_WORD = "aamulla";
+constexpr const char* AAMUPAIVALLA_WORD = "aamupaivalla";
+constexpr const char* ILTAPAIVALLA_WORD = "iltapaivalla";
+constexpr const char* PAIVALLA_WORD = "paivalla";
+constexpr const char* ILLALLA_WORD = "illalla";
+constexpr const char* ILTAYOLLA_WORD = "iltayolla";
+constexpr const char* KESKIYOLLA_WORD = "keskiyolla";
+constexpr const char* KESKIPAIVALLA_WORD = "keskipaivalla";
+constexpr const char* AAMUYOLLA_WORD = "aamuyolla";
+constexpr const char* YOLLA_WORD = "yolla";
+constexpr const char* TANAAN_WORD = "tanaan";
+constexpr const char* HUOMENNA_WORD = "huomenna";
+constexpr const char* ALUKSI_WORD = "aluksi";
+constexpr const char* MYOHEMMIN_WORD = "myohemmin";
+constexpr const char* TILAPAISESTI_WORD = "tilapaisesti";
 
-#define SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE "saa on enimmakseen poutaista"
-#define SAA_ON_POUTAINEN_PHRASE "saa on poutainen"
-#define HEIKKOJA_WORD "heikkoja"
-#define SAKEITA_WORD "sakeita"
-#define RUNSAITA_WORD "runsaita"
-#define ENIMMAKSEEN_WORD "enimmakseen"
-#define SAA_WORD "saa"
-#define ON_WORD "on"
-#define SAADAAN_WORD "saadaan"
-#define HEIKKOA_WORD "heikkoa"
-#define SAKEAA_WORD "sakeaa"
-#define KOVAA_WORD "kovaa"
-#define SADETTA_WORD "sadetta"
-#define RUNSASTA_VESISADETTA_PHRASE "runsasta vesisadetta"
-#define RUNSASTA_SADETTA_PHRASE "runsasta sadetta"
-#define VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE "vaihtelee puolipilvisesta pilviseen"
-#define VERRATTAIN_PILVINEN_PHRASE "verrattain pilvinen"
-#define SELKEA_WORD "selkea"
-#define PILVINEN_WORD "pilvinen"
-#define SADETTA_WORD "sadetta"
-#define MELKO_SELKEA_PHRASE "melko selkea"
-#define PUOLIPILVINEN_WORD "puolipilvinen"
-#define HEIKKOA_SADETTA_PHRASE "heikkoa sadetta"
-#define HEIKKOA_VESISADETTA_PHRASE "heikkoa vesisadetta"
-#define HEIKKOJA_VESIKUUROJA_PHRASE "heikkoja vesikuuroja"
-#define VOIMAKKAITA_VESIKUUROJA_PHRASE "voimakkaita vesikuuroja"
-#define PAIKOIN_WORD "paikoin"
-#define MONIN_PAIKOIN_WORD "monin paikoin"
-#define PILVISTYVAA_WORD "pilvistyvaa"
-#define SELKENEVAA_WORD "selkenevaa"
-#define SAA_POUTAANTUU_PHRASE "saa poutaantuu"
-#define MAHDOLLISESTI_UKKOSTA_PHRASE "mahdollisesti ukkosta"
-#define PAIKOIN_UKKOSTA_PHRASE "paikoin ukkosta"
-#define UKKOSTA_WORD "ukkosta"
+constexpr const char* SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE = "saa on enimmakseen poutaista";
+constexpr const char* SAA_ON_POUTAINEN_PHRASE = "saa on poutainen";
+constexpr const char* HEIKKOJA_WORD = "heikkoja";
+constexpr const char* SAKEITA_WORD = "sakeita";
+constexpr const char* RUNSAITA_WORD = "runsaita";
+constexpr const char* ENIMMAKSEEN_WORD = "enimmakseen";
+constexpr const char* SAA_WORD = "saa";
+constexpr const char* ON_WORD = "on";
+constexpr const char* SAADAAN_WORD = "saadaan";
+constexpr const char* HEIKKOA_WORD = "heikkoa";
+constexpr const char* SAKEAA_WORD = "sakeaa";
+constexpr const char* KOVAA_WORD = "kovaa";
+constexpr const char* SADETTA_WORD = "sadetta";
+constexpr const char* RUNSASTA_VESISADETTA_PHRASE = "runsasta vesisadetta";
+constexpr const char* RUNSASTA_SADETTA_PHRASE = "runsasta sadetta";
+constexpr const char* VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE = "vaihtelee puolipilvisesta pilviseen";
+constexpr const char* VERRATTAIN_PILVINEN_PHRASE = "verrattain pilvinen";
+constexpr const char* SELKEA_WORD = "selkea";
+constexpr const char* PILVINEN_WORD = "pilvinen";
+constexpr const char* MELKO_SELKEA_PHRASE = "melko selkea";
+constexpr const char* PUOLIPILVINEN_WORD = "puolipilvinen";
+constexpr const char* HEIKKOA_SADETTA_PHRASE = "heikkoa sadetta";
+constexpr const char* HEIKKOA_VESISADETTA_PHRASE = "heikkoa vesisadetta";
+constexpr const char* HEIKKOJA_VESIKUUROJA_PHRASE = "heikkoja vesikuuroja";
+constexpr const char* VOIMAKKAITA_VESIKUUROJA_PHRASE = "voimakkaita vesikuuroja";
+constexpr const char* PAIKOIN_WORD = "paikoin";
+constexpr const char* MONIN_PAIKOIN_WORD = "monin paikoin";
+constexpr const char* PILVISTYVAA_WORD = "pilvistyvaa";
+constexpr const char* SELKENEVAA_WORD = "selkenevaa";
+constexpr const char* SAA_POUTAANTUU_PHRASE = "saa poutaantuu";
+constexpr const char* MAHDOLLISESTI_UKKOSTA_PHRASE = "mahdollisesti ukkosta";
+constexpr const char* PAIKOIN_UKKOSTA_PHRASE = "paikoin ukkosta";
+constexpr const char* UKKOSTA_WORD = "ukkosta";
 
-#define HEIKKOJA_SADEKUUROJA_PHRASE "heikkoja sadekuuroja"
-#define VOIMAKKAITA_SADEKUUROJA_PHRASE "voimakkaita sadekuuroja"
-#define SADEKUUROJA_WORD "sadekuuroja"
-#define LUMIKUUROJA_WORD "lumikuuroja"
-#define SADEKUUROJA_WORD "sadekuuroja"
-#define RANTAKUUROJA_WORD "rantakuuroja"
-#define VESIKUUROJA_WORD "vesikuuroja"
-#define RANTASADETTA_WORD "rantasadetta"
-#define VESISADETTA_WORD "vesisadetta"
-#define LUMISADETTA_WORD "lumisadetta"
-#define TIHKUSADETTA_WORD "tihkusadetta"
+constexpr const char* HEIKKOJA_SADEKUUROJA_PHRASE = "heikkoja sadekuuroja";
+constexpr const char* VOIMAKKAITA_SADEKUUROJA_PHRASE = "voimakkaita sadekuuroja";
+constexpr const char* SADEKUUROJA_WORD = "sadekuuroja";
+constexpr const char* LUMIKUUROJA_WORD = "lumikuuroja";
+constexpr const char* RANTAKUUROJA_WORD = "rantakuuroja";
+constexpr const char* VESIKUUROJA_WORD = "vesikuuroja";
+constexpr const char* RANTASADETTA_WORD = "rantasadetta";
+constexpr const char* VESISADETTA_WORD = "vesisadetta";
+constexpr const char* LUMISADETTA_WORD = "lumisadetta";
+constexpr const char* TIHKUSADETTA_WORD = "tihkusadetta";
 
-#define RANTA_TAI_LUMISADETTA_PHRASE "ranta- tai lumisadetta"
-#define LUMI_TAI_RANTASADETTA_PHRASE "lumi- tai rantasadetta"
-#define LUMI_TAI_VESISADETTA_PHRASE "lumi- tai vesisadetta"
-#define VESI_TAI_LUMISADETTA_PHRASE "vesi- tai lumisadetta"
-#define RANTA_TAI_VESISADETTA_PHRASE "ranta- tai vesisadetta"
-#define VESI_TAI_RANTASADETTA_PHRASE "vesi- tai rantasadetta"
-#define RANTA_TAI_VESIKUUROJA_PHRASE "ranta- tai vesikuuroja"
-#define VESI_TAI_RANTAKUUROJA_PHRASE "vesi- tai rantakuuroja"
-#define VESI_TAI_LUMIKUUROJA_PHRASE "vesi- tai lumikuuroja"
-#define LUMI_TAI_VESIKUUROJA_PHRASE "lumi- tai vesikuuroja"
-#define LUMI_TAI_TIHKUSADETTA_PHRASE "lumi- tai tihkusadetta"
-#define VESI_TAI_TIHKUSADETTA_PHRASE "vesi- tai tihkusadetta"
-#define RANTA_TAI_TIHKUSADETTA_PHRASE "ranta- tai tihkusadetta"
+constexpr const char* RANTA_TAI_LUMISADETTA_PHRASE = "ranta- tai lumisadetta";
+constexpr const char* LUMI_TAI_RANTASADETTA_PHRASE = "lumi- tai rantasadetta";
+constexpr const char* LUMI_TAI_VESISADETTA_PHRASE = "lumi- tai vesisadetta";
+constexpr const char* VESI_TAI_LUMISADETTA_PHRASE = "vesi- tai lumisadetta";
+constexpr const char* RANTA_TAI_VESISADETTA_PHRASE = "ranta- tai vesisadetta";
+constexpr const char* VESI_TAI_RANTASADETTA_PHRASE = "vesi- tai rantasadetta";
+constexpr const char* RANTA_TAI_VESIKUUROJA_PHRASE = "ranta- tai vesikuuroja";
+constexpr const char* VESI_TAI_RANTAKUUROJA_PHRASE = "vesi- tai rantakuuroja";
+constexpr const char* VESI_TAI_LUMIKUUROJA_PHRASE = "vesi- tai lumikuuroja";
+constexpr const char* LUMI_TAI_VESIKUUROJA_PHRASE = "lumi- tai vesikuuroja";
+constexpr const char* LUMI_TAI_TIHKUSADETTA_PHRASE = "lumi- tai tihkusadetta";
+constexpr const char* VESI_TAI_TIHKUSADETTA_PHRASE = "vesi- tai tihkusadetta";
+constexpr const char* RANTA_TAI_TIHKUSADETTA_PHRASE = "ranta- tai tihkusadetta";
 
-#define JA_WORD "ja"
-#define JAATAVAA_VESISADETTA_PHRASE "jaatavaa vesisadetta"
-#define JAATAVAA_TIHKUSADETTA_PHRASE "jaatavaa tihkusadetta"
-#define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla jaatavaa"
-#define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla jaatavia"
-#define YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE "yksittaiset sadekuurot mahdollisia"
-#define YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE "yksittaiset vesikuurot mahdollisia"
-#define YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE "yksittaiset rantakuurot mahdollisia"
-#define YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE "yksittaiset lumikuurot mahdollisia"
-#define YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE \
-  "yksittaiset vesi- tai rantakuurot mahdollisia"
-#define YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE \
-  "yksittaiset ranta- tai vesikuurot mahdollisia"
-#define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE \
-  "yksittaiset lumi- tai rantakuurot mahdollisia"
-#define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE \
-  "yksittaiset vesi- tai lumikuurot mahdollisia"
-#define JOKA_MUUTTUU_LUMISATEEKSI_PHRASE "joka muuttuu lumisateeksi"
-#define JOKA_MUUTTUU_VESISATEEKSI_PHRASE "joka muuttuu vesisateeksi"
-#define JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE "joka muuttuu tihkusateeksi"
-#define JOKA_MUUTTUU_RANTASATEEKSI_PHRASE "joka muuttuu rantasateeksi"
-#define JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE "jotka muuttuvat rantakuuroiksi"
-#define JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE "jotka muuttuvat lumikuuroiksi"
+constexpr const char* JA_WORD = "ja";
+constexpr const char* JAATAVAA_VESISADETTA_PHRASE = "jaatavaa vesisadetta";
+constexpr const char* JAATAVAA_TIHKUSADETTA_PHRASE = "jaatavaa tihkusadetta";
+constexpr const char* JOKA_VOI_OLLA_JAATAVAA_PHRASE = "joka voi olla jaatavaa";
+constexpr const char* JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE = "jotka voivat olla jaatavia";
+constexpr const char* YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset sadekuurot mahdollisia";
+constexpr const char* YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset vesikuurot mahdollisia";
+constexpr const char* YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset rantakuurot mahdollisia";
+constexpr const char* YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset lumikuurot mahdollisia";
+constexpr const char* YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE =
+  "yksittaiset vesi- tai rantakuurot mahdollisia";
+constexpr const char* YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE =
+  "yksittaiset ranta- tai vesikuurot mahdollisia";
+constexpr const char* YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE =
+  "yksittaiset lumi- tai rantakuurot mahdollisia";
+constexpr const char* YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE =
+  "yksittaiset vesi- tai lumikuurot mahdollisia";
+constexpr const char* JOKA_MUUTTUU_LUMISATEEKSI_PHRASE = "joka muuttuu lumisateeksi";
+constexpr const char* JOKA_MUUTTUU_VESISATEEKSI_PHRASE = "joka muuttuu vesisateeksi";
+constexpr const char* JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE = "joka muuttuu tihkusateeksi";
+constexpr const char* JOKA_MUUTTUU_RANTASATEEKSI_PHRASE = "joka muuttuu rantasateeksi";
+constexpr const char* JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE = "jotka muuttuvat rantakuuroiksi";
+constexpr const char* JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE = "jotka muuttuvat lumikuuroiksi";
 
-#define PIKKUPAKKASTA_PHRASE "pikkupakkasta"
-#define SUMUA_WORD "sumua"
-#define JOKA_VOI_OLLA_SAKEAA_PHRASE "joka voi olla sakeaa"
+constexpr const char* PIKKUPAKKASTA_PHRASE = "pikkupakkasta";
+constexpr const char* SUMUA_WORD = "sumua";
+constexpr const char* JOKA_VOI_OLLA_SAKEAA_PHRASE = "joka voi olla sakeaa";
 
-#define ALUEEN_POHJOISOSASSA_PHRASE "alueen pohjoisosassa"
-#define ALUEEN_ETELAOSASSA_PHRASE "alueen etelaosassa"
-#define ALUEEN_ITAOSASSA_PHRASE "alueen itaosassa"
-#define ALUEEN_LANSIOSASSA_PHRASE "alueen lansiosassa"
-#define ALUEEN_KOILLISOSASSA_PHRASE "alueen koillisosassa"
-#define ALUEEN_KAAKKOISOSASSA_PHRASE "alueen kaakkoisosassa"
-#define ALUEEN_LOUNAISOSASSA_PHRASE "alueen lounaisosassa"
-#define ALUEEN_LUOTEISOSASSA_PHRASE "alueen luoteisosassa"
+constexpr const char* ALUEEN_POHJOISOSASSA_PHRASE = "alueen pohjoisosassa";
+constexpr const char* ALUEEN_ETELAOSASSA_PHRASE = "alueen etelaosassa";
+constexpr const char* ALUEEN_ITAOSASSA_PHRASE = "alueen itaosassa";
+constexpr const char* ALUEEN_LANSIOSASSA_PHRASE = "alueen lansiosassa";
+constexpr const char* ALUEEN_KOILLISOSASSA_PHRASE = "alueen koillisosassa";
+constexpr const char* ALUEEN_KAAKKOISOSASSA_PHRASE = "alueen kaakkoisosassa";
+constexpr const char* ALUEEN_LOUNAISOSASSA_PHRASE = "alueen lounaisosassa";
+constexpr const char* ALUEEN_LUOTEISOSASSA_PHRASE = "alueen luoteisosassa";
 
-#define AAMUSTA_ALKAEN_PHRASE "aamusta alkaen"
-#define AAMUPAIVASTA_ALKAEN_PHRASE "aamupaivasta alkaen"
-#define ILTAPAIVASTA_ALKAEN_PHRASE "iltapaivasta alkaen"
-#define ILLASTA_ALKAEN_PHRASE "illasta alkaen"
-#define ILTAYOSTA_ALKAEN_PHRASE "iltayosta alkaen"
-#define KESKIYOSTA_ALKAEN_PHRASE "keskiyosta alkaen"
-#define KESKIPAIVASTA_ALKAEN_PHRASE "keskipaivasta alkaen"
-#define AAMUYOSTA_ALKAEN_PHRASE "aamuyosta alkaen"
-#define AAMUUN_ASTI_PHRASE "aamuun asti"
-#define AAMUPAIVAAN_ASTI_PHRASE "aamupaivaan asti"
-#define ILTAPAIVAAN_ASTI_PHRASE "iltapaivaan asti"
-#define ILTAAN_ASTI_PHRASE "iltaan asti"
-#define ILTAYOHON_ASTI_PHRASE "iltayohon asti"
-#define KESKIYOHON_ASTI_PHRASE "keskiyohon asti"
-#define KESKIPAIVAAN_ASTI_PHRASE "keskipaivaan asti"
-#define AAMUYOHON_ASTI_PHRASE "aamuyohon asti"
+constexpr const char* AAMUSTA_ALKAEN_PHRASE = "aamusta alkaen";
+constexpr const char* AAMUPAIVASTA_ALKAEN_PHRASE = "aamupaivasta alkaen";
+constexpr const char* ILTAPAIVASTA_ALKAEN_PHRASE = "iltapaivasta alkaen";
+constexpr const char* ILLASTA_ALKAEN_PHRASE = "illasta alkaen";
+constexpr const char* ILTAYOSTA_ALKAEN_PHRASE = "iltayosta alkaen";
+constexpr const char* KESKIYOSTA_ALKAEN_PHRASE = "keskiyosta alkaen";
+constexpr const char* KESKIPAIVASTA_ALKAEN_PHRASE = "keskipaivasta alkaen";
+constexpr const char* AAMUYOSTA_ALKAEN_PHRASE = "aamuyosta alkaen";
+constexpr const char* AAMUUN_ASTI_PHRASE = "aamuun asti";
+constexpr const char* AAMUPAIVAAN_ASTI_PHRASE = "aamupaivaan asti";
+constexpr const char* ILTAPAIVAAN_ASTI_PHRASE = "iltapaivaan asti";
+constexpr const char* ILTAAN_ASTI_PHRASE = "iltaan asti";
+constexpr const char* ILTAYOHON_ASTI_PHRASE = "iltayohon asti";
+constexpr const char* KESKIYOHON_ASTI_PHRASE = "keskiyohon asti";
+constexpr const char* KESKIPAIVAAN_ASTI_PHRASE = "keskipaivaan asti";
+constexpr const char* AAMUYOHON_ASTI_PHRASE = "aamuyohon asti";
 
-#define AAMULLA_JA_AAMUPAIVALLA_PHRASE "aamulla ja aamupaivalla"
-#define ILTAPAIVALLA_JA_ILLALLA_PHRASE "iltapaivalla ja illalla"
-#define ILLALLA_JA_ILTAYOLLA_PHRASE "illalla ja iltayolla"
-#define ILTAYOLLA_JA_KESKIYOLLA_PHRASE "iltayolla ja keskiyolla"
-#define KESKIYOLLA_JA_AAMUYOLLA_PHRASE "keskiyolla ja aamuyolla"
-#define AAMUYOLLA_JA_AAMULLA_PHRASE "aamuyolla ja aamulla"
-#define YOLLA_JA_AAMULLA_PHRASE "yolla ja aamulla"
-#define AAMULLA_JA_PAIVALLA_PHRASE "aamulla ja paivalla"
-#define PAIVALLA_JA_ILLALLA_PHRASE "paivalla ja illalla"
-#define ILLALLA_JA_YOLLA_PHRASE "illalla ja yolla"
+constexpr const char* AAMULLA_JA_AAMUPAIVALLA_PHRASE = "aamulla ja aamupaivalla";
+constexpr const char* ILTAPAIVALLA_JA_ILLALLA_PHRASE = "iltapaivalla ja illalla";
+constexpr const char* ILLALLA_JA_ILTAYOLLA_PHRASE = "illalla ja iltayolla";
+constexpr const char* ILTAYOLLA_JA_KESKIYOLLA_PHRASE = "iltayolla ja keskiyolla";
+constexpr const char* KESKIYOLLA_JA_AAMUYOLLA_PHRASE = "keskiyolla ja aamuyolla";
+constexpr const char* AAMUYOLLA_JA_AAMULLA_PHRASE = "aamuyolla ja aamulla";
+constexpr const char* YOLLA_JA_AAMULLA_PHRASE = "yolla ja aamulla";
+constexpr const char* AAMULLA_JA_PAIVALLA_PHRASE = "aamulla ja paivalla";
+constexpr const char* PAIVALLA_JA_ILLALLA_PHRASE = "paivalla ja illalla";
+constexpr const char* ILLALLA_JA_YOLLA_PHRASE = "illalla ja yolla";
 
-#define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
-#define ETELASTA_ALKAEN_PHRASE "etelasta alkaen"
-#define IDASTA_ALKAEN_PHRASE "idasta alkaen"
-#define LANNESTA_ALKAEN_PHRASE "lannesta alkaen"
-#define KOILLISESTA_ALKAEN_PHRASE "koillisesta alkaen"
-#define KAAKOSTA_ALKAEN_PHRASE "kaakosta alkaen"
-#define LOUNAASTA_ALKAEN_PHRASE "lounaasta alkaen"
-#define LUOTEESTA_ALKAEN_PHRASE "luoteesta alkaen"
-#define HYVA_NAKYVYYS_PHRASE "hyva nakyvyys"
-#define ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE "enimmakseen hyva nakyvyys"
-#define MUUTEN_HYVA_NAKYVYYS_PHRASE "muuten hyva nakyvyys"
-#define JA_HUONO_NAKYVYYS_PHRASE "ja huono nakyvyys"
-#define HUONO_NAKYVYYS_PHRASE "huono nakyvyys"
+constexpr const char* POHJOISESTA_ALKAEN_PHRASE = "pohjoisesta alkaen";
+constexpr const char* ETELASTA_ALKAEN_PHRASE = "etelasta alkaen";
+constexpr const char* IDASTA_ALKAEN_PHRASE = "idasta alkaen";
+constexpr const char* LANNESTA_ALKAEN_PHRASE = "lannesta alkaen";
+constexpr const char* KOILLISESTA_ALKAEN_PHRASE = "koillisesta alkaen";
+constexpr const char* KAAKOSTA_ALKAEN_PHRASE = "kaakosta alkaen";
+constexpr const char* LOUNAASTA_ALKAEN_PHRASE = "lounaasta alkaen";
+constexpr const char* LUOTEESTA_ALKAEN_PHRASE = "luoteesta alkaen";
+constexpr const char* HYVA_NAKYVYYS_PHRASE = "hyva nakyvyys";
+constexpr const char* ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE = "enimmakseen hyva nakyvyys";
+constexpr const char* MUUTEN_HYVA_NAKYVYYS_PHRASE = "muuten hyva nakyvyys";
+constexpr const char* JA_HUONO_NAKYVYYS_PHRASE = "ja huono nakyvyys";
+constexpr const char* HUONO_NAKYVYYS_PHRASE = "huono nakyvyys";
 
-#define SADEALUE_WORD "sadealue"
-#define SAAPUU_WORD "saapuu"
-#define POHJOISESTA_WORD "pohjoisesta"
-#define ETELASTA_WORD "etelasta"
-#define IDASTA_WORD "idasta"
-#define LANNESTA_WORD "lannesta"
-#define KOILLISESTA_WORD "koillisesta"
-#define KAAKOSTA_WORD "kaakosta"
-#define LOUNAASTA_WORD "lounaasta"
-#define LUOTEESTA_WORD "luoteesta"
+constexpr const char* SADEALUE_WORD = "sadealue";
+constexpr const char* SAAPUU_WORD = "saapuu";
+constexpr const char* POHJOISESTA_WORD = "pohjoisesta";
+constexpr const char* ETELASTA_WORD = "etelasta";
+constexpr const char* IDASTA_WORD = "idasta";
+constexpr const char* LANNESTA_WORD = "lannesta";
+constexpr const char* KOILLISESTA_WORD = "koillisesta";
+constexpr const char* KAAKOSTA_WORD = "kaakosta";
+constexpr const char* LOUNAASTA_WORD = "lounaasta";
+constexpr const char* LUOTEESTA_WORD = "luoteesta";
 
-#define HORIZONTAL_SPLIT_KEY "horizontal"
-#define VERTICAL_SPLIT_KEY "vertical"
+constexpr const char* HORIZONTAL_SPLIT_KEY = "horizontal";
+constexpr const char* VERTICAL_SPLIT_KEY = "vertical";
 
-#define SELKEA_UPPER_LIMIT 19.9
-#define MELKEIN_SELKEA_LOWER_LIMIT 19.9
-#define MELKEIN_SELKEA_UPPER_LIMIT 33.0
-#define PUOLIPILVISTA_LOWER_LIMIT 33.0
-#define PUOLIPILVISTA_UPPER_LIMIT 72.0
-#define VERRATTAIN_PILVISTA_LOWER_LIMIT 72.0
-#define VERRATTAIN_PILVISTA_UPPER_LIMIT 93.0
-#define PILVISTA_LOWER_LIMIT 93.0
+constexpr double SELKEA_UPPER_LIMIT = 19.9;
+constexpr double MELKEIN_SELKEA_LOWER_LIMIT = 19.9;
+constexpr double MELKEIN_SELKEA_UPPER_LIMIT = 33.0;
+constexpr double PUOLIPILVISTA_LOWER_LIMIT = 33.0;
+constexpr double PUOLIPILVISTA_UPPER_LIMIT = 72.0;
+constexpr double VERRATTAIN_PILVISTA_LOWER_LIMIT = 72.0;
+constexpr double VERRATTAIN_PILVISTA_UPPER_LIMIT = 93.0;
+constexpr double PILVISTA_LOWER_LIMIT = 93.0;
 
-#define PILVISTYVAA_LOWER_LIMIT 20.0
-#define PILVISTYVAA_UPPER_LIMIT 72.0
+constexpr double PILVISTYVAA_LOWER_LIMIT = 20.0;
+constexpr double PILVISTYVAA_UPPER_LIMIT = 72.0;
 
-#define TAYSIN_PILVETON_LIMIT 5.0
-#define HYVIN_PILVINEN_LIMIT 70.0
+constexpr double TAYSIN_PILVETON_LIMIT = 5.0;
+constexpr double HYVIN_PILVINEN_LIMIT = 70.0;
 
-#define DRY_WEATHER_LIMIT_WATER 0.04
-#define DRY_WEATHER_LIMIT_DRIZZLE 0.02
-#define DRY_WEATHER_LIMIT_SLEET 0.02
-#define DRY_WEATHER_LIMIT_SNOW 0.02
-#define WEAK_PRECIPITATION_LIMIT_WATER 0.4
-#define WEAK_PRECIPITATION_LIMIT_SLEET 0.4
-#define WEAK_PRECIPITATION_LIMIT_SNOW 0.4
-#define HEAVY_PRECIPITATION_LIMIT_WATER 4.0
-#define HEAVY_PRECIPITATION_LIMIT_SLEET 1.7
-#define HEAVY_PRECIPITATION_LIMIT_SNOW 1.5
-#define RAINSTORM_LIMIT 7.0
-#define MOSTLY_DRY_WEATHER_LIMIT 10.0
-#define IN_SOME_PLACES_LOWER_LIMIT_FOG 20.0
-#define IN_SOME_PLACES_LOWER_LIMIT 10.0
-#define IN_SOME_PLACES_UPPER_LIMIT 50.0
-#define IN_MANY_PLACES_LOWER_LIMIT 50.0
-#define IN_MANY_PLACES_UPPER_LIMIT 90.0
-#define FREEZING_RAIN_LIMIT 10
-#define PRECIPITATION_FORM_REPORTING_LIMIT 10.0  // at least 10% must be of the type to be mentioned
+constexpr double DRY_WEATHER_LIMIT_WATER = 0.04;
+constexpr double DRY_WEATHER_LIMIT_DRIZZLE = 0.02;
+constexpr double DRY_WEATHER_LIMIT_SLEET = 0.02;
+constexpr double DRY_WEATHER_LIMIT_SNOW = 0.02;
+constexpr double WEAK_PRECIPITATION_LIMIT_WATER = 0.4;
+constexpr double WEAK_PRECIPITATION_LIMIT_SLEET = 0.4;
+constexpr double WEAK_PRECIPITATION_LIMIT_SNOW = 0.4;
+constexpr double HEAVY_PRECIPITATION_LIMIT_WATER = 4.0;
+constexpr double HEAVY_PRECIPITATION_LIMIT_SLEET = 1.7;
+constexpr double HEAVY_PRECIPITATION_LIMIT_SNOW = 1.5;
+constexpr double RAINSTORM_LIMIT = 7.0;
+constexpr double MOSTLY_DRY_WEATHER_LIMIT = 10.0;
+constexpr double IN_SOME_PLACES_LOWER_LIMIT_FOG = 20.0;
+constexpr double IN_SOME_PLACES_LOWER_LIMIT = 10.0;
+constexpr double IN_SOME_PLACES_UPPER_LIMIT = 50.0;
+constexpr double IN_MANY_PLACES_LOWER_LIMIT = 50.0;
+constexpr double IN_MANY_PLACES_UPPER_LIMIT = 90.0;
+constexpr int FREEZING_RAIN_LIMIT = 10;
+constexpr double PRECIPITATION_FORM_REPORTING_LIMIT = 10.0;  // at least 10% must be of the type to be mentioned
 
-#define SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT 0.1
-#define SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT 15.0
-#define POSSIBLY_THUNDER_LOWER_LIMIT 15.0
-#define POSSIBLY_THUNDER_UPPER_LIMIT 35.0
-#define OCCASIONALLY_THUNDER_LOWER_LIMIT 35.0
-#define OCCASIONALLY_THUNDER_UPPER_LIMIT 110.0
-#define MAJORITY_LIMIT 50.0
-#define SEPARATE_COASTAL_AREA_PERCENTAGE 5.0
+constexpr double SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT = 0.1;
+constexpr double SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT = 15.0;
+constexpr double POSSIBLY_THUNDER_LOWER_LIMIT = 15.0;
+constexpr double POSSIBLY_THUNDER_UPPER_LIMIT = 35.0;
+constexpr double OCCASIONALLY_THUNDER_LOWER_LIMIT = 35.0;
+constexpr double OCCASIONALLY_THUNDER_UPPER_LIMIT = 110.0;
+constexpr double MAJORITY_LIMIT = 50.0;
+constexpr double SEPARATE_COASTAL_AREA_PERCENTAGE = 5.0;
 
-#define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65  // pearson coefficient
-#define PEARSON_CO_FORM_TRANSFORM 0.65
+constexpr double TREND_CHANGE_COEFFICIENT_TRESHOLD = 0.65;  // pearson coefficient
+constexpr double PEARSON_CO_FORM_TRANSFORM = 0.65;
 
-#define KESKIYO_START 0
-#define KESKIYO_END 3
-#define AAMUYO_START 3
-#define AAMUYO_END 6
-#define AAMU_START 6
-#define AAMU_END 9
-#define AAMUPAIVA_START 9
-#define AAMUPAIVA_END 12
-#define PAIVA_START 10
-#define PAIVA_END 18
-#define ILTAPAIVA_START 12
-#define ILTAPAIVA_END 18
-#define ILTA_START 17
-#define ILTA_END 22
-#define ILTAYO_START 21
-#define ILTAYO_END 23
-#define YO_START 22
-#define YO_END 6
+constexpr int KESKIYO_START = 0;
+constexpr int KESKIYO_END = 3;
+constexpr int AAMUYO_START = 3;
+constexpr int AAMUYO_END = 6;
+constexpr int AAMU_START = 6;
+constexpr int AAMU_END = 9;
+constexpr int AAMUPAIVA_START = 9;
+constexpr int AAMUPAIVA_END = 12;
+constexpr int PAIVA_START = 10;
+constexpr int PAIVA_END = 18;
+constexpr int ILTAPAIVA_START = 12;
+constexpr int ILTAPAIVA_END = 18;
+constexpr int ILTA_START = 17;
+constexpr int ILTA_END = 22;
+constexpr int ILTAYO_START = 21;
+constexpr int ILTAYO_END = 23;
+constexpr int YO_START = 22;
+constexpr int YO_END = 6;
 
 enum weather_result_data_id
 {

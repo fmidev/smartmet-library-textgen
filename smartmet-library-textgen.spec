@@ -117,6 +117,7 @@ FMI textgen development files
 - Fixed mechanical clang-tidy findings (internal linkage, unused parameters, initialization, redundant code), no functional changes
 - Fixed clang-tidy style findings (loops, nested conditionals, dead code)
 - Fixed clang-tidy correctness findings (member initialization, rule of five, printf formats, dead stores)
+- Replaced the constant macros with constexpr variables
 
 * Sun Oct 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.11-1.fmi
 - Include <array> where std::array is used, TemperatureStoryTools.cpp did not compile with clang

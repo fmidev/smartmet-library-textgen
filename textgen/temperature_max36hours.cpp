@@ -65,263 +65,263 @@ using Settings::optional_bool;
 using Settings::optional_int;
 using Settings::optional_string;
 
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on [M...N] [astetta]"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on [M...N] [astetta]";
 
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tienoilla"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tuntumassa";
 
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on lahella [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]";
 
-#define HUOMENNA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on [M...N] [astetta]"
-#define HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on [N] [asteen] tienoilla"
-#define HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on [N] [asteen] tuntumassa"
+constexpr const char* HUOMENNA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on [M...N] [astetta]";
+constexpr const char* HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on noin [N] [astetta]";
+constexpr const char* HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on [N] [asteen] tuntumassa";
 
-#define HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on lahella [N] [astetta]"
-#define HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on vajaat [N] [astetta]"
-#define HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on vahan yli [N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on [M...N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on noin [N] [astetta]"
-#define SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on [N] [asteen] tienoilla"
-#define SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+constexpr const char* HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on [M...N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on noin [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on [N] [asteen] tienoilla";
+constexpr const char* SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on [N] [asteen] tuntumassa";
 
-#define SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on lahella [N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on vajaat [N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on vahan yli [N] [astetta]"
-#define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on [M...N] [astetta]"
-#define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "pakkasta on noin [N] [astetta]"
-#define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] [asteen] tienoilla"
-#define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] [asteen] tuntumassa"
-#define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on lahella [N] [astetta]"
-#define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "pakkasta on vajaat [N] [astetta]"
-#define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on vahan yli [N] [astetta]"
+constexpr const char* SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on lahella [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on vajaat [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on vahan yli [N] [astetta]";
+constexpr const char* PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "pakkasta on [M...N] [astetta]";
+constexpr const char* PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE = "pakkasta on noin [N] [astetta]";
+constexpr const char* PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on [N] [asteen] tienoilla";
+constexpr const char* PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on [N] [asteen] tuntumassa";
+constexpr const char* PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on lahella [N] [astetta]";
+constexpr const char* PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "pakkasta on vajaat [N] [astetta]";
+constexpr const char* PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "pakkasta on vahan yli [N] [astetta]";
 
-#define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] on [M...N] [astetta]"
-#define LAMPOTILA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] [M...N] [astetta]"
-#define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[lampotila] on noin [N] [astetta]"
-#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] on [N] [asteen] tienoilla"
-#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lampotila] on [N] [asteen] tuntumassa"
-#define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] on lahella [N] [astetta]"
-#define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[lampotila] on vajaat [N] [astetta]"
-#define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] on vahan yli [N] [astetta]"
-#define LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[lampotila] on vahan nollan alapuolella"
-#define HUOMENNA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE "[huomenna] vahan nollan alapuolella"
-#define HUOMENNA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on vahan nollan alapuolella"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on vahan nollan alapuolella"
+constexpr const char* LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on [M...N] [astetta]";
+constexpr const char* LAMPOTILA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] [M...N] [astetta]";
+constexpr const char* LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on noin [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on [N] [asteen] tienoilla";
+constexpr const char* LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on lahella [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on vajaat [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on vahan yli [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[lampotila] on vahan nollan alapuolella";
+constexpr const char* HUOMENNA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE = "[huomenna] vahan nollan alapuolella";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on vahan nollan alapuolella";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on vahan nollan alapuolella";
 
-#define LAMPOTILA_NOIN_ASTETTA_COMPOSITE_PHRASE "[lampotila] noin [N] [astetta]"
-#define LAMPOTILA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] [N] [asteen] tienoilla"
-#define LAMPOTILA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lampotila] [N] [asteen] tuntumassa"
-#define LAMPOTILA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] lahella [N] [astetta]"
-#define LAMPOTILA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[lampotila] vajaat [N] [astetta]"
-#define LAMPOTILA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] vahan yli [N] [astetta]"
-#define LAMPOTILA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE "[lampotila] vahan nollan alapuolella"
+constexpr const char* LAMPOTILA_NOIN_ASTETTA_COMPOSITE_PHRASE = "[lampotila] noin [N] [astetta]";
+constexpr const char* LAMPOTILA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] [N] [asteen] tienoilla";
+constexpr const char* LAMPOTILA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] [N] [asteen] tuntumassa";
+constexpr const char* LAMPOTILA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] lahella [N] [astetta]";
+constexpr const char* LAMPOTILA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[lampotila] vajaat [N] [astetta]";
+constexpr const char* LAMPOTILA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] vahan yli [N] [astetta]";
+constexpr const char* LAMPOTILA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE = "[lampotila] vahan nollan alapuolella";
 
-#define LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[lampotila] on [suunnilleen sama]"
-#define LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[lampotila] [suunnilleen sama]"
+constexpr const char* LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[lampotila] on [suunnilleen sama]";
+constexpr const char* LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[lampotila] [suunnilleen sama]";
 
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [M...N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tienoilla"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on lahella [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on vahan yli [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [M...N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on noin [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [N] [asteen] tienoilla"
-#define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [N] [asteen] tuntumassa"
-#define HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on lahella [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on vajaat [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on vahan yli [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [M...N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on noin [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [N] [asteen] tienoilla"
-#define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
-#define SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on lahella [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on vajaat [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on vahan yli [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on vahan nollan alapuolella"
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [M...N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on noin [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on vahan yli [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [M...N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on noin [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [M...N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on noin [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [N] [asteen] tienoilla";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on lahella [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on vajaat [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on vahan nollan alapuolella";
 
-#define HUOMENNA_RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE \
-  "[huomenna] [rannikolla] on pikkupakkasta"
-#define HUOMENNA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[huomenna] on pikkupakkasta"
-#define RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[rannikolla] on pikkupakkasta"
+constexpr const char* HUOMENNA_RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE =
+  "[huomenna] [rannikolla] on pikkupakkasta";
+constexpr const char* HUOMENNA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE = "[huomenna] on pikkupakkasta";
+constexpr const char* RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE = "[rannikolla] on pikkupakkasta";
 
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on [hieman kireampaa]"
-#define HUOMENNA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on [hieman kireampaa]"
-#define SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on [hieman kireampaa]"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on [hieman kireampaa]";
+constexpr const char* HUOMENNA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on [hieman kireampaa]";
+constexpr const char* SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on [hieman kireampaa]";
 
-#define LAMPOTILA_NOUSEE_COMPOSITE_PHRASE "[yolla] lampotila nousee"
+constexpr const char* LAMPOTILA_NOUSEE_COMPOSITE_PHRASE = "[yolla] lampotila nousee";
 
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [suunnilleen sama]"
-#define HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [suunnilleen sama]"
-#define SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [suunnilleen sama]"
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [suunnilleen sama]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [suunnilleen sama]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [suunnilleen sama]";
 
-#define RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "rannikolla lahella [N] [astetta]"
-#define RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE "rannikolla noin [N] [astetta]"
-#define RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "rannikolla vajaat [N] [astetta]"
-#define RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "rannikolla vahan yli [N] [astetta]"
-#define RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "rannikolla [M...N] [astetta]"
-#define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tienoilla"
-#define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tuntumassa"
-#define RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "rannikolla [suunnilleen sama]"
-#define RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE "rannikolla vahan nollan alapuolella"
+constexpr const char* RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "rannikolla lahella [N] [astetta]";
+constexpr const char* RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE = "rannikolla noin [N] [astetta]";
+constexpr const char* RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "rannikolla vajaat [N] [astetta]";
+constexpr const char* RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "rannikolla vahan yli [N] [astetta]";
+constexpr const char* RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "rannikolla [M...N] [astetta]";
+constexpr const char* RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "rannikolla [N] [asteen] tienoilla";
+constexpr const char* RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "rannikolla [N] [asteen] tuntumassa";
+constexpr const char* RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "rannikolla [suunnilleen sama]";
+constexpr const char* RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE = "rannikolla vahan nollan alapuolella";
 
-#define HUOMENNA_SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] lahella [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] vahan yli [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [M...N] [astetta]"
-#define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [N] [asteen] tienoilla"
-#define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [N] [asteen] tuntumassa"
-#define HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [suunnilleen sama]"
-#define HUOMENNA_SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] on [hieman lauhempaa]"
-#define HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] lahella [N] [astetta]"
-#define HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] noin [N] [astetta]"
-#define HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] vajaat [N] [astetta]"
-#define HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] vahan yli [N] [astetta]"
-#define HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [M...N] [astetta]"
-#define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tienoilla"
-#define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tuntumassa"
-#define HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [suunnilleen sama]"
-#define HUOMENNA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE "[huomenna] on [hieman lauhempaa]"
-#define SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] lahella [N] [astetta]"
-#define SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] noin [N] [astetta]"
-#define SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] vajaat [N] [astetta]"
-#define SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] vahan yli [N] [astetta]"
-#define SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [M...N] [astetta]"
-#define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] [asteen] tienoilla"
-#define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] [asteen] tuntumassa"
-#define SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[sisamaassa] [suunnilleen sama]"
-#define SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE "[sisamaassa] on [hieman lauhempaa]"
+constexpr const char* HUOMENNA_SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] lahella [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] noin [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] vahan yli [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [M...N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [suunnilleen sama]";
+constexpr const char* HUOMENNA_SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] on [hieman lauhempaa]";
+constexpr const char* HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] lahella [N] [astetta]";
+constexpr const char* HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE = "[huomenna] noin [N] [astetta]";
+constexpr const char* HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[huomenna] vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[huomenna] vahan yli [N] [astetta]";
+constexpr const char* HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [M...N] [astetta]";
+constexpr const char* HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[huomenna] [suunnilleen sama]";
+constexpr const char* HUOMENNA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE = "[huomenna] on [hieman lauhempaa]";
+constexpr const char* SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] lahella [N] [astetta]";
+constexpr const char* SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] noin [N] [astetta]";
+constexpr const char* SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] vajaat [N] [astetta]";
+constexpr const char* SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] [M...N] [astetta]";
+constexpr const char* SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] [N] [asteen] tienoilla";
+constexpr const char* SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[sisamaassa] [N] [asteen] tuntumassa";
+constexpr const char* SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[sisamaassa] [suunnilleen sama]";
+constexpr const char* SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE = "[sisamaassa] on [hieman lauhempaa]";
 
-#define COASTAL_AREA_IGNORE_LIMIT (-15.0)
-#define DAY_NIGHT_SEPARATION_LIMIT 3.0
-#define MORNING_AFTERNOON_SEPARATION_LIMIT 3.0
-#define ABOUT_THE_SAME_UPPER_LIMIT 2.0
-#define AROUND_ZERO_UPPER_LIMIT 2.5
-#define SMALL_CHANGE_UPPER_LIMIT 4.5
+constexpr double COASTAL_AREA_IGNORE_LIMIT = (-15.0);
+constexpr double DAY_NIGHT_SEPARATION_LIMIT = 3.0;
+constexpr double MORNING_AFTERNOON_SEPARATION_LIMIT = 3.0;
+constexpr double ABOUT_THE_SAME_UPPER_LIMIT = 2.0;
+constexpr double AROUND_ZERO_UPPER_LIMIT = 2.5;
+constexpr double SMALL_CHANGE_UPPER_LIMIT = 4.5;
 
-#define NOIN_ASTETTA_LOW_TEMP_LIMIT 2.5
-#define NOIN_ASTETTA_HIGH_TEMP_LIMIT 1.5
-#define TIENOILLA_ASTETTA_LOW_TEMP_LIMIT 3.0
-#define TIENOILLA_ASTETTA_HIGH_TEMP_LIMIT 2.0
-#define LAHELLA_ASTETTA_ALI 2.0
-#define LAHELLA_ASTETTA_YLI 1.0
-#define TUNTUMASSA_ASTETTA_ALI 1.5
-#define TUNTUMASSA_ASTETTA_YLI 0.5
-#define VAJAAT_ASTETTA_LIMIT 2.0
-#define VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT 3.0
-#define VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT 2.0
-#define PAKKASRAJA_TEMPERATURE (-20.0)
+constexpr double NOIN_ASTETTA_LOW_TEMP_LIMIT = 2.5;
+constexpr double NOIN_ASTETTA_HIGH_TEMP_LIMIT = 1.5;
+constexpr double TIENOILLA_ASTETTA_LOW_TEMP_LIMIT = 3.0;
+constexpr double TIENOILLA_ASTETTA_HIGH_TEMP_LIMIT = 2.0;
+constexpr double LAHELLA_ASTETTA_ALI = 2.0;
+constexpr double LAHELLA_ASTETTA_YLI = 1.0;
+constexpr double TUNTUMASSA_ASTETTA_ALI = 1.5;
+constexpr double TUNTUMASSA_ASTETTA_YLI = 0.5;
+constexpr double VAJAAT_ASTETTA_LIMIT = 2.0;
+constexpr double VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT = 3.0;
+constexpr double VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT = 2.0;
+constexpr double PAKKASRAJA_TEMPERATURE = (-20.0);
 
-#define SUUNNILLEEN_SAMA_PHRASE "suunnilleen sama"
-#define HIEMAN_KORKEAMPI_PHRASE "hieman korkeampi"
-#define HIEMAN_ALEMPI_PHRASE "hieman alempi"
-#define HIEMAN_LAUHEMPAA_PHRASE "hieman lauhempaa"
-#define HIEMAN_KYLMEMPAA_PHRASE "hieman kylmempaa"
-#define HIEMAN_HEIKOMPAA_PHRASE "hieman heikompaa"
-#define HIEMAN_KIREAMPAA_PHRASE "hieman kireampaa"
+constexpr const char* SUUNNILLEEN_SAMA_PHRASE = "suunnilleen sama";
+constexpr const char* HIEMAN_KORKEAMPI_PHRASE = "hieman korkeampi";
+constexpr const char* HIEMAN_ALEMPI_PHRASE = "hieman alempi";
+constexpr const char* HIEMAN_LAUHEMPAA_PHRASE = "hieman lauhempaa";
+constexpr const char* HIEMAN_KYLMEMPAA_PHRASE = "hieman kylmempaa";
+constexpr const char* HIEMAN_HEIKOMPAA_PHRASE = "hieman heikompaa";
+constexpr const char* HIEMAN_KIREAMPAA_PHRASE = "hieman kireampaa";
 
-#define LAMPOTILA_NOUSEE_PHRASE "lampotila nousee"
-#define NOLLAN_TIENOILLA_PHRASE "nollan tienoilla"
-#define VAHAN_PLUSSAN_PUOLELLA_PHRASE "vahan plussan puolella"
-#define PIKKUPAKKASTA_PHRASE "pikkupakkasta"
-#define SISAMAASSA_PHRASE "sisamaassa"
-#define RANNIKOLLA_PHRASE "rannikolla"
-#define AAMULLA_PHRASE "aamulla"
-#define ILTAPAIVALLA_PHRASE "iltapaivalla"
-#define PAIVALLA_PHRASE "paivalla"
-#define YOLLA_PHRASE "yolla"
-#define PAIVAN_YLIN_LAMPOTILA_LONG_PHRASE "paivan ylin lampotila"
-#define YON_ALIN_LAMPOTILA_LONG_PHRASE "yon alin lampotila"
-#define PAIVAN_YLIN_LAMPOTILA_SHORT_PHRASE "paivan ylin"
-#define YON_ALIN_LAMPOTILA_SHORT_PHRASE "yon alin"
+constexpr const char* LAMPOTILA_NOUSEE_PHRASE = "lampotila nousee";
+constexpr const char* NOLLAN_TIENOILLA_PHRASE = "nollan tienoilla";
+constexpr const char* VAHAN_PLUSSAN_PUOLELLA_PHRASE = "vahan plussan puolella";
+constexpr const char* PIKKUPAKKASTA_PHRASE = "pikkupakkasta";
+constexpr const char* SISAMAASSA_PHRASE = "sisamaassa";
+constexpr const char* RANNIKOLLA_PHRASE = "rannikolla";
+constexpr const char* AAMULLA_PHRASE = "aamulla";
+constexpr const char* ILTAPAIVALLA_PHRASE = "iltapaivalla";
+constexpr const char* PAIVALLA_PHRASE = "paivalla";
+constexpr const char* YOLLA_PHRASE = "yolla";
+constexpr const char* PAIVAN_YLIN_LAMPOTILA_LONG_PHRASE = "paivan ylin lampotila";
+constexpr const char* YON_ALIN_LAMPOTILA_LONG_PHRASE = "yon alin lampotila";
+constexpr const char* PAIVAN_YLIN_LAMPOTILA_SHORT_PHRASE = "paivan ylin";
+constexpr const char* YON_ALIN_LAMPOTILA_SHORT_PHRASE = "yon alin";
 
-#define YOLAMPOTILA_PHRASE "yolampotila"
-#define PAIVALAMPOTILA_PHRASE "paivalampotila"
-#define LAMPOTILA_WORD "lampotila"
-#define PAKKASTA_WORD "pakkasta"
-#define PAKKANEN_WORD "pakkanen"
-#define ON_WORD "on"
-#define NOIN_PHRASE "noin"
-#define TIENOILLA_PHRASE "[1] asteen tienoilla"
-#define LAHELLA_PHRASE "lahella [1] astetta"
-#define TUNTUMASSA_PHRASE "[1] asteen tuntumassa"
+constexpr const char* YOLAMPOTILA_PHRASE = "yolampotila";
+constexpr const char* PAIVALAMPOTILA_PHRASE = "paivalampotila";
+constexpr const char* LAMPOTILA_WORD = "lampotila";
+constexpr const char* PAKKASTA_WORD = "pakkasta";
+constexpr const char* PAKKANEN_WORD = "pakkanen";
+constexpr const char* ON_WORD = "on";
+constexpr const char* NOIN_PHRASE = "noin";
+constexpr const char* TIENOILLA_PHRASE = "[1] asteen tienoilla";
+constexpr const char* LAHELLA_PHRASE = "lahella [1] astetta";
+constexpr const char* TUNTUMASSA_PHRASE = "[1] asteen tuntumassa";
 
-#define VAHAN_NOLLAN_ALAPUOLELLA_PHRASE "vahan nolla alapuolella"
-#define VAJAAT_PHRASE "vajaat"
-#define VAHAN_PHRASE "vahan"
-#define YLI_PHRASE "yli"
-#define TAI_PHRASE "tai"
-#define NOLLA_WORD "nolla"
+constexpr const char* VAHAN_NOLLAN_ALAPUOLELLA_PHRASE = "vahan nolla alapuolella";
+constexpr const char* VAJAAT_PHRASE = "vajaat";
+constexpr const char* VAHAN_PHRASE = "vahan";
+constexpr const char* YLI_PHRASE = "yli";
+constexpr const char* TAI_PHRASE = "tai";
+constexpr const char* NOLLA_WORD = "nolla";
 
-#define NOLLA_ASTETTA_PHRASE "0 astetta"
+constexpr const char* NOLLA_ASTETTA_PHRASE = "0 astetta";
 
 enum proximity_id
 {
