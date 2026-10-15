@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.10.13
+Version: 26.10.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -25,14 +25,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 26.10.13
-BuildRequires: smartmet-library-macgyver-devel >= 26.10.11
-BuildRequires: smartmet-library-newbase-devel >= 26.10.13
-BuildRequires: smartmet-library-gis-devel >= 26.10.11
+BuildRequires: smartmet-library-calculator-devel >= 26.10.15
+BuildRequires: smartmet-library-macgyver-devel >= 26.10.15
+BuildRequires: smartmet-library-newbase-devel >= 26.10.15
+BuildRequires: smartmet-library-gis-devel >= 26.10.15
 Requires: gdal312-libs
-Requires: smartmet-library-calculator >= 26.10.13
-Requires: smartmet-library-macgyver >= 26.10.11
-Requires: smartmet-library-newbase >= 26.10.13
+Requires: smartmet-library-calculator >= 26.10.15
+Requires: smartmet-library-macgyver >= 26.10.15
+Requires: smartmet-library-newbase >= 26.10.15
 %if 0%{?rhel} && 0%{rhel} == 8
 Requires: libpqxx >= 1:7.7.0, libpqxx < 1:7.8.0
 BuildRequires: libpqxx-devel >= 1:7.7.0, libpqxx-devel < 1:7.8.0
@@ -61,10 +61,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 26.10.13
-#TestRequires: smartmet-library-macgyver-devel >= 26.10.11
-#TestRequires: smartmet-library-newbase-devel >= 26.10.13
-#TestRequires: smartmet-library-gis-devel >= 26.10.11
+#TestRequires: smartmet-library-calculator-devel >= 26.10.15
+#TestRequires: smartmet-library-macgyver-devel >= 26.10.15
+#TestRequires: smartmet-library-newbase-devel >= 26.10.15
+#TestRequires: smartmet-library-gis-devel >= 26.10.15
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -111,9 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-* Tue Oct 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.13-1.fmi
+* Thu Oct 15 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.15-1.fmi
 - Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
-- Requires 26.10.13 versions of newbase, calculator due to their ABI changes
+- Requires 26.10.15 versions of newbase, calculator due to their ABI changes
 - Fixed mechanical clang-tidy findings (internal linkage, unused parameters, initialization, redundant code), no functional changes
 - Fixed clang-tidy style findings (loops, nested conditionals, dead code)
 - Fixed clang-tidy correctness findings (member initialization, rule of five, printf formats, dead stores)
