@@ -40,21 +40,6 @@ namespace
   }
 }
 
-inline int as_int(const pqxx::field& obj)
-{
-  try
-  {
-#if PQXX_VERSION_MAJOR > 5
-    return obj.as<int>();
-#else
-    return Fmi::stoi(obj.as<std::string>());
-#endif
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
 }  // namespace
 
 namespace TextGen
