@@ -252,6 +252,8 @@ struct WindDataItemsByArea
     for (it = theDataItems.begin(); it != theDataItems.end(); it++)
       delete it->second;
   }
+  WindDataItemsByArea(const WindDataItemsByArea&) = delete;
+  WindDataItemsByArea& operator=(const WindDataItemsByArea&) = delete;
 
   void addItem(const WeatherPeriod& period,
                const WeatherResult& windSpeedMin,

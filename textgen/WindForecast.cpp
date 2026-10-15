@@ -3772,7 +3772,6 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
           const WindDataItemUnit& prev =
               (*theParameters.theWindDataVector[i - 1])(theParameters.theArea.type());
           reportingIndexes.push_back(i - 1);
-          previousTopWind = prev.theEqualizedTopWind.value();
           previousTime = prev.thePeriod.localStartTime();
           theParameters.theLog << "Reporting wind speed (case C) at " << as_string(prev.thePeriod)
                                << '\n';

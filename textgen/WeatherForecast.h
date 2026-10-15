@@ -803,6 +803,8 @@ struct CloudinessDataItem
 
     delete theFullData;
   }
+  CloudinessDataItem(const CloudinessDataItem&) = delete;
+  CloudinessDataItem& operator=(const CloudinessDataItem&) = delete;
 };
 
 struct ThunderDataItem
@@ -983,6 +985,8 @@ struct PrecipitationDataItem
 
     delete theFullData;
   }
+  PrecipitationDataItem(const PrecipitationDataItem&) = delete;
+  PrecipitationDataItem& operator=(const PrecipitationDataItem&) = delete;
 };
 
 }  // namespace TextGen

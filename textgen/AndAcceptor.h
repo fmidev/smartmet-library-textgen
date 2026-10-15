@@ -23,6 +23,7 @@ class AndAcceptor : public Acceptor
     delete itsLhs;
     delete itsRhs;
   }
+  AndAcceptor& operator=(const AndAcceptor&) = delete;
   bool accept(float theValue) const override;
   Acceptor* clone() const override;
 

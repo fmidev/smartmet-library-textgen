@@ -3506,7 +3506,7 @@ Sentence construct_sentence(t36hparams& theParameters)
   {
     auto& p = theParameters;
 
-    AreaWeatherIds ids;
+    AreaWeatherIds ids{};
     if (p.theForecastAreaId == FULL_AREA)
       ids = make_area_ids_full();
     else if (p.theForecastAreaId == INLAND_AREA)

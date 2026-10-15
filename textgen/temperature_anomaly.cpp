@@ -661,7 +661,7 @@ TrendTemps build_trend_temps(const temperature_anomaly_params& theParameters)
   try
   {
   const bool isWinter = (theParameters.theSeason == WINTER_SEASON);
-  TrendTemps t;
+  TrendTemps t{};
   t.dayBefore = isWinter ? theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value()
                          : theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum.value();
   t.day1 = isWinter ? theParameters.theDay1TemperatureAreaAfternoonMean.value()

@@ -167,6 +167,8 @@ class WeatherForecastStory
                        MessageLogger& logger);
 
   ~WeatherForecastStory();
+  WeatherForecastStory(const WeatherForecastStory&) = default;
+  WeatherForecastStory& operator=(const WeatherForecastStory&) = default;
 
   Paragraph getWeatherForecastStory();
   Paragraph getWeatherForecastStoryAtSea();

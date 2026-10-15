@@ -23,6 +23,7 @@ class OrAcceptor : public Acceptor
     delete itsLhs;
     delete itsRhs;
   }
+  OrAcceptor& operator=(const OrAcceptor&) = delete;
   bool accept(float theValue) const override;
   Acceptor* clone() const override;
 

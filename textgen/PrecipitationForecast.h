@@ -32,6 +32,8 @@ class PrecipitationForecast
  public:
   PrecipitationForecast(wf_story_params& parameters);
   ~PrecipitationForecast();
+  PrecipitationForecast(const PrecipitationForecast&) = default;
+  PrecipitationForecast& operator=(const PrecipitationForecast&) = default;
 
   Sentence precipitationChangeSentence(
       const WeatherPeriod& thePeriod,

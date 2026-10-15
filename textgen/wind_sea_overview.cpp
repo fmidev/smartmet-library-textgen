@@ -1353,7 +1353,6 @@ Paragraph WindStory::sea_overview() const
             paragraph << steady;
             reportedDir = startDir;
             reportedRange = startRange;
-            haveReported = true;
             startTime = hours[changeStart].time;
             splitInitial = true;
             log << "Separate initial sentence, change starts " << startTime.ToIsoExtendedStr()
@@ -1374,7 +1373,6 @@ Paragraph WindStory::sea_overview() const
           paragraph << steady;
           reportedDir = startDir;
           reportedRange = startRange;
-          haveReported = true;
           startStateFirst = true;
           log << "State at the start in its own sentence, the change ends in a turn\n";
         }
