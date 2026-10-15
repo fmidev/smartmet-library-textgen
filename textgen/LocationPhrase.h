@@ -23,6 +23,7 @@ class LocationPhrase : public Glyph
 #ifdef NO_COMPILER_GENERATED
   LocationPhrase(const LocationPhrase& theLocationPhrase);
   LocationPhrase& operator=(const LocationPhrase& theLocationPhrase);
+  LocationPhrase(const LocationPhrase&) = default;
 #endif
   std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;

@@ -23,6 +23,7 @@ class Phrase : public Glyph
 #ifdef NO_COMPILER_GENERATED
   Phrase(const Phrase& thePhrase);
   Phrase& operator=(const Phrase& thePhrase);
+  Phrase(const Phrase&) = default;
 #endif
   std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;

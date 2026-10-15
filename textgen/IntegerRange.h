@@ -24,6 +24,7 @@ class IntegerRange : public Glyph
 #ifdef NO_COMPILER_GENERATED
   IntegerRange(const IntegerRange& theIntegerRange);
   IntegerRange& operator=(const IntegerRange& theIntegerRange);
+  IntegerRange(const IntegerRange&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

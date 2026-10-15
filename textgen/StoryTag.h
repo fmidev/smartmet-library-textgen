@@ -24,6 +24,7 @@ class StoryTag : public Glyph
 #ifdef NO_COMPILER_GENERATED
   StoryTag(const StoryTag& theStoryTag);
   StoryTag& operator=(const StoryTag& theStoryTag);
+  StoryTag(const StoryTag&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

@@ -24,6 +24,7 @@ class TimePeriod : public Glyph
 #ifdef NO_COMPILER_GENERATED
   TimePeriod(const TimePeriod& thePeriod);
   TimePeriod& operator=(const WeatherPeriod& thePeriod);
+  TimePeriod(const TimePeriod&) = default;
 #endif
   std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;

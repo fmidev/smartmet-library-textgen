@@ -24,6 +24,7 @@ class SectionTag : public Glyph
 #ifdef NO_COMPILER_GENERATED
   SectionTag(const SectionTag& theSectionTag);
   SectionTag& operator=(const SectionTag& theSectionTag);
+  SectionTag(const SectionTag&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

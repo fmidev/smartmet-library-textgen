@@ -17,6 +17,8 @@ class GlyphContainer : public Glyph
  public:
   ~GlyphContainer() override;
   GlyphContainer() = default;
+  GlyphContainer(const GlyphContainer&) = default;
+  GlyphContainer& operator=(const GlyphContainer&) = default;
   std::shared_ptr<Glyph> clone() const override = 0;
   std::string realize(const Dictionary& theDictionary) const override = 0;
   std::string realize(const TextFormatter& theFormatter) const override = 0;

@@ -25,6 +25,7 @@ class Text : public Glyph
 #ifdef NO_COMPILER_GENERATED
   Text(const Text& theText);
   Text& operator=(const Text& theText);
+  Text(const Text&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;
