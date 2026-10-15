@@ -875,7 +875,6 @@ DirectionInfo analyze_direction(
   DirectionInfo info;
   double sx = 0.0;
   double sy = 0.0;
-  double weightSum = 0.0;
   double errSum = 0.0;
   double meanSpeed = 0.0;
   for (int i = beg; i <= end; i++)
@@ -884,7 +883,6 @@ DirectionInfo analyze_direction(
     const double w = max(0.1, static_cast<double>(hours[i].mean));
     sx += w * sin(rad);
     sy += w * cos(rad);
-    weightSum += w;
     errSum += hours[i].direction.error();
     meanSpeed += hours[i].smooth;
   }
