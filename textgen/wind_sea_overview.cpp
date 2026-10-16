@@ -1193,6 +1193,313 @@ const char* turn_key(bool senseKnown, bool veering, const char* plainKey)
   return (veering ? VEERING_DIRECTION_KEY : BACKING_DIRECTION_KEY);
 }
 
+// The data and the tools for writing the sea wind story
+struct SeaContext
+{
+  const string& var;
+  const vector<HourData>& hours;
+  const SeaParams& params;
+  TimeWords& timeWord;
+  MessageLogger& log;
+};
+
+// What has been reported so far
+struct NarrativeState
+{
+  bool haveReported = false;
+  DirectionInfo reportedDir;
+  Range reportedRange;
+};
+
+// The index of the strongest convective cell, or -1 if none
+int strongest_cell(const vector<ConvectiveCell>& cells)
+{
+  int cellAnchor = -1;  // the strongest cell
+  for (size_t i = 0; i < cells.size(); i++)
+    if (cellAnchor < 0 || cells[i].peakGust > cells[cellAnchor].peakGust)
+      cellAnchor = static_cast<int>(i);
+  return cellAnchor;
+}
+
+// The sentence of a steady phase, false if the phase adds nothing new
+bool steady_sentence(
+    Sentence& sentence, const Phase& ph, bool first, NarrativeState& state, const SeaContext& c)
+{
+  const auto& hours = c.hours;
+  const auto& params = c.params;
+  auto& log = c.log;
+
+  DirectionInfo dir = analyze_direction(c.var, hours, ph.beg, ph.end, params);
+  Range range = compute_range(hours, ph.beg, ph.end, params);
+  log << "Steady phase: direction " << dir.phrase << ", range " << range.lower << "-" << range.upper
+      << '\n';
+
+  if (first)
+  {
+    sentence << TIME_DIRECTION_PHRASE << EMPTY_STRING << dir.phrase;
+    append_range(sentence, range, params);
+  }
+  else
+  {
+    const bool dirChanged = direction_changed(state.reportedDir, dir, params);
+    if (!dirChanged)
+    {
+      log << "Steady phase adds nothing new, skipped\n";
+      return false;
+    }
+    if (dir.variable)
+    {
+      log << "Steady phase with variable wind adds nothing new, skipped\n";
+      return false;
+    }
+    const bool rangeChanged = range.differs(state.reportedRange, params.rangeReportMinDifference);
+    const string when = c.timeWord(hours[ph.beg].time, false);
+    const bool haveReference = params.veeringBacking && !state.reportedDir.variable;
+    const bool veering = haveReference && signed_turn(state.reportedDir.degrees, dir.degrees) > 0;
+    if (!rangeChanged && !dir.variable && !dir.turnPhrase.empty())
+    {
+      const char* key = TIME_WIND_TURNS_PHRASE;
+      if (haveReference)
+        key = (veering ? TIME_WIND_VEERS_PHRASE : TIME_WIND_BACKS_PHRASE);
+      sentence << key << when << dir.turnPhrase;
+    }
+    else
+    {
+      sentence << TIME_DIRECTION_PHRASE << when;
+      append_direction(sentence, dir, turn_key(haveReference, veering, nullptr));
+      if (rangeChanged)
+        append_range(sentence, range, params);
+    }
+  }
+  state.reportedDir = dir;
+  state.reportedRange = range;
+  return true;
+}
+
+// The analysis of a strengthening or weakening phase
+struct ChangeInfo
+{
+  int startEnd = 0;
+  int rangeBeg = 0;
+  int rangeEnd = 0;
+  DirectionInfo startDir;
+  DirectionInfo dir;
+  Range endRange;
+  Range startRange;
+  string changeWord;
+  string rate;
+  TextGenPosixTime endTime;
+  TextGenPosixTime startTime;
+  bool tailHasDirection = false;
+  string headDirWord;
+};
+
+// Analyze the direction and the ranges at the start and at the end of a change
+ChangeInfo analyze_change(const vector<Phase>& phases, size_t p, const SeaContext& c)
+{
+  const auto& hours = c.hours;
+  const auto& params = c.params;
+  const Phase& ph = phases[p];
+
+  ChangeInfo ci;
+
+  // direction at the start and at the end of the change. The end state is described by
+  // the first hours after the change when a steady phase follows, otherwise by the last
+  // hours of the change.
+  ci.startEnd = min(ph.end, ph.beg + params.rangeHours - 1);
+  ci.rangeBeg = max(ph.beg, ph.end - (params.rangeHours - 1));
+  ci.rangeEnd = ph.end;
+  if (p + 1 < phases.size() && phases[p + 1].type == PhaseType::Steady)
+  {
+    ci.rangeBeg = ph.end;
+    ci.rangeEnd = min(phases[p + 1].end, ph.end + params.rangeHours - 1);
+  }
+  ci.startDir = analyze_direction(c.var, hours, ph.beg, ci.startEnd, params);
+  ci.dir = analyze_direction(c.var, hours, ci.rangeBeg, ci.rangeEnd, params);
+  ci.endRange = compute_range(hours, ci.rangeBeg, ci.rangeEnd, params);
+  ci.changeWord = (ph.type == PhaseType::Strengthening ? STRENGTHENING_WORD : WEAKENING_WORD);
+  ci.rate = rate_word(ph, params);
+  // the change is timed at the hour it completes when a steady phase follows, otherwise
+  // at the middle of the hours the range describes
+  const bool steadyFollows = (ci.rangeBeg == ph.end && ci.rangeEnd > ph.end);
+  ci.endTime = (steadyFollows ? hours[ph.end].time : hours[(ci.rangeBeg + ci.rangeEnd) / 2].time);
+  // the wind at the first point of the leg still has the old value: the change starts after
+  // it
+  ci.startTime = hours[min(ph.end, ph.beg + 1)].time;
+  ci.startRange = compute_range(hours, ph.beg, ci.startEnd, params);
+  c.log << "Change phase: " << ci.changeWord << " " << ci.rate << ", direction "
+        << ci.startDir.phrase << " -> " << ci.dir.phrase << ", end range " << ci.endRange.lower
+        << "-" << ci.endRange.upper << '\n';
+  return ci;
+}
+
+// Write the wind at the start of the story in a sentence of its own
+void start_state_sentence(Paragraph& paragraph,
+                          const ChangeInfo& ci,
+                          NarrativeState& state,
+                          const SeaParams& params)
+{
+  Sentence steady;
+  steady << TIME_DIRECTION_PHRASE << EMPTY_STRING << ci.startDir.phrase;
+  append_range(steady, ci.startRange, params);
+  paragraph << steady;
+  state.reportedDir = ci.startDir;
+  state.reportedRange = ci.startRange;
+}
+
+// Optionally a change from the start of the story is written as a steady sentence for
+// the hours before the range has moved, followed by a time phrased change sentence,
+// instead of one sentence with "aluksi". The single sentence is kept when the range
+// already moves within the range_hours the start range describes, or only at the end of
+// the change.
+bool split_initial_sentence(Paragraph& paragraph,
+                            ChangeInfo& ci,
+                            const Phase& ph,
+                            bool first,
+                            NarrativeState& state,
+                            const SeaContext& c)
+{
+  const auto& hours = c.hours;
+  const auto& params = c.params;
+  if (first && params.separateInitialSentence && ci.startRange != ci.endRange)
+  {
+    const int changeStart = range_change_start(hours, ph.beg, ph.end, ci.startRange, params);
+    if (changeStart > ci.startEnd && changeStart < ph.end)
+    {
+      start_state_sentence(paragraph, ci, state, params);
+      ci.startTime = hours[changeStart].time;
+      c.log << "Separate initial sentence, change starts " << ci.startTime.ToIsoExtendedStr()
+            << '\n';
+      return true;
+    }
+  }
+  return false;
+}
+
+// Head of the sentence. A change that ends in a turn: the change and the turn are reported
+// when they start, "vähitellen heikkenevää pohjoiseen kääntyvää tuulta". The tail then carries
+// only the time and the range of the settled wind, "iltapäivällä 7-9 m/s".
+void append_head(Sentence& target,
+                 const string& time,
+                 const ChangeInfo& ci,
+                 const SeaParams& params)
+{
+  if (ci.tailHasDirection)
+  {
+    target << TIME_RATE_CHANGE_TURNING_PHRASE << time << ci.rate << ci.changeWord;
+    const bool senseKnown = params.veeringBacking && !ci.startDir.variable;
+    append_direction(target,
+                     ci.dir,
+                     turn_key(senseKnown,
+                              signed_turn(ci.startDir.degrees, ci.dir.degrees) > 0,
+                              TURNING_DIRECTION_KEY));
+  }
+  else
+    target << TIME_RATE_CHANGE_DIRECTION_PHRASE << time << ci.rate << ci.changeWord
+           << ci.headDirWord;
+}
+
+// Tail of the sentence: the time and the range at the end of the change
+void append_tail(Sentence& target, const ChangeInfo& ci, const SeaContext& c)
+{
+  target << c.timeWord(ci.endTime, false);
+  append_range(target, ci.endRange, c.params);
+}
+
+// Write the sentence of a strengthening or weakening phase, preceded by a sentence for
+// the start state when needed
+void change_sentence(Paragraph& paragraph,
+                     Sentence& sentence,
+                     const vector<Phase>& phases,
+                     size_t p,
+                     bool first,
+                     NarrativeState& state,
+                     const SeaContext& c)
+{
+  const auto& params = c.params;
+  const Phase& ph = phases[p];
+
+  ChangeInfo ci = analyze_change(phases, p, c);
+
+  bool splitInitial = split_initial_sentence(paragraph, ci, ph, first, state, c);
+
+  // A change that ends in a turn names the destination in its head, so the wind at the
+  // start must already be known. From the start of the story it gets its own sentence:
+  // "Koillistuulta 1-3 m/s. Vähitellen voimistuvaa etelään kääntyvää tuulta, aamuyöllä
+  // 5-7 m/s." The change sentence then has no time phrase of its own.
+  ci.tailHasDirection = !ci.dir.variable && direction_changed(ci.startDir, ci.dir, params);
+  bool startStateFirst = false;
+  if (first && !splitInitial && ci.tailHasDirection)
+  {
+    start_state_sentence(paragraph, ci, state, params);
+    startStateFirst = true;
+    c.log << "State at the start in its own sentence, the change ends in a turn\n";
+  }
+  const bool singleInitial = first && !splitInitial && !startStateFirst;
+
+  // Head of the sentence: the direction at the start of the change, unless it is variable
+  // or has already been reported. The tail carries the end direction when it differs.
+  ci.headDirWord = WIND_WORD;
+  if (!ci.tailHasDirection && !ci.startDir.variable &&
+      (singleInitial || direction_changed(state.reportedDir, ci.startDir, params)))
+    ci.headDirWord = ci.startDir.phrase;
+
+  // A change that starts and ends within one part of the day names the time once
+  const bool samePart =
+      c.timeWord.plain(ci.startTime, false) == c.timeWord.plain(ci.endTime, false) &&
+      TimeTools::isSameDay(ci.startTime, ci.endTime);
+
+  if (singleInitial)
+  {
+    append_head(sentence, EMPTY_STRING, ci, params);
+    if (ci.startRange != ci.endRange)
+    {
+      sentence << Delimiter(COMMA_PUNCTUATION_MARK) << INITIALLY_WORD;
+      append_range(sentence, ci.startRange, params);
+    }
+    sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+    append_tail(sentence, ci, c);
+  }
+  else if (samePart && !startStateFirst)
+  {
+    // change within one part of the day
+    append_head(sentence, c.timeWord(ci.startTime, false), ci, params);
+    append_range(sentence, ci.endRange, params);
+  }
+  else
+  {
+    append_head(sentence,
+                startStateFirst ? string(EMPTY_STRING) : c.timeWord(ci.startTime, true),
+                ci,
+                params);
+    sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+    append_tail(sentence, ci, c);
+  }
+  state.reportedDir = ci.dir;
+  state.reportedRange = ci.endRange;
+}
+
+// Optional gust sentence on the area maximum gust. The hours of a convective cell only
+// contribute the gusts outside the cell, so this describes widespread gusts.
+void gust_sentence(Paragraph& paragraph, const SeaContext& c)
+{
+  const auto& hours = c.hours;
+  int gustIndex = -1;
+  for (size_t i = 0; i < hours.size(); i++)
+    if (hours[i].gust != kFloatMissing && (gustIndex < 0 || hours[i].gust > hours[gustIndex].gust))
+      gustIndex = static_cast<int>(i);
+  if (gustIndex >= 0 && hours[gustIndex].gust >= c.params.gustLimit)
+  {
+    Sentence sentence;
+    const float gust = hours[gustIndex].gust;
+    sentence << GUST_PHRASE << c.timeWord(hours[gustIndex].time, false)
+             << (gust >= MYRSKY_LOWER_LIMIT ? VERY_STRONG_GUSTS_WORD : STRONG_GUSTS_WORD)
+             << Integer(static_cast<int>(lround(gust))) << *UnitFactory::create(MetersPerSecond);
+    paragraph << sentence;
+    c.log << "Gust sentence: maximum gust " << hours[gustIndex].gust << " m/s at "
+          << hours[gustIndex].time.ToIsoExtendedStr() << '\n';
+  }
+}
 }  // namespace
 
 // ----------------------------------------------------------------------
@@ -1245,16 +1552,13 @@ Paragraph WindStory::sea_overview() const
           << hours[ph.end].time.ToIsoExtendedStr() << "  " << phase_type_string(ph.type) << fixed
           << setprecision(1) << "  change=" << ph.change << '\n';
 
+    const SeaContext context{itsVar, hours, params, timeWord, log};
+
     // 2. sentences. A sentence about convective cells, when enabled, follows the sentence of
     //    the phase in which the strongest cell occurs so that the narrative stays chronological
-    bool haveReported = false;
-    DirectionInfo reportedDir;
-    Range reportedRange;
+    NarrativeState state;
     bool cellPending = params.cellReporting && !cells.empty();
-    int cellAnchor = -1;  // the strongest cell
-    for (size_t i = 0; cellPending && i < cells.size(); i++)
-      if (cellAnchor < 0 || cells[i].peakGust > cells[cellAnchor].peakGust)
-        cellAnchor = static_cast<int>(i);
+    int cellAnchor = (cellPending ? strongest_cell(cells) : -1);  // the strongest cell
     auto emit_cell_sentence = [&]()
     {
       paragraph << cell_sentence(hours, cells, params, timeWord, log);
@@ -1264,200 +1568,21 @@ Paragraph WindStory::sea_overview() const
     for (size_t p = 0; p < phases.size(); p++)
     {
       const Phase& ph = phases[p];
-      const bool first = !haveReported;
+      const bool first = !state.haveReported;
       Sentence sentence;
 
       if (ph.type == PhaseType::Steady)
       {
-        DirectionInfo dir = analyze_direction(itsVar, hours, ph.beg, ph.end, params);
-        Range range = compute_range(hours, ph.beg, ph.end, params);
-        log << "Steady phase: direction " << dir.phrase << ", range " << range.lower << "-"
-            << range.upper << '\n';
-
-        if (first)
-        {
-          sentence << TIME_DIRECTION_PHRASE << EMPTY_STRING << dir.phrase;
-          append_range(sentence, range, params);
-        }
-        else
-        {
-          const bool dirChanged = direction_changed(reportedDir, dir, params);
-          if (!dirChanged)
-          {
-            log << "Steady phase adds nothing new, skipped\n";
-            continue;
-          }
-          if (dir.variable)
-          {
-            log << "Steady phase with variable wind adds nothing new, skipped\n";
-            continue;
-          }
-          const bool rangeChanged = range.differs(reportedRange, params.rangeReportMinDifference);
-          const string when = timeWord(hours[ph.beg].time, false);
-          const bool haveReference = params.veeringBacking && !reportedDir.variable;
-          const bool veering = haveReference && signed_turn(reportedDir.degrees, dir.degrees) > 0;
-          if (!rangeChanged && !dir.variable && !dir.turnPhrase.empty())
-          {
-            const char* key = TIME_WIND_TURNS_PHRASE;
-            if (haveReference)
-              key = (veering ? TIME_WIND_VEERS_PHRASE : TIME_WIND_BACKS_PHRASE);
-            sentence << key << when << dir.turnPhrase;
-          }
-          else
-          {
-            sentence << TIME_DIRECTION_PHRASE << when;
-            append_direction(sentence, dir, turn_key(haveReference, veering, nullptr));
-            if (rangeChanged)
-              append_range(sentence, range, params);
-          }
-        }
-        reportedDir = dir;
-        reportedRange = range;
+        if (!steady_sentence(sentence, ph, first, state, context))
+          continue;
       }
       else
       {
-        // direction at the start and at the end of the change. The end state is described by
-        // the first hours after the change when a steady phase follows, otherwise by the last
-        // hours of the change.
-        const int startEnd = min(ph.end, ph.beg + params.rangeHours - 1);
-        int rangeBeg = max(ph.beg, ph.end - (params.rangeHours - 1));
-        int rangeEnd = ph.end;
-        if (p + 1 < phases.size() && phases[p + 1].type == PhaseType::Steady)
-        {
-          rangeBeg = ph.end;
-          rangeEnd = min(phases[p + 1].end, ph.end + params.rangeHours - 1);
-        }
-        DirectionInfo startDir = analyze_direction(itsVar, hours, ph.beg, startEnd, params);
-        DirectionInfo dir = analyze_direction(itsVar, hours, rangeBeg, rangeEnd, params);
-        Range endRange = compute_range(hours, rangeBeg, rangeEnd, params);
-        const string changeWord =
-            (ph.type == PhaseType::Strengthening ? STRENGTHENING_WORD : WEAKENING_WORD);
-        const string rate = rate_word(ph, params);
-        // the change is timed at the hour it completes when a steady phase follows, otherwise
-        // at the middle of the hours the range describes
-        const bool steadyFollows = (rangeBeg == ph.end && rangeEnd > ph.end);
-        const TextGenPosixTime endTime =
-            (steadyFollows ? hours[ph.end].time : hours[(rangeBeg + rangeEnd) / 2].time);
-        // the wind at the first point of the leg still has the old value: the change starts after
-        // it
-        TextGenPosixTime startTime = hours[min(ph.end, ph.beg + 1)].time;
-        const Range startRange = compute_range(hours, ph.beg, startEnd, params);
-        log << "Change phase: " << changeWord << " " << rate << ", direction " << startDir.phrase
-            << " -> " << dir.phrase << ", end range " << endRange.lower << "-" << endRange.upper
-            << '\n';
-
-        // Optionally a change from the start of the story is written as a steady sentence for
-        // the hours before the range has moved, followed by a time phrased change sentence,
-        // instead of one sentence with "aluksi". The single sentence is kept when the range
-        // already moves within the range_hours the start range describes, or only at the end of
-        // the change.
-        bool splitInitial = false;
-        if (first && params.separateInitialSentence && startRange != endRange)
-        {
-          const int changeStart = range_change_start(hours, ph.beg, ph.end, startRange, params);
-          if (changeStart > startEnd && changeStart < ph.end)
-          {
-            Sentence steady;
-            steady << TIME_DIRECTION_PHRASE << EMPTY_STRING << startDir.phrase;
-            append_range(steady, startRange, params);
-            paragraph << steady;
-            reportedDir = startDir;
-            reportedRange = startRange;
-            startTime = hours[changeStart].time;
-            splitInitial = true;
-            log << "Separate initial sentence, change starts " << startTime.ToIsoExtendedStr()
-                << '\n';
-          }
-        }
-        // A change that ends in a turn names the destination in its head, so the wind at the
-        // start must already be known. From the start of the story it gets its own sentence:
-        // "Koillistuulta 1-3 m/s. Vähitellen voimistuvaa etelään kääntyvää tuulta, aamuyöllä
-        // 5-7 m/s." The change sentence then has no time phrase of its own.
-        const bool tailHasDirection = !dir.variable && direction_changed(startDir, dir, params);
-        bool startStateFirst = false;
-        if (first && !splitInitial && tailHasDirection)
-        {
-          Sentence steady;
-          steady << TIME_DIRECTION_PHRASE << EMPTY_STRING << startDir.phrase;
-          append_range(steady, startRange, params);
-          paragraph << steady;
-          reportedDir = startDir;
-          reportedRange = startRange;
-          startStateFirst = true;
-          log << "State at the start in its own sentence, the change ends in a turn\n";
-        }
-        const bool singleInitial = first && !splitInitial && !startStateFirst;
-
-        // Head of the sentence: the direction at the start of the change, unless it is variable
-        // or has already been reported. The tail carries the end direction when it differs.
-        string headDirWord = WIND_WORD;
-        if (!tailHasDirection && !startDir.variable &&
-            (singleInitial || direction_changed(reportedDir, startDir, params)))
-          headDirWord = startDir.phrase;
-
-        // Head of a change that ends in a turn: the change and the turn are reported when they
-        // start, "vähitellen heikkenevää pohjoiseen kääntyvää tuulta". The tail then carries
-        // only the time and the range of the settled wind, "iltapäivällä 7-9 m/s".
-        auto append_head = [&](Sentence& target, const string& time)
-        {
-          if (tailHasDirection)
-          {
-            target << TIME_RATE_CHANGE_TURNING_PHRASE << time << rate << changeWord;
-            const bool senseKnown = params.veeringBacking && !startDir.variable;
-            append_direction(target,
-                             dir,
-                             turn_key(senseKnown,
-                                      signed_turn(startDir.degrees, dir.degrees) > 0,
-                                      TURNING_DIRECTION_KEY));
-          }
-          else
-            target << TIME_RATE_CHANGE_DIRECTION_PHRASE << time << rate << changeWord
-                   << headDirWord;
-        };
-
-        auto append_tail = [&](Sentence& target)
-        {
-          target << timeWord(endTime, false);
-          append_range(target, endRange, params);
-        };
-
-        // A change that starts and ends within one part of the day names the time once
-        const bool samePart = timeWord.plain(startTime, false) == timeWord.plain(endTime, false) &&
-                              TimeTools::isSameDay(startTime, endTime);
-
-        if (singleInitial)
-        {
-          append_head(sentence, EMPTY_STRING);
-          if (startRange != endRange)
-          {
-            sentence << Delimiter(COMMA_PUNCTUATION_MARK) << INITIALLY_WORD;
-            append_range(sentence, startRange, params);
-          }
-          sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-          append_tail(sentence);
-        }
-        else
-        {
-          if (samePart && !startStateFirst)
-          {
-            // change within one part of the day
-            append_head(sentence, timeWord(startTime, false));
-            append_range(sentence, endRange, params);
-          }
-          else
-          {
-            append_head(sentence,
-                        startStateFirst ? string(EMPTY_STRING) : timeWord(startTime, true));
-            sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-            append_tail(sentence);
-          }
-        }
-        reportedDir = dir;
-        reportedRange = endRange;
+        change_sentence(paragraph, sentence, phases, p, first, state, context);
       }
 
       paragraph << sentence;
-      haveReported = true;
+      state.haveReported = true;
       if (cellPending && cells[cellAnchor].peakIndex <= ph.end)
         emit_cell_sentence();
     }
@@ -1467,25 +1592,7 @@ Paragraph WindStory::sea_overview() const
     // 3. optional gust sentence on the area maximum gust. The hours of a convective cell only
     //    contribute the gusts outside the cell, so this describes widespread gusts.
     if (params.gustReporting)
-    {
-      int gustIndex = -1;
-      for (size_t i = 0; i < hours.size(); i++)
-        if (hours[i].gust != kFloatMissing &&
-            (gustIndex < 0 || hours[i].gust > hours[gustIndex].gust))
-          gustIndex = static_cast<int>(i);
-      if (gustIndex >= 0 && hours[gustIndex].gust >= params.gustLimit)
-      {
-        Sentence sentence;
-        const float gust = hours[gustIndex].gust;
-        sentence << GUST_PHRASE << timeWord(hours[gustIndex].time, false)
-                 << (gust >= MYRSKY_LOWER_LIMIT ? VERY_STRONG_GUSTS_WORD : STRONG_GUSTS_WORD)
-                 << Integer(static_cast<int>(lround(gust)))
-                 << *UnitFactory::create(MetersPerSecond);
-        paragraph << sentence;
-        log << "Gust sentence: maximum gust " << hours[gustIndex].gust << " m/s at "
-            << hours[gustIndex].time.ToIsoExtendedStr() << '\n';
-      }
-    }
+      gust_sentence(paragraph, context);
 
     log << paragraph;
     return paragraph;
