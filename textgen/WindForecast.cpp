@@ -1582,6 +1582,29 @@ bool WindForecast::constructSeparateInitialSentences(
   }
 }
 
+// A weak wind period is reported as a whole, unless it is a partial period in the middle
+void WindForecast::constructWeakPeriodSentence(
+    const WeatherPeriod& windSpeedEventPeriod,
+    const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+    bool firstSentence,
+    WindSpeedSentenceInfo& sentenceInfoVector) const
+{
+  bool middleNonFullPeriod = !firstSentence && get_period_length(windSpeedEventPeriod) !=
+                                                   get_period_length(theParameters.theForecastPeriod);
+  if (middleNonFullPeriod)
+  {
+    theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
+                         << " -> period is not reported\n";
+  }
+  else
+  {
+    theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
+                         << " -> reporting the whole period at once!\n";
+    sentenceInfoVector.push_back(
+        buildSimpleSentenceInfo(windSpeedEventPeriod, firstDirectionPeriodInfo, firstSentence));
+  }
+}
+
 void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpeedItem,
                                          const WindEventPeriodDataItem* nextWindSpeedItem,
                                          const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
@@ -1598,21 +1621,8 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
     // we dont report speed and direction changes on weak period
     if (is_weak_period(theParameters, windSpeedEventPeriod))
     {
-      bool middleNonFullPeriod =
-          !firstSentence && get_period_length(windSpeedEventPeriod) !=
-                                get_period_length(theParameters.theForecastPeriod);
-      if (middleNonFullPeriod)
-      {
-        theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
-                             << " -> period is not reported\n";
-      }
-      else
-      {
-        theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
-                             << " -> reporting the whole period at once!\n";
-        sentenceInfoVector.push_back(
-            buildSimpleSentenceInfo(windSpeedEventPeriod, firstDirectionPeriodInfo, firstSentence));
-      }
+      constructWeakPeriodSentence(
+          windSpeedEventPeriod, firstDirectionPeriodInfo, firstSentence, sentenceInfoVector);
       return;
     }
 

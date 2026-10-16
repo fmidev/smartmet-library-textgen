@@ -164,6 +164,10 @@ class WindForecast
                              const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
                              WindDirectionInfo& thePreviousWindDirection,
                              WindSpeedSentenceInfo& sentenceInfoVector) const;
+  void constructWeakPeriodSentence(const WeatherPeriod& windSpeedEventPeriod,
+                                   const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+                                   bool firstSentence,
+                                   WindSpeedSentenceInfo& sentenceInfoVector) const;
 
   Sentence windDirectionSentenceWithAttribute(
       WindStoryTools::WindDirectionId theWindDirectionId) const;
