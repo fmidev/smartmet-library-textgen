@@ -3616,6 +3616,48 @@ Sentence PrecipitationForecast::parseRegularPrecipitationPhrase(
   }
 }
 
+namespace
+{
+// Log the phrase elements the final sentence is built from
+void logFinalSentenceContext(MessageLogger& log,
+                             const PrecipitationForecast::FinalSentenceContext& ctx)
+{
+  log << "periodPhrase: ";
+  log << ctx.periodPhrase;
+  log << "areaPhrase: ";
+  log << ctx.areaPhrase;
+  log << "intensity: ";
+  log << ctx.intensity;
+  log << "precipitation: ";
+  log << ctx.precipitation;
+  log << "inPlacesPhrase: ";
+  log << ctx.inPlacesPhrase;
+  log << "periodPhraseEmpty: ";
+  log << (ctx.periodPhraseEmpty ? "yes" : "no") << '\n';
+  log << "areaPhraseEmpty: ";
+  log << (ctx.areaPhraseEmpty ? "yes" : "no") << '\n';
+}
+
+// Build the "huomenna sisamaassa saa on enimmakseen poutainen" sentence
+Sentence buildMostlyDryInlandSentence(const PrecipitationForecast::FinalSentenceContext& ctx)
+{
+  Sentence sentence;
+  if (ctx.periodPhraseEmpty && ctx.areaPhraseEmpty)
+    sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE << Delimiter(COMMA_PUNCTUATION_MARK)
+             << ctx.precipitation;
+  else if (ctx.periodPhraseEmpty)
+    sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << ctx.areaPhrase
+             << ctx.precipitation;
+  else if (ctx.areaPhraseEmpty)
+    sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << ctx.periodPhrase
+             << ctx.precipitation;
+  else
+    sentence << HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
+             << ctx.periodPhrase << ctx.areaPhrase << ctx.precipitation;
+  return sentence;
+}
+}  // namespace
+
 Sentence PrecipitationForecast::parseFinalSentence(
     map<string, Sentence>& theCompositePhraseElements,
     const Sentence& thePeriodPhrase,
@@ -3669,37 +3711,13 @@ Sentence PrecipitationForecast::parseFinalSentence(
     }
     else
     {
-      theParameters.theLog << "periodPhrase: ";
-      theParameters.theLog << periodPhrase;
-      theParameters.theLog << "areaPhrase: ";
-      theParameters.theLog << areaPhrase;
-      theParameters.theLog << "intensity: ";
-      theParameters.theLog << intensity;
-      theParameters.theLog << "precipitation: ";
-      theParameters.theLog << precipitation;
-      theParameters.theLog << "inPlacesPhrase: ";
-      theParameters.theLog << inPlacesPhrase;
-      theParameters.theLog << "periodPhraseEmpty: ";
-      theParameters.theLog << (periodPhraseEmpty ? "yes" : "no") << '\n';
-      theParameters.theLog << "areaPhraseEmpty: ";
-      theParameters.theLog << (areaPhraseEmpty ? "yes" : "no") << '\n';
+      logFinalSentenceContext(theParameters.theLog, ctx);
 
       if (theCompositePhraseElements.find(
               HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE) !=
           theCompositePhraseElements.end())
       {
-        if (periodPhraseEmpty && areaPhraseEmpty)
-          sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE << Delimiter(COMMA_PUNCTUATION_MARK)
-                   << precipitation;
-        else if (periodPhraseEmpty)
-          sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << areaPhrase
-                   << precipitation;
-        else if (areaPhraseEmpty)
-          sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << periodPhrase
-                   << precipitation;
-        else
-          sentence << HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
-                   << periodPhrase << areaPhrase << precipitation;
+        sentence << buildMostlyDryInlandSentence(ctx);
       }
       else if (hasMostlyDryPhrase(theCompositePhraseElements))
       {
