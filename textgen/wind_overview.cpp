@@ -3839,6 +3839,105 @@ float WindDataItemUnit::getWindDirectionShare(
       theWindDirectionMinSpeed);
 }
 
+namespace
+{
+// Append the wind sentences and the collapsed convective cell sentence
+void append_with_cell_paragraph(Paragraph& paragraph,
+                                const std::vector<WindStoryPart>& windParts,
+                                const wo_story_params& storyParams,
+                                const std::vector<ConvectiveCellAnomaly>& convectiveAnomalies)
+{
+  // Position the collapsed cell sentence between wind sentences so the narrative is
+  // chronological. Drop the cell sentence's time qualifier when we have wind sentences
+  // to anchor against — the surrounding wind text already supplies the time and a
+  // repeated "in the evening" reads poorly.
+  const bool anchorTime = !windParts.empty();
+  Paragraph cellParagraph =
+      build_collapsed_cell_paragraph(storyParams, convectiveAnomalies, anchorTime);
+  const TextGenPosixTime cellAnchor = strongest_cell_start_time(convectiveAnomalies);
+
+  bool inserted = false;
+  for (const auto& part : windParts)
+  {
+    paragraph << part.paragraph;
+    if (!inserted && cellAnchor >= part.period.localStartTime() &&
+        cellAnchor < part.period.localEndTime())
+    {
+      paragraph << cellParagraph;
+      inserted = true;
+    }
+  }
+  if (!inserted)
+    paragraph << cellParagraph;
+}
+
+// Append the graphs and the raw data for debugging into the html__append setting
+void append_debug_html(wo_story_params& storyParams, const WeatherPeriod& period)
+{
+  std::size_t js_id = generateUniqueID();
+
+  if (Settings::optional_bool("qdtext::append_graph", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_js_code(js_id,
+                               html_string.empty(),
+                               ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
+
+    html_string += "</br><br>\n";
+    html_string += "<hr size=\"3\" color=\"black\">\n";
+    html_string += "<h5>";
+    Fmi::Date startDate(
+        Fmi::Date::from_iso_string(period.localStartTime().ToStr(kYYYYMMDD)));
+    html_string += Fmi::date_time::to_simple_string(startDate);
+    html_string += (period.localStartTime().GetHour() < 10 ? " 0" : " ");
+    html_string += Fmi::to_string(period.localStartTime().GetHour());
+    html_string += (period.localStartTime().GetMin() < 10 ? ":0" : ":");
+    html_string += Fmi::to_string(period.localStartTime().GetMin());
+    html_string += " - ";
+    Fmi::Date endDate(Fmi::Date::from_iso_string(period.localEndTime().ToStr(kYYYYMMDD)));
+    html_string += Fmi::date_time::to_simple_string(endDate);
+    html_string += (period.localEndTime().GetHour() < 10 ? " 0" : " ");
+    html_string += Fmi::to_string(period.localEndTime().GetHour());
+    html_string += (period.localEndTime().GetMin() < 10 ? ":0" : ":");
+    html_string += Fmi::to_string(period.localEndTime().GetMin());
+    html_string += "</h5>";
+
+    Settings::set("html__append", html_string);
+  }
+
+  if (Settings::optional_bool("qdtext::append_graph", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_js_data(storyParams, "windspeed", js_id);
+    js_id++;
+    html_string += get_js_data(storyParams, "winddirection", js_id);
+    js_id++;
+    Settings::set("html__append", html_string);
+  }
+
+  if (Settings::optional_bool("qdtext::append_rawdata", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_html_rawdata(storyParams);
+    Settings::set("html__append", html_string);
+  }
+  if (Settings::optional_bool("qdtext::append_windspeed_distribution", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_html_windspeed_distribution(storyParams, "mean");
+    html_string += get_html_windspeed_distribution(storyParams, "top");
+    Settings::set("html__append", html_string);
+  }
+  if (Settings::optional_bool("qdtext::append_winddirection_distribution", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_html_winddirection_distribution(storyParams, sixteen_directions);
+    html_string += get_html_winddirection_distribution(storyParams, eight_directions);
+    Settings::set("html__append", html_string);
+  }
+}
+}  // namespace
+
 Paragraph WindStory::overview() const
 {
   try
@@ -3913,92 +4012,9 @@ Paragraph WindStory::overview() const
           paragraph << part.paragraph;
       }
       else
-      {
-        // Position the collapsed cell sentence between wind sentences so the narrative is
-        // chronological. Drop the cell sentence's time qualifier when we have wind sentences
-        // to anchor against — the surrounding wind text already supplies the time and a
-        // repeated "in the evening" reads poorly.
-        const bool anchorTime = !windParts.empty();
-        Paragraph cellParagraph =
-            build_collapsed_cell_paragraph(storyParams, convectiveAnomalies, anchorTime);
-        const TextGenPosixTime cellAnchor = strongest_cell_start_time(convectiveAnomalies);
+        append_with_cell_paragraph(paragraph, windParts, storyParams, convectiveAnomalies);
 
-        bool inserted = false;
-        for (const auto& part : windParts)
-        {
-          paragraph << part.paragraph;
-          if (!inserted && cellAnchor >= part.period.localStartTime() &&
-              cellAnchor < part.period.localEndTime())
-          {
-            paragraph << cellParagraph;
-            inserted = true;
-          }
-        }
-        if (!inserted)
-          paragraph << cellParagraph;
-      }
-
-      std::size_t js_id = generateUniqueID();
-
-      if (Settings::optional_bool("qdtext::append_graph", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_js_code(js_id,
-                                   html_string.empty(),
-                                   ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
-
-        html_string += "</br><br>\n";
-        html_string += "<hr size=\"3\" color=\"black\">\n";
-        html_string += "<h5>";
-        Fmi::Date startDate(
-            Fmi::Date::from_iso_string(itsPeriod.localStartTime().ToStr(kYYYYMMDD)));
-        html_string += Fmi::date_time::to_simple_string(startDate);
-        html_string += (itsPeriod.localStartTime().GetHour() < 10 ? " 0" : " ");
-        html_string += Fmi::to_string(itsPeriod.localStartTime().GetHour());
-        html_string += (itsPeriod.localStartTime().GetMin() < 10 ? ":0" : ":");
-        html_string += Fmi::to_string(itsPeriod.localStartTime().GetMin());
-        html_string += " - ";
-        Fmi::Date endDate(Fmi::Date::from_iso_string(itsPeriod.localEndTime().ToStr(kYYYYMMDD)));
-        html_string += Fmi::date_time::to_simple_string(endDate);
-        html_string += (itsPeriod.localEndTime().GetHour() < 10 ? " 0" : " ");
-        html_string += Fmi::to_string(itsPeriod.localEndTime().GetHour());
-        html_string += (itsPeriod.localEndTime().GetMin() < 10 ? ":0" : ":");
-        html_string += Fmi::to_string(itsPeriod.localEndTime().GetMin());
-        html_string += "</h5>";
-
-        Settings::set("html__append", html_string);
-      }
-
-      if (Settings::optional_bool("qdtext::append_graph", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_js_data(storyParams, "windspeed", js_id);
-        js_id++;
-        html_string += get_js_data(storyParams, "winddirection", js_id);
-        js_id++;
-        Settings::set("html__append", html_string);
-      }
-
-      if (Settings::optional_bool("qdtext::append_rawdata", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_html_rawdata(storyParams);
-        Settings::set("html__append", html_string);
-      }
-      if (Settings::optional_bool("qdtext::append_windspeed_distribution", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_html_windspeed_distribution(storyParams, "mean");
-        html_string += get_html_windspeed_distribution(storyParams, "top");
-        Settings::set("html__append", html_string);
-      }
-      if (Settings::optional_bool("qdtext::append_winddirection_distribution", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_html_winddirection_distribution(storyParams, sixteen_directions);
-        html_string += get_html_winddirection_distribution(storyParams, eight_directions);
-        Settings::set("html__append", html_string);
-      }
+      append_debug_html(storyParams, itsPeriod);
     }
 
     deallocate_data_structures(storyParams);
