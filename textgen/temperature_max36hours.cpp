@@ -1462,119 +1462,66 @@ bool check_day_night_temp_separation(const t36hparams& p,
   }
 }
 
+// Day result IDs of one area for both forecast days
+struct AreaDayResultIds
+{
+  weather_result_id minDay1;
+  weather_result_id meanDay1;
+  weather_result_id maxDay1;
+  weather_result_id minDay2;
+  weather_result_id meanDay2;
+  weather_result_id maxDay2;
+};
+
+const AreaDayResultIds full_area_day_ids{
+    AREA_MIN_DAY1, AREA_MEAN_DAY1, AREA_MAX_DAY1, AREA_MIN_DAY2, AREA_MEAN_DAY2, AREA_MAX_DAY2};
+const AreaDayResultIds inland_day_ids{INLAND_MIN_DAY1,
+                                      INLAND_MEAN_DAY1,
+                                      INLAND_MAX_DAY1,
+                                      INLAND_MIN_DAY2,
+                                      INLAND_MEAN_DAY2,
+                                      INLAND_MAX_DAY2};
+const AreaDayResultIds coast_day_ids{
+    COAST_MIN_DAY1, COAST_MEAN_DAY1, COAST_MAX_DAY1, COAST_MIN_DAY2, COAST_MEAN_DAY2, COAST_MAX_DAY2};
+
+// Check day/night separation for the first day of the forecast period in the given area
+bool check_area_day_night_separation(const t36hparams& p,
+                                     const AreaDayResultIds& day,
+                                     weather_result_id nightMin,
+                                     weather_result_id nightMean,
+                                     weather_result_id nightMax)
+{
+  if (p.theForecastPeriod & DAY1_PERIOD)
+    return check_day_night_temp_separation(
+        p, DAY1_PERIOD, day.minDay1, day.meanDay1, day.maxDay1, nightMin, nightMean, nightMax);
+  return check_day_night_temp_separation(
+      p, DAY2_PERIOD, day.minDay2, day.meanDay2, day.maxDay2, nightMin, nightMean, nightMax);
+}
+
 bool separate_day_and_night_winter(const t36hparams& p, forecast_area_id theForecastAreaId)
 {
   try
   {
-    bool separateDayAndNight = true;
-
     // Pick the primary area result IDs based on forecastAreaId
     if (theForecastAreaId == FULL_AREA)
-    {
-      if (p.theForecastPeriod & DAY1_PERIOD)
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY1_PERIOD,
-                                                              AREA_MIN_DAY1,
-                                                              AREA_MEAN_DAY1,
-                                                              AREA_MAX_DAY1,
-                                                              AREA_MIN_NIGHT,
-                                                              AREA_MEAN_NIGHT,
-                                                              AREA_MAX_NIGHT);
-      else
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY2_PERIOD,
-                                                              AREA_MIN_DAY2,
-                                                              AREA_MEAN_DAY2,
-                                                              AREA_MAX_DAY2,
-                                                              AREA_MIN_NIGHT,
-                                                              AREA_MEAN_NIGHT,
-                                                              AREA_MAX_NIGHT);
-      return separateDayAndNight;
-    }
+      return check_area_day_night_separation(
+          p, full_area_day_ids, AREA_MIN_NIGHT, AREA_MEAN_NIGHT, AREA_MAX_NIGHT);
 
     // For INLAND_AREA and COASTAL_AREA, first check the primary area, then check the secondary
-    weather_result_id primaryMinDay1;
-    weather_result_id primaryMeanDay1;
-    weather_result_id primaryMaxDay1;
-    weather_result_id primaryMinDay2;
-    weather_result_id primaryMeanDay2;
-    weather_result_id primaryMaxDay2;
-    unsigned short secondaryAreaMask = 0;
+    const bool inland = (theForecastAreaId == INLAND_AREA);
+    const AreaDayResultIds& primary = (inland ? inland_day_ids : coast_day_ids);
+    const unsigned short secondaryAreaMask = (inland ? COASTAL_AREA : INLAND_AREA);
 
-    if (theForecastAreaId == INLAND_AREA)
-    {
-      primaryMinDay1 = INLAND_MIN_DAY1;
-      primaryMeanDay1 = INLAND_MEAN_DAY1;
-      primaryMaxDay1 = INLAND_MAX_DAY1;
-      primaryMinDay2 = INLAND_MIN_DAY2;
-      primaryMeanDay2 = INLAND_MEAN_DAY2;
-      primaryMaxDay2 = INLAND_MAX_DAY2;
-      secondaryAreaMask = COASTAL_AREA;
-    }
-    else  // COASTAL_AREA
-    {
-      primaryMinDay1 = COAST_MIN_DAY1;
-      primaryMeanDay1 = COAST_MEAN_DAY1;
-      primaryMaxDay1 = COAST_MAX_DAY1;
-      primaryMinDay2 = COAST_MIN_DAY2;
-      primaryMeanDay2 = COAST_MEAN_DAY2;
-      primaryMaxDay2 = COAST_MAX_DAY2;
-      secondaryAreaMask = INLAND_AREA;
-    }
-
-    if (p.theForecastPeriod & DAY1_PERIOD)
-      separateDayAndNight = check_day_night_temp_separation(p,
-                                                            DAY1_PERIOD,
-                                                            primaryMinDay1,
-                                                            primaryMeanDay1,
-                                                            primaryMaxDay1,
-                                                            INLAND_MIN_NIGHT,
-                                                            INLAND_MEAN_NIGHT,
-                                                            INLAND_MAX_NIGHT);
-    else
-      separateDayAndNight = check_day_night_temp_separation(p,
-                                                            DAY2_PERIOD,
-                                                            primaryMinDay2,
-                                                            primaryMeanDay2,
-                                                            primaryMaxDay2,
-                                                            INLAND_MIN_NIGHT,
-                                                            INLAND_MEAN_NIGHT,
-                                                            INLAND_MAX_NIGHT);
+    bool separateDayAndNight = check_area_day_night_separation(
+        p, primary, INLAND_MIN_NIGHT, INLAND_MEAN_NIGHT, INLAND_MAX_NIGHT);
 
     // If not separate, check secondary area too
     if (!separateDayAndNight && (p.theForecastArea & secondaryAreaMask))
     {
-      weather_result_id secMinDay1 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY1 : INLAND_MIN_DAY1;
-      weather_result_id secMeanDay1 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY1 : INLAND_MEAN_DAY1;
-      weather_result_id secMaxDay1 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY1 : INLAND_MAX_DAY1;
-      weather_result_id secMinDay2 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY2 : INLAND_MIN_DAY2;
-      weather_result_id secMeanDay2 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY2 : INLAND_MEAN_DAY2;
-      weather_result_id secMaxDay2 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY2 : INLAND_MAX_DAY2;
-
-      if (p.theForecastPeriod & DAY1_PERIOD)
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY1_PERIOD,
-                                                              secMinDay1,
-                                                              secMeanDay1,
-                                                              secMaxDay1,
-                                                              COAST_MIN_NIGHT,
-                                                              COAST_MEAN_NIGHT,
-                                                              COAST_MAX_NIGHT);
-      else
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY2_PERIOD,
-                                                              secMinDay2,
-                                                              secMeanDay2,
-                                                              secMaxDay2,
-                                                              COAST_MIN_NIGHT,
-                                                              COAST_MEAN_NIGHT,
-                                                              COAST_MAX_NIGHT);
+      const AreaDayResultIds& secondary =
+          (secondaryAreaMask == COASTAL_AREA ? coast_day_ids : inland_day_ids);
+      separateDayAndNight = check_area_day_night_separation(
+          p, secondary, COAST_MIN_NIGHT, COAST_MEAN_NIGHT, COAST_MAX_NIGHT);
     }
 
     return separateDayAndNight;
@@ -2489,6 +2436,49 @@ bool build_normal_numeric_sentence(Sentence& sentence,
   }
 }
 
+// "Suunnilleen sama" phrase for day 2 when the day phase or area phrase is present
+Sentence day2_suunnilleen_sama_phrase(bool dayEmpty,
+                                      bool areaEmpty,
+                                      const Sentence& theDayPhasePhrase,
+                                      const Sentence& theAreaPhrase)
+{
+  Sentence sentence;
+  if (!dayEmpty && areaEmpty)
+    sentence << SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase;
+  else if (dayEmpty && !areaEmpty)
+    sentence << HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase;
+  else
+    sentence << HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
+             << theAreaPhrase;
+  return sentence;
+}
+
+// "Lampotila on suunnilleen sama" phrase when the day phase or area phrase is present
+Sentence suunnilleen_sama_phrase(bool dayEmpty,
+                                 bool areaEmpty,
+                                 const Sentence& theDayPhasePhrase,
+                                 const Sentence& theAreaPhrase,
+                                 const Sentence& theTemperaturePhrase)
+{
+  Sentence sentence;
+  if (!dayEmpty && areaEmpty)
+  {
+    sentence << HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
+             << theTemperaturePhrase;
+  }
+  else if (dayEmpty && !areaEmpty)
+  {
+    sentence << SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase
+             << theTemperaturePhrase;
+  }
+  else
+  {
+    sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+             << theDayPhasePhrase << theAreaPhrase << theTemperaturePhrase;
+  }
+  return sentence;
+}
+
 Sentence build_hieman_korkeampi_alempi_sentence(const t36hparams& p,
                                                 temperature_phrase_id phrase_id,
                                                 bool useDay2Phrase,
@@ -2501,46 +2491,19 @@ Sentence build_hieman_korkeampi_alempi_sentence(const t36hparams& p,
   try
   {
     Sentence sentence;
-    if (useDay2Phrase)
+    if (dayEmpty && areaEmpty)
     {
-      if (dayEmpty && areaEmpty)
-      {
-        sentence << (p.theUseLongPhrase ? LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
-                                        : LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE);
-        sentence << theTemperaturePhrase;
-      }
-      else if (!dayEmpty && areaEmpty)
-        sentence << SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase;
-      else if (dayEmpty && !areaEmpty)
-        sentence << HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase;
-      else
-        sentence << HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
-                 << theAreaPhrase;
+      sentence << (p.theUseLongPhrase ? LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+                                      : LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE);
+      sentence << theTemperaturePhrase;
     }
+    else if (useDay2Phrase)
+      sentence << day2_suunnilleen_sama_phrase(
+          dayEmpty, areaEmpty, theDayPhasePhrase, theAreaPhrase);
     else
-    {
-      if (dayEmpty && areaEmpty)
-      {
-        sentence << (p.theUseLongPhrase ? LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
-                                        : LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE);
-        sentence << theTemperaturePhrase;
-      }
-      else if (!dayEmpty && areaEmpty)
-      {
-        sentence << HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
-                 << theTemperaturePhrase;
-      }
-      else if (dayEmpty && !areaEmpty)
-      {
-        sentence << SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase
-                 << theTemperaturePhrase;
-      }
-      else
-      {
-        sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
-                 << theDayPhasePhrase << theAreaPhrase << theTemperaturePhrase;
-      }
-    }
+      sentence << suunnilleen_sama_phrase(
+          dayEmpty, areaEmpty, theDayPhasePhrase, theAreaPhrase, theTemperaturePhrase);
+
     sentence << (phrase_id == HIEMAN_KORKEAMPI_PHRASE_ID ? HIEMAN_KORKEAMPI_PHRASE
                                                          : HIEMAN_ALEMPI_PHRASE);
     return sentence;
