@@ -2077,6 +2077,33 @@ void WindForecast::injectDirectionsIntoIntervals(sentence_info& sentenceInfo,
   }
 }
 
+namespace
+{
+// Sentence for a wind direction change which happens before the wind speed change
+sentence_info make_direction_before_sentence(const WindDirectionInfo& windDirectionInfo,
+                                             int directionPeriodLen,
+                                             const WeatherPeriod& windDirectionPeriod)
+{
+  sentence_info si;
+  if (windDirectionInfo.id == VAIHTELEVA)
+  {
+    si.sentence << (directionPeriodLen <= 5
+                        ? ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+                        : ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE);
+    si.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
+  }
+  else
+  {
+    si.sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE;
+    si.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
+    si.sentenceParameterTypes.push_back(SentenceParameterType::WIND_DIRECTION);
+    si.directionChange = windDirectionInfo;
+  }
+  si.period = windDirectionPeriod;
+  return si;
+}
+}  // namespace
+
 // Process a single direction change period (j) for one speed-change sentence
 // Returns false if the outer loop should break, true to continue.
 bool WindForecast::processOneDirectionChange(
@@ -2133,24 +2160,9 @@ bool WindForecast::processOneDirectionChange(
 
     if (directionIsBefore)
     {
-      sentence_info si;
       negotiateWindDirection(windDirectionInfo, previousWindDirectionInfo);
-      if (windDirectionInfo.id == VAIHTELEVA)
-      {
-        si.sentence << (directionPeriodLen <= 5
-                            ? ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                            : ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE);
-        si.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
-      }
-      else
-      {
-        si.sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE;
-        si.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
-        si.sentenceParameterTypes.push_back(SentenceParameterType::WIND_DIRECTION);
-        si.directionChange = windDirectionInfo;
-      }
-      si.period = windDirectionPeriod;
-      sentenceInfoBefore.push_back(si);
+      sentenceInfoBefore.push_back(
+          make_direction_before_sentence(windDirectionInfo, directionPeriodLen, windDirectionPeriod));
       directionChangeStartIndex = j + 1;
       theParameters.theLog << "Direction changes at (before wind speed change): "
                            << windDirectionPeriod.localStartTime() << " < "
