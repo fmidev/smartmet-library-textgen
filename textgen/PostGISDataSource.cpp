@@ -299,6 +299,7 @@ bool PostGISDataSource::readData(const std::string& host,
       if (area_name.empty())
       {
         log_message = "field " + fieldname + " not found for the feature " + pFDefn->GetName();
+        OGRFeature::DestroyFeature(pFeature);
         continue;
       }
 
