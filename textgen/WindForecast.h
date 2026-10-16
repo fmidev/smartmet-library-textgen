@@ -207,6 +207,33 @@ class WindForecast
   WeatherPeriod buildLastReportingPeriod(const WindDataItemUnit& windDataItem,
                                          const WeatherPeriod& speedEventPeriod,
                                          WindEventId windEvent) const;
+  // The state of collecting wind speed reporting points
+  struct ReportingState
+  {
+    std::vector<unsigned int> reportingIndexes;
+    float previousTopWind = kFloatMissing;
+    TextGenPosixTime previousTime;
+    bool finalLevelReported = false;
+    unsigned int previousReportIndex = 0;
+  };
+
+  void checkReportingPoint(unsigned int i,
+                           const WindDataItemUnit& windDataItem,
+                           ReportingState& state,
+                           const std::vector<interval_info>& hourlyInfo,
+                           unsigned int begIndex,
+                           unsigned int lastInsideIndex,
+                           bool firstSentenceInTheStory) const;
+  unsigned int lastIndexInsidePeriod(unsigned int begIndex,
+                                     const WeatherPeriod& speedEventPeriod) const;
+  std::vector<interval_info> hourlyIntervalInfo(unsigned int begIndex,
+                                                unsigned int lastInsideIndex) const;
+  interval_info reportReferenceInfo(const std::vector<interval_info>& hourlyInfo,
+                                    unsigned int previousReportIndex,
+                                    unsigned int begIndex,
+                                    bool firstSentenceInTheStory) const;
+  void dropWeakIntermediateReports(std::vector<unsigned int>& reportingIndexes,
+                                   bool firstSentenceInTheStory) const;
   std::vector<unsigned int> collectReportingIndexes(unsigned int begIndex,
                                                     unsigned int& endIndex,
                                                     const WeatherPeriod& speedEventPeriod,

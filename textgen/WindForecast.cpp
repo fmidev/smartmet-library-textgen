@@ -3646,6 +3646,145 @@ WeatherPeriod WindForecast::buildLastReportingPeriod(const WindDataItemUnit& win
   }
 }
 
+namespace
+{
+// "reached" is stricter than wind_speed_differ_enough: both limits within 1 m/s in total 2
+bool same_level(const interval_info& a, const interval_info& b)
+{
+  return (abs(a.lowerLimit - b.lowerLimit) + abs(a.upperLimit - b.upperLimit) <= 2);
+}
+
+// True if the hourly range stays at the final level from index i to the end of the change
+bool final_level_reached_at(const std::vector<interval_info>& hourlyInfo,
+                            unsigned int i,
+                            unsigned int begIndex,
+                            unsigned int lastInsideIndex)
+{
+  const interval_info& endInfo = hourlyInfo.back();
+  for (unsigned int k = i; k <= lastInsideIndex; k++)
+    if (!same_level(hourlyInfo[k - begIndex], endInfo))
+      return false;
+  return true;
+}
+}  // namespace
+
+// The last wind data index inside the speed event period
+unsigned int WindForecast::lastIndexInsidePeriod(unsigned int begIndex,
+                                                 const WeatherPeriod& speedEventPeriod) const
+{
+  unsigned int lastInsideIndex = begIndex;
+  for (unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
+  {
+    const WindDataItemUnit& item =
+        (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
+    if (!is_inside(item.thePeriod.localStartTime(), speedEventPeriod))
+      break;
+    lastInsideIndex = i;
+  }
+  return lastInsideIndex;
+}
+
+// The hourly wind speed ranges from begIndex to lastInsideIndex
+std::vector<interval_info> WindForecast::hourlyIntervalInfo(unsigned int begIndex,
+                                                            unsigned int lastInsideIndex) const
+{
+  std::vector<interval_info> hourlyInfo;
+  for (unsigned int i = begIndex; i <= lastInsideIndex; i++)
+  {
+    const WindDataItemUnit& item =
+        (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
+    hourlyInfo.push_back(windSpeedIntervalInfo(item.thePeriod));
+  }
+  return hourlyInfo;
+}
+
+// The range at the previous reporting point, or the previously reported range at the start
+interval_info WindForecast::reportReferenceInfo(const std::vector<interval_info>& hourlyInfo,
+                                                unsigned int previousReportIndex,
+                                                unsigned int begIndex,
+                                                bool firstSentenceInTheStory) const
+{
+  interval_info referenceInfo = hourlyInfo[previousReportIndex - begIndex];
+  if (!firstSentenceInTheStory && previousReportIndex == begIndex &&
+      theParameters.thePreviousRangeLower != kFloatMissing)
+  {
+    referenceInfo.lowerLimit =
+        static_cast<decltype(referenceInfo.lowerLimit)>(theParameters.thePreviousRangeLower);
+    referenceInfo.upperLimit =
+        static_cast<decltype(referenceInfo.upperLimit)>(theParameters.thePreviousRangeUpper);
+  }
+  return referenceInfo;
+}
+
+// Drop intermediate reporting points where the wind is below the configured limit. The start
+// of the story (case A) and the last point of the event are always kept.
+void WindForecast::dropWeakIntermediateReports(std::vector<unsigned int>& reportingIndexes,
+                                               bool firstSentenceInTheStory) const
+{
+  std::vector<unsigned int> kept;
+  for (unsigned int k = 0; k < reportingIndexes.size(); k++)
+  {
+    const bool isStart = (k == 0 && firstSentenceInTheStory);
+    const bool isLast = (k == reportingIndexes.size() - 1);
+    const WindDataItemUnit& item =
+        (*theParameters.theWindDataVector[reportingIndexes[k]])(theParameters.theArea.type());
+    if (isStart || isLast ||
+        item.theEqualizedTopWind.value() >= theParameters.theIntermediateReportLimit)
+      kept.push_back(reportingIndexes[k]);
+    else
+      theParameters.theLog << "Skipping intermediate wind speed report at "
+                           << as_string(item.thePeriod) << " (top wind "
+                           << item.theEqualizedTopWind.value() << " < "
+                           << theParameters.theIntermediateReportLimit << ")\n";
+  }
+  reportingIndexes = kept;
+}
+
+// Check whether the wind speed is to be reported at a point after the start of the period
+void WindForecast::checkReportingPoint(unsigned int i,
+                                       const WindDataItemUnit& windDataItem,
+                                       ReportingState& state,
+                                       const std::vector<interval_info>& hourlyInfo,
+                                       unsigned int begIndex,
+                                       unsigned int lastInsideIndex,
+                                       bool firstSentenceInTheStory) const
+{
+  bool notWeak = (windDataItem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT ||
+                  state.previousTopWind > WEAK_WIND_SPEED_UPPER_LIMIT);
+  bool reported = false;
+  interval_info referenceInfo;
+  if (theParameters.theReportFinalLevel)
+    referenceInfo = reportReferenceInfo(
+        hourlyInfo, state.previousReportIndex, begIndex, firstSentenceInTheStory);
+  if (theParameters.theReportFinalLevel && !state.finalLevelReported && notWeak &&
+      i < lastInsideIndex &&
+      final_level_reached_at(hourlyInfo, i, begIndex, lastInsideIndex) &&
+      wind_speed_differ_enough(hourlyInfo[i - begIndex], referenceInfo))
+  {
+    state.reportingIndexes.push_back(i);
+    state.previousTime = windDataItem.thePeriod.localStartTime();
+    state.previousReportIndex = i;
+    state.finalLevelReported = true;
+    reported = true;
+    theParameters.theLog << "Reporting wind speed (case D, final level reached) at "
+                         << as_string(windDataItem.thePeriod) << '\n';
+  }
+  if (!reported && notWeak)
+  {
+    WeatherPeriod p(state.previousTime, windDataItem.thePeriod.localStartTime());
+    if (wind_speed_differ_enough(theParameters, p))
+    {
+      state.reportingIndexes.push_back(i);
+      state.previousTime = windDataItem.thePeriod.localStartTime();
+      state.previousReportIndex = i;
+      // the final-level rule is meant to bring the report forward, never to add a later one
+      state.finalLevelReported = true;
+      theParameters.theLog << "Reporting wind speed (case B) at "
+                           << as_string(windDataItem.thePeriod) << '\n';
+    }
+  }
+}
+
 // Collect reporting indexes within the speed event period
 std::vector<unsigned int> WindForecast::collectReportingIndexes(
     unsigned int begIndex,
@@ -3655,47 +3794,19 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
 {
   try
   {
-    std::vector<unsigned int> reportingIndexes;
-    float previousTopWind = kFloatMissing;
-    TextGenPosixTime previousTime;
+    ReportingState state;
+    std::vector<unsigned int>& reportingIndexes = state.reportingIndexes;
 
     // Optional rule: hourly speed range at the end of the change, and the hourly range at the
     // previous reporting point. The new level is reported from the first hour whose range no
     // longer differs enough from the end range (and stays so), provided it differs enough from
     // the previously reported range. Later points are then measured from that hour, so a long
     // slow tail of the change does not postpone the report to the very end of the change.
-    unsigned int lastInsideIndex = begIndex;
-    for (unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
-    {
-      const WindDataItemUnit& item =
-          (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
-      if (!is_inside(item.thePeriod.localStartTime(), speedEventPeriod))
-        break;
-      lastInsideIndex = i;
-    }
+    unsigned int lastInsideIndex = lastIndexInsidePeriod(begIndex, speedEventPeriod);
     std::vector<interval_info> hourlyInfo;
     if (theParameters.theReportFinalLevel)
-    {
-      for (unsigned int i = begIndex; i <= lastInsideIndex; i++)
-      {
-        const WindDataItemUnit& item =
-            (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
-        hourlyInfo.push_back(windSpeedIntervalInfo(item.thePeriod));
-      }
-    }
-    // "reached" is stricter than wind_speed_differ_enough: both limits within 1 m/s in total 2
-    auto sameLevel = [](const interval_info& a, const interval_info& b) -> bool
-    { return (abs(a.lowerLimit - b.lowerLimit) + abs(a.upperLimit - b.upperLimit) <= 2); };
-    auto finalLevelReachedAt = [&](unsigned int i) -> bool
-    {
-      const interval_info& endInfo = hourlyInfo.back();
-      for (unsigned int k = i; k <= lastInsideIndex; k++)
-        if (!sameLevel(hourlyInfo[k - begIndex], endInfo))
-          return false;
-      return true;
-    };
-    bool finalLevelReported = false;
-    unsigned int previousReportIndex = begIndex;
+      hourlyInfo = hourlyIntervalInfo(begIndex, lastInsideIndex);
+    state.previousReportIndex = begIndex;
 
     for (unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
     {
@@ -3709,7 +3820,7 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
           const WindDataItemUnit& prev =
               (*theParameters.theWindDataVector[i - 1])(theParameters.theArea.type());
           reportingIndexes.push_back(i - 1);
-          previousTime = prev.thePeriod.localStartTime();
+          state.previousTime = prev.thePeriod.localStartTime();
           theParameters.theLog << "Reporting wind speed (case C) at " << as_string(prev.thePeriod)
                                << '\n';
         }
@@ -3724,53 +3835,13 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
           theParameters.theLog << "Reporting wind speed (case A) at "
                                << as_string(windDataItem.thePeriod) << '\n';
         }
-        previousTopWind = windDataItem.theEqualizedTopWind.value();
-        previousTime = windDataItem.thePeriod.localStartTime();
+        state.previousTopWind = windDataItem.theEqualizedTopWind.value();
+        state.previousTime = windDataItem.thePeriod.localStartTime();
       }
       else
       {
-        bool notWeak = (windDataItem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT ||
-                        previousTopWind > WEAK_WIND_SPEED_UPPER_LIMIT);
-        bool reported = false;
-        interval_info referenceInfo;
-        if (theParameters.theReportFinalLevel)
-        {
-          referenceInfo = hourlyInfo[previousReportIndex - begIndex];
-          if (!firstSentenceInTheStory && previousReportIndex == begIndex &&
-              theParameters.thePreviousRangeLower != kFloatMissing)
-          {
-            referenceInfo.lowerLimit = static_cast<decltype(referenceInfo.lowerLimit)>(
-                theParameters.thePreviousRangeLower);
-            referenceInfo.upperLimit = static_cast<decltype(referenceInfo.upperLimit)>(
-                theParameters.thePreviousRangeUpper);
-          }
-        }
-        if (theParameters.theReportFinalLevel && !finalLevelReported && notWeak &&
-            i < lastInsideIndex && finalLevelReachedAt(i) &&
-            wind_speed_differ_enough(hourlyInfo[i - begIndex], referenceInfo))
-        {
-          reportingIndexes.push_back(i);
-          previousTime = windDataItem.thePeriod.localStartTime();
-          previousReportIndex = i;
-          finalLevelReported = true;
-          reported = true;
-          theParameters.theLog << "Reporting wind speed (case D, final level reached) at "
-                               << as_string(windDataItem.thePeriod) << '\n';
-        }
-        if (!reported && notWeak)
-        {
-          WeatherPeriod p(previousTime, windDataItem.thePeriod.localStartTime());
-          if (wind_speed_differ_enough(theParameters, p))
-          {
-            reportingIndexes.push_back(i);
-            previousTime = windDataItem.thePeriod.localStartTime();
-            previousReportIndex = i;
-            // the final-level rule is meant to bring the report forward, never to add a later one
-            finalLevelReported = true;
-            theParameters.theLog << "Reporting wind speed (case B) at "
-                                 << as_string(windDataItem.thePeriod) << '\n';
-          }
-        }
+        checkReportingPoint(
+            i, windDataItem, state, hourlyInfo, begIndex, lastInsideIndex, firstSentenceInTheStory);
       }
       endIndex = i;
     }
@@ -3779,25 +3850,7 @@ std::vector<unsigned int> WindForecast::collectReportingIndexes(
     // limit. The start of the story (case A) and the last point of the event are always kept,
     // so the end result of the change is still reported.
     if (theParameters.theIntermediateReportLimit > 0.0 && reportingIndexes.size() > 1)
-    {
-      std::vector<unsigned int> kept;
-      for (unsigned int k = 0; k < reportingIndexes.size(); k++)
-      {
-        const bool isStart = (k == 0 && firstSentenceInTheStory);
-        const bool isLast = (k == reportingIndexes.size() - 1);
-        const WindDataItemUnit& item =
-            (*theParameters.theWindDataVector[reportingIndexes[k]])(theParameters.theArea.type());
-        if (isStart || isLast ||
-            item.theEqualizedTopWind.value() >= theParameters.theIntermediateReportLimit)
-          kept.push_back(reportingIndexes[k]);
-        else
-          theParameters.theLog << "Skipping intermediate wind speed report at "
-                               << as_string(item.thePeriod) << " (top wind "
-                               << item.theEqualizedTopWind.value() << " < "
-                               << theParameters.theIntermediateReportLimit << ")\n";
-      }
-      reportingIndexes = kept;
-    }
+      dropWeakIntermediateReports(reportingIndexes, firstSentenceInTheStory);
     return reportingIndexes;
   }
   catch (...)
