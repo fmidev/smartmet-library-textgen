@@ -35,6 +35,158 @@ bool PostGISDataSource::readData(const postgis_identifier& postGISIdentifier,
   }
 }
 
+namespace
+{
+using pointmap_t = std::map<std::string, std::pair<double, double>>;
+using svgmap_t = std::map<std::string, std::string>;
+
+// The value of the field with the given name, or an empty string
+std::string find_area_name(OGRFeature& theFeature,
+                           OGRFeatureDefn& theDefn,
+                           const std::string& fieldname)
+{
+  std::string area_name;
+  int iField = 0;
+  for (iField = 0; iField < theDefn.GetFieldCount(); iField++)
+  {
+    OGRFieldDefn* pFieldDefn = theDefn.GetFieldDefn(iField);
+
+    if (fieldname == pFieldDefn->GetNameRef())
+    {
+      area_name = theFeature.GetFieldAsString(iField);
+      break;
+    }
+  }
+  return area_name;
+}
+
+// Store a polygon or a multipolygon as an SVG path
+void add_polygon(svgmap_t& polygonmap,
+                 const std::string& area_name,
+                 OGRGeometry* pGeometry,
+                 OGRwkbGeometryType geometryType)
+{
+  string svg_string;
+  if (geometryType == wkbMultiPolygon)
+  {
+    auto* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
+    char* wkt_buffer(nullptr);
+    pMultiPolygon->exportToWkt(&wkt_buffer);
+    svg_string.append(wkt_buffer);
+    CPLFree(wkt_buffer);
+    //	if(area_name.compare("Finland") == 0)
+    // cout << "RAWMULTIPOLYGON: " << svg_string << '\n';
+  }
+  else
+  {
+    auto* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
+
+    char* wkt_buffer(nullptr);
+    pPolygon->exportToWkt(&wkt_buffer);
+    svg_string.append(wkt_buffer);
+    CPLFree(wkt_buffer);
+    // cout << "RAWPOLYGON: " << svg_string << '\n';
+  }
+
+  boost::algorithm::replace_all(svg_string, "MULTIPOLYGON ", "");
+  boost::algorithm::replace_all(svg_string, "POLYGON ", "");
+  boost::algorithm::replace_all(svg_string, "),(", " Z M ");
+  boost::algorithm::replace_all(svg_string, ",", " L ");
+  boost::algorithm::replace_all(svg_string, "(", "");
+  boost::algorithm::replace_all(svg_string, ")", "");
+  svg_string.insert(0, "\"M ");
+  svg_string.append(" Z\"\n");
+
+  // cout << "POLYGON in SVG format: " << svg_string << '\n';
+  if (polygonmap.find(area_name) != polygonmap.end())
+    polygonmap[area_name] = svg_string;
+  else
+    polygonmap.insert(make_pair(area_name, svg_string));
+}
+
+// Store a linestring or a multilinestring as an SVG path, appending to previous parts
+void add_line(svgmap_t& linemap,
+              const std::string& area_name,
+              OGRGeometry* pGeometry,
+              OGRwkbGeometryType geometryType)
+{
+  string svg_string;
+  if (geometryType == wkbMultiLineString)
+  {
+    auto* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
+
+    char* wkt_buffer(nullptr);
+    pMultiLine->exportToWkt(&wkt_buffer);
+    svg_string.append(wkt_buffer);
+    CPLFree(wkt_buffer);
+  }
+  else
+  {
+    auto* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
+
+    char* wkt_buffer(nullptr);
+    pLine->exportToWkt(&wkt_buffer);
+    svg_string.append(wkt_buffer);
+    CPLFree(wkt_buffer);
+    //	cout << "LINESTRING: " << svg_string << '\n';
+  }
+
+  boost::algorithm::replace_all(svg_string, "MULTILINESTRING ", "");
+  boost::algorithm::replace_all(svg_string, "LINESTRING ", "");
+  boost::algorithm::replace_all(svg_string, "))((", ",");
+  boost::algorithm::replace_all(svg_string, ",", " L ");
+  boost::algorithm::replace_all(svg_string, "(", "");
+  boost::algorithm::replace_all(svg_string, ")", "");
+  svg_string.append(" \"\n");
+
+  if (linemap.find(area_name) != linemap.end())
+  {
+    string previous_part(linemap[area_name]);
+    boost::algorithm::replace_all(previous_part, " \"", " ");
+    boost::algorithm::replace_all(previous_part, " \n", " ");
+    //						boost::algorithm::replace_all(previous_part,
+    //"M", "L");
+    svg_string = (previous_part + "L " + svg_string);
+  }
+  else
+  {
+    svg_string.insert(0, "\"M ");
+  }
+
+  // cout << "LINE in SVG format: " << svg_string << '\n';
+  if (linemap.find(area_name) != linemap.end())
+    linemap[area_name] = svg_string;
+  else
+    linemap.insert(make_pair(area_name, svg_string));
+}
+
+// Store a point, polygon or line geometry, other geometries are ignored
+void add_geometry(pointmap_t& pointmap,
+                  svgmap_t& polygonmap,
+                  svgmap_t& linemap,
+                  const std::string& area_name,
+                  OGRGeometry* pGeometry,
+                  OGRwkbGeometryType geometryType)
+{
+  if (geometryType == wkbPoint)
+  {
+    auto* pPoint = reinterpret_cast<OGRPoint*>(pGeometry);
+    if (pointmap.find(area_name) != pointmap.end())
+      pointmap[area_name] = make_pair(pPoint->getX(), pPoint->getY());
+    else
+      pointmap.insert(make_pair(area_name, make_pair(pPoint->getX(), pPoint->getY())));
+  }
+  else if (geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
+    add_polygon(polygonmap, area_name, pGeometry, geometryType);
+  else if (geometryType == wkbMultiLineString || geometryType == wkbLineString)
+    add_line(linemap, area_name, pGeometry, geometryType);
+  else
+  {
+    // no other geometries handled
+  }
+}
+}  // namespace
+
 bool PostGISDataSource::readData(const std::string& host,
                                  const std::string& port,
                                  const std::string& dbname,
@@ -142,18 +294,7 @@ bool PostGISDataSource::readData(const std::string& host,
       OGRFeatureDefn* pFDefn = pLayer->GetLayerDefn();
 
       // find name for the area
-      std::string area_name;
-      int iField = 0;
-      for (iField = 0; iField < pFDefn->GetFieldCount(); iField++)
-      {
-        OGRFieldDefn* pFieldDefn = pFDefn->GetFieldDefn(iField);
-
-        if (fieldname == pFieldDefn->GetNameRef())
-        {
-          area_name = pFeature->GetFieldAsString(iField);
-          break;
-        }
-      }
+      std::string area_name = find_area_name(*pFeature, *pFDefn, fieldname);
 
       if (area_name.empty())
       {
@@ -179,108 +320,7 @@ bool PostGISDataSource::readData(const std::string& host,
         auto geometryType =
             static_cast<OGRwkbGeometryType>(pGeometry->getGeometryType() & (~wkb25DBit));
 
-        if (geometryType == wkbPoint)
-        {
-          auto* pPoint = reinterpret_cast<OGRPoint*>(pGeometry);
-          if (pointmap.find(area_name) != pointmap.end())
-            pointmap[area_name] = make_pair(pPoint->getX(), pPoint->getY());
-          else
-            pointmap.insert(make_pair(area_name, make_pair(pPoint->getX(), pPoint->getY())));
-        }
-        else if (geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
-        {
-          string svg_string;
-          if (geometryType == wkbMultiPolygon)
-          {
-            auto* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
-            char* wkt_buffer(nullptr);
-            pMultiPolygon->exportToWkt(&wkt_buffer);
-            svg_string.append(wkt_buffer);
-            CPLFree(wkt_buffer);
-            //	if(area_name.compare("Finland") == 0)
-            // cout << "RAWMULTIPOLYGON: " << svg_string << '\n';
-          }
-          else
-          {
-            auto* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
-
-            char* wkt_buffer(nullptr);
-            pPolygon->exportToWkt(&wkt_buffer);
-            svg_string.append(wkt_buffer);
-            CPLFree(wkt_buffer);
-            // cout << "RAWPOLYGON: " << svg_string << '\n';
-          }
-
-          boost::algorithm::replace_all(svg_string, "MULTIPOLYGON ", "");
-          boost::algorithm::replace_all(svg_string, "POLYGON ", "");
-          boost::algorithm::replace_all(svg_string, "),(", " Z M ");
-          boost::algorithm::replace_all(svg_string, ",", " L ");
-          boost::algorithm::replace_all(svg_string, "(", "");
-          boost::algorithm::replace_all(svg_string, ")", "");
-          svg_string.insert(0, "\"M ");
-          svg_string.append(" Z\"\n");
-
-          // cout << "POLYGON in SVG format: " << svg_string << '\n';
-          if (polygonmap.find(area_name) != polygonmap.end())
-            polygonmap[area_name] = svg_string;
-          else
-            polygonmap.insert(make_pair(area_name, svg_string));
-        }
-        else if (geometryType == wkbMultiLineString || geometryType == wkbLineString)
-        {
-          string svg_string;
-          if (geometryType == wkbMultiLineString)
-          {
-            auto* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
-
-            char* wkt_buffer(nullptr);
-            pMultiLine->exportToWkt(&wkt_buffer);
-            svg_string.append(wkt_buffer);
-            CPLFree(wkt_buffer);
-          }
-          else
-          {
-            auto* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
-
-            char* wkt_buffer(nullptr);
-            pLine->exportToWkt(&wkt_buffer);
-            svg_string.append(wkt_buffer);
-            CPLFree(wkt_buffer);
-            //	cout << "LINESTRING: " << svg_string << '\n';
-          }
-
-          boost::algorithm::replace_all(svg_string, "MULTILINESTRING ", "");
-          boost::algorithm::replace_all(svg_string, "LINESTRING ", "");
-          boost::algorithm::replace_all(svg_string, "))((", ",");
-          boost::algorithm::replace_all(svg_string, ",", " L ");
-          boost::algorithm::replace_all(svg_string, "(", "");
-          boost::algorithm::replace_all(svg_string, ")", "");
-          svg_string.append(" \"\n");
-
-          if (linemap.find(area_name) != linemap.end())
-          {
-            string previous_part(linemap[area_name]);
-            boost::algorithm::replace_all(previous_part, " \"", " ");
-            boost::algorithm::replace_all(previous_part, " \n", " ");
-            //						boost::algorithm::replace_all(previous_part,
-            //"M", "L");
-            svg_string = (previous_part + "L " + svg_string);
-          }
-          else
-          {
-            svg_string.insert(0, "\"M ");
-          }
-
-          // cout << "LINE in SVG format: " << svg_string << '\n';
-          if (linemap.find(area_name) != linemap.end())
-            linemap[area_name] = svg_string;
-          else
-            linemap.insert(make_pair(area_name, svg_string));
-        }
-        else
-        {
-          // no other geometries handled
-        }
+        add_geometry(pointmap, polygonmap, linemap, area_name, pGeometry, geometryType);
       }
       // destroy feature
       OGRFeature::DestroyFeature(pFeature);
