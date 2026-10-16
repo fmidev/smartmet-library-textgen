@@ -1473,16 +1473,24 @@ struct AreaDayResultIds
   weather_result_id maxDay2;
 };
 
-const AreaDayResultIds full_area_day_ids{
-    AREA_MIN_DAY1, AREA_MEAN_DAY1, AREA_MAX_DAY1, AREA_MIN_DAY2, AREA_MEAN_DAY2, AREA_MAX_DAY2};
+const AreaDayResultIds full_area_day_ids{AREA_MIN_DAY1,
+                                         AREA_MEAN_DAY1,
+                                         AREA_MAX_DAY1,
+                                         AREA_MIN_DAY2,
+                                         AREA_MEAN_DAY2,
+                                         AREA_MAX_DAY2};
 const AreaDayResultIds inland_day_ids{INLAND_MIN_DAY1,
                                       INLAND_MEAN_DAY1,
                                       INLAND_MAX_DAY1,
                                       INLAND_MIN_DAY2,
                                       INLAND_MEAN_DAY2,
                                       INLAND_MAX_DAY2};
-const AreaDayResultIds coast_day_ids{
-    COAST_MIN_DAY1, COAST_MEAN_DAY1, COAST_MAX_DAY1, COAST_MIN_DAY2, COAST_MEAN_DAY2, COAST_MAX_DAY2};
+const AreaDayResultIds coast_day_ids{COAST_MIN_DAY1,
+                                     COAST_MEAN_DAY1,
+                                     COAST_MAX_DAY1,
+                                     COAST_MIN_DAY2,
+                                     COAST_MEAN_DAY2,
+                                     COAST_MAX_DAY2};
 
 // Check day/night separation for the first day of the forecast period in the given area
 bool check_area_day_night_separation(const t36hparams& p,

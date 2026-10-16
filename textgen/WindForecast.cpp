@@ -1589,8 +1589,9 @@ void WindForecast::constructWeakPeriodSentence(
     bool firstSentence,
     WindSpeedSentenceInfo& sentenceInfoVector) const
 {
-  bool middleNonFullPeriod = !firstSentence && get_period_length(windSpeedEventPeriod) !=
-                                                   get_period_length(theParameters.theForecastPeriod);
+  bool middleNonFullPeriod =
+      !firstSentence &&
+      get_period_length(windSpeedEventPeriod) != get_period_length(theParameters.theForecastPeriod);
   if (middleNonFullPeriod)
   {
     theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
@@ -2171,8 +2172,8 @@ bool WindForecast::processOneDirectionChange(
     if (directionIsBefore)
     {
       negotiateWindDirection(windDirectionInfo, previousWindDirectionInfo);
-      sentenceInfoBefore.push_back(
-          make_direction_before_sentence(windDirectionInfo, directionPeriodLen, windDirectionPeriod));
+      sentenceInfoBefore.push_back(make_direction_before_sentence(
+          windDirectionInfo, directionPeriodLen, windDirectionPeriod));
       directionChangeStartIndex = j + 1;
       theParameters.theLog << "Direction changes at (before wind speed change): "
                            << windDirectionPeriod.localStartTime() << " < "
