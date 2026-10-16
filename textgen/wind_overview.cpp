@@ -3431,6 +3431,51 @@ void remove_cells_from_area_stats(wo_story_params& storyParams,
   }
 }
 
+// Analyzes the peak maximum wind of each quadrant during the cell period. Missing peaks
+// are stored as zero. Returns false if no quadrant had a valid peak.
+bool analyze_quadrant_peaks(wo_story_params& storyParams,
+                            GridForecaster& forecaster,
+                            const std::array<WeatherArea::Type, 4>& quadrants,
+                            const ConvectiveCellAnomaly& anomaly,
+                            std::array<float, 4>& quadrantPeak)
+{
+  bool anyValid = false;
+  for (std::size_t q = 0; q < quadrants.size(); q++)
+  {
+    WeatherArea qArea(storyParams.theArea);
+    qArea.type(quadrants[q]);
+
+    WeatherResult peak =
+        forecaster.analyze(storyParams.theVar + "::fake::wind::maximumwind::quadrant",
+                           storyParams.theSources,
+                           MaximumWind,
+                           Peak,
+                           Mean,
+                           qArea,
+                           anomaly.period);
+    quadrantPeak[q] = (peak.value() == kFloatMissing) ? 0.0F : peak.value();
+    if (peak.value() != kFloatMissing)
+      anyValid = true;
+  }
+  return anyValid;
+}
+
+// Finds the index of the largest quadrant peak (first one on ties) and returns the
+// largest of the other peaks (at least zero).
+float find_best_two_peaks(const std::array<float, 4>& quadrantPeak, std::size_t& bestIdx)
+{
+  bestIdx = 0;
+  for (std::size_t q = 1; q < quadrantPeak.size(); q++)
+    if (quadrantPeak[q] > quadrantPeak[bestIdx])
+      bestIdx = q;
+
+  float secondBest = 0.0F;
+  for (std::size_t q = 0; q < quadrantPeak.size(); q++)
+    if (q != bestIdx && quadrantPeak[q] > secondBest)
+      secondBest = quadrantPeak[q];
+  return secondBest;
+}
+
 // Picks the dominant quadrant for one cell period, or returns WeatherArea::Full when the
 // cell moved / was ambiguous. Uses the primary area's existing name (coordinates) with the
 // quadrant type applied — mask resolution is handled by the NorthernMaskSource etc. already
@@ -3454,37 +3499,11 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
     for (auto& anomaly : anomalies)
     {
       std::array<float, 4> quadrantPeak{};
-      bool anyValid = false;
-      for (std::size_t q = 0; q < quadrants.size(); q++)
-      {
-        WeatherArea qArea(storyParams.theArea);
-        qArea.type(quadrants[q]);
-
-        WeatherResult peak =
-            forecaster.analyze(storyParams.theVar + "::fake::wind::maximumwind::quadrant",
-                               storyParams.theSources,
-                               MaximumWind,
-                               Peak,
-                               Mean,
-                               qArea,
-                               anomaly.period);
-        quadrantPeak[q] = (peak.value() == kFloatMissing) ? 0.0F : peak.value();
-        if (peak.value() != kFloatMissing)
-          anyValid = true;
-      }
-
-      if (!anyValid)
+      if (!analyze_quadrant_peaks(storyParams, forecaster, quadrants, anomaly, quadrantPeak))
         continue;
 
       std::size_t bestIdx = 0;
-      for (std::size_t q = 1; q < quadrants.size(); q++)
-        if (quadrantPeak[q] > quadrantPeak[bestIdx])
-          bestIdx = q;
-
-      float secondBest = 0.0F;
-      for (std::size_t q = 0; q < quadrants.size(); q++)
-        if (q != bestIdx && quadrantPeak[q] > secondBest)
-          secondBest = quadrantPeak[q];
+      const float secondBest = find_best_two_peaks(quadrantPeak, bestIdx);
 
       if (quadrantPeak[bestIdx] - secondBest >= CONVECTIVE_ANOMALY_QUADRANT_MARGIN)
         anomaly.dominantQuadrant = quadrants[bestIdx];
