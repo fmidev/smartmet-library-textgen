@@ -468,6 +468,44 @@ void determine_cell_quadrants(const GridForecaster& forecaster,
   }
 }
 
+// Centered running mean of the area means, shrinking at the ends
+void smooth_hours(vector<HourData>& hours, int smoothingHours)
+{
+  const int half = (smoothingHours - 1) / 2;
+  const int n = static_cast<int>(hours.size());
+  for (int i = 0; i < n; i++)
+  {
+    double sum = 0.0;
+    int count = 0;
+    for (int j = max(0, i - half); j <= min(n - 1, i + half); j++)
+    {
+      sum += hours[j].mean;
+      count++;
+    }
+    hours[i].smooth = static_cast<float>(sum / count);
+  }
+}
+
+// Log the hourly area statistics
+void log_hours(const vector<HourData>& hours, const SeaParams& params, MessageLogger& log)
+{
+  log << "Hourly area statistics (time, mean, smoothed, p" << params.rangeLowerPercentile << ", p"
+      << params.rangeUpperPercentile << ", direction, spread, gust):\n";
+  for (const auto& h : hours)
+  {
+    log << "  " << h.time.ToIsoExtendedStr() << fixed << setprecision(1) << "  mean=" << h.mean
+        << "  smooth=" << h.smooth << "  lo=" << h.lower << "  hi=" << h.upper
+        << "  dir=" << h.direction.value() << "  spread=" << h.direction.error();
+    if (h.gust != kFloatMissing)
+      log << "  gust=" << h.gust;
+    if (h.gustShare != kFloatMissing)
+      log << "  gust_share=" << h.gustShare << "%";
+    if (h.cell)
+      log << "  (convective cell removed)";
+    log << '\n';
+  }
+}
+
 vector<HourData> collect_hours(const string& var,
                                const AnalysisSources& sources,
                                const WeatherArea& area,
@@ -539,35 +577,9 @@ vector<HourData> collect_hours(const string& var,
   }
 
   // Time smoothing of the area mean (centered running mean, shrinking at the ends)
-  const int half = (params.smoothingHours - 1) / 2;
-  const int n = static_cast<int>(hours.size());
-  for (int i = 0; i < n; i++)
-  {
-    double sum = 0.0;
-    int count = 0;
-    for (int j = max(0, i - half); j <= min(n - 1, i + half); j++)
-    {
-      sum += hours[j].mean;
-      count++;
-    }
-    hours[i].smooth = static_cast<float>(sum / count);
-  }
+  smooth_hours(hours, params.smoothingHours);
 
-  log << "Hourly area statistics (time, mean, smoothed, p" << params.rangeLowerPercentile << ", p"
-      << params.rangeUpperPercentile << ", direction, spread, gust):\n";
-  for (const auto& h : hours)
-  {
-    log << "  " << h.time.ToIsoExtendedStr() << fixed << setprecision(1) << "  mean=" << h.mean
-        << "  smooth=" << h.smooth << "  lo=" << h.lower << "  hi=" << h.upper
-        << "  dir=" << h.direction.value() << "  spread=" << h.direction.error();
-    if (h.gust != kFloatMissing)
-      log << "  gust=" << h.gust;
-    if (h.gustShare != kFloatMissing)
-      log << "  gust_share=" << h.gustShare << "%";
-    if (h.cell)
-      log << "  (convective cell removed)";
-    log << '\n';
-  }
+  log_hours(hours, params, log);
   return hours;
 }
 
