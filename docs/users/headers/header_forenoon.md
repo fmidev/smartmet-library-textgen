@@ -14,3 +14,11 @@ In English:
 
 1. "Expected weather in the forenoon"
 1. "Expected weather on Monday forenoon" and variations
+
+The weekday is included only if
+
+```
+textgen::[section]::header::weekdays = true
+```
+
+(default `false`).

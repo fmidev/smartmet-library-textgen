@@ -1,6 +1,6 @@
 # Story "temperature_weekly_averages"
 
-The story is otherwise similar to [story_temperature_weekly_minmax](story_temperature_weekly_minmax.md), but the sentences report the mean temperatures during days and nights instead of the day's maxima and night's minima.
+The story is otherwise similar to [story_temperature_weekly_minmax](temperature_weekly_minmax.md), but the sentences report the mean temperatures during days and nights instead of the day's maxima and night's minima.
 
 The period must be at least 2 days long.
 
@@ -60,6 +60,12 @@ textgen::[section]::story::temperature_weekly_averages::night::starthour = 18
 textgen::[section]::story::temperature_weekly_averages::night::endhour = 6
 ```
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::temperature_weekly_averages::rangeseparator = [string] (="...")
+```
+
 The computation results can be replaced with the variables:
 
 ```
@@ -68,8 +74,8 @@ textgen::[section]::story::temperature_weekly_averages::fake::day::maximum = [re
 textgen::[section]::story::temperature_weekly_averages::fake::day::mean = [result]
 
 textgen::[section]::story::temperature_weekly_averages::fake::night::minimum = [result]
-textgen::[section]::story::temperature_weekly_averages::fake::night:maximum = [result]
-textgen::[section]::story::temperature_weekly_averages::fake::night:mean = [result]
+textgen::[section]::story::temperature_weekly_averages::fake::night::maximum = [result]
+textgen::[section]::story::temperature_weekly_averages::fake::night::mean = [result]
 ```
 
 Phrases used:

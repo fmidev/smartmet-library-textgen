@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 make                # Build libsmartmet-textgen.so
-make test           # Run all 47 test executables
+make test           # Build and run every test/*.cpp test executable
 make format         # clang-format all source and test files
 make clean          # Clean build artifacts
 make install        # Install headers to smartmet/textgen/ and library

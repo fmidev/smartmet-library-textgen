@@ -63,7 +63,7 @@ See [dictionaries.md](dictionaries.md).
 | `PostgreSQLDictionary` | PostgreSQL backend. |
 | `FileDictionaries` | Fronts several `FileDictionary` instances, one per language. |
 | `DatabaseDictionaries` | Same idea for SQL backends. |
-| `DictionaryFactory` | Creates a `Dictionary*` by name string (`"mysql"`, `"file"`, `"multimysqlplusgeneric"`, …). |
+| `DictionaryFactory` | Creates a `Dictionary*` by name string (`"multipo"`, `"file"`, `"mysql"`, …). |
 
 ---
 

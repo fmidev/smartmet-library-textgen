@@ -34,8 +34,8 @@ The variables used by the algorithm are:
 ::story::cloudiness_overview::mostly_class_limit = [0-100]  (=80)
 ::story::cloudiness_overview::no_class_limit = [0-100]      (=20)
 ::story::cloudiness_overview::trend_limit = [0-100]         (=80)
-::story::cloudiness_overview::merge_same = [true](false)     (=true)
-::story::cloudiness_overview::merge_similar = [true](false)  (=true)
+::story::cloudiness_overview::merge_same = [true|false]     (=true)
+::story::cloudiness_overview::merge_similar = [true|false]  (=true)
 
 ::story::cloudiness_overview::day::starthour = [0-23]
 ::story::cloudiness_overview::day::endhour = [0-23]

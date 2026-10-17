@@ -90,16 +90,16 @@ The wind direction for each time interval is obtained by computing the mean dire
 The required quality (direction's standard deviation) is controlled by:
 
 ```
-textgen::[section]::story::wind_daily_ranges::direction::accurate (= 22.5)
-textgen::[section]::story::wind_daily_ranges::direction::variable (= 45)
+textgen::[section]::story::wind_daily_ranges::wind_direction::accurate_limit (= 22.5)
+textgen::[section]::story::wind_daily_ranges::wind_direction::variable_limit (= 45)
 ```
 
 Defaults are given in parentheses.
 
 The direction phrase is chosen as follows:
 
-1. If quality < `accurate`, "N-tuulta"
-1. If quality >= `variable`, "N-puoleista tuulta"
+1. If the standard deviation <= `accurate_limit`, "N-tuulta"
+1. If the standard deviation <= `variable_limit`, "N-puoleista tuulta"
 1. Otherwise, "suunnaltaan vaihtelevaa tuulta"
 
 Two wind directions are never compared directly with each other, because rounding to an intermediate direction has caused significant loss of accuracy. Instead, the direction is computed for two or more days as a whole, and the resulting quality is checked.

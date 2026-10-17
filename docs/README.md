@@ -15,7 +15,7 @@ headers for a new area or customer. Start here:
 
 * **[users/](users/README.md)** — user guide
   * [Getting started](users/getting-started.md) — smallest working example
-  * [Configuration layout](users/configuration.md) — `libconfig` variable naming,
+  * [Configuration layout](users/configuration.md) — configuration variable naming,
     sections, `fake::` overrides
   * [Story catalogue](users/stories/README.md) — every generator with its
     complexity and current status (primary / active / legacy / trivial)

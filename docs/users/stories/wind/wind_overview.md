@@ -532,6 +532,7 @@ All variables live under `textgen::[section]::story::wind_overview::*`.
 | `wind_calc_top_share_e` | 50.0 % | Weight of peak wind otherwise, or when peak < 10 m/s for the whole period, or peak > 10 % of period |
 | `wind_speed_interval_min_size` | 2 m/s | Minimum wind-speed range size |
 | `wind_speed_interval_max_size` | 5 m/s | Maximum wind-speed range size |
+| `rangeseparator` | `-` | Separator between the limits of a speed range |
 | `wind_speed_threshold` | 3.0 m/s | Minimum speed change that is reported |
 | `turn_phrases` | `plain` | `veering_backing` to qualify a changed direction as clockwise or counterclockwise |
 | `weekdays` | true | Name the weekday when a time phrase moves to another day. With false a change of day is marked with "huomenna" where the reader could not infer it, see `day::phrases` |

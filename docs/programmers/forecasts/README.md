@@ -39,8 +39,9 @@ narrative helpers:
   area splitting driven by `textgen::split_the_area::<area>::method`.
   Used by `weather_forecast`, `temperature_max36hours`, and
   `temperature_anomaly`.
-* `Rect`, `get_area_center()`, `points_in_rectangle()` — geometry
-  helpers over a `WeatherArea`.
+* `AreaTools::Rect` (`AreaTools.h`) — bounding rectangle of a
+  `WeatherArea` or a point set, with `getCenter()`; `AreaTools` also has
+  `isPartOfArea()`, `getDirection()` and `getArealDistribution()`.
 * `wf_story_params` (in `WeatherForecast.h`) — the bag of references
   passed into every helper's constructor (sources, area, period,
   variable prefix, logger, …).

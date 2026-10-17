@@ -36,15 +36,15 @@ textgen::[section]::story::wind_range::mininterval = [0-] (0)
 
 | Standard deviation of wind direction | Phrase |
 | --- | --- |
-| `< accurate` | "N-tuulta" |
-| `>= variable` | "N-puoleista tuulta" |
+| `<= accurate_limit` | "N-tuulta" |
+| `<= variable_limit` | "N-puoleista tuulta" |
 | otherwise | "suunnaltaan vaihtelevaa tuulta" |
 
 Controlled by:
 
 ```
-textgen::[section]::story::wind_range::direction::accurate (= 22.5)
-textgen::[section]::story::wind_range::direction::variable (= 45)
+textgen::[section]::story::wind_range::wind_direction::accurate_limit (= 22.5)
+textgen::[section]::story::wind_range::wind_direction::variable_limit (= 45)
 ```
 
 This is a simplified version of the direction classification used by
@@ -68,8 +68,10 @@ textgen::[section]::story::wind_range::fake::speed::maximum = [result]
 textgen::[section]::story::wind_range::fake::speed::mean = [result]
 
 textgen::[section]::story::wind_range::fake::direction::mean = [result]
-textgen::[section]::story::wind_range::fake::direction::sdev = [result]
 ```
+
+A fake result is given as `value,error`; for the direction the error is the
+standard deviation used in the direction selection above.
 
 ## Phrases required
 

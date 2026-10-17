@@ -760,6 +760,14 @@ as follows:
 
 ## Configuration parameters
 
+### Time phrases
+
+| Parameter | Default | Meaning |
+| --- | --- | --- |
+| `specify_part_of_the_day` | true | Name the part of the day ("aamulla", "iltapäivästä alkaen", …) of each item. With false the parts are not named, and with several items the sentences are joined with "aluksi" / "myöhemmin" instead |
+| `use_in_the_beginning_phrase` | true | Start the first of several items with "aluksi" |
+| `weekdays` | true | Prefix the part of the day with the weekday, the first time each day is mentioned |
+
 ### Freezing-rain threshold
 
 | Parameter | Default | Meaning |

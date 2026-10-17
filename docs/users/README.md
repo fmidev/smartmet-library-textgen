@@ -6,7 +6,7 @@ set their thresholds, and tune the period / header behaviour.
 ## Reading order
 
 1. [Getting started](getting-started.md) — minimal working configuration
-2. [Configuration layout](configuration.md) — how `libconfig` variables map
+2. [Configuration layout](configuration.md) — how configuration variables map
    to sections, stories, and `fake::` values
 3. [Headers](headers/README.md) — header type catalogue (`until`, `from_until`,
    `several_days`, …)
@@ -32,6 +32,7 @@ one of the following:
 | **Trivial** | Emits one statistic as a single sentence. Works, but rarely interesting on its own — use only if that is exactly what you want. |
 | **Specialized** | Narrow purpose (e.g. `SpecialStory::date`, wave range). |
 | **Needs review** | Present in the source but not yet reclassified; treat with care. |
+| **Not implemented** | Documented, but `StoryFactory` does not recognise the name; using it fails. |
 
 The tags are guidance, not policy — nothing stops you using a "Trivial" story
 if that is what the customer actually wants.

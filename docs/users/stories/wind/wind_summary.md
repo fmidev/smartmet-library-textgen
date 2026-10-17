@@ -1,5 +1,7 @@
 # Story "wind_summary"
 
+> **Not implemented:** `StoryFactory` does not recognise this story name; a configuration that uses it fails with "Unrecognized story". The page is kept as the original specification.
+
 ## Story form
 
 The story describes a wind forecast for a period of three or more days that is not at the very beginning of the overall forecast. Typically the period starts on the third or fourth forecast day. The story is best suited to sea areas.

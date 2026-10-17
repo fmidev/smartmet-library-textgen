@@ -7,8 +7,9 @@ full layout and [stories/](stories/README.md) for what each story does.
 ## Context
 
 TextGen is a C++ library, not a standalone CLI. It is normally driven from
-[smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps), which
-loads a `libconfig` file and calls `TextGenerator::generate()`. If you just
+[smartmet-textgenapps](https://github.com/fmidev/smartmet-textgenapps), whose
+`qdtext` loads an `NFmiSettings` configuration file and calls
+`TextGenerator::generate()`, or from the SmartMet Server textgen plugin. If you just
 want to try the library from code, the skeleton is:
 
 ```cpp
@@ -19,23 +20,25 @@ want to try the library from code, the skeleton is:
 #include <textgen/PlainTextFormatter.h>
 #include <textgen/TextGenerator.h>
 #include <textgen/DictionaryFactory.h>
-#include <textgen/FileDictionaries.h>
+#include <newbase/NFmiSettings.h>
 
 int main()
 {
   using namespace TextGen;
 
-  // 1. Load the libconfig configuration.
-  Settings::read("my-config.conf");
+  // 1. Load the configuration into the TextGen settings, as qdtext does.
+  NFmiSettings::Read("my-config.conf");
+  Settings::set(NFmiSettings::ToString());
 
-  // 2. Set up a dictionary for the target language.
-  auto dict = DictionaryFactory::create("multimysqlplusgeneric");
+  // 2. Set up a dictionary for the target language (.po files from
+  //    textgen::podictionaries).
+  std::shared_ptr<Dictionary> dict(DictionaryFactory::create("multipo"));
   dict->init("en");
 
   // 3. Point the generator at its data source.
   TextGenerator gen;
   gen.sources(/* AnalysisSources wired up to QueryData/GRIB/... */);
-  gen.time(TextGenPosixTime::Now());
+  gen.time(TextGenPosixTime());  // default constructed = current local time
 
   // 4. Generate for a weather area (by name or polygon).
   WeatherArea area("Helsinki");
@@ -53,17 +56,18 @@ int main()
 ```
 # my-config.conf
 
-# --- Forecast data ---
-textgen::forecast = "/smartmet/data/pal/querydata/pal"
+# --- Forecast data (a querydata file, or a directory whose newest file is used) ---
+textgen::default_forecast = "/smartmet/data/pal/querydata/pal"
 
 # --- One-section text ---
 textgen::sections = "day1"
 
-textgen::day1::period::type    = "until"
-textgen::day1::period::days    = 0
-textgen::day1::period::endhour = 18
+textgen::day1::period::type       = "until"
+textgen::day1::period::days       = 0
+textgen::day1::period::endhour    = 18
+textgen::day1::period::switchhour = 18
 
-textgen::day1::header  = "none"
+textgen::day1::header::type = "none"
 textgen::day1::content = "temperature_range"
 
 # --- Story configuration ---
@@ -80,9 +84,9 @@ Temperature is 10...14 degrees.
 
 * **Add more stories.** Pick one from the [story catalogue](stories/README.md)
   and add it to `::content`. Prefer the *Primary* ones for real products.
-* **Customise the period.** See [periods.md](periods.md) for `until`,
-  `from_until`, and multi-day period types.
-* **Add a title.** Switch `::header` from `"none"` to a real type — see
+* **Customise the period.** See [periods.md](periods.md) for the `now`,
+  `until` and `from_until` period types.
+* **Add a title.** Switch `::header::type` from `"none"` to a real type — see
   [headers/](headers/README.md).
 * **Split into days.** Set `::subperiods = true` to get one story sequence
   per forecast day. See [subperiods.md](subperiods.md).

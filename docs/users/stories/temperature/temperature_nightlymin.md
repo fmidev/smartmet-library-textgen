@@ -117,6 +117,12 @@ textgen::[section]::story::temperature_nightlymin::night::maxstarthour = 01
 
 In that case the night's minimum is always reported up to 01:00 in the morning, even though the period already begins at 18:00. At the end of the period flex is rarely needed.
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::temperature_nightlymin::rangeseparator = [string] (="...")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

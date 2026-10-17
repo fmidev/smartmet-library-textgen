@@ -1,6 +1,8 @@
 # Header type "until"
 
-Produces a header of the form "Odotettavissa tiistai-iltaan asti". The end hour must be 06 or 18, producing a morning or evening specifier respectively. This is generally used with the corresponding period type "until".
+Produces a header of the form "Odotettavissa tiistai-iltaan asti". The end hour selects the time of day: 06–08 morning, 09–11 forenoon, 12 noon, 14–17 afternoon, 17–21 evening and 22–23 before midnight; other end hours throw an error. This is generally used with the corresponding period type "until".
+
+The header type `until_weekday` produces the same header.
 
 Possible headers:
 

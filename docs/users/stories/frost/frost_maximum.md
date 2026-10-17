@@ -2,6 +2,8 @@
 
 The interval's frost probabilities are used to pick the maximum for the text.
 
+The story is empty unless the required global variable `textgen::frostseason` is `true`; the application decides when the frost season is on.
+
 The `frost_maximum` story has the form:
 
 1. ""
@@ -25,7 +27,7 @@ The story is chosen based on the variables:
 ```
 textgen::[section]::story::frost_maximum::severe_frost_limit = [0-100]
 textgen::[section]::story::frost_maximum::frost_limit = [0-100]
-textgen::[section]::story::frost_mean::precision = [0-100]
+textgen::[section]::story::frost_maximum::precision = [0-100]
 ```
 
 If the probability of severe frost is at least `severe_frost_limit`, phrase 3 is returned. Otherwise, if the probability of frost is at least `frost_limit`, phrase 2 is returned. Otherwise an empty story is returned.

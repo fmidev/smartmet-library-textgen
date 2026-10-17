@@ -2,6 +2,8 @@
 
 The interval's frost probabilities are used to pick the minimum and maximum for the text.
 
+The story is empty unless the required global variable `textgen::frostseason` is `true`; the application decides when the frost season is on.
+
 The `frost_range` story has the form:
 
 1. ""
@@ -45,6 +47,12 @@ Phrases used:
 * "hallan todennäköisyys"
 * "ankaran hallan todennäköisyys"
 * "on"
+
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::frost_range::rangeseparator = [string] (="-")
+```
 
 The generated analysis functions can be overridden as follows:
 

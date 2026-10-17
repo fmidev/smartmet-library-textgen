@@ -1,9 +1,11 @@
 # Configuration layout
 
-TextGen reads its configuration through [`libconfig`][libconfig] via
-`calculator/Settings.h`. Everything is keyed under the `textgen::` namespace.
-
-[libconfig]: https://hyperrealm.github.io/libconfig/
+TextGen reads its configuration through `calculator/Settings.h`, a
+thread-local store of `name = value` variables. The application fills it:
+`qdtext` in smartmet-textgenapps reads an `NFmiSettings` configuration file
+(whose `name { ... }` blocks are shown flattened below), and the SmartMet
+textgen plugin copies its libconfig product configuration into it.
+Everything is keyed under the `textgen::` namespace.
 
 ## Top-level shape
 
@@ -18,7 +20,7 @@ document). For each section `X`, the generator expects:
 
 ```
 textgen::X::period   = ...       # how to build the WeatherPeriod
-textgen::X::header   = ...       # (optional) what header/title to emit
+textgen::X::header::type = ...   # what header/title to emit ("none" for no header)
 textgen::X::content  = "story1, story2, ..."   # named stories to generate
 ```
 
@@ -27,11 +29,12 @@ textgen::X::content  = "story1, story2, ..."   # named stories to generate
 ```
 textgen::sections = today
 
-textgen::today::period::type     = until
-textgen::today::period::days     = 0
-textgen::today::period::endhour  = 18
+textgen::today::period::type       = until
+textgen::today::period::days       = 0
+textgen::today::period::endhour    = 18
+textgen::today::period::switchhour = 18
 
-textgen::today::header = morning
+textgen::today::header::type = morning
 textgen::today::content = temperature_mean, precipitation_total
 ```
 
@@ -49,6 +52,9 @@ in [periods.md](periods.md). The most common types are:
 | `now` | Period whose start and end equal the forecast time (useful with `report_*` headers). |
 | `until` | From forecast time to a fixed end hour, possibly days later. |
 | `from_until` | Both start and end are offsets from the forecast time. |
+
+These are all the period types there are. `until` and `from_until` require
+all of their variables, including `switchhour`.
 
 ## Subperiods
 

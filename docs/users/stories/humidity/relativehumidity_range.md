@@ -27,6 +27,12 @@ Relative humidity is rounded to the precision given by:
 textgen::[section]::story::relativehumidity_range::precision = [0-100]
 ```
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::relativehumidity_range::rangeseparator = [string] (="-")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

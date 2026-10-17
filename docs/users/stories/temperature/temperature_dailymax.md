@@ -116,6 +116,12 @@ textgen::[section]::story::temperature_dailymax::day::maxstarthour = 12
 
 In that case the day's maximum is always reported up to 12 noon, even though the period already begins at 06. At the end of the period flex is rarely needed.
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::temperature_dailymax::rangeseparator = [string] (="...")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

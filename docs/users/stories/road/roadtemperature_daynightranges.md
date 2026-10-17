@@ -49,6 +49,12 @@ textgen::[section]::story::roadtemperature_daynightranges::night::minendhour = [
 
 Note that the night's start and end times are not defined directly; they are implicitly defined by the day times.
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::roadtemperature_daynightranges::rangeseparator = [string] (="...")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

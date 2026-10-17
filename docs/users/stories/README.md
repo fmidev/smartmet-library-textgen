@@ -1,9 +1,10 @@
 # Story catalogue
 
-Every named story recognised by `StoryFactory`, grouped by weather parameter.
+Every named story recognised by `StoryFactory`, grouped by weather parameter, plus a few
+originally specified stories that were never implemented.
 
 See the [status legend](../README.md#story-status-legend) for what **Primary**,
-**Active**, **Legacy**, **Trivial**, **Specialized**, and **Needs review** mean.
+**Active**, **Legacy**, **Trivial**, **Specialized**, **Needs review** and **Not implemented** mean.
 
 LOC counts are approximate (source file line counts as of the last
 documentation pass).
@@ -19,12 +20,12 @@ documentation pass).
 | [`temperature_nightlymin`](temperature/temperature_nightlymin.md) | Active | 173 | Mirror of `temperature_dailymax` for nights. |
 | [`temperature_weekly_minmax`](temperature/temperature_weekly_minmax.md) | Active | 161 | "Päivien ylin X, öiden alin Y" for ≥2 days. |
 | [`temperature_weekly_averages`](temperature/temperature_weekly_averages.md) | Active | 151 | Mean-over-days variant. |
-| [`temperature_weekly_averages_trend`](temperature/temperature_weekly_averages_trend.md) | Needs review | — | Original doc exists but no matching `*.cpp` in the current tree — probably folded into another story. |
+| [`temperature_weekly_averages_trend`](temperature/temperature_weekly_averages_trend.md) | Not implemented | — | Original specification only: `StoryFactory` does not recognise the name. |
 | [`temperature_range`](temperature/temperature_range.md) | Trivial | 89 | Single "Lämpötila on X…Y astetta" sentence. |
 | [`temperature_mean`](temperature/temperature_mean.md) | Trivial | 69 | One mean temperature in one sentence. |
 | [`temperature_meanmax`](temperature/temperature_meanmax.md) | Trivial | 69 | One mean of daily maxima. |
 | [`temperature_meanmin`](temperature/temperature_meanmin.md) | Trivial | 72 | One mean of daily minima. |
-| [`temperature_minmax`](temperature/temperature_minmax.md) | Needs review | — | Placeholder stub only; see if any config still references the name. |
+| [`temperature_minmax`](temperature/temperature_minmax.md) | Not implemented | — | Placeholder stub only: `StoryFactory` does not recognise the name. |
 
 ## Wind
 
@@ -36,7 +37,7 @@ documentation pass).
 | [`wind_daily_ranges`](wind/wind_daily_ranges.md) | Legacy | 567 | Per-day range+direction. Superseded by `wind_overview` for most products; keep for products that explicitly need one entry per forecast day. |
 | [`wind_simple_overview`](wind/wind_simple_overview.md) | Legacy | 297 | The original doc said "not well specified — do not use yet". Superseded by `wind_overview`. |
 | [`wind_range`](wind/wind_range.md) | Trivial | 108 | Single sentence "N-tuulta X…Y m/s". Uses simplified versions of the `wind_overview` speed and direction classifications. |
-| [`wind_summary`](wind/wind_summary.md) | Needs review | — | Documented in the original material but the matching `.cpp` does not appear to exist today. Possibly folded into `wind_overview`. |
+| [`wind_summary`](wind/wind_summary.md) | Not implemented | — | Original specification only: `StoryFactory` does not recognise the name. Use `wind_overview`. |
 
 ## Precipitation
 

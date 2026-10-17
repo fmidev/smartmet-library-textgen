@@ -146,16 +146,16 @@ The direction for each interval is obtained by computing the mean direction over
 The required quality (standard deviation of the direction) is controlled by:
 
 ```
-textgen::[section]::story::wind_simple_overview::direction::accurate (= 22.5)
-textgen::[section]::story::wind_simple_overview::direction::variable (= 45)
+textgen::[section]::story::wind_simple_overview::wind_direction::accurate_limit (= 22.5)
+textgen::[section]::story::wind_simple_overview::wind_direction::variable_limit (= 45)
 ```
 
 Defaults are given in parentheses.
 
 The direction phrase is chosen as follows:
 
-1. If quality >= `accurate`, "N-tuulta"
-1. If quality >= `variable`, "N-puoleista tuulta"
+1. If the standard deviation <= `accurate_limit`, "N-tuulta"
+1. If the standard deviation <= `variable_limit`, "N-puoleista tuulta"
 1. Otherwise, "suunnaltaan vaihtelevaa tuulta"
 
 ## Phrases required

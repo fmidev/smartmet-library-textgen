@@ -11,20 +11,26 @@ The `create` method of the `TextGen::PeriodPhraseFactory` namespace creates `Tex
 The API of the `create` method is:
 
 ```cpp
-TextGen::Sentence create(const std::string & theType,
-                         const std::string & theVariable,
-                         const NFmiTime & theForecastTime,
-                         const WeatherAnalysis::WeatherPeriod & thePeriod);
+TextGen::Sentence create(const std::string& theType,
+                         const std::string& theVariable,
+                         const TextGenPosixTime& theForecastTime,
+                         const TextGen::WeatherPeriod& thePeriod);
+
+TextGen::Sentence create(const std::string& theType,
+                         const std::string& theVariable,
+                         const TextGenPosixTime& theForecastTime,
+                         const TextGen::WeatherPeriod& thePeriod,
+                         const TextGen::WeatherArea& theArea);
 ```
 
-The variable `theVariable` is the prefix for the variables needed to generate a phrase of type `theType`. Typically `theVariable` is of the form `textgen::[section]::[story]::[period]`.
+The variable `theVariable` is the prefix for the variables needed to generate a phrase of type `theType`. Typically `theVariable` is the story variable `textgen::[section]::story::[story]`, and the phrase type is appended to it.
 
 ### Variables
 
 Period phrases are controlled with variables of the form:
 
 ```
-textgen::[section]::[story]::[period] = [preference_order].
+textgen::[section]::story::[story]::[period]::phrases = [preference_order]
 ```
 
 The variable's value is a list of names that defines the preference order of the different phrases. The possible names are listed below:

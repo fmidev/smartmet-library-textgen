@@ -71,6 +71,12 @@ textgen::[section]::story::precipitation_daily_sums::today::phrases
 textgen::[section]::story::precipitation_daily_sums::next_day::phrases
 ```
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::precipitation_daily_sums::rangeseparator = [string] (="-")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

@@ -71,7 +71,13 @@ PS. The name of the story is not `precipitation_class` because, following coding
 Hourly precipitation amounts that are too small are in principle not part of the total. Such small amounts can be filtered out using:
 
 ```
-textgen::[section]::story::precipitation_range::minrain = [0-X]
+textgen::[section]::story::precipitation_classification::minrain = [0-X]
+```
+
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::precipitation_classification::rangeseparator = [string] (="-")
 ```
 
 The generated analysis functions can be overridden as follows:

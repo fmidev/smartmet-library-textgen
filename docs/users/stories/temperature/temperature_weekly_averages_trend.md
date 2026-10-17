@@ -1,5 +1,7 @@
 # Story "temperature_weekly_averages_trend"
 
+> **Not implemented:** `StoryFactory` does not recognise this story name; a configuration that uses it fails with "Unrecognized story". The page is kept as the original specification.
+
 The period must be at least 2 days long. Start and end hours must be 06 or 18.
 
 The stories are of the form:

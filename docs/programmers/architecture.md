@@ -107,8 +107,8 @@ Two **aggregator** classes wrap a set of language-specific dictionaries:
 * `DatabaseDictionaries` — same idea for DB backends.
 
 `DictionaryFactory::create(name)` returns a `Dictionary*` by name string
-("mysql", "postgresql", "file", "multimysqlplusgeneric", …). `TheDictionary`
-is an optional singleton wrapper. See [dictionaries.md](dictionaries.md).
+("multipo", "po", "file", "mysql", "postgresql", …). There is no global
+dictionary singleton. See [dictionaries.md](dictionaries.md).
 
 ## Hierarchy 3 — TextFormatter (the Visitor)
 
@@ -191,14 +191,16 @@ ignore precipitation under 0.1 mm). See [class index](classes.md#acceptors).
 | `HeaderFactory` | `Header` | `"until"`, `"several_days"`, `"none"` |
 | `WeatherPeriodFactory` | `WeatherPeriod` | reads `::period::type` ("now", "until", …) |
 | `PeriodPhraseFactory` | `Sentence` | type + variable prefix ("today", "tonight", …) |
-| `DictionaryFactory` | `Dictionary*` | `"file"`, `"mysql"`, `"multimysqlplusgeneric"` |
+| `DictionaryFactory` | `Dictionary*` | `"multipo"`, `"file"`, `"mysql"` |
 | `TextFormatterFactory` | `TextFormatter*` | `"plain"`, `"html"`, `"speech"` |
 | `UnitFactory` | `Sentence` | `"celsius"`, `"millimetres"`, … |
 
 ## Configuration surface
 
-Everything tunable lives under the `textgen::` key in a `libconfig` file,
-read through `calculator/Settings.h`. See the user guide's
+Everything tunable lives under the `textgen::` key, read through the
+thread-local variable store of `calculator/Settings.h`, which the application
+fills (qdtext from an `NFmiSettings` file, the server plugin from its libconfig
+product configuration). See the user guide's
 [configuration.md](../users/configuration.md) for the variable layout.
 
 ## Where the algorithm code lives
