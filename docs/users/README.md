@@ -32,7 +32,6 @@ one of the following:
 | **Trivial** | Emits one statistic as a single sentence. Works, but rarely interesting on its own — use only if that is exactly what you want. |
 | **Specialized** | Narrow purpose (e.g. `SpecialStory::date`, wave range). |
 | **Needs review** | Present in the source but not yet reclassified; treat with care. |
-| **Not implemented** | Documented, but `StoryFactory` does not recognise the name; using it fails. |
 
 The tags are guidance, not policy — nothing stops you using a "Trivial" story
 if that is what the customer actually wants.
