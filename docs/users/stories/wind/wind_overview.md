@@ -5,6 +5,8 @@
 >
 > **Owner:** `WindStory::overview()`.
 > **Implementation:** `textgen/wind_overview.cpp` (~4 750 LOC).
+> **Tests:** `test/WindOverviewTest.cpp` (`turn_phrases` on
+> `test/data/skandinavia_pinta.sqd`).
 >
 > This page reflects the 2011–2016 specification, extended in 2026 with
 > [local convective cell handling](#paikalliset-konvektiosolut-local-convective-cells).
