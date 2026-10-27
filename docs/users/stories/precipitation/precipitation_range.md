@@ -39,11 +39,17 @@ Phrases used:
 * "yli"
 * "millimetriä"
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::precipitation_range::rangeseparator = [string] (="-")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```
 1. Minimum(Sum(Precipitation)):
-textgen::[section]::story::precipitation_total::fake::minimum = [result]
+textgen::[section]::story::precipitation_range::fake::minimum = [result]
 1. Maximum(Sum(Precipitation)):
-textgen::[section]::story::precipitation_total::fake::maximum = [result]
+textgen::[section]::story::precipitation_range::fake::maximum = [result]
 ```

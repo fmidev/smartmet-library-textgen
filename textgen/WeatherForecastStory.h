@@ -160,13 +160,15 @@ class WeatherForecastStory
                        const TextGen::WeatherArea& weatherArea,
                        wf_story_params& parameters,
                        const TextGenPosixTime& forecastTime,
-                       PrecipitationForecast& precipitationForecast,
+                       const PrecipitationForecast& precipitationForecast,
                        const CloudinessForecast& cloudinessForecast,
                        const FogForecast& fogForecast,
                        const ThunderForecast& thunderForecast,
                        MessageLogger& logger);
 
   ~WeatherForecastStory();
+  WeatherForecastStory(const WeatherForecastStory&) = default;
+  WeatherForecastStory& operator=(const WeatherForecastStory&) = delete;
 
   Paragraph getWeatherForecastStory();
   Paragraph getWeatherForecastStoryAtSea();
@@ -223,7 +225,7 @@ class WeatherForecastStory
   void processPrecipitationItem(WeatherForecastStoryItem* item,
                                 std::vector<Sentence>& sentences,
                                 SeaStoryStats& stats);
-  void appendVisibilitySentence(std::vector<Sentence>& sentences, const SeaStoryStats& stats);
+  void appendVisibilitySentence(std::vector<Sentence>& sentences, const SeaStoryStats& stats) const;
 
   const std::string theVar;
   const WeatherPeriod& theForecastPeriod;

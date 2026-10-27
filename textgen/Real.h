@@ -25,6 +25,7 @@ class Real : public Glyph
 #ifdef NO_COMPILER_GENERATED
   Real(const Real& theReal);
   Real& operator=(const Real& theReal);
+  Real(const Real&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

@@ -36,13 +36,6 @@
 using namespace std;
 using namespace TextGen;
 
-// Neither function is part of the library's public interface, but both have
-// external linkage in wind_overview.cpp.
-namespace TextGen
-{
-void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams);
-int get_period_length(const WeatherPeriod& thePeriod);
-}  // namespace TextGen
 
 namespace WindEventPeriodMergeTest
 {

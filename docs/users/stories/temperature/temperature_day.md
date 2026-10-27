@@ -94,6 +94,12 @@ textgen::[section]::story::temperature_day::night::maxstarthour = 23
 textgen::[section]::story::temperature_day::night::minendhour   = 6
 ```
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::temperature_day::rangeseparator = [string] (="...")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

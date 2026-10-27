@@ -203,7 +203,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       acceptor.lowerLimit(minimum_rain);
       PercentageCalculator calculator;
       calculator.condition(acceptor);
-      do
+      for (bool more = true; more; more = qi.NextTime() && qi.Time() <= thePeriod.utcEndTime())
       {
         const float tmp = QueryDataIntegrator::Integrate(qi, *mask, calculator);
         if (tmp != kFloatMissing && tmp >= minimum_area)
@@ -217,7 +217,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
                                        metTime.GetSec());
           times.push_back(TextGenPosixTime::LocalTime(textgenTime));
         }
-      } while (qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
+      }
     }
     else
     {
@@ -232,7 +232,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
         throw Fmi::Exception(BCP, msg.str());
       }
 
-      do
+      for (bool more = true; more; more = qi.NextTime() && qi.Time() <= thePeriod.utcEndTime())
       {
         const float tmp = qi.FloatValue();
         if (tmp != kFloatMissing && tmp >= minimum_rain)
@@ -246,7 +246,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
                                        metTime.GetSec());
           times.push_back(TextGenPosixTime::LocalTime(textgenTime));
         }
-      } while (qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
+      }
     }
 
     return times;

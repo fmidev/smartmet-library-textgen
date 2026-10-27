@@ -453,41 +453,25 @@ Rect Rect::intersection(const Rect& theRect) const
   {
     direction_id dirId = TextGen::AreaTools::getDirection(*this, theRect);
 
+    if (dirId != NO_DIRECTION)
+      return theRect;
+
+    if (this->contains(theRect))  // inside, but on different directions
+      return theRect;
+
+    if (theRect.contains(*this))
+      return *this;
+
+    // intersects partially
+    // Note: std::max(a, b) == (b > a ? b : a) and std::min(a, b) == (b < a ? b : a)
+    double minX = std::max(m_topLeft.X(), theRect.m_topLeft.X());
+    double maxX = std::min(m_bottomRight.X(), theRect.m_bottomRight.X());
+    double minY = std::max(m_bottomRight.Y(), theRect.m_bottomRight.Y());
+    double maxY = std::min(m_topLeft.Y(), theRect.m_topLeft.Y());
+
     Rect retval;
-
-    if (dirId == NO_DIRECTION)
-    {
-      if (this->contains(theRect))  // inside, but on different directions
-      {
-        retval = theRect;
-      }
-      else
-      {
-        if (theRect.contains(*this))
-        {
-          retval = *this;
-        }
-        else  // intersects partially
-        {
-          double minX =
-              theRect.m_topLeft.X() > m_topLeft.X() ? theRect.m_topLeft.X() : m_topLeft.X();
-
-          double maxX = theRect.m_bottomRight.X() < m_bottomRight.X() ? theRect.m_bottomRight.X()
-                                                                      : m_bottomRight.X();
-          double minY = theRect.m_bottomRight.Y() > m_bottomRight.Y() ? theRect.m_bottomRight.Y()
-                                                                      : m_bottomRight.Y();
-          double maxY = theRect.m_topLeft.Y() < m_topLeft.Y() ? theRect.m_topLeft.Y() : m_topLeft.Y();
-
-          retval.setTopLeft(NFmiPoint(minX, maxY));
-          retval.setBottomRight(NFmiPoint(maxX, minY));
-        }
-      }
-    }
-    else
-    {
-      retval = theRect;
-    }
-
+    retval.setTopLeft(NFmiPoint(minX, maxY));
+    retval.setBottomRight(NFmiPoint(maxX, minY));
     return retval;
   }
   catch (...)

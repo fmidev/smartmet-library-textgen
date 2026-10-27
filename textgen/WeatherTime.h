@@ -24,6 +24,7 @@ class WeatherTime : public Glyph
 #ifdef NO_COMPILER_GENERATED
   WeatherTime(const WeatherTime& theTime);
   WeatherTime& operator=(const WeatherTime& theTime);
+  WeatherTime(const WeatherTime&) = default;
 #endif
   std::shared_ptr<Glyph> clone() const override;
   std::string realize(const Dictionary& theDictionary) const override;

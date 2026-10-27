@@ -126,6 +126,17 @@ The periods are:
 1. evening
 1. night
 
+Their limits are set with the required variables
+
+```
+textgen::[section]::story::roadcondition_overview::morning::starthour = [0-23]
+textgen::[section]::story::roadcondition_overview::day::starthour = [0-23]
+textgen::[section]::story::roadcondition_overview::evening::starthour = [0-23]
+textgen::[section]::story::roadcondition_overview::night::starthour = [0-23]
+```
+
+each period ending where the next one starts.
+
 The easiest way to combine time phrases is to use an "alkaen" ("starting from …") phrase, i.e.:
 
 1. "aamusta alkaen" (from the morning)

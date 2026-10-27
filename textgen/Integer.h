@@ -25,6 +25,7 @@ class Integer : public Glyph
 #ifdef NO_COMPILER_GENERATED
   Integer(const Integer& theInteger);
   Integer& operator=(const Integer& theInteger);
+  Integer(const Integer&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

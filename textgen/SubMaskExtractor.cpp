@@ -20,6 +20,7 @@
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgTools.h>
 #include <cassert>
+#include <math.h>
 
 #include <boost/lexical_cast.hpp>
 #include <memory>
@@ -230,8 +231,8 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       if (theIndexMask->empty())
         return 0;
 
-      unsigned long startindex;
-      unsigned long endindex;
+      unsigned long startindex = 0;
+      unsigned long endindex = 0;
 
       if (!QueryDataTools::findIndices(
               theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -243,7 +244,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       {
         theQI.TimeIndex(startindex);
 
-        do
+        for (bool more = true; more; more = theQI.NextTime() && theQI.TimeIndex() < endindex)
         {
           // possible -1 is handled by IndexFloatValue
           const unsigned long idx =
@@ -255,7 +256,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
             theResultData.push_back(new NFmiPoint(theQI.LatLon(it)));
             retval += tmp;
           }
-        } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
+        }
       }
     }
 
@@ -334,8 +335,8 @@ double ExtractMask(const AnalysisSources& theSources,
       if (theIndexMask->empty())
         return 0;
 
-      unsigned long startindex;
-      unsigned long endindex;
+      unsigned long startindex = 0;
+      unsigned long endindex = 0;
 
       if (!QueryDataTools::findIndices(
               theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -345,7 +346,7 @@ double ExtractMask(const AnalysisSources& theSources,
       {
         theQI.TimeIndex(startindex);
 
-        do
+        for (bool more = true; more; more = theQI.NextTime() && theQI.TimeIndex() < endindex)
         {
           // possible -1 is handled by IndexFloatValue
           const unsigned long idx =
@@ -357,7 +358,7 @@ double ExtractMask(const AnalysisSources& theSources,
             theResultIndexMask.insert(it);
             retval += tmp;
           }
-        } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
+        }
       }
     }
 
@@ -431,10 +432,10 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
   Insert(tree, projectedPath, FmiMin(dx, dy) * resolution_factor);
 
   //
-  double theXmin;
-  double theYmin;
-  double theXmax;
-  double theYmax;
+  double theXmin = NAN;
+  double theYmin = NAN;
+  double theXmax = NAN;
+  double theYmax = NAN;
 
   NFmiSvgTools::BoundingBox(svgPath, theXmin, theYmin, theXmax, theYmax);
 

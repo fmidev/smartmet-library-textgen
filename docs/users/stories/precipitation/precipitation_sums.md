@@ -35,6 +35,12 @@ The precipitation sum is reported as a mean if the difference between minimum an
 textgen::[section]::story::precipitation_sums::mininterval = [0-X] (=1)
 ```
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::precipitation_sums::rangeseparator = [string] (="-")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

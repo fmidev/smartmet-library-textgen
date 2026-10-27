@@ -27,6 +27,7 @@ class RealRange : public Glyph
 #ifdef NO_COMPILER_GENERATED
   RealRange(const RealRange& theRealRange);
   RealRange& operator=(const RealRange& theRealRange);
+  RealRange(const RealRange&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

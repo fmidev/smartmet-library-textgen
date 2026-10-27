@@ -11,7 +11,7 @@ namespace TextGen
 // this so as not to destroy the original algorithm in case we want
 // dense fogs back later on.
 
-#define ENABLE_DENSE_FOG 0
+constexpr int ENABLE_DENSE_FOG = 0;
 
 enum fog_type_id
 {

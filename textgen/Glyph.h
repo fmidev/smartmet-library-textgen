@@ -19,6 +19,8 @@ class Glyph
 {
  public:
   virtual ~Glyph();
+  Glyph(const Glyph&) = default;
+  Glyph& operator=(const Glyph&) = default;
   virtual std::shared_ptr<Glyph> clone() const = 0;
   virtual std::string realize(const Dictionary& theDictionary) const = 0;
   virtual std::string realize(const TextFormatter& theFormatter) const = 0;

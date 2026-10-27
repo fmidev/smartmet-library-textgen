@@ -60,8 +60,8 @@ FireWarnings::FireWarnings(const string& theDirectory, const TextGenPosixTime& t
 
     // Read the areacode - state pairs
 
-    int areacode;
-    int areastate;
+    int areacode = 0;
+    int areastate = 0;
     while (input >> areacode >> areastate)
     {
       if (areacode < 1 || areacode > MaxAreaCode)

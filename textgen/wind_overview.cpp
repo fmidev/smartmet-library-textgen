@@ -37,6 +37,8 @@ constexpr int INITIAL_MERGE_THRESHOLD_HOURS = 3;
 constexpr int SHORT_PERIOD_THRESHOLD_HOURS = 2;
 constexpr int MISSING_EVENT_THRESHOLD_HOURS = 6;
 
+namespace
+{
 std::size_t generateUniqueID()
 {
   static std::random_device rd;
@@ -358,12 +360,6 @@ bool wind_event_period_sort(const WindEventPeriodDataItem* first,
   return (first->thePeriod.localStartTime() < second->thePeriod.localStartTime());
 }
 
-bool wind_direction_item_sort(pair<float, WeatherResult> firstItem,
-                              pair<float, WeatherResult> secondItem)
-{
-  return firstItem.second.value() > secondItem.second.value();
-}
-
 std::string get_area_type_string(const WeatherArea::Type& theAreaType)
 {
   std::string retval;
@@ -414,8 +410,8 @@ std::string get_direction_abbreviation(
     float direction, WindStoryTools::CompassType compass_type = sixteen_directions)
 {
   direction = std::fabs(direction);
-  while (direction > 360.0f)
-    direction -= 360.0f;
+  while (direction > 360.0F)
+    direction -= 360.0F;
 
   if (compass_type == sixteen_directions)
   {
@@ -437,12 +433,12 @@ std::string get_direction_abbreviation(
                                                      "w-nw",
                                                      "NW",
                                                      "nw-n"};
-    return dirs[static_cast<int>((direction + 11.25f) / 22.5f) % 16];
+    return dirs[static_cast<int>((direction + 11.25F) / 22.5F) % 16];
   }
 
   // 8-direction compass: each sector spans 45°, offset by 22.5°.
   static const std::array<const char*, 8> dirs = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
-  return dirs[static_cast<int>((direction + 22.5f) / 45.0f) % 8];
+  return dirs[static_cast<int>((direction + 22.5F) / 45.0F) % 8];
 }
 
 void printDataItem(std::ostream& theOutput,
@@ -488,6 +484,7 @@ void printDataItem(std::ostream& theOutput,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 std::ostream& operator<<(std::ostream& theOutput,
                          const WindSpeedPeriodDataItem& theWindSpeedPeriodDataItem)
@@ -544,417 +541,8 @@ std::ostream& operator<<(std::ostream& theOutput,
   }
 }
 
-void print_wiki_table(const WeatherArea& theArea,
-                      const string& theVar,
-                      const wind_data_item_vector& theWindDataItemVector)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(theArea) + "_rawdata.txt");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    output_file << "|| aika || min || max || ka, k-hajonta || maksimituuli || puuska || suunta || "
-                   "suunnan k-hajonta || fraasi ||"
-                << '\n';
-
-    for (auto* i : theWindDataItemVector)
-    {
-      const WindDataItemUnit& theWindDataItem = (*i)(theArea.type());
-      output_file << "| " << theWindDataItem.thePeriod.localEndTime() << " | " << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMin.value() << " | " << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMax.value() << " | (" << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMean.value() << ", " << fixed
-                  << setprecision(4) << theWindDataItem.theWindSpeedMean.error() << ")"
-                  << " | " << fixed << setprecision(4) << theWindDataItem.theWindSpeedTop.value()
-                  << " | " << fixed << setprecision(4) << theWindDataItem.theGustSpeed.value()
-                  << " | " << fixed << setprecision(4)
-                  << theWindDataItem.theCorrectedWindDirection.value() << " | " << fixed
-                  << setprecision(4) << theWindDataItem.theWindDirection.error() << " | ";
-
-      output_file << directed16_speed_string(theWindDataItem.theWindSpeedMean,
-                                             theWindDataItem.theCorrectedWindDirection,
-                                             theVar)
-                  << " |\n";
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
-  }
-}
-
 namespace
 {
-void write_csv_row(std::ostream& out,
-                   const WindDataItemUnit& item,
-                   const bitset<14>& cols,
-                   const std::string& theVar)
-{
-  try
-  {
-    if (cols.test(13))
-      out << item.thePeriod.localEndTime();
-    if (cols.test(12))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMin.value();
-    if (cols.test(11))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMax.value();
-    if (cols.test(10))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMedian.value();
-    if (cols.test(9))
-      out << ", " << fixed << setprecision(4) << item.theEqualizedMedianWind.value();
-    if (cols.test(8))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMean.value();
-    if (cols.test(7))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedMean.error();
-    if (cols.test(6))
-      out << ", " << fixed << setprecision(4) << item.theGustSpeed.value();
-    if (cols.test(5))
-      out << ", " << fixed << setprecision(4) << item.theWindSpeedTop.value();
-    if (cols.test(4))
-      out << ", " << fixed << setprecision(4) << item.theEqualizedTopWind.value();
-    if (cols.test(3))
-      out << ", " << fixed << setprecision(4) << item.theCorrectedWindDirection.value();
-    if (cols.test(2))
-      out << ", " << fixed << setprecision(4) << item.theEqualizedWindDirection.value();
-    if (cols.test(1))
-      out << ", " << fixed << setprecision(4) << item.theWindDirection.error();
-    if (cols.test(0))
-      out << ", "
-          << directed16_speed_string(item.theWindSpeedMean, item.theCorrectedWindDirection, theVar);
-    out << '\n';
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
-  }
-}
-
-void write_html_row(std::ostream& out,
-                    const WindDataItemUnit& item,
-                    const bitset<14>& cols,
-                    const std::string& theVar)
-{
-  try
-  {
-    if (cols.test(13))
-      out << "<td style=\"white-space: nowrap;\">" << item.thePeriod.localEndTime() << "</td>\n";
-    if (cols.test(12))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMin.value() << "</td>\n";
-    if (cols.test(11))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMax.value() << "</td>\n";
-    if (cols.test(10))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMedian.value() << "</td>\n";
-    if (cols.test(9))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedMedianWind.value() << "</td>\n";
-    if (cols.test(8))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMean.value() << "</td>\n";
-    if (cols.test(7))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedMean.error() << "</td>\n";
-    if (cols.test(6))
-      out << "<td>" << fixed << setprecision(2) << item.theGustSpeed.value() << "</td>\n";
-    if (cols.test(5))
-      out << "<td>" << fixed << setprecision(2) << item.theWindSpeedTop.value() << "</td>\n";
-    if (cols.test(4))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedTopWind.value() << "</td>\n";
-    if (cols.test(3))
-      out << "<td>" << fixed << setprecision(2) << item.theCorrectedWindDirection.value()
-          << "</td>\n";
-    if (cols.test(2))
-      out << "<td>" << fixed << setprecision(2) << item.theEqualizedWindDirection.value()
-          << "</td>\n";
-    if (cols.test(1))
-      out << "<td>" << fixed << setprecision(2) << item.theWindDirection.error() << "</td>\n";
-    if (cols.test(0))
-      out << "<td style=\"white-space: nowrap;\">"
-          << directed16_speed_string(item.theWindSpeedMean, item.theCorrectedWindDirection, theVar)
-          << "</td>\n";
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
-  }
-}
-}  // namespace
-
-void print_csv_table(const WeatherArea& theArea,
-                     const std::string& fileIdentifierString,
-                     const std::string& theVar,
-                     const wind_data_item_vector& theWindDataItemVector,
-                     const vector<unsigned int>& theIndexVector,
-                     const bitset<14>& theColumnSelectionBitset)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(theArea) + fileIdentifierString + ".csv");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    constexpr std::array<const char*, 14> column_names = {{"aika",
-                                                           ", min",
-                                                           ", max",
-                                                           ", mediaani",
-                                                           ", tasoitettu mediaani",
-                                                           ", ka",
-                                                           ", nopeuden k-hajonta",
-                                                           ", puuska",
-                                                           ", maksimituuli",
-                                                           ", tasoitettu maksimituuli",
-                                                           ", suunta",
-                                                           ", tasoitettu suunta",
-                                                           ", suunnan k-hajonta",
-                                                           ", fraasi"}};
-
-    const unsigned int number_of_columns = 14;
-    for (unsigned int i = 0; i < number_of_columns; i++)
-      if (theColumnSelectionBitset.test(number_of_columns - i - 1))
-        output_file << column_names[i];
-    output_file << '\n';
-
-    for (unsigned int index : theIndexVector)
-      write_csv_row(output_file,
-                    (*theWindDataItemVector[index])(theArea.type()),
-                    theColumnSelectionBitset,
-                    theVar);
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString)
-        .addParameter("theVar", theVar);
-  }
-}
-
-void print_windspeed_distribution(const WeatherArea& theArea,
-                                  const std::string& fileIdentifierString,
-                                  const std::string& /*theVar*/,
-                                  const wind_data_item_vector& theWindDataItemVector,
-                                  const vector<unsigned int>& theIndexVector)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(theArea) + fileIdentifierString + ".csv");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    const WindDataItemUnit& firstWindDataItem = (*theWindDataItemVector[0])(theArea.type());
-
-    unsigned int numberOfWindSpeedCategories = firstWindDataItem.theWindSpeedDistribution.size();
-
-    for (unsigned int i = 0; i < numberOfWindSpeedCategories; i++)
-    {
-      if (i == numberOfWindSpeedCategories - 1)
-        output_file << ", > " << i + 1 << " m/s";
-      else
-        output_file << ", " << i + 1 << " m/s";
-    }
-    output_file << '\n';
-
-    for (unsigned int index : theIndexVector)
-    {
-      const WindDataItemUnit& theWindDataItem = (*theWindDataItemVector[index])(theArea.type());
-
-      output_file << theWindDataItem.thePeriod.localEndTime();
-
-      for (unsigned int k = 0; k < numberOfWindSpeedCategories; k++)
-      {
-        output_file << ", ";
-        output_file << fixed << setprecision(2) << theWindDataItem.getWindSpeedShare(k, k + 1);
-      }
-      output_file << '\n';
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString);
-  }
-}
-
-void print_winddirection_distribution(const WeatherArea& theArea,
-                                      const std::string& fileIdentifierString,
-                                      wo_story_params& storyParams)
-{
-  try
-  {
-    std::string filename("./" + get_area_name_string(storyParams.theArea) + fileIdentifierString +
-                         ".csv");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    const vector<unsigned int>& theIndexVector =
-        storyParams.originalWindDataIndexes(storyParams.theArea.type());
-
-    for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE; i++)
-    {
-      output_file << ", ";
-      output_file << wind_direction_string(static_cast<WindDirectionId>(i));
-    }
-    output_file << ", ";
-    output_file << "keskihajonta";
-    output_file << '\n';
-
-    for (unsigned int index : theIndexVector)
-    {
-      const WindDataItemUnit& theWindDataItem =
-          (*storyParams.theWindDataVector[index])(theArea.type());
-
-      output_file << theWindDataItem.thePeriod.localEndTime();
-
-      for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE; i++)
-      {
-        output_file << ", ";
-        output_file << fixed << setprecision(2)
-                    << theWindDataItem.getWindDirectionShare(static_cast<WindDirectionId>(i),
-                                                             storyParams.theWindDirectionMinSpeed);
-      }
-      output_file << ", ";
-      output_file << fixed << setprecision(2) << theWindDataItem.theWindDirection.error();
-      output_file << '\n';
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString);
-  }
-}
-
-void print_html_table(const WeatherArea::Type& theAreaType,
-                      const std::string& fileIdentifierString,
-                      const std::string& theVar,
-                      const wind_data_item_vector& theWindDataItemVector,
-                      const vector<unsigned int>& theIndexVector,
-                      const bitset<14>& theColumnSelectionBitset)
-{
-  try
-  {
-    std::string filename("./" + get_area_type_string(theAreaType) + fileIdentifierString + ".html");
-
-    ofstream output_file(filename.c_str(), ios::out);
-
-    if (output_file.fail())
-    {
-      throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
-    }
-
-    output_file << "<h1>" << get_area_type_string(theAreaType) << "</h1>\n";
-    output_file << "<table border=\"1\">\n";
-
-    constexpr std::array<const char*, 14> column_names = {{"aika",
-                                                           "min",
-                                                           "max",
-                                                           "mediaani",
-                                                           "tasoitettu mediaani",
-                                                           "ka",
-                                                           "nopeuden k-hajonta",
-                                                           "puuska",
-                                                           "maksimituuli",
-                                                           "tasoitettu maksimituuli",
-                                                           "suunta",
-                                                           "tasoitettu suunta",
-                                                           "suunnan k-hajonta",
-                                                           "fraasi"}};
-
-    output_file << "<tr>\n";
-    const unsigned int number_of_columns = 14;
-    for (unsigned int i = 0; i < number_of_columns; i++)
-      if (theColumnSelectionBitset.test(number_of_columns - i - 1))
-      {
-        output_file << "<td>";
-        output_file << column_names[i];
-        output_file << "</td>";
-      }
-    output_file << "</tr>\n";
-
-    for (unsigned int index : theIndexVector)
-    {
-      output_file << "<tr>\n";
-      write_html_row(output_file,
-                     (*theWindDataItemVector[index])(theAreaType),
-                     theColumnSelectionBitset,
-                     theVar);
-      output_file << "</tr>\n";
-    }
-
-    output_file << "</table>";
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("fileIdentifierString", fileIdentifierString)
-        .addParameter("theVar", theVar);
-  }
-}
-
-void save_raw_data(wo_story_params& storyParams, const string& id_str = "_original")
-{
-  try
-  {
-    bitset<14> columnSelectionBitset;
-
-    // aika == 13
-    // min, == 12
-    // max == 11
-    // mediaani == 10
-    // tasoitettu mediaani == 9
-    // ka == 8
-    // nopeuden k-hajonta == 7
-    // puuska == 6
-    // maksimituuli == 5
-    // tasoitettu maksimituuli == 4
-    // suunta == 3
-    // tasoitettu suunta == 2
-    // suunnan k-hajonta == 1
-    // fraasi == 0
-
-    for (unsigned int i = 0; i < storyParams.theWeatherAreas.size(); i++)
-    {
-      const WeatherArea& weatherArea = storyParams.theWeatherAreas[i];
-
-      columnSelectionBitset.set();
-      print_csv_table(weatherArea,
-                      id_str,
-                      storyParams.theVar,
-                      storyParams.theWindDataVector,
-                      storyParams.originalWindDataIndexes(storyParams.theArea.type()),
-                      columnSelectionBitset);
-
-      print_windspeed_distribution(weatherArea,
-                                   "_windspeed_distribution",
-                                   storyParams.theVar,
-                                   storyParams.theWindDataVector,
-                                   storyParams.originalWindDataIndexes(storyParams.theArea.type()));
-
-      print_winddirection_distribution(weatherArea, "_winddirection_distribution", storyParams);
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("id_str", id_str);
-  }
-}
-
 std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
 {
   std::stringstream csv_data;
@@ -1176,6 +764,7 @@ std::string get_html_winddirection_distribution(
 
   return html_data.str();
 }
+}  // namespace
 
 namespace
 {
@@ -1270,6 +859,8 @@ void append_html_wind_data_row(std::stringstream& out,
 }
 }  // namespace
 
+namespace
+{
 std::string get_html_windspeed_distribution(wo_story_params& storyParams, const std::string& type)
 {
   if (storyParams.theWindDataVector.empty())
@@ -1401,57 +992,6 @@ std::string get_js_data(wo_story_params& storyParams, const std::string& param, 
   return js_data.str();
 }
 
-void generate_csv_file(wo_story_params& storyParams)
-{
-  try
-  {
-    for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
-    {
-      std::stringstream csv_data;
-      csv_data << '\n'
-               << "time,min,max,eq-max,median,eq-median,mean,sdev,top-wind,eq-top-wind,direction,"
-                  "direction-sdev,eq-direction,gust"
-               << '\n';
-
-      WeatherArea::Type areaType(storyParams.theWeatherAreas[k].type());
-
-      for (auto& i : storyParams.theWindDataVector)
-      {
-        const WindDataItemUnit& windDataItem = (*i)(areaType);
-
-        csv_data << windDataItem.thePeriod.localStartTime() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMin.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMax.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theEqualizedMaxWind.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMedian.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theEqualizedMedianWind.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMean.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedMean.error() << ", " << fixed << setprecision(4)
-                 << windDataItem.theWindSpeedTop.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theEqualizedTopWind.value() << ", " << fixed << setprecision(4)
-                 << windDataItem.theCorrectedWindDirection.value() << ", " << fixed
-                 << setprecision(4) << windDataItem.theCorrectedWindDirection.error() << ", "
-                 << fixed << setprecision(4) << windDataItem.theEqualizedWindDirection.value()
-                 << ", " << fixed << setprecision(4) << windDataItem.theGustSpeed.value() << '\n';
-      }
-
-      std::string csv_filename = Settings::require_string("qdtext::outdir") + "html/" +
-                                 storyParams.theArea.name() + ".csv";
-      ofstream output_file(csv_filename.c_str(), ios::out);
-
-      if (output_file.fail())
-      {
-        throw std::runtime_error("wind_overview failed to open '" + csv_filename + "' for writing");
-      }
-      output_file << csv_data.str();
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
 void log_raw_data(wo_story_params& storyParams)
 {
   try
@@ -1484,6 +1024,7 @@ void log_raw_data(wo_story_params& storyParams)
   }
 }
 
+#ifndef NDEBUG
 void log_windirection_distribution(wo_story_params& storyParams)
 {
   try
@@ -1532,7 +1073,9 @@ void log_windirection_distribution(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void log_wind_data_vector(wo_story_params& storyParams,
                           const vector<unsigned int>& indexVector,
                           WeatherArea::Type areaType)
@@ -1552,7 +1095,9 @@ void log_wind_data_vector(wo_story_params& storyParams,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
 {
   try
@@ -1601,7 +1146,9 @@ void log_equalized_wind_speed_data_vector(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void log_equalized_wind_direction_data_vector(wo_story_params& storyParams)
 {
   try
@@ -1624,6 +1171,7 @@ void log_equalized_wind_direction_data_vector(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
 void log_wind_speed_periods(wo_story_params& storyParams)
 {
@@ -1657,6 +1205,7 @@ void log_wind_direction_periods(wo_story_params& storyParams)
   }
 }
 
+#ifndef NDEBUG
 void log_wind_event_periods(wo_story_params& storyParams)
 {
   try
@@ -1717,6 +1266,7 @@ void log_wind_event_periods(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
 void allocate_data_structures(wo_story_params& storyParams)
 {
@@ -2129,12 +1679,13 @@ bool populate_time_series(wo_story_params& storyParams)
   }
 }
 
+#ifndef NDEBUG
 void find_out_wind_speed_periods(wo_story_params& storyParams)
 
 {
   try
   {
-    unsigned int equalizedDataIndex;
+    unsigned int equalizedDataIndex = 0;
     WeatherArea::Type areaType(storyParams.theArea.type());
 
     vector<unsigned int>& equalizedWSIndexesMedian = storyParams.equalizedWSIndexesMedian(areaType);
@@ -2198,7 +1749,9 @@ void find_out_wind_speed_periods(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
+#ifndef NDEBUG
 void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
 {
   try
@@ -2292,6 +1845,7 @@ void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+#endif
 
 WindEventId get_wind_speed_event(float windSpeedAtStart,
                                  float windSpeedAtEnd,
@@ -2307,59 +1861,6 @@ WindEventId get_wind_speed_event(float windSpeedAtStart,
   if (difference < 0.0)
     return TUULI_HEIKKENEE;
   return TUULI_VOIMISTUU;
-}
-
-WindEventId get_wind_direction_event(const WeatherResult& windDirection1,
-                                     const WeatherResult& windDirection2,
-                                     const WeatherResult& maximumWind1,
-                                     const WeatherResult& maximumWind2,
-                                     const string& var,
-                                     double windDirectionThreshold,
-                                     double theWindDirectionMinSpeed)
-{
-  WindDirectionId directionId1 =
-      wind_direction_id(windDirection1, maximumWind1, var, theWindDirectionMinSpeed);
-  WindDirectionId directionId2 =
-      wind_direction_id(windDirection2, maximumWind2, var, theWindDirectionMinSpeed);
-
-  if (directionId1 != VAIHTELEVA && directionId2 == VAIHTELEVA)
-    return TUULI_MUUTTUU_VAIHTELEVAKSI;
-  if (directionId1 == directionId2)
-    return MISSING_WIND_DIRECTION_EVENT;
-  if (directionId1 == VAIHTELEVA)
-  {
-    return TUULI_KAANTYY;
-  }
-
-  bool windDirectionDifferEnough =
-      wind_direction_differ_enough(windDirection1, windDirection2, windDirectionThreshold);
-
-  return (windDirectionDifferEnough && directionId1 != directionId2 ? TUULI_KAANTYY
-                                                                    : MISSING_WIND_DIRECTION_EVENT);
-}
-
-WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
-                                     const string& var,
-                                     double windDirectionThreshold,
-                                     double theWindDirectionMinSpeed)
-
-{
-  const WeatherResult& windDirection1(
-      windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedWindDirection);
-  const WeatherResult& windDirection2(
-      windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedWindDirection);
-  const WeatherResult& maximumWind1(
-      windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedTopWind);
-  const WeatherResult& maximumWind2(
-      windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedTopWind);
-
-  return get_wind_direction_event(windDirection1,
-                                  windDirection2,
-                                  maximumWind1,
-                                  maximumWind2,
-                                  var,
-                                  windDirectionThreshold,
-                                  theWindDirectionMinSpeed);
 }
 
 // find out wind events: strengthening wind, weakening wind,
@@ -2464,6 +1965,8 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
   }
 }
 
+}  // namespace
+
 // iterate merged event periods and remove short (<= 6h) missing period if it is between
 // strenghtening/weakening period
 wind_event_period_data_item_vector remove_short_missing_periods(
@@ -2551,6 +2054,8 @@ wind_event_period_data_item_vector remove_short_missing_periods(
 }
 
 using SpeedDifferencePeriod = std::pair<float, WeatherPeriod>;
+namespace
+{
 bool comp_sdp(const SpeedDifferencePeriod& sdp1, const SpeedDifferencePeriod& sdp2)
 {
   return sdp1.first > sdp2.first;
@@ -2729,6 +2234,8 @@ void delete_dropped_event_periods(const wind_event_period_data_item_vector& befo
   }
 }
 
+}  // namespace
+
 void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
 {
   try
@@ -2865,6 +2372,9 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
   }
 }
 
+namespace
+{
+
 void check_first_period(wo_story_params& storyParams)
 {
   try
@@ -2987,6 +2497,7 @@ double distance_from_line(const NFmiPoint& point,
 
   return deviation;
 }
+}  // namespace
 
 enum class StatValueType
 {
@@ -3014,10 +2525,12 @@ float get_stat_wind_value(const WindDataItemUnit& item, StatValueType type)
     case StatValueType::CALC:
       return item.theWindSpeedCalc.value();
   }
-  return 0.0f;
+  return 0.0F;
 }
 }  // namespace
 
+namespace
+{
 bool add_local_min_max_values(vector<unsigned int>& eqIndexVector,
                               wo_story_params& storyParams,
                               StatValueType statType)
@@ -3094,9 +2607,9 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
     {
       const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-      unsigned int index1;
-      unsigned int index2;
-      unsigned int index3;
+      unsigned int index1 = 0;
+      unsigned int index2 = 0;
+      unsigned int index3 = 0;
       WeatherArea::Type areaType(weatherArea.type());  // storyParams.theArea.type());
 
       vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMedian(areaType);
@@ -3146,10 +2659,10 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
       }  // while
 
       bool valuesToAdd = true;
-      do
+      for (bool more = true; more; more = valuesToAdd)
       {
         valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, StatValueType::MEDIAN);
-      } while (valuesToAdd);
+      }
 
       // re-calculate equalized values for the removed points
       for (unsigned int i = 1; i < eqIndexVector.size(); i++)
@@ -3184,6 +2697,7 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3259,6 +2773,8 @@ void interpolate_max_wind_segment(wo_story_params& storyParams,
 }
 }  // namespace
 
+namespace
+{
 void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& storyParams,
                                                              bool topWind = true)
 {
@@ -3554,6 +3070,7 @@ void calculate_equalized_data(wo_story_params& storyParams)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 // ----------------------------------------------------------------------------------------------
 // Local convective cell handling.
@@ -3631,13 +3148,15 @@ std::string quadrant_phrase_key(WeatherArea::Type type)
 //   PLAIN:         args = (gustsPhrase, peakInt, mpsUnit)               → [1] [2] [3]
 //   ONE_QUALIFIER: args = (qualifier,   gustsPhrase, peakInt, mpsUnit)  → [1] [2] [3] [4]
 //   TWO_QUALIFIER: args = (time, quadrant, gustsPhrase, peakInt, mpsUnit) → [1] [2] [3] [4] [5]
-#define CONVECTIVE_CELL_PLAIN_PHRASE "paikoin [puuskia], kovimmillaan [n] [m/s]"
-#define CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]"
-#define CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE \
-  "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]"
+constexpr const char* CONVECTIVE_CELL_PLAIN_PHRASE = "paikoin [puuskia], kovimmillaan [n] [m/s]";
+constexpr const char* CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE = "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]";
+constexpr const char* CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE =
+  "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]";
 
 }  // namespace
 
+namespace
+{
 // Groups contiguous flagged timesteps in the primary area into candidate cell periods.
 // Detection runs against the gust diagnostic (HourlyMaximumGust via GustSpeed): timesteps are
 // flagged when 0 < getGustSpeedShare(cutoff, +inf) < theConvectiveCellMaxAreaFraction.
@@ -3660,7 +3179,7 @@ std::vector<ConvectiveCellAnomaly> detect_convective_anomalies(const wo_story_pa
     // Detection runs only on the primary (full) area; split sub-areas are recomputed in lockstep.
     const WeatherArea::Type areaType = storyParams.theWeatherAreas[0].type();
     const unsigned int n = storyParams.theWindDataVector.size();
-    const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
+    const auto cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
     const double maxAreaFraction = storyParams.theConvectiveCellMaxAreaFraction;
     const double minAreaFraction = storyParams.theConvectiveCellMinAreaFraction;
     const double maxDuration = storyParams.theConvectiveCellMaxDuration;
@@ -3890,7 +3409,7 @@ void remove_cells_from_area_stats(wo_story_params& storyParams,
       return;
 
     GridForecaster forecaster;
-    const float cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
+    const auto cutoff = static_cast<float>(storyParams.theConvectiveCellCutoff);
 
     for (const auto& anomaly : anomalies)
     {
@@ -3910,6 +3429,51 @@ void remove_cells_from_area_stats(wo_story_params& storyParams,
   {
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
+}
+
+// Analyzes the peak maximum wind of each quadrant during the cell period. Missing peaks
+// are stored as zero. Returns false if no quadrant had a valid peak.
+bool analyze_quadrant_peaks(wo_story_params& storyParams,
+                            GridForecaster& forecaster,
+                            const std::array<WeatherArea::Type, 4>& quadrants,
+                            const ConvectiveCellAnomaly& anomaly,
+                            std::array<float, 4>& quadrantPeak)
+{
+  bool anyValid = false;
+  for (std::size_t q = 0; q < quadrants.size(); q++)
+  {
+    WeatherArea qArea(storyParams.theArea);
+    qArea.type(quadrants[q]);
+
+    WeatherResult peak =
+        forecaster.analyze(storyParams.theVar + "::fake::wind::maximumwind::quadrant",
+                           storyParams.theSources,
+                           MaximumWind,
+                           Peak,
+                           Mean,
+                           qArea,
+                           anomaly.period);
+    quadrantPeak[q] = (peak.value() == kFloatMissing) ? 0.0F : peak.value();
+    if (peak.value() != kFloatMissing)
+      anyValid = true;
+  }
+  return anyValid;
+}
+
+// Finds the index of the largest quadrant peak (first one on ties) and returns the
+// largest of the other peaks (at least zero).
+float find_best_two_peaks(const std::array<float, 4>& quadrantPeak, std::size_t& bestIdx)
+{
+  bestIdx = 0;
+  for (std::size_t q = 1; q < quadrantPeak.size(); q++)
+    if (quadrantPeak[q] > quadrantPeak[bestIdx])
+      bestIdx = q;
+
+  float secondBest = 0.0F;
+  for (std::size_t q = 0; q < quadrantPeak.size(); q++)
+    if (q != bestIdx && quadrantPeak[q] > secondBest)
+      secondBest = quadrantPeak[q];
+  return secondBest;
 }
 
 // Picks the dominant quadrant for one cell period, or returns WeatherArea::Full when the
@@ -3935,37 +3499,11 @@ void determine_anomaly_quadrants(wo_story_params& storyParams,
     for (auto& anomaly : anomalies)
     {
       std::array<float, 4> quadrantPeak{};
-      bool anyValid = false;
-      for (std::size_t q = 0; q < quadrants.size(); q++)
-      {
-        WeatherArea qArea(storyParams.theArea);
-        qArea.type(quadrants[q]);
-
-        WeatherResult peak =
-            forecaster.analyze(storyParams.theVar + "::fake::wind::maximumwind::quadrant",
-                               storyParams.theSources,
-                               MaximumWind,
-                               Peak,
-                               Mean,
-                               qArea,
-                               anomaly.period);
-        quadrantPeak[q] = (peak.value() == kFloatMissing) ? 0.0F : peak.value();
-        if (peak.value() != kFloatMissing)
-          anyValid = true;
-      }
-
-      if (!anyValid)
+      if (!analyze_quadrant_peaks(storyParams, forecaster, quadrants, anomaly, quadrantPeak))
         continue;
 
       std::size_t bestIdx = 0;
-      for (std::size_t q = 1; q < quadrants.size(); q++)
-        if (quadrantPeak[q] > quadrantPeak[bestIdx])
-          bestIdx = q;
-
-      float secondBest = 0.0F;
-      for (std::size_t q = 0; q < quadrants.size(); q++)
-        if (q != bestIdx && quadrantPeak[q] > secondBest)
-          secondBest = quadrantPeak[q];
+      const float secondBest = find_best_two_peaks(quadrantPeak, bestIdx);
 
       if (quadrantPeak[bestIdx] - secondBest >= CONVECTIVE_ANOMALY_QUADRANT_MARGIN)
         anomaly.dominantQuadrant = quadrants[bestIdx];
@@ -4248,31 +3786,7 @@ float get_wind_direction_share(
   return retval;
 }
 
-float get_wind_direction_share(const wo_story_params& storyParams,
-                               const WeatherPeriod& period,
-                               const WindDirectionId& windDirectionId,
-                               WindStoryTools::CompassType compass_type /*= sixteen_directions*/)
-{
-  float sumShare(0.0);
-  unsigned int counter(0);
-
-  for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
-  {
-    WindDataItemUnit& item =
-        storyParams.theWindDataVector[i]->getDataItem(storyParams.theArea.type());
-    if (is_inside(item.thePeriod.localStartTime(), period))
-    {
-      sumShare += get_wind_direction_share(
-          (compass_type == sixteen_directions ? item.theWindDirectionDistribution16
-                                              : item.theWindDirectionDistribution8),
-          windDirectionId,
-          storyParams.theWindDirectionMinSpeed);
-      counter++;
-    }
-  }
-
-  return (counter == 0 ? 0.0 : sumShare / counter);
-}
+}  // namespace
 
 float WindDataItemUnit::getWindSpeedShare(float theLowerLimit, float theUpperLimit) const
 {
@@ -4324,6 +3838,105 @@ float WindDataItemUnit::getWindDirectionShare(
       windDirectionId,
       theWindDirectionMinSpeed);
 }
+
+namespace
+{
+// Append the wind sentences and the collapsed convective cell sentence
+void append_with_cell_paragraph(Paragraph& paragraph,
+                                const std::vector<WindStoryPart>& windParts,
+                                const wo_story_params& storyParams,
+                                const std::vector<ConvectiveCellAnomaly>& convectiveAnomalies)
+{
+  // Position the collapsed cell sentence between wind sentences so the narrative is
+  // chronological. Drop the cell sentence's time qualifier when we have wind sentences
+  // to anchor against — the surrounding wind text already supplies the time and a
+  // repeated "in the evening" reads poorly.
+  const bool anchorTime = !windParts.empty();
+  Paragraph cellParagraph =
+      build_collapsed_cell_paragraph(storyParams, convectiveAnomalies, anchorTime);
+  const TextGenPosixTime cellAnchor = strongest_cell_start_time(convectiveAnomalies);
+
+  bool inserted = false;
+  for (const auto& part : windParts)
+  {
+    paragraph << part.paragraph;
+    if (!inserted && cellAnchor >= part.period.localStartTime() &&
+        cellAnchor < part.period.localEndTime())
+    {
+      paragraph << cellParagraph;
+      inserted = true;
+    }
+  }
+  if (!inserted)
+    paragraph << cellParagraph;
+}
+
+// Append the graphs and the raw data for debugging into the html__append setting
+void append_debug_html(wo_story_params& storyParams, const WeatherPeriod& period)
+{
+  std::size_t js_id = generateUniqueID();
+
+  if (Settings::optional_bool("qdtext::append_graph", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_js_code(js_id,
+                               html_string.empty(),
+                               ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
+
+    html_string += "</br><br>\n";
+    html_string += "<hr size=\"3\" color=\"black\">\n";
+    html_string += "<h5>";
+    Fmi::Date startDate(
+        Fmi::Date::from_iso_string(period.localStartTime().ToStr(kYYYYMMDD)));
+    html_string += Fmi::date_time::to_simple_string(startDate);
+    html_string += (period.localStartTime().GetHour() < 10 ? " 0" : " ");
+    html_string += Fmi::to_string(period.localStartTime().GetHour());
+    html_string += (period.localStartTime().GetMin() < 10 ? ":0" : ":");
+    html_string += Fmi::to_string(period.localStartTime().GetMin());
+    html_string += " - ";
+    Fmi::Date endDate(Fmi::Date::from_iso_string(period.localEndTime().ToStr(kYYYYMMDD)));
+    html_string += Fmi::date_time::to_simple_string(endDate);
+    html_string += (period.localEndTime().GetHour() < 10 ? " 0" : " ");
+    html_string += Fmi::to_string(period.localEndTime().GetHour());
+    html_string += (period.localEndTime().GetMin() < 10 ? ":0" : ":");
+    html_string += Fmi::to_string(period.localEndTime().GetMin());
+    html_string += "</h5>";
+
+    Settings::set("html__append", html_string);
+  }
+
+  if (Settings::optional_bool("qdtext::append_graph", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_js_data(storyParams, "windspeed", js_id);
+    js_id++;
+    html_string += get_js_data(storyParams, "winddirection", js_id);
+    js_id++;
+    Settings::set("html__append", html_string);
+  }
+
+  if (Settings::optional_bool("qdtext::append_rawdata", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_html_rawdata(storyParams);
+    Settings::set("html__append", html_string);
+  }
+  if (Settings::optional_bool("qdtext::append_windspeed_distribution", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_html_windspeed_distribution(storyParams, "mean");
+    html_string += get_html_windspeed_distribution(storyParams, "top");
+    Settings::set("html__append", html_string);
+  }
+  if (Settings::optional_bool("qdtext::append_winddirection_distribution", false))
+  {
+    std::string html_string(Settings::optional_string("html__append", ""));
+    html_string += get_html_winddirection_distribution(storyParams, sixteen_directions);
+    html_string += get_html_winddirection_distribution(storyParams, eight_directions);
+    Settings::set("html__append", html_string);
+  }
+}
+}  // namespace
 
 Paragraph WindStory::overview() const
 {
@@ -4399,92 +4012,9 @@ Paragraph WindStory::overview() const
           paragraph << part.paragraph;
       }
       else
-      {
-        // Position the collapsed cell sentence between wind sentences so the narrative is
-        // chronological. Drop the cell sentence's time qualifier when we have wind sentences
-        // to anchor against — the surrounding wind text already supplies the time and a
-        // repeated "in the evening" reads poorly.
-        const bool anchorTime = !windParts.empty();
-        Paragraph cellParagraph =
-            build_collapsed_cell_paragraph(storyParams, convectiveAnomalies, anchorTime);
-        const TextGenPosixTime cellAnchor = strongest_cell_start_time(convectiveAnomalies);
+        append_with_cell_paragraph(paragraph, windParts, storyParams, convectiveAnomalies);
 
-        bool inserted = false;
-        for (const auto& part : windParts)
-        {
-          paragraph << part.paragraph;
-          if (!inserted && cellAnchor >= part.period.localStartTime() &&
-              cellAnchor < part.period.localEndTime())
-          {
-            paragraph << cellParagraph;
-            inserted = true;
-          }
-        }
-        if (!inserted)
-          paragraph << cellParagraph;
-      }
-
-      std::size_t js_id = generateUniqueID();
-
-      if (Settings::optional_bool("qdtext::append_graph", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_js_code(js_id,
-                                   html_string.empty(),
-                                   ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
-
-        html_string += "</br><br>\n";
-        html_string += "<hr size=\"3\" color=\"black\">\n";
-        html_string += "<h5>";
-        Fmi::Date startDate(
-            Fmi::Date::from_iso_string(itsPeriod.localStartTime().ToStr(kYYYYMMDD)));
-        html_string += Fmi::date_time::to_simple_string(startDate);
-        html_string += (itsPeriod.localStartTime().GetHour() < 10 ? " 0" : " ");
-        html_string += Fmi::to_string(itsPeriod.localStartTime().GetHour());
-        html_string += (itsPeriod.localStartTime().GetMin() < 10 ? ":0" : ":");
-        html_string += Fmi::to_string(itsPeriod.localStartTime().GetMin());
-        html_string += " - ";
-        Fmi::Date endDate(Fmi::Date::from_iso_string(itsPeriod.localEndTime().ToStr(kYYYYMMDD)));
-        html_string += Fmi::date_time::to_simple_string(endDate);
-        html_string += (itsPeriod.localEndTime().GetHour() < 10 ? " 0" : " ");
-        html_string += Fmi::to_string(itsPeriod.localEndTime().GetHour());
-        html_string += (itsPeriod.localEndTime().GetMin() < 10 ? ":0" : ":");
-        html_string += Fmi::to_string(itsPeriod.localEndTime().GetMin());
-        html_string += "</h5>";
-
-        Settings::set("html__append", html_string);
-      }
-
-      if (Settings::optional_bool("qdtext::append_graph", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_js_data(storyParams, "windspeed", js_id);
-        js_id++;
-        html_string += get_js_data(storyParams, "winddirection", js_id);
-        js_id++;
-        Settings::set("html__append", html_string);
-      }
-
-      if (Settings::optional_bool("qdtext::append_rawdata", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_html_rawdata(storyParams);
-        Settings::set("html__append", html_string);
-      }
-      if (Settings::optional_bool("qdtext::append_windspeed_distribution", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_html_windspeed_distribution(storyParams, "mean");
-        html_string += get_html_windspeed_distribution(storyParams, "top");
-        Settings::set("html__append", html_string);
-      }
-      if (Settings::optional_bool("qdtext::append_winddirection_distribution", false))
-      {
-        std::string html_string(Settings::optional_string("html__append", ""));
-        html_string += get_html_winddirection_distribution(storyParams, sixteen_directions);
-        html_string += get_html_winddirection_distribution(storyParams, eight_directions);
-        Settings::set("html__append", html_string);
-      }
+      append_debug_html(storyParams, itsPeriod);
     }
 
     deallocate_data_structures(storyParams);

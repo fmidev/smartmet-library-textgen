@@ -15,7 +15,7 @@ headers for a new area or customer. Start here:
 
 * **[users/](users/README.md)** — user guide
   * [Getting started](users/getting-started.md) — smallest working example
-  * [Configuration layout](users/configuration.md) — `libconfig` variable naming,
+  * [Configuration layout](users/configuration.md) — configuration variable naming,
     sections, `fake::` overrides
   * [Story catalogue](users/stories/README.md) — every generator with its
     complexity and current status (primary / active / legacy / trivial)
@@ -66,7 +66,7 @@ textgen/                  C++ sources
   <Something>.cpp/.h      class files (capital letter) — the infrastructure
   <something_name>.cpp    generator entry points (lowercase) — each
                           implements one named story (e.g. wind_overview)
-test/                     Boost.Test unit tests
+test/                     unit tests (regression/tframe.h)
 sql/                      MariaDB/PostgreSQL schema for the phrase dictionary
 docs/                     this directory
 ```

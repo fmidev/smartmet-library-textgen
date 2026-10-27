@@ -32,6 +32,7 @@
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
+#include <array>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -765,37 +766,6 @@ fractile_id classify_fake_fractile(const float& theTemperature,
         .addParameter("theTemperature", Fmi::to_string(theTemperature))
         .addParameter("theVar", theVar)
         .addParameter("seasonStr", seasonStr);
-  }
-}
-
-// Helper: analyze a single fractile level and check if temperature falls in it
-fractile_id check_grid_fractile(GridClimatology& gc,
-                                const std::string& theVar,
-                                const AnalysisSources& theSources,
-                                const WeatherArea& theArea,
-                                const WeatherPeriod& climatePeriod,
-                                const fractile_type_id& theFractileType,
-                                WeatherParameter minParam,
-                                WeatherParameter meanParam,
-                                WeatherParameter maxParam,
-                                const float& theTemperature,
-                                fractile_id resultId)
-{
-  try
-  {
-    WeatherParameter param =
-        fractile_weather_parameter(theFractileType, minParam, meanParam, maxParam);
-    WeatherResult result =
-        gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
-    if (result.value() != kFloatMissing && theTemperature <= result.value())
-      return resultId;
-    return FRACTILE_UNDEFINED;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar)
-        .addParameter("theTemperature", Fmi::to_string(theTemperature));
   }
 }
 }  // namespace

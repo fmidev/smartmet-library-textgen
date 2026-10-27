@@ -6,7 +6,7 @@ set their thresholds, and tune the period / header behaviour.
 ## Reading order
 
 1. [Getting started](getting-started.md) — minimal working configuration
-2. [Configuration layout](configuration.md) — how `libconfig` variables map
+2. [Configuration layout](configuration.md) — how configuration variables map
    to sections, stories, and `fake::` values
 3. [Headers](headers/README.md) — header type catalogue (`until`, `from_until`,
    `several_days`, …)

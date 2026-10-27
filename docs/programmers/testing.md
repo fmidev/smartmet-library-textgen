@@ -1,9 +1,8 @@
 # Testing
 
-TextGen's tests live under `test/` and use Boost.Test through SmartMet's
-`regression/tframe.h` wrapper. Each `*Test.cpp` compiles to its own
-executable; the `test` target runs them all in sequence and reports a
-total error count.
+TextGen's tests live under `test/` and use SmartMet's own `regression/tframe.h`
+framework (not Boost.Test). Each `*Test.cpp` compiles to its own executable; the
+`test` target runs them all in sequence and reports a total error count.
 
 ## Running the tests
 
@@ -22,13 +21,7 @@ the freshly built library:
 LD_LIBRARY_PATH=.. make test
 ```
 
-Two targets for the same code-under-test:
-
-* `make test` — links against `../libsmartmet-textgen.so` (the local
-  build). Use this while iterating.
-* `make test-installed` — links against the system-installed library
-  in `/usr/lib64`. Use this to verify that an installed package still
-  passes.
+`make test` links against `../libsmartmet-textgen.so`, the local build.
 
 ## Running a single test
 
@@ -37,14 +30,9 @@ cd test
 make TemperatureStoryTest && ./TemperatureStoryTest
 ```
 
-Run only a specific Boost.Test case by passing its name. The tframe
-wrapper enumerates cases via `TEST_RUN`:
-
-```bash
-./TemperatureStoryTest TemperatureStoryTest::temperature_mean
-```
-
-Use `./TemperatureStoryTest list` to list the registered cases first.
+tframe runs every case registered in the file's `tests::test()` method; it has no
+command-line selection of cases. To run one case while debugging, comment out the
+other `TEST(...)` lines temporarily.
 
 ## Layout of a story test
 
@@ -123,22 +111,22 @@ exactly the keys it uses.
 
 ## Test dictionaries
 
-`test/dictionaries/<lang>.txt` holds a flat pipe-delimited list of
-phrase keys and their translation for each language:
+The story tests use the `po` dictionary (`DictionaryFactory::create("po")`), which
+reads `<language>.po` files from the directory named by `textgen::podictionaries`.
+**Most tests do not set it, so they read the installed files in
+`/usr/share/smartmet/textgen`**, not the repository's `po/` directory; only
+`SpecialStoryTest` points it at `../po`. To test an edited `.po` file, install it
+first, or set `textgen::podictionaries` to `../po` in the test.
 
-```
-o'clock|o'clock
-meri-lappi:lle|for Meri-Lappi
-```
+The repository's `po/` directory has 23 files: `ar`, `da`, `de`, `en`, `en-marine`
+(for `weather_forecast_at_sea`), `es`, `et`, `fi`, `fr`, `id`, `it`, `ja`, `ko`, `lv`,
+`nl`, `no`, `ru`, `sonera`, `sv`, `sw`, `th`, `vi` and `zh`. `test/dictionaries/` only
+holds pipe-delimited `en.txt` and `fi.txt` (`key|translation`) for the
+`FileDictionary` tests.
 
-There are currently 23 languages covered (`ar`, `da`, `de`, `en`,
-`en-marine`, `es`, `et`, `fi`, `fr`, `id`, `it`, `ja`, `ko`, `lv`,
-`no`, `pl`, `ru`, `sv`, `sw`, `th`, `vi`, `zh`, plus the special
-`en-marine` for `weather_forecast_at_sea`).
+Adding a new phrase means:
 
-Each file is approximately 2 148 lines. Adding a new phrase means:
-
-1. Add the key and translation to **every** language file. A missing
+1. Add the key and translation to **every** `.po` file. A missing
    translation will cause the test to emit the raw key, which will
    fail the equality check in `require()`.
 2. Reference the key via `Phrase("new-key")` in the generator.
@@ -159,9 +147,9 @@ differences (timezone, locale).
 2. Add the `fake::*` assertions for the values you expect to drive
    each branch of the algorithm. Aim for branch coverage —
    one test case per distinct sentence the story can emit.
-3. Add the new phrase keys to every test dictionary file.
-4. Register the test function in `test_driver()` at the bottom of the
-   file.
+3. Add the new phrase keys to every `.po` file.
+4. Register the test function with `TEST(name)` in the `tests::test()` method at
+   the bottom of the file.
 5. `make <TestName> && ./<TestName>`.
 
 ## Debugging output

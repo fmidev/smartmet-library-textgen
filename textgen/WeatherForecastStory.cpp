@@ -23,12 +23,9 @@
 
 using namespace std;
 
-#define USE_FROM_SPECIFIER true
-#define DONT_USE_FROM_SPECIFIER false
-#define USE_SHORT_FORM true
-#define DONT_USE_SHORT_FORM false
-#define USE_TIME_SPECIFIER true
-#define DONT_USE_TIME_SPECIFIER false
+constexpr bool USE_FROM_SPECIFIER = true;
+constexpr bool DONT_USE_FROM_SPECIFIER = false;
+constexpr bool DONT_USE_SHORT_FORM = false;
 
 namespace TextGen
 {
@@ -76,7 +73,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
                                            const WeatherArea& weatherArea,
                                            wf_story_params& parameters,
                                            const TextGenPosixTime& forecastTime,
-                                           PrecipitationForecast& precipitationForecast,
+                                           const PrecipitationForecast& precipitationForecast,
                                            const CloudinessForecast& cloudinessForecast,
                                            const FogForecast& fogForecast,
                                            const ThunderForecast& thunderForecast,
@@ -248,7 +245,7 @@ void WeatherForecastStory::collectPrecipitationSeaStoryItem(unsigned int i,
               << " extent: " << precipitationExtent << (sleetOrSnow ? ", sleet or snow" : "")
               << '\n';
 
-    if (!(sleetOrSnow || !weakPrecipitation) || precipitationExtent <= 10)
+    if ((!sleetOrSnow && weakPrecipitation) || precipitationExtent <= 10)
       return;
 
     if (storyItems.empty())
@@ -559,7 +556,7 @@ void WeatherForecastStory::processPrecipitationItem(WeatherForecastStoryItem* it
 }
 
 void WeatherForecastStory::appendVisibilitySentence(std::vector<Sentence>& sentences,
-                                                    const SeaStoryStats& stats)
+                                                    const SeaStoryStats& stats) const
 {
   try
   {
@@ -1275,6 +1272,8 @@ std::string WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(
   return retValue;
 }
 
+namespace
+{
 WeatherPeriod get_part_of_day_period(const TextGenPosixTime& t, const std::string& part_of_day)
 {
   try
@@ -1390,7 +1389,7 @@ void check_percentage(const WeatherPeriod& period,
 {
   try
   {
-    bool ok;
+    bool ok = false;
     WeatherPeriod parOfDayPeriod = get_part_of_day_period(period.localStartTime(), part_of_day);
     WeatherPeriod intersectionPeriod = get_intersection_period(parOfDayPeriod, period, ok);
     if (ok)
@@ -1409,6 +1408,7 @@ void check_percentage(const WeatherPeriod& period,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 bool PeriodPhraseGenerator::dayExists(int n) const
 {
@@ -1441,7 +1441,7 @@ Sentence PeriodPhraseGenerator::getPeriodPhrase(const WeatherPeriod& period)
         std::string dayNumber;
         int dayNum = get_day_number(id, period, dayNumber);
         if (dayNum == -1 || dayExists(dayNum) ||
-            false == Settings::optional_bool(itsVar + "::weekdays", true))
+            !Settings::optional_bool(itsVar + "::weekdays", true))
           dayNumber = "";
         else
           dayNumbers.insert(dayNum);

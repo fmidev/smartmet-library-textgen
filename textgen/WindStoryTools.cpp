@@ -27,6 +27,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <algorithm>
+#include <array>
 #include <cmath>
 
 using namespace TextGen;
@@ -234,8 +235,10 @@ static const std::array<const char*, 17> good_direction_strings = {
     "pohjoisen ja luoteen valista tuulta",    // 16
 };
 
+namespace
+{
 // Return puoleinen string for moderate accuracy, resolving ambiguous sectors by exact angle
-static string moderate_direction_string(int n, double angle)
+string moderate_direction_string(int n, double angle)
 {
   // Simple sectors: 1,3,5,7,9,11,13,15
   static const std::array<const char*, 17> simple = {
@@ -289,6 +292,7 @@ static string moderate_direction_string(int n, double angle)
   }
   return "";
 }
+}  // namespace
 
 string direction16_string(const WeatherResult& theDirection, const string& theVariable)
 {
@@ -639,6 +643,8 @@ WindDirectionId direction_between_id(float theWindDirection)
   return retval;
 }
 
+namespace
+{
 WindDirectionId puoleinen_direction_id(float theWindDirection,
                                        const WindDirectionId& theWindDirectionId)
 {
@@ -676,26 +682,27 @@ WindDirectionId puoleinen_direction_id(float theWindDirection,
     WindDirectionId above;
   };
   static const std::array<AmbigEntry, 8> ambig = {{
-      {2, 22.5f, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
-      {4, 67.5f, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
-      {6, 112.5f, IDAN_PUOLEINEN, KAAKON_PUOLEINEN},
-      {8, 157.5f, KAAKON_PUOLEINEN, ETELAN_PUOLEINEN},
-      {10, 202.5f, ETELAN_PUOLEINEN, LOUNAAN_PUOLEINEN},
-      {12, 247.5f, LOUNAAN_PUOLEINEN, LANNEN_PUOLEINEN},
-      {14, 292.5f, LANNEN_PUOLEINEN, LUOTEEN_PUOLEINEN},
-      {16, 337.5f, LUOTEEN_PUOLEINEN, POHJOISEN_PUOLEINEN},
+      {2, 22.5F, KOILLISEN_PUOLEINEN, POHJOISEN_PUOLEINEN},  // >337.5 or <22.5 => pohjoinen
+      {4, 67.5F, KOILLISEN_PUOLEINEN, IDAN_PUOLEINEN},
+      {6, 112.5F, IDAN_PUOLEINEN, KAAKON_PUOLEINEN},
+      {8, 157.5F, KAAKON_PUOLEINEN, ETELAN_PUOLEINEN},
+      {10, 202.5F, ETELAN_PUOLEINEN, LOUNAAN_PUOLEINEN},
+      {12, 247.5F, LOUNAAN_PUOLEINEN, LANNEN_PUOLEINEN},
+      {14, 292.5F, LANNEN_PUOLEINEN, LUOTEEN_PUOLEINEN},
+      {16, 337.5F, LUOTEEN_PUOLEINEN, POHJOISEN_PUOLEINEN},
   }};
   for (const auto& e : ambig)
   {
     if (n == e.sector)
     {
       if (n == 2)
-        return (theWindDirection > 337.5f || theWindDirection < 22.5f) ? e.above : e.below;
+        return (theWindDirection > 337.5F || theWindDirection < 22.5F) ? e.above : e.below;
       return (theWindDirection < e.threshold) ? e.below : e.above;
     }
   }
   return MISSING_WIND_DIRECTION_ID;
 }
+}  // namespace
 
 WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection,
                                   const TextGen::WeatherResult& theMaxWindSpeed,
@@ -832,6 +839,8 @@ std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
   return retval;
 }
 
+namespace
+{
 bool wind_direction_item_sort(pair<float, WeatherResult> firstItem,
                               pair<float, WeatherResult> secondItem)
 {
@@ -1049,6 +1058,7 @@ pair<float, WeatherResult> get_share_item(
 
   return shareItem;
 }
+}  // namespace
 
 void populate_winddirection_distribution_time_series(
     const AnalysisSources& theSources,
@@ -1100,6 +1110,8 @@ void populate_winddirection_distribution_time_series(
         get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_LUODE, compass_type));
 }
 
+namespace
+{
 float calculate_mean_wind_direction(const float& direction1,
                                     const float& direction2,
                                     const float& share1,
@@ -1171,6 +1183,7 @@ float calculate_wind_direction_from_distribution(
 
   return cumulativeWeightedDirection;
 }
+}  // namespace
 
 WeatherResult mode_wind_direction(const AnalysisSources& theSources,
                                   const WeatherArea& theArea,

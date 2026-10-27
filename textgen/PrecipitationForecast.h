@@ -32,6 +32,8 @@ class PrecipitationForecast
  public:
   PrecipitationForecast(wf_story_params& parameters);
   ~PrecipitationForecast();
+  PrecipitationForecast(const PrecipitationForecast&) = default;
+  PrecipitationForecast& operator=(const PrecipitationForecast&) = delete;
 
   Sentence precipitationChangeSentence(
       const WeatherPeriod& thePeriod,
@@ -93,7 +95,6 @@ class PrecipitationForecast
   unsigned int getPrecipitationHours(precipitation_intesity_id intensityId,
                                      const WeatherPeriod& period) const;
 
- public:
   // Helper context for parseFinalSentence (public so anonymous-namespace helpers can use it)
   struct FinalSentenceContext
   {

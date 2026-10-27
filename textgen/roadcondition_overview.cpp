@@ -489,6 +489,62 @@ Sentence second_places_sentence(RoadConditionType thePrimaryType,
   }
 }
 
+// Road conditions occurring in some places, ordered by decreasing importance
+using SomePlacesTypes = map<int, RoadConditionType, std::greater<> >;
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Find all "someplaces" condition types in order of importance
+ */
+// ----------------------------------------------------------------------
+
+SomePlacesTypes find_someplaces_types(const ConditionPercentages& thePercentages,
+                                      int someplaces_limit,
+                                      int manyplaces_limit)
+{
+  SomePlacesTypes someplacestypes;
+
+  for (int i = min_condition; i <= max_condition; i++)
+  {
+    const auto condition = RoadConditionType(i);
+
+    if (thePercentages[condition] >= someplaces_limit &&
+        thePercentages[condition] < manyplaces_limit)
+    {
+      const int importance = condition_importance(condition);
+      someplacestypes.insert(make_pair(importance, condition));
+    }
+  }
+  return someplacestypes;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Append "tai X" for a second condition type which can be combined with the first
+ */
+// ----------------------------------------------------------------------
+
+void append_alternative_condition(Sentence& sentence,
+                                  RoadConditionType firsttype,
+                                  RoadConditionType secondtype)
+{
+  if (firsttype == ICY || firsttype == PARTLY_ICY)
+  {
+    if (secondtype == PARTLY_ICY)
+      sentence << "tai"
+               << "osittain jaisia";
+    else if (secondtype == FROST)
+      sentence << "tai"
+               << "kuuraisia";
+  }
+  else if (firsttype == SLUSH && secondtype == SNOW)
+    sentence << "tai"
+             << "lunta";
+  else if (firsttype == WET && secondtype == MOIST)
+    sentence << "tai"
+             << "kosteita";
+}
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Generate a sentence from road condition percentages
@@ -527,19 +583,8 @@ Sentence condition_sentence(const ConditionPercentages& thePercentages, const st
     // List all "someplaces" types that occur in order of importance
     // The set may include firsttype, if no condition occurs in many places
 
-    map<int, RoadConditionType, std::greater<> > someplacestypes;
-
-    for (int i = min_condition; i <= max_condition; i++)
-    {
-      const auto condition = RoadConditionType(i);
-
-      if (thePercentages[condition] >= someplaces_limit &&
-          thePercentages[condition] < manyplaces_limit)
-      {
-        const int importance = condition_importance(condition);
-        someplacestypes.insert(make_pair(importance, condition));
-      }
-    }
+    const auto someplacestypes =
+        find_someplaces_types(thePercentages, someplaces_limit, manyplaces_limit);
 
     // Handle the case when there is one type in many places
     // Note that we always ignore it if the "many places" type is DRY,
@@ -587,22 +632,7 @@ Sentence condition_sentence(const ConditionPercentages& thePercentages, const st
     if (someplacestypes.size() > 1)
     {
       RoadConditionType secondtype = (++someplacestypes.begin())->second;
-
-      if (firsttype == ICY || firsttype == PARTLY_ICY)
-      {
-        if (secondtype == PARTLY_ICY)
-          sentence << "tai"
-                   << "osittain jaisia";
-        else if (secondtype == FROST)
-          sentence << "tai"
-                   << "kuuraisia";
-      }
-      else if (firsttype == SLUSH && secondtype == SNOW)
-        sentence << "tai"
-                 << "lunta";
-      else if (firsttype == WET && secondtype == MOIST)
-        sentence << "tai"
-                 << "kosteita";
+      append_alternative_condition(sentence, firsttype, secondtype);
     }
 
     return sentence;
@@ -1142,7 +1172,7 @@ Paragraph RoadStory::condition_overview() const
     {
       // Common periods will be inclusive range i...j
 
-      unsigned int j;
+      unsigned int j = 0;
       for (j = i; j < periods.size() - 1; j++)
         if (realizations[i] != realizations[j + 1])
           break;

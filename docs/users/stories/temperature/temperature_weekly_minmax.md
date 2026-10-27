@@ -66,6 +66,12 @@ textgen::[section]::story::temperature_weekly_minmax::night::starthour = 18
 textgen::[section]::story::temperature_weekly_minmax::night::endhour = 6
 ```
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::temperature_weekly_minmax::rangeseparator = [string] (="...")
+```
+
 The computation results can be replaced with the variables:
 
 ```
@@ -74,8 +80,8 @@ textgen::[section]::story::temperature_weekly_minmax::fake::day::maximum = [resu
 textgen::[section]::story::temperature_weekly_minmax::fake::day::mean = [result]
 
 textgen::[section]::story::temperature_weekly_minmax::fake::night::minimum = [result]
-textgen::[section]::story::temperature_weekly_minmax::fake::night:maximum = [result]
-textgen::[section]::story::temperature_weekly_minmax::fake::night:mean = [result]
+textgen::[section]::story::temperature_weekly_minmax::fake::night::maximum = [result]
+textgen::[section]::story::temperature_weekly_minmax::fake::night::mean = [result]
 ```
 
 Phrases used:

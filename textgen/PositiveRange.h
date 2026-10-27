@@ -24,6 +24,7 @@ class PositiveRange : public Glyph
 #ifdef NO_COMPILER_GENERATED
   PositiveRange(const PositiveRange& thePositiveRange);
   PositiveRange& operator=(const PositiveRange& thePositiveRange);
+  PositiveRange(const PositiveRange&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

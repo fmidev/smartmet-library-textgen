@@ -40,6 +40,7 @@
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <newbase/NFmiAreaTools.h>
+#include <array>
 #include <iomanip>
 #include <map>
 #include <vector>
@@ -54,236 +55,236 @@ using namespace AreaTools;
 using namespace TimeTools;
 
 // pouta
-#define HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa on poutainen"
-#define SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[sisamaassa] saa on poutainen"
-#define HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] saa on poutainen"
-#define HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa on poutainen";
+constexpr const char* SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE = "[sisamaassa] saa on poutainen";
+constexpr const char* HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE = "[huomenna] saa on poutainen";
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]";
 
 // enimmakseen pouta, yksittaiset kuurot mahdollisia
-#define SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
-#define HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
+constexpr const char* SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]";
+constexpr const char* HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]";
 // sade
-#define ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA "[iltapaivalla] kuurot voivat olla voimakkaita"
-#define ILTAPAIVALLA_LUMIKUUROT_VOIVAT_OLLA_SAKEITA "[iltapaivalla] lumikuurot voivat olla sakeita"
-#define ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA "[iltapaivalla] sade voi olla runsasta"
-#define ILTAPAIVALLA_LUMISADE_VOI_OLLA_SAKEAA "[iltapaivalla] lumisade voi olla sakeaa"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta]"
-#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [heikkoa] [sadetta]"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] [sadetta]"
+constexpr const char* ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA = "[iltapaivalla] kuurot voivat olla voimakkaita";
+constexpr const char* ILTAPAIVALLA_LUMIKUUROT_VOIVAT_OLLA_SAKEITA = "[iltapaivalla] lumikuurot voivat olla sakeita";
+constexpr const char* ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA = "[iltapaivalla] sade voi olla runsasta";
+constexpr const char* ILTAPAIVALLA_LUMISADE_VOI_OLLA_SAKEAA = "[iltapaivalla] lumisade voi olla sakeaa";
+constexpr const char* HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [heikkoa] [sadetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] [sadetta]";
 
-#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [paikoin] [heikkoa] [sadetta]"
-#define SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [sadetta]"
-#define SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [heikkoa] [sadetta]"
-#define SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [sadetta]"
+constexpr const char* SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [paikoin] [heikkoa] [sadetta]";
+constexpr const char* SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE = "[sisamaassa] [paikoin] [sadetta]";
+constexpr const char* SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE = "[sisamaassa] [heikkoa] [sadetta]";
+constexpr const char* SISAMAASSA_SADETTA_COMPOSITE_PHRASE = "[sisamaassa] [sadetta]";
 
-#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta]"
-#define HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta]"
-#define HUOMENNA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [heikkoa] [sadetta]"
-#define HUOMENNA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sadetta]"
+constexpr const char* HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE = "[huomenna] [paikoin] [heikkoa] [sadetta]";
+constexpr const char* HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE = "[huomenna] [paikoin] [sadetta]";
+constexpr const char* HUOMENNA_HEIKKOA_SADETTA_COMPOSITE_PHRASE = "[huomenna] [heikkoa] [sadetta]";
+constexpr const char* HUOMENNA_SADETTA_COMPOSITE_PHRASE = "[huomenna] [sadetta]";
 
-#define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta]"
-#define PAIKOIN_SADETTA_COMPOSITE_PHRASE "[paikoin] [sadetta]"
-#define HEIKKOA_SADETTA_COMPOSITE_PHRASE "[heikkoa] [sadetta]"
+constexpr const char* PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE = "[paikoin] [heikkoa] [sadetta]";
+constexpr const char* PAIKOIN_SADETTA_COMPOSITE_PHRASE = "[paikoin] [sadetta]";
+constexpr const char* HEIKKOA_SADETTA_COMPOSITE_PHRASE = "[heikkoa] [sadetta]";
 
-#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset vesi- tai rantakuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset vesi- tai lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset sadekuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset rantakuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset ranta- tai vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] yksittaiset lumi- tai rantakuurot mahdollisia"
+constexpr const char* HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset vesikuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset vesi- tai rantakuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset vesi- tai lumikuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset sadekuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset rantakuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset ranta- tai vesikuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset lumikuurot mahdollisia";
+constexpr const char* HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] yksittaiset lumi- tai rantakuurot mahdollisia";
 
-#define SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset vesikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset sadekuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset rantakuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset lumikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia"
+constexpr const char* SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset vesikuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset sadekuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset rantakuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset lumikuurot mahdollisia";
+constexpr const char* SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia";
 
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset vesikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset sadekuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset rantakuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset lumikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia"
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset vesikuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset sadekuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset rantakuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset lumikuurot mahdollisia";
+constexpr const char* HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia";
 
-#define HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [sadetta]"
+constexpr const char* HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] [sadetta]";
 
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa"
-#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [sadetta], joka voi olla jaatavaa"
+constexpr const char* HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [sadetta], joka voi olla jaatavaa";
 
-#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [paikoin] [sadetta], joka voi olla jaatavaa"
-#define HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[huomenna] [sadetta], joka voi olla jaatavaa"
-#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa"
-#define SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[sisamaassa] [sadetta], joka voi olla jaatavaa"
-#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
-#define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[paikoin] [sadetta], joka voi olla jaatavaa"
-#define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE \
-  "[heikkoa] [sadetta], joka voi olla jaatavaa"
-#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla jaatavaa"
+constexpr const char* HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [paikoin] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[huomenna] [sadetta], joka voi olla jaatavaa";
+constexpr const char* SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa";
+constexpr const char* SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[sisamaassa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[paikoin] [sadetta], joka voi olla jaatavaa";
+constexpr const char* HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE =
+  "[heikkoa] [sadetta], joka voi olla jaatavaa";
+constexpr const char* SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE = "[sadetta], joka voi olla jaatavaa";
 
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+constexpr const char* HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia";
 
-#define HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [sadekuuroja], jotka voivat olla jaatavia"
+constexpr const char* HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [sadekuuroja], jotka voivat olla jaatavia";
 
-#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
-#define HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[huomenna] [sadekuuroja], jotka voivat olla jaatavia"
-#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
-#define SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[sisamaassa] [sadekuuroja], jotka voivat olla jaatavia"
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[paikoin] [sadekuuroja], jotka voivat olla jaatavia"
-#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
-#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE \
-  "[sadekuuroja], jotka voivat olla jaatavia"
+constexpr const char* HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [paikoin] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[huomenna] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[sisamaassa] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[paikoin] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[heikkoja] [sadekuuroja], jotka voivat olla jaatavia";
+constexpr const char* SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE =
+  "[sadekuuroja], jotka voivat olla jaatavia";
 
 // #define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu"
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen";
 
 // #define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja on
 //[selkea]"
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on selkea"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on selkea"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on selkea"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on selkea"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on selkea";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on selkea";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on selkea";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on selkea";
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on melko selkea"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on melko selkea"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on melko selkea"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on melko selkea"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on melko selkea";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on melko selkea";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on melko selkea";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on melko selkea";
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on puolipilvinen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on puolipilvinen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on puolipilvinen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on puolipilvinen"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on puolipilvinen";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on puolipilvinen";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on puolipilvinen";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on puolipilvinen";
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on verrattain pilvinen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on verrattain pilvinen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on verrattain pilvinen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on verrattain pilvinen"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on verrattain pilvinen";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on verrattain pilvinen";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on verrattain pilvinen";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on verrattain pilvinen";
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on pilvinen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on pilvinen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on pilvinen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on pilvinen"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on pilvinen";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on pilvinen";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on pilvinen";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on pilvinen";
 
 // #define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja vaihtelee
 //  puolipilvisesta pilviseen"
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
-  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+constexpr const char* SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja vaihtelee puolipilvisesta pilviseen";
+constexpr const char* SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja vaihtelee puolipilvisesta pilviseen";
+constexpr const char* SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja vaihtelee puolipilvisesta pilviseen";
+constexpr const char* SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE =
+  "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja vaihtelee puolipilvisesta pilviseen";
 
 namespace
 {
@@ -1232,13 +1233,14 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
     theParameters.theLog << "Precipitation form is "
                          << precipitation_form_string(thePrecipitationForm) << '\n';
     theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << '\n';
-    theParameters.theLog << "Precipitation type is "
-                         << (thePrecipitationType == 1
-                                 ? "'continuous'"
-                                 : (thePrecipitationType == 2 ? "'showers'" : "'missing'"))
-                         << '\n';
+    const char* precipitationTypeName = "'missing'";
+    if (thePrecipitationType == 1)
+      precipitationTypeName = "'continuous'";
+    else if (thePrecipitationType == 2)
+      precipitationTypeName = "'showers'";
+    theParameters.theLog << "Precipitation type is " << precipitationTypeName << '\n';
 
-    if (!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
+    if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSnow || !mostly_dry_weather)
       theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
 
     PrecipPhraseContext ctx{thePeriod,
@@ -1655,7 +1657,7 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
     if (theStatFunc == MAX)
       return maxValue;
     // MEAN
-    return (count > 0) ? (cumulativeSum / count) : 0.0f;
+    return (count > 0) ? (cumulativeSum / count) : 0.0F;
   }
   catch (...)
   {
@@ -1947,7 +1949,7 @@ bool PrecipitationForecast::separateCoastInlandPrecipitation(
 
     bool precipitationFormsDiffer =
         reportPrecipitationFormsSeparately(inlandPrecipitationForm, coastalPrecipitationForm);
-    bool retval;
+    bool retval = false;
 
     if (((coastalPrecipitation < 0.04 && inlandPrecipitation > 0.4) ||
          (coastalPrecipitation > 0.4 && inlandPrecipitation < 0.04)) ||
@@ -2076,9 +2078,12 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
     std::shared_ptr<weather_result_data_item_vector> precipitationPointHourly =
         (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_POINT_DATA];
 
-    precipitation_data_vector& dataVector =
-        (theAreaId == COASTAL_AREA ? theCoastalData
-                                   : (theAreaId == INLAND_AREA ? theInlandData : theFullData));
+    precipitation_data_vector* dataVectorPtr = &theFullData;
+    if (theAreaId == COASTAL_AREA)
+      dataVectorPtr = &theCoastalData;
+    else if (theAreaId == INLAND_AREA)
+      dataVectorPtr = &theInlandData;
+    precipitation_data_vector& dataVector = *dataVectorPtr;
 
     for (unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
     {
@@ -2957,10 +2962,11 @@ void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& /*
 {
   try
   {
-    const precipitation_data_vector* precipitationDataVector =
-        ((theParameters.theForecastArea & FULL_AREA)
-             ? &theFullData
-             : ((theParameters.theForecastArea & INLAND_AREA) ? &theInlandData : &theCoastalData));
+    const precipitation_data_vector* precipitationDataVector = &theCoastalData;
+    if (theParameters.theForecastArea & FULL_AREA)
+      precipitationDataVector = &theFullData;
+    else if (theParameters.theForecastArea & INLAND_AREA)
+      precipitationDataVector = &theInlandData;
 
     theNorthPercentage = 0.0;
     theSouthPercentage = 0.0;
@@ -3135,8 +3141,8 @@ precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTran
     const weather_result_data_item_vector* precipitationFormSleetHourly =
         get_data_vector(theParameters, PRECIPITATION_FORM_SLEET_DATA);
 
-    unsigned int startIndex;
-    unsigned int endIndex;
+    unsigned int startIndex = 0;
+    unsigned int endIndex = 0;
     get_period_start_end_index(thePeriod, *precipitationFormWaterHourly, startIndex, endIndex);
 
     double pearson_co_water =
@@ -3490,6 +3496,8 @@ Sentence buildRegularSentence(const PrecipitationForecast::FinalSentenceContext&
 }
 }  // namespace
 
+namespace
+{
 // Check if any "mostly dry" shower phrase key exists in the composite phrase elements
 bool hasMostlyDryPhrase(const map<string, Sentence>& elems)
 {
@@ -3508,6 +3516,7 @@ bool hasMostlyDryPhrase(const map<string, Sentence>& elems)
       return true;
   return false;
 }
+}  // namespace
 
 // Bit-index order: bit0=periodPresent, bit1=areaPresent, bit2=inPlacesPresent,
 // bit3=intensityPresent So: [0]=none, [1]=period, [2]=area, [3]=period+area,
@@ -3607,6 +3616,48 @@ Sentence PrecipitationForecast::parseRegularPrecipitationPhrase(
   }
 }
 
+namespace
+{
+// Log the phrase elements the final sentence is built from
+void logFinalSentenceContext(MessageLogger& log,
+                             const PrecipitationForecast::FinalSentenceContext& ctx)
+{
+  log << "periodPhrase: ";
+  log << ctx.periodPhrase;
+  log << "areaPhrase: ";
+  log << ctx.areaPhrase;
+  log << "intensity: ";
+  log << ctx.intensity;
+  log << "precipitation: ";
+  log << ctx.precipitation;
+  log << "inPlacesPhrase: ";
+  log << ctx.inPlacesPhrase;
+  log << "periodPhraseEmpty: ";
+  log << (ctx.periodPhraseEmpty ? "yes" : "no") << '\n';
+  log << "areaPhraseEmpty: ";
+  log << (ctx.areaPhraseEmpty ? "yes" : "no") << '\n';
+}
+
+// Build the "huomenna sisamaassa saa on enimmakseen poutainen" sentence
+Sentence buildMostlyDryInlandSentence(const PrecipitationForecast::FinalSentenceContext& ctx)
+{
+  Sentence sentence;
+  if (ctx.periodPhraseEmpty && ctx.areaPhraseEmpty)
+    sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE << Delimiter(COMMA_PUNCTUATION_MARK)
+             << ctx.precipitation;
+  else if (ctx.periodPhraseEmpty)
+    sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << ctx.areaPhrase
+             << ctx.precipitation;
+  else if (ctx.areaPhraseEmpty)
+    sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << ctx.periodPhrase
+             << ctx.precipitation;
+  else
+    sentence << HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
+             << ctx.periodPhrase << ctx.areaPhrase << ctx.precipitation;
+  return sentence;
+}
+}  // namespace
+
 Sentence PrecipitationForecast::parseFinalSentence(
     map<string, Sentence>& theCompositePhraseElements,
     const Sentence& thePeriodPhrase,
@@ -3660,37 +3711,13 @@ Sentence PrecipitationForecast::parseFinalSentence(
     }
     else
     {
-      theParameters.theLog << "periodPhrase: ";
-      theParameters.theLog << periodPhrase;
-      theParameters.theLog << "areaPhrase: ";
-      theParameters.theLog << areaPhrase;
-      theParameters.theLog << "intensity: ";
-      theParameters.theLog << intensity;
-      theParameters.theLog << "precipitation: ";
-      theParameters.theLog << precipitation;
-      theParameters.theLog << "inPlacesPhrase: ";
-      theParameters.theLog << inPlacesPhrase;
-      theParameters.theLog << "periodPhraseEmpty: ";
-      theParameters.theLog << (periodPhraseEmpty ? "yes" : "no") << '\n';
-      theParameters.theLog << "areaPhraseEmpty: ";
-      theParameters.theLog << (areaPhraseEmpty ? "yes" : "no") << '\n';
+      logFinalSentenceContext(theParameters.theLog, ctx);
 
       if (theCompositePhraseElements.find(
               HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE) !=
           theCompositePhraseElements.end())
       {
-        if (periodPhraseEmpty && areaPhraseEmpty)
-          sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE << Delimiter(COMMA_PUNCTUATION_MARK)
-                   << precipitation;
-        else if (periodPhraseEmpty)
-          sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << areaPhrase
-                   << precipitation;
-        else if (areaPhraseEmpty)
-          sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE << periodPhrase
-                   << precipitation;
-        else
-          sentence << HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
-                   << periodPhrase << areaPhrase << precipitation;
+        sentence << buildMostlyDryInlandSentence(ctx);
       }
       else if (hasMostlyDryPhrase(theCompositePhraseElements))
       {
@@ -4257,8 +4284,8 @@ direction_id PrecipitationForecast::getPrecipitationArrivalDirection(
     const TextGenPosixTime& endTime = thePeriod.localStartTime();
     WeatherPeriod checkPeriod(startTime, endTime);
 
-    unsigned int startIndex;
-    unsigned int endIndex;
+    unsigned int startIndex = 0;
+    unsigned int endIndex = 0;
     weather_result_data_item_vector* northeast_data =
         get_data_vector(theParameters, PRECIPITATION_NORTHEAST_SHARE_DATA);
     weather_result_data_item_vector* southeast_data =
@@ -4340,8 +4367,8 @@ NFmiPoint PrecipitationForecast::getPrecipitationRepresentativePoint(
   {
     NFmiPoint retval(kFloatMissing, kFloatMissing);
 
-    unsigned int startIndex;
-    unsigned int endIndex;
+    unsigned int startIndex = 0;
+    unsigned int endIndex = 0;
     weather_result_data_item_vector* coordinates =
         get_data_vector(theParameters, PRECIPITATION_POINT_DATA);
     if (!get_period_start_end_index(thePeriod, *coordinates, startIndex, endIndex))
@@ -4384,8 +4411,8 @@ precipitation_traverse_id PrecipitationForecast::getPrecipitationTraverseId(
     const weather_result_data_item_vector* dataVector =
         get_data_vector(theParameters, PRECIPITATION_MEAN_DATA);
 
-    unsigned int startIndex;
-    unsigned int endIndex;
+    unsigned int startIndex = 0;
+    unsigned int endIndex = 0;
 
     if (!get_period_start_end_index(thePeriod, *dataVector, startIndex, endIndex))
       return retval;

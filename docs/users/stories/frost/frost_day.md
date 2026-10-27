@@ -1,6 +1,6 @@
 # Story "frost_day"
 
-The story is empty from mid-October to the end of March! In addition, if the probability of severe frost is very high, the frost is presumably so obvious that there is no need to report it separately.
+The story is empty unless the required global variable `textgen::frostseason` is `true` (the application decides when the frost season is on). In addition, if the probability of severe frost is very high, the frost is presumably so obvious that there is no need to report it separately.
 
 If the period length is zero nights, an empty story is returned.
 
@@ -29,14 +29,14 @@ The story is chosen based on the variables:
 ```
 textgen::[section]::story::frost_day::severe_frost_limit = [0-100] (=10)
 textgen::[section]::story::frost_day::frost_limit = [0-100] (=10)
-textgen::[section]::story::frost_day::obvious_frost = [0-100] (=90)
+textgen::[section]::story::frost_day::obvious_frost_limit = [0-100] (=90)
 textgen::[section]::story::frost_day::precision = [0-100] (=10)
-textgen::[section]::story::frost_day::coast_limit = [0-100] (=20)
+textgen::[section]::story::frost_day::coastlimit = [0-100] (=20)
 ```
 
-If the probability of severe frost is at least `severe_frost_limit`, the phrase "ankaran hallan todennäköisyys" ("probability of severe frost") is used; otherwise "hallan todennäköisyys" ("probability of frost"). If the probability of frost is below `frost_limit`, an empty story is returned. However, if the probability of severe frost is above `obvious_frost`, the story may still be empty (see the explanation at the top of the page).
+If the probability of severe frost is at least `severe_frost_limit`, the phrase "ankaran hallan todennäköisyys" ("probability of severe frost") is used; otherwise "hallan todennäköisyys" ("probability of frost"). If the probability of frost is below `frost_limit`, an empty story is returned. However, if the probability of severe frost is above `obvious_frost_limit`, the story may still be empty (see the explanation at the top of the page).
 
-The inland and coastal probabilities are reported separately if the difference in probabilities is at least `coast_limit`.
+The inland and coastal probabilities are reported separately if the difference in probabilities is at least `coastlimit`.
 
 Probabilities are rounded to the precision given by `precision`. A precision of 10 is generally used.
 

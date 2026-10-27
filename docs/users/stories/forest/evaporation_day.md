@@ -48,7 +48,7 @@ The normal interval for the day is `starthour` – `endhour`. If the period is s
 The generated analysis functions can be overridden as follows:
 
 ```
-textgen::[section]::story::evaporation_day::fake::mean = [result]
+textgen::[section]::story::evaporation_day::fake::area::mean = [result]
 ```
 
 Phrases used:

@@ -193,7 +193,7 @@ The following are source-level constants, not user-configurable:
 
 The story exposes many `fake::*` keys for regression-testing individual
 branches of the algorithm. Because the per-sub-period matrix is large
-(day1/day2/night × inland/coast/full × min/max/mean, and optionally
+(day1/day2/night × inland/coast/area × min/max/mean, and optionally
 morning/afternoon), the authoritative list is in
 `test/TemperatureStoryTest.cpp`. Search for `temperature_max36hours`
 there — every test configuration enumerates exactly the keys it needs.
@@ -201,15 +201,21 @@ there — every test configuration enumerates exactly the keys it needs.
 Representative keys:
 
 ```
-textgen::<section>::story::temperature_max36hours::fake::day1::mean    = [result]
-textgen::<section>::story::temperature_max36hours::fake::day1::min     = [result]
-textgen::<section>::story::temperature_max36hours::fake::day1::max     = [result]
-textgen::<section>::story::temperature_max36hours::fake::day1::coast::mean = [result]
+textgen::<section>::story::temperature_max36hours::fake::day1::area::mean   = [result]
+textgen::<section>::story::temperature_max36hours::fake::day1::area::min    = [result]
+textgen::<section>::story::temperature_max36hours::fake::day1::area::max    = [result]
+textgen::<section>::story::temperature_max36hours::fake::day1::coast::mean  = [result]
 textgen::<section>::story::temperature_max36hours::fake::day1::inland::mean = [result]
-textgen::<section>::story::temperature_max36hours::fake::night::mean   = [result]
-textgen::<section>::story::temperature_max36hours::fake::day2::mean    = [result]
+textgen::<section>::story::temperature_max36hours::fake::day1::morning::area::mean   = [result]
+textgen::<section>::story::temperature_max36hours::fake::day1::afternoon::area::mean = [result]
+textgen::<section>::story::temperature_max36hours::fake::night::area::mean  = [result]
+textgen::<section>::story::temperature_max36hours::fake::day2::area::mean   = [result]
 textgen::<section>::story::temperature_max36hours::fake::area_percentage = [result]
 ```
+
+The key is `fake::<period>[::morning|::afternoon]::<area>::<min|max|mean>`,
+where the period is `day1`, `night` or `day2` (the night has no morning or
+afternoon) and the area is `area` (the whole area), `coast` or `inland`.
 
 ## See also
 

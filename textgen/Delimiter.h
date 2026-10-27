@@ -21,6 +21,7 @@ class Delimiter : public Glyph
 #ifdef NO_COMPILER_GENERATED
   Delimiter(const Delimiter& thePhrase);
   Delimiter& operator=(const Delimiter& thePhrase);
+  Delimiter(const Delimiter&) = default;
 #endif
 
   std::shared_ptr<Glyph> clone() const override;

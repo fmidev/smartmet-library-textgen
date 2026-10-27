@@ -438,6 +438,7 @@ int main(void)
   cout << endl << "SoneraPhrases requirements" << endl << "==========================" << endl;
 
   SoneraTest::dict.reset(TextGen::DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   SoneraTest::dict->init("sonera");
 
   SoneraTest::tests t;

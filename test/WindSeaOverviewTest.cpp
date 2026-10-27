@@ -43,6 +43,7 @@ const TextGenPosixTime END(2026, 9, 7, 12, 0);
 
 string require(const TextGen::Story& theStory, const string& theLanguage, const string& theExpected)
 {
+  Settings::set("textgen::podictionaries", "../po");
   dict->init(theLanguage);
   formatter.dictionary(dict);
   TextGen::Paragraph para = theStory.makeStory("wind_sea_overview");
@@ -277,26 +278,26 @@ void weakening_with_turn()
   string result;
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää, aamuksi pohjoiseen "
-          "kääntyvää tuulta 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää "
+          "tuulta, aamulla 2-4 m/s.");
   REQUIRE(story,
           "en",
-          "Westerly wind 9-11 m/s. Gradually weakening from the evening, northerly wind by the "
+          "Westerly wind 9-11 m/s. Gradually weakening from the evening, northerly wind, in the "
           "morning 2-4 m/s.");
 
   // With veering/backing phrases the westerly wind turning to north is veering (clockwise)
   Settings::set(VAR + "::turn_phrases", "veering_backing");
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää, aamuksi pohjoiseen "
-          "kääntyvää tuulta 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää "
+          "tuulta, aamulla 2-4 m/s.");
   REQUIRE(story,
           "en",
-          "Westerly wind 9-11 m/s. Gradually weakening from the evening, veering northerly wind by "
-          "the morning 2-4 m/s.");
+          "Westerly wind 9-11 m/s. Gradually weakening from the evening, veering northerly wind, "
+          "in the morning 2-4 m/s.");
   REQUIRE(story,
           "en-marine",
-          "West 9-11 m/s. Gradually decreasing from the evening, veering north by the morning 2-4 "
+          "West 9-11 m/s. Gradually decreasing from the evening, veering north, in the morning 2-4 "
           "m/s.");
   TEST_PASSED();
 }
@@ -350,7 +351,7 @@ void veering_and_backing()
   REQUIRE(story, "fi", "Etelätuulta 7-9 m/s. Keskiyöllä tuuli kääntyy länteen.");
   REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden medurs mot väst.");
   REQUIRE(story, "en", "Southerly wind 7-9 m/s. The wind veers to the west at midnight.");
-  REQUIRE(story, "en-marine", "South 7-9 m/s. Veering to the west at midnight.");
+  REQUIRE(story, "en-marine", "South 7-9 m/s. Veering west at midnight.");
 
   // south -> east is counterclockwise: backing
   for (int h = 0; h <= 24; h++)
@@ -365,7 +366,7 @@ void veering_and_backing()
   REQUIRE(story, "fi", "Etelätuulta 7-9 m/s. Keskiyöllä tuuli kääntyy itään.");
   REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden moturs mot ost.");
   REQUIRE(story, "en", "Southerly wind 7-9 m/s. The wind backs to the east at midnight.");
-  REQUIRE(story, "en-marine", "South 7-9 m/s. Backing to the east at midnight.");
+  REQUIRE(story, "en-marine", "South 7-9 m/s. Backing east at midnight.");
   TEST_PASSED();
 }
 
@@ -464,6 +465,7 @@ void convective_cell()
   // sentence reports the gusts
   for (int h = 3; h <= 4; h++)
     set_hour(h, 13.0, 11.0, 15.0, 315.0, 5.0, 22.0, 60.0);
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   formatter.dictionary(dict);
   const string text = story.makeStory("wind_sea_overview").realize(formatter);
@@ -511,32 +513,32 @@ void day_change_marked()
   // weekdays = false: "huomenna" marks the day after the forecast time
   REQUIRE(story,
           "fi",
-          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää, huomisiltapäiväksi "
-          "länteen kääntyvää tuulta 1-3 m/s.");
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää länteen kääntyvää "
+          "tuulta, huomenna iltapäivällä 1-3 m/s.");
   REQUIRE(story,
           "en",
-          "North-easterly wind 8-10 m/s. Gradually weakening from the afternoon, westerly wind by "
+          "North-easterly wind 8-10 m/s. Gradually weakening from the afternoon, westerly wind, "
           "tomorrow afternoon 1-3 m/s.");
   REQUIRE(story,
           "sv",
-          "Nordostlig vind 8-10 m/s. Från och med eftermiddagen vind som avtar småningom, i "
-          "morgon på eftermiddagen västlig vind 1-3 m/s.");
+          "Nordostlig vind 8-10 m/s. Från och med eftermiddagen västlig vind som avtar småningom, "
+          "i morgon på eftermiddagen 1-3 m/s.");
 
   // the weekday when preferred
   area.history() = TextGen::WeatherHistory();
   Settings::set(VAR + "::day::phrases", "weekday");
   REQUIRE(story,
           "fi",
-          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää, "
-          "maanantai-iltapäiväksi länteen kääntyvää tuulta 1-3 m/s.");
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää länteen kääntyvää "
+          "tuulta, maanantaina iltapäivällä 1-3 m/s.");
 
   // or no marker at all
   area.history() = TextGen::WeatherHistory();
   Settings::set(VAR + "::day::phrases", "none");
   REQUIRE(story,
           "fi",
-          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää, iltapäiväksi "
-          "länteen kääntyvää tuulta 1-3 m/s.");
+          "Koillistuulta 8-10 m/s. Iltapäivästä alkaen vähitellen heikkenevää länteen kääntyvää "
+          "tuulta, iltapäivällä 1-3 m/s.");
   TEST_PASSED();
 }
 
@@ -568,8 +570,53 @@ void day_change_inferred()
   string result;
   REQUIRE(story,
           "fi",
-          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää, aamuksi pohjoiseen "
-          "kääntyvää tuulta 2-4 m/s.");
+          "Länsituulta 9-11 m/s. Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää "
+          "tuulta, aamulla 2-4 m/s.");
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
+// A change with a turn within one part of the day names the time once
+// ----------------------------------------------------------------------
+
+void turn_within_one_part_of_day()
+{
+  reset_settings();
+  // 05:00 - 05:00: easterly 8 m/s, strengthening to 12.5 m/s by noon while turning to south-east
+  // within the forenoon, then slowly weakening
+  const TextGenPosixTime start(2026, 9, 6, 5, 0);
+  const TextGenPosixTime end(2026, 9, 7, 5, 0);
+  TextGen::WeatherPeriod morningPeriod(start, end);
+  for (int h = -7; h <= 17; h++)
+  {
+    const int hour = h + 7;  // hours from 05:00
+    double mean = 8.0;
+    if (hour > 4 && hour <= 7)
+      mean = 8.0 + (hour - 4) * 1.5;  // 8 -> 12.5 between 09:00 and 12:00
+    else if (hour > 7)
+      mean = max(7.0, 12.5 - (hour - 7) * 2.0);  // 12.5 -> 7 by the afternoon
+    double dir = 80.0;
+    if (hour >= 4 && hour <= 6)
+      dir = 80.0 + (hour - 4) * 30.0;  // turns to south-east 09:00 - 11:00
+    else if (hour > 6)
+      dir = 140.0;
+    set_hour(h, mean, mean - 1.0, mean + 1.0, dir, 5.0);
+  }
+  TextGen::WindStory story(start, sources, area, morningPeriod, VAR);
+  string result;
+  REQUIRE(story,
+          "fi",
+          "Itätuulta 7-9 m/s. Aamupäivällä voimistuvaa kaakkoon kääntyvää tuulta 11-13 m/s. "
+          "Iltapäivällä heikkenevää tuulta 6-8 m/s.");
+  REQUIRE(story,
+          "en",
+          "Easterly wind 7-9 m/s. Strengthening before noon, south-easterly wind 11-13 m/s. "
+          "Weakening wind in the afternoon 6-8 m/s.");
+  Settings::set(VAR + "::turn_phrases", "veering_backing");
+  REQUIRE(story,
+          "en-marine",
+          "East 7-9 m/s. Increasing before noon, veering southeast 11-13 m/s. Decreasing in "
+          "the afternoon 6-8 m/s.");
   TEST_PASSED();
 }
 
@@ -592,6 +639,7 @@ void capped_changes()
   TextGen::WindStory story = make_story();
   string result;
   // only the largest change is kept; the rest is described as steady
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   formatter.dictionary(dict);
   TextGen::Paragraph para = story.makeStory("wind_sea_overview");
@@ -629,6 +677,7 @@ class tests : public tframe::tests
     TEST(convective_cell);
     TEST(day_change_marked);
     TEST(day_change_inferred);
+    TEST(turn_within_one_part_of_day);
     TEST(capped_changes);
   }
 
@@ -651,6 +700,7 @@ int main(void)
        << "=============================" << endl;
 
   dict.reset(TextGen::DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   dict->init("sv");
   dict->init("en");

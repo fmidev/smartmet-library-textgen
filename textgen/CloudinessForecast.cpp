@@ -34,6 +34,7 @@
 #include <macgyver/Exception.h>
 #include <cmath>
 #include <map>
+#include <math.h>
 #include <vector>
 
 using namespace std;
@@ -44,36 +45,36 @@ using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 
-#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
-#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
-#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \
-  "[huomenna] saa vaihtelee puolipilvisesta pilviseen"
+constexpr const char* HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
+constexpr const char* SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
+constexpr const char* HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
+  "[huomenna] saa vaihtelee puolipilvisesta pilviseen";
 
-#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
-#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
-#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+constexpr const char* HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+constexpr const char* SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+constexpr const char* HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 
-#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa on [selkea]"
-#define SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[sisamaassa] saa on [selkea]"
-#define HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] saa on [selkea]"
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] saa on [selkea]";
+constexpr const char* SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[sisamaassa] saa on [selkea]";
+constexpr const char* HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[huomenna] saa on [selkea]";
 
-#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] saa on [selkea] ja poutainen"
-#define SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[sisamaassa] saa on [selkea] ja poutainen"
-#define HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE \
-  "[huomenna] saa on [selkea] ja poutainen"
-#define SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "saa on [selkea] ja poutainen"
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] saa on [selkea] ja poutainen";
+constexpr const char* SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[sisamaassa] saa on [selkea] ja poutainen";
+constexpr const char* HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
+  "[huomenna] saa on [selkea] ja poutainen";
+constexpr const char* SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE = "saa on [selkea] ja poutainen";
 
-#define ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE "[iltapaivasta alkaen] [pilvistyvaa]"
+constexpr const char* ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE = "[iltapaivasta alkaen] [pilvistyvaa]";
 
-#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE \
-  "saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+constexpr const char* PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE =
+  "saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 
 namespace
 {
@@ -309,12 +310,12 @@ Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePe
   {
     Sentence sentence;
 
-    const weather_event_id_vector& cloudinessWeatherEvents =
-        ((itsParameters.theForecastArea & INLAND_AREA &&
-          itsParameters.theForecastArea & COASTAL_AREA)
-             ? itsCloudinessWeatherEventsFull
-             : ((itsParameters.theForecastArea & INLAND_AREA) ? itsCloudinessWeatherEventsInland
-                                                              : itsCloudinessWeatherEventsCoastal));
+    const weather_event_id_vector* cloudinessWeatherEventsPtr = &itsCloudinessWeatherEventsCoastal;
+    if (itsParameters.theForecastArea & INLAND_AREA && itsParameters.theForecastArea & COASTAL_AREA)
+      cloudinessWeatherEventsPtr = &itsCloudinessWeatherEventsFull;
+    else if (itsParameters.theForecastArea & INLAND_AREA)
+      cloudinessWeatherEventsPtr = &itsCloudinessWeatherEventsInland;
+    const weather_event_id_vector& cloudinessWeatherEvents = *cloudinessWeatherEventsPtr;
 
     for (const auto& cloudinessWeatherEvent : cloudinessWeatherEvents)
     {
@@ -426,8 +427,10 @@ bool CloudinessForecast::separateWeatherPeriodCloudiness(
   }
 }
 
+namespace
+{
 // Returns {event_id, changeIndex} for a split at position i, or {MISSING_WEATHER_EVENT, 0}
-static std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
+std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
     const weather_result_data_item_vector* theData,
     unsigned int i,
     float meanFirst,
@@ -461,6 +464,7 @@ static std::pair<weather_event_id, unsigned int> detect_cloudiness_event(
 
   return {MISSING_WEATHER_EVENT, 0};
 }
+}  // namespace
 
 void CloudinessForecast::findOutCloudinessWeatherEvents(
     const weather_result_data_item_vector* theData,
@@ -630,7 +634,7 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
 {
   try
   {
-    if (theCloudinessPeriodsSource.empty())
+    if (theCloudinessPeriodsSource.empty() || theCloudinessDataSource == nullptr)
       return;
 
     vector<int> theCloudinessPuolipilvisestaPilviseen;
@@ -663,10 +667,10 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
         get_sub_time_series(
             WeatherPeriod(startTime, endTime), *theCloudinessDataSource, thePeriodCloudiness);
 
-        float min;
-        float max;
-        float mean;
-        float stddev;
+        float min = NAN;
+        float max = NAN;
+        float mean = NAN;
+        float stddev = NAN;
 
         get_min_max(thePeriodCloudiness, min, max);
         mean = get_mean(thePeriodCloudiness);
@@ -1071,10 +1075,10 @@ cloudiness_id CloudinessForecast::getCloudinessId(
 
     get_sub_time_series(thePeriod, *theCloudinessData, thePeriodCloudiness);
 
-    float min;
-    float max;
-    float mean;
-    float stddev;
+    float min = NAN;
+    float max = NAN;
+    float mean = NAN;
+    float stddev = NAN;
     get_min_max(thePeriodCloudiness, min, max);
     mean = get_mean(thePeriodCloudiness);
     stddev = get_standard_deviation(thePeriodCloudiness);

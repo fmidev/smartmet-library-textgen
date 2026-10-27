@@ -26,6 +26,7 @@
 #include <macgyver/StringConversion.h>
 
 #include <boost/lexical_cast.hpp>
+#include <array>
 #include <vector>
 
 using namespace TextGen;
@@ -1739,6 +1740,8 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
  */
 // ----------------------------------------------------------------------
 
+namespace
+{
 Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
                               const AnalysisSources& /*theSources*/,
                               const WeatherArea& /*theArea*/,
@@ -1759,9 +1762,12 @@ Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
     throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
+}  // namespace
 
 using OverlapVector = vector<PrecipitationPeriodTools::RainPeriods>;
 
+namespace
+{
 // Handle a run of non-rainy days: returns the last day consumed and adds cloudiness story
 int handle_no_overlap_days(int day,
                            int n,
@@ -1840,6 +1846,7 @@ int handle_rainy_sequence(int day,
     throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("day", Fmi::to_string(day)).addParameter("n", Fmi::to_string(n)).addParameter("itsVar", itsVar);
   }
 }
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

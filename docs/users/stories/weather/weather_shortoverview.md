@@ -60,7 +60,7 @@ cloudiness is computed either for the entire interval, or for subintervals:
 textgen::[section]::story::weather_shortoverview::cloudiness::day::starthour = [0-23] (= 0)
 textgen::[section]::story::weather_shortoverview::cloudiness::day::endhour = [0-23] (= 0)
 textgen::[section]::story::weather_shortoverview::cloudiness::day::maxstarthour = [0-23] (= starthour)
-textgen::[section]::story::weather_shortoverview::cloudiness::day::minendhour = [0-23] (= minendhour)
+textgen::[section]::story::weather_shortoverview::cloudiness::day::minendhour = [0-23] (= endhour)
 ```
 
 With the default values only full days are counted. Some customers might want only days (06–18) taken into account.
@@ -106,7 +106,7 @@ Precipitation is examined mostly at the level of individual days. The user must 
 textgen::[section]::story::weather_shortoverview::precipitation::day::starthour = [0-23] (= 0)
 textgen::[section]::story::weather_shortoverview::precipitation::day::endhour = [0-23] (= 0)
 textgen::[section]::story::weather_shortoverview::precipitation::day::maxstarthour = [0-23] (= starthour)
-textgen::[section]::story::weather_shortoverview::precipitation::day::minendhour = [0-23] (= minendhour)
+textgen::[section]::story::weather_shortoverview::precipitation::day::minendhour = [0-23] (= endhour)
 ```
 
 By default only full days are considered. More sensible flexible values might be, for example:

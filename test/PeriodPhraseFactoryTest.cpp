@@ -32,6 +32,7 @@ string require(const string& theMode,
 {
   using namespace TextGen;
 
+  Settings::set("textgen::podictionaries", "../po");
   dict->init(theLanguage);
   formatter.dictionary(dict);
 
@@ -768,6 +769,7 @@ int main(void)
 
   dict.reset(TextGen::DictionaryFactory::create("po"));
 
+  Settings::set("textgen::podictionaries", "../po");
   dict->init("fi");
   dict->init("sv");
   dict->init("en");

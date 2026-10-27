@@ -13,3 +13,15 @@ In Swedish:
 In English:
 
 1. "Weather report for area N-na K o'clock."
+
+The header is adjusted with the variables:
+
+```
+textgen::[section]::header::compact = [bool] (=false)
+textgen::[section]::header::date = [bool] (=true)
+textgen::[section]::header::time = [bool] (=true)
+```
+
+With `compact` only the area name is given, without "Sääennuste ...lle". With
+`date` the weekday is included, with `time` the clock time. The area must be
+named.

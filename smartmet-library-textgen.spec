@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.9.21
-Release: 6%{?dist}.fmi
+Version: 26.10.23
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -25,15 +25,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 26.4.13
-BuildRequires: smartmet-library-macgyver-devel >= 26.5.21
-BuildRequires: smartmet-library-newbase-devel >= 26.2.4
-BuildRequires: smartmet-library-gis-devel >= 26.5.21
+BuildRequires: smartmet-library-calculator-devel >= 26.10.16
+BuildRequires: smartmet-library-macgyver-devel >= 26.10.23
+BuildRequires: smartmet-library-newbase-devel >= 26.10.16
+BuildRequires: smartmet-library-gis-devel >= 26.10.16
 Requires: gdal312-libs
-Requires: smartmet-library-calculator >= 26.4.13
-Requires: smartmet-library-macgyver >= 26.5.21
-Requires: smartmet-library-newbase >= 26.2.4
-
+Requires: smartmet-library-calculator >= 26.10.16
+Requires: smartmet-library-macgyver >= 26.10.23
+Requires: smartmet-library-newbase >= 26.10.17
 %if 0%{?rhel} && 0%{rhel} == 8
 Requires: libpqxx >= 1:7.7.0, libpqxx < 1:7.8.0
 BuildRequires: libpqxx-devel >= 1:7.7.0, libpqxx-devel < 1:7.8.0
@@ -62,10 +61,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: %{smartmet_boost}-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 26.4.13
-#TestRequires: smartmet-library-macgyver-devel >= 26.5.21
-#TestRequires: smartmet-library-newbase-devel >= 26.2.4
-#TestRequires: smartmet-library-gis-devel >= 26.5.21
+#TestRequires: smartmet-library-calculator-devel >= 26.10.16
+#TestRequires: smartmet-library-macgyver-devel >= 26.10.23
+#TestRequires: smartmet-library-newbase-devel >= 26.10.16
+#TestRequires: smartmet-library-gis-devel >= 26.10.16
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -112,6 +111,42 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Oct 23 2026 Pertti Kinnia <pertti.kinnia@fmi.fi> - 26.10.23-1.fmi
+- Repackage due to macgyver ABI changes (PostgreSQLConnectionOptions)
+
+* Mon Oct 19 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.17-2.fmi
+- Repackaged: simultaneous CI runs corrupted the 26.10.17-1 RPMs
+* Sat Oct 17 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.17-1.fmi
+- Wrap lines longer than 100 columns in the refactored code
+- PostGISDataSource::readData: destroy features which have no area name
+- Split functions with a cognitive complexity above 25 into smaller helpers, no functional changes
+- ABI change: new or changed members in installed headers, dependent packages must be rebuilt
+
+* Fri Oct 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.16-1.fmi
+- Fixed compiler warnings and clang-tidy findings (unused code, unreachable code, empty statements, member initialization, parameter passing, noexcept), no functional changes
+- ABI change: parameters passed by const reference or by value, removed unused members and defaulted copy operations, dependent packages must be rebuilt
+
+* Thu Oct 15 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.15-1.fmi
+- Declare member functions and parameters const where nothing is modified (const correctness), no functional changes
+- Requires 26.10.15 versions of newbase, calculator due to their ABI changes
+- Fixed mechanical clang-tidy findings (internal linkage, unused parameters, initialization, redundant code), no functional changes
+- Fixed clang-tidy style findings (loops, nested conditionals, dead code)
+- Fixed clang-tidy correctness findings (member initialization, rule of five, printf formats, dead stores)
+- Replaced the constant macros with constexpr variables
+
+* Sun Oct 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.11-1.fmi
+- Include <array> where std::array is used, TemperatureStoryTools.cpp did not compile with clang
+- Guard CloudinessForecast against a missing data source
+- Use auto and return {} where clang-tidy suggests it, no functional changes
+
+* Sat Oct 03 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.10.3-1.fmi
+- Remove unnecessary copies found by clang-tidy performance checks
+- Test against the repository translations, not the installed ones
+
+* Wed Sep 23 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.23-1.fmi
+- wind_sea_overview: a change and its turn are reported when they start, "Illasta alkaen vähitellen heikkenevää pohjoiseen kääntyvää tuulta, aamulla 2-4 m/s"; the head key "[iltapaivalla] [nopeasti] [heikkenevaa] [kaantyvaa tuulta]" replaces the noun-less head and the translative time phrases ("aamuksi" and their tomorrow and weekday forms) are removed from the dictionaries
+- wind_sea_overview: a change with a turn within one part of the day names the time once ("Aamupäivällä voimistuvaa, kaakkoon kääntyvää tuulta"); en.po "from the forenoon"; en-marine turn-to directions without "to the" ("becoming southwest")
+
 * Mon Sep 21 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.9.21-6.fmi
 - Veering and backing directions are one glyph (QualifiedDirectionPhrase) whose translation may use the turn-to or the noun form of the direction; Finnish, which never states the sense of a turn, writes "pohjoiseen kääntyvää tuulta"
 - wind_sea_overview: when a change sentence ends with a new direction the wind is named once, at the end, with the turn and the time by which it has happened ("vähitellen heikkenevää, aamuksi pohjoiseen kääntyvää tuulta 2-4 m/s", "northerly wind by the morning"); a change from the start of the story that ends in a turn begins with the state at the start instead of "aluksi". New dictionary keys "[iltapaivalla] [nopeasti] [heikkenevaa]", "kaantyen [etelaan] [etelatuulta]" and the translative time phrases "aamuksi" etc. with their tomorrow and weekday forms in all languages; outside fi and en the translative forms repeat the plain phrase

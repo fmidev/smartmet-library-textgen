@@ -570,6 +570,8 @@ WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
   }
 }
 
+namespace
+{
 WeatherPeriod get_period_for_id(part_of_the_day_id& id, const WeatherPeriod& thePeriod)
 {
   try
@@ -646,6 +648,7 @@ bool is_keskiyo_phrase(const std::string& phrase)
 {
   return (phrase == KESKIYOSTA_ALKAEN_PHRASE || phrase == KESKIYOLLA_WORD);
 }
+}  // namespace
 
 part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod)
 {

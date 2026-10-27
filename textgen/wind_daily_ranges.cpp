@@ -137,7 +137,7 @@ Sentence daily_ranges_2days_bad_accuracy(const DailyWindData& d,
 Sentence daily_ranges_2days(const DailyWindData& d,
                             const string& var,
                             const TextGenPosixTime& forecastTime,
-                            GridForecaster& forecaster,
+                            const GridForecaster& forecaster,
                             const AnalysisSources& sources,
                             const WeatherArea& area,
                             const HourPeriodGenerator& periodgenerator)
@@ -163,8 +163,7 @@ Sentence daily_ranges_2days(const DailyWindData& d,
                        (d.accuracies[0] == bad_accuracy && d.accuracies[1] == bad_accuracy));
   if (goodAccuracy)
     return daily_ranges_2days_good_accuracy(d, var, forecastTime, direction12, similar_speeds, opt);
-  else
-    return daily_ranges_2days_bad_accuracy(d, var, forecastTime, similar_speeds);
+  return daily_ranges_2days_bad_accuracy(d, var, forecastTime, similar_speeds);
 }
 
 void append_3days_day1(Sentence& sentence,
@@ -372,7 +371,7 @@ Sentence daily_ranges_3days_no_acc(const DailyWindData& d,
 Sentence daily_ranges_3days(const DailyWindData& d,
                             const string& var,
                             const TextGenPosixTime& forecastTime,
-                            GridForecaster& forecaster,
+                            const GridForecaster& forecaster,
                             const AnalysisSources& sources,
                             const WeatherArea& area)
 {

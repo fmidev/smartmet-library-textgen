@@ -43,7 +43,7 @@
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
 
-#define VERSION_STRING "17.11.21-1"
+constexpr const char* VERSION_STRING = "17.11.21-1";
 
 using namespace TextGen;
 using namespace std;

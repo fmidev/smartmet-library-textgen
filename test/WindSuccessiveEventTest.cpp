@@ -35,13 +35,6 @@
 using namespace std;
 using namespace TextGen;
 
-// Declared here rather than in a header: the function has external linkage in
-// wind_overview.cpp but is not part of the library's public interface.
-namespace TextGen
-{
-wind_event_period_data_item_vector remove_short_missing_periods(
-    wo_story_params& storyParams, const wind_event_period_data_item_vector& eventPeriodVector);
-}
 
 namespace WindSuccessiveEventTest
 {

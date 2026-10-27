@@ -69,7 +69,7 @@ class FileDictionaries::Pimple
 
   storage_type itsData;
   string itsLanguage;
-  bool itsInitialized;
+  bool itsInitialized = false;
 
   storage_type::const_iterator itsCurrentDictionary;
 

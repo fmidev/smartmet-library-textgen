@@ -40,9 +40,11 @@ void realize(void)
   using namespace TextGen;
 
   std::shared_ptr<Dictionary> finnish(DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   finnish->init("fi");
 
   std::shared_ptr<Dictionary> english(DictionaryFactory::create("po"));
+  Settings::set("textgen::podictionaries", "../po");
   english->init("en");
 
   Phrase s1("lampotila");

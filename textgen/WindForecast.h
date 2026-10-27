@@ -151,7 +151,7 @@ class WindForecast
                                            bool windStrenghtens,
                                            const WindEventPeriodDataItem* windSpeedItem,
                                            const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
-                                           WindDirectionInfo& thePreviousWindDirection,
+                                           const WindDirectionInfo& thePreviousWindDirection,
                                            const WeatherPeriod& windSpeedEventPeriod) const;
 
   bool constructSeparateInitialSentences(const WindEventPeriodDataItem* windSpeedItem,
@@ -164,6 +164,10 @@ class WindForecast
                              const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
                              WindDirectionInfo& thePreviousWindDirection,
                              WindSpeedSentenceInfo& sentenceInfoVector) const;
+  void constructWeakPeriodSentence(const WeatherPeriod& windSpeedEventPeriod,
+                                   const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+                                   bool firstSentence,
+                                   WindSpeedSentenceInfo& sentenceInfoVector) const;
 
   Sentence windDirectionSentenceWithAttribute(
       WindStoryTools::WindDirectionId theWindDirectionId) const;
@@ -203,6 +207,33 @@ class WindForecast
   WeatherPeriod buildLastReportingPeriod(const WindDataItemUnit& windDataItem,
                                          const WeatherPeriod& speedEventPeriod,
                                          WindEventId windEvent) const;
+  // The state of collecting wind speed reporting points
+  struct ReportingState
+  {
+    std::vector<unsigned int> reportingIndexes;
+    float previousTopWind = kFloatMissing;
+    TextGenPosixTime previousTime;
+    bool finalLevelReported = false;
+    unsigned int previousReportIndex = 0;
+  };
+
+  void checkReportingPoint(unsigned int i,
+                           const WindDataItemUnit& windDataItem,
+                           ReportingState& state,
+                           const std::vector<interval_info>& hourlyInfo,
+                           unsigned int begIndex,
+                           unsigned int lastInsideIndex,
+                           bool firstSentenceInTheStory) const;
+  unsigned int lastIndexInsidePeriod(unsigned int begIndex,
+                                     const WeatherPeriod& speedEventPeriod) const;
+  std::vector<interval_info> hourlyIntervalInfo(unsigned int begIndex,
+                                                unsigned int lastInsideIndex) const;
+  interval_info reportReferenceInfo(const std::vector<interval_info>& hourlyInfo,
+                                    unsigned int previousReportIndex,
+                                    unsigned int begIndex,
+                                    bool firstSentenceInTheStory) const;
+  void dropWeakIntermediateReports(std::vector<unsigned int>& reportingIndexes,
+                                   bool firstSentenceInTheStory) const;
   std::vector<unsigned int> collectReportingIndexes(unsigned int begIndex,
                                                     unsigned int& endIndex,
                                                     const WeatherPeriod& speedEventPeriod,
@@ -222,7 +253,7 @@ class WindForecast
   bool processOneDirectionChange(unsigned int j,
                                  sentence_info& sentenceInfo,
                                  const WeatherPeriod& windSpeedChangePeriod,
-                                 WindDirectionInfo& previousWindDirectionInfo,
+                                 const WindDirectionInfo& previousWindDirectionInfo,
                                  unsigned int& directionChangeStartIndex,
                                  unsigned int directionChanges,
                                  bool firstSentence,
@@ -249,7 +280,7 @@ class WindForecast
   void mergeRedundantFirstSentences(WindSpeedSentenceInfo& sentenceInfoVector) const;
   void markSkippedIntervals(sentence_info& sentenceInfo,
                             unsigned int sentenceIndex,
-                            interval_info& intervalInfo,
+                            const interval_info& intervalInfo,
                             interval_info& intervalInfoPrevious) const;
   void checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVector) const;
   interval_info windSpeedIntervalInfo(const WeatherPeriod& thePeriod) const;
@@ -263,7 +294,7 @@ class WindForecast
                               WeatherPeriod* previousPeriod,
                               WeatherPeriod* currentPeriod) const;
 
-  bool negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
+  bool negotiateNewPeriod(const part_of_the_day_id& partOfTheDay,
                           WeatherPeriod& period1,
                           WeatherPeriod& period2,
                           const WeatherPeriod& notEarlierThanPeriod,
@@ -278,7 +309,7 @@ class WindForecast
                                  const WeatherPeriod& guardPeriod,
                                  int& hours_shrunk,
                                  bool backwards) const;
-  WeatherPeriod getNewPeriod(part_of_the_day_id& partOfTheDay,
+  WeatherPeriod getNewPeriod(const part_of_the_day_id& partOfTheDay,
                              const WeatherPeriod& period,
                              const WeatherPeriod& guardPeriod,
                              unsigned int& hours,

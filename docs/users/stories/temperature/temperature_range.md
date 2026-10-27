@@ -21,6 +21,12 @@ Phrases used:
 * "noin"
 * "astetta"
 
+The separator between the limits of a range is set with:
+
+```
+textgen::[section]::story::temperature_range::rangeseparator = [string] (="...")
+```
+
 The generated analysis functions can be overridden as follows:
 
 ```

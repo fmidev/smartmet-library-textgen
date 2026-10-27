@@ -110,27 +110,27 @@ enum WindEventType
   MISSING_EVENT_TYPE
 };
 
-#define HEIKKO_LOWER_LIMIT 0.5
-#define HEIKKO_UPPER_LIMIT 3.5
-#define KOHTALAINEN_LOWER_LIMIT 3.5
-#define KOHTALAINEN_UPPER_LIMIT 7.5
-#define NAVAKKA_LOWER_LIMIT 7.5
-#define NAVAKKA_UPPER_LIMIT 13.5
-#define KOVA_LOWER_LIMIT 13.5
-#define KOVA_UPPER_LIMIT 20.5
-#define GALE_LOWER_LIMIT 17.5
-#define MYRSKY_LOWER_LIMIT 20.5
-#define MYRSKY_UPPER_LIMIT 32.5
-#define HIRMUMYRSKY_LOWER_LIMIT 32.5
-#define WEAK_WIND_SPEED_UPPER_LIMIT 5.0
+constexpr double HEIKKO_LOWER_LIMIT = 0.5;
+constexpr double HEIKKO_UPPER_LIMIT = 3.5;
+constexpr double KOHTALAINEN_LOWER_LIMIT = 3.5;
+constexpr double KOHTALAINEN_UPPER_LIMIT = 7.5;
+constexpr double NAVAKKA_LOWER_LIMIT = 7.5;
+constexpr double NAVAKKA_UPPER_LIMIT = 13.5;
+constexpr double KOVA_LOWER_LIMIT = 13.5;
+constexpr double KOVA_UPPER_LIMIT = 20.5;
+constexpr double GALE_LOWER_LIMIT = 17.5;
+constexpr double MYRSKY_LOWER_LIMIT = 20.5;
+constexpr double MYRSKY_UPPER_LIMIT = 32.5;
+constexpr double HIRMUMYRSKY_LOWER_LIMIT = 32.5;
+constexpr double WEAK_WIND_SPEED_UPPER_LIMIT = 5.0;
 
-#define TYYNI_WORD "tyyni"
-#define HEIKKO_WORD "heikko"
-#define KOHTALAINEN_WORD "kohtalainen"
-#define NAVAKKA_WORD "navakka"
-#define KOVA_WORD "kova"
-#define MYRSKY_WORD "myrsky"
-#define HIRMUMYRSKY_WORD "hirmumyrsky"
+constexpr const char* TYYNI_WORD = "tyyni";
+constexpr const char* HEIKKO_WORD = "heikko";
+constexpr const char* KOHTALAINEN_WORD = "kohtalainen";
+constexpr const char* NAVAKKA_WORD = "navakka";
+constexpr const char* KOVA_WORD = "kova";
+constexpr const char* MYRSKY_WORD = "myrsky";
+constexpr const char* HIRMUMYRSKY_WORD = "hirmumyrsky";
 
 // contains wind speed interval minimum and maximum values
 using wind_speed_vector = std::vector<std::pair<float, float>>;

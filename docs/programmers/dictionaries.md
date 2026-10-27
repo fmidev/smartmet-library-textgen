@@ -57,25 +57,24 @@ dict->init("fi");
 std::cout << dict->find("sää");
 ```
 
-Factory names in current use include `"po"` and `"multipo"` (recommended),
-plus legacy values `"file"`, `"mysql"`, `"postgresql"`,
-`"multimysqlplusgeneric"`, and similar combinations. The SQL-backed names
+The factory names are `"po"` and `"multipo"` (recommended), `"null"`,
+`"basic"`, `"file"`, `"multifile"`, and the legacy `"mysql"`, `"multimysql"`,
+`"postgresql"` and `"multipostgresql"`; any other name throws. The SQL-backed names
 are deprecated and will be removed after the PO-dictionary release.
 
 ## Global dictionary
 
-The dictionary is needed almost everywhere. Threading it through every call
-site as a parameter is impractical, so a process-wide singleton is
-traditionally used: `TheDictionary`.
+There is no process-wide dictionary singleton. The application creates the
+dictionary and hands it to the text formatter (`TextFormatter::dictionary()`),
+or passes it to `Glyph::realize(const Dictionary&)` directly:
 
 ```cpp
-TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
-TheDictionary::instance().init("fi");
-std::cout << TheDictionary::instance().find("sää");
+std::shared_ptr<Dictionary> dict(DictionaryFactory::create("multipo"));
+dict->init("fi");
+PlainTextFormatter formatter;
+formatter.dictionary(dict);
+std::cout << document.realize(formatter);
 ```
-
-`TheDictionary` exposes the same interface as `Dictionary`; the additional
-`dictionary()` method is what installs the backing object.
 
 ## Relationship to `Phrase`
 
@@ -93,15 +92,14 @@ formats can share the same underlying language data.
 
 ## Test fixtures
 
-Test dictionaries live under `test/dictionaries/` in both the legacy
-pipe-delimited form (`<lang>.txt`) and the new gettext form
-(`<lang>.po`), for the 23 languages the library is actively translated
-into (`fi`, `en`, `sv`, `de`, `fr`, `es`, `it`, `ru`, `ja`, `ko`, `zh`,
-`ar`, `lv`, …). The `.po` files are generated from the `.txt` sources by
-`tools/txt_to_po.py` and will replace the `.txt` files once all
-downstream tests have moved over. A test typically loads one
-`PoDictionary` (or `FileDictionary`) per language and runs the target
-generator against each.
+The translations are the gettext `.po` files in `po/` (23 files: `fi`, `en`,
+`sv`, `de`, `fr`, `es`, `it`, `ru`, `ja`, `ko`, `zh`, `ar`, `lv`, …, plus
+`en-marine` and `sonera`), which are installed to `/usr/share/smartmet/textgen`.
+The story tests read them through `PoDictionaries` from
+`textgen::podictionaries`, which defaults to that installed directory.
+`test/dictionaries/` keeps only `en.txt` and `fi.txt` (pipe-delimited
+`key|translation`) for the `FileDictionary` tests. `tools/txt_to_po.py`
+converted the old `.txt` fixtures into `.po` files.
 
 ## See also
 

@@ -28,6 +28,7 @@
 
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
+#include <array>
 
 using namespace TextGen::TimeTools;
 using namespace std;
@@ -696,6 +697,27 @@ Sentence days2_second_phrase(const vector<string>& order,
   }
 }
 
+// Append the "tomorrow" phrase for the given time to sentence
+Sentence tomorrow_phrase(Sentence& sentence,
+                         const TextGenPosixTime& starttime,
+                         TextGen::WeatherHistory* theHistory)
+{
+  if (theHistory)
+    return (sentence << WeekdayTools::get_time_phrase(starttime, "huomenna", *theHistory));
+  return (sentence << "huomenna");
+}
+
+// Append the weekday phrase for the given time to sentence
+Sentence weekday_phrase(Sentence& sentence,
+                        const TextGenPosixTime& starttime,
+                        TextGen::WeatherHistory* theHistory)
+{
+  using WeekdayTools::on_weekday;
+  if (theHistory)
+    return (sentence << on_weekday(starttime, *theHistory));
+  return (sentence << on_weekday(starttime));
+}
+
 // Handle the ndays==1 case for days()
 Sentence days_one_day(const vector<string>& order,
                       Sentence& sentence,
@@ -705,7 +727,6 @@ Sentence days_one_day(const vector<string>& order,
 {
   try
   {
-    using WeekdayTools::on_weekday;
     for (const auto& it : order)
     {
       if (it == "none")
@@ -721,20 +742,12 @@ Sentence days_one_day(const vector<string>& order,
       else if (it == "tomorrow")
       {
         if (isNextDay(theForecastTime, starttime))
-        {
-          if (theHistory)
-            return (sentence << WeekdayTools::get_time_phrase(starttime, "huomenna", *theHistory));
-          return (sentence << "huomenna");
-        }
+          return tomorrow_phrase(sentence, starttime, theHistory);
       }
       else if (it == "followingday")
         ;
       else if (it == "weekday")
-      {
-        if (theHistory)
-          return (sentence << on_weekday(starttime, *theHistory));
-        return (sentence << on_weekday(starttime));
-      }
+        return weekday_phrase(sentence, starttime, theHistory);
       else if (it == "none!")
         return sentence;
       else

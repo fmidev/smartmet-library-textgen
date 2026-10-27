@@ -942,14 +942,7 @@ bool tomorrow_form_exists(const std::string& thePhrase)
                                                 "iltapaivasta alkaen",
                                                 "illasta alkaen",
                                                 "iltayosta alkaen",
-                                                "keskiyosta alkaen",
-                                                "aamuyoksi",
-                                                "aamuksi",
-                                                "aamupaivaksi",
-                                                "iltapaivaksi",
-                                                "illaksi",
-                                                "iltayoksi",
-                                                "keskiyoksi"};
+                                                "keskiyosta alkaen"};
   return phrases.count(thePhrase) > 0;
 }
 

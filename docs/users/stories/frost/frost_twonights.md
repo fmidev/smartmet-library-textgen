@@ -1,6 +1,6 @@
 # Story "frost_twonights"
 
-The story is empty from mid-October to the end of March! In addition, if the probability of severe frost is very high on both days, the frost is so obvious that it need not be reported separately.
+The story is empty unless the required global variable `textgen::frostseason` is `true` (the application decides when the frost season is on). In addition, if the probability of severe frost is very high on both days, the frost is so obvious that it need not be reported separately.
 
 If the period length is zero nights, an empty story is returned.
 
@@ -27,11 +27,11 @@ The story is chosen based on the variables:
 ```
 textgen::[section]::story::frost_twonights::severe_frost_limit = [0-100]
 textgen::[section]::story::frost_twonights::frost_limit = [0-100]
-textgen::[section]::story::frost_twonights::obvious_frost = [0-100] (=90)
+textgen::[section]::story::frost_twonights::obvious_frost_limit = [0-100] (=90)
 textgen::[section]::story::frost_twonights::precision = [0-100]
 ```
 
-If the probability of severe frost is at least `severe_frost_limit`, phrase 3 is returned. Otherwise, if the probability of frost is at least `frost_limit`, phrase 2 is returned. Otherwise an empty story is returned. If the probability of severe frost is above `obvious_frost`, the story may be left empty (see the explanation at the top of the page).
+If the probability of severe frost is at least `severe_frost_limit`, phrase 3 is returned. Otherwise, if the probability of frost is at least `frost_limit`, phrase 2 is returned. Otherwise an empty story is returned. If the probability of severe frost is above `obvious_frost_limit`, the story may be left empty (see the explanation at the top of the page).
 
 Probabilities are rounded to the precision given by `precision`. Precision 10 is typically used.
 
@@ -90,10 +90,10 @@ In English:
 The generated analysis functions can be overridden as follows:
 
 ```
-textgen::[section]::story::frost_mean::fake::day1::mean = [result]
-textgen::[section]::story::frost_mean::fake::day1::severe_mean = [result]
-textgen::[section]::story::frost_mean::fake::day2::mean = [result]
-textgen::[section]::story::frost_mean::fake::day2::severe_mean = [result]
+textgen::[section]::story::frost_twonights::fake::day1::mean = [result]
+textgen::[section]::story::frost_twonights::fake::day1::severe_mean = [result]
+textgen::[section]::story::frost_twonights::fake::day2::mean = [result]
+textgen::[section]::story::frost_twonights::fake::day2::severe_mean = [result]
 ```
 
 Phrases used:

@@ -252,6 +252,8 @@ struct WindDataItemsByArea
     for (it = theDataItems.begin(); it != theDataItems.end(); it++)
       delete it->second;
   }
+  WindDataItemsByArea(const WindDataItemsByArea&) = delete;
+  WindDataItemsByArea& operator=(const WindDataItemsByArea&) = delete;
 
   void addItem(const WeatherPeriod& period,
                const WeatherResult& windSpeedMin,
@@ -388,7 +390,7 @@ struct ConvectiveCellAnomaly
 
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
-bool wind_speed_differ_enough(wo_story_params& theParameter, const WeatherPeriod& thePeriod);
+bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);
 bool wind_direction_differ_enough(WeatherResult theWindDirection1,
                                   WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
@@ -400,6 +402,11 @@ WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const WindDirectionInfo* thePreviousWindDirection = nullptr);
 
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
+
+void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams);
+
+wind_event_period_data_item_vector remove_short_missing_periods(
+    wo_story_params& storyParams, const wind_event_period_data_item_vector& eventPeriodVector);
 
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);

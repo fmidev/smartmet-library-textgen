@@ -45,7 +45,6 @@
 #include <map>
 
 #include <boost/lexical_cast.hpp>
-#define BOOST_FILESYSTEM_VERSION 3
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 namespace fs = std::filesystem;
 
@@ -62,137 +61,130 @@ using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
 
-#define MILD_TEMPERATURE_LOWER_LIMIT (-3.0)
-#define MILD_TEMPERATURE_UPPER_LIMIT (+5.0)
-#define HOT_WEATHER_LIMIT (+25.0)
-#define GETTING_COOLER_NOTIFICATION_LIMIT (+20.0)
-#define ZERO_DEGREES 0.0
-#define VERY_COLD_TEMPERATURE_UPPER_LIMIT (-10.0)
-#define SMALL_CHANGE_LOWER_LIMIT 2.0
-#define SMALL_CHANGE_UPPER_LIMIT 3.0
-#define MODERATE_CHANGE_LOWER_LIMIT 3.0
-#define MODERATE_CHANGE_UPPER_LIMIT 5.0
-#define SIGNIFIGANT_CHANGE_LOWER_LIMIT 5.0
-#define NOTABLE_TEMPERATURE_CHANGE_LIMIT 2.5
+constexpr double MILD_TEMPERATURE_LOWER_LIMIT = (-3.0);
+constexpr double MILD_TEMPERATURE_UPPER_LIMIT = (+5.0);
+constexpr double HOT_WEATHER_LIMIT = (+25.0);
+constexpr double ZERO_DEGREES = 0.0;
+constexpr double VERY_COLD_TEMPERATURE_UPPER_LIMIT = (-10.0);
+constexpr double SMALL_CHANGE_LOWER_LIMIT = 2.0;
+constexpr double SMALL_CHANGE_UPPER_LIMIT = 3.0;
+constexpr double MODERATE_CHANGE_LOWER_LIMIT = 3.0;
+constexpr double MODERATE_CHANGE_UPPER_LIMIT = 5.0;
+constexpr double SIGNIFIGANT_CHANGE_LOWER_LIMIT = 5.0;
+constexpr double NOTABLE_TEMPERATURE_CHANGE_LIMIT = 2.5;
 
-#define SAA_LAUHTUU_PHRASE "saa lauhtuu"
-#define SAA_WORD "saa"
-#define ON_WORD "on"
-#define POIKKEUKSELLISEN_WORD "poikkeuksellisen"
-#define KYLMAA_WORD "kylmaa"
-#define KOLEAA_WORD "koleaa"
-#define HYVIN_WORD "hyvin"
-#define VAHAN_WORD "vahan"
-#define HUOMATTAVASTI_WORD "huomattavasti"
-#define HARVINAISEN_WORD "harvinaisen"
-#define LAMMINTA_WORD "lamminta"
-#define LEUTOA_WORD "leutoa"
+constexpr const char* SAA_LAUHTUU_PHRASE = "saa lauhtuu";
+constexpr const char* POIKKEUKSELLISEN_WORD = "poikkeuksellisen";
+constexpr const char* KYLMAA_WORD = "kylmaa";
+constexpr const char* KOLEAA_WORD = "koleaa";
+constexpr const char* HYVIN_WORD = "hyvin";
+constexpr const char* LAMMINTA_WORD = "lamminta";
+constexpr const char* LEUTOA_WORD = "leutoa";
 
-#define SAA_ON_EDELLEEN_LAUHAA_PHRASE "saa on edelleen lauhaa"
-#define SAA_LAUHTUU_PHRASE "saa lauhtuu"
-#define PAKKANEN_HEIKKENEE_PHRASE "pakkanen heikkenee"
-#define KIREA_PAKKANEN_HEIKKENEE_PHRASE "kirea pakkanen heikkenee"
-#define PAKKANEN_HELLITTAA_PHRASE "pakkanen hellittaa"
-#define KIREA_PAKKANEN_JATKUU_PHRASE "kirea pakkanen jatkuu"
-#define PAKKANEN_KIRISTYY_PHRASE "pakkanen kiristyy"
-#define HELTEINEN_SAA_JATKUU_PHRASE "helteinen saa jatkuu"
-#define VIILEA_SAA_JATKUU_PHRASE "viilea saa jatkuu"
-#define KOLEA_SAA_JATKUU_PHRASE "kolea saa jatkuu"
-#define SAA_MUUTTUU_HELTEISEKSI_PHRASE "saa muuttuu helteiseksi"
-#define SAA_ON_HELTEISTA_PHRASE "saa on helteista"
-#define SAA_LAMPENEE_PHRASE "saa lampenee"
-#define SAA_LAMPENEE_VAHAN_PHRASE "saa lampenee vahan"
-#define SAA_LAMPENEE_HUOMATTAVASTI_PHRASE "saa lampenee huomattavasti"
-#define SAA_VIILENEE_PHRASE "saa viilenee"
-#define SAA_VIILENEE_VAHAN_PHRASE "saa viilenee vahan"
-#define SAA_VIILENEE_HUOMATTAVASTI_PHRASE "saa viilenee huomattavasti"
+constexpr const char* SAA_ON_EDELLEEN_LAUHAA_PHRASE = "saa on edelleen lauhaa";
+constexpr const char* PAKKANEN_HEIKKENEE_PHRASE = "pakkanen heikkenee";
+constexpr const char* KIREA_PAKKANEN_HEIKKENEE_PHRASE = "kirea pakkanen heikkenee";
+constexpr const char* PAKKANEN_HELLITTAA_PHRASE = "pakkanen hellittaa";
+constexpr const char* KIREA_PAKKANEN_JATKUU_PHRASE = "kirea pakkanen jatkuu";
+constexpr const char* PAKKANEN_KIRISTYY_PHRASE = "pakkanen kiristyy";
+constexpr const char* HELTEINEN_SAA_JATKUU_PHRASE = "helteinen saa jatkuu";
+constexpr const char* VIILEA_SAA_JATKUU_PHRASE = "viilea saa jatkuu";
+constexpr const char* KOLEA_SAA_JATKUU_PHRASE = "kolea saa jatkuu";
+constexpr const char* SAA_MUUTTUU_HELTEISEKSI_PHRASE = "saa muuttuu helteiseksi";
+constexpr const char* SAA_ON_HELTEISTA_PHRASE = "saa on helteista";
+constexpr const char* SAA_LAMPENEE_PHRASE = "saa lampenee";
+constexpr const char* SAA_LAMPENEE_VAHAN_PHRASE = "saa lampenee vahan";
+constexpr const char* SAA_LAMPENEE_HUOMATTAVASTI_PHRASE = "saa lampenee huomattavasti";
+constexpr const char* SAA_VIILENEE_PHRASE = "saa viilenee";
+constexpr const char* SAA_VIILENEE_VAHAN_PHRASE = "saa viilenee vahan";
+constexpr const char* SAA_VIILENEE_HUOMATTAVASTI_PHRASE = "saa viilenee huomattavasti";
 
-#define SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE \
-  "saa on ajankohtaan nahden tavanomaista lampimampaa"
-#define ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE \
-  "[alueella] saa on ajankohtaan nahden tavanomaista lampimampaa"
-#define MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE \
-  "[1-na] saa on ajankohtaan nahden tavanomaista lampimampaa"
-#define MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE \
-  "[1-na] [alueella] saa on ajankohtaan nahden tavanomaista lampimampaa"
+constexpr const char* SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
+  "saa on ajankohtaan nahden tavanomaista lampimampaa";
+constexpr const char* ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
+  "[alueella] saa on ajankohtaan nahden tavanomaista lampimampaa";
+constexpr const char* MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
+  "[1-na] saa on ajankohtaan nahden tavanomaista lampimampaa";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
+  "[1-na] [alueella] saa on ajankohtaan nahden tavanomaista lampimampaa";
 
-#define SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE "saa on [poikkeuksellisen] [kylmaa]"
-#define ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE \
-  "[alueella] saa on [poikkeuksellisen] [kylmaa]"
-#define MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE \
-  "[1-na] saa on [poikkeuksellisen] [kylmaa]"
-#define MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa on [poikkeuksellisen] [kylmaa]"
+constexpr const char* SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE = "saa on [poikkeuksellisen] [kylmaa]";
+constexpr const char* ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
+  "[alueella] saa on [poikkeuksellisen] [kylmaa]";
+constexpr const char* MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
+  "[1-na] saa on [poikkeuksellisen] [kylmaa]";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa on [poikkeuksellisen] [kylmaa]";
 
-#define MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE "[1-na] saa on edelleen lauhaa"
-#define MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE "[1-na] saa lauhtuu"
-#define MAANANTAINA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE "[1-na] pakkanen heikkenee"
-#define MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE "[1-na] kirea pakkanen heikkenee"
-#define MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE "[1-na] pakkanen hellittaa"
-#define MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE "[1-na] kirea pakkanen jatkuu"
-#define MAANANTAINA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE "[1-na] pakkanen kiristyy"
-#define MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE "[1-na] helteinen saa jatkuu"
-#define MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE "[1-na] viilea saa jatkuu"
-#define MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE "[1-na] kolea saa jatkuu"
-#define MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE "[1-na] saa muuttuu helteiseksi"
-#define MAANANTAINA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE "[1-na] saa on helteista"
-#define MAANANTAINA_SAA_LAMPENEE_COMPOSITE_PHRASE "[1-na] saa lampenee"
-#define MAANANTAINA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE "[1-na] saa lampenee vahan"
-#define MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE "[1-na] saa lampenee huomattavasti"
-#define MAANANTAINA_SAA_VIILENEE_COMPOSITE_PHRASE "[1-na] saa viilenee"
-#define MAANANTAINA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE "[1-na] saa viilenee vahan"
-#define MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE "[1-na] saa viilenee huomattavasti"
+constexpr const char* MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE = "[1-na] saa on edelleen lauhaa";
+constexpr const char* MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE = "[1-na] saa lauhtuu";
+constexpr const char* MAANANTAINA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[1-na] pakkanen heikkenee";
+constexpr const char* MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[1-na] kirea pakkanen heikkenee";
+constexpr const char* MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE = "[1-na] pakkanen hellittaa";
+constexpr const char* MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE = "[1-na] kirea pakkanen jatkuu";
+constexpr const char* MAANANTAINA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE = "[1-na] pakkanen kiristyy";
+constexpr const char* MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] helteinen saa jatkuu";
+constexpr const char* MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] viilea saa jatkuu";
+constexpr const char* MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] kolea saa jatkuu";
+constexpr const char* MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE = "[1-na] saa muuttuu helteiseksi";
+constexpr const char* MAANANTAINA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE = "[1-na] saa on helteista";
+constexpr const char* MAANANTAINA_SAA_LAMPENEE_COMPOSITE_PHRASE = "[1-na] saa lampenee";
+constexpr const char* MAANANTAINA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE = "[1-na] saa lampenee vahan";
+constexpr const char* MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[1-na] saa lampenee huomattavasti";
+constexpr const char* MAANANTAINA_SAA_VIILENEE_COMPOSITE_PHRASE = "[1-na] saa viilenee";
+constexpr const char* MAANANTAINA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE = "[1-na] saa viilenee vahan";
+constexpr const char* MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[1-na] saa viilenee huomattavasti";
 
-#define ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE "[alueella] saa on edelleen lauhaa"
-#define ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE "[alueella] saa lauhtuu"
-#define ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE "[alueella] pakkanen heikkenee"
-#define ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE "[alueella] kirea pakkanen heikkenee"
-#define ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE "[alueella] pakkanen hellittaa"
-#define ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE "[alueella] kirea pakkanen jatkuu"
-#define ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE "[alueella] pakkanen kiristyy"
-#define ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE "[alueella] helteinen saa jatkuu"
-#define ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE "[alueella] viilea saa jatkuu"
-#define ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE "[alueella] kolea saa jatkuu"
-#define ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE "[alueella] saa muuttuu helteiseksi"
-#define ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE "[alueella] saa on helteista"
-#define ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE "[alueella] saa lampenee"
-#define ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE "[alueella] saa lampenee vahan"
-#define ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE "[alueella] saa lampenee huomattavasti"
-#define ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE "[alueella] saa viilenee"
-#define ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE "[alueella] saa viilenee vahan"
-#define ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE "[alueella] saa viilenee huomattavasti"
+constexpr const char* ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE = "[alueella] saa on edelleen lauhaa";
+constexpr const char* ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE = "[alueella] saa lauhtuu";
+constexpr const char* ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[alueella] pakkanen heikkenee";
+constexpr const char* ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[alueella] kirea pakkanen heikkenee";
+constexpr const char* ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE = "[alueella] pakkanen hellittaa";
+constexpr const char* ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE = "[alueella] kirea pakkanen jatkuu";
+constexpr const char* ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE = "[alueella] pakkanen kiristyy";
+constexpr const char* ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE = "[alueella] helteinen saa jatkuu";
+constexpr const char* ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE = "[alueella] viilea saa jatkuu";
+constexpr const char* ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE = "[alueella] kolea saa jatkuu";
+constexpr const char* ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE = "[alueella] saa muuttuu helteiseksi";
+constexpr const char* ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE = "[alueella] saa on helteista";
+constexpr const char* ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE = "[alueella] saa lampenee";
+constexpr const char* ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE = "[alueella] saa lampenee vahan";
+constexpr const char* ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[alueella] saa lampenee huomattavasti";
+constexpr const char* ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE = "[alueella] saa viilenee";
+constexpr const char* ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE = "[alueella] saa viilenee vahan";
+constexpr const char* ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[alueella] saa viilenee huomattavasti";
 
-#define MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa on edelleen lauhaa"
-#define MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE "[1-na] [alueella] saa lauhtuu"
-#define MAANANTAINA_ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE \
-  "[1-na] [alueella] pakkanen heikkenee"
-#define MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE \
-  "[1-na] [alueella] kirea pakkanen heikkenee"
-#define MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE \
-  "[1-na] [alueella] pakkanen hellittaa"
-#define MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE \
-  "[1-na] [alueella] kirea pakkanen jatkuu"
-#define MAANANTAINA_ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE \
-  "[1-na] [alueella] pakkanen kiristyy"
-#define MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE \
-  "[1-na] [alueella] helteinen saa jatkuu"
-#define MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE \
-  "[1-na] [alueella] viilea saa jatkuu"
-#define MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE "[1-na] [alueella] kolea saa jatkuu"
-#define MAANANTAINA_ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa muuttuu helteiseksi"
-#define MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE "[1-na] [alueella] saa on helteista"
-#define MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE "[1-na] [alueella] saa lampenee"
-#define MAANANTAINA_ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa lampenee vahan"
-#define MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa lampenee huomattavasti"
-#define MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE "[1-na] [alueella] saa viilenee"
-#define MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa viilenee vahan"
-#define MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE \
-  "[1-na] [alueella] saa viilenee huomattavasti"
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa on edelleen lauhaa";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE = "[1-na] [alueella] saa lauhtuu";
+constexpr const char* MAANANTAINA_ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
+  "[1-na] [alueella] pakkanen heikkenee";
+constexpr const char* MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
+  "[1-na] [alueella] kirea pakkanen heikkenee";
+constexpr const char* MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE =
+  "[1-na] [alueella] pakkanen hellittaa";
+constexpr const char* MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE =
+  "[1-na] [alueella] kirea pakkanen jatkuu";
+constexpr const char* MAANANTAINA_ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE =
+  "[1-na] [alueella] pakkanen kiristyy";
+constexpr const char* MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE =
+  "[1-na] [alueella] helteinen saa jatkuu";
+constexpr const char* MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE =
+  "[1-na] [alueella] viilea saa jatkuu";
+constexpr const char* MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] [alueella] kolea saa jatkuu";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa muuttuu helteiseksi";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE = "[1-na] [alueella] saa on helteista";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE = "[1-na] [alueella] saa lampenee";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa lampenee vahan";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa lampenee huomattavasti";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE = "[1-na] [alueella] saa viilenee";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa viilenee vahan";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
+  "[1-na] [alueella] saa viilenee huomattavasti";
 
 namespace
 {
@@ -603,7 +595,7 @@ Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
     return build_fractile88_cold(theSpecifiedDay, theAreaPhrase);
   }
 
-  return Sentence();
+  return {};
   }
   catch (...)
   {
@@ -661,7 +653,7 @@ TrendTemps build_trend_temps(const temperature_anomaly_params& theParameters)
   try
   {
   const bool isWinter = (theParameters.theSeason == WINTER_SEASON);
-  TrendTemps t;
+  TrendTemps t{};
   t.dayBefore = isWinter ? theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value()
                          : theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum.value();
   t.day1 = isWinter ? theParameters.theDay1TemperatureAreaAfternoonMean.value()
@@ -1106,7 +1098,7 @@ Sentence summer_shortruntrend_sentence(temperature_anomaly_params& theParameters
                                    f37DayAfter,
                                    theSpecifiedDay,
                                    theAreaPhrase);
-  return Sentence();
+  return {};
   }
   catch (...)
   {

@@ -7,7 +7,7 @@ The `TextGen::WeatherPeriodFactory` namespace contains a `create` function that 
 Example:
 
 ```cpp
-NFmiTime t(2003,5,10);
+TextGenPosixTime t(2003, 5, 10);
 WeatherPeriod period = WeatherPeriodFactory::create(t,"textgen::period");
 ```
 
@@ -28,7 +28,7 @@ variable::endhour = <integer>
 variable::switchhour = <integer>
 ```
 
-From these settings the start time of the period is obtained simply by rounding the given time up to the next full hour. The end time is obtained by first adding `variable::days` to the start time. If the hour portion is at least `variable::switchhour`, one more day is added. After that the hour is set to `variable::endhour`.
+From these settings the start time of the period is obtained simply by rounding the given time up to the next full hour. The end time is obtained by first adding `variable::days` to the start time and setting the hour to `variable::endhour`. If the start hour is at least `variable::switchhour`, one more day is added. A `switchhour` of 0 disables the extra day.
 
 For example, if
 
@@ -56,7 +56,7 @@ variable::days = <integer>
 variable::endhour = <integer>
 ```
 
-From these settings the start time of the period is obtained by first rounding the clock up to the next full hour. Then `variable::startday` days are added. After that one more day is added if the hour is at least `variable::switchhour`. Finally the hour is set to `variable::starthour`.
+From these settings the start time of the period is obtained by first rounding the clock up to the next full hour. Then `variable::startday` days are added. After that one more day is added if the hour is at least `variable::switchhour` (unless `switchhour` is 0). Finally the hour is set to `variable::starthour`.
 
 The end time is obtained by adding `variable::days` days to the start time and setting the hour to `variable::endhour`.
 

@@ -65,263 +65,233 @@ using Settings::optional_bool;
 using Settings::optional_int;
 using Settings::optional_string;
 
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on [M...N] [astetta]"
 
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tienoilla"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tuntumassa";
 
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on lahella [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]";
 
-#define HUOMENNA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on [M...N] [astetta]"
-#define HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on [N] [asteen] tienoilla"
-#define HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on [N] [asteen] tuntumassa"
+constexpr const char* HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on noin [N] [astetta]";
+constexpr const char* HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on [N] [asteen] tuntumassa";
 
-#define HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on lahella [N] [astetta]"
-#define HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on vajaat [N] [astetta]"
-#define HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] pakkasta on vahan yli [N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on [M...N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on noin [N] [astetta]"
-#define SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on [N] [asteen] tienoilla"
-#define SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+constexpr const char* HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] pakkasta on vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on noin [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on [N] [asteen] tienoilla";
+constexpr const char* SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on [N] [asteen] tuntumassa";
 
-#define SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on lahella [N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on vajaat [N] [astetta]"
-#define SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkasta on vahan yli [N] [astetta]"
-#define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on [M...N] [astetta]"
-#define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "pakkasta on noin [N] [astetta]"
-#define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] [asteen] tienoilla"
-#define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] [asteen] tuntumassa"
-#define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on lahella [N] [astetta]"
-#define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "pakkasta on vajaat [N] [astetta]"
-#define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on vahan yli [N] [astetta]"
+constexpr const char* SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on lahella [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on vajaat [N] [astetta]";
+constexpr const char* SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkasta on vahan yli [N] [astetta]";
+constexpr const char* PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE = "pakkasta on noin [N] [astetta]";
+constexpr const char* PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on [N] [asteen] tienoilla";
+constexpr const char* PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on [N] [asteen] tuntumassa";
+constexpr const char* PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "pakkanen on lahella [N] [astetta]";
+constexpr const char* PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "pakkasta on vajaat [N] [astetta]";
+constexpr const char* PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "pakkasta on vahan yli [N] [astetta]";
 
-#define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] on [M...N] [astetta]"
-#define LAMPOTILA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] [M...N] [astetta]"
-#define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[lampotila] on noin [N] [astetta]"
-#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] on [N] [asteen] tienoilla"
-#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lampotila] on [N] [asteen] tuntumassa"
-#define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] on lahella [N] [astetta]"
-#define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[lampotila] on vajaat [N] [astetta]"
-#define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] on vahan yli [N] [astetta]"
-#define LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[lampotila] on vahan nollan alapuolella"
-#define HUOMENNA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE "[huomenna] vahan nollan alapuolella"
-#define HUOMENNA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on vahan nollan alapuolella"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on vahan nollan alapuolella"
+constexpr const char* LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on [M...N] [astetta]";
+constexpr const char* LAMPOTILA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] [M...N] [astetta]";
+constexpr const char* LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on noin [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on [N] [asteen] tienoilla";
+constexpr const char* LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on lahella [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on vajaat [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] on vahan yli [N] [astetta]";
+constexpr const char* LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[lampotila] on vahan nollan alapuolella";
+constexpr const char* HUOMENNA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE = "[huomenna] vahan nollan alapuolella";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on vahan nollan alapuolella";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on vahan nollan alapuolella";
 
-#define LAMPOTILA_NOIN_ASTETTA_COMPOSITE_PHRASE "[lampotila] noin [N] [astetta]"
-#define LAMPOTILA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] [N] [asteen] tienoilla"
-#define LAMPOTILA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lampotila] [N] [asteen] tuntumassa"
-#define LAMPOTILA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[lampotila] lahella [N] [astetta]"
-#define LAMPOTILA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[lampotila] vajaat [N] [astetta]"
-#define LAMPOTILA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[lampotila] vahan yli [N] [astetta]"
-#define LAMPOTILA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE "[lampotila] vahan nollan alapuolella"
+constexpr const char* LAMPOTILA_NOIN_ASTETTA_COMPOSITE_PHRASE = "[lampotila] noin [N] [astetta]";
+constexpr const char* LAMPOTILA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] [N] [asteen] tienoilla";
+constexpr const char* LAMPOTILA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] [N] [asteen] tuntumassa";
+constexpr const char* LAMPOTILA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[lampotila] lahella [N] [astetta]";
+constexpr const char* LAMPOTILA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[lampotila] vajaat [N] [astetta]";
+constexpr const char* LAMPOTILA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[lampotila] vahan yli [N] [astetta]";
+constexpr const char* LAMPOTILA_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE = "[lampotila] vahan nollan alapuolella";
 
-#define LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[lampotila] on [suunnilleen sama]"
-#define LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[lampotila] [suunnilleen sama]"
+constexpr const char* LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[lampotila] on [suunnilleen sama]";
+constexpr const char* LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[lampotila] [suunnilleen sama]";
 
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [M...N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tienoilla"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on lahella [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on vahan yli [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [M...N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on noin [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [N] [asteen] tienoilla"
-#define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [N] [asteen] tuntumassa"
-#define HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on lahella [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on vajaat [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on vahan yli [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [M...N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on noin [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [N] [asteen] tienoilla"
-#define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
-#define SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on lahella [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on vajaat [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on vahan yli [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on vahan nollan alapuolella"
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [M...N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on noin [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on vahan yli [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [M...N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on noin [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on lahella [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [M...N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on noin [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [N] [asteen] tienoilla";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [N] [asteen] tuntumassa";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on lahella [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on vajaat [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on vahan yli [N] [astetta]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_VAHAN_NOLLAN_ALAPUOLELLA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on vahan nollan alapuolella";
 
-#define HUOMENNA_RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE \
-  "[huomenna] [rannikolla] on pikkupakkasta"
-#define HUOMENNA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[huomenna] on pikkupakkasta"
-#define RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[rannikolla] on pikkupakkasta"
+constexpr const char* HUOMENNA_RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE =
+  "[huomenna] [rannikolla] on pikkupakkasta";
+constexpr const char* HUOMENNA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE = "[huomenna] on pikkupakkasta";
+constexpr const char* RANNIKOLLA_ON_PIKKUPAKKASTA_COMPOSITE_PHRASE = "[rannikolla] on pikkupakkasta";
 
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] pakkanen on [hieman kireampaa]"
-#define HUOMENNA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE \
-  "[huomenna] pakkanen on [hieman kireampaa]"
-#define SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE \
-  "[sisamaassa] pakkanen on [hieman kireampaa]"
+constexpr const char* HUOMENNA_SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] pakkanen on [hieman kireampaa]";
+constexpr const char* HUOMENNA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE =
+  "[huomenna] pakkanen on [hieman kireampaa]";
+constexpr const char* SISAMAASSA_PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE =
+  "[sisamaassa] pakkanen on [hieman kireampaa]";
 
-#define LAMPOTILA_NOUSEE_COMPOSITE_PHRASE "[yolla] lampotila nousee"
+constexpr const char* LAMPOTILA_NOUSEE_COMPOSITE_PHRASE = "[yolla] lampotila nousee";
 
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [lampotila] on [suunnilleen sama]"
-#define HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[huomenna] [lampotila] on [suunnilleen sama]"
-#define SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[sisamaassa] [lampotila] on [suunnilleen sama]"
+constexpr const char* HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [lampotila] on [suunnilleen sama]";
+constexpr const char* HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[huomenna] [lampotila] on [suunnilleen sama]";
+constexpr const char* SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[sisamaassa] [lampotila] on [suunnilleen sama]";
 
-#define RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "rannikolla lahella [N] [astetta]"
-#define RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE "rannikolla noin [N] [astetta]"
-#define RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "rannikolla vajaat [N] [astetta]"
-#define RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "rannikolla vahan yli [N] [astetta]"
-#define RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "rannikolla [M...N] [astetta]"
-#define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tienoilla"
-#define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tuntumassa"
-#define RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "rannikolla [suunnilleen sama]"
-#define RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE "rannikolla vahan nollan alapuolella"
+constexpr const char* RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "rannikolla lahella [N] [astetta]";
+constexpr const char* RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE = "rannikolla noin [N] [astetta]";
+constexpr const char* RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "rannikolla vajaat [N] [astetta]";
+constexpr const char* RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "rannikolla vahan yli [N] [astetta]";
+constexpr const char* RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "rannikolla [M...N] [astetta]";
+constexpr const char* RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "rannikolla [N] [asteen] tienoilla";
+constexpr const char* RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "rannikolla [N] [asteen] tuntumassa";
+constexpr const char* RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "rannikolla [suunnilleen sama]";
+constexpr const char* RANNIKOLLA_VAHAN_NOLLAN_ALAPUOLELLA_PHRASE = "rannikolla vahan nollan alapuolella";
 
-#define HUOMENNA_SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] lahella [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] vahan yli [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [M...N] [astetta]"
-#define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [N] [asteen] tienoilla"
-#define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [N] [asteen] tuntumassa"
-#define HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] [suunnilleen sama]"
-#define HUOMENNA_SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE \
-  "[huomenna] [sisamaassa] on [hieman lauhempaa]"
-#define HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] lahella [N] [astetta]"
-#define HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] noin [N] [astetta]"
-#define HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] vajaat [N] [astetta]"
-#define HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] vahan yli [N] [astetta]"
-#define HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [M...N] [astetta]"
-#define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tienoilla"
-#define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tuntumassa"
-#define HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [suunnilleen sama]"
-#define HUOMENNA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE "[huomenna] on [hieman lauhempaa]"
-#define SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] lahella [N] [astetta]"
-#define SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] noin [N] [astetta]"
-#define SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] vajaat [N] [astetta]"
-#define SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] vahan yli [N] [astetta]"
-#define SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [M...N] [astetta]"
-#define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] [asteen] tienoilla"
-#define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] [asteen] tuntumassa"
-#define SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[sisamaassa] [suunnilleen sama]"
-#define SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE "[sisamaassa] on [hieman lauhempaa]"
+constexpr const char* HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] [suunnilleen sama]";
+constexpr const char* HUOMENNA_SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE =
+  "[huomenna] [sisamaassa] on [hieman lauhempaa]";
+constexpr const char* HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] lahella [N] [astetta]";
+constexpr const char* HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE = "[huomenna] noin [N] [astetta]";
+constexpr const char* HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE = "[huomenna] vajaat [N] [astetta]";
+constexpr const char* HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE = "[huomenna] vahan yli [N] [astetta]";
+constexpr const char* HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [M...N] [astetta]";
+constexpr const char* HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [N] [asteen] tienoilla";
+constexpr const char* HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE = "[huomenna] [N] [asteen] tuntumassa";
+constexpr const char* HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[huomenna] [suunnilleen sama]";
+constexpr const char* HUOMENNA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE = "[huomenna] on [hieman lauhempaa]";
+constexpr const char* SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE = "[sisamaassa] [suunnilleen sama]";
+constexpr const char* SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE = "[sisamaassa] on [hieman lauhempaa]";
 
-#define COASTAL_AREA_IGNORE_LIMIT (-15.0)
-#define DAY_NIGHT_SEPARATION_LIMIT 3.0
-#define MORNING_AFTERNOON_SEPARATION_LIMIT 3.0
-#define ABOUT_THE_SAME_UPPER_LIMIT 2.0
-#define AROUND_ZERO_UPPER_LIMIT 2.5
-#define SMALL_CHANGE_UPPER_LIMIT 4.5
+constexpr double COASTAL_AREA_IGNORE_LIMIT = (-15.0);
+constexpr double DAY_NIGHT_SEPARATION_LIMIT = 3.0;
+constexpr double MORNING_AFTERNOON_SEPARATION_LIMIT = 3.0;
+constexpr double ABOUT_THE_SAME_UPPER_LIMIT = 2.0;
+constexpr double AROUND_ZERO_UPPER_LIMIT = 2.5;
+constexpr double SMALL_CHANGE_UPPER_LIMIT = 4.5;
 
-#define NOIN_ASTETTA_LOW_TEMP_LIMIT 2.5
-#define NOIN_ASTETTA_HIGH_TEMP_LIMIT 1.5
-#define TIENOILLA_ASTETTA_LOW_TEMP_LIMIT 3.0
-#define TIENOILLA_ASTETTA_HIGH_TEMP_LIMIT 2.0
-#define LAHELLA_ASTETTA_ALI 2.0
-#define LAHELLA_ASTETTA_YLI 1.0
-#define TUNTUMASSA_ASTETTA_ALI 1.5
-#define TUNTUMASSA_ASTETTA_YLI 0.5
-#define VAJAAT_ASTETTA_LIMIT 2.0
-#define VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT 3.0
-#define VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT 2.0
-#define PAKKASRAJA_TEMPERATURE (-20.0)
+constexpr double NOIN_ASTETTA_LOW_TEMP_LIMIT = 2.5;
+constexpr double NOIN_ASTETTA_HIGH_TEMP_LIMIT = 1.5;
+constexpr double TIENOILLA_ASTETTA_LOW_TEMP_LIMIT = 3.0;
+constexpr double TIENOILLA_ASTETTA_HIGH_TEMP_LIMIT = 2.0;
+constexpr double LAHELLA_ASTETTA_ALI = 2.0;
+constexpr double LAHELLA_ASTETTA_YLI = 1.0;
+constexpr double TUNTUMASSA_ASTETTA_ALI = 1.5;
+constexpr double TUNTUMASSA_ASTETTA_YLI = 0.5;
+constexpr double VAJAAT_ASTETTA_LIMIT = 2.0;
+constexpr double VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT = 3.0;
+constexpr double VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT = 2.0;
+constexpr double PAKKASRAJA_TEMPERATURE = (-20.0);
 
-#define SUUNNILLEEN_SAMA_PHRASE "suunnilleen sama"
-#define HIEMAN_KORKEAMPI_PHRASE "hieman korkeampi"
-#define HIEMAN_ALEMPI_PHRASE "hieman alempi"
-#define HIEMAN_LAUHEMPAA_PHRASE "hieman lauhempaa"
-#define HIEMAN_KYLMEMPAA_PHRASE "hieman kylmempaa"
-#define HIEMAN_HEIKOMPAA_PHRASE "hieman heikompaa"
-#define HIEMAN_KIREAMPAA_PHRASE "hieman kireampaa"
+constexpr const char* SUUNNILLEEN_SAMA_PHRASE = "suunnilleen sama";
+constexpr const char* HIEMAN_KORKEAMPI_PHRASE = "hieman korkeampi";
+constexpr const char* HIEMAN_ALEMPI_PHRASE = "hieman alempi";
+constexpr const char* HIEMAN_LAUHEMPAA_PHRASE = "hieman lauhempaa";
+constexpr const char* HIEMAN_KYLMEMPAA_PHRASE = "hieman kylmempaa";
+constexpr const char* HIEMAN_HEIKOMPAA_PHRASE = "hieman heikompaa";
+constexpr const char* HIEMAN_KIREAMPAA_PHRASE = "hieman kireampaa";
 
-#define LAMPOTILA_NOUSEE_PHRASE "lampotila nousee"
-#define NOLLAN_TIENOILLA_PHRASE "nollan tienoilla"
-#define VAHAN_PLUSSAN_PUOLELLA_PHRASE "vahan plussan puolella"
-#define PIKKUPAKKASTA_PHRASE "pikkupakkasta"
-#define SISAMAASSA_PHRASE "sisamaassa"
-#define RANNIKOLLA_PHRASE "rannikolla"
-#define AAMULLA_PHRASE "aamulla"
-#define ILTAPAIVALLA_PHRASE "iltapaivalla"
-#define PAIVALLA_PHRASE "paivalla"
-#define YOLLA_PHRASE "yolla"
-#define PAIVAN_YLIN_LAMPOTILA_LONG_PHRASE "paivan ylin lampotila"
-#define YON_ALIN_LAMPOTILA_LONG_PHRASE "yon alin lampotila"
-#define PAIVAN_YLIN_LAMPOTILA_SHORT_PHRASE "paivan ylin"
-#define YON_ALIN_LAMPOTILA_SHORT_PHRASE "yon alin"
+constexpr const char* LAMPOTILA_NOUSEE_PHRASE = "lampotila nousee";
+constexpr const char* NOLLAN_TIENOILLA_PHRASE = "nollan tienoilla";
+constexpr const char* VAHAN_PLUSSAN_PUOLELLA_PHRASE = "vahan plussan puolella";
+constexpr const char* PIKKUPAKKASTA_PHRASE = "pikkupakkasta";
+constexpr const char* SISAMAASSA_PHRASE = "sisamaassa";
+constexpr const char* RANNIKOLLA_PHRASE = "rannikolla";
+constexpr const char* AAMULLA_PHRASE = "aamulla";
+constexpr const char* ILTAPAIVALLA_PHRASE = "iltapaivalla";
+constexpr const char* PAIVALLA_PHRASE = "paivalla";
+constexpr const char* YOLLA_PHRASE = "yolla";
+constexpr const char* PAIVAN_YLIN_LAMPOTILA_LONG_PHRASE = "paivan ylin lampotila";
+constexpr const char* YON_ALIN_LAMPOTILA_LONG_PHRASE = "yon alin lampotila";
+constexpr const char* PAIVAN_YLIN_LAMPOTILA_SHORT_PHRASE = "paivan ylin";
+constexpr const char* YON_ALIN_LAMPOTILA_SHORT_PHRASE = "yon alin";
 
-#define YOLAMPOTILA_PHRASE "yolampotila"
-#define PAIVALAMPOTILA_PHRASE "paivalampotila"
-#define LAMPOTILA_WORD "lampotila"
-#define PAKKASTA_WORD "pakkasta"
-#define PAKKANEN_WORD "pakkanen"
-#define ON_WORD "on"
-#define NOIN_PHRASE "noin"
-#define TIENOILLA_PHRASE "[1] asteen tienoilla"
-#define LAHELLA_PHRASE "lahella [1] astetta"
-#define TUNTUMASSA_PHRASE "[1] asteen tuntumassa"
+constexpr const char* YOLAMPOTILA_PHRASE = "yolampotila";
+constexpr const char* PAIVALAMPOTILA_PHRASE = "paivalampotila";
+constexpr const char* LAMPOTILA_WORD = "lampotila";
+constexpr const char* PAKKASTA_WORD = "pakkasta";
+constexpr const char* ON_WORD = "on";
+constexpr const char* NOIN_PHRASE = "noin";
+constexpr const char* TIENOILLA_PHRASE = "[1] asteen tienoilla";
+constexpr const char* LAHELLA_PHRASE = "lahella [1] astetta";
+constexpr const char* TUNTUMASSA_PHRASE = "[1] asteen tuntumassa";
 
-#define VAHAN_NOLLAN_ALAPUOLELLA_PHRASE "vahan nolla alapuolella"
-#define VAJAAT_PHRASE "vajaat"
-#define VAHAN_PHRASE "vahan"
-#define YLI_PHRASE "yli"
-#define TAI_PHRASE "tai"
-#define NOLLA_WORD "nolla"
+constexpr const char* VAHAN_NOLLAN_ALAPUOLELLA_PHRASE = "vahan nolla alapuolella";
+constexpr const char* VAJAAT_PHRASE = "vajaat";
+constexpr const char* VAHAN_PHRASE = "vahan";
+constexpr const char* YLI_PHRASE = "yli";
+constexpr const char* TAI_PHRASE = "tai";
+constexpr const char* NOLLA_WORD = "nolla";
 
-#define NOLLA_ASTETTA_PHRASE "0 astetta"
 
 enum proximity_id
 {
@@ -753,6 +723,8 @@ struct t36hparams
   }
 };
 
+namespace
+{
 void construct_optional_frost_story(t36hparams& theParameters)
 {
   try
@@ -779,6 +751,7 @@ void construct_optional_frost_story(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 // Classify whether min/max values sit below, between, or above the nearest multiple of 5.
 // Returns the case and adjusts theNumberDivisibleByFive for ABOVE case.
@@ -790,6 +763,8 @@ enum proximity_case_t
   PROX_NONE
 };
 
+namespace
+{
 proximity_case_t get_proximity_case(int iMinModFive,
                                     int iMaxModFive,
                                     int iDivFiveMin,
@@ -840,7 +815,7 @@ proximity_id get_proximity_above(float theMinimumCalc,
     float theMinDiff = theMinimumCalc - theNumberDivisibleByFive;
     float theMaxDiff = theMaximumCalc - theNumberDivisibleByFive;
 
-    float vahanYliAstettaLimit = (theMaximumCalc * (bBelowZeroDegrees ? -1.0f : +1.0f)) < -10.0
+    float vahanYliAstettaLimit = (theMaximumCalc * (bBelowZeroDegrees ? -1.0F : +1.0F)) < -10.0
                                      ? VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT
                                      : VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT;
 
@@ -908,7 +883,7 @@ proximity_id get_proximity_between(float theMinimumCalc,
     }
     else
     {
-      float signedMax = theMaximumCalc * (bBelowZeroDegrees ? -1.0f : +1.0f);
+      float signedMax = theMaximumCalc * (bBelowZeroDegrees ? -1.0F : +1.0F);
       float noinAstettaLimit =
           signedMax < -10.0 ? NOIN_ASTETTA_LOW_TEMP_LIMIT : NOIN_ASTETTA_HIGH_TEMP_LIMIT;
       float tienoillaAstettaLimit =
@@ -1023,6 +998,7 @@ WeatherResult do_calculation(const string& theVar,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 // Lookup tables for weather result IDs per (period, area) combination
 struct period_area_ids
@@ -1035,6 +1011,8 @@ struct period_area_ids
   std::string fakeAfternoonSuffix;
 };
 
+namespace
+{
 period_area_ids get_period_area_ids(forecast_period_id thePeriodId, forecast_area_id theAreaId)
 {
   try
@@ -1042,7 +1020,13 @@ period_area_ids get_period_area_ids(forecast_period_id thePeriodId, forecast_are
     // Helper: pick correct ID based on area
     auto pick =
         [theAreaId](weather_result_id inland, weather_result_id coast, weather_result_id area)
-    { return theAreaId == INLAND_AREA ? inland : (theAreaId == COASTAL_AREA ? coast : area); };
+    {
+      if (theAreaId == INLAND_AREA)
+        return inland;
+      if (theAreaId == COASTAL_AREA)
+        return coast;
+      return area;
+    };
 
     period_area_ids ids{};
     ids.min_morning = UNDEFINED_WEATHER_RESULT_ID;
@@ -1478,115 +1462,74 @@ bool check_day_night_temp_separation(const t36hparams& p,
   }
 }
 
+// Day result IDs of one area for both forecast days
+struct AreaDayResultIds
+{
+  weather_result_id minDay1;
+  weather_result_id meanDay1;
+  weather_result_id maxDay1;
+  weather_result_id minDay2;
+  weather_result_id meanDay2;
+  weather_result_id maxDay2;
+};
+
+const AreaDayResultIds full_area_day_ids{AREA_MIN_DAY1,
+                                         AREA_MEAN_DAY1,
+                                         AREA_MAX_DAY1,
+                                         AREA_MIN_DAY2,
+                                         AREA_MEAN_DAY2,
+                                         AREA_MAX_DAY2};
+const AreaDayResultIds inland_day_ids{INLAND_MIN_DAY1,
+                                      INLAND_MEAN_DAY1,
+                                      INLAND_MAX_DAY1,
+                                      INLAND_MIN_DAY2,
+                                      INLAND_MEAN_DAY2,
+                                      INLAND_MAX_DAY2};
+const AreaDayResultIds coast_day_ids{COAST_MIN_DAY1,
+                                     COAST_MEAN_DAY1,
+                                     COAST_MAX_DAY1,
+                                     COAST_MIN_DAY2,
+                                     COAST_MEAN_DAY2,
+                                     COAST_MAX_DAY2};
+
+// Check day/night separation for the first day of the forecast period in the given area
+bool check_area_day_night_separation(const t36hparams& p,
+                                     const AreaDayResultIds& day,
+                                     weather_result_id nightMin,
+                                     weather_result_id nightMean,
+                                     weather_result_id nightMax)
+{
+  if (p.theForecastPeriod & DAY1_PERIOD)
+    return check_day_night_temp_separation(
+        p, DAY1_PERIOD, day.minDay1, day.meanDay1, day.maxDay1, nightMin, nightMean, nightMax);
+  return check_day_night_temp_separation(
+      p, DAY2_PERIOD, day.minDay2, day.meanDay2, day.maxDay2, nightMin, nightMean, nightMax);
+}
+
 bool separate_day_and_night_winter(const t36hparams& p, forecast_area_id theForecastAreaId)
 {
   try
   {
-    bool separateDayAndNight = true;
-
     // Pick the primary area result IDs based on forecastAreaId
     if (theForecastAreaId == FULL_AREA)
-    {
-      if (p.theForecastPeriod & DAY1_PERIOD)
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY1_PERIOD,
-                                                              AREA_MIN_DAY1,
-                                                              AREA_MEAN_DAY1,
-                                                              AREA_MAX_DAY1,
-                                                              AREA_MIN_NIGHT,
-                                                              AREA_MEAN_NIGHT,
-                                                              AREA_MAX_NIGHT);
-      else
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY2_PERIOD,
-                                                              AREA_MIN_DAY2,
-                                                              AREA_MEAN_DAY2,
-                                                              AREA_MAX_DAY2,
-                                                              AREA_MIN_NIGHT,
-                                                              AREA_MEAN_NIGHT,
-                                                              AREA_MAX_NIGHT);
-      return separateDayAndNight;
-    }
+      return check_area_day_night_separation(
+          p, full_area_day_ids, AREA_MIN_NIGHT, AREA_MEAN_NIGHT, AREA_MAX_NIGHT);
 
     // For INLAND_AREA and COASTAL_AREA, first check the primary area, then check the secondary
-    weather_result_id primaryMinDay1, primaryMeanDay1, primaryMaxDay1;
-    weather_result_id primaryMinDay2, primaryMeanDay2, primaryMaxDay2;
-    unsigned short secondaryAreaMask;
+    const bool inland = (theForecastAreaId == INLAND_AREA);
+    const AreaDayResultIds& primary = (inland ? inland_day_ids : coast_day_ids);
+    const unsigned short secondaryAreaMask = (inland ? COASTAL_AREA : INLAND_AREA);
 
-    if (theForecastAreaId == INLAND_AREA)
-    {
-      primaryMinDay1 = INLAND_MIN_DAY1;
-      primaryMeanDay1 = INLAND_MEAN_DAY1;
-      primaryMaxDay1 = INLAND_MAX_DAY1;
-      primaryMinDay2 = INLAND_MIN_DAY2;
-      primaryMeanDay2 = INLAND_MEAN_DAY2;
-      primaryMaxDay2 = INLAND_MAX_DAY2;
-      secondaryAreaMask = COASTAL_AREA;
-    }
-    else  // COASTAL_AREA
-    {
-      primaryMinDay1 = COAST_MIN_DAY1;
-      primaryMeanDay1 = COAST_MEAN_DAY1;
-      primaryMaxDay1 = COAST_MAX_DAY1;
-      primaryMinDay2 = COAST_MIN_DAY2;
-      primaryMeanDay2 = COAST_MEAN_DAY2;
-      primaryMaxDay2 = COAST_MAX_DAY2;
-      secondaryAreaMask = INLAND_AREA;
-    }
-
-    if (p.theForecastPeriod & DAY1_PERIOD)
-      separateDayAndNight = check_day_night_temp_separation(p,
-                                                            DAY1_PERIOD,
-                                                            primaryMinDay1,
-                                                            primaryMeanDay1,
-                                                            primaryMaxDay1,
-                                                            INLAND_MIN_NIGHT,
-                                                            INLAND_MEAN_NIGHT,
-                                                            INLAND_MAX_NIGHT);
-    else
-      separateDayAndNight = check_day_night_temp_separation(p,
-                                                            DAY2_PERIOD,
-                                                            primaryMinDay2,
-                                                            primaryMeanDay2,
-                                                            primaryMaxDay2,
-                                                            INLAND_MIN_NIGHT,
-                                                            INLAND_MEAN_NIGHT,
-                                                            INLAND_MAX_NIGHT);
+    bool separateDayAndNight = check_area_day_night_separation(
+        p, primary, INLAND_MIN_NIGHT, INLAND_MEAN_NIGHT, INLAND_MAX_NIGHT);
 
     // If not separate, check secondary area too
     if (!separateDayAndNight && (p.theForecastArea & secondaryAreaMask))
     {
-      weather_result_id secMinDay1 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY1 : INLAND_MIN_DAY1;
-      weather_result_id secMeanDay1 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY1 : INLAND_MEAN_DAY1;
-      weather_result_id secMaxDay1 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY1 : INLAND_MAX_DAY1;
-      weather_result_id secMinDay2 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MIN_DAY2 : INLAND_MIN_DAY2;
-      weather_result_id secMeanDay2 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MEAN_DAY2 : INLAND_MEAN_DAY2;
-      weather_result_id secMaxDay2 =
-          (secondaryAreaMask == COASTAL_AREA) ? COAST_MAX_DAY2 : INLAND_MAX_DAY2;
-
-      if (p.theForecastPeriod & DAY1_PERIOD)
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY1_PERIOD,
-                                                              secMinDay1,
-                                                              secMeanDay1,
-                                                              secMaxDay1,
-                                                              COAST_MIN_NIGHT,
-                                                              COAST_MEAN_NIGHT,
-                                                              COAST_MAX_NIGHT);
-      else
-        separateDayAndNight = check_day_night_temp_separation(p,
-                                                              DAY2_PERIOD,
-                                                              secMinDay2,
-                                                              secMeanDay2,
-                                                              secMaxDay2,
-                                                              COAST_MIN_NIGHT,
-                                                              COAST_MEAN_NIGHT,
-                                                              COAST_MAX_NIGHT);
+      const AreaDayResultIds& secondary =
+          (secondaryAreaMask == COASTAL_AREA ? coast_day_ids : inland_day_ids);
+      separateDayAndNight = check_area_day_night_separation(
+          p, secondary, COAST_MIN_NIGHT, COAST_MEAN_NIGHT, COAST_MAX_NIGHT);
     }
 
     return separateDayAndNight;
@@ -1619,6 +1562,7 @@ bool separate_day_and_night(const t36hparams& theParameters, forecast_area_id th
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -1809,6 +1753,8 @@ Sentence handle_proximity_phrase(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int& intervalEnd)
 {
   try
@@ -1834,10 +1780,11 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
-void fill_night_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase)
+void fill_night_temperature_phrase(const t36hparams& p, Sentence& theTemperaturePhrase)
 {
   try
   {
@@ -1857,7 +1804,7 @@ void fill_night_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase
   }
 }
 
-void fill_day_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase)
+void fill_day_temperature_phrase(const t36hparams& p, Sentence& theTemperaturePhrase)
 {
   try
   {
@@ -1878,6 +1825,8 @@ void fill_day_temperature_phrase(t36hparams& p, Sentence& theTemperaturePhrase)
 }
 }  // namespace
 
+namespace
+{
 void pakkasta_on(t36hparams& theParameters,
                  Sentence& theDayPhasePhrase,
                  Sentence& theTemperaturePhrase)
@@ -1918,6 +1867,7 @@ void pakkasta_on(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -2009,6 +1959,8 @@ void handle_day_undefined_subperiod(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 void temperature_phrase(t36hparams& theParameters,
                         Sentence& theDayPhasePhrase,
                         Sentence& theTemperaturePhrase,
@@ -2060,321 +2012,7 @@ void temperature_phrase(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
-
-namespace
-{
-// Shared night period handler for both summer and non-summer: sets dayPhaseString and fills
-// theDayPhasePhrase Returns true if a "yolla" type phrase was used (no tautology reset needed),
-// false otherwise
-void handle_night_tphrase_summer(t36hparams& p,
-                                 Sentence& theDayPhasePhrase,
-                                 std::string& dayPhaseString)
-{
-  try
-  {
-    // bugfix 13.4.2011: "Yon alin lampotila on hieman kylmempaa" => "Yolla on hieman kylmempaa"
-    temperature_phrase_id pid = p.theTemperaturePhraseId;
-    if (pid == PIKKUPAKKASTA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID ||
-        pid == HIEMAN_LAUHEMPAA_PHRASE_ID || pid == HIEMAN_KIREAMPAA_PHRASE_ID ||
-        pid == HIEMAN_KYLMEMPAA_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      if (pid == HIEMAN_KIREAMPAA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID)
-        theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
-      else
-        theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
-    }
-    else if (pid == LAMPOTILA_NOUSEE_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      theDayPhasePhrase << YOLLA_PHRASE;
-    }
-    else
-    {
-      theDayPhasePhrase << (p.theUseLongPhrase ? YON_ALIN_LAMPOTILA_LONG_PHRASE
-                                               : YON_ALIN_LAMPOTILA_SHORT_PHRASE);
-      if (p.theUseLongPhrase)
-        theDayPhasePhrase << ON_WORD;
-      p.theNightPeriodTautologyFlag = true;
-    }
-    p.theDayPeriodTautologyFlag = false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-void handle_night_tphrase_winter(t36hparams& p,
-                                 Sentence& theDayPhasePhrase,
-                                 std::string& dayPhaseString)
-{
-  try
-  {
-    temperature_phrase_id pid = p.theTemperaturePhraseId;
-    if (pid == PIKKUPAKKASTA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID ||
-        pid == HIEMAN_LAUHEMPAA_PHRASE_ID || pid == HIEMAN_KIREAMPAA_PHRASE_ID ||
-        pid == HIEMAN_KYLMEMPAA_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      if (pid == HIEMAN_KIREAMPAA_PHRASE_ID || pid == HIEMAN_HEIKOMPAA_PHRASE_ID)
-        theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
-      else
-        theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
-    }
-    else if (pid == LAMPOTILA_NOUSEE_PHRASE_ID)
-    {
-      dayPhaseString = YOLLA_PHRASE;
-      theDayPhasePhrase << YOLLA_PHRASE;
-    }
-    else
-    {
-      if (p.numberOfPeriods() > 1)
-        theDayPhasePhrase << YOLAMPOTILA_PHRASE << ON_WORD;
-      else
-        theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
-      p.theNightPeriodTautologyFlag = true;
-    }
-    p.theDayPeriodTautologyFlag = false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-bool handle_summer_day_use_day_phrase(t36hparams& p, Sentence& theDayPhasePhrase)
-{
-  try
-  {
-    if (p.theTemperaturePhraseId == PIKKUPAKKASTA_PHRASE_ID)
-    {
-      theDayPhasePhrase << ON_WORD;
-      return true;  // plainIsVerbUsed
-    }
-    if (p.theFullDayFlag)
-    {
-      if (p.theUseLongPhrase)
-        theDayPhasePhrase << PAIVAN_YLIN_LAMPOTILA_LONG_PHRASE << ON_WORD;
-      else
-        theDayPhasePhrase << PAIVAN_YLIN_LAMPOTILA_SHORT_PHRASE;
-    }
-    else
-    {
-      theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
-    }
-    p.theDayPeriodTautologyFlag = true;
-    return false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-bool handle_summer_day_phrase(t36hparams& p,
-                              bool useDayTemperaturePhrase,
-                              Sentence& theDayPhasePhrase,
-                              std::string& dayPhaseString)
-{
-  try
-  {
-    bool useDayPhrase =
-        (p.theSubPeriodId == UNDEFINED_SUBPERIOD && useDayTemperaturePhrase &&
-         !p.theDayPeriodTautologyFlag) ||
-        (p.theForecastPeriodId == DAY2_PERIOD &&
-         (p.theForecastAreaId == INLAND_AREA || p.theForecastAreaId == FULL_AREA) &&
-         ((p.inlandAndCoastSeparated(DAY2_PERIOD) && p.theForecastAreaId == INLAND_AREA) ||
-          p.morningAndAfternoonSeparated(DAY1_PERIOD)));
-
-    if (useDayPhrase)
-      return handle_summer_day_use_day_phrase(p, theDayPhasePhrase);
-
-    p.theDayPeriodTautologyFlag = false;
-    bool isPikkupakkasta = (p.theTemperaturePhraseId == PIKKUPAKKASTA_PHRASE_ID);
-
-    if (p.theSubPeriodId == DAY1_MORNING_PERIOD || p.theSubPeriodId == DAY2_MORNING_PERIOD)
-    {
-      if (isPikkupakkasta)
-      {
-        dayPhaseString = AAMULLA_PHRASE;
-        theDayPhasePhrase << AAMULLA_PHRASE << ON_WORD;
-      }
-      else
-      {
-        theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD << AAMULLA_PHRASE;
-      }
-    }
-    else if (p.theSubPeriodId == DAY1_AFTERNOON_PERIOD || p.theSubPeriodId == DAY2_AFTERNOON_PERIOD)
-    {
-      dayPhaseString = ILTAPAIVALLA_PHRASE;
-      theDayPhasePhrase << ILTAPAIVALLA_PHRASE;
-      if (isPikkupakkasta)
-        theDayPhasePhrase << ON_WORD;
-    }
-    return false;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-bool handle_winter_day_phrase(t36hparams& p,
-                              Sentence& theDayPhasePhrase,
-                              std::string& dayPhaseString)
-{
-  try
-  {
-    bool plainIsVerbUsed = false;
-    bool useDayPhrase = p.theSubPeriodId == UNDEFINED_SUBPERIOD &&
-                        (!p.theDayPeriodTautologyFlag || (p.inlandAndCoastSeparated(DAY2_PERIOD) &&
-                                                          p.theForecastPeriodId == DAY2_PERIOD &&
-                                                          p.theForecastAreaId == INLAND_AREA));
-
-    if (useDayPhrase)
-    {
-      if (p.theTemperaturePhraseId == PIKKUPAKKASTA_PHRASE_ID)
-      {
-        dayPhaseString = PAIVALLA_PHRASE;
-        theDayPhasePhrase << PAIVALLA_PHRASE << ON_WORD;
-        plainIsVerbUsed = true;
-      }
-      else
-      {
-        if (p.theDayAndNightSeparationFlag)
-          theDayPhasePhrase << PAIVALAMPOTILA_PHRASE << ON_WORD;
-        else
-          theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
-        p.theDayPeriodTautologyFlag = true;
-      }
-    }
-    return plainIsVerbUsed;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-void append_frost_or_day_phrase(t36hparams& p,
-                                Sentence& sentence,
-                                const Sentence& theDayPhasePhrase,
-                                bool coastal)
-{
-  try
-  {
-    if (p.theUseFrostExistsPhrase)
-    {
-      // if only one period exists, dont use word 'yolla'/'paivalla'
-      if (p.numberOfPeriods() > 1 && p.theDayAndNightSeparationFlag)
-      {
-        sentence << (p.theForecastPeriodId == NIGHT_PERIOD ? YOLLA_PHRASE : PAIVALLA_PHRASE);
-      }
-      if (!p.theFrostExistsTautologyFlag)
-      {
-        sentence << PAKKASTA_WORD << ON_WORD;
-        p.theFrostExistsTautologyFlag = true;
-      }
-      else
-      {
-        sentence << LAMPOTILA_WORD << ON_WORD;
-        p.theFrostExistsTautologyFlag = false;
-      }
-      if (!coastal)
-        p.theUseFrostExistsPhrase = false;
-    }
-    else
-    {
-      sentence << theDayPhasePhrase;
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
 }  // namespace
-
-Sentence temperature_phrase(t36hparams& theParameters)
-{
-  try
-  {
-    Sentence sentence;
-    auto& p = theParameters;
-
-    bool useDayTemperaturePhrase =
-        (p.theForecastPeriodId == DAY1_PERIOD ||
-         ((p.theForecastPeriodId == DAY2_PERIOD && !(p.theForecastPeriod & DAY1_PERIOD)) ||
-          p.inlandAndCoastSeparated(DAY1_PERIOD)));
-
-    std::string dayPhaseString(EMPTY_STRING);
-    Sentence theDayPhasePhrase;
-    Sentence theAreaPhrase;
-    bool plainIsVerbUsed = false;
-
-    if (p.theSeasonId == SUMMER_SEASON)
-    {
-      if (p.theForecastPeriodId == NIGHT_PERIOD && !p.theNightPeriodTautologyFlag)
-      {
-        handle_night_tphrase_summer(p, theDayPhasePhrase, dayPhaseString);
-      }
-      else if (p.theForecastPeriodId != NIGHT_PERIOD)
-      {
-        p.theNightPeriodTautologyFlag = false;
-        plainIsVerbUsed = handle_summer_day_phrase(
-            p, useDayTemperaturePhrase, theDayPhasePhrase, dayPhaseString);
-      }
-    }
-    else
-    {
-      if (p.theForecastPeriodId == NIGHT_PERIOD && !p.theNightPeriodTautologyFlag)
-      {
-        handle_night_tphrase_winter(p, theDayPhasePhrase, dayPhaseString);
-      }
-      else if (p.theForecastPeriodId != NIGHT_PERIOD)
-      {
-        p.theNightPeriodTautologyFlag = false;
-        plainIsVerbUsed = handle_winter_day_phrase(p, theDayPhasePhrase, dayPhaseString);
-      }
-    }
-
-    if (dayPhaseString.empty())
-      dayPhaseString = EMPTY_STRING;
-
-    if (p.theForecastAreaId == COASTAL_AREA && p.inlandAndCoastSeparated() &&
-        !p.theOnCoastalAreaTautologyFlag)
-    {
-      theAreaPhrase << RANNIKOLLA_PHRASE;
-      p.theOnCoastalAreaTautologyFlag = true;
-      p.theOnInlandAreaTautologyFlag = false;
-    }
-    else if (p.theForecastAreaId == INLAND_AREA && p.inlandAndCoastSeparated() &&
-             !p.theOnInlandAreaTautologyFlag)
-    {
-      theAreaPhrase << SISAMAASSA_PHRASE;
-      p.theOnInlandAreaTautologyFlag = true;
-      p.theOnCoastalAreaTautologyFlag = false;
-    }
-
-    if (p.theForecastAreaId == COASTAL_AREA || plainIsVerbUsed)
-    {
-      sentence << theAreaPhrase;
-      append_frost_or_day_phrase(p, sentence, theDayPhasePhrase, true);
-    }
-    else
-    {
-      append_frost_or_day_phrase(p, sentence, theDayPhasePhrase, false);
-      sentence << theAreaPhrase;
-    }
-
-    return sentence;
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
 
 namespace
 {
@@ -2401,6 +2039,8 @@ string degrees_string_for_phrase(int degrees, temperature_phrase_id phrase_id)
 }
 }  // namespace
 
+namespace
+{
 Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phrase_id)
 {
   try
@@ -2430,6 +2070,7 @@ Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phr
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -2803,7 +2444,50 @@ bool build_normal_numeric_sentence(Sentence& sentence,
   }
 }
 
-Sentence build_hieman_korkeampi_alempi_sentence(t36hparams& p,
+// "Suunnilleen sama" phrase for day 2 when the day phase or area phrase is present
+Sentence day2_suunnilleen_sama_phrase(bool dayEmpty,
+                                      bool areaEmpty,
+                                      const Sentence& theDayPhasePhrase,
+                                      const Sentence& theAreaPhrase)
+{
+  Sentence sentence;
+  if (!dayEmpty && areaEmpty)
+    sentence << SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase;
+  else if (dayEmpty && !areaEmpty)
+    sentence << HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase;
+  else
+    sentence << HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
+             << theAreaPhrase;
+  return sentence;
+}
+
+// "Lampotila on suunnilleen sama" phrase when the day phase or area phrase is present
+Sentence suunnilleen_sama_phrase(bool dayEmpty,
+                                 bool areaEmpty,
+                                 const Sentence& theDayPhasePhrase,
+                                 const Sentence& theAreaPhrase,
+                                 const Sentence& theTemperaturePhrase)
+{
+  Sentence sentence;
+  if (!dayEmpty && areaEmpty)
+  {
+    sentence << HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
+             << theTemperaturePhrase;
+  }
+  else if (dayEmpty && !areaEmpty)
+  {
+    sentence << SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase
+             << theTemperaturePhrase;
+  }
+  else
+  {
+    sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+             << theDayPhasePhrase << theAreaPhrase << theTemperaturePhrase;
+  }
+  return sentence;
+}
+
+Sentence build_hieman_korkeampi_alempi_sentence(const t36hparams& p,
                                                 temperature_phrase_id phrase_id,
                                                 bool useDay2Phrase,
                                                 bool dayEmpty,
@@ -2815,46 +2499,19 @@ Sentence build_hieman_korkeampi_alempi_sentence(t36hparams& p,
   try
   {
     Sentence sentence;
-    if (useDay2Phrase)
+    if (dayEmpty && areaEmpty)
     {
-      if (dayEmpty && areaEmpty)
-      {
-        sentence << (p.theUseLongPhrase ? LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
-                                        : LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE);
-        sentence << theTemperaturePhrase;
-      }
-      else if (!dayEmpty && areaEmpty)
-        sentence << SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase;
-      else if (dayEmpty && !areaEmpty)
-        sentence << HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase;
-      else
-        sentence << HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
-                 << theAreaPhrase;
+      sentence << (p.theUseLongPhrase ? LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+                                      : LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE);
+      sentence << theTemperaturePhrase;
     }
+    else if (useDay2Phrase)
+      sentence << day2_suunnilleen_sama_phrase(
+          dayEmpty, areaEmpty, theDayPhasePhrase, theAreaPhrase);
     else
-    {
-      if (dayEmpty && areaEmpty)
-      {
-        sentence << (p.theUseLongPhrase ? LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
-                                        : LAMPOTILA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE);
-        sentence << theTemperaturePhrase;
-      }
-      else if (!dayEmpty && areaEmpty)
-      {
-        sentence << HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theDayPhasePhrase
-                 << theTemperaturePhrase;
-      }
-      else if (dayEmpty && !areaEmpty)
-      {
-        sentence << SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE << theAreaPhrase
-                 << theTemperaturePhrase;
-      }
-      else
-      {
-        sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
-                 << theDayPhasePhrase << theAreaPhrase << theTemperaturePhrase;
-      }
-    }
+      sentence << suunnilleen_sama_phrase(
+          dayEmpty, areaEmpty, theDayPhasePhrase, theAreaPhrase, theTemperaturePhrase);
+
     sentence << (phrase_id == HIEMAN_KORKEAMPI_PHRASE_ID ? HIEMAN_KORKEAMPI_PHRASE
                                                          : HIEMAN_ALEMPI_PHRASE);
     return sentence;
@@ -2865,7 +2522,7 @@ Sentence build_hieman_korkeampi_alempi_sentence(t36hparams& p,
   }
 }
 
-Sentence build_intervalli_sentence(t36hparams& p,
+Sentence build_intervalli_sentence(const t36hparams& p,
                                    bool useDay2Phrase,
                                    bool dayEmpty,
                                    bool areaEmpty,
@@ -2925,7 +2582,7 @@ Sentence build_intervalli_sentence(t36hparams& p,
   }
 }
 
-Sentence build_suunnilleen_sama_sentence(t36hparams& p,
+Sentence build_suunnilleen_sama_sentence(const t36hparams& p,
                                          bool useDay2Phrase,
                                          bool dayEmpty,
                                          bool areaEmpty,
@@ -3055,7 +2712,7 @@ Sentence build_hieman_heikompaa_sentence(temperature_phrase_id pid,
   }
 }
 
-void fill_area_phrase_from_weather_area(t36hparams& p, Sentence& theAreaPhrase)
+void fill_area_phrase_from_weather_area(const t36hparams& p, Sentence& theAreaPhrase)
 {
   try
   {
@@ -3076,6 +2733,8 @@ void fill_area_phrase_from_weather_area(t36hparams& p, Sentence& theAreaPhrase)
 }
 }  // namespace
 
+namespace
+{
 Sentence construct_final_sentence(t36hparams& theParameters,
                                   const Sentence& temperatureSentence,
                                   const Sentence& daySentence,
@@ -3258,6 +2917,7 @@ Sentence construct_final_sentence(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3313,6 +2973,8 @@ void apply_moderate_change_phrase(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence night_sentence(t36hparams& theParameters)
 {
   try
@@ -3395,6 +3057,7 @@ Sentence night_sentence(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3449,6 +3112,8 @@ void apply_moderate_change_phrase_day2(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Sentence day2_sentence(t36hparams& theParameters)
 {
   try
@@ -3569,6 +3234,7 @@ Sentence day1_sentence(t36hparams& theParameters)
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3773,13 +3439,15 @@ AreaWeatherIds make_area_ids_coastal()
 }
 }  // namespace
 
+namespace
+{
 Sentence construct_sentence(t36hparams& theParameters)
 {
   try
   {
     auto& p = theParameters;
 
-    AreaWeatherIds ids;
+    AreaWeatherIds ids{};
     if (p.theForecastAreaId == FULL_AREA)
       ids = make_area_ids_full();
     else if (p.theForecastAreaId == INLAND_AREA)
@@ -3839,6 +3507,7 @@ void get_interval_details(t36hparams& theParameters,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -3976,11 +3645,10 @@ vector<int> build_period_areas(processing_order order, bool sepDay1, bool sepDay
   }
 }
 
-void resolve_area_id_for_period(t36hparams& p,
+void resolve_area_id_for_period(const t36hparams& p,
                                 int periodArea,
                                 bool separate,
                                 int inlandCode,
-                                int coastalCode,
                                 forecast_area_id& area_id,
                                 unsigned short& forecastAreaRef)
 {
@@ -4089,23 +3757,26 @@ void process_period_area_item(t36hparams& p,
       period_id = DAY1_PERIOD;
       p.theWeatherPeriod = p.theGenerator.period(1);
       resolve_area_id_for_period(
-          p, periodArea, sep_day1, DAY1_INLAND, DAY1_COASTAL, area_id, p.theForecastAreaDay1);
+          p, periodArea, sep_day1, DAY1_INLAND, area_id, p.theForecastAreaDay1);
     }
     else if (periodArea == NIGHT_INLAND || periodArea == NIGHT_COASTAL || periodArea == NIGHT_FULL)
     {
       period_id = NIGHT_PERIOD;
       p.theWeatherPeriod = p.theGenerator.period(p.theForecastPeriod & DAY1_PERIOD ? 2 : 1);
       resolve_area_id_for_period(
-          p, periodArea, sep_night, NIGHT_INLAND, NIGHT_COASTAL, area_id, p.theForecastAreaNight);
+          p, periodArea, sep_night, NIGHT_INLAND, area_id, p.theForecastAreaNight);
     }
     else if (periodArea == DAY2_INLAND || periodArea == DAY2_COASTAL || periodArea == DAY2_FULL)
     {
       period_id = DAY2_PERIOD;
-      int periodNum =
-          (p.theForecastPeriod & DAY1_PERIOD) ? 3 : (p.theForecastPeriod & NIGHT_PERIOD ? 2 : 1);
+      int periodNum = 1;
+      if (p.theForecastPeriod & DAY1_PERIOD)
+        periodNum = 3;
+      else if (p.theForecastPeriod & NIGHT_PERIOD)
+        periodNum = 2;
       p.theWeatherPeriod = p.theGenerator.period(periodNum);
       resolve_area_id_for_period(
-          p, periodArea, sep_day2, DAY2_INLAND, DAY2_COASTAL, area_id, p.theForecastAreaDay2);
+          p, periodArea, sep_day2, DAY2_INLAND, area_id, p.theForecastAreaDay2);
     }
 
     p.theForecastAreaId = area_id;
@@ -4121,6 +3792,8 @@ void process_period_area_item(t36hparams& p,
 }
 }  // namespace
 
+namespace
+{
 Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
 {
   try
@@ -4219,6 +3892,7 @@ bool valid_value_period_check(float value, unsigned short& forecast_period, unsi
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 namespace
 {
@@ -4402,7 +4076,7 @@ unsigned short calculate_day1_first_results(MessageLogger& theLog,
                                             const std::string& itsVar,
                                             const TextGen::AnalysisSources& itsSources,
                                             const TextGen::WeatherArea& itsArea,
-                                            NightAndDayPeriodGenerator& generator,
+                                            const NightAndDayPeriodGenerator& generator,
                                             forecast_season_id forecast_season,
                                             unsigned short& forecast_period,
                                             weather_result_container_type& weatherResults,
@@ -4505,7 +4179,7 @@ unsigned short calculate_night_first_results(MessageLogger& theLog,
                                              const std::string& itsVar,
                                              const TextGen::AnalysisSources& itsSources,
                                              const TextGen::WeatherArea& itsArea,
-                                             NightAndDayPeriodGenerator& generator,
+                                             const NightAndDayPeriodGenerator& generator,
                                              forecast_season_id forecast_season,
                                              unsigned short& forecast_period,
                                              weather_result_container_type& weatherResults,
@@ -4579,6 +4253,8 @@ unsigned short calculate_night_first_results(MessageLogger& theLog,
 }
 }  // namespace
 
+namespace
+{
 Paragraph max36hours(const TextGen::WeatherArea& itsArea,
                      const TextGen::WeatherPeriod& itsPeriod,
                      const TextGen::AnalysisSources& itsSources,
@@ -4708,6 +4384,7 @@ Paragraph max36hours(const TextGen::WeatherArea& itsArea,
     throw Fmi::Exception::Trace(BCP, "Operation failed");
   }
 }
+}  // namespace
 
 }  // namespace TemperatureMax36Hours
 

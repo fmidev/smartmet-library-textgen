@@ -14,3 +14,11 @@ In English:
 
 1. "Expected weather in the morning"
 1. "Expected weather on Monday morning" and variations
+
+The weekday is included only if
+
+```
+textgen::[section]::header::weekdays = true
+```
+
+(default `false`).

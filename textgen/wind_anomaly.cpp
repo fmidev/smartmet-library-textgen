@@ -40,6 +40,7 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <algorithm>
 #include <map>
 
 using namespace std;
@@ -56,66 +57,55 @@ using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
 
-#define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [rannikolla] on [tuulista]"
-#define ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE "[iltapaivalla] on [tuulista]"
-#define RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE "[rannikolla] on [tuulista]"
+constexpr const char* ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE =
+  "[iltapaivalla] [rannikolla] on [tuulista]";
+constexpr const char* ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE = "[iltapaivalla] on [tuulista]";
+constexpr const char* RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE = "[rannikolla] on [tuulista]";
 
-#define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [rannikolla] pakkanen on purevaa"
-#define ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltapaivalla] pakkanen on purevaa"
-#define RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[rannikolla] pakkanen on purevaa"
-#define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [rannikolla] pakkanen on erittain purevaa"
-#define ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE \
-  "[iltapaivalla] pakkanen on erittain purevaa"
-#define RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE \
-  "[rannikolla] pakkanen on erittain purevaa"
+constexpr const char* ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE =
+  "[iltapaivalla] [rannikolla] pakkanen on purevaa";
+constexpr const char* ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE = "[iltapaivalla] pakkanen on purevaa";
+constexpr const char* ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE =
+  "[iltapaivalla] [rannikolla] pakkanen on erittain purevaa";
+constexpr const char* ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE =
+  "[iltapaivalla] pakkanen on erittain purevaa";
 
-#define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan kylmemmalta"
-#define ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli saa saan tuntumaan kylmemmalta"
-#define RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE \
-  "[rannikolla] tuuli saa saan tuntumaan kylmemmalta"
-#define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan viileammalta"
-#define ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE \
-  "[rannikolla] tuuli saa saan tuntumaan viileammalta"
-#define RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE \
-  "[rannikolla] tuuli saa saan tuntumaan viileammalta"
+constexpr const char* ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE =
+  "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan kylmemmalta";
+constexpr const char* ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE =
+  "[iltapaivalla] tuuli saa saan tuntumaan kylmemmalta";
+constexpr const char* RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE =
+  "[rannikolla] tuuli saa saan tuntumaan kylmemmalta";
+constexpr const char* ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE =
+  "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan viileammalta";
+constexpr const char* ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE =
+  "[rannikolla] tuuli saa saan tuntumaan viileammalta";
+constexpr const char* RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE =
+  "[rannikolla] tuuli saa saan tuntumaan viileammalta";
 
-#define WINDY_WEATER_LIMIT 7.0
-#define EXTREMELY_WINDY_WEATHER_LIMIT 10.0
-#define WIND_COOLING_THE_WEATHER_LIMIT 6.0
-#define EXTREME_WINDCHILL_LIMIT (-35.0)
-#define MILD_WINDCHILL_LIMIT (-25.0)
-#define ZERO_DEGREES 0.0
-#define TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT 7.0
+constexpr double WINDY_WEATER_LIMIT = 7.0;
+constexpr double EXTREMELY_WINDY_WEATHER_LIMIT = 10.0;
+constexpr double WIND_COOLING_THE_WEATHER_LIMIT = 6.0;
+constexpr double EXTREME_WINDCHILL_LIMIT = (-35.0);
+constexpr double MILD_WINDCHILL_LIMIT = (-25.0);
+constexpr double TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT = 7.0;
 
-#define TUULI_KYLMENTAA_SAATA_LOWER_LIMIT 0.0
-#define TUULI_KYLMENTAA_SAATA_UPPER_LIMIT 10.0
-#define TUULI_VIILENTAA_SAATA_LOWER_LIMIT 10.0
-#define TUULI_VIILENTAA_SAATA_UPPER_LIMIT 15.0
+constexpr double TUULI_KYLMENTAA_SAATA_LOWER_LIMIT = 0.0;
+constexpr double TUULI_KYLMENTAA_SAATA_UPPER_LIMIT = 10.0;
+constexpr double TUULI_VIILENTAA_SAATA_LOWER_LIMIT = 10.0;
+constexpr double TUULI_VIILENTAA_SAATA_UPPER_LIMIT = 15.0;
 
-#define SAA_WORD "saa"
-#define ON_WORD "on"
-#define HYVIN_WORD "hyvin"
-#define SAA_ON_TUULINEN_PHRASE "saa on tuulinen"
-#define SAA_ON_HYVIN_TUULINEN_PHRASE "saa on hyvin tuulinen"
-#define HYVIN_TUULINEN_PHRASE "hyvin tuulinen"
-#define HYVIN_TUULISTA_PHRASE "hyvin tuulista"
-#define TUULISTA_WORD "tuulista"
-#define AAMUPAIVALLA_WORD "aamupaivalla"
-#define ILTAPAIVALLA_WORD "iltapaivalla"
-#define SISAMAASSA_WORD "sisamaassa"
-#define RANNIKOLLA_WORD "rannikolla"
-#define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
-#define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on erittain purevaa"
-#define TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE "tuuli saa saan tuntumaan viileammalta"
-#define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE "tuuli saa saan tuntumaan kylmemmalta"
-#define TANAAN_WORD "tanaan"
-#define HUOMENNA_WORD "huomenna"
+constexpr const char* SAA_ON_TUULINEN_PHRASE = "saa on tuulinen";
+constexpr const char* SAA_ON_HYVIN_TUULINEN_PHRASE = "saa on hyvin tuulinen";
+constexpr const char* HYVIN_TUULINEN_PHRASE = "hyvin tuulinen";
+constexpr const char* HYVIN_TUULISTA_PHRASE = "hyvin tuulista";
+constexpr const char* TUULISTA_WORD = "tuulista";
+constexpr const char* SISAMAASSA_WORD = "sisamaassa";
+constexpr const char* RANNIKOLLA_WORD = "rannikolla";
+constexpr const char* PAKKANEN_ON_PUREVAA_PHRASE = "pakkanen on purevaa";
+constexpr const char* PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE = "pakkanen on erittain purevaa";
+constexpr const char* TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE = "tuuli saa saan tuntumaan viileammalta";
+constexpr const char* TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE = "tuuli saa saan tuntumaan kylmemmalta";
 
 namespace
 {
@@ -500,12 +490,9 @@ WeatherPeriod build_wind_period(const WeatherPeriod& theCompletePeriod,
 {
   try
   {
-  int noonHour = (theMorningPeriod ? (theCompletePeriod.localEndTime().GetHour() < 12
-                                          ? theCompletePeriod.localEndTime().GetHour()
-                                          : 12)
-                                   : (theCompletePeriod.localStartTime().GetHour() < 12
-                                          ? theCompletePeriod.localStartTime().GetHour()
-                                          : 12));
+  int noonHour = (theMorningPeriod ? theCompletePeriod.localEndTime().GetHour()
+                                   : theCompletePeriod.localStartTime().GetHour());
+  noonHour = std::min(noonHour, 12);
 
   TextGenPosixTime noonTime(theCompletePeriod.localStartTime().GetYear(),
                             theCompletePeriod.localStartTime().GetMonth(),
