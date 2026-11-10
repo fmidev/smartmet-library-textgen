@@ -100,91 +100,116 @@ constexpr const char* SAA_VIILENEE_VAHAN_PHRASE = "saa viilenee vahan";
 constexpr const char* SAA_VIILENEE_HUOMATTAVASTI_PHRASE = "saa viilenee huomattavasti";
 
 constexpr const char* SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
-  "saa on ajankohtaan nahden tavanomaista lampimampaa";
+    "saa on ajankohtaan nahden tavanomaista lampimampaa";
 constexpr const char* ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
-  "[alueella] saa on ajankohtaan nahden tavanomaista lampimampaa";
+    "[alueella] saa on ajankohtaan nahden tavanomaista lampimampaa";
 constexpr const char* MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
-  "[1-na] saa on ajankohtaan nahden tavanomaista lampimampaa";
-constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
-  "[1-na] [alueella] saa on ajankohtaan nahden tavanomaista lampimampaa";
+    "[1-na] saa on ajankohtaan nahden tavanomaista lampimampaa";
+constexpr const char*
+    MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE =
+        "[1-na] [alueella] saa on ajankohtaan nahden tavanomaista lampimampaa";
 
-constexpr const char* SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE = "saa on [poikkeuksellisen] [kylmaa]";
+constexpr const char* SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
+    "saa on [poikkeuksellisen] [kylmaa]";
 constexpr const char* ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
-  "[alueella] saa on [poikkeuksellisen] [kylmaa]";
+    "[alueella] saa on [poikkeuksellisen] [kylmaa]";
 constexpr const char* MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
-  "[1-na] saa on [poikkeuksellisen] [kylmaa]";
+    "[1-na] saa on [poikkeuksellisen] [kylmaa]";
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa on [poikkeuksellisen] [kylmaa]";
+    "[1-na] [alueella] saa on [poikkeuksellisen] [kylmaa]";
 
-constexpr const char* MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE = "[1-na] saa on edelleen lauhaa";
+constexpr const char* MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE =
+    "[1-na] saa on edelleen lauhaa";
 constexpr const char* MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE = "[1-na] saa lauhtuu";
 constexpr const char* MAANANTAINA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[1-na] pakkanen heikkenee";
-constexpr const char* MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[1-na] kirea pakkanen heikkenee";
+constexpr const char* MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
+    "[1-na] kirea pakkanen heikkenee";
 constexpr const char* MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE = "[1-na] pakkanen hellittaa";
-constexpr const char* MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE = "[1-na] kirea pakkanen jatkuu";
+constexpr const char* MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE =
+    "[1-na] kirea pakkanen jatkuu";
 constexpr const char* MAANANTAINA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE = "[1-na] pakkanen kiristyy";
-constexpr const char* MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] helteinen saa jatkuu";
+constexpr const char* MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE =
+    "[1-na] helteinen saa jatkuu";
 constexpr const char* MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] viilea saa jatkuu";
 constexpr const char* MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] kolea saa jatkuu";
-constexpr const char* MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE = "[1-na] saa muuttuu helteiseksi";
+constexpr const char* MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE =
+    "[1-na] saa muuttuu helteiseksi";
 constexpr const char* MAANANTAINA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE = "[1-na] saa on helteista";
 constexpr const char* MAANANTAINA_SAA_LAMPENEE_COMPOSITE_PHRASE = "[1-na] saa lampenee";
 constexpr const char* MAANANTAINA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE = "[1-na] saa lampenee vahan";
-constexpr const char* MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[1-na] saa lampenee huomattavasti";
+constexpr const char* MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
+    "[1-na] saa lampenee huomattavasti";
 constexpr const char* MAANANTAINA_SAA_VIILENEE_COMPOSITE_PHRASE = "[1-na] saa viilenee";
 constexpr const char* MAANANTAINA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE = "[1-na] saa viilenee vahan";
-constexpr const char* MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[1-na] saa viilenee huomattavasti";
+constexpr const char* MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
+    "[1-na] saa viilenee huomattavasti";
 
-constexpr const char* ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE = "[alueella] saa on edelleen lauhaa";
+constexpr const char* ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE =
+    "[alueella] saa on edelleen lauhaa";
 constexpr const char* ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE = "[alueella] saa lauhtuu";
-constexpr const char* ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[alueella] pakkanen heikkenee";
-constexpr const char* ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE = "[alueella] kirea pakkanen heikkenee";
-constexpr const char* ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE = "[alueella] pakkanen hellittaa";
-constexpr const char* ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE = "[alueella] kirea pakkanen jatkuu";
+constexpr const char* ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
+    "[alueella] pakkanen heikkenee";
+constexpr const char* ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
+    "[alueella] kirea pakkanen heikkenee";
+constexpr const char* ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE =
+    "[alueella] pakkanen hellittaa";
+constexpr const char* ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE =
+    "[alueella] kirea pakkanen jatkuu";
 constexpr const char* ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE = "[alueella] pakkanen kiristyy";
-constexpr const char* ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE = "[alueella] helteinen saa jatkuu";
+constexpr const char* ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE =
+    "[alueella] helteinen saa jatkuu";
 constexpr const char* ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE = "[alueella] viilea saa jatkuu";
 constexpr const char* ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE = "[alueella] kolea saa jatkuu";
-constexpr const char* ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE = "[alueella] saa muuttuu helteiseksi";
+constexpr const char* ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE =
+    "[alueella] saa muuttuu helteiseksi";
 constexpr const char* ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE = "[alueella] saa on helteista";
 constexpr const char* ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE = "[alueella] saa lampenee";
-constexpr const char* ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE = "[alueella] saa lampenee vahan";
-constexpr const char* ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[alueella] saa lampenee huomattavasti";
+constexpr const char* ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE =
+    "[alueella] saa lampenee vahan";
+constexpr const char* ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
+    "[alueella] saa lampenee huomattavasti";
 constexpr const char* ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE = "[alueella] saa viilenee";
-constexpr const char* ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE = "[alueella] saa viilenee vahan";
-constexpr const char* ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE = "[alueella] saa viilenee huomattavasti";
+constexpr const char* ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE =
+    "[alueella] saa viilenee vahan";
+constexpr const char* ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
+    "[alueella] saa viilenee huomattavasti";
 
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa on edelleen lauhaa";
-constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE = "[1-na] [alueella] saa lauhtuu";
+    "[1-na] [alueella] saa on edelleen lauhaa";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE =
+    "[1-na] [alueella] saa lauhtuu";
 constexpr const char* MAANANTAINA_ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
-  "[1-na] [alueella] pakkanen heikkenee";
+    "[1-na] [alueella] pakkanen heikkenee";
 constexpr const char* MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE =
-  "[1-na] [alueella] kirea pakkanen heikkenee";
+    "[1-na] [alueella] kirea pakkanen heikkenee";
 constexpr const char* MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE =
-  "[1-na] [alueella] pakkanen hellittaa";
+    "[1-na] [alueella] pakkanen hellittaa";
 constexpr const char* MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE =
-  "[1-na] [alueella] kirea pakkanen jatkuu";
+    "[1-na] [alueella] kirea pakkanen jatkuu";
 constexpr const char* MAANANTAINA_ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE =
-  "[1-na] [alueella] pakkanen kiristyy";
+    "[1-na] [alueella] pakkanen kiristyy";
 constexpr const char* MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE =
-  "[1-na] [alueella] helteinen saa jatkuu";
+    "[1-na] [alueella] helteinen saa jatkuu";
 constexpr const char* MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE =
-  "[1-na] [alueella] viilea saa jatkuu";
-constexpr const char* MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE = "[1-na] [alueella] kolea saa jatkuu";
+    "[1-na] [alueella] viilea saa jatkuu";
+constexpr const char* MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE =
+    "[1-na] [alueella] kolea saa jatkuu";
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa muuttuu helteiseksi";
-constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE = "[1-na] [alueella] saa on helteista";
-constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE = "[1-na] [alueella] saa lampenee";
+    "[1-na] [alueella] saa muuttuu helteiseksi";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE =
+    "[1-na] [alueella] saa on helteista";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE =
+    "[1-na] [alueella] saa lampenee";
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa lampenee vahan";
+    "[1-na] [alueella] saa lampenee vahan";
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa lampenee huomattavasti";
-constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE = "[1-na] [alueella] saa viilenee";
+    "[1-na] [alueella] saa lampenee huomattavasti";
+constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE =
+    "[1-na] [alueella] saa viilenee";
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa viilenee vahan";
+    "[1-na] [alueella] saa viilenee vahan";
 constexpr const char* MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE =
-  "[1-na] [alueella] saa viilenee huomattavasti";
+    "[1-na] [alueella] saa viilenee huomattavasti";
 
 namespace
 {
@@ -288,31 +313,31 @@ void log_data(const temperature_anomaly_params& theParameters)
 {
   try
   {
-  theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum << '\n';
-  theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMean: "
-                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean << '\n';
-  theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum << '\n';
-  theParameters.theLog << "theDay1TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDay1TemperatureAreaAfternoonMinimum << '\n';
-  theParameters.theLog << "theDay1TemperatureAreaAfternoonMean: "
-                       << theParameters.theDay1TemperatureAreaAfternoonMean << '\n';
-  theParameters.theLog << "theDay1TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDay1TemperatureAreaAfternoonMaximum << '\n';
+    theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMinimum: "
+                         << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum << '\n';
+    theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMean: "
+                         << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean << '\n';
+    theParameters.theLog << "theDayBeforeDay1TemperatureAreaAfternoonMaximum: "
+                         << theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum << '\n';
+    theParameters.theLog << "theDay1TemperatureAreaAfternoonMinimum: "
+                         << theParameters.theDay1TemperatureAreaAfternoonMinimum << '\n';
+    theParameters.theLog << "theDay1TemperatureAreaAfternoonMean: "
+                         << theParameters.theDay1TemperatureAreaAfternoonMean << '\n';
+    theParameters.theLog << "theDay1TemperatureAreaAfternoonMaximum: "
+                         << theParameters.theDay1TemperatureAreaAfternoonMaximum << '\n';
 
-  theParameters.theLog << "theDay2TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDay2TemperatureAreaAfternoonMinimum << '\n';
-  theParameters.theLog << "theDay2TemperatureAreaAfternoonMean: "
-                       << theParameters.theDay2TemperatureAreaAfternoonMean << '\n';
-  theParameters.theLog << "theDay2TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDay2TemperatureAreaAfternoonMaximum << '\n';
-  theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMinimum: "
-                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMinimum << '\n';
-  theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMean: "
-                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMean << '\n';
-  theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMaximum: "
-                       << theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum << '\n';
+    theParameters.theLog << "theDay2TemperatureAreaAfternoonMinimum: "
+                         << theParameters.theDay2TemperatureAreaAfternoonMinimum << '\n';
+    theParameters.theLog << "theDay2TemperatureAreaAfternoonMean: "
+                         << theParameters.theDay2TemperatureAreaAfternoonMean << '\n';
+    theParameters.theLog << "theDay2TemperatureAreaAfternoonMaximum: "
+                         << theParameters.theDay2TemperatureAreaAfternoonMaximum << '\n';
+    theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMinimum: "
+                         << theParameters.theDayAfterDay2TemperatureAreaAfternoonMinimum << '\n';
+    theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMean: "
+                         << theParameters.theDayAfterDay2TemperatureAreaAfternoonMean << '\n';
+    theParameters.theLog << "theDayAfterDay2TemperatureAreaAfternoonMaximum: "
+                         << theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum << '\n';
   }
   catch (...)
   {
@@ -326,12 +351,13 @@ void log_start_time_and_end_time(MessageLogger& theLog,
 {
   try
   {
-  theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
-         << thePeriod.localEndTime() << '\n';
+    theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
+           << thePeriod.localEndTime() << '\n';
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLogMessage", theLogMessage);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theLogMessage", theLogMessage);
   }
 }
 
@@ -409,23 +435,24 @@ Sentence build_anomaly_sentence(const Sentence& theSpecifiedDay,
 {
   try
   {
-  Sentence sentence;
-  const bool hasDay = !theSpecifiedDay.empty();
-  const bool hasArea = !theAreaPhrase.empty();
+    Sentence sentence;
+    const bool hasDay = !theSpecifiedDay.empty();
+    const bool hasArea = !theAreaPhrase.empty();
 
-  if (!hasDay && !hasArea)
-    sentence << noDay_noArea_phrase;
-  else if (!hasDay && hasArea)
-    sentence << noDay_area_phrase << theAreaPhrase;
-  else if (hasDay && !hasArea)
-    sentence << day_noArea_phrase << theSpecifiedDay;
-  else
-    sentence << day_area_phrase << theSpecifiedDay << theAreaPhrase;
-  return sentence;
+    if (!hasDay && !hasArea)
+      sentence << noDay_noArea_phrase;
+    else if (!hasDay && hasArea)
+      sentence << noDay_area_phrase << theAreaPhrase;
+    else if (hasDay && !hasArea)
+      sentence << day_noArea_phrase << theSpecifiedDay;
+    else
+      sentence << day_area_phrase << theSpecifiedDay << theAreaPhrase;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("noDay_noArea_phrase", noDay_noArea_phrase);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("noDay_noArea_phrase", noDay_noArea_phrase);
   }
 }
 
@@ -441,18 +468,19 @@ Sentence build_anomaly_sentence_with_suffix(const Sentence& theSpecifiedDay,
 {
   try
   {
-  Sentence sentence = build_anomaly_sentence(theSpecifiedDay,
-                                             theAreaPhrase,
-                                             noDay_noArea_phrase,
-                                             noDay_area_phrase,
-                                             day_noArea_phrase,
-                                             day_area_phrase);
-  sentence << modifierWord << tempWord;
-  return sentence;
+    Sentence sentence = build_anomaly_sentence(theSpecifiedDay,
+                                               theAreaPhrase,
+                                               noDay_noArea_phrase,
+                                               noDay_area_phrase,
+                                               day_noArea_phrase,
+                                               day_area_phrase);
+    sentence << modifierWord << tempWord;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("noDay_noArea_phrase", noDay_noArea_phrase);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("noDay_noArea_phrase", noDay_noArea_phrase);
   }
 }
 
@@ -461,16 +489,16 @@ Sentence build_area_phrase(const WeatherArea& theArea)
 {
   try
   {
-  Sentence theAreaPhrase;
-  if (theArea.type() == WeatherArea::Northern)
-    theAreaPhrase << ALUEEN_POHJOISOSASSA_PHRASE;
-  else if (theArea.type() == WeatherArea::Southern)
-    theAreaPhrase << ALUEEN_ETELAOSASSA_PHRASE;
-  else if (theArea.type() == WeatherArea::Eastern)
-    theAreaPhrase << ALUEEN_ITAOSASSA_PHRASE;
-  else if (theArea.type() == WeatherArea::Western)
-    theAreaPhrase << ALUEEN_LANSIOSASSA_PHRASE;
-  return theAreaPhrase;
+    Sentence theAreaPhrase;
+    if (theArea.type() == WeatherArea::Northern)
+      theAreaPhrase << ALUEEN_POHJOISOSASSA_PHRASE;
+    else if (theArea.type() == WeatherArea::Southern)
+      theAreaPhrase << ALUEEN_ETELAOSASSA_PHRASE;
+    else if (theArea.type() == WeatherArea::Eastern)
+      theAreaPhrase << ALUEEN_ITAOSASSA_PHRASE;
+    else if (theArea.type() == WeatherArea::Western)
+      theAreaPhrase << ALUEEN_LANSIOSASSA_PHRASE;
+    return theAreaPhrase;
   }
   catch (...)
   {
@@ -483,13 +511,13 @@ Sentence build_fractile88_warm(const Sentence& theSpecifiedDay, const Sentence& 
 {
   try
   {
-  return build_anomaly_sentence(
-      theSpecifiedDay,
-      theAreaPhrase,
-      SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
-      ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
-      MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
-      MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE);
+    return build_anomaly_sentence(
+        theSpecifiedDay,
+        theAreaPhrase,
+        SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
+        ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
+        MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE,
+        MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE);
   }
   catch (...)
   {
@@ -502,15 +530,15 @@ Sentence build_fractile88_cold(const Sentence& theSpecifiedDay, const Sentence& 
 {
   try
   {
-  return build_anomaly_sentence_with_suffix(
-      theSpecifiedDay,
-      theAreaPhrase,
-      SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-      ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-      MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-      MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-      HYVIN_WORD,
-      LEUTOA_WORD);
+    return build_anomaly_sentence_with_suffix(
+        theSpecifiedDay,
+        theAreaPhrase,
+        SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+        ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+        MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+        MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+        HYVIN_WORD,
+        LEUTOA_WORD);
   }
   catch (...)
   {
@@ -527,79 +555,81 @@ Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
 {
   try
   {
-  Sentence theSpecifiedDay;
-  if (theParameters.thePeriodLength > 24)
-  {
-    theSpecifiedDay << PeriodPhraseFactory::create("today",
-                                                   theParameters.theVariable,
-                                                   theParameters.theForecastTime,
-                                                   thePeriod,
-                                                   theParameters.theArea);
-  }
+    Sentence theSpecifiedDay;
+    if (theParameters.thePeriodLength > 24)
+    {
+      theSpecifiedDay << PeriodPhraseFactory::create("today",
+                                                     theParameters.theVariable,
+                                                     theParameters.theForecastTime,
+                                                     thePeriod,
+                                                     theParameters.theArea);
+    }
 
-  const Sentence theAreaPhrase = build_area_phrase(theParameters.theArea);
+    const Sentence theAreaPhrase = build_area_phrase(theParameters.theArea);
 
-  const bool isSummer = (theParameters.theSeason == SUMMER_SEASON);
-  const bool isWarmSeason = isSummer || theParameters.theGrowingSeasonUnderway;
-  const float adequateShare(80.0);
+    const bool isSummer = (theParameters.theSeason == SUMMER_SEASON);
+    const bool isWarmSeason = isSummer || theParameters.theGrowingSeasonUnderway;
+    const float adequateShare(80.0);
 
-  if (fractile02Share >= adequateShare)
-  {
-    theParameters.theAnomalyPhrase =
-        (isSummer ? SAA_ON_POIKKEUKSELLISEN_KOLEAA : SAA_ON_POIKKEUKSELLISEN_KYLMAA);
-    return build_anomaly_sentence_with_suffix(
-        theSpecifiedDay,
-        theAreaPhrase,
-        SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        POIKKEUKSELLISEN_WORD,
-        isSummer ? KOLEAA_WORD : KYLMAA_WORD);
-  }
+    if (fractile02Share >= adequateShare)
+    {
+      theParameters.theAnomalyPhrase =
+          (isSummer ? SAA_ON_POIKKEUKSELLISEN_KOLEAA : SAA_ON_POIKKEUKSELLISEN_KYLMAA);
+      return build_anomaly_sentence_with_suffix(
+          theSpecifiedDay,
+          theAreaPhrase,
+          SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          POIKKEUKSELLISEN_WORD,
+          isSummer ? KOLEAA_WORD : KYLMAA_WORD);
+    }
 
-  if (fractile12Share >= adequateShare)
-  {
-    theParameters.theAnomalyPhrase = (isSummer ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
-    return build_anomaly_sentence_with_suffix(
-        theSpecifiedDay,
-        theAreaPhrase,
-        SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        EMPTY_STRING,
-        isSummer ? KOLEAA_WORD : KYLMAA_WORD);
-  }
+    if (fractile12Share >= adequateShare)
+    {
+      theParameters.theAnomalyPhrase = (isSummer ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
+      return build_anomaly_sentence_with_suffix(
+          theSpecifiedDay,
+          theAreaPhrase,
+          SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          EMPTY_STRING,
+          isSummer ? KOLEAA_WORD : KYLMAA_WORD);
+    }
 
-  if (fractile98Share >= adequateShare)
-  {
-    theParameters.theAnomalyPhrase =
-        (isWarmSeason ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);
-    return build_anomaly_sentence_with_suffix(
-        theSpecifiedDay,
-        theAreaPhrase,
-        SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
-        POIKKEUKSELLISEN_WORD,
-        isWarmSeason ? LAMMINTA_WORD : LEUTOA_WORD);
-  }
+    if (fractile98Share >= adequateShare)
+    {
+      theParameters.theAnomalyPhrase =
+          (isWarmSeason ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);
+      return build_anomaly_sentence_with_suffix(
+          theSpecifiedDay,
+          theAreaPhrase,
+          SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE,
+          POIKKEUKSELLISEN_WORD,
+          isWarmSeason ? LAMMINTA_WORD : LEUTOA_WORD);
+    }
 
-  if (fractile88Share >= adequateShare)
-  {
-    theParameters.theAnomalyPhrase = (isSummer ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);
-    if (isWarmSeason)
-      return build_fractile88_warm(theSpecifiedDay, theAreaPhrase);
-    return build_fractile88_cold(theSpecifiedDay, theAreaPhrase);
-  }
+    if (fractile88Share >= adequateShare)
+    {
+      theParameters.theAnomalyPhrase =
+          (isSummer ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);
+      if (isWarmSeason)
+        return build_fractile88_warm(theSpecifiedDay, theAreaPhrase);
+      return build_fractile88_cold(theSpecifiedDay, theAreaPhrase);
+    }
 
-  return {};
+    return {};
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("fractile02Share", Fmi::to_string(fractile02Share));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("fractile02Share", Fmi::to_string(fractile02Share));
   }
 }
 
@@ -612,30 +642,31 @@ Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedComp
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  if (!theSpecifiedDay.empty() && !theAreaPhrase.empty())
-  {
-    sentence << theDayAndAreaIncludedCompositePhrase << theSpecifiedDay << theAreaPhrase;
-  }
-  else if (!theSpecifiedDay.empty())
-  {
-    sentence << theDayIncludedCompositePhrase << theSpecifiedDay;
-  }
-  else if (!theAreaPhrase.empty())
-  {
-    sentence << theAreaIncludedCompositePhrase << theAreaPhrase;
-  }
-  else
-  {
-    sentence << theTemperatureSentence;
-  }
+    if (!theSpecifiedDay.empty() && !theAreaPhrase.empty())
+    {
+      sentence << theDayAndAreaIncludedCompositePhrase << theSpecifiedDay << theAreaPhrase;
+    }
+    else if (!theSpecifiedDay.empty())
+    {
+      sentence << theDayIncludedCompositePhrase << theSpecifiedDay;
+    }
+    else if (!theAreaPhrase.empty())
+    {
+      sentence << theAreaIncludedCompositePhrase << theAreaPhrase;
+    }
+    else
+    {
+      sentence << theTemperatureSentence;
+    }
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theTemperatureSentence", theTemperatureSentence);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theTemperatureSentence", theTemperatureSentence);
   }
 }
 
@@ -652,37 +683,37 @@ TrendTemps build_trend_temps(const temperature_anomaly_params& theParameters)
 {
   try
   {
-  const bool isWinter = (theParameters.theSeason == WINTER_SEASON);
-  TrendTemps t{};
-  t.dayBefore = isWinter ? theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value()
-                         : theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum.value();
-  t.day1 = isWinter ? theParameters.theDay1TemperatureAreaAfternoonMean.value()
-                    : theParameters.theDay1TemperatureAreaAfternoonMaximum.value();
-  t.day2 = isWinter ? theParameters.theDay2TemperatureAreaAfternoonMean.value()
-                    : theParameters.theDay2TemperatureAreaAfternoonMaximum.value();
-  t.dayAfter = isWinter ? theParameters.theDayAfterDay2TemperatureAreaAfternoonMean.value()
-                        : theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum.value();
-  t.diff12 = abs(t.day2 - t.day1);
-  t.diff1After = abs(t.dayAfter - t.day1);
-  t.diffBefore2 = abs(t.day2 - t.dayBefore);
-  t.diffBeforeAfter = abs(t.dayAfter - t.dayBefore);
-  auto inRange = [](float d, float lo, float hi) { return d >= lo && d < hi; };
-  t.smallChange = inRange(t.diff12, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT) &&
-                  inRange(t.diff1After, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT) &&
-                  inRange(t.diffBefore2, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT) &&
-                  inRange(t.diffBeforeAfter, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT);
-  t.moderateChange =
-      inRange(t.diff12, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
-      inRange(t.diff1After, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
-      inRange(t.diffBefore2, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
-      inRange(t.diffBeforeAfter, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT);
-  t.signifigantChange = t.diff12 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
-                        t.diff1After >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
-                        t.diffBefore2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
-                        t.diffBeforeAfter >= SIGNIFIGANT_CHANGE_LOWER_LIMIT;
-  t.gettingLower =
-      t.day2 < t.day1 && t.dayAfter < t.day1 && t.day2 < t.dayBefore && t.dayAfter < t.dayBefore;
-  return t;
+    const bool isWinter = (theParameters.theSeason == WINTER_SEASON);
+    TrendTemps t{};
+    t.dayBefore = isWinter ? theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value()
+                           : theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum.value();
+    t.day1 = isWinter ? theParameters.theDay1TemperatureAreaAfternoonMean.value()
+                      : theParameters.theDay1TemperatureAreaAfternoonMaximum.value();
+    t.day2 = isWinter ? theParameters.theDay2TemperatureAreaAfternoonMean.value()
+                      : theParameters.theDay2TemperatureAreaAfternoonMaximum.value();
+    t.dayAfter = isWinter ? theParameters.theDayAfterDay2TemperatureAreaAfternoonMean.value()
+                          : theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum.value();
+    t.diff12 = abs(t.day2 - t.day1);
+    t.diff1After = abs(t.dayAfter - t.day1);
+    t.diffBefore2 = abs(t.day2 - t.dayBefore);
+    t.diffBeforeAfter = abs(t.dayAfter - t.dayBefore);
+    auto inRange = [](float d, float lo, float hi) { return d >= lo && d < hi; };
+    t.smallChange = inRange(t.diff12, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT) &&
+                    inRange(t.diff1After, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT) &&
+                    inRange(t.diffBefore2, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT) &&
+                    inRange(t.diffBeforeAfter, SMALL_CHANGE_LOWER_LIMIT, SMALL_CHANGE_UPPER_LIMIT);
+    t.moderateChange =
+        inRange(t.diff12, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
+        inRange(t.diff1After, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
+        inRange(t.diffBefore2, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
+        inRange(t.diffBeforeAfter, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT);
+    t.signifigantChange = t.diff12 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
+                          t.diff1After >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
+                          t.diffBefore2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
+                          t.diffBeforeAfter >= SIGNIFIGANT_CHANGE_LOWER_LIMIT;
+    t.gettingLower =
+        t.day2 < t.day1 && t.dayAfter < t.day1 && t.day2 < t.dayBefore && t.dayAfter < t.dayBefore;
+    return t;
   }
   catch (...)
   {
@@ -701,132 +732,134 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
 {
   try
   {
-  Sentence sentence;
-  // saa on edelleen lauhaa
-  // saa lauhtuu
-  // kirea pakkanen heikkenee / hellittaa
-  // pakkanen heikkenee
-  // kirea pakkanen jatkuu
-  // pakkanen kiristyy
+    Sentence sentence;
+    // saa on edelleen lauhaa
+    // saa lauhtuu
+    // kirea pakkanen heikkenee / hellittaa
+    // pakkanen heikkenee
+    // kirea pakkanen jatkuu
+    // pakkanen kiristyy
 
-  if (!t.gettingLower)
-  {
-    if (t.day1 > MILD_TEMPERATURE_LOWER_LIMIT && t.day1 < MILD_TEMPERATURE_UPPER_LIMIT &&
-        t.dayBefore > MILD_TEMPERATURE_LOWER_LIMIT && t.dayBefore < MILD_TEMPERATURE_UPPER_LIMIT &&
-        t.day2 > MILD_TEMPERATURE_LOWER_LIMIT && t.day2 < MILD_TEMPERATURE_UPPER_LIMIT &&
-        t.dayAfter > MILD_TEMPERATURE_LOWER_LIMIT && t.dayAfter < MILD_TEMPERATURE_UPPER_LIMIT &&
-        t.day2 > fractile63Day2 && t.dayAfter > fractile63DayAfter &&
-        !theParameters.theGrowingSeasonUnderway)
+    if (!t.gettingLower)
     {
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
-          MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
-          ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
-          SAA_ON_EDELLEEN_LAUHAA_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = SAA_ON_EDELLEEN_LAUHAA;
+      if (t.day1 > MILD_TEMPERATURE_LOWER_LIMIT && t.day1 < MILD_TEMPERATURE_UPPER_LIMIT &&
+          t.dayBefore > MILD_TEMPERATURE_LOWER_LIMIT &&
+          t.dayBefore < MILD_TEMPERATURE_UPPER_LIMIT && t.day2 > MILD_TEMPERATURE_LOWER_LIMIT &&
+          t.day2 < MILD_TEMPERATURE_UPPER_LIMIT && t.dayAfter > MILD_TEMPERATURE_LOWER_LIMIT &&
+          t.dayAfter < MILD_TEMPERATURE_UPPER_LIMIT && t.day2 > fractile63Day2 &&
+          t.dayAfter > fractile63DayAfter && !theParameters.theGrowingSeasonUnderway)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
+            MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
+            ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
+            SAA_ON_EDELLEEN_LAUHAA_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = SAA_ON_EDELLEEN_LAUHAA;
+      }
+      else if (t.signifigantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
+               t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day2 >= MILD_TEMPERATURE_LOWER_LIMIT &&
+               t.day2 < MILD_TEMPERATURE_UPPER_LIMIT &&
+               t.dayAfter >= MILD_TEMPERATURE_LOWER_LIMIT &&
+               t.dayAfter < MILD_TEMPERATURE_UPPER_LIMIT && !theParameters.theGrowingSeasonUnderway)
+      {
+        sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
+                                               MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE,
+                                               ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
+                                               SAA_LAUHTUU_PHRASE,
+                                               theSpecifiedDay,
+                                               theAreaPhrase);
+        theParameters.theShortrunTrend = SAA_LAUHTUU;
+      }
+      else if (t.signifigantChange && t.day1 <= veryColdTemperature &&
+               t.dayBefore <= veryColdTemperature && t.day2 <= MILD_TEMPERATURE_LOWER_LIMIT &&
+               t.dayAfter <= MILD_TEMPERATURE_LOWER_LIMIT)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+            MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+            ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+            KIREA_PAKKANEN_HEIKKENEE_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = KIREA_PAKKANEN_HEIKKENEE;
+      }
+      else if (t.signifigantChange && t.day1 > veryColdTemperature &&
+               t.dayBefore > veryColdTemperature && t.day2 < MILD_TEMPERATURE_LOWER_LIMIT &&
+               t.dayAfter < MILD_TEMPERATURE_LOWER_LIMIT)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+            MAANANTAINA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+            ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+            PAKKANEN_HEIKKENEE_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = PAKKANEN_HEIKKENEE;
+      }
+      else if (t.signifigantChange && t.dayBefore > veryColdTemperature &&
+               t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT && t.day1 > veryColdTemperature &&
+               t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day1 < ZERO_DEGREES &&
+               t.day2 >= MILD_TEMPERATURE_LOWER_LIMIT && t.day2 < ZERO_DEGREES)
+      {
+        // redundant: this will never happen, because "saa lauhtuu" is tested before
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
+            MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
+            ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
+            PAKKANEN_HELLITTAA_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = PAKKANEN_HELLITTAA;
+      }
+      else if (t.dayBefore < veryColdTemperature && t.day1 < veryColdTemperature &&
+               t.day2 < veryColdTemperature && t.dayAfter < veryColdTemperature)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+            MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+            ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+            KIREA_PAKKANEN_JATKUU_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
+      }
     }
-    else if (t.signifigantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
-             t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day2 >= MILD_TEMPERATURE_LOWER_LIMIT &&
-             t.day2 < MILD_TEMPERATURE_UPPER_LIMIT && t.dayAfter >= MILD_TEMPERATURE_LOWER_LIMIT &&
-             t.dayAfter < MILD_TEMPERATURE_UPPER_LIMIT && !theParameters.theGrowingSeasonUnderway)
+    else  // gettingLower
     {
-      sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
-                                             MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE,
-                                             ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
-                                             SAA_LAUHTUU_PHRASE,
-                                             theSpecifiedDay,
-                                             theAreaPhrase);
-      theParameters.theShortrunTrend = SAA_LAUHTUU;
+      if (t.signifigantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
+          t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day2 <= veryColdTemperature &&
+          t.dayAfter <= veryColdTemperature)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
+            MAANANTAINA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
+            ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
+            PAKKANEN_KIRISTYY_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = PAKKANEN_KIRISTYY;
+      }
+      else if (t.dayBefore < veryColdTemperature && t.day1 < veryColdTemperature &&
+               t.day2 < veryColdTemperature && t.dayAfter < veryColdTemperature)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+            MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+            ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+            KIREA_PAKKANEN_JATKUU_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
+      }
     }
-    else if (t.signifigantChange && t.day1 <= veryColdTemperature &&
-             t.dayBefore <= veryColdTemperature && t.day2 <= MILD_TEMPERATURE_LOWER_LIMIT &&
-             t.dayAfter <= MILD_TEMPERATURE_LOWER_LIMIT)
-    {
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
-          MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
-          ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
-          KIREA_PAKKANEN_HEIKKENEE_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = KIREA_PAKKANEN_HEIKKENEE;
-    }
-    else if (t.signifigantChange && t.day1 > veryColdTemperature &&
-             t.dayBefore > veryColdTemperature && t.day2 < MILD_TEMPERATURE_LOWER_LIMIT &&
-             t.dayAfter < MILD_TEMPERATURE_LOWER_LIMIT)
-    {
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
-          MAANANTAINA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
-          ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
-          PAKKANEN_HEIKKENEE_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = PAKKANEN_HEIKKENEE;
-    }
-    else if (t.signifigantChange && t.dayBefore > veryColdTemperature &&
-             t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT && t.day1 > veryColdTemperature &&
-             t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day1 < ZERO_DEGREES &&
-             t.day2 >= MILD_TEMPERATURE_LOWER_LIMIT && t.day2 < ZERO_DEGREES)
-    {
-      // redundant: this will never happen, because "saa lauhtuu" is tested before
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
-          MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
-          ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
-          PAKKANEN_HELLITTAA_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = PAKKANEN_HELLITTAA;
-    }
-    else if (t.dayBefore < veryColdTemperature && t.day1 < veryColdTemperature &&
-             t.day2 < veryColdTemperature && t.dayAfter < veryColdTemperature)
-    {
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
-          MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
-          ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
-          KIREA_PAKKANEN_JATKUU_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
-    }
-  }
-  else  // gettingLower
-  {
-    if (t.signifigantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
-        t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day2 <= veryColdTemperature &&
-        t.dayAfter <= veryColdTemperature)
-    {
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
-          MAANANTAINA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
-          ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
-          PAKKANEN_KIRISTYY_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = PAKKANEN_KIRISTYY;
-    }
-    else if (t.dayBefore < veryColdTemperature && t.day1 < veryColdTemperature &&
-             t.day2 < veryColdTemperature && t.dayAfter < veryColdTemperature)
-    {
-      sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
-          MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
-          ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
-          KIREA_PAKKANEN_JATKUU_PHRASE,
-          theSpecifiedDay,
-          theAreaPhrase);
-      theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
-    }
-  }
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("veryColdTemperature", Fmi::to_string(veryColdTemperature));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("veryColdTemperature", Fmi::to_string(veryColdTemperature));
   }
 }
 
@@ -863,104 +896,108 @@ Sentence summer_warming_sentence(temperature_anomaly_params& theParameters,
 {
   try
   {
-  Sentence sentence;
-  if (t.dayBefore >= hot_weather_limit && t.day1 >= hot_weather_limit &&
-      t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
-  {
-    sentence << get_shortruntrend_sentence(
-        MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
-        MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
-        ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
-        HELTEINEN_SAA_JATKUU_PHRASE,
-        theSpecifiedDay,
-        theAreaPhrase);
-    theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
-  }
-  else if (all_below_f12(t, f12DayBefore, f12Day1, f12Day2, f12DayAfter))
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           KOLEA_SAA_JATKUU_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
-  }
-  else if (all_below_f37(t, f37DayBefore, f37Day1, f37Day2, f37DayAfter))
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           VIILEA_SAA_JATKUU_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
-  }
-  else if (t.dayBefore < hot_weather_limit && t.day1 < hot_weather_limit &&
-           t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
-  {
-    const bool notable = t.diff12 >= NOTABLE_TEMPERATURE_CHANGE_LIMIT &&
-                         t.diff1After >= NOTABLE_TEMPERATURE_CHANGE_LIMIT &&
-                         t.diffBefore2 >= NOTABLE_TEMPERATURE_CHANGE_LIMIT &&
-                         t.diffBeforeAfter >= NOTABLE_TEMPERATURE_CHANGE_LIMIT;
-    if (notable)
+    Sentence sentence;
+    if (t.dayBefore >= hot_weather_limit && t.day1 >= hot_weather_limit &&
+        t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
     {
       sentence << get_shortruntrend_sentence(
-          MAANANTAINA_ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
-          MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
-          ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
-          SAA_MUUTTUU_HELTEISEKSI_PHRASE,
+          MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+          MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+          ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+          HELTEINEN_SAA_JATKUU_PHRASE,
           theSpecifiedDay,
           theAreaPhrase);
-      theParameters.theShortrunTrend = SAA_MUUTTUU_HELTEISEKSI;
+      theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
     }
-    else
+    else if (all_below_f12(t, f12DayBefore, f12Day1, f12Day2, f12DayAfter))
     {
-      sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
-                                             MAANANTAINA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
-                                             ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
-                                             SAA_ON_HELTEISTA_PHRASE,
+      sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+                                             MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+                                             ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+                                             KOLEA_SAA_JATKUU_PHRASE,
                                              theSpecifiedDay,
                                              theAreaPhrase);
-      theParameters.theShortrunTrend = SAA_ON_HELTEISTA;
+      theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
     }
-  }
-  else if (t.signifigantChange && t.day2 < 25.0)
-  {
-    sentence << get_shortruntrend_sentence(
-        MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
-        MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
-        ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
-        SAA_LAMPENEE_HUOMATTAVASTI_PHRASE,
-        theSpecifiedDay,
-        theAreaPhrase);
-    theParameters.theShortrunTrend = SAA_LAMPENEE_HUOMATTAVASTI;
-  }
-  else if (t.moderateChange && t.day2 < 25.0)
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE,
-                                           MAANANTAINA_SAA_LAMPENEE_COMPOSITE_PHRASE,
-                                           ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE,
-                                           SAA_LAMPENEE_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = SAA_LAMPENEE;
-  }
-  else if (t.smallChange && t.day2 < 20.0)
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
-                                           MAANANTAINA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
-                                           ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
-                                           SAA_LAMPENEE_VAHAN_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
-  }
-  return sentence;
+    else if (all_below_f37(t, f37DayBefore, f37Day1, f37Day2, f37DayAfter))
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+          MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+          ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+          VIILEA_SAA_JATKUU_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
+    }
+    else if (t.dayBefore < hot_weather_limit && t.day1 < hot_weather_limit &&
+             t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
+    {
+      const bool notable = t.diff12 >= NOTABLE_TEMPERATURE_CHANGE_LIMIT &&
+                           t.diff1After >= NOTABLE_TEMPERATURE_CHANGE_LIMIT &&
+                           t.diffBefore2 >= NOTABLE_TEMPERATURE_CHANGE_LIMIT &&
+                           t.diffBeforeAfter >= NOTABLE_TEMPERATURE_CHANGE_LIMIT;
+      if (notable)
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
+            MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
+            ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
+            SAA_MUUTTUU_HELTEISEKSI_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = SAA_MUUTTUU_HELTEISEKSI;
+      }
+      else
+      {
+        sentence << get_shortruntrend_sentence(
+            MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
+            MAANANTAINA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
+            ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
+            SAA_ON_HELTEISTA_PHRASE,
+            theSpecifiedDay,
+            theAreaPhrase);
+        theParameters.theShortrunTrend = SAA_ON_HELTEISTA;
+      }
+    }
+    else if (t.signifigantChange && t.day2 < 25.0)
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+          SAA_LAMPENEE_HUOMATTAVASTI_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = SAA_LAMPENEE_HUOMATTAVASTI;
+    }
+    else if (t.moderateChange && t.day2 < 25.0)
+    {
+      sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE,
+                                             MAANANTAINA_SAA_LAMPENEE_COMPOSITE_PHRASE,
+                                             ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE,
+                                             SAA_LAMPENEE_PHRASE,
+                                             theSpecifiedDay,
+                                             theAreaPhrase);
+      theParameters.theShortrunTrend = SAA_LAMPENEE;
+    }
+    else if (t.smallChange && t.day2 < 20.0)
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
+          SAA_LAMPENEE_VAHAN_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
+    }
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
   }
 }
 
@@ -981,75 +1018,78 @@ Sentence summer_cooling_sentence(temperature_anomaly_params& theParameters,
 {
   try
   {
-  Sentence sentence;
-  if (t.dayBefore >= hot_weather_limit && t.day1 >= hot_weather_limit &&
-      t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
-  {
-    sentence << get_shortruntrend_sentence(
-        MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
-        MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
-        ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
-        HELTEINEN_SAA_JATKUU_PHRASE,
-        theSpecifiedDay,
-        theAreaPhrase);
-    theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
-  }
-  else if (all_below_f12(t, f12DayBefore, f12Day1, f12Day2, f12DayAfter))
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           KOLEA_SAA_JATKUU_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
-  }
-  else if (all_below_f37(t, f37DayBefore, f37Day1, f37Day2, f37DayAfter))
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
-                                           VIILEA_SAA_JATKUU_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
-  }
-  else if (t.signifigantChange && t.day2 < 25.0)
-  {
-    sentence << get_shortruntrend_sentence(
-        MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
-        MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
-        ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
-        SAA_VIILENEE_HUOMATTAVASTI_PHRASE,
-        theSpecifiedDay,
-        theAreaPhrase);
-    theParameters.theShortrunTrend = SAA_VIILENEE_HUOMATTAVASTI;
-  }
-  else if (t.moderateChange && t.day2 < 25.0)
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE,
-                                           MAANANTAINA_SAA_VIILENEE_COMPOSITE_PHRASE,
-                                           ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE,
-                                           SAA_VIILENEE_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = SAA_VIILENEE;
-  }
-  else if (t.smallChange && t.day2 < 20.0)
-  {
-    sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
-                                           MAANANTAINA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
-                                           ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
-                                           SAA_VIILENEE_VAHAN_PHRASE,
-                                           theSpecifiedDay,
-                                           theAreaPhrase);
-    theParameters.theShortrunTrend = SAA_VIILENEE_VAHAN;
-  }
-  return sentence;
+    Sentence sentence;
+    if (t.dayBefore >= hot_weather_limit && t.day1 >= hot_weather_limit &&
+        t.day2 >= hot_weather_limit && t.dayAfter >= hot_weather_limit)
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+          MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+          ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+          HELTEINEN_SAA_JATKUU_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
+    }
+    else if (all_below_f12(t, f12DayBefore, f12Day1, f12Day2, f12DayAfter))
+    {
+      sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+                                             MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+                                             ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+                                             KOLEA_SAA_JATKUU_PHRASE,
+                                             theSpecifiedDay,
+                                             theAreaPhrase);
+      theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
+    }
+    else if (all_below_f37(t, f37DayBefore, f37Day1, f37Day2, f37DayAfter))
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+          MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+          ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+          VIILEA_SAA_JATKUU_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
+    }
+    else if (t.signifigantChange && t.day2 < 25.0)
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+          SAA_VIILENEE_HUOMATTAVASTI_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = SAA_VIILENEE_HUOMATTAVASTI;
+    }
+    else if (t.moderateChange && t.day2 < 25.0)
+    {
+      sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE,
+                                             MAANANTAINA_SAA_VIILENEE_COMPOSITE_PHRASE,
+                                             ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE,
+                                             SAA_VIILENEE_PHRASE,
+                                             theSpecifiedDay,
+                                             theAreaPhrase);
+      theParameters.theShortrunTrend = SAA_VIILENEE;
+    }
+    else if (t.smallChange && t.day2 < 20.0)
+    {
+      sentence << get_shortruntrend_sentence(
+          MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
+          MAANANTAINA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
+          ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
+          SAA_VIILENEE_VAHAN_PHRASE,
+          theSpecifiedDay,
+          theAreaPhrase);
+      theParameters.theShortrunTrend = SAA_VIILENEE_VAHAN;
+    }
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
   }
 }
 
@@ -1070,39 +1110,40 @@ Sentence summer_shortruntrend_sentence(temperature_anomaly_params& theParameters
 {
   try
   {
-  if (!t.gettingLower)
-    return summer_warming_sentence(theParameters,
-                                   t,
-                                   hot_weather_limit,
-                                   f12DayBefore,
-                                   f12Day1,
-                                   f12Day2,
-                                   f12DayAfter,
-                                   f37DayBefore,
-                                   f37Day1,
-                                   f37Day2,
-                                   f37DayAfter,
-                                   theSpecifiedDay,
-                                   theAreaPhrase);
-  if (t.gettingLower && t.day2 > ZERO_DEGREES)
-    return summer_cooling_sentence(theParameters,
-                                   t,
-                                   hot_weather_limit,
-                                   f12DayBefore,
-                                   f12Day1,
-                                   f12Day2,
-                                   f12DayAfter,
-                                   f37DayBefore,
-                                   f37Day1,
-                                   f37Day2,
-                                   f37DayAfter,
-                                   theSpecifiedDay,
-                                   theAreaPhrase);
-  return {};
+    if (!t.gettingLower)
+      return summer_warming_sentence(theParameters,
+                                     t,
+                                     hot_weather_limit,
+                                     f12DayBefore,
+                                     f12Day1,
+                                     f12Day2,
+                                     f12DayAfter,
+                                     f37DayBefore,
+                                     f37Day1,
+                                     f37Day2,
+                                     f37DayAfter,
+                                     theSpecifiedDay,
+                                     theAreaPhrase);
+    if (t.gettingLower && t.day2 > ZERO_DEGREES)
+      return summer_cooling_sentence(theParameters,
+                                     t,
+                                     hot_weather_limit,
+                                     f12DayBefore,
+                                     f12Day1,
+                                     f12Day2,
+                                     f12DayAfter,
+                                     f37DayBefore,
+                                     f37Day1,
+                                     f37Day2,
+                                     f37DayAfter,
+                                     theSpecifiedDay,
+                                     theAreaPhrase);
+    return {};
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("hot_weather_limit", Fmi::to_string(hot_weather_limit));
   }
 }
 
@@ -1111,119 +1152,119 @@ Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParam
 {
   try
   {
-  const TrendTemps t = build_trend_temps(theParameters);
+    const TrendTemps t = build_trend_temps(theParameters);
 
-  // kova pakkanen: F12,5 fractile on 1. Feb 12:00
-  TextGenPosixTime veryColdRefTime(theParameters.theForecastTime.GetYear(), 2, 1, 12, 0, 0);
-  WeatherPeriod veryColdWeatherPeriod(veryColdRefTime, veryColdRefTime);
+    // kova pakkanen: F12,5 fractile on 1. Feb 12:00
+    TextGenPosixTime veryColdRefTime(theParameters.theForecastTime.GetYear(), 2, 1, 12, 0, 0);
+    WeatherPeriod veryColdWeatherPeriod(veryColdRefTime, veryColdRefTime);
 
-  WeatherResult wr = get_fractile_temperature(theParameters.theVariable,
-                                              FRACTILE_12,
-                                              theParameters.theSources,
-                                              theParameters.theArea,
-                                              veryColdWeatherPeriod,
-                                              theFractileType);
+    WeatherResult wr = get_fractile_temperature(theParameters.theVariable,
+                                                FRACTILE_12,
+                                                theParameters.theSources,
+                                                theParameters.theArea,
+                                                veryColdWeatherPeriod,
+                                                theFractileType);
 
-  float veryColdTemperature = wr.value() < VERY_COLD_TEMPERATURE_UPPER_LIMIT
-                                  ? wr.value()
-                                  : VERY_COLD_TEMPERATURE_UPPER_LIMIT;
+    float veryColdTemperature = wr.value() < VERY_COLD_TEMPERATURE_UPPER_LIMIT
+                                    ? wr.value()
+                                    : VERY_COLD_TEMPERATURE_UPPER_LIMIT;
 
-  WeatherPeriod fractileTemperatureDay1Period(get_afternoon_period(
-      theParameters.theVariable, theParameters.theDay1Period.localStartTime()));
-  WeatherPeriod fractileTemperatureDayBeforeDay1Period(get_afternoon_period(
-      theParameters.theVariable, theParameters.theDayBeforeDay1Period.localStartTime()));
-  WeatherPeriod fractileTemperatureDay2Period(get_afternoon_period(
-      theParameters.theVariable, theParameters.theDay2Period.localStartTime()));
-  WeatherPeriod fractileTemperatureDayAfterDay2Period(get_afternoon_period(
-      theParameters.theVariable, theParameters.theDayAfterDay2Period.localStartTime()));
+    WeatherPeriod fractileTemperatureDay1Period(get_afternoon_period(
+        theParameters.theVariable, theParameters.theDay1Period.localStartTime()));
+    WeatherPeriod fractileTemperatureDayBeforeDay1Period(get_afternoon_period(
+        theParameters.theVariable, theParameters.theDayBeforeDay1Period.localStartTime()));
+    WeatherPeriod fractileTemperatureDay2Period(get_afternoon_period(
+        theParameters.theVariable, theParameters.theDay2Period.localStartTime()));
+    WeatherPeriod fractileTemperatureDayAfterDay2Period(get_afternoon_period(
+        theParameters.theVariable, theParameters.theDayAfterDay2Period.localStartTime()));
 
-  auto getFractile = [&](fractile_id fid, const WeatherPeriod& period)
-  {
-    return get_fractile_temperature(theParameters.theVariable,
-                                    fid,
-                                    theParameters.theSources,
-                                    theParameters.theArea,
-                                    period,
-                                    theFractileType);
-  };
+    auto getFractile = [&](fractile_id fid, const WeatherPeriod& period)
+    {
+      return get_fractile_temperature(theParameters.theVariable,
+                                      fid,
+                                      theParameters.theSources,
+                                      theParameters.theArea,
+                                      period,
+                                      theFractileType);
+    };
 
-  const double f12DayBefore =
-      getFractile(FRACTILE_12, fractileTemperatureDayBeforeDay1Period).value();
-  const double f37DayBefore =
-      getFractile(FRACTILE_37, fractileTemperatureDayBeforeDay1Period).value();
-  const double f63DayBefore =
-      getFractile(FRACTILE_63, fractileTemperatureDayBeforeDay1Period).value();
-  const double f12Day1 = getFractile(FRACTILE_12, fractileTemperatureDay1Period).value();
-  const double f37Day1 = getFractile(FRACTILE_37, fractileTemperatureDay1Period).value();
-  const double f63Day1 = getFractile(FRACTILE_63, fractileTemperatureDay1Period).value();
-  const double f12Day2 = getFractile(FRACTILE_12, fractileTemperatureDay2Period).value();
-  const double f37Day2 = getFractile(FRACTILE_37, fractileTemperatureDay2Period).value();
-  const double f63Day2 = getFractile(FRACTILE_63, fractileTemperatureDay2Period).value();
-  const double f12DayAfter =
-      getFractile(FRACTILE_12, fractileTemperatureDayAfterDay2Period).value();
-  const double f37DayAfter =
-      getFractile(FRACTILE_37, fractileTemperatureDayAfterDay2Period).value();
-  const double f63DayAfter =
-      getFractile(FRACTILE_63, fractileTemperatureDayAfterDay2Period).value();
+    const double f12DayBefore =
+        getFractile(FRACTILE_12, fractileTemperatureDayBeforeDay1Period).value();
+    const double f37DayBefore =
+        getFractile(FRACTILE_37, fractileTemperatureDayBeforeDay1Period).value();
+    const double f63DayBefore =
+        getFractile(FRACTILE_63, fractileTemperatureDayBeforeDay1Period).value();
+    const double f12Day1 = getFractile(FRACTILE_12, fractileTemperatureDay1Period).value();
+    const double f37Day1 = getFractile(FRACTILE_37, fractileTemperatureDay1Period).value();
+    const double f63Day1 = getFractile(FRACTILE_63, fractileTemperatureDay1Period).value();
+    const double f12Day2 = getFractile(FRACTILE_12, fractileTemperatureDay2Period).value();
+    const double f37Day2 = getFractile(FRACTILE_37, fractileTemperatureDay2Period).value();
+    const double f63Day2 = getFractile(FRACTILE_63, fractileTemperatureDay2Period).value();
+    const double f12DayAfter =
+        getFractile(FRACTILE_12, fractileTemperatureDayAfterDay2Period).value();
+    const double f37DayAfter =
+        getFractile(FRACTILE_37, fractileTemperatureDayAfterDay2Period).value();
+    const double f63DayAfter =
+        getFractile(FRACTILE_63, fractileTemperatureDayAfterDay2Period).value();
 
-  theParameters.theLog << "thePeriod: " << period2string(theParameters.thePeriod) << '\n';
-  theParameters.theLog << "fractileTemperatureDayBeforeDay1Period: "
-                       << period2string(fractileTemperatureDayBeforeDay1Period) << '\n';
-  theParameters.theLog << "fractileTemperatureDay1Period: "
-                       << period2string(fractileTemperatureDay1Period) << '\n';
-  theParameters.theLog << "fractileTemperatureDay2Period: "
-                       << period2string(fractileTemperatureDay2Period) << '\n';
-  theParameters.theLog << "fractileTemperatureDayAfterDay2Period: "
-                       << period2string(fractileTemperatureDayAfterDay2Period) << '\n';
-  theParameters.theLog << "F12/F37/F63 dayBefore: " << f12DayBefore << "/" << f37DayBefore << "/"
-                       << f63DayBefore << '\n';
-  theParameters.theLog << "F12/F37/F63 day1: " << f12Day1 << "/" << f37Day1 << "/" << f63Day1
-                       << '\n';
-  theParameters.theLog << "F12/F37/F63 day2: " << f12Day2 << "/" << f37Day2 << "/" << f63Day2
-                       << '\n';
-  theParameters.theLog << "F12/F37/F63 dayAfter: " << f12DayAfter << "/" << f37DayAfter << "/"
-                       << f63DayAfter << '\n';
+    theParameters.theLog << "thePeriod: " << period2string(theParameters.thePeriod) << '\n';
+    theParameters.theLog << "fractileTemperatureDayBeforeDay1Period: "
+                         << period2string(fractileTemperatureDayBeforeDay1Period) << '\n';
+    theParameters.theLog << "fractileTemperatureDay1Period: "
+                         << period2string(fractileTemperatureDay1Period) << '\n';
+    theParameters.theLog << "fractileTemperatureDay2Period: "
+                         << period2string(fractileTemperatureDay2Period) << '\n';
+    theParameters.theLog << "fractileTemperatureDayAfterDay2Period: "
+                         << period2string(fractileTemperatureDayAfterDay2Period) << '\n';
+    theParameters.theLog << "F12/F37/F63 dayBefore: " << f12DayBefore << "/" << f37DayBefore << "/"
+                         << f63DayBefore << '\n';
+    theParameters.theLog << "F12/F37/F63 day1: " << f12Day1 << "/" << f37Day1 << "/" << f63Day1
+                         << '\n';
+    theParameters.theLog << "F12/F37/F63 day2: " << f12Day2 << "/" << f37Day2 << "/" << f63Day2
+                         << '\n';
+    theParameters.theLog << "F12/F37/F63 dayAfter: " << f12DayAfter << "/" << f37DayAfter << "/"
+                         << f63DayAfter << '\n';
 
-  Sentence theSpecifiedDay;
-  if (theParameters.thePeriodLength > 24)
-  {
-    theSpecifiedDay << PeriodPhraseFactory::create("today",
-                                                   theParameters.theVariable,
-                                                   theParameters.theForecastTime,
-                                                   theParameters.theDay2Period,
-                                                   theParameters.theArea);
-  }
+    Sentence theSpecifiedDay;
+    if (theParameters.thePeriodLength > 24)
+    {
+      theSpecifiedDay << PeriodPhraseFactory::create("today",
+                                                     theParameters.theVariable,
+                                                     theParameters.theForecastTime,
+                                                     theParameters.theDay2Period,
+                                                     theParameters.theArea);
+    }
 
-  const Sentence theAreaPhrase = build_area_phrase(theParameters.theArea);
+    const Sentence theAreaPhrase = build_area_phrase(theParameters.theArea);
 
-  if (theParameters.theSeason == WINTER_SEASON)
-  {
-    return winter_shortruntrend_sentence(theParameters,
+    if (theParameters.theSeason == WINTER_SEASON)
+    {
+      return winter_shortruntrend_sentence(theParameters,
+                                           t,
+                                           veryColdTemperature,
+                                           f63Day2,
+                                           f63DayAfter,
+                                           theSpecifiedDay,
+                                           theAreaPhrase);
+    }
+
+    // summer season
+    float hot_weather_limit = Settings::optional_double(
+        theParameters.theVariable + "::hot_weather_limit", HOT_WEATHER_LIMIT);
+
+    return summer_shortruntrend_sentence(theParameters,
                                          t,
-                                         veryColdTemperature,
-                                         f63Day2,
-                                         f63DayAfter,
+                                         hot_weather_limit,
+                                         f12DayBefore,
+                                         f12Day1,
+                                         f12Day2,
+                                         f12DayAfter,
+                                         f37DayBefore,
+                                         f37Day1,
+                                         f37Day2,
+                                         f37DayAfter,
                                          theSpecifiedDay,
                                          theAreaPhrase);
-  }
-
-  // summer season
-  float hot_weather_limit = Settings::optional_double(
-      theParameters.theVariable + "::hot_weather_limit", HOT_WEATHER_LIMIT);
-
-  return summer_shortruntrend_sentence(theParameters,
-                                       t,
-                                       hot_weather_limit,
-                                       f12DayBefore,
-                                       f12Day1,
-                                       f12Day2,
-                                       f12DayAfter,
-                                       f37DayBefore,
-                                       f37Day1,
-                                       f37Day2,
-                                       f37DayAfter,
-                                       theSpecifiedDay,
-                                       theAreaPhrase);
   }
   catch (...)
   {
@@ -1238,47 +1279,47 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  if (theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSELLISEN_KOLEAA ||
-      theParameters.theAnomalyPhrase == SAA_ON_HARVINAISEN_LAMMINTA ||
-      theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSLLISEN_LAMMINTA ||
-      theParameters.theAnomalyPhrase == SAA_ON_HYVIN_LEUTOA)
-  {
-    sentence << anomalySentence;
-  }
-  else if (theParameters.theAnomalyPhrase == SAA_ON_KOLEAA)
-  {
-    switch (theParameters.theShortrunTrend)
+    if (theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSELLISEN_KOLEAA ||
+        theParameters.theAnomalyPhrase == SAA_ON_HARVINAISEN_LAMMINTA ||
+        theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSLLISEN_LAMMINTA ||
+        theParameters.theAnomalyPhrase == SAA_ON_HYVIN_LEUTOA)
     {
-      case SAA_LAMPENEE_HUOMATTAVASTI:
-      case SAA_VIILENEE_HUOMATTAVASTI:
-        sentence << shortrunTrendSentence;
-        break;
-      default:
-        sentence << anomalySentence;
+      sentence << anomalySentence;
     }
-  }
-  else if (theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSELLISEN_KYLMAA ||
-           theParameters.theAnomalyPhrase == SAA_ON_HYVIN_KYLMAA)
-  {
-    switch (theParameters.theShortrunTrend)
+    else if (theParameters.theAnomalyPhrase == SAA_ON_KOLEAA)
     {
-      case KIREA_PAKKANEN_HEIKKENEE:
-      case PAKKANEN_HEIKKENEE:
-      case SAA_LAUHTUU:
-        sentence << shortrunTrendSentence;
-        break;
-      default:
-        sentence << anomalySentence;
+      switch (theParameters.theShortrunTrend)
+      {
+        case SAA_LAMPENEE_HUOMATTAVASTI:
+        case SAA_VIILENEE_HUOMATTAVASTI:
+          sentence << shortrunTrendSentence;
+          break;
+        default:
+          sentence << anomalySentence;
+      }
     }
-  }
-  else
-  {
-    sentence << shortrunTrendSentence;
-  }
+    else if (theParameters.theAnomalyPhrase == SAA_ON_POIKKEUKSELLISEN_KYLMAA ||
+             theParameters.theAnomalyPhrase == SAA_ON_HYVIN_KYLMAA)
+    {
+      switch (theParameters.theShortrunTrend)
+      {
+        case KIREA_PAKKANEN_HEIKKENEE:
+        case PAKKANEN_HEIKKENEE:
+        case SAA_LAUHTUU:
+          sentence << shortrunTrendSentence;
+          break;
+        default:
+          sentence << anomalySentence;
+      }
+    }
+    else
+    {
+      sentence << shortrunTrendSentence;
+    }
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
@@ -1296,309 +1337,311 @@ Paragraph anomaly(const TextGen::WeatherArea& itsArea,
 {
   try
   {
-  using namespace TemperatureAnomaly;
+    using namespace TemperatureAnomaly;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  log_start_time_and_end_time(theLog, "the original period: ", itsPeriod);
+    log_start_time_and_end_time(theLog, "the original period: ", itsPeriod);
 
-  forecast_season_id theSeasonId =
-      isSummerHalf(itsPeriod.localStartTime(), itsVar) ? SUMMER_SEASON : WINTER_SEASON;
+    forecast_season_id theSeasonId =
+        isSummerHalf(itsPeriod.localStartTime(), itsVar) ? SUMMER_SEASON : WINTER_SEASON;
 
-  // the anomaly sentence relates always to the upcoming day,
-  // so the period is defined to start in the previous day
+    // the anomaly sentence relates always to the upcoming day,
+    // so the period is defined to start in the previous day
 
-  TextGenPosixTime periodStartTime = itsPeriod.localStartTime();
-  const TextGenPosixTime& periodEndTime = itsPeriod.localEndTime();
-  int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
+    TextGenPosixTime periodStartTime = itsPeriod.localStartTime();
+    const TextGenPosixTime& periodEndTime = itsPeriod.localEndTime();
+    int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
-  int ndays = HourPeriodGenerator(itsPeriod, itsVar + "::day").size();
+    int ndays = HourPeriodGenerator(itsPeriod, itsVar + "::day").size();
 
-  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime()
-         << " covers " << ndays << " days\n";
+    theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime()
+           << " covers " << ndays << " days\n";
 
-  if (ndays <= 0)
-  {
+    if (ndays <= 0)
+    {
+      theLog << paragraph;
+      return paragraph;
+    }
+    if (ndays == 1)
+    {
+      periodStartTime.ChangeByDays(-1);
+    }
+
+    WeatherPeriod theExtendedPeriod(periodStartTime, periodEndTime);
+
+    HourPeriodGenerator generator(theExtendedPeriod, itsVar + "::day");
+    for (unsigned int i = 0; i < generator.size(); i++)
+    {
+      log_start_time_and_end_time(theLog, "The extended period: ", generator.period(i + 1));
+    }
+
+    WeatherPeriod day1Period(generator.period(1));
+    WeatherPeriod day2Period(generator.period(2));
+
+    TextGenPosixTime periodDayBeforeDay1StartTime;
+    TextGenPosixTime periodDayBeforeDay1EndTime;
+    TextGenPosixTime periodDayAfterDay2StartTime;
+    TextGenPosixTime periodDayAfterDay2EndTime;
+
+    periodDayBeforeDay1StartTime = day1Period.localStartTime();
+    periodDayBeforeDay1StartTime.ChangeByHours(-24);
+    periodDayBeforeDay1EndTime = day1Period.localEndTime();
+    periodDayBeforeDay1EndTime.ChangeByHours(-24);
+
+    periodDayAfterDay2StartTime = day2Period.localStartTime();
+    periodDayAfterDay2StartTime.ChangeByHours(24);
+    periodDayAfterDay2EndTime = day2Period.localEndTime();
+    periodDayAfterDay2EndTime.ChangeByHours(24);
+
+    WeatherPeriod dayBeforeDay1Period(periodDayBeforeDay1StartTime, periodDayBeforeDay1EndTime);
+    WeatherPeriod dayAfterDay2Period(periodDayAfterDay2StartTime, periodDayAfterDay2EndTime);
+
+    log_start_time_and_end_time(theLog, "day before day1: ", dayBeforeDay1Period);
+    log_start_time_and_end_time(theLog, "day1: ", day1Period);
+    log_start_time_and_end_time(theLog, "day2: ", day2Period);
+    log_start_time_and_end_time(theLog, "day after day2: ", dayAfterDay2Period);
+
+    bool report_day2_anomaly = true;
+
+    temperature_anomaly_params parameters(itsVar,
+                                          theLog,
+                                          itsSources,
+                                          itsArea,
+                                          theExtendedPeriod,
+                                          dayBeforeDay1Period,
+                                          day1Period,
+                                          day2Period,
+                                          dayAfterDay2Period,
+                                          theSeasonId,
+                                          itsForecastTime,
+                                          periodLength);
+
+    afternoon_temperature(itsVar + "::fake::temperature::day_before_day1::afternoon::area",
+                          itsSources,
+                          itsArea,
+                          dayBeforeDay1Period,
+                          parameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum,
+                          parameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum,
+                          parameters.theDayBeforeDay1TemperatureAreaAfternoonMean);
+
+    afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::area",
+                          itsSources,
+                          itsArea,
+                          day1Period,
+                          parameters.theDay1TemperatureAreaAfternoonMinimum,
+                          parameters.theDay1TemperatureAreaAfternoonMaximum,
+                          parameters.theDay1TemperatureAreaAfternoonMean);
+
+    afternoon_temperature(itsVar + "::fake::temperature::day2::afternoon::area",
+                          itsSources,
+                          itsArea,
+                          day2Period,
+                          parameters.theDay2TemperatureAreaAfternoonMinimum,
+                          parameters.theDay2TemperatureAreaAfternoonMaximum,
+                          parameters.theDay2TemperatureAreaAfternoonMean);
+
+    afternoon_temperature(itsVar + "::fake::temperature::day_after_day2::afternoon::area",
+                          itsSources,
+                          itsArea,
+                          dayAfterDay2Period,
+                          parameters.theDayAfterDay2TemperatureAreaAfternoonMinimum,
+                          parameters.theDayAfterDay2TemperatureAreaAfternoonMaximum,
+                          parameters.theDayAfterDay2TemperatureAreaAfternoonMean);
+
+    fractile_type_id fractileType(MAX_FRACTILE);
+
+    WeatherPeriod fractileTemperatureDay1Period(
+        get_afternoon_period(parameters.theVariable, parameters.theDay1Period.localStartTime()));
+    WeatherPeriod fractileTemperatureDay2Period(
+        get_afternoon_period(parameters.theVariable, parameters.theDay2Period.localStartTime()));
+
+    fractile_id theFractileDay1 =
+        get_fractile(itsVar,
+                     parameters.theDay1TemperatureAreaAfternoonMaximum.value(),
+                     itsSources,
+                     itsArea,
+                     fractileTemperatureDay1Period,
+                     fractileType);
+
+    fractile_id theFractileDay2 =
+        get_fractile(itsVar,
+                     parameters.theDay2TemperatureAreaAfternoonMaximum.value(),
+                     itsSources,
+                     itsArea,
+                     fractileTemperatureDay2Period,
+                     fractileType);
+
+    WeatherResult fractileTemperatureDay1 = get_fractile_temperature(
+        itsVar, theFractileDay1, itsSources, itsArea, fractileTemperatureDay1Period, fractileType);
+
+    WeatherResult fractileTemperatureDay2 = get_fractile_temperature(
+        itsVar, theFractileDay2, itsSources, itsArea, fractileTemperatureDay2Period, fractileType);
+
+    WeatherPeriod fractileTemperaturePeriod(report_day2_anomaly ? fractileTemperatureDay2Period
+                                                                : fractileTemperatureDay1Period);
+
+    theLog << "Day1 maximum temperature " << parameters.theDay1TemperatureAreaAfternoonMaximum;
+    if (theFractileDay1 == FRACTILE_100)
+    {
+      WeatherResult f98Temperature = get_fractile_temperature(
+          itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperatureDay1Period, fractileType);
+
+      theLog << "is higher than F98 temperature " << f98Temperature << '\n';
+    }
+    else
+    {
+      theLog << " falls into fractile " << fractile_name(theFractileDay1) << fractileTemperatureDay1
+             << '\n';
+    }
+
+    theLog << "Day2 maximum temperature " << parameters.theDay2TemperatureAreaAfternoonMaximum;
+    if (theFractileDay2 == FRACTILE_100)
+    {
+      WeatherResult f98Temperature = get_fractile_temperature(
+          itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperatureDay2Period, fractileType);
+      theLog << "is higher than F98 temperature " << f98Temperature << '\n';
+    }
+    else
+    {
+      theLog << " falls into fractile " << fractile_name(theFractileDay2) << fractileTemperatureDay2
+             << '\n';
+    }
+
+    if (parameters.theDay1TemperatureAreaAfternoonMaximum.value() == kFloatMissing ||
+        parameters.theDay2TemperatureAreaAfternoonMaximum.value() == kFloatMissing)
+    {
+      theLog << "Maximum temperature value(s) missing, no story generated!\n";
+      theLog << paragraph;
+      return paragraph;
+    }
+
+    WeatherResult fractile02Temperature = get_fractile_temperature(
+        itsVar, FRACTILE_02, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
+
+    WeatherResult fractile12Temperature = get_fractile_temperature(
+        itsVar, FRACTILE_12, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
+
+    WeatherResult fractile88Temperature = get_fractile_temperature(
+        itsVar, FRACTILE_88, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
+
+    WeatherResult fractile98Temperature = get_fractile_temperature(
+        itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
+
+    GridForecaster theForecaster;
+    RangeAcceptor upperLimitF02Acceptor;
+    upperLimitF02Acceptor.upperLimit(fractile02Temperature.value());
+    RangeAcceptor upperLimitF12Acceptor;
+    upperLimitF12Acceptor.upperLimit(fractile12Temperature.value());
+    RangeAcceptor lowerLimitF88Acceptor;
+    lowerLimitF88Acceptor.lowerLimit(fractile88Temperature.value());
+    RangeAcceptor lowerLimitF98Acceptor;
+    lowerLimitF98Acceptor.lowerLimit(fractile98Temperature.value());
+
+    WeatherResult fractile02Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F02",
+                                                          itsSources,
+                                                          Temperature,
+                                                          Percentage,
+                                                          Maximum,
+                                                          itsArea,
+                                                          fractileTemperaturePeriod,
+                                                          DefaultAcceptor(),
+                                                          DefaultAcceptor(),
+                                                          upperLimitF02Acceptor);
+
+    WeatherResult fractile12Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F12",
+                                                          itsSources,
+                                                          Temperature,
+                                                          Percentage,
+                                                          Maximum,
+                                                          itsArea,
+                                                          fractileTemperaturePeriod,
+                                                          DefaultAcceptor(),
+                                                          DefaultAcceptor(),
+                                                          upperLimitF12Acceptor);
+
+    WeatherResult fractile88Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F88",
+                                                          itsSources,
+                                                          Temperature,
+                                                          Percentage,
+                                                          Maximum,
+                                                          itsArea,
+                                                          fractileTemperaturePeriod,
+                                                          DefaultAcceptor(),
+                                                          DefaultAcceptor(),
+                                                          lowerLimitF88Acceptor);
+
+    WeatherResult fractile98Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F98",
+                                                          itsSources,
+                                                          Temperature,
+                                                          Percentage,
+                                                          Maximum,
+                                                          itsArea,
+                                                          fractileTemperaturePeriod,
+                                                          DefaultAcceptor(),
+                                                          DefaultAcceptor(),
+                                                          lowerLimitF98Acceptor);
+
+    theLog << "Fractiles for period: " << period2string(fractileTemperaturePeriod) << '\n';
+    theLog << "Fractile 02 temperature and share (" << theAreaName << "): " << fractile02Temperature
+           << "; " << fractile02Share << '\n';
+    theLog << "Fractile 12 temperature and share (" << theAreaName << "): " << fractile12Temperature
+           << "; " << fractile12Share << '\n';
+    theLog << "Fractile 88 temperature and share (" << theAreaName << "): " << fractile88Temperature
+           << "; " << fractile88Share << '\n';
+    theLog << "Fractile 98 temperature and share (" << theAreaName << "): " << fractile98Temperature
+           << "; " << fractile98Share << '\n';
+
+    if (fractile02Temperature.value() == kFloatMissing ||
+        fractile12Temperature.value() == kFloatMissing ||
+        fractile88Temperature.value() == kFloatMissing ||
+        fractile98Temperature.value() == kFloatMissing)
+    {
+      theLog << "Fractile temperature value(s) missing, no story generated!\n";
+      theLog << paragraph;
+      return paragraph;
+    }
+
+    if (fractile02Share.value() == kFloatMissing || fractile12Share.value() == kFloatMissing ||
+        fractile88Share.value() == kFloatMissing || fractile98Share.value() == kFloatMissing)
+    {
+      theLog << "Fractile share value(s) missing, no story generated!\n";
+      theLog << paragraph;
+      return paragraph;
+    }
+
+    const WeatherPeriod& thePeriod =
+        (report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
+
+    parameters.theGrowingSeasonUnderway =
+        growing_season_going_on(itsArea, itsSources, thePeriod, itsVar);
+    Sentence temperatureAnomalySentence;
+    Sentence shortrunTrendSentence;
+
+    temperatureAnomalySentence << temperature_anomaly_sentence(
+        parameters,
+        fractile02Share.value(),
+        fractile12Share.value(),
+        fractile88Share.value(),
+        fractile98Share.value(),
+        report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
+
+    shortrunTrendSentence << temperature_shortruntrend_sentence(parameters, fractileType);
+
+    log_data(parameters);
+
+    paragraph << handle_anomaly_and_shortrun_trend_sentences(
+        parameters, temperatureAnomalySentence, shortrunTrendSentence);
+
     theLog << paragraph;
+
     return paragraph;
-  }
-  if (ndays == 1)
-  {
-    periodStartTime.ChangeByDays(-1);
-  }
-
-  WeatherPeriod theExtendedPeriod(periodStartTime, periodEndTime);
-
-  HourPeriodGenerator generator(theExtendedPeriod, itsVar + "::day");
-  for (unsigned int i = 0; i < generator.size(); i++)
-  {
-    log_start_time_and_end_time(theLog, "The extended period: ", generator.period(i + 1));
-  }
-
-  WeatherPeriod day1Period(generator.period(1));
-  WeatherPeriod day2Period(generator.period(2));
-
-  TextGenPosixTime periodDayBeforeDay1StartTime;
-  TextGenPosixTime periodDayBeforeDay1EndTime;
-  TextGenPosixTime periodDayAfterDay2StartTime;
-  TextGenPosixTime periodDayAfterDay2EndTime;
-
-  periodDayBeforeDay1StartTime = day1Period.localStartTime();
-  periodDayBeforeDay1StartTime.ChangeByHours(-24);
-  periodDayBeforeDay1EndTime = day1Period.localEndTime();
-  periodDayBeforeDay1EndTime.ChangeByHours(-24);
-
-  periodDayAfterDay2StartTime = day2Period.localStartTime();
-  periodDayAfterDay2StartTime.ChangeByHours(24);
-  periodDayAfterDay2EndTime = day2Period.localEndTime();
-  periodDayAfterDay2EndTime.ChangeByHours(24);
-
-  WeatherPeriod dayBeforeDay1Period(periodDayBeforeDay1StartTime, periodDayBeforeDay1EndTime);
-  WeatherPeriod dayAfterDay2Period(periodDayAfterDay2StartTime, periodDayAfterDay2EndTime);
-
-  log_start_time_and_end_time(theLog, "day before day1: ", dayBeforeDay1Period);
-  log_start_time_and_end_time(theLog, "day1: ", day1Period);
-  log_start_time_and_end_time(theLog, "day2: ", day2Period);
-  log_start_time_and_end_time(theLog, "day after day2: ", dayAfterDay2Period);
-
-  bool report_day2_anomaly = true;
-
-  temperature_anomaly_params parameters(itsVar,
-                                        theLog,
-                                        itsSources,
-                                        itsArea,
-                                        theExtendedPeriod,
-                                        dayBeforeDay1Period,
-                                        day1Period,
-                                        day2Period,
-                                        dayAfterDay2Period,
-                                        theSeasonId,
-                                        itsForecastTime,
-                                        periodLength);
-
-  afternoon_temperature(itsVar + "::fake::temperature::day_before_day1::afternoon::area",
-                        itsSources,
-                        itsArea,
-                        dayBeforeDay1Period,
-                        parameters.theDayBeforeDay1TemperatureAreaAfternoonMinimum,
-                        parameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum,
-                        parameters.theDayBeforeDay1TemperatureAreaAfternoonMean);
-
-  afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::area",
-                        itsSources,
-                        itsArea,
-                        day1Period,
-                        parameters.theDay1TemperatureAreaAfternoonMinimum,
-                        parameters.theDay1TemperatureAreaAfternoonMaximum,
-                        parameters.theDay1TemperatureAreaAfternoonMean);
-
-  afternoon_temperature(itsVar + "::fake::temperature::day2::afternoon::area",
-                        itsSources,
-                        itsArea,
-                        day2Period,
-                        parameters.theDay2TemperatureAreaAfternoonMinimum,
-                        parameters.theDay2TemperatureAreaAfternoonMaximum,
-                        parameters.theDay2TemperatureAreaAfternoonMean);
-
-  afternoon_temperature(itsVar + "::fake::temperature::day_after_day2::afternoon::area",
-                        itsSources,
-                        itsArea,
-                        dayAfterDay2Period,
-                        parameters.theDayAfterDay2TemperatureAreaAfternoonMinimum,
-                        parameters.theDayAfterDay2TemperatureAreaAfternoonMaximum,
-                        parameters.theDayAfterDay2TemperatureAreaAfternoonMean);
-
-  fractile_type_id fractileType(MAX_FRACTILE);
-
-  WeatherPeriod fractileTemperatureDay1Period(
-      get_afternoon_period(parameters.theVariable, parameters.theDay1Period.localStartTime()));
-  WeatherPeriod fractileTemperatureDay2Period(
-      get_afternoon_period(parameters.theVariable, parameters.theDay2Period.localStartTime()));
-
-  fractile_id theFractileDay1 =
-      get_fractile(itsVar,
-                   parameters.theDay1TemperatureAreaAfternoonMaximum.value(),
-                   itsSources,
-                   itsArea,
-                   fractileTemperatureDay1Period,
-                   fractileType);
-
-  fractile_id theFractileDay2 =
-      get_fractile(itsVar,
-                   parameters.theDay2TemperatureAreaAfternoonMaximum.value(),
-                   itsSources,
-                   itsArea,
-                   fractileTemperatureDay2Period,
-                   fractileType);
-
-  WeatherResult fractileTemperatureDay1 = get_fractile_temperature(
-      itsVar, theFractileDay1, itsSources, itsArea, fractileTemperatureDay1Period, fractileType);
-
-  WeatherResult fractileTemperatureDay2 = get_fractile_temperature(
-      itsVar, theFractileDay2, itsSources, itsArea, fractileTemperatureDay2Period, fractileType);
-
-  WeatherPeriod fractileTemperaturePeriod(report_day2_anomaly ? fractileTemperatureDay2Period
-                                                              : fractileTemperatureDay1Period);
-
-  theLog << "Day1 maximum temperature " << parameters.theDay1TemperatureAreaAfternoonMaximum;
-  if (theFractileDay1 == FRACTILE_100)
-  {
-    WeatherResult f98Temperature = get_fractile_temperature(
-        itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperatureDay1Period, fractileType);
-
-    theLog << "is higher than F98 temperature " << f98Temperature << '\n';
-  }
-  else
-  {
-    theLog << " falls into fractile " << fractile_name(theFractileDay1) << fractileTemperatureDay1
-           << '\n';
-  }
-
-  theLog << "Day2 maximum temperature " << parameters.theDay2TemperatureAreaAfternoonMaximum;
-  if (theFractileDay2 == FRACTILE_100)
-  {
-    WeatherResult f98Temperature = get_fractile_temperature(
-        itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperatureDay2Period, fractileType);
-    theLog << "is higher than F98 temperature " << f98Temperature << '\n';
-  }
-  else
-  {
-    theLog << " falls into fractile " << fractile_name(theFractileDay2) << fractileTemperatureDay2
-           << '\n';
-  }
-
-  if (parameters.theDay1TemperatureAreaAfternoonMaximum.value() == kFloatMissing ||
-      parameters.theDay2TemperatureAreaAfternoonMaximum.value() == kFloatMissing)
-  {
-    theLog << "Maximum temperature value(s) missing, no story generated!\n";
-    theLog << paragraph;
-    return paragraph;
-  }
-
-  WeatherResult fractile02Temperature = get_fractile_temperature(
-      itsVar, FRACTILE_02, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
-
-  WeatherResult fractile12Temperature = get_fractile_temperature(
-      itsVar, FRACTILE_12, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
-
-  WeatherResult fractile88Temperature = get_fractile_temperature(
-      itsVar, FRACTILE_88, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
-
-  WeatherResult fractile98Temperature = get_fractile_temperature(
-      itsVar, FRACTILE_98, itsSources, itsArea, fractileTemperaturePeriod, fractileType);
-
-  GridForecaster theForecaster;
-  RangeAcceptor upperLimitF02Acceptor;
-  upperLimitF02Acceptor.upperLimit(fractile02Temperature.value());
-  RangeAcceptor upperLimitF12Acceptor;
-  upperLimitF12Acceptor.upperLimit(fractile12Temperature.value());
-  RangeAcceptor lowerLimitF88Acceptor;
-  lowerLimitF88Acceptor.lowerLimit(fractile88Temperature.value());
-  RangeAcceptor lowerLimitF98Acceptor;
-  lowerLimitF98Acceptor.lowerLimit(fractile98Temperature.value());
-
-  WeatherResult fractile02Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F02",
-                                                        itsSources,
-                                                        Temperature,
-                                                        Percentage,
-                                                        Maximum,
-                                                        itsArea,
-                                                        fractileTemperaturePeriod,
-                                                        DefaultAcceptor(),
-                                                        DefaultAcceptor(),
-                                                        upperLimitF02Acceptor);
-
-  WeatherResult fractile12Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F12",
-                                                        itsSources,
-                                                        Temperature,
-                                                        Percentage,
-                                                        Maximum,
-                                                        itsArea,
-                                                        fractileTemperaturePeriod,
-                                                        DefaultAcceptor(),
-                                                        DefaultAcceptor(),
-                                                        upperLimitF12Acceptor);
-
-  WeatherResult fractile88Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F88",
-                                                        itsSources,
-                                                        Temperature,
-                                                        Percentage,
-                                                        Maximum,
-                                                        itsArea,
-                                                        fractileTemperaturePeriod,
-                                                        DefaultAcceptor(),
-                                                        DefaultAcceptor(),
-                                                        lowerLimitF88Acceptor);
-
-  WeatherResult fractile98Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F98",
-                                                        itsSources,
-                                                        Temperature,
-                                                        Percentage,
-                                                        Maximum,
-                                                        itsArea,
-                                                        fractileTemperaturePeriod,
-                                                        DefaultAcceptor(),
-                                                        DefaultAcceptor(),
-                                                        lowerLimitF98Acceptor);
-
-  theLog << "Fractiles for period: " << period2string(fractileTemperaturePeriod) << '\n';
-  theLog << "Fractile 02 temperature and share (" << theAreaName << "): " << fractile02Temperature
-         << "; " << fractile02Share << '\n';
-  theLog << "Fractile 12 temperature and share (" << theAreaName << "): " << fractile12Temperature
-         << "; " << fractile12Share << '\n';
-  theLog << "Fractile 88 temperature and share (" << theAreaName << "): " << fractile88Temperature
-         << "; " << fractile88Share << '\n';
-  theLog << "Fractile 98 temperature and share (" << theAreaName << "): " << fractile98Temperature
-         << "; " << fractile98Share << '\n';
-
-  if (fractile02Temperature.value() == kFloatMissing ||
-      fractile12Temperature.value() == kFloatMissing ||
-      fractile88Temperature.value() == kFloatMissing ||
-      fractile98Temperature.value() == kFloatMissing)
-  {
-    theLog << "Fractile temperature value(s) missing, no story generated!\n";
-    theLog << paragraph;
-    return paragraph;
-  }
-
-  if (fractile02Share.value() == kFloatMissing || fractile12Share.value() == kFloatMissing ||
-      fractile88Share.value() == kFloatMissing || fractile98Share.value() == kFloatMissing)
-  {
-    theLog << "Fractile share value(s) missing, no story generated!\n";
-    theLog << paragraph;
-    return paragraph;
-  }
-
-  const WeatherPeriod& thePeriod =
-      (report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
-
-  parameters.theGrowingSeasonUnderway =
-      growing_season_going_on(itsArea, itsSources, thePeriod, itsVar);
-  Sentence temperatureAnomalySentence;
-  Sentence shortrunTrendSentence;
-
-  temperatureAnomalySentence << temperature_anomaly_sentence(
-      parameters,
-      fractile02Share.value(),
-      fractile12Share.value(),
-      fractile88Share.value(),
-      fractile98Share.value(),
-      report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
-
-  shortrunTrendSentence << temperature_shortruntrend_sentence(parameters, fractileType);
-
-  log_data(parameters);
-
-  paragraph << handle_anomaly_and_shortrun_trend_sentences(
-      parameters, temperatureAnomalySentence, shortrunTrendSentence);
-
-  theLog << paragraph;
-
-  return paragraph;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("itsVar", itsVar).addParameter("theAreaName", theAreaName);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("itsVar", itsVar)
+        .addParameter("theAreaName", theAreaName);
   }
 }
 
@@ -1618,58 +1661,58 @@ Paragraph TemperatureStory::anomaly() const
 {
   try
   {
-  using namespace TemperatureAnomaly;
+    using namespace TemperatureAnomaly;
 
-  Paragraph paragraph;
-  MessageLogger log("TemperatureStory::anomaly");
+    Paragraph paragraph;
+    MessageLogger log("TemperatureStory::anomaly");
 
-  std::string areaName;
+    std::string areaName;
 
-  if (itsArea.isNamed())
-  {
-    areaName = itsArea.name();
-    log << areaName << '\n';
-  }
+    if (itsArea.isNamed())
+    {
+      areaName = itsArea.name();
+      log << areaName << '\n';
+    }
 
-  fs::path climatologyFile(Settings::optional_string("textgen::tmax_climatology", ""));
+    fs::path climatologyFile(Settings::optional_string("textgen::tmax_climatology", ""));
 
-  if (!fs::exists(climatologyFile))
-  {
-    log << "The climatology file " << climatologyFile << " does not exist!\n";
+    if (!fs::exists(climatologyFile))
+    {
+      log << "The climatology file " << climatologyFile << " does not exist!\n";
+      return paragraph;
+    }
+
+    WeatherArea areaOne(itsArea);
+    WeatherArea areaTwo(itsArea);
+    split_method splitMethod =
+        check_area_splitting(itsVar, itsArea, itsPeriod, itsSources, areaOne, areaTwo, log);
+
+    if (NO_SPLITTING != splitMethod)
+    {
+      Paragraph paragraphAreaOne;
+      Paragraph paragraphAreaTwo;
+
+      std::string areaId =
+          (areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part"));
+      log << areaId << '\n';
+
+      paragraphAreaOne << TemperatureAnomaly::anomaly(
+          areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, areaId, log);
+
+      areaId = (areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part"));
+      log << areaId << '\n';
+
+      paragraphAreaTwo << TemperatureAnomaly::anomaly(
+          areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, areaId, log);
+      paragraph << paragraphAreaOne << paragraphAreaTwo;
+    }
+    else
+    {
+      paragraph << TemperatureAnomaly::anomaly(
+          itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, areaName, log);
+    }
+
     return paragraph;
-  }
-
-  WeatherArea areaOne(itsArea);
-  WeatherArea areaTwo(itsArea);
-  split_method splitMethod =
-      check_area_splitting(itsVar, itsArea, itsPeriod, itsSources, areaOne, areaTwo, log);
-
-  if (NO_SPLITTING != splitMethod)
-  {
-    Paragraph paragraphAreaOne;
-    Paragraph paragraphAreaTwo;
-
-    std::string areaId =
-        (areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part"));
-    log << areaId << '\n';
-
-    paragraphAreaOne << TemperatureAnomaly::anomaly(
-        areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, areaId, log);
-
-    areaId = (areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part"));
-    log << areaId << '\n';
-
-    paragraphAreaTwo << TemperatureAnomaly::anomaly(
-        areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, areaId, log);
-    paragraph << paragraphAreaOne << paragraphAreaTwo;
-  }
-  else
-  {
-    paragraph << TemperatureAnomaly::anomaly(
-        itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, areaName, log);
-  }
-
-  return paragraph;
   }
   catch (...)
   {

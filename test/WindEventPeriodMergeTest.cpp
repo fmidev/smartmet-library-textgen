@@ -36,7 +36,6 @@
 using namespace std;
 using namespace TextGen;
 
-
 namespace WindEventPeriodMergeTest
 {
 const string var = "merge";
@@ -140,8 +139,8 @@ string describe(const wind_event_period_data_item_vector& periods)
 void weakening_then_strengthening()
 {
   // 12 m/s down to 5, flat for ten hours, then up to 14
-  vector<float> speeds{12, 11, 9, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                       5,  6,  7, 8, 9, 10, 11, 12, 13, 14, 14};
+  vector<float> speeds{12, 11, 9, 7, 5, 5, 5,  5,  5,  5,  5,  5, 5,
+                       5,  5,  6, 7, 8, 9, 10, 11, 12, 13, 14, 14};
   Fixture f(speeds);
   f.addEventPeriod(TUULI_HEIKKENEE, 0, 4);
   f.addEventPeriod(MISSING_WIND_SPEED_EVENT, 4, 14);
@@ -183,7 +182,7 @@ void weakening_then_strengthening()
 void strengthening_twice_is_successive()
 {
   // 3 m/s up to 9, flat for ten hours, then up to 18
-  vector<float> speeds{3, 4, 6, 8,  9,  9,  9,  9,  9,  9,  9, 9, 9,
+  vector<float> speeds{3, 4, 6,  8,  9,  9,  9,  9,  9,  9,  9,  9, 9,
                        9, 9, 10, 12, 13, 14, 15, 16, 17, 18, 18, 18};
   Fixture f(speeds);
   f.addEventPeriod(TUULI_VOIMISTUU, 0, 4);
@@ -213,8 +212,7 @@ void strengthening_twice_is_successive()
                 describe(result));
 
   if (!anySuccessive)
-    TEST_FAILED("the second strengthening period is not marked as successive: " +
-                describe(result));
+    TEST_FAILED("the second strengthening period is not marked as successive: " + describe(result));
 
   TEST_PASSED();
 }

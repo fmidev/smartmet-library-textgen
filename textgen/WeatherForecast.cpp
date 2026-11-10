@@ -291,9 +291,10 @@ part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod)
     bool successiveDays = false;
     if (thePeriod.localStartTime().GetYear() == thePeriod.localEndTime().GetYear() - 1)
     {
-      successiveDays =
-          thePeriod.localStartTime().GetMonth() == 12 && thePeriod.localStartTime().GetDay() == 31 &&
-          thePeriod.localEndTime().GetMonth() == 1 && thePeriod.localEndTime().GetDay() == 1;
+      successiveDays = thePeriod.localStartTime().GetMonth() == 12 &&
+                       thePeriod.localStartTime().GetDay() == 31 &&
+                       thePeriod.localEndTime().GetMonth() == 1 &&
+                       thePeriod.localEndTime().GetDay() == 1;
     }
     else
     {
@@ -396,7 +397,8 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("ignoreKeskiyo", Fmi::to_string(ignoreKeskiyo));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("ignoreKeskiyo", Fmi::to_string(ignoreKeskiyo));
   }
 }
 
@@ -874,68 +876,69 @@ Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  short weekday = theWeatherPeriod.localStartTime().GetWeekday();
-  short endWeekday = theWeatherPeriod.localEndTime().GetWeekday();
+    short weekday = theWeatherPeriod.localStartTime().GetWeekday();
+    short endWeekday = theWeatherPeriod.localEndTime().GetWeekday();
 
-  if (is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))
-  {
-    thePhraseString = large_daytime_phrase(
-        weekday,
-        theSpecifyDayFlag,
-        std::string(AAMULLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + AAMUPAIVALLA_WORD);
-    thePartOfTheDay = AAMU_JA_AAMUPAIVA;
-  }
-  else if (is_inside(theWeatherPeriod, ILTAPAIVA_JA_ILTA))
-  {
-    thePhraseString = large_daytime_phrase(
-        weekday,
-        theSpecifyDayFlag,
-        std::string(ILTAPAIVALLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + ILLALLA_WORD);
-    thePartOfTheDay = ILTAPAIVA_JA_ILTA;
-  }
-  else if (is_inside(theWeatherPeriod, ILTA_JA_ILTAYO))
-  {
-    thePhraseString = large_daytime_phrase(
-        weekday,
-        theSpecifyDayFlag,
-        std::string(ILLALLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + ILTAYOLLA_WORD);
-    thePartOfTheDay = ILTA_JA_ILTAYO;
-  }
-  else if (is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO) ||
-           is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
-  {
-    thePhraseString = large_night_phrase(endWeekday, theSpecifyDayFlag);
-    thePartOfTheDay = YO;
-  }
-  else if (is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
-  {
-    thePhraseString = large_daytime_phrase(
-        weekday,
-        theSpecifyDayFlag,
-        std::string(AAMUYOLLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + AAMULLA_WORD);
-    thePartOfTheDay = AAMUYO_JA_AAMU;
-  }
-  else if (is_inside(theWeatherPeriod, YO))
-  {
-    thePhraseString = large_night_phrase(endWeekday, theSpecifyDayFlag);
-    thePartOfTheDay = YO;
-  }
-  else if (is_inside(theWeatherPeriod, PAIVA))
-  {
-    thePhraseString = large_daytime_phrase(weekday, theSpecifyDayFlag, PAIVALLA_WORD);
-    thePartOfTheDay = PAIVA;
-  }
+    if (is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))
+    {
+      thePhraseString = large_daytime_phrase(
+          weekday,
+          theSpecifyDayFlag,
+          std::string(AAMULLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + AAMUPAIVALLA_WORD);
+      thePartOfTheDay = AAMU_JA_AAMUPAIVA;
+    }
+    else if (is_inside(theWeatherPeriod, ILTAPAIVA_JA_ILTA))
+    {
+      thePhraseString = large_daytime_phrase(
+          weekday,
+          theSpecifyDayFlag,
+          std::string(ILTAPAIVALLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + ILLALLA_WORD);
+      thePartOfTheDay = ILTAPAIVA_JA_ILTA;
+    }
+    else if (is_inside(theWeatherPeriod, ILTA_JA_ILTAYO))
+    {
+      thePhraseString = large_daytime_phrase(
+          weekday,
+          theSpecifyDayFlag,
+          std::string(ILLALLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + ILTAYOLLA_WORD);
+      thePartOfTheDay = ILTA_JA_ILTAYO;
+    }
+    else if (is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO) ||
+             is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
+    {
+      thePhraseString = large_night_phrase(endWeekday, theSpecifyDayFlag);
+      thePartOfTheDay = YO;
+    }
+    else if (is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
+    {
+      thePhraseString = large_daytime_phrase(
+          weekday,
+          theSpecifyDayFlag,
+          std::string(AAMUYOLLA_WORD) + SPACE_STRING + JA_WORD + SPACE_STRING + AAMULLA_WORD);
+      thePartOfTheDay = AAMUYO_JA_AAMU;
+    }
+    else if (is_inside(theWeatherPeriod, YO))
+    {
+      thePhraseString = large_night_phrase(endWeekday, theSpecifyDayFlag);
+      thePartOfTheDay = YO;
+    }
+    else if (is_inside(theWeatherPeriod, PAIVA))
+    {
+      thePhraseString = large_daytime_phrase(weekday, theSpecifyDayFlag, PAIVALLA_WORD);
+      thePartOfTheDay = PAIVA;
+    }
 
-  if (!thePhraseString.empty())
-    sentence << thePhraseString;
+    if (!thePhraseString.empty())
+      sentence << thePhraseString;
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag));
   }
 }
 
@@ -977,65 +980,68 @@ Sentence resolve_wide_period_phrase(const WeatherPeriod& theWeatherPeriod,
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  // Try to shrink period by 1 hour on each end to fit a narrow day-part
-  if (theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
-  {
-    TextGenPosixTime startTime(theWeatherPeriod.localStartTime());
-    TextGenPosixTime endTime(theWeatherPeriod.localEndTime());
-    startTime.ChangeByHours(1);
-    endTime.ChangeByHours(-1);
-    WeatherPeriod narrowerPeriod(startTime, endTime);
-
-    if (endTime.DifferenceInHours(startTime) <= 4)
+    // Try to shrink period by 1 hour on each end to fit a narrow day-part
+    if (theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
     {
-      thePhraseString = parse_time_phrase(
-          narrowerPeriod.localStartTime().GetWeekday(),
-          theSpecifyDayFlag,
-          get_narrow_time_phrase(narrowerPeriod, theVar, thePartOfTheDay, theAlkaenPhrase));
-      sentence << thePhraseString;
-    }
+      TextGenPosixTime startTime(theWeatherPeriod.localStartTime());
+      TextGenPosixTime endTime(theWeatherPeriod.localEndTime());
+      startTime.ChangeByHours(1);
+      endTime.ChangeByHours(-1);
+      WeatherPeriod narrowerPeriod(startTime, endTime);
 
-    if (sentence.empty())
-    {
-      thePartOfTheDay = get_most_relevant_part_of_the_day_id_narrow(theWeatherPeriod);
-      thePhraseString = get_time_phrase_from_id(thePartOfTheDay, theVar, theAlkaenPhrase);
-
-      if (!thePhraseString.empty())
+      if (endTime.DifferenceInHours(startTime) <= 4)
       {
-        std::stringstream sentence_ss;
-        if (theSpecifyDayFlag && !is_keskiyo_phrase(thePhraseString))
-          sentence_ss << weekday << "-";
-        sentence_ss << thePhraseString;
-        if (sentence_ss.str().size() > 2)
+        thePhraseString = parse_time_phrase(
+            narrowerPeriod.localStartTime().GetWeekday(),
+            theSpecifyDayFlag,
+            get_narrow_time_phrase(narrowerPeriod, theVar, thePartOfTheDay, theAlkaenPhrase));
+        sentence << thePhraseString;
+      }
+
+      if (sentence.empty())
+      {
+        thePartOfTheDay = get_most_relevant_part_of_the_day_id_narrow(theWeatherPeriod);
+        thePhraseString = get_time_phrase_from_id(thePartOfTheDay, theVar, theAlkaenPhrase);
+
+        if (!thePhraseString.empty())
         {
-          sentence << sentence_ss.str();
-          thePhraseString = sentence_ss.str();
+          std::stringstream sentence_ss;
+          if (theSpecifyDayFlag && !is_keskiyo_phrase(thePhraseString))
+            sentence_ss << weekday << "-";
+          sentence_ss << thePhraseString;
+          if (sentence_ss.str().size() > 2)
+          {
+            sentence << sentence_ss.str();
+            thePhraseString = sentence_ss.str();
+          }
+        }
+        else
+        {
+          sentence << get_large_time_phrase(
+              theWeatherPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
+
+          if (sentence.empty())
+            sentence << get_large_time_phrase(
+                narrowerPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
         }
       }
-      else
-      {
-        sentence << get_large_time_phrase(
-            theWeatherPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
-
-        if (sentence.empty())
-          sentence << get_large_time_phrase(
-              narrowerPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
-      }
     }
-  }
-  else
-  {
-    sentence << get_large_time_phrase(
-        theWeatherPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
-  }
+    else
+    {
+      sentence << get_large_time_phrase(
+          theWeatherPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
+    }
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag)).addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag))
+        .addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
   }
 }
 }  // namespace
@@ -1049,59 +1055,62 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  if (!Settings::optional_bool(theVar + "::specify_part_of_the_day", true))
-    return sentence;
+    if (!Settings::optional_bool(theVar + "::specify_part_of_the_day", true))
+      return sentence;
 
-  short weekday = theWeatherPeriod.localStartTime().GetWeekday();
+    short weekday = theWeatherPeriod.localStartTime().GetWeekday();
 
-  // If period is within one day and same part of the day, use narrow phrase directly
-  if (theWeatherPeriod.localStartTime().GetJulianDay() ==
-          theWeatherPeriod.localEndTime().GetJulianDay() &&
-      get_part_of_the_day_id(theWeatherPeriod.localStartTime()) ==
-          get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
-  {
+    // If period is within one day and same part of the day, use narrow phrase directly
+    if (theWeatherPeriod.localStartTime().GetJulianDay() ==
+            theWeatherPeriod.localEndTime().GetJulianDay() &&
+        get_part_of_the_day_id(theWeatherPeriod.localStartTime()) ==
+            get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
+    {
+      thePhraseString = parse_time_phrase(
+          weekday,
+          theSpecifyDayFlag,
+          get_narrow_time_phrase(theWeatherPeriod, theVar, thePartOfTheDay, theAlkaenPhrase));
+      sentence << thePhraseString;
+      return sentence;
+    }
+
+    // Try narrow part of the day first (e.g. narrow: iltapäivä; large: iltapäivä ja ilta)
     thePhraseString = parse_time_phrase(
         weekday,
         theSpecifyDayFlag,
         get_narrow_time_phrase(theWeatherPeriod, theVar, thePartOfTheDay, theAlkaenPhrase));
     sentence << thePhraseString;
-    return sentence;
-  }
 
-  // Try narrow part of the day first (e.g. narrow: iltapäivä; large: iltapäivä ja ilta)
-  thePhraseString = parse_time_phrase(
-      weekday,
-      theSpecifyDayFlag,
-      get_narrow_time_phrase(theWeatherPeriod, theVar, thePartOfTheDay, theAlkaenPhrase));
-  sentence << thePhraseString;
-
-  if (sentence.empty())
-  {
-    sentence << resolve_wide_period_phrase(theWeatherPeriod,
-                                           weekday,
-                                           theSpecifyDayFlag,
-                                           theVar,
-                                           theAlkaenPhrase,
-                                           thePhraseString,
-                                           thePartOfTheDay);
-
-    if (sentence.empty() && theAlkaenPhrase)
+    if (sentence.empty())
     {
-      thePhraseString = parse_time_phrase(
-          weekday,
-          theSpecifyDayFlag,
-          get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
-      sentence << thePhraseString;
-    }
-  }
+      sentence << resolve_wide_period_phrase(theWeatherPeriod,
+                                             weekday,
+                                             theSpecifyDayFlag,
+                                             theVar,
+                                             theAlkaenPhrase,
+                                             thePhraseString,
+                                             thePartOfTheDay);
 
-  return sentence;
+      if (sentence.empty() && theAlkaenPhrase)
+      {
+        thePhraseString = parse_time_phrase(
+            weekday,
+            theSpecifyDayFlag,
+            get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
+        sentence << thePhraseString;
+      }
+    }
+
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag)).addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theSpecifyDayFlag", Fmi::to_string(theSpecifyDayFlag))
+        .addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
   }
 }
 
@@ -1135,43 +1144,44 @@ Sentence get_direction_phrase(direction_id theDirectionId, bool theAlkaenPhrase 
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  switch (theDirectionId)
-  {
-    case NORTH:
-      sentence << (theAlkaenPhrase ? POHJOISESTA_ALKAEN_PHRASE : POHJOISESTA_WORD);
-      break;
-    case SOUTH:
-      sentence << (theAlkaenPhrase ? ETELASTA_ALKAEN_PHRASE : ETELASTA_WORD);
-      break;
-    case EAST:
-      sentence << (theAlkaenPhrase ? IDASTA_ALKAEN_PHRASE : IDASTA_WORD);
-      break;
-    case WEST:
-      sentence << (theAlkaenPhrase ? LANNESTA_ALKAEN_PHRASE : LANNESTA_WORD);
-      break;
-    case NORTHEAST:
-      sentence << (theAlkaenPhrase ? KOILLISESTA_ALKAEN_PHRASE : KOILLISESTA_WORD);
-      break;
-    case SOUTHEAST:
-      sentence << (theAlkaenPhrase ? KAAKOSTA_ALKAEN_PHRASE : KAAKOSTA_WORD);
-      break;
-    case SOUTHWEST:
-      sentence << (theAlkaenPhrase ? LOUNAASTA_ALKAEN_PHRASE : LOUNAASTA_WORD);
-      break;
-    case NORTHWEST:
-      sentence << (theAlkaenPhrase ? LUOTEESTA_ALKAEN_PHRASE : LUOTEESTA_WORD);
-      break;
-    case NO_DIRECTION:
-      break;
-  }
+    switch (theDirectionId)
+    {
+      case NORTH:
+        sentence << (theAlkaenPhrase ? POHJOISESTA_ALKAEN_PHRASE : POHJOISESTA_WORD);
+        break;
+      case SOUTH:
+        sentence << (theAlkaenPhrase ? ETELASTA_ALKAEN_PHRASE : ETELASTA_WORD);
+        break;
+      case EAST:
+        sentence << (theAlkaenPhrase ? IDASTA_ALKAEN_PHRASE : IDASTA_WORD);
+        break;
+      case WEST:
+        sentence << (theAlkaenPhrase ? LANNESTA_ALKAEN_PHRASE : LANNESTA_WORD);
+        break;
+      case NORTHEAST:
+        sentence << (theAlkaenPhrase ? KOILLISESTA_ALKAEN_PHRASE : KOILLISESTA_WORD);
+        break;
+      case SOUTHEAST:
+        sentence << (theAlkaenPhrase ? KAAKOSTA_ALKAEN_PHRASE : KAAKOSTA_WORD);
+        break;
+      case SOUTHWEST:
+        sentence << (theAlkaenPhrase ? LOUNAASTA_ALKAEN_PHRASE : LOUNAASTA_WORD);
+        break;
+      case NORTHWEST:
+        sentence << (theAlkaenPhrase ? LUOTEESTA_ALKAEN_PHRASE : LUOTEESTA_WORD);
+        break;
+      case NO_DIRECTION:
+        break;
+    }
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theAlkaenPhrase", Fmi::to_string(theAlkaenPhrase));
   }
 }
 
@@ -1189,26 +1199,26 @@ int get_today_vector(const string& theVariable,
 {
   try
   {
-  int retval = -1;
+    int retval = -1;
 
-  NightAndDayPeriodGenerator generator(thePeriod, theVariable);
+    NightAndDayPeriodGenerator generator(thePeriod, theVariable);
 
-  for (unsigned int i = 0; i < generator.size(); i++)
-  {
-    WeatherPeriod wp(generator.period(i + 1));
-    if (i == 0 ||
-        generator.period(i).localStartTime().GetJulianDay() != wp.localStartTime().GetJulianDay())
+    for (unsigned int i = 0; i < generator.size(); i++)
     {
-      auto* sentence = new Sentence();
-      *sentence << PeriodPhraseFactory::create(
-          "today", theVariable, theForecastTime, generator.period(i + 1), theArea);
-      theTodayVector.push_back(sentence);
+      WeatherPeriod wp(generator.period(i + 1));
+      if (i == 0 ||
+          generator.period(i).localStartTime().GetJulianDay() != wp.localStartTime().GetJulianDay())
+      {
+        auto* sentence = new Sentence();
+        *sentence << PeriodPhraseFactory::create(
+            "today", theVariable, theForecastTime, generator.period(i + 1), theArea);
+        theTodayVector.push_back(sentence);
 
-      if (i == 0)
-        retval = wp.localStartTime().GetJulianDay();
+        if (i == 0)
+          retval = wp.localStartTime().GetJulianDay();
+      }
     }
-  }
-  return retval;
+    return retval;
   }
   catch (...)
   {
@@ -1224,39 +1234,39 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  part_of_the_day_id partOfTheDayId = get_part_of_the_day_id(theEventTimestamp);
+    part_of_the_day_id partOfTheDayId = get_part_of_the_day_id(theEventTimestamp);
 
-  if (partOfTheDayId == KESKIYO && theEventTimestamp.DifferenceInHours(theForecastTime) <= 24)
-  {
+    if (partOfTheDayId == KESKIYO && theEventTimestamp.DifferenceInHours(theForecastTime) <= 24)
+    {
+      return sentence;
+    }
+
+    if (partOfTheDayId == KESKIYO || partOfTheDayId == AAMUYO)
+    {
+      const char* which_day = nullptr;
+      if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
+        which_day = "tonight";
+      else
+        which_day = "next_night";
+
+      sentence << PeriodPhraseFactory::create(
+          which_day, theVariable, theForecastTime, thePeriod, theArea);
+    }
+    else
+    {
+      const char* which_day = nullptr;
+      if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
+        which_day = "today";
+      else
+        which_day = "next_day";
+
+      sentence << PeriodPhraseFactory::create(
+          which_day, theVariable, theForecastTime, thePeriod, theArea);
+    }
+
     return sentence;
-  }
-
-  if (partOfTheDayId == KESKIYO || partOfTheDayId == AAMUYO)
-  {
-    const char* which_day = nullptr;
-    if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
-      which_day = "tonight";
-    else
-      which_day = "next_night";
-
-    sentence << PeriodPhraseFactory::create(
-        which_day, theVariable, theForecastTime, thePeriod, theArea);
-  }
-  else
-  {
-    const char* which_day = nullptr;
-    if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
-      which_day = "today";
-    else
-      which_day = "next_day";
-
-    sentence << PeriodPhraseFactory::create(
-        which_day, theVariable, theForecastTime, thePeriod, theArea);
-  }
-
-  return sentence;
   }
   catch (...)
   {
@@ -1272,169 +1282,170 @@ void get_precipitation_limit_value(const wf_story_params& theParameters,
 {
   try
   {
-  switch (thePrecipitationForm)
-  {
-    case WATER_FREEZING_FORM:
-    case FREEZING_FORM:
-    case WATER_FORM:
-    case WATER_DRIZZLE_FREEZING_FORM:
-    case WATER_DRIZZLE_FORM:
-    case WATER_DRIZZLE_SLEET_FORM:
-    case WATER_SLEET_FREEZING_FORM:
-    case WATER_SLEET_FORM:
-    case WATER_SNOW_FREEZING_FORM:
-    case WATER_SNOW_FORM:
-    case WATER_DRIZZLE_SNOW_FORM:
-    case WATER_SLEET_SNOW_FORM:
+    switch (thePrecipitationForm)
     {
-      switch (theIntensityId)
+      case WATER_FREEZING_FORM:
+      case FREEZING_FORM:
+      case WATER_FORM:
+      case WATER_DRIZZLE_FREEZING_FORM:
+      case WATER_DRIZZLE_FORM:
+      case WATER_DRIZZLE_SLEET_FORM:
+      case WATER_SLEET_FREEZING_FORM:
+      case WATER_SLEET_FORM:
+      case WATER_SNOW_FREEZING_FORM:
+      case WATER_SNOW_FORM:
+      case WATER_DRIZZLE_SNOW_FORM:
+      case WATER_SLEET_SNOW_FORM:
       {
-        case DRY_WEATHER:
+        switch (theIntensityId)
         {
-          theLowerLimit = 0;
-          theUpperLimit = theParameters.theDryWeatherLimitWater;
-          break;
+          case DRY_WEATHER:
+          {
+            theLowerLimit = 0;
+            theUpperLimit = theParameters.theDryWeatherLimitWater;
+            break;
+          }
+          case WEAK_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theDryWeatherLimitWater;
+            theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
+            break;
+          }
+          case MODERATE_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
+            theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
+            break;
+          }
+          case HEAVY_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
+            theUpperLimit = 1000.0;
+            break;
+          }
+          default:
+            break;
         }
-        case WEAK_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theDryWeatherLimitWater;
-          theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
-          break;
-        }
-        case MODERATE_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
-          theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
-          break;
-        }
-        case HEAVY_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
-          theUpperLimit = 1000.0;
-          break;
-        }
-        default:
-          break;
+        break;
       }
-      break;
-    }
-    case SLEET_FREEZING_FORM:
-    case SLEET_FORM:
-    case SLEET_SNOW_FREEZING_FORM:
-    case SLEET_SNOW_FORM:
-    {
-      switch (theIntensityId)
+      case SLEET_FREEZING_FORM:
+      case SLEET_FORM:
+      case SLEET_SNOW_FREEZING_FORM:
+      case SLEET_SNOW_FORM:
       {
-        case DRY_WEATHER:
+        switch (theIntensityId)
         {
-          theLowerLimit = 0;
-          theUpperLimit = theParameters.theDryWeatherLimitSleet;
-          break;
+          case DRY_WEATHER:
+          {
+            theLowerLimit = 0;
+            theUpperLimit = theParameters.theDryWeatherLimitSleet;
+            break;
+          }
+          case WEAK_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theDryWeatherLimitSleet;
+            theUpperLimit = theParameters.theWeakPrecipitationLimitSleet;
+            break;
+          }
+          case MODERATE_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theWeakPrecipitationLimitSleet;
+            theUpperLimit = theParameters.theHeavyPrecipitationLimitSleet;
+            break;
+          }
+          case HEAVY_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theHeavyPrecipitationLimitSleet;
+            theUpperLimit = 1000.0;
+            break;
+          }
+          default:
+            break;
         }
-        case WEAK_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theDryWeatherLimitSleet;
-          theUpperLimit = theParameters.theWeakPrecipitationLimitSleet;
-          break;
-        }
-        case MODERATE_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theWeakPrecipitationLimitSleet;
-          theUpperLimit = theParameters.theHeavyPrecipitationLimitSleet;
-          break;
-        }
-        case HEAVY_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theHeavyPrecipitationLimitSleet;
-          theUpperLimit = 1000.0;
-          break;
-        }
-        default:
-          break;
+        break;
       }
-      break;
-    }
-    case SNOW_FORM:
-    case SNOW_FREEZING_FORM:
-    {
-      switch (theIntensityId)
+      case SNOW_FORM:
+      case SNOW_FREEZING_FORM:
       {
-        case DRY_WEATHER:
+        switch (theIntensityId)
         {
-          theLowerLimit = 0;
-          theUpperLimit = theParameters.theDryWeatherLimitSnow;
-          break;
+          case DRY_WEATHER:
+          {
+            theLowerLimit = 0;
+            theUpperLimit = theParameters.theDryWeatherLimitSnow;
+            break;
+          }
+          case WEAK_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theDryWeatherLimitSnow;
+            theUpperLimit = theParameters.theWeakPrecipitationLimitSnow;
+            break;
+          }
+          case MODERATE_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theWeakPrecipitationLimitSnow;
+            theUpperLimit = theParameters.theHeavyPrecipitationLimitSnow;
+            break;
+          }
+          case HEAVY_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theHeavyPrecipitationLimitSnow;
+            theUpperLimit = 1000.0;
+            break;
+          }
+          default:
+            break;
         }
-        case WEAK_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theDryWeatherLimitSnow;
-          theUpperLimit = theParameters.theWeakPrecipitationLimitSnow;
-          break;
-        }
-        case MODERATE_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theWeakPrecipitationLimitSnow;
-          theUpperLimit = theParameters.theHeavyPrecipitationLimitSnow;
-          break;
-        }
-        case HEAVY_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theHeavyPrecipitationLimitSnow;
-          theUpperLimit = 1000.0;
-          break;
-        }
-        default:
-          break;
+        break;
       }
-      break;
-    }
-    case DRIZZLE_FORM:
-    case DRIZZLE_FREEZING_FORM:
-    case DRIZZLE_SLEET_FORM:
-    case DRIZZLE_SLEET_FREEZING_FORM:
-    case DRIZZLE_SNOW_FREEZING_FORM:
-    case DRIZZLE_SNOW_FORM:
-    case DRIZZLE_SLEET_SNOW_FORM:
-    {
-      switch (theIntensityId)
+      case DRIZZLE_FORM:
+      case DRIZZLE_FREEZING_FORM:
+      case DRIZZLE_SLEET_FORM:
+      case DRIZZLE_SLEET_FREEZING_FORM:
+      case DRIZZLE_SNOW_FREEZING_FORM:
+      case DRIZZLE_SNOW_FORM:
+      case DRIZZLE_SLEET_SNOW_FORM:
       {
-        case DRY_WEATHER:
+        switch (theIntensityId)
         {
-          theLowerLimit = 0;
-          theUpperLimit = theParameters.theDryWeatherLimitDrizzle;
-          break;
+          case DRY_WEATHER:
+          {
+            theLowerLimit = 0;
+            theUpperLimit = theParameters.theDryWeatherLimitDrizzle;
+            break;
+          }
+          case WEAK_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theDryWeatherLimitWater;
+            theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
+            break;
+          }
+          case MODERATE_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
+            theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
+            break;
+          }
+          case HEAVY_PRECIPITATION:
+          {
+            theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
+            theUpperLimit = 1000.0;
+            break;
+          }
+          default:
+            break;
         }
-        case WEAK_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theDryWeatherLimitWater;
-          theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
-          break;
-        }
-        case MODERATE_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
-          theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
-          break;
-        }
-        case HEAVY_PRECIPITATION:
-        {
-          theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
-          theUpperLimit = 1000.0;
-          break;
-        }
-        default:
-          break;
+        break;
       }
-      break;
+      case MISSING_PRECIPITATION_FORM:
+      default:
+        break;
     }
-    case MISSING_PRECIPITATION_FORM:
-    default:
-      break;
-  }
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm));
   }
 }
 
@@ -1445,71 +1456,72 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
 {
   try
   {
-  switch (thePrecipitationForm)
-  {
-    case WATER_FREEZING_FORM:
-    case FREEZING_FORM:
-    case WATER_FORM:
+    switch (thePrecipitationForm)
     {
-      theDryWeatherLimit = theParameters.theDryWeatherLimitWater;
-      theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
-      break;
+      case WATER_FREEZING_FORM:
+      case FREEZING_FORM:
+      case WATER_FORM:
+      {
+        theDryWeatherLimit = theParameters.theDryWeatherLimitWater;
+        theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
+        break;
+      }
+      case SLEET_FREEZING_FORM:
+      case SLEET_FORM:
+      {
+        theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
+        theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
+        break;
+      }
+      case SNOW_FORM:
+      case SNOW_FREEZING_FORM:
+      {
+        theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
+        theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
+        break;
+      }
+      case DRIZZLE_FORM:
+      case DRIZZLE_FREEZING_FORM:
+      case WATER_DRIZZLE_FREEZING_FORM:
+      case WATER_DRIZZLE_FORM:
+      {
+        theDryWeatherLimit = theParameters.theDryWeatherLimitDrizzle;
+        theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
+        break;
+      }
+      case DRIZZLE_SLEET_FORM:
+      case DRIZZLE_SLEET_FREEZING_FORM:
+      case WATER_DRIZZLE_SLEET_FORM:
+      case WATER_SLEET_FREEZING_FORM:
+      case WATER_SLEET_FORM:
+      {
+        theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
+        theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
+        break;
+      }
+      case WATER_SNOW_FREEZING_FORM:
+      case WATER_SNOW_FORM:
+      case DRIZZLE_SNOW_FREEZING_FORM:
+      case DRIZZLE_SNOW_FORM:
+      case WATER_DRIZZLE_SNOW_FORM:
+      case WATER_SLEET_SNOW_FORM:
+      case DRIZZLE_SLEET_SNOW_FORM:
+      case SLEET_SNOW_FREEZING_FORM:
+      case SLEET_SNOW_FORM:
+      {
+        theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
+        theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
+        break;
+      }
+      case MISSING_PRECIPITATION_FORM:
+      default:
+        break;
     }
-    case SLEET_FREEZING_FORM:
-    case SLEET_FORM:
-    {
-      theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
-      theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
-      break;
-    }
-    case SNOW_FORM:
-    case SNOW_FREEZING_FORM:
-    {
-      theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
-      theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
-      break;
-    }
-    case DRIZZLE_FORM:
-    case DRIZZLE_FREEZING_FORM:
-    case WATER_DRIZZLE_FREEZING_FORM:
-    case WATER_DRIZZLE_FORM:
-    {
-      theDryWeatherLimit = theParameters.theDryWeatherLimitDrizzle;
-      theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
-      break;
-    }
-    case DRIZZLE_SLEET_FORM:
-    case DRIZZLE_SLEET_FREEZING_FORM:
-    case WATER_DRIZZLE_SLEET_FORM:
-    case WATER_SLEET_FREEZING_FORM:
-    case WATER_SLEET_FORM:
-    {
-      theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
-      theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
-      break;
-    }
-    case WATER_SNOW_FREEZING_FORM:
-    case WATER_SNOW_FORM:
-    case DRIZZLE_SNOW_FREEZING_FORM:
-    case DRIZZLE_SNOW_FORM:
-    case WATER_DRIZZLE_SNOW_FORM:
-    case WATER_SLEET_SNOW_FORM:
-    case DRIZZLE_SLEET_SNOW_FORM:
-    case SLEET_SNOW_FREEZING_FORM:
-    case SLEET_SNOW_FORM:
-    {
-      theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
-      theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
-      break;
-    }
-    case MISSING_PRECIPITATION_FORM:
-    default:
-      break;
-  }
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm));
   }
 }
 
@@ -1536,35 +1548,37 @@ precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipi
 {
   try
   {
-  if (thePrecipitationForm & SNOW_FORM)
+    if (thePrecipitationForm & SNOW_FORM)
+      return intensity_from_thresholds(thePrecipitationIntensity,
+                                       theParameters.theDryWeatherLimitSnow,
+                                       theParameters.theWeakPrecipitationLimitSnow,
+                                       theParameters.theHeavyPrecipitationLimitSnow);
+
+    if (thePrecipitationForm & SLEET_FORM)
+      return intensity_from_thresholds(thePrecipitationIntensity,
+                                       theParameters.theDryWeatherLimitSleet,
+                                       theParameters.theWeakPrecipitationLimitSleet,
+                                       theParameters.theHeavyPrecipitationLimitSleet);
+
+    if (thePrecipitationForm != WATER_DRIZZLE_FORM &&
+        (thePrecipitationForm & DRIZZLE_FORM || thePrecipitationForm & FREEZING_FORM))
+    {
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
+        return DRY_WEATHER;
+      return MODERATE_PRECIPITATION;
+    }
+
+    // water
     return intensity_from_thresholds(thePrecipitationIntensity,
-                                     theParameters.theDryWeatherLimitSnow,
-                                     theParameters.theWeakPrecipitationLimitSnow,
-                                     theParameters.theHeavyPrecipitationLimitSnow);
-
-  if (thePrecipitationForm & SLEET_FORM)
-    return intensity_from_thresholds(thePrecipitationIntensity,
-                                     theParameters.theDryWeatherLimitSleet,
-                                     theParameters.theWeakPrecipitationLimitSleet,
-                                     theParameters.theHeavyPrecipitationLimitSleet);
-
-  if (thePrecipitationForm != WATER_DRIZZLE_FORM &&
-      (thePrecipitationForm & DRIZZLE_FORM || thePrecipitationForm & FREEZING_FORM))
-  {
-    if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
-      return DRY_WEATHER;
-    return MODERATE_PRECIPITATION;
-  }
-
-  // water
-  return intensity_from_thresholds(thePrecipitationIntensity,
-                                   theParameters.theDryWeatherLimitWater,
-                                   theParameters.theWeakPrecipitationLimitWater,
-                                   theParameters.theHeavyPrecipitationLimitWater);
+                                     theParameters.theDryWeatherLimitWater,
+                                     theParameters.theWeakPrecipitationLimitWater,
+                                     theParameters.theHeavyPrecipitationLimitWater);
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm)).addParameter("thePrecipitationIntensity", Fmi::to_string(thePrecipitationIntensity));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("thePrecipitationForm", Fmi::to_string(thePrecipitationForm))
+        .addParameter("thePrecipitationIntensity", Fmi::to_string(thePrecipitationIntensity));
   }
 }
 
@@ -1578,65 +1592,65 @@ precipitation_form_id get_complete_precipitation_form(const string& /*theVariabl
 {
   try
   {
-  unsigned int precipitation_form = 0;
+    unsigned int precipitation_form = 0;
 
-  using precipitation_form_type = std::pair<float, precipitation_form_id>;
-  precipitation_form_type water(
-      thePrecipitationFormWater,
-      (thePrecipitationFormWater != kFloatMissing ? WATER_FORM : MISSING_PRECIPITATION_FORM));
-  precipitation_form_type drizzle(
-      thePrecipitationFormDrizzle,
-      (thePrecipitationFormDrizzle != kFloatMissing ? DRIZZLE_FORM : MISSING_PRECIPITATION_FORM));
-  precipitation_form_type sleet(
-      thePrecipitationFormSleet,
-      (thePrecipitationFormSleet != kFloatMissing ? SLEET_FORM : MISSING_PRECIPITATION_FORM));
-  precipitation_form_type snow(
-      thePrecipitationFormSnow,
-      (thePrecipitationFormSnow != kFloatMissing ? SNOW_FORM : MISSING_PRECIPITATION_FORM));
-  float freezing_from_value = 0;
-  if (thePrecipitationFormFreezingRain != kFloatMissing)
-    freezing_from_value += thePrecipitationFormFreezingRain;
-  if (thePrecipitationFormFreezingDrizzle != kFloatMissing)
-    freezing_from_value += thePrecipitationFormFreezingDrizzle;
-  precipitation_form_type freezing(freezing_from_value,
-                                   (thePrecipitationFormFreezingRain != kFloatMissing ||
-                                            thePrecipitationFormFreezingDrizzle != kFloatMissing
-                                        ? FREEZING_FORM
-                                        : MISSING_PRECIPITATION_FORM));
+    using precipitation_form_type = std::pair<float, precipitation_form_id>;
+    precipitation_form_type water(
+        thePrecipitationFormWater,
+        (thePrecipitationFormWater != kFloatMissing ? WATER_FORM : MISSING_PRECIPITATION_FORM));
+    precipitation_form_type drizzle(
+        thePrecipitationFormDrizzle,
+        (thePrecipitationFormDrizzle != kFloatMissing ? DRIZZLE_FORM : MISSING_PRECIPITATION_FORM));
+    precipitation_form_type sleet(
+        thePrecipitationFormSleet,
+        (thePrecipitationFormSleet != kFloatMissing ? SLEET_FORM : MISSING_PRECIPITATION_FORM));
+    precipitation_form_type snow(
+        thePrecipitationFormSnow,
+        (thePrecipitationFormSnow != kFloatMissing ? SNOW_FORM : MISSING_PRECIPITATION_FORM));
+    float freezing_from_value = 0;
+    if (thePrecipitationFormFreezingRain != kFloatMissing)
+      freezing_from_value += thePrecipitationFormFreezingRain;
+    if (thePrecipitationFormFreezingDrizzle != kFloatMissing)
+      freezing_from_value += thePrecipitationFormFreezingDrizzle;
+    precipitation_form_type freezing(freezing_from_value,
+                                     (thePrecipitationFormFreezingRain != kFloatMissing ||
+                                              thePrecipitationFormFreezingDrizzle != kFloatMissing
+                                          ? FREEZING_FORM
+                                          : MISSING_PRECIPITATION_FORM));
 
-  vector<precipitation_form_type> precipitation_forms;
-  precipitation_forms.push_back(water);
-  precipitation_forms.push_back(drizzle);
-  precipitation_forms.push_back(sleet);
-  precipitation_forms.push_back(snow);
-  precipitation_forms.push_back(freezing);
+    vector<precipitation_form_type> precipitation_forms;
+    precipitation_forms.push_back(water);
+    precipitation_forms.push_back(drizzle);
+    precipitation_forms.push_back(sleet);
+    precipitation_forms.push_back(snow);
+    precipitation_forms.push_back(freezing);
 
-  // Sort into ascending order
-  sort(precipitation_forms.begin(), precipitation_forms.end());
+    // Sort into ascending order
+    sort(precipitation_forms.begin(), precipitation_forms.end());
 
-  precipitation_form_id primaryPrecipitationForm =
-      (precipitation_forms[4].first != kFloatMissing &&
-       precipitation_forms[4].first > PRECIPITATION_FORM_REPORTING_LIMIT)
-          ? precipitation_forms[4].second
-          : MISSING_PRECIPITATION_FORM;
-  precipitation_form_id secondaryPrecipitationForm =
-      (precipitation_forms[3].first != kFloatMissing &&
-       precipitation_forms[3].first > PRECIPITATION_FORM_REPORTING_LIMIT)
-          ? precipitation_forms[3].second
-          : MISSING_PRECIPITATION_FORM;
-  precipitation_form_id tertiaryPrecipitationForm =
-      (precipitation_forms[2].first != kFloatMissing &&
-       precipitation_forms[2].first > PRECIPITATION_FORM_REPORTING_LIMIT)
-          ? precipitation_forms[2].second
-          : MISSING_PRECIPITATION_FORM;
+    precipitation_form_id primaryPrecipitationForm =
+        (precipitation_forms[4].first != kFloatMissing &&
+         precipitation_forms[4].first > PRECIPITATION_FORM_REPORTING_LIMIT)
+            ? precipitation_forms[4].second
+            : MISSING_PRECIPITATION_FORM;
+    precipitation_form_id secondaryPrecipitationForm =
+        (precipitation_forms[3].first != kFloatMissing &&
+         precipitation_forms[3].first > PRECIPITATION_FORM_REPORTING_LIMIT)
+            ? precipitation_forms[3].second
+            : MISSING_PRECIPITATION_FORM;
+    precipitation_form_id tertiaryPrecipitationForm =
+        (precipitation_forms[2].first != kFloatMissing &&
+         precipitation_forms[2].first > PRECIPITATION_FORM_REPORTING_LIMIT)
+            ? precipitation_forms[2].second
+            : MISSING_PRECIPITATION_FORM;
 
-  // TODO: merge drizzle and water in some cases, when sleet is involved ??
+    // TODO: merge drizzle and water in some cases, when sleet is involved ??
 
-  precipitation_form |= primaryPrecipitationForm;
-  precipitation_form |= secondaryPrecipitationForm;
-  precipitation_form |= tertiaryPrecipitationForm;
+    precipitation_form |= primaryPrecipitationForm;
+    precipitation_form |= secondaryPrecipitationForm;
+    precipitation_form |= tertiaryPrecipitationForm;
 
-  return static_cast<precipitation_form_id>(precipitation_form);
+    return static_cast<precipitation_form_id>(precipitation_form);
   }
   catch (...)
   {
@@ -1650,12 +1664,12 @@ void get_sub_time_series(const WeatherPeriod& thePeriod,
 {
   try
   {
-  for (const auto& item : theSourceVector)
-  {
-    if (item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
-        item->thePeriod.localEndTime() <= thePeriod.localEndTime())
-      theDestinationVector.push_back(item);
-  }
+    for (const auto& item : theSourceVector)
+    {
+      if (item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
+          item->thePeriod.localEndTime() <= thePeriod.localEndTime())
+        theDestinationVector.push_back(item);
+    }
   }
   catch (...)
   {
@@ -1669,11 +1683,11 @@ void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
 {
   try
   {
-  for (const auto& item : theSourceVector)
-  {
-    if (item->thePartOfTheDay == thePartOfTheDay)
-      theDestinationVector.push_back(item);
-  }
+    for (const auto& item : theSourceVector)
+    {
+      if (item->thePartOfTheDay == thePartOfTheDay)
+        theDestinationVector.push_back(item);
+    }
   }
   catch (...)
   {
@@ -1687,29 +1701,31 @@ float get_mean(const weather_result_data_item_vector& theTimeSeries,
 {
   try
   {
-  float precipitation_sum = 0.0;
-  int counter = 0;
-  unsigned int startIndex = theStartIndex > 0 ? theStartIndex : 0;
-  unsigned int endIndex = theEndIndex > 0 ? theEndIndex : theTimeSeries.size();
+    float precipitation_sum = 0.0;
+    int counter = 0;
+    unsigned int startIndex = theStartIndex > 0 ? theStartIndex : 0;
+    unsigned int endIndex = theEndIndex > 0 ? theEndIndex : theTimeSeries.size();
 
-  if (startIndex == endIndex || endIndex < startIndex || endIndex > theTimeSeries.size())
-    return kFloatMissing;
+    if (startIndex == endIndex || endIndex < startIndex || endIndex > theTimeSeries.size())
+      return kFloatMissing;
 
-  for (unsigned int i = startIndex; i < endIndex; i++)
-  {
-    if (theTimeSeries[i]->theResult.value() == kFloatMissing)
-      continue;
-    precipitation_sum += theTimeSeries[i]->theResult.value();
-    counter++;
-  }
+    for (unsigned int i = startIndex; i < endIndex; i++)
+    {
+      if (theTimeSeries[i]->theResult.value() == kFloatMissing)
+        continue;
+      precipitation_sum += theTimeSeries[i]->theResult.value();
+      counter++;
+    }
 
-  if ((counter == 0 && !theTimeSeries.empty()) || theTimeSeries.empty())
-    return kFloatMissing;
-  return precipitation_sum / counter;
+    if ((counter == 0 && !theTimeSeries.empty()) || theTimeSeries.empty())
+      return kFloatMissing;
+    return precipitation_sum / counter;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartIndex", Fmi::to_string(theStartIndex)).addParameter("theEndIndex", Fmi::to_string(theEndIndex));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theStartIndex", Fmi::to_string(theStartIndex))
+        .addParameter("theEndIndex", Fmi::to_string(theEndIndex));
   }
 }
 
@@ -1717,18 +1733,18 @@ float get_standard_deviation(const weather_result_data_item_vector& theTimeSerie
 {
   try
   {
-  float deviation_sum_pow2 = 0.0;
-  float mean = get_mean(theTimeSeries);
-  int counter = 0;
-  for (const auto& theTimeSerie : theTimeSeries)
-  {
-    if (theTimeSerie->theResult.value() == kFloatMissing)
-      continue;
-    deviation_sum_pow2 += std::pow(mean - theTimeSerie->theResult.value(), 2);
-    counter++;
-  }
+    float deviation_sum_pow2 = 0.0;
+    float mean = get_mean(theTimeSeries);
+    int counter = 0;
+    for (const auto& theTimeSerie : theTimeSeries)
+    {
+      if (theTimeSerie->theResult.value() == kFloatMissing)
+        continue;
+      deviation_sum_pow2 += std::pow(mean - theTimeSerie->theResult.value(), 2);
+      counter++;
+    }
 
-  return std::sqrt(deviation_sum_pow2 / counter);
+    return std::sqrt(deviation_sum_pow2 / counter);
   }
   catch (...)
   {
@@ -1740,25 +1756,25 @@ void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& th
 {
   try
   {
-  theMin = theMax = kFloatMissing;
+    theMin = theMax = kFloatMissing;
 
-  for (unsigned int i = 0; i < theTimeSeries.size(); i++)
-  {
-    if (theTimeSeries[i]->theResult.value() == kFloatMissing)
-      continue;
-    if (i == 0)
+    for (unsigned int i = 0; i < theTimeSeries.size(); i++)
     {
-      theMin = theTimeSeries[i]->theResult.value();
-      theMax = theTimeSeries[i]->theResult.value();
-    }
-    else
-    {
-      if (theMin > theTimeSeries[i]->theResult.value())
+      if (theTimeSeries[i]->theResult.value() == kFloatMissing)
+        continue;
+      if (i == 0)
+      {
         theMin = theTimeSeries[i]->theResult.value();
-      else if (theMax < theTimeSeries[i]->theResult.value())
         theMax = theTimeSeries[i]->theResult.value();
+      }
+      else
+      {
+        if (theMin > theTimeSeries[i]->theResult.value())
+          theMin = theTimeSeries[i]->theResult.value();
+        else if (theMax < theTimeSeries[i]->theResult.value())
+          theMax = theTimeSeries[i]->theResult.value();
+      }
     }
-  }
   }
   catch (...)
   {
@@ -1773,21 +1789,24 @@ double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSer
 {
   try
   {
-  vector<double> precipitation;
+    vector<double> precipitation;
 
-  for (unsigned int i = theStartIndex; i <= theEndIndex; i++)
-  {
-    if (theUseErrorValueFlag)
-      precipitation.push_back(theTimeSeries[i]->theResult.error());
-    else
-      precipitation.push_back(theTimeSeries[i]->theResult.value());
-  }
+    for (unsigned int i = theStartIndex; i <= theEndIndex; i++)
+    {
+      if (theUseErrorValueFlag)
+        precipitation.push_back(theTimeSeries[i]->theResult.error());
+      else
+        precipitation.push_back(theTimeSeries[i]->theResult.value());
+    }
 
-  return MathTools::pearson_coefficient(precipitation);
+    return MathTools::pearson_coefficient(precipitation);
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartIndex", Fmi::to_string(theStartIndex)).addParameter("theEndIndex", Fmi::to_string(theEndIndex)).addParameter("theUseErrorValueFlag", Fmi::to_string(theUseErrorValueFlag));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theStartIndex", Fmi::to_string(theStartIndex))
+        .addParameter("theEndIndex", Fmi::to_string(theEndIndex))
+        .addParameter("theUseErrorValueFlag", Fmi::to_string(theUseErrorValueFlag));
   }
 }
 
@@ -1803,62 +1822,63 @@ Sentence area_specific_sentence(float north,
 {
   try
   {
-  Sentence sentence;
+    Sentence sentence;
 
-  area_specific_sentence_id sentenceId = get_area_specific_sentence_id(
-      north, south, east, west, northEast, southEast, southWest, northWest, mostlyFlag);
+    area_specific_sentence_id sentenceId = get_area_specific_sentence_id(
+        north, south, east, west, northEast, southEast, southWest, northWest, mostlyFlag);
 
-  switch (sentenceId)
-  {
-    case ALUEEN_POHJOISOSASSA:
+    switch (sentenceId)
     {
-      sentence << ALUEEN_POHJOISOSASSA_PHRASE;
-      break;
+      case ALUEEN_POHJOISOSASSA:
+      {
+        sentence << ALUEEN_POHJOISOSASSA_PHRASE;
+        break;
+      }
+      case ALUEEN_ETELAOSASSA:
+      {
+        sentence << ALUEEN_ETELAOSASSA_PHRASE;
+        break;
+      }
+      case ALUEEN_ITAOSASSA:
+      {
+        sentence << ALUEEN_ITAOSASSA_PHRASE;
+        break;
+      }
+      case ALUEEN_LANSIOSASSA:
+      {
+        sentence << ALUEEN_LANSIOSASSA_PHRASE;
+        break;
+      }
+      case ENIMMAKSEEN_ALUEEN_POHJOISOSASSA:
+      {
+        sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSASSA_PHRASE;
+        break;
+      }
+      case ENIMMAKSEEN_ALUEEN_ETELAOSASSA:
+      {
+        sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSASSA_PHRASE;
+        break;
+      }
+      case ENIMMAKSEEN_ALUEEN_ITAOSASSA:
+      {
+        sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSASSA_PHRASE;
+        break;
+      }
+      case ENIMMAKSEEN_ALUEEN_LANSIOSASSA:
+      {
+        sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSASSA_PHRASE;
+        break;
+      }
+      default:
+        break;
     }
-    case ALUEEN_ETELAOSASSA:
-    {
-      sentence << ALUEEN_ETELAOSASSA_PHRASE;
-      break;
-    }
-    case ALUEEN_ITAOSASSA:
-    {
-      sentence << ALUEEN_ITAOSASSA_PHRASE;
-      break;
-    }
-    case ALUEEN_LANSIOSASSA:
-    {
-      sentence << ALUEEN_LANSIOSASSA_PHRASE;
-      break;
-    }
-    case ENIMMAKSEEN_ALUEEN_POHJOISOSASSA:
-    {
-      sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSASSA_PHRASE;
-      break;
-    }
-    case ENIMMAKSEEN_ALUEEN_ETELAOSASSA:
-    {
-      sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSASSA_PHRASE;
-      break;
-    }
-    case ENIMMAKSEEN_ALUEEN_ITAOSASSA:
-    {
-      sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSASSA_PHRASE;
-      break;
-    }
-    case ENIMMAKSEEN_ALUEEN_LANSIOSASSA:
-    {
-      sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSASSA_PHRASE;
-      break;
-    }
-    default:
-      break;
-  }
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("mostlyFlag", Fmi::to_string(mostlyFlag));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("mostlyFlag", Fmi::to_string(mostlyFlag));
   }
 }
 
@@ -1900,35 +1920,35 @@ float get_area_percentage(const std::string& theVar,
 {
   try
   {
-  if (Settings::isset(theVar))
-    return Settings::require_double(theVar);
+    if (Settings::isset(theVar))
+      return Settings::require_double(theVar);
 
-  WeatherArea maskArea = theArea;
-  maskArea.type(theType);
-  const WeatherArea& comparisonArea = theArea;
+    WeatherArea maskArea = theArea;
+    maskArea.type(theType);
+    const WeatherArea& comparisonArea = theArea;
 
-  NFmiIndexMask indexMask;
-  NFmiIndexMask comparisonIndexMask;
-  RangeAcceptor precipitationlimits;
-  precipitationlimits.lowerLimit(0);
-  precipitationlimits.upperLimit(1000);
-  ExtractMask(theSources, Precipitation, maskArea, thePeriod, precipitationlimits, indexMask);
-  ExtractMask(theSources,
-              Precipitation,
-              comparisonArea,
-              thePeriod,
-              precipitationlimits,
-              comparisonIndexMask);
+    NFmiIndexMask indexMask;
+    NFmiIndexMask comparisonIndexMask;
+    RangeAcceptor precipitationlimits;
+    precipitationlimits.lowerLimit(0);
+    precipitationlimits.upperLimit(1000);
+    ExtractMask(theSources, Precipitation, maskArea, thePeriod, precipitationlimits, indexMask);
+    ExtractMask(theSources,
+                Precipitation,
+                comparisonArea,
+                thePeriod,
+                precipitationlimits,
+                comparisonIndexMask);
 
-  if (comparisonIndexMask.empty())
-    return 0.0;
+    if (comparisonIndexMask.empty())
+      return 0.0;
 
-  // ARE 2.9.2011: take the intersection before comparing, because the comparison area can be
-  // part (northern, southern, eastern, western) part of the full area
-  indexMask &= comparisonIndexMask;
+    // ARE 2.9.2011: take the intersection before comparing, because the comparison area can be
+    // part (northern, southern, eastern, western) part of the full area
+    indexMask &= comparisonIndexMask;
 
-  return (static_cast<float>(indexMask.size()) / static_cast<float>(comparisonIndexMask.size())) *
-         100.0;
+    return (static_cast<float>(indexMask.size()) / static_cast<float>(comparisonIndexMask.size())) *
+           100.0;
   }
   catch (...)
   {
@@ -1952,21 +1972,21 @@ Sentence parse_weekday_phrase(short weekday, const Sentence& part_of_the_day)
 {
   try
   {
-  Sentence sentence;
-  Sentence partOfTheDay(part_of_the_day);
-  std::ostringstream oss;
-  oss << weekday;
+    Sentence sentence;
+    Sentence partOfTheDay(part_of_the_day);
+    std::ostringstream oss;
+    oss << weekday;
 
-  if (weekday > 0 && !(!part_of_the_day.empty()))
-    sentence << oss.str() << "-" << partOfTheDay;
-  else
-  {
-    if (part_of_the_day.empty())
-      partOfTheDay << EMPTY_STRING;
-    sentence << partOfTheDay;
-  }
+    if (weekday > 0 && !(!part_of_the_day.empty()))
+      sentence << oss.str() << "-" << partOfTheDay;
+    else
+    {
+      if (part_of_the_day.empty())
+        partOfTheDay << EMPTY_STRING;
+      sentence << partOfTheDay;
+    }
 
-  return sentence;
+    return sentence;
   }
   catch (...)
   {
@@ -1980,79 +2000,79 @@ WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
 {
   try
   {
-  int start_year = 0;
-  int start_month = 0;
-  int start_day = 0;
-  int start_hour = 0;
-  int end_year = 0;
-  int end_month = 0;
-  int end_day = 0;
-  int end_hour = 0;
-  theIntersectionPeriodFound = false;
+    int start_year = 0;
+    int start_month = 0;
+    int start_day = 0;
+    int start_hour = 0;
+    int end_year = 0;
+    int end_month = 0;
+    int end_day = 0;
+    int end_hour = 0;
+    theIntersectionPeriodFound = false;
 
-  if (is_inside(thePeriod1.localStartTime(), thePeriod2) &&
-      !is_inside(thePeriod1.localEndTime(), thePeriod2))
-  {
-    start_year = thePeriod1.localStartTime().GetYear();
-    start_month = thePeriod1.localStartTime().GetMonth();
-    start_day = thePeriod1.localStartTime().GetDay();
-    start_hour = thePeriod1.localStartTime().GetHour();
-    end_year = thePeriod2.localEndTime().GetYear();
-    end_month = thePeriod2.localEndTime().GetMonth();
-    end_day = thePeriod2.localEndTime().GetDay();
-    end_hour = thePeriod2.localEndTime().GetHour();
-    theIntersectionPeriodFound = true;
-  }
-  else if (is_inside(thePeriod1.localEndTime(), thePeriod2) &&
-           !is_inside(thePeriod1.localStartTime(), thePeriod2))
-  {
-    start_year = thePeriod2.localStartTime().GetYear();
-    start_month = thePeriod2.localStartTime().GetMonth();
-    start_day = thePeriod2.localStartTime().GetDay();
-    start_hour = thePeriod2.localStartTime().GetHour();
-    end_year = thePeriod1.localEndTime().GetYear();
-    end_month = thePeriod1.localEndTime().GetMonth();
-    end_day = thePeriod1.localEndTime().GetDay();
-    end_hour = thePeriod1.localEndTime().GetHour();
-    theIntersectionPeriodFound = true;
-  }
-  else if (is_inside(thePeriod1.localEndTime(), thePeriod2) &&
-           is_inside(thePeriod1.localStartTime(), thePeriod2))
-  {
-    start_year = thePeriod1.localStartTime().GetYear();
-    start_month = thePeriod1.localStartTime().GetMonth();
-    start_day = thePeriod1.localStartTime().GetDay();
-    start_hour = thePeriod1.localStartTime().GetHour();
-    end_year = thePeriod1.localEndTime().GetYear();
-    end_month = thePeriod1.localEndTime().GetMonth();
-    end_day = thePeriod1.localEndTime().GetDay();
-    end_hour = thePeriod1.localEndTime().GetHour();
-    theIntersectionPeriodFound = true;
-  }
-  else if (thePeriod1.localStartTime() <= thePeriod2.localStartTime() &&
-           thePeriod1.localEndTime() >= thePeriod2.localEndTime())
-  {
-    start_year = thePeriod2.localStartTime().GetYear();
-    start_month = thePeriod2.localStartTime().GetMonth();
-    start_day = thePeriod2.localStartTime().GetDay();
-    start_hour = thePeriod2.localStartTime().GetHour();
-    end_year = thePeriod2.localEndTime().GetYear();
-    end_month = thePeriod2.localEndTime().GetMonth();
-    end_day = thePeriod2.localEndTime().GetDay();
-    end_hour = thePeriod2.localEndTime().GetHour();
-    theIntersectionPeriodFound = true;
-  }
+    if (is_inside(thePeriod1.localStartTime(), thePeriod2) &&
+        !is_inside(thePeriod1.localEndTime(), thePeriod2))
+    {
+      start_year = thePeriod1.localStartTime().GetYear();
+      start_month = thePeriod1.localStartTime().GetMonth();
+      start_day = thePeriod1.localStartTime().GetDay();
+      start_hour = thePeriod1.localStartTime().GetHour();
+      end_year = thePeriod2.localEndTime().GetYear();
+      end_month = thePeriod2.localEndTime().GetMonth();
+      end_day = thePeriod2.localEndTime().GetDay();
+      end_hour = thePeriod2.localEndTime().GetHour();
+      theIntersectionPeriodFound = true;
+    }
+    else if (is_inside(thePeriod1.localEndTime(), thePeriod2) &&
+             !is_inside(thePeriod1.localStartTime(), thePeriod2))
+    {
+      start_year = thePeriod2.localStartTime().GetYear();
+      start_month = thePeriod2.localStartTime().GetMonth();
+      start_day = thePeriod2.localStartTime().GetDay();
+      start_hour = thePeriod2.localStartTime().GetHour();
+      end_year = thePeriod1.localEndTime().GetYear();
+      end_month = thePeriod1.localEndTime().GetMonth();
+      end_day = thePeriod1.localEndTime().GetDay();
+      end_hour = thePeriod1.localEndTime().GetHour();
+      theIntersectionPeriodFound = true;
+    }
+    else if (is_inside(thePeriod1.localEndTime(), thePeriod2) &&
+             is_inside(thePeriod1.localStartTime(), thePeriod2))
+    {
+      start_year = thePeriod1.localStartTime().GetYear();
+      start_month = thePeriod1.localStartTime().GetMonth();
+      start_day = thePeriod1.localStartTime().GetDay();
+      start_hour = thePeriod1.localStartTime().GetHour();
+      end_year = thePeriod1.localEndTime().GetYear();
+      end_month = thePeriod1.localEndTime().GetMonth();
+      end_day = thePeriod1.localEndTime().GetDay();
+      end_hour = thePeriod1.localEndTime().GetHour();
+      theIntersectionPeriodFound = true;
+    }
+    else if (thePeriod1.localStartTime() <= thePeriod2.localStartTime() &&
+             thePeriod1.localEndTime() >= thePeriod2.localEndTime())
+    {
+      start_year = thePeriod2.localStartTime().GetYear();
+      start_month = thePeriod2.localStartTime().GetMonth();
+      start_day = thePeriod2.localStartTime().GetDay();
+      start_hour = thePeriod2.localStartTime().GetHour();
+      end_year = thePeriod2.localEndTime().GetYear();
+      end_month = thePeriod2.localEndTime().GetMonth();
+      end_day = thePeriod2.localEndTime().GetDay();
+      end_hour = thePeriod2.localEndTime().GetHour();
+      theIntersectionPeriodFound = true;
+    }
 
-  if (theIntersectionPeriodFound)
-  {
-    TextGenPosixTime startTime(start_year, start_month, start_day, start_hour);
-    TextGenPosixTime endTime(end_year, end_month, end_day, end_hour);
-    WeatherPeriod resultPeriod(startTime, endTime);
+    if (theIntersectionPeriodFound)
+    {
+      TextGenPosixTime startTime(start_year, start_month, start_day, start_hour);
+      TextGenPosixTime endTime(end_year, end_month, end_day, end_hour);
+      WeatherPeriod resultPeriod(startTime, endTime);
 
-    return resultPeriod;
-  }
+      return resultPeriod;
+    }
 
-  return thePeriod1;
+    return thePeriod1;
   }
   catch (...)
   {
@@ -2069,56 +2089,56 @@ split_method split_the_area(const std::string& theVar,
 {
   try
   {
-  if (!Settings::isset(theVar + "::areas_to_split"))
+    if (!Settings::isset(theVar + "::areas_to_split"))
+      return NO_SPLITTING;
+
+    std::string areasToSplit(require_string(theVar + "::areas_to_split"));
+    vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
+
+    if (std::find(areas.begin(), areas.end(), theArea.name()) == areas.end())
+      return NO_SPLITTING;
+
+    std::string split_method_str(
+        optional_string("textgen::split_the_area::" + theArea.name() + "::method", EMPTY_STRING));
+    boost::trim(split_method_str);
+
+    split_method retval = NO_SPLITTING;
+    if (split_method_str.compare(0, strlen(HORIZONTAL_SPLIT_KEY), HORIZONTAL_SPLIT_KEY) == 0)
+      retval = HORIZONTAL;
+    else if (split_method_str.compare(0, strlen(VERTICAL_SPLIT_KEY), VERTICAL_SPLIT_KEY) == 0)
+      retval = VERTICAL;
+
+    if (retval == NO_SPLITTING)
+      return NO_SPLITTING;
+
+    Rect areaRect(theArea);
+    NFmiPoint centerPoint = areaRect.getCenter();
+    size_t valuePos = split_method_str.find(':');
+    std::string valueStr(valuePos != string::npos ? split_method_str.substr(valuePos + 1) : "");
+    boost::trim(valueStr);
+
+    if (valueStr.empty())
+    {
+      // no longitude or latitude given -> split in the middle
+      theDivisionLine = (retval == HORIZONTAL ? centerPoint.Y() : centerPoint.X());
+      return retval;
+    }
+
+    double divisionLine = std::stof(valueStr);
+    bool validLine =
+        (retval == HORIZONTAL ? areaRect.contains(NFmiPoint(centerPoint.X(), divisionLine))
+                              : areaRect.contains(NFmiPoint(divisionLine, centerPoint.Y())));
+
+    if (validLine)
+    {
+      theDivisionLine = divisionLine;
+      return retval;
+    }
+
+    theLog << "The area " << theArea.name() << " is not split: the given "
+           << (retval == HORIZONTAL ? "latitude " : "longitude ") << divisionLine
+           << " is out of the area!\n";
     return NO_SPLITTING;
-
-  std::string areasToSplit(require_string(theVar + "::areas_to_split"));
-  vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
-
-  if (std::find(areas.begin(), areas.end(), theArea.name()) == areas.end())
-    return NO_SPLITTING;
-
-  std::string split_method_str(
-      optional_string("textgen::split_the_area::" + theArea.name() + "::method", EMPTY_STRING));
-  boost::trim(split_method_str);
-
-  split_method retval = NO_SPLITTING;
-  if (split_method_str.compare(0, strlen(HORIZONTAL_SPLIT_KEY), HORIZONTAL_SPLIT_KEY) == 0)
-    retval = HORIZONTAL;
-  else if (split_method_str.compare(0, strlen(VERTICAL_SPLIT_KEY), VERTICAL_SPLIT_KEY) == 0)
-    retval = VERTICAL;
-
-  if (retval == NO_SPLITTING)
-    return NO_SPLITTING;
-
-  Rect areaRect(theArea);
-  NFmiPoint centerPoint = areaRect.getCenter();
-  size_t valuePos = split_method_str.find(':');
-  std::string valueStr(valuePos != string::npos ? split_method_str.substr(valuePos + 1) : "");
-  boost::trim(valueStr);
-
-  if (valueStr.empty())
-  {
-    // no longitude or latitude given -> split in the middle
-    theDivisionLine = (retval == HORIZONTAL ? centerPoint.Y() : centerPoint.X());
-    return retval;
-  }
-
-  double divisionLine = std::stof(valueStr);
-  bool validLine =
-      (retval == HORIZONTAL ? areaRect.contains(NFmiPoint(centerPoint.X(), divisionLine))
-                            : areaRect.contains(NFmiPoint(divisionLine, centerPoint.Y())));
-
-  if (validLine)
-  {
-    theDivisionLine = divisionLine;
-    return retval;
-  }
-
-  theLog << "The area " << theArea.name() << " is not split: the given "
-         << (retval == HORIZONTAL ? "latitude " : "longitude ") << divisionLine
-         << " is out of the area!\n";
-  return NO_SPLITTING;
   }
   catch (...)
   {
@@ -2136,116 +2156,118 @@ bool test_temperature_split_criterion(const std::string& theVar,
 {
   try
   {
-  bool retval = false;
+    bool retval = false;
 
-  WeatherResult minAreaOne(kFloatMissing, 0.0);
-  WeatherResult maxAreaOne(kFloatMissing, 0.0);
-  WeatherResult meanAreaOne(kFloatMissing, 0.0);
-  WeatherResult minAreaTwo(kFloatMissing, 0.0);
-  WeatherResult maxAreaTwo(kFloatMissing, 0.0);
-  WeatherResult meanAreaTwo(kFloatMissing, 0.0);
+    WeatherResult minAreaOne(kFloatMissing, 0.0);
+    WeatherResult maxAreaOne(kFloatMissing, 0.0);
+    WeatherResult meanAreaOne(kFloatMissing, 0.0);
+    WeatherResult minAreaTwo(kFloatMissing, 0.0);
+    WeatherResult maxAreaTwo(kFloatMissing, 0.0);
+    WeatherResult meanAreaTwo(kFloatMissing, 0.0);
 
-  // both have same name
-  const std::string& nimi(theAreaOne.name());
+    // both have same name
+    const std::string& nimi(theAreaOne.name());
 
-  std::string split_section_name("textgen::split_the_area::" + nimi);
+    std::string split_section_name("textgen::split_the_area::" + nimi);
 
-  if (!Settings::isset(split_section_name + "::method"))
-    return false;
+    if (!Settings::isset(split_section_name + "::method"))
+      return false;
 
-  const std::string criterion =
-      optional_string(split_section_name + "::criterion", "temperature_difference");
-  float difference = 5.0;
-  size_t index = criterion.find(':');
-  if (index != string::npos)
-    difference = std::stof(criterion.substr(index + 1));
+    const std::string criterion =
+        optional_string(split_section_name + "::criterion", "temperature_difference");
+    float difference = 5.0;
+    size_t index = criterion.find(':');
+    if (index != string::npos)
+      difference = std::stof(criterion.substr(index + 1));
 
-  if (morningTemperature)
-  {
-    morning_temperature(
-        theVar, theSources, theAreaOne, thePeriod, minAreaOne, maxAreaOne, meanAreaOne);
+    if (morningTemperature)
+    {
+      morning_temperature(
+          theVar, theSources, theAreaOne, thePeriod, minAreaOne, maxAreaOne, meanAreaOne);
 
-    morning_temperature(
-        theVar, theSources, theAreaTwo, thePeriod, minAreaTwo, maxAreaTwo, meanAreaTwo);
-  }
-  else
-  {
-    afternoon_temperature(
-        theVar, theSources, theAreaOne, thePeriod, minAreaOne, maxAreaOne, meanAreaOne);
+      morning_temperature(
+          theVar, theSources, theAreaTwo, thePeriod, minAreaTwo, maxAreaTwo, meanAreaTwo);
+    }
+    else
+    {
+      afternoon_temperature(
+          theVar, theSources, theAreaOne, thePeriod, minAreaOne, maxAreaOne, meanAreaOne);
 
-    afternoon_temperature(
-        theVar, theSources, theAreaTwo, thePeriod, minAreaTwo, maxAreaTwo, meanAreaTwo);
-  }
+      afternoon_temperature(
+          theVar, theSources, theAreaTwo, thePeriod, minAreaTwo, maxAreaTwo, meanAreaTwo);
+    }
 
-  int theMinimumIntAreaOne = static_cast<int>(round(minAreaOne.value()));
-  int theMeanIntAreaOne = static_cast<int>(round(meanAreaOne.value()));
-  int theMaximumIntAreaOne = static_cast<int>(round(maxAreaOne.value()));
-  int theMinimumIntAreaTwo = static_cast<int>(round(minAreaTwo.value()));
-  int theMeanIntAreaTwo = static_cast<int>(round(meanAreaTwo.value()));
-  int theMaximumIntAreaTwo = static_cast<int>(round(maxAreaTwo.value()));
-  const int mininterval = optional_int(theVar + "::mininterval", 2);
-  const bool interval_zero = optional_bool(theVar + "::always_interval_zero", false);
-  int intervalStartAreaOne = 0;
-  int intervalEndAreaOne = 0;
-  int intervalStartAreaTwo = 0;
-  int intervalEndAreaTwo = 0;
+    int theMinimumIntAreaOne = static_cast<int>(round(minAreaOne.value()));
+    int theMeanIntAreaOne = static_cast<int>(round(meanAreaOne.value()));
+    int theMaximumIntAreaOne = static_cast<int>(round(maxAreaOne.value()));
+    int theMinimumIntAreaTwo = static_cast<int>(round(minAreaTwo.value()));
+    int theMeanIntAreaTwo = static_cast<int>(round(meanAreaTwo.value()));
+    int theMaximumIntAreaTwo = static_cast<int>(round(maxAreaTwo.value()));
+    const int mininterval = optional_int(theVar + "::mininterval", 2);
+    const bool interval_zero = optional_bool(theVar + "::always_interval_zero", false);
+    int intervalStartAreaOne = 0;
+    int intervalEndAreaOne = 0;
+    int intervalStartAreaTwo = 0;
+    int intervalEndAreaTwo = 0;
 
-  clamp_temperature(
-      theVar,
-      SeasonTools::isWinterHalf(thePeriod.localStartTime(), theVar),
-      true,
-      theMinimumIntAreaOne < theMaximumIntAreaOne ? theMinimumIntAreaOne : theMaximumIntAreaOne,
-      theMaximumIntAreaOne > theMinimumIntAreaOne ? theMaximumIntAreaOne : theMinimumIntAreaOne);
-  clamp_temperature(
-      theVar,
-      SeasonTools::isWinterHalf(thePeriod.localStartTime(), theVar),
-      true,
-      theMinimumIntAreaTwo < theMaximumIntAreaTwo ? theMinimumIntAreaTwo : theMaximumIntAreaTwo,
-      theMaximumIntAreaTwo > theMinimumIntAreaTwo ? theMaximumIntAreaTwo : theMinimumIntAreaTwo);
+    clamp_temperature(
+        theVar,
+        SeasonTools::isWinterHalf(thePeriod.localStartTime(), theVar),
+        true,
+        theMinimumIntAreaOne < theMaximumIntAreaOne ? theMinimumIntAreaOne : theMaximumIntAreaOne,
+        theMaximumIntAreaOne > theMinimumIntAreaOne ? theMaximumIntAreaOne : theMinimumIntAreaOne);
+    clamp_temperature(
+        theVar,
+        SeasonTools::isWinterHalf(thePeriod.localStartTime(), theVar),
+        true,
+        theMinimumIntAreaTwo < theMaximumIntAreaTwo ? theMinimumIntAreaTwo : theMaximumIntAreaTwo,
+        theMaximumIntAreaTwo > theMinimumIntAreaTwo ? theMaximumIntAreaTwo : theMinimumIntAreaTwo);
 
-  sort_out_temperature_interval(theMinimumIntAreaOne,
-                                theMeanIntAreaOne,
-                                theMaximumIntAreaOne,
-                                mininterval,
-                                interval_zero,
-                                intervalStartAreaOne,
-                                intervalEndAreaOne,
-                                true);
-  sort_out_temperature_interval(theMinimumIntAreaTwo,
-                                theMeanIntAreaTwo,
-                                theMaximumIntAreaTwo,
-                                mininterval,
-                                interval_zero,
-                                intervalStartAreaTwo,
-                                intervalEndAreaTwo,
-                                true);
+    sort_out_temperature_interval(theMinimumIntAreaOne,
+                                  theMeanIntAreaOne,
+                                  theMaximumIntAreaOne,
+                                  mininterval,
+                                  interval_zero,
+                                  intervalStartAreaOne,
+                                  intervalEndAreaOne,
+                                  true);
+    sort_out_temperature_interval(theMinimumIntAreaTwo,
+                                  theMeanIntAreaTwo,
+                                  theMaximumIntAreaTwo,
+                                  mininterval,
+                                  interval_zero,
+                                  intervalStartAreaTwo,
+                                  intervalEndAreaTwo,
+                                  true);
 
-  bool differentInterval =
-      (intervalStartAreaOne != intervalStartAreaTwo || intervalEndAreaOne != intervalEndAreaTwo);
-  bool differentMeanTemperature = (abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference);
+    bool differentInterval =
+        (intervalStartAreaOne != intervalStartAreaTwo || intervalEndAreaOne != intervalEndAreaTwo);
+    bool differentMeanTemperature = (abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference);
 
-  retval = (differentInterval && differentMeanTemperature);
+    retval = (differentInterval && differentMeanTemperature);
 
-  if (morningTemperature)
-    theLog << "Morning ";
-  else
-    theLog << "Afternoon ";
-  theLog << "mean temperature in southern part: " << meanAreaOne.value() << '\n';
+    if (morningTemperature)
+      theLog << "Morning ";
+    else
+      theLog << "Afternoon ";
+    theLog << "mean temperature in southern part: " << meanAreaOne.value() << '\n';
 
-  if (morningTemperature)
-    theLog << "Morning ";
-  else
-    theLog << "Afternoon ";
-  theLog << "mean temperature in northern part: " << meanAreaTwo.value() << '\n';
+    if (morningTemperature)
+      theLog << "Morning ";
+    else
+      theLog << "Afternoon ";
+    theLog << "mean temperature in northern part: " << meanAreaTwo.value() << '\n';
 
-  theLog << "Mean temperature difference: " << abs(meanAreaOne.value() - meanAreaTwo.value())
-         << '\n';
+    theLog << "Mean temperature difference: " << abs(meanAreaOne.value() - meanAreaTwo.value())
+           << '\n';
 
-  return retval;
+    return retval;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("morningTemperature", Fmi::to_string(morningTemperature));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("morningTemperature", Fmi::to_string(morningTemperature));
   }
 }
 
@@ -2259,59 +2281,59 @@ split_method check_area_splitting(const std::string& theVar,
 {
   try
   {
-  bool splitCriterionFulfilled = false;
+    bool splitCriterionFulfilled = false;
 
-  double divisionLine = 0.0;
-  split_method splitMethod =
-      split_the_area(theVar, theArea, thePeriod, theSources, divisionLine, theLog);
-  if (HORIZONTAL == splitMethod)
-  {
-    theFirstArea.type(WeatherArea::Southern);
-    theSecondArea.type(WeatherArea::Northern);
-    theFirstArea.setLatitudeDivisionLine(divisionLine);
-    theSecondArea.setLatitudeDivisionLine(divisionLine);
-  }
-  else if (VERTICAL == splitMethod)
-  {
-    theFirstArea.type(WeatherArea::Western);
-    theSecondArea.type(WeatherArea::Eastern);
-    theFirstArea.setLongitudeDivisionLine(divisionLine);
-    theSecondArea.setLongitudeDivisionLine(divisionLine);
-  }
-
-  if (NO_SPLITTING != splitMethod)
-  {
-    // TODO: this is not good way of deciding if it is morning/afternoon
-    splitCriterionFulfilled =
-        test_temperature_split_criterion(theVar,
-                                         theVar.find("morning") != string::npos,
-                                         theFirstArea,
-                                         theSecondArea,
-                                         thePeriod,
-                                         theSources,
-                                         theLog);
-
-    if (splitCriterionFulfilled)
+    double divisionLine = 0.0;
+    split_method splitMethod =
+        split_the_area(theVar, theArea, thePeriod, theSources, divisionLine, theLog);
+    if (HORIZONTAL == splitMethod)
     {
-      if (HORIZONTAL == splitMethod)
+      theFirstArea.type(WeatherArea::Southern);
+      theSecondArea.type(WeatherArea::Northern);
+      theFirstArea.setLatitudeDivisionLine(divisionLine);
+      theSecondArea.setLatitudeDivisionLine(divisionLine);
+    }
+    else if (VERTICAL == splitMethod)
+    {
+      theFirstArea.type(WeatherArea::Western);
+      theSecondArea.type(WeatherArea::Eastern);
+      theFirstArea.setLongitudeDivisionLine(divisionLine);
+      theSecondArea.setLongitudeDivisionLine(divisionLine);
+    }
+
+    if (NO_SPLITTING != splitMethod)
+    {
+      // TODO: this is not good way of deciding if it is morning/afternoon
+      splitCriterionFulfilled =
+          test_temperature_split_criterion(theVar,
+                                           theVar.find("morning") != string::npos,
+                                           theFirstArea,
+                                           theSecondArea,
+                                           thePeriod,
+                                           theSources,
+                                           theLog);
+
+      if (splitCriterionFulfilled)
       {
-        theLog << "The area " << theArea.name() << " is split horizontally at " << abs(divisionLine)
-               << (divisionLine < 0.0 ? " S" : " N") << '\n';
+        if (HORIZONTAL == splitMethod)
+        {
+          theLog << "The area " << theArea.name() << " is split horizontally at "
+                 << abs(divisionLine) << (divisionLine < 0.0 ? " S" : " N") << '\n';
+        }
+        else if (VERTICAL == splitMethod)
+          theLog << "The area " << theArea.name() << " is split vertically at " << abs(divisionLine)
+                 << (divisionLine < 0.0 ? " E" : " W") << '\n';
       }
-      else if (VERTICAL == splitMethod)
-        theLog << "The area " << theArea.name() << " is split vertically at " << abs(divisionLine)
-               << (divisionLine < 0.0 ? " E" : " W") << '\n';
-    }
-    else
-    {
-      splitMethod = NO_SPLITTING;
+      else
+      {
+        splitMethod = NO_SPLITTING;
 
-      theLog << "The area " << theArea.name()
-             << " is not split: temperature criterion not fulfilled!\n";
+        theLog << "The area " << theArea.name()
+               << " is not split: temperature criterion not fulfilled!\n";
+      }
     }
-  }
 
-  return splitMethod;
+    return splitMethod;
   }
   catch (...)
   {

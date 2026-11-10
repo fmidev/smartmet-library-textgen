@@ -46,7 +46,8 @@ using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 
-constexpr const char* TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] [paikoin] sumua";
+constexpr const char* TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE =
+    "[huomenna] [sisamaassa] [paikoin] sumua";
 constexpr const char* TIME_PLACE_FOG_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] sumua";
 constexpr const char* PLACE_INPLACES_FOG_COMPOSITE_PHRASE = "[sisamaassa] [paikoin] sumua";
 constexpr const char* PLACE_FOG_COMPOSITE_PHRASE = "[sisamaassa] sumua";
@@ -55,12 +56,14 @@ constexpr const char* TIME_FOG_COMPOSITE_PHRASE = "[huomenna] sumua";
 constexpr const char* INPLACES_FOG_COMPOSITE_PHRASE = "[paikoin] sumua";
 
 constexpr const char* TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] [paikoin] sumua, joka voi olla sakeaa";
-constexpr const char* TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] sumua, joka voi olla sakeaa";
+    "[huomenna] [sisamaassa] [paikoin] sumua, joka voi olla sakeaa";
+constexpr const char* TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE =
+    "[huomenna] [sisamaassa] sumua, joka voi olla sakeaa";
 constexpr const char* PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE =
-  "[sisamaassa] [paikoin] sumua, joka voi olla sakeaa";
+    "[sisamaassa] [paikoin] sumua, joka voi olla sakeaa";
 constexpr const char* PLACE_FOG_DENSE_COMPOSITE_PHRASE = "[sisamaassa] sumua, joka voi olla sakeaa";
-constexpr const char* TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE = "[huomenna] [paikoin] sumua, joka voi olla sakeaa";
+constexpr const char* TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE =
+    "[huomenna] [paikoin] sumua, joka voi olla sakeaa";
 constexpr const char* TIME_FOG_DENSE_COMPOSITE_PHRASE = "[huomenna] sumua, joka voi olla sakeaa";
 constexpr const char* INPLACES_FOG_DENSE_COMPOSITE_PHRASE = "[paikoin] sumua, joka voi olla sakeaa";
 
@@ -222,10 +225,11 @@ void FogForecast::findOutFogPeriods(const weather_result_data_item_vector* theMo
                            theModerateFogData->at(i - 1)->thePeriod.localEndTime(),
                            theModerateFogData->at(i - 1)->theResult.value(),
                            theDenseFogData->at(i - 1)->theResult.value()));
-            theFogPeriods.push_back(get_fog_wp(theModerateFogData->at(i)->thePeriod.localStartTime(),
-                                               theModerateFogData->at(i)->thePeriod.localEndTime(),
-                                               theModerateFogData->at(i)->theResult.value(),
-                                               theDenseFogData->at(i)->theResult.value()));
+            theFogPeriods.push_back(
+                get_fog_wp(theModerateFogData->at(i)->thePeriod.localStartTime(),
+                           theModerateFogData->at(i)->thePeriod.localEndTime(),
+                           theModerateFogData->at(i)->theResult.value(),
+                           theDenseFogData->at(i)->theResult.value()));
           }
           else
           {

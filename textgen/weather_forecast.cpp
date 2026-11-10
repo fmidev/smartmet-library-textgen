@@ -108,12 +108,13 @@ void log_start_time_and_end_time(MessageLogger& theLog,
 {
   try
   {
-  theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
-         << thePeriod.localEndTime() << '\n';
+    theLog << NFmiStringTools::Convert(theLogMessage) << thePeriod.localStartTime() << " ... "
+           << thePeriod.localEndTime() << '\n';
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theLogMessage", theLogMessage);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theLogMessage", theLogMessage);
   }
 }
 
@@ -287,199 +288,199 @@ void populate_precipitation_time_series(const string& theVariable,
 {
   try
   {
-  GridForecaster theForecaster;
+    GridForecaster theForecaster;
 
-  std::shared_ptr<weather_result_data_item_vector> precipitationMaxHourly =
-      theHourlyDataContainer[PRECIPITATION_MAX_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationMeanHourly =
-      theHourlyDataContainer[PRECIPITATION_MEAN_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationExtentHourly =
-      theHourlyDataContainer[PRECIPITATION_EXTENT_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationFormWaterHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_WATER_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationFormDrizzleHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_DRIZZLE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationFormSleetHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_SLEET_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationFormSnowHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_SNOW_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationFormFreezingDrizzleHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationFormFreezingRainHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationTypeHourly =
-      theHourlyDataContainer[PRECIPITATION_TYPE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationShareNorthEastHourly =
-      theHourlyDataContainer[PRECIPITATION_NORTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationShareSouthEastHourly =
-      theHourlyDataContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationShareSouthWestHourly =
-      theHourlyDataContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationShareNorthWestHourly =
-      theHourlyDataContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> precipitationPointHourly =
-      theHourlyDataContainer[PRECIPITATION_POINT_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationMaxHourly =
+        theHourlyDataContainer[PRECIPITATION_MAX_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationMeanHourly =
+        theHourlyDataContainer[PRECIPITATION_MEAN_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationExtentHourly =
+        theHourlyDataContainer[PRECIPITATION_EXTENT_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationFormWaterHourly =
+        theHourlyDataContainer[PRECIPITATION_FORM_WATER_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationFormDrizzleHourly =
+        theHourlyDataContainer[PRECIPITATION_FORM_DRIZZLE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationFormSleetHourly =
+        theHourlyDataContainer[PRECIPITATION_FORM_SLEET_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationFormSnowHourly =
+        theHourlyDataContainer[PRECIPITATION_FORM_SNOW_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationFormFreezingDrizzleHourly =
+        theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationFormFreezingRainHourly =
+        theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationTypeHourly =
+        theHourlyDataContainer[PRECIPITATION_TYPE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationShareNorthEastHourly =
+        theHourlyDataContainer[PRECIPITATION_NORTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationShareSouthEastHourly =
+        theHourlyDataContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationShareSouthWestHourly =
+        theHourlyDataContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationShareNorthWestHourly =
+        theHourlyDataContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> precipitationPointHourly =
+        theHourlyDataContainer[PRECIPITATION_POINT_DATA];
 
-  RangeAcceptor precipitationlimits;
-  precipitationlimits.lowerLimit(DRY_WEATHER_LIMIT_DRIZZLE);
-  ValueAcceptor waterfilter;
-  waterfilter.value(kTRain);  // 1 = water
-  // RangeAcceptor percentagelimits;
-  // percentagelimits.lowerLimit(maxprecipitationlimit);
-  ValueAcceptor drizzlefilter;
-  drizzlefilter.value(kTDrizzle);  // 0 = drizzle
-  ValueAcceptor sleetfilter;
-  sleetfilter.value(kTSleet);  // 2 = sleet
-  ValueAcceptor snowfilter;
-  snowfilter.value(kTSnow);  // 3 = snow
-  ValueAcceptor freezingdrizzlefilter;
-  freezingdrizzlefilter.value(kTFreezingDrizzle);  // 4 = freezing drizzle
-  ValueAcceptor freezingrainfilter;
-  freezingrainfilter.value(kTFreezingRain);  // 5 = freezing rain
-  ValueAcceptor showerfilter;
-  showerfilter.value(kTConvectivePrecipitation);  // 1=large scale, 2=showers
+    RangeAcceptor precipitationlimits;
+    precipitationlimits.lowerLimit(DRY_WEATHER_LIMIT_DRIZZLE);
+    ValueAcceptor waterfilter;
+    waterfilter.value(kTRain);  // 1 = water
+    // RangeAcceptor percentagelimits;
+    // percentagelimits.lowerLimit(maxprecipitationlimit);
+    ValueAcceptor drizzlefilter;
+    drizzlefilter.value(kTDrizzle);  // 0 = drizzle
+    ValueAcceptor sleetfilter;
+    sleetfilter.value(kTSleet);  // 2 = sleet
+    ValueAcceptor snowfilter;
+    snowfilter.value(kTSnow);  // 3 = snow
+    ValueAcceptor freezingdrizzlefilter;
+    freezingdrizzlefilter.value(kTFreezingDrizzle);  // 4 = freezing drizzle
+    ValueAcceptor freezingrainfilter;
+    freezingrainfilter.value(kTFreezingRain);  // 5 = freezing rain
+    ValueAcceptor showerfilter;
+    showerfilter.value(kTConvectivePrecipitation);  // 1=large scale, 2=showers
 
-  for (unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
-  {
-    (*precipitationMaxHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Precipitation,
-                              Maximum,
-                              Sum,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              precipitationlimits);
+    for (unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
+    {
+      (*precipitationMaxHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Precipitation,
+                                Maximum,
+                                Sum,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                precipitationlimits);
 
-    (*precipitationMeanHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Precipitation,
-                              Mean,
-                              Sum,
-                              theArea,
-                              (*precipitationMeanHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              precipitationlimits);
+      (*precipitationMeanHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Precipitation,
+                                Mean,
+                                Sum,
+                                theArea,
+                                (*precipitationMeanHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                precipitationlimits);
 
-    if (theArea.type() == WeatherArea::Full)
-      WeatherResultTools::checkMissingValue(
-          "weather_forecast",
-          Precipitation,
-          {(*precipitationMaxHourly)[i]->theResult, (*precipitationMeanHourly)[i]->theResult});
+      if (theArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "weather_forecast",
+            Precipitation,
+            {(*precipitationMaxHourly)[i]->theResult, (*precipitationMeanHourly)[i]->theResult});
 
-    (*precipitationExtentHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Precipitation,
-                              Percentage,
-                              Sum,
-                              theArea,
-                              (*precipitationExtentHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              precipitationlimits);
+      (*precipitationExtentHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Precipitation,
+                                Percentage,
+                                Sum,
+                                theArea,
+                                (*precipitationExtentHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                precipitationlimits);
 
-    (*precipitationFormWaterHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationForm,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              waterfilter);
+      (*precipitationFormWaterHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationForm,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                waterfilter);
 
-    (*precipitationFormDrizzleHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationForm,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              drizzlefilter);
+      (*precipitationFormDrizzleHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationForm,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                drizzlefilter);
 
-    (*precipitationFormSleetHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationForm,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              sleetfilter);
+      (*precipitationFormSleetHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationForm,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                sleetfilter);
 
-    (*precipitationFormSnowHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationForm,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              snowfilter);
+      (*precipitationFormSnowHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationForm,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                snowfilter);
 
-    (*precipitationFormFreezingDrizzleHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationForm,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              freezingdrizzlefilter);
+      (*precipitationFormFreezingDrizzleHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationForm,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                freezingdrizzlefilter);
 
-    (*precipitationFormFreezingRainHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationForm,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              freezingrainfilter);
+      (*precipitationFormFreezingRainHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationForm,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                freezingrainfilter);
 
-    (*precipitationTypeHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              PrecipitationType,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              (*precipitationMaxHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              showerfilter);
+      (*precipitationTypeHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                PrecipitationType,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                (*precipitationMaxHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                showerfilter);
 
-    NFmiPoint precipitationPoint =
-        AreaTools::getArealDistribution(theSources,
-                                        Precipitation,
-                                        theArea,
-                                        (*precipitationShareNorthEastHourly)[i]->thePeriod,
-                                        precipitationlimits,
-                                        (*precipitationShareNorthEastHourly)[i]->theResult,
-                                        (*precipitationShareSouthEastHourly)[i]->theResult,
-                                        (*precipitationShareSouthWestHourly)[i]->theResult,
-                                        (*precipitationShareNorthWestHourly)[i]->theResult);
+      NFmiPoint precipitationPoint =
+          AreaTools::getArealDistribution(theSources,
+                                          Precipitation,
+                                          theArea,
+                                          (*precipitationShareNorthEastHourly)[i]->thePeriod,
+                                          precipitationlimits,
+                                          (*precipitationShareNorthEastHourly)[i]->theResult,
+                                          (*precipitationShareSouthEastHourly)[i]->theResult,
+                                          (*precipitationShareSouthWestHourly)[i]->theResult,
+                                          (*precipitationShareNorthWestHourly)[i]->theResult);
 
-    // lets store lat/lon pair into
-    WeatherResult precipitationPointResult(precipitationPoint.X(), precipitationPoint.Y());
-    (*precipitationPointHourly)[i]->theResult = precipitationPointResult;
-  }
+      // lets store lat/lon pair into
+      WeatherResult precipitationPointResult(precipitationPoint.X(), precipitationPoint.Y());
+      (*precipitationPointHourly)[i]->theResult = precipitationPointResult;
+    }
   }
   catch (...)
   {
@@ -491,31 +492,31 @@ void populate_precipitation_time_series(wf_story_params& theParameters)
 {
   try
   {
-  if (theParameters.theForecastArea & INLAND_AREA)
-  {
-    WeatherArea inlandArea = theParameters.theArea;
-    inlandArea.type(WeatherArea::Inland);
-    populate_precipitation_time_series(theParameters.theVariable,
-                                       theParameters.theSources,
-                                       inlandArea,
-                                       *theParameters.theCompleteData[INLAND_AREA]);
-  }
-  if (theParameters.theForecastArea & COASTAL_AREA)
-  {
-    WeatherArea coastalArea = theParameters.theArea;
-    coastalArea.type(WeatherArea::Coast);
-    populate_precipitation_time_series(theParameters.theVariable,
-                                       theParameters.theSources,
-                                       coastalArea,
-                                       *theParameters.theCompleteData[COASTAL_AREA]);
-  }
-  if (theParameters.theForecastArea & FULL_AREA)
-  {
-    populate_precipitation_time_series(theParameters.theVariable,
-                                       theParameters.theSources,
-                                       theParameters.theArea,
-                                       *theParameters.theCompleteData[FULL_AREA]);
-  }
+    if (theParameters.theForecastArea & INLAND_AREA)
+    {
+      WeatherArea inlandArea = theParameters.theArea;
+      inlandArea.type(WeatherArea::Inland);
+      populate_precipitation_time_series(theParameters.theVariable,
+                                         theParameters.theSources,
+                                         inlandArea,
+                                         *theParameters.theCompleteData[INLAND_AREA]);
+    }
+    if (theParameters.theForecastArea & COASTAL_AREA)
+    {
+      WeatherArea coastalArea = theParameters.theArea;
+      coastalArea.type(WeatherArea::Coast);
+      populate_precipitation_time_series(theParameters.theVariable,
+                                         theParameters.theSources,
+                                         coastalArea,
+                                         *theParameters.theCompleteData[COASTAL_AREA]);
+    }
+    if (theParameters.theForecastArea & FULL_AREA)
+    {
+      populate_precipitation_time_series(theParameters.theVariable,
+                                         theParameters.theSources,
+                                         theParameters.theArea,
+                                         *theParameters.theCompleteData[FULL_AREA]);
+    }
   }
   catch (...)
   {
@@ -531,59 +532,59 @@ void populate_thunderprobability_time_series(
 {
   try
   {
-  weather_result_data_item_vector& thunderProbabilityHourly =
-      *(theHourlyDataContainer[THUNDER_PROBABILITY_DATA]);
-  std::shared_ptr<weather_result_data_item_vector> thunderExtentHourly =
-      theHourlyDataContainer[THUNDER_EXTENT_DATA];
-  std::shared_ptr<weather_result_data_item_vector> thunderNorthEastHourly =
-      theHourlyDataContainer[THUNDER_NORTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> thunderSouthEastHourly =
-      theHourlyDataContainer[THUNDER_SOUTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> thunderSouthWestHourly =
-      theHourlyDataContainer[THUNDER_SOUTHWEST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> thunderNorthWestHourly =
-      theHourlyDataContainer[THUNDER_NORTHWEST_SHARE_DATA];
-
-  RangeAcceptor thunderlimits;
-  thunderlimits.lowerLimit(5.0);  // 5 % propability is the minimum
-
-  GridForecaster theForecaster;
-
-  for (unsigned int i = 0; i < thunderProbabilityHourly.size(); i++)
-  {
-    thunderProbabilityHourly[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Thunder,
-                              Maximum,
-                              Maximum,
-                              theArea,
-                              thunderProbabilityHourly[i]->thePeriod);
-
-    (*thunderExtentHourly)[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Thunder,
-                              Percentage,
-                              Maximum,
-                              theArea,
-                              (*thunderExtentHourly)[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              thunderlimits);
+    weather_result_data_item_vector& thunderProbabilityHourly =
+        *(theHourlyDataContainer[THUNDER_PROBABILITY_DATA]);
+    std::shared_ptr<weather_result_data_item_vector> thunderExtentHourly =
+        theHourlyDataContainer[THUNDER_EXTENT_DATA];
+    std::shared_ptr<weather_result_data_item_vector> thunderNorthEastHourly =
+        theHourlyDataContainer[THUNDER_NORTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> thunderSouthEastHourly =
+        theHourlyDataContainer[THUNDER_SOUTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> thunderSouthWestHourly =
+        theHourlyDataContainer[THUNDER_SOUTHWEST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> thunderNorthWestHourly =
+        theHourlyDataContainer[THUNDER_NORTHWEST_SHARE_DATA];
 
     RangeAcceptor thunderlimits;
-    thunderlimits.lowerLimit(SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT);
-    AreaTools::getArealDistribution(theSources,
-                                    Thunder,
-                                    theArea,
-                                    (*thunderNorthEastHourly)[i]->thePeriod,
-                                    thunderlimits,
-                                    (*thunderNorthEastHourly)[i]->theResult,
-                                    (*thunderSouthEastHourly)[i]->theResult,
-                                    (*thunderSouthWestHourly)[i]->theResult,
-                                    (*thunderNorthWestHourly)[i]->theResult);
-  }
+    thunderlimits.lowerLimit(5.0);  // 5 % propability is the minimum
+
+    GridForecaster theForecaster;
+
+    for (unsigned int i = 0; i < thunderProbabilityHourly.size(); i++)
+    {
+      thunderProbabilityHourly[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Thunder,
+                                Maximum,
+                                Maximum,
+                                theArea,
+                                thunderProbabilityHourly[i]->thePeriod);
+
+      (*thunderExtentHourly)[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Thunder,
+                                Percentage,
+                                Maximum,
+                                theArea,
+                                (*thunderExtentHourly)[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                thunderlimits);
+
+      RangeAcceptor thunderlimits;
+      thunderlimits.lowerLimit(SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT);
+      AreaTools::getArealDistribution(theSources,
+                                      Thunder,
+                                      theArea,
+                                      (*thunderNorthEastHourly)[i]->thePeriod,
+                                      thunderlimits,
+                                      (*thunderNorthEastHourly)[i]->theResult,
+                                      (*thunderSouthEastHourly)[i]->theResult,
+                                      (*thunderSouthWestHourly)[i]->theResult,
+                                      (*thunderNorthWestHourly)[i]->theResult);
+    }
   }
   catch (...)
   {
@@ -595,33 +596,33 @@ void populate_thunderprobability_time_series(wf_story_params& theParameters)
 {
   try
   {
-  if (theParameters.theForecastArea & INLAND_AREA)
-  {
-    WeatherArea inlandArea = theParameters.theArea;
-    inlandArea.type(WeatherArea::Inland);
-    populate_thunderprobability_time_series(theParameters.theVariable,
-                                            theParameters.theSources,
-                                            inlandArea,
-                                            *theParameters.theCompleteData[INLAND_AREA]);
-  }
+    if (theParameters.theForecastArea & INLAND_AREA)
+    {
+      WeatherArea inlandArea = theParameters.theArea;
+      inlandArea.type(WeatherArea::Inland);
+      populate_thunderprobability_time_series(theParameters.theVariable,
+                                              theParameters.theSources,
+                                              inlandArea,
+                                              *theParameters.theCompleteData[INLAND_AREA]);
+    }
 
-  if (theParameters.theForecastArea & COASTAL_AREA)
-  {
-    WeatherArea coastalArea = theParameters.theArea;
-    coastalArea.type(WeatherArea::Coast);
-    populate_thunderprobability_time_series(theParameters.theVariable,
-                                            theParameters.theSources,
-                                            coastalArea,
-                                            *theParameters.theCompleteData[COASTAL_AREA]);
-  }
+    if (theParameters.theForecastArea & COASTAL_AREA)
+    {
+      WeatherArea coastalArea = theParameters.theArea;
+      coastalArea.type(WeatherArea::Coast);
+      populate_thunderprobability_time_series(theParameters.theVariable,
+                                              theParameters.theSources,
+                                              coastalArea,
+                                              *theParameters.theCompleteData[COASTAL_AREA]);
+    }
 
-  if (theParameters.theForecastArea & FULL_AREA)
-  {
-    populate_thunderprobability_time_series(theParameters.theVariable,
-                                            theParameters.theSources,
-                                            theParameters.theArea,
-                                            *theParameters.theCompleteData[FULL_AREA]);
-  }
+    if (theParameters.theForecastArea & FULL_AREA)
+    {
+      populate_thunderprobability_time_series(theParameters.theVariable,
+                                              theParameters.theSources,
+                                              theParameters.theArea,
+                                              *theParameters.theCompleteData[FULL_AREA]);
+    }
   }
   catch (...)
   {
@@ -636,63 +637,63 @@ void populate_fogintensity_time_series(const string& theVariable,
 {
   try
   {
-  weather_result_data_item_vector& fogIntensityModerateHourly =
-      *(theHourlyDataContainer[FOG_INTENSITY_MODERATE_DATA]);
-  weather_result_data_item_vector& fogIntensityDenseHourly =
-      *(theHourlyDataContainer[FOG_INTENSITY_DENSE_DATA]);
-  std::shared_ptr<weather_result_data_item_vector> fogNorthEastHourly =
-      theHourlyDataContainer[FOG_NORTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> fogSouthEastHourly =
-      theHourlyDataContainer[FOG_SOUTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> fogSouthWestHourly =
-      theHourlyDataContainer[FOG_SOUTHWEST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> fogNorthWestHourly =
-      theHourlyDataContainer[FOG_NORTHWEST_SHARE_DATA];
+    weather_result_data_item_vector& fogIntensityModerateHourly =
+        *(theHourlyDataContainer[FOG_INTENSITY_MODERATE_DATA]);
+    weather_result_data_item_vector& fogIntensityDenseHourly =
+        *(theHourlyDataContainer[FOG_INTENSITY_DENSE_DATA]);
+    std::shared_ptr<weather_result_data_item_vector> fogNorthEastHourly =
+        theHourlyDataContainer[FOG_NORTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> fogSouthEastHourly =
+        theHourlyDataContainer[FOG_SOUTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> fogSouthWestHourly =
+        theHourlyDataContainer[FOG_SOUTHWEST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> fogNorthWestHourly =
+        theHourlyDataContainer[FOG_NORTHWEST_SHARE_DATA];
 
-  GridForecaster theForecaster;
-  ValueAcceptor moderateFogFilter;
-  moderateFogFilter.value(kTModerateFog);
-  ValueAcceptor denseFogFilter;
-  denseFogFilter.value(kTDenseFog);
+    GridForecaster theForecaster;
+    ValueAcceptor moderateFogFilter;
+    moderateFogFilter.value(kTModerateFog);
+    ValueAcceptor denseFogFilter;
+    denseFogFilter.value(kTDenseFog);
 
-  for (unsigned int i = 0; i < fogIntensityModerateHourly.size(); i++)
-  {
-    fogIntensityModerateHourly[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Fog,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              fogIntensityModerateHourly[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              moderateFogFilter);
+    for (unsigned int i = 0; i < fogIntensityModerateHourly.size(); i++)
+    {
+      fogIntensityModerateHourly[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Fog,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                fogIntensityModerateHourly[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                moderateFogFilter);
 
-    fogIntensityDenseHourly[i]->theResult =
-        theForecaster.analyze(theVariable,
-                              theSources,
-                              Fog,
-                              Mean,
-                              Percentage,
-                              theArea,
-                              fogIntensityDenseHourly[i]->thePeriod,
-                              DefaultAcceptor(),
-                              DefaultAcceptor(),
-                              denseFogFilter);
+      fogIntensityDenseHourly[i]->theResult =
+          theForecaster.analyze(theVariable,
+                                theSources,
+                                Fog,
+                                Mean,
+                                Percentage,
+                                theArea,
+                                fogIntensityDenseHourly[i]->thePeriod,
+                                DefaultAcceptor(),
+                                DefaultAcceptor(),
+                                denseFogFilter);
 
-    RangeAcceptor foglimits;
-    foglimits.lowerLimit(kTModerateFog);
-    AreaTools::getArealDistribution(theSources,
-                                    Fog,
-                                    theArea,
-                                    (*fogNorthEastHourly)[i]->thePeriod,
-                                    foglimits,
-                                    (*fogNorthEastHourly)[i]->theResult,
-                                    (*fogSouthEastHourly)[i]->theResult,
-                                    (*fogSouthWestHourly)[i]->theResult,
-                                    (*fogNorthWestHourly)[i]->theResult);
-  }
+      RangeAcceptor foglimits;
+      foglimits.lowerLimit(kTModerateFog);
+      AreaTools::getArealDistribution(theSources,
+                                      Fog,
+                                      theArea,
+                                      (*fogNorthEastHourly)[i]->thePeriod,
+                                      foglimits,
+                                      (*fogNorthEastHourly)[i]->theResult,
+                                      (*fogSouthEastHourly)[i]->theResult,
+                                      (*fogSouthWestHourly)[i]->theResult,
+                                      (*fogNorthWestHourly)[i]->theResult);
+    }
   }
   catch (...)
   {
@@ -704,33 +705,33 @@ void populate_fogintensity_time_series(wf_story_params& theParameters)
 {
   try
   {
-  if (theParameters.theForecastArea & INLAND_AREA)
-  {
-    WeatherArea inlandArea = theParameters.theArea;
-    inlandArea.type(WeatherArea::Inland);
-    populate_fogintensity_time_series(theParameters.theVariable,
-                                      theParameters.theSources,
-                                      inlandArea,
-                                      *theParameters.theCompleteData[INLAND_AREA]);
-  }
+    if (theParameters.theForecastArea & INLAND_AREA)
+    {
+      WeatherArea inlandArea = theParameters.theArea;
+      inlandArea.type(WeatherArea::Inland);
+      populate_fogintensity_time_series(theParameters.theVariable,
+                                        theParameters.theSources,
+                                        inlandArea,
+                                        *theParameters.theCompleteData[INLAND_AREA]);
+    }
 
-  if (theParameters.theForecastArea & COASTAL_AREA)
-  {
-    WeatherArea coastalArea = theParameters.theArea;
-    coastalArea.type(WeatherArea::Coast);
-    populate_fogintensity_time_series(theParameters.theVariable,
-                                      theParameters.theSources,
-                                      coastalArea,
-                                      *theParameters.theCompleteData[COASTAL_AREA]);
-  }
+    if (theParameters.theForecastArea & COASTAL_AREA)
+    {
+      WeatherArea coastalArea = theParameters.theArea;
+      coastalArea.type(WeatherArea::Coast);
+      populate_fogintensity_time_series(theParameters.theVariable,
+                                        theParameters.theSources,
+                                        coastalArea,
+                                        *theParameters.theCompleteData[COASTAL_AREA]);
+    }
 
-  if (theParameters.theForecastArea & FULL_AREA)
-  {
-    populate_fogintensity_time_series(theParameters.theVariable,
-                                      theParameters.theSources,
-                                      theParameters.theArea,
-                                      *theParameters.theCompleteData[FULL_AREA]);
-  }
+    if (theParameters.theForecastArea & FULL_AREA)
+    {
+      populate_fogintensity_time_series(theParameters.theVariable,
+                                        theParameters.theSources,
+                                        theParameters.theArea,
+                                        *theParameters.theCompleteData[FULL_AREA]);
+    }
   }
   catch (...)
   {
@@ -745,39 +746,39 @@ void populate_cloudiness_time_series(const string& theVariable,
 {
   try
   {
-  weather_result_data_item_vector& cloudinessHourly = *(theHourlyDataContainer[CLOUDINESS_DATA]);
-  std::shared_ptr<weather_result_data_item_vector> cloudinessNorthEastHourly =
-      theHourlyDataContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> cloudinessSouthEastHourly =
-      theHourlyDataContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> cloudinessSouthWestHourly =
-      theHourlyDataContainer[CLOUDINESS_SOUTHWEST_SHARE_DATA];
-  std::shared_ptr<weather_result_data_item_vector> cloudinessNorthWestHourly =
-      theHourlyDataContainer[CLOUDINESS_NORTHWEST_SHARE_DATA];
+    weather_result_data_item_vector& cloudinessHourly = *(theHourlyDataContainer[CLOUDINESS_DATA]);
+    std::shared_ptr<weather_result_data_item_vector> cloudinessNorthEastHourly =
+        theHourlyDataContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> cloudinessSouthEastHourly =
+        theHourlyDataContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> cloudinessSouthWestHourly =
+        theHourlyDataContainer[CLOUDINESS_SOUTHWEST_SHARE_DATA];
+    std::shared_ptr<weather_result_data_item_vector> cloudinessNorthWestHourly =
+        theHourlyDataContainer[CLOUDINESS_NORTHWEST_SHARE_DATA];
 
-  GridForecaster theForecaster;
-  for (unsigned int i = 0; i < cloudinessHourly.size(); i++)
-  {
-    // areal function Maximum changed to Mean (after consulting with Kaisa 25.11.2010)
-    cloudinessHourly[i]->theResult = theForecaster.analyze(
-        theVariable, theSources, Cloudiness, Mean, Mean, theArea, cloudinessHourly[i]->thePeriod);
+    GridForecaster theForecaster;
+    for (unsigned int i = 0; i < cloudinessHourly.size(); i++)
+    {
+      // areal function Maximum changed to Mean (after consulting with Kaisa 25.11.2010)
+      cloudinessHourly[i]->theResult = theForecaster.analyze(
+          theVariable, theSources, Cloudiness, Mean, Mean, theArea, cloudinessHourly[i]->thePeriod);
 
-    if (theArea.type() == WeatherArea::Full)
-      WeatherResultTools::checkMissingValue(
-          "weather_forecast", Cloudiness, cloudinessHourly[i]->theResult);
+      if (theArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "weather_forecast", Cloudiness, cloudinessHourly[i]->theResult);
 
-    RangeAcceptor cloudinesslimits;
-    cloudinesslimits.lowerLimit(VERRATTAIN_PILVISTA_LOWER_LIMIT);
-    AreaTools::getArealDistribution(theSources,
-                                    Cloudiness,
-                                    theArea,
-                                    (*cloudinessNorthEastHourly)[i]->thePeriod,
-                                    cloudinesslimits,
-                                    (*cloudinessNorthEastHourly)[i]->theResult,
-                                    (*cloudinessSouthEastHourly)[i]->theResult,
-                                    (*cloudinessSouthWestHourly)[i]->theResult,
-                                    (*cloudinessNorthWestHourly)[i]->theResult);
-  }
+      RangeAcceptor cloudinesslimits;
+      cloudinesslimits.lowerLimit(VERRATTAIN_PILVISTA_LOWER_LIMIT);
+      AreaTools::getArealDistribution(theSources,
+                                      Cloudiness,
+                                      theArea,
+                                      (*cloudinessNorthEastHourly)[i]->thePeriod,
+                                      cloudinesslimits,
+                                      (*cloudinessNorthEastHourly)[i]->theResult,
+                                      (*cloudinessSouthEastHourly)[i]->theResult,
+                                      (*cloudinessSouthWestHourly)[i]->theResult,
+                                      (*cloudinessNorthWestHourly)[i]->theResult);
+    }
   }
   catch (...)
   {
@@ -789,34 +790,34 @@ void populate_cloudiness_time_series(wf_story_params& theParameters)
 {
   try
   {
-  // theParameters.theVariable+"::fake::"+hourstr+"::cloudiness",
-  if (theParameters.theForecastArea & INLAND_AREA)
-  {
-    WeatherArea inlandArea = theParameters.theArea;
-    inlandArea.type(WeatherArea::Inland);
-    populate_cloudiness_time_series(theParameters.theVariable,
-                                    theParameters.theSources,
-                                    inlandArea,
-                                    *theParameters.theCompleteData[INLAND_AREA]);
-  }
+    // theParameters.theVariable+"::fake::"+hourstr+"::cloudiness",
+    if (theParameters.theForecastArea & INLAND_AREA)
+    {
+      WeatherArea inlandArea = theParameters.theArea;
+      inlandArea.type(WeatherArea::Inland);
+      populate_cloudiness_time_series(theParameters.theVariable,
+                                      theParameters.theSources,
+                                      inlandArea,
+                                      *theParameters.theCompleteData[INLAND_AREA]);
+    }
 
-  if (theParameters.theForecastArea & COASTAL_AREA)
-  {
-    WeatherArea coastalArea = theParameters.theArea;
-    coastalArea.type(WeatherArea::Coast);
-    populate_cloudiness_time_series(theParameters.theVariable,
-                                    theParameters.theSources,
-                                    coastalArea,
-                                    *theParameters.theCompleteData[COASTAL_AREA]);
-  }
+    if (theParameters.theForecastArea & COASTAL_AREA)
+    {
+      WeatherArea coastalArea = theParameters.theArea;
+      coastalArea.type(WeatherArea::Coast);
+      populate_cloudiness_time_series(theParameters.theVariable,
+                                      theParameters.theSources,
+                                      coastalArea,
+                                      *theParameters.theCompleteData[COASTAL_AREA]);
+    }
 
-  if (theParameters.theForecastArea & FULL_AREA)
-  {
-    populate_cloudiness_time_series(theParameters.theVariable,
-                                    theParameters.theSources,
-                                    theParameters.theArea,
-                                    *theParameters.theCompleteData[FULL_AREA]);
-  }
+    if (theParameters.theForecastArea & FULL_AREA)
+    {
+      populate_cloudiness_time_series(theParameters.theVariable,
+                                      theParameters.theSources,
+                                      theParameters.theArea,
+                                      *theParameters.theCompleteData[FULL_AREA]);
+    }
   }
   catch (...)
   {
@@ -828,181 +829,186 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
 {
   try
   {
-  auto hourlyMaxPrecipitation = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyMeanPrecipitation = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationExtent = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyMaxPrecipitation = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyMeanPrecipitation = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationExtent = std::make_shared<weather_result_data_item_vector>();
 
-  auto hourlyPrecipitationType = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationFormWater = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationFormDrizzle = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationFormSleet = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationFormSnow = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationFormFreezingDrizzle = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationFormFreezingRain = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyCloudiness = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyThunderProbability = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyThunderExtent = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyFogIntensityModerate = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyFogIntensityDense = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationType = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationFormWater = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationFormDrizzle = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationFormSleet = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationFormSnow = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationFormFreezingDrizzle =
+        std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationFormFreezingRain = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyCloudiness = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyThunderProbability = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyThunderExtent = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyFogIntensityModerate = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyFogIntensityDense = std::make_shared<weather_result_data_item_vector>();
 
-  auto hourlyPrecipitationShareNortEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationShareSouthEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationShareSouthWest = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationShareNorthWest = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyPrecipitationPoint = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationShareNortEast = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationShareNorthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyPrecipitationPoint = std::make_shared<weather_result_data_item_vector>();
 
-  auto hourlyCloudinessShareNortEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyCloudinessShareSouthEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyCloudinessShareSouthWest = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyCloudinessShareNorthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyCloudinessShareNortEast = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyCloudinessShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyCloudinessShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyCloudinessShareNorthWest = std::make_shared<weather_result_data_item_vector>();
 
-  auto hourlyThunderProbabilityShareNortEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyThunderProbabilityShareSouthEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyThunderProbabilityShareSouthWest = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyThunderProbabilityShareNorthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyThunderProbabilityShareNortEast =
+        std::make_shared<weather_result_data_item_vector>();
+    auto hourlyThunderProbabilityShareSouthEast =
+        std::make_shared<weather_result_data_item_vector>();
+    auto hourlyThunderProbabilityShareSouthWest =
+        std::make_shared<weather_result_data_item_vector>();
+    auto hourlyThunderProbabilityShareNorthWest =
+        std::make_shared<weather_result_data_item_vector>();
 
-  auto hourlyFogShareNortEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyFogShareSouthEast = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyFogShareSouthWest = std::make_shared<weather_result_data_item_vector>();
-  auto hourlyFogShareNorthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyFogShareNortEast = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyFogShareSouthEast = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyFogShareSouthWest = std::make_shared<weather_result_data_item_vector>();
+    auto hourlyFogShareNorthWest = std::make_shared<weather_result_data_item_vector>();
 
-  // first split the whole period to one-hour subperiods
-  TextGenPosixTime periodStartTime = theParameters.theDataPeriod.localStartTime();
+    // first split the whole period to one-hour subperiods
+    TextGenPosixTime periodStartTime = theParameters.theDataPeriod.localStartTime();
 
-  theParameters.theHourPeriodCount = 0;
-  while (periodStartTime.IsLessThan(theParameters.theDataPeriod.localEndTime()))
-  {
-    TextGenPosixTime periodEndTime = periodStartTime;
-    periodEndTime.ChangeByHours(1);
-    WeatherPeriod theWeatherPeriod(periodEndTime, periodEndTime);
-    WeatherResult theWeatherResult(kFloatMissing, kFloatMissing);
+    theParameters.theHourPeriodCount = 0;
+    while (periodStartTime.IsLessThan(theParameters.theDataPeriod.localEndTime()))
+    {
+      TextGenPosixTime periodEndTime = periodStartTime;
+      periodEndTime.ChangeByHours(1);
+      WeatherPeriod theWeatherPeriod(periodEndTime, periodEndTime);
+      WeatherResult theWeatherResult(kFloatMissing, kFloatMissing);
 
-    part_of_the_day_id partOfTheDayId = get_part_of_the_day_id_large(theWeatherPeriod);
+      part_of_the_day_id partOfTheDayId = get_part_of_the_day_id_large(theWeatherPeriod);
 
-    hourlyMaxPrecipitation->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyMeanPrecipitation->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationExtent->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationType->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormWater->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormDrizzle->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormSleet->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormSnow->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormFreezingDrizzle->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormFreezingRain->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationPoint->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudiness->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbability->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderExtent->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogIntensityModerate->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogIntensityDense->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyMaxPrecipitation->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyMeanPrecipitation->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationExtent->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationType->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationFormWater->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationFormDrizzle->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationFormSleet->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationFormSnow->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationFormFreezingDrizzle->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationFormFreezingRain->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationPoint->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyCloudiness->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyThunderProbability->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyThunderExtent->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyFogIntensityModerate->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyFogIntensityDense->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyPrecipitationShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyPrecipitationShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyCloudinessShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudinessShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudinessShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyCloudinessShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyCloudinessShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyCloudinessShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyCloudinessShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyCloudinessShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyThunderProbabilityShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbabilityShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbabilityShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyThunderProbabilityShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyThunderProbabilityShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyThunderProbabilityShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyThunderProbabilityShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyThunderProbabilityShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    hourlyFogShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyFogShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
-        theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyFogShareNortEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyFogShareSouthEast->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyFogShareSouthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
+      hourlyFogShareNorthWest->push_back(std::make_shared<WeatherResultDataItem>(
+          theWeatherPeriod, theWeatherResult, partOfTheDayId));
 
-    periodStartTime.ChangeByHours(1);
-    theParameters.theHourPeriodCount++;
-  }
+      periodStartTime.ChangeByHours(1);
+      theParameters.theHourPeriodCount++;
+    }
 
-  auto resultContainer = std::make_shared<weather_forecast_result_container>();
+    auto resultContainer = std::make_shared<weather_forecast_result_container>();
 
-  resultContainer->insert(make_pair(PRECIPITATION_MAX_DATA, hourlyMaxPrecipitation));
-  resultContainer->insert(make_pair(PRECIPITATION_MEAN_DATA, hourlyMeanPrecipitation));
-  resultContainer->insert(make_pair(PRECIPITATION_EXTENT_DATA, hourlyPrecipitationExtent));
-  resultContainer->insert(make_pair(PRECIPITATION_TYPE_DATA, hourlyPrecipitationType));
-  resultContainer->insert(make_pair(PRECIPITATION_FORM_WATER_DATA, hourlyPrecipitationFormWater));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_FORM_DRIZZLE_DATA, hourlyPrecipitationFormDrizzle));
-  resultContainer->insert(make_pair(PRECIPITATION_FORM_SLEET_DATA, hourlyPrecipitationFormSleet));
-  resultContainer->insert(make_pair(PRECIPITATION_FORM_SNOW_DATA, hourlyPrecipitationFormSnow));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_FORM_FREEZING_RAIN_DATA, hourlyPrecipitationFormFreezingRain));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA, hourlyPrecipitationFormFreezingDrizzle));
-  resultContainer->insert(make_pair(CLOUDINESS_DATA, hourlyCloudiness));
-  resultContainer->insert(make_pair(THUNDER_PROBABILITY_DATA, hourlyThunderProbability));
-  resultContainer->insert(make_pair(THUNDER_EXTENT_DATA, hourlyThunderExtent));
-  resultContainer->insert(make_pair(FOG_INTENSITY_MODERATE_DATA, hourlyFogIntensityModerate));
-  resultContainer->insert(make_pair(FOG_INTENSITY_DENSE_DATA, hourlyFogIntensityDense));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_NORTHEAST_SHARE_DATA, hourlyPrecipitationShareNortEast));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_SOUTHEAST_SHARE_DATA, hourlyPrecipitationShareSouthEast));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_SOUTHWEST_SHARE_DATA, hourlyPrecipitationShareSouthWest));
-  resultContainer->insert(
-      make_pair(PRECIPITATION_NORTHWEST_SHARE_DATA, hourlyPrecipitationShareNorthWest));
-  resultContainer->insert(make_pair(PRECIPITATION_POINT_DATA, hourlyPrecipitationPoint));
-  resultContainer->insert(
-      make_pair(CLOUDINESS_NORTHEAST_SHARE_DATA, hourlyCloudinessShareNortEast));
-  resultContainer->insert(
-      make_pair(CLOUDINESS_SOUTHEAST_SHARE_DATA, hourlyCloudinessShareSouthEast));
-  resultContainer->insert(
-      make_pair(CLOUDINESS_SOUTHWEST_SHARE_DATA, hourlyCloudinessShareSouthWest));
-  resultContainer->insert(
-      make_pair(CLOUDINESS_NORTHWEST_SHARE_DATA, hourlyCloudinessShareNorthWest));
-  resultContainer->insert(
-      make_pair(THUNDER_NORTHEAST_SHARE_DATA, hourlyThunderProbabilityShareNortEast));
-  resultContainer->insert(
-      make_pair(THUNDER_SOUTHEAST_SHARE_DATA, hourlyThunderProbabilityShareSouthEast));
-  resultContainer->insert(
-      make_pair(THUNDER_SOUTHWEST_SHARE_DATA, hourlyThunderProbabilityShareSouthWest));
-  resultContainer->insert(
-      make_pair(THUNDER_NORTHWEST_SHARE_DATA, hourlyThunderProbabilityShareNorthWest));
-  resultContainer->insert(make_pair(FOG_NORTHEAST_SHARE_DATA, hourlyFogShareNortEast));
-  resultContainer->insert(make_pair(FOG_SOUTHEAST_SHARE_DATA, hourlyFogShareSouthEast));
-  resultContainer->insert(make_pair(FOG_SOUTHWEST_SHARE_DATA, hourlyFogShareSouthWest));
-  resultContainer->insert(make_pair(FOG_NORTHWEST_SHARE_DATA, hourlyFogShareNorthWest));
+    resultContainer->insert(make_pair(PRECIPITATION_MAX_DATA, hourlyMaxPrecipitation));
+    resultContainer->insert(make_pair(PRECIPITATION_MEAN_DATA, hourlyMeanPrecipitation));
+    resultContainer->insert(make_pair(PRECIPITATION_EXTENT_DATA, hourlyPrecipitationExtent));
+    resultContainer->insert(make_pair(PRECIPITATION_TYPE_DATA, hourlyPrecipitationType));
+    resultContainer->insert(make_pair(PRECIPITATION_FORM_WATER_DATA, hourlyPrecipitationFormWater));
+    resultContainer->insert(
+        make_pair(PRECIPITATION_FORM_DRIZZLE_DATA, hourlyPrecipitationFormDrizzle));
+    resultContainer->insert(make_pair(PRECIPITATION_FORM_SLEET_DATA, hourlyPrecipitationFormSleet));
+    resultContainer->insert(make_pair(PRECIPITATION_FORM_SNOW_DATA, hourlyPrecipitationFormSnow));
+    resultContainer->insert(
+        make_pair(PRECIPITATION_FORM_FREEZING_RAIN_DATA, hourlyPrecipitationFormFreezingRain));
+    resultContainer->insert(make_pair(PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA,
+                                      hourlyPrecipitationFormFreezingDrizzle));
+    resultContainer->insert(make_pair(CLOUDINESS_DATA, hourlyCloudiness));
+    resultContainer->insert(make_pair(THUNDER_PROBABILITY_DATA, hourlyThunderProbability));
+    resultContainer->insert(make_pair(THUNDER_EXTENT_DATA, hourlyThunderExtent));
+    resultContainer->insert(make_pair(FOG_INTENSITY_MODERATE_DATA, hourlyFogIntensityModerate));
+    resultContainer->insert(make_pair(FOG_INTENSITY_DENSE_DATA, hourlyFogIntensityDense));
+    resultContainer->insert(
+        make_pair(PRECIPITATION_NORTHEAST_SHARE_DATA, hourlyPrecipitationShareNortEast));
+    resultContainer->insert(
+        make_pair(PRECIPITATION_SOUTHEAST_SHARE_DATA, hourlyPrecipitationShareSouthEast));
+    resultContainer->insert(
+        make_pair(PRECIPITATION_SOUTHWEST_SHARE_DATA, hourlyPrecipitationShareSouthWest));
+    resultContainer->insert(
+        make_pair(PRECIPITATION_NORTHWEST_SHARE_DATA, hourlyPrecipitationShareNorthWest));
+    resultContainer->insert(make_pair(PRECIPITATION_POINT_DATA, hourlyPrecipitationPoint));
+    resultContainer->insert(
+        make_pair(CLOUDINESS_NORTHEAST_SHARE_DATA, hourlyCloudinessShareNortEast));
+    resultContainer->insert(
+        make_pair(CLOUDINESS_SOUTHEAST_SHARE_DATA, hourlyCloudinessShareSouthEast));
+    resultContainer->insert(
+        make_pair(CLOUDINESS_SOUTHWEST_SHARE_DATA, hourlyCloudinessShareSouthWest));
+    resultContainer->insert(
+        make_pair(CLOUDINESS_NORTHWEST_SHARE_DATA, hourlyCloudinessShareNorthWest));
+    resultContainer->insert(
+        make_pair(THUNDER_NORTHEAST_SHARE_DATA, hourlyThunderProbabilityShareNortEast));
+    resultContainer->insert(
+        make_pair(THUNDER_SOUTHEAST_SHARE_DATA, hourlyThunderProbabilityShareSouthEast));
+    resultContainer->insert(
+        make_pair(THUNDER_SOUTHWEST_SHARE_DATA, hourlyThunderProbabilityShareSouthWest));
+    resultContainer->insert(
+        make_pair(THUNDER_NORTHWEST_SHARE_DATA, hourlyThunderProbabilityShareNorthWest));
+    resultContainer->insert(make_pair(FOG_NORTHEAST_SHARE_DATA, hourlyFogShareNortEast));
+    resultContainer->insert(make_pair(FOG_SOUTHEAST_SHARE_DATA, hourlyFogShareSouthEast));
+    resultContainer->insert(make_pair(FOG_SOUTHWEST_SHARE_DATA, hourlyFogShareSouthWest));
+    resultContainer->insert(make_pair(FOG_NORTHWEST_SHARE_DATA, hourlyFogShareNorthWest));
 
-  theParameters.theCompleteData.insert(make_pair(theAreaId, resultContainer));
+    theParameters.theCompleteData.insert(make_pair(theAreaId, resultContainer));
   }
   catch (...)
   {
@@ -1014,71 +1020,71 @@ void create_data_structures(wf_story_params& theParameters)
 {
   try
   {
-  // first check which areas exists and create the data structures accordinly
-  WeatherArea fullArea = theParameters.theArea;
-  WeatherArea inlandArea = theParameters.theArea;
-  inlandArea.type(WeatherArea::Inland);
-  WeatherArea coastalArea = theParameters.theArea;
-  coastalArea.type(WeatherArea::Coast);
-  bool inlandExists = false;
-  bool coastExists = false;
-  GridForecaster theForecaster;
-  WeatherResult result = theForecaster.analyze(theParameters.theVariable,
-                                               theParameters.theSources,
-                                               Temperature,
-                                               Mean,
-                                               Maximum,
-                                               inlandArea,
-                                               theParameters.theForecastPeriod);
-  if (result.value() != kFloatMissing)
-  {
-    inlandExists = true;
-  }
+    // first check which areas exists and create the data structures accordinly
+    WeatherArea fullArea = theParameters.theArea;
+    WeatherArea inlandArea = theParameters.theArea;
+    inlandArea.type(WeatherArea::Inland);
+    WeatherArea coastalArea = theParameters.theArea;
+    coastalArea.type(WeatherArea::Coast);
+    bool inlandExists = false;
+    bool coastExists = false;
+    GridForecaster theForecaster;
+    WeatherResult result = theForecaster.analyze(theParameters.theVariable,
+                                                 theParameters.theSources,
+                                                 Temperature,
+                                                 Mean,
+                                                 Maximum,
+                                                 inlandArea,
+                                                 theParameters.theForecastPeriod);
+    if (result.value() != kFloatMissing)
+    {
+      inlandExists = true;
+    }
 
-  result = theForecaster.analyze(theParameters.theVariable,
-                                 theParameters.theSources,
-                                 Temperature,
-                                 Mean,
-                                 Maximum,
-                                 coastalArea,
-                                 theParameters.theForecastPeriod);
-  if (result.value() != kFloatMissing)
-  {
-    coastExists = true;
-  }
+    result = theForecaster.analyze(theParameters.theVariable,
+                                   theParameters.theSources,
+                                   Temperature,
+                                   Mean,
+                                   Maximum,
+                                   coastalArea,
+                                   theParameters.theForecastPeriod);
+    if (result.value() != kFloatMissing)
+    {
+      coastExists = true;
+    }
 
-  if (inlandExists && coastExists)
-  {
-    // create data structures for inland, coast and full areas
-    allocate_data_structures(theParameters, INLAND_AREA);
-    allocate_data_structures(theParameters, COASTAL_AREA);
-    allocate_data_structures(theParameters, FULL_AREA);
-    theParameters.theForecastArea |= INLAND_AREA;
-    theParameters.theForecastArea |= COASTAL_AREA;
-    theParameters.theForecastArea |= FULL_AREA;
+    if (inlandExists && coastExists)
+    {
+      // create data structures for inland, coast and full areas
+      allocate_data_structures(theParameters, INLAND_AREA);
+      allocate_data_structures(theParameters, COASTAL_AREA);
+      allocate_data_structures(theParameters, FULL_AREA);
+      theParameters.theForecastArea |= INLAND_AREA;
+      theParameters.theForecastArea |= COASTAL_AREA;
+      theParameters.theForecastArea |= FULL_AREA;
 
-    theParameters.theLog << "inland area included\n";
-    theParameters.theLog << "coastal area included\n";
-    theParameters.theLog << "full area included\n";
-  }
-  else if (inlandExists)
-  {
-    // create data structures for inland only
-    allocate_data_structures(theParameters, INLAND_AREA);
-    theParameters.theForecastArea |= INLAND_AREA;
-    theParameters.theLog << "inland area included\n";
-  }
-  else if (coastExists)
-  {
-    // create data structures for coast only
-    allocate_data_structures(theParameters, COASTAL_AREA);
-    theParameters.theForecastArea |= COASTAL_AREA;
-    theParameters.theLog << "coastal area included\n";
-  }
-  else
-  {
-    // error not inland, nor coastal area included
-  }
+      theParameters.theLog << "inland area included\n";
+      theParameters.theLog << "coastal area included\n";
+      theParameters.theLog << "full area included\n";
+    }
+    else if (inlandExists)
+    {
+      // create data structures for inland only
+      allocate_data_structures(theParameters, INLAND_AREA);
+      theParameters.theForecastArea |= INLAND_AREA;
+      theParameters.theLog << "inland area included\n";
+    }
+    else if (coastExists)
+    {
+      // create data structures for coast only
+      allocate_data_structures(theParameters, COASTAL_AREA);
+      theParameters.theForecastArea |= COASTAL_AREA;
+      theParameters.theLog << "coastal area included\n";
+    }
+    else
+    {
+      // error not inland, nor coastal area included
+    }
   }
   catch (...)
   {
@@ -1090,98 +1096,99 @@ void init_parameters(wf_story_params& theParameters)
 {
   try
   {
-  create_data_structures(theParameters);
+    create_data_structures(theParameters);
 
-  if (SeasonTools::isSummer(theParameters.theForecastTime, theParameters.theVariable))
-  {
-    theParameters.theThuderNormalExtentMin = Settings::optional_double(
-        theParameters.theVariable + "::summertime::thunder::normal_extent_min", 10.0);
-    theParameters.theThuderNormalExtentMax = Settings::optional_double(
-        theParameters.theVariable + "::summertime::thunder::normal_extent_max", 40.0);
-  }
-  else
-  {
-    theParameters.theThuderNormalExtentMin = Settings::optional_double(
-        theParameters.theVariable + "::wintertime::thunder::normal_extent_min", 20.0);
-    theParameters.theThuderNormalExtentMax = Settings::optional_double(
-        theParameters.theVariable + "::wintertime::thunder::normal_extent_max", 40.0);
-  }
-  theParameters.theThunderProbabilityMin =
-      Settings::optional_double(theParameters.theVariable + "::thunder::probability_min", 20.0);
-  theParameters.theThunderProbabilityThreshold = Settings::optional_double(
-      theParameters.theVariable + "::thunder::probability_threshold", 50.0);
+    if (SeasonTools::isSummer(theParameters.theForecastTime, theParameters.theVariable))
+    {
+      theParameters.theThuderNormalExtentMin = Settings::optional_double(
+          theParameters.theVariable + "::summertime::thunder::normal_extent_min", 10.0);
+      theParameters.theThuderNormalExtentMax = Settings::optional_double(
+          theParameters.theVariable + "::summertime::thunder::normal_extent_max", 40.0);
+    }
+    else
+    {
+      theParameters.theThuderNormalExtentMin = Settings::optional_double(
+          theParameters.theVariable + "::wintertime::thunder::normal_extent_min", 20.0);
+      theParameters.theThuderNormalExtentMax = Settings::optional_double(
+          theParameters.theVariable + "::wintertime::thunder::normal_extent_max", 40.0);
+    }
+    theParameters.theThunderProbabilityMin =
+        Settings::optional_double(theParameters.theVariable + "::thunder::probability_min", 20.0);
+    theParameters.theThunderProbabilityThreshold = Settings::optional_double(
+        theParameters.theVariable + "::thunder::probability_threshold", 50.0);
 
-  theParameters.theDryWeatherLimitWater = Settings::optional_double(
-      theParameters.theVariable + "::dry_weather_limit_water", DRY_WEATHER_LIMIT_WATER);
-  theParameters.theDryWeatherLimitDrizzle = Settings::optional_double(
-      theParameters.theVariable + "::dry_weather_limit_drizzle", DRY_WEATHER_LIMIT_DRIZZLE);
-  theParameters.theDryWeatherLimitSleet = Settings::optional_double(
-      theParameters.theVariable + "::dry_weather_limit_sleet", DRY_WEATHER_LIMIT_SLEET);
-  theParameters.theDryWeatherLimitSnow = Settings::optional_double(
-      theParameters.theVariable + "::dry_weather_limit_snow", DRY_WEATHER_LIMIT_SNOW);
-  theParameters.theWeakPrecipitationLimitWater =
-      Settings::optional_double(theParameters.theVariable + "::weak_precipitation_limit_water",
-                                WEAK_PRECIPITATION_LIMIT_WATER);
-  theParameters.theWeakPrecipitationLimitSleet =
-      Settings::optional_double(theParameters.theVariable + "::weak_precipitation_limit_sleet",
-                                WEAK_PRECIPITATION_LIMIT_SLEET);
-  theParameters.theWeakPrecipitationLimitSnow = Settings::optional_double(
-      theParameters.theVariable + "::weak_precipitation_limit_snow", WEAK_PRECIPITATION_LIMIT_SNOW);
-  theParameters.theHeavyPrecipitationLimitWater =
-      Settings::optional_double(theParameters.theVariable + "::heavy_precipitation_limit_water",
-                                HEAVY_PRECIPITATION_LIMIT_WATER);
-  theParameters.theHeavyPrecipitationLimitSleet =
-      Settings::optional_double(theParameters.theVariable + "::heavy_precipitation_limit_sleet",
-                                HEAVY_PRECIPITATION_LIMIT_SLEET);
-  theParameters.theHeavyPrecipitationLimitSnow =
-      Settings::optional_double(theParameters.theVariable + "::heavy_precipitation_limit_snow",
-                                HEAVY_PRECIPITATION_LIMIT_SNOW);
-  theParameters.thePrecipitationStormLimit =
-      Settings::optional_double(theParameters.theVariable + "::rainstorm_limit", RAINSTORM_LIMIT);
-  theParameters.theMostlyDryWeatherLimit = Settings::optional_double(
-      theParameters.theVariable + "::mostly_dry_weather_limit", MOSTLY_DRY_WEATHER_LIMIT);
-  theParameters.theInSomePlacesLowerLimit = Settings::optional_double(
-      theParameters.theVariable + "::in_some_places_lower_limit", IN_SOME_PLACES_LOWER_LIMIT);
-  theParameters.theInSomePlacesUpperLimit = Settings::optional_double(
-      theParameters.theVariable + "::in_some_places_upper_limit", IN_SOME_PLACES_UPPER_LIMIT);
-  theParameters.theInManyPlacesLowerLimit = Settings::optional_double(
-      theParameters.theVariable + "::in_many_places_lower_limit", IN_MANY_PLACES_LOWER_LIMIT);
-  theParameters.theInManyPlacesUpperLimit = Settings::optional_double(
-      theParameters.theVariable + "::in_many_places_upper_limit", IN_MANY_PLACES_UPPER_LIMIT);
-  theParameters.theFreezingPrecipitationLimit = Settings::optional_double(
-      theParameters.theVariable + "::freezing_rain_limit", FREEZING_RAIN_LIMIT);
-  theParameters.theClearSkyUpperLimit = Settings::optional_double(
-      theParameters.theVariable + "::clear_sky_limit", SELKEA_UPPER_LIMIT);
-  theParameters.theAlmostClearSkyUpperLimit = Settings::optional_double(
-      theParameters.theVariable + "::almost_clear_sky_limit", MELKEIN_SELKEA_UPPER_LIMIT);
-  theParameters.thePartlyCloudySkyUpperLimit = Settings::optional_double(
-      theParameters.theVariable + "::partly_cloudy_sky_limit", PUOLIPILVISTA_UPPER_LIMIT);
-  theParameters.theMostlyCloudySkyUpperLimit = Settings::optional_double(
-      theParameters.theVariable + "::mostly_cloudy_sky_limit", VERRATTAIN_PILVISTA_UPPER_LIMIT);
-  theParameters.theShortTextModeFlag =
-      Settings::optional_bool(theParameters.theVariable + "::short_text_mode", false);
+    theParameters.theDryWeatherLimitWater = Settings::optional_double(
+        theParameters.theVariable + "::dry_weather_limit_water", DRY_WEATHER_LIMIT_WATER);
+    theParameters.theDryWeatherLimitDrizzle = Settings::optional_double(
+        theParameters.theVariable + "::dry_weather_limit_drizzle", DRY_WEATHER_LIMIT_DRIZZLE);
+    theParameters.theDryWeatherLimitSleet = Settings::optional_double(
+        theParameters.theVariable + "::dry_weather_limit_sleet", DRY_WEATHER_LIMIT_SLEET);
+    theParameters.theDryWeatherLimitSnow = Settings::optional_double(
+        theParameters.theVariable + "::dry_weather_limit_snow", DRY_WEATHER_LIMIT_SNOW);
+    theParameters.theWeakPrecipitationLimitWater =
+        Settings::optional_double(theParameters.theVariable + "::weak_precipitation_limit_water",
+                                  WEAK_PRECIPITATION_LIMIT_WATER);
+    theParameters.theWeakPrecipitationLimitSleet =
+        Settings::optional_double(theParameters.theVariable + "::weak_precipitation_limit_sleet",
+                                  WEAK_PRECIPITATION_LIMIT_SLEET);
+    theParameters.theWeakPrecipitationLimitSnow =
+        Settings::optional_double(theParameters.theVariable + "::weak_precipitation_limit_snow",
+                                  WEAK_PRECIPITATION_LIMIT_SNOW);
+    theParameters.theHeavyPrecipitationLimitWater =
+        Settings::optional_double(theParameters.theVariable + "::heavy_precipitation_limit_water",
+                                  HEAVY_PRECIPITATION_LIMIT_WATER);
+    theParameters.theHeavyPrecipitationLimitSleet =
+        Settings::optional_double(theParameters.theVariable + "::heavy_precipitation_limit_sleet",
+                                  HEAVY_PRECIPITATION_LIMIT_SLEET);
+    theParameters.theHeavyPrecipitationLimitSnow =
+        Settings::optional_double(theParameters.theVariable + "::heavy_precipitation_limit_snow",
+                                  HEAVY_PRECIPITATION_LIMIT_SNOW);
+    theParameters.thePrecipitationStormLimit =
+        Settings::optional_double(theParameters.theVariable + "::rainstorm_limit", RAINSTORM_LIMIT);
+    theParameters.theMostlyDryWeatherLimit = Settings::optional_double(
+        theParameters.theVariable + "::mostly_dry_weather_limit", MOSTLY_DRY_WEATHER_LIMIT);
+    theParameters.theInSomePlacesLowerLimit = Settings::optional_double(
+        theParameters.theVariable + "::in_some_places_lower_limit", IN_SOME_PLACES_LOWER_LIMIT);
+    theParameters.theInSomePlacesUpperLimit = Settings::optional_double(
+        theParameters.theVariable + "::in_some_places_upper_limit", IN_SOME_PLACES_UPPER_LIMIT);
+    theParameters.theInManyPlacesLowerLimit = Settings::optional_double(
+        theParameters.theVariable + "::in_many_places_lower_limit", IN_MANY_PLACES_LOWER_LIMIT);
+    theParameters.theInManyPlacesUpperLimit = Settings::optional_double(
+        theParameters.theVariable + "::in_many_places_upper_limit", IN_MANY_PLACES_UPPER_LIMIT);
+    theParameters.theFreezingPrecipitationLimit = Settings::optional_double(
+        theParameters.theVariable + "::freezing_rain_limit", FREEZING_RAIN_LIMIT);
+    theParameters.theClearSkyUpperLimit = Settings::optional_double(
+        theParameters.theVariable + "::clear_sky_limit", SELKEA_UPPER_LIMIT);
+    theParameters.theAlmostClearSkyUpperLimit = Settings::optional_double(
+        theParameters.theVariable + "::almost_clear_sky_limit", MELKEIN_SELKEA_UPPER_LIMIT);
+    theParameters.thePartlyCloudySkyUpperLimit = Settings::optional_double(
+        theParameters.theVariable + "::partly_cloudy_sky_limit", PUOLIPILVISTA_UPPER_LIMIT);
+    theParameters.theMostlyCloudySkyUpperLimit = Settings::optional_double(
+        theParameters.theVariable + "::mostly_cloudy_sky_limit", VERRATTAIN_PILVISTA_UPPER_LIMIT);
+    theParameters.theShortTextModeFlag =
+        Settings::optional_bool(theParameters.theVariable + "::short_text_mode", false);
 
-  float coastalPercentage =
-      get_area_percentage(theParameters.theVariable + "::fake::area_percentage",
-                          theParameters.theArea,
-                          WeatherArea::Coast,
-                          theParameters.theSources,
-                          theParameters.theForecastPeriod);
+    float coastalPercentage =
+        get_area_percentage(theParameters.theVariable + "::fake::area_percentage",
+                            theParameters.theArea,
+                            WeatherArea::Coast,
+                            theParameters.theSources,
+                            theParameters.theForecastPeriod);
 
-  float separate_coastal_area_percentage =
-      Settings::optional_double(theParameters.theVariable + "::separate_coastal_area_percentage",
-                                SEPARATE_COASTAL_AREA_PERCENTAGE);
+    float separate_coastal_area_percentage =
+        Settings::optional_double(theParameters.theVariable + "::separate_coastal_area_percentage",
+                                  SEPARATE_COASTAL_AREA_PERCENTAGE);
 
-  theParameters.theCoastalAndInlandTogetherFlag =
-      (theParameters.theArea.isMarine() || theParameters.theArea.isIsland() ||
-       (coastalPercentage > 0 && coastalPercentage < separate_coastal_area_percentage));
+    theParameters.theCoastalAndInlandTogetherFlag =
+        (theParameters.theArea.isMarine() || theParameters.theArea.isIsland() ||
+         (coastalPercentage > 0 && coastalPercentage < separate_coastal_area_percentage));
 
-  if (theParameters.theCoastalAndInlandTogetherFlag)
-  {
-    if (!theParameters.theArea.isMarine() && !theParameters.theArea.isIsland())
-      theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!"
-                           << '\n';
-  }
+    if (theParameters.theCoastalAndInlandTogetherFlag)
+    {
+      if (!theParameters.theArea.isMarine() && !theParameters.theArea.isIsland())
+        theParameters.theLog << "Inland and coastal area(" << coastalPercentage
+                             << ") not separated!" << '\n';
+    }
   }
   catch (...)
   {
@@ -1232,91 +1239,92 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 {
   try
   {
-  using namespace PrecipitationPeriodTools;
+    using namespace PrecipitationPeriodTools;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  // Period generator
-  const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
+    // Period generator
+    const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
 
-  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << '\n';
+    theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << '\n';
 
-  TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
-  TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
+    TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
+    TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
 
-  dataPeriodStartTime.ChangeByHours(-12);
-  dataPeriodEndTime.ChangeByHours(12);
+    dataPeriodStartTime.ChangeByHours(-12);
+    dataPeriodEndTime.ChangeByHours(12);
 
-  log_start_time_and_end_time(theLog, "the forecast period: ", itsPeriod);
+    log_start_time_and_end_time(theLog, "the forecast period: ", itsPeriod);
 
-  log_start_time_and_end_time(
-      theLog, "the data gathering period: ", WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
+    log_start_time_and_end_time(theLog,
+                                "the data gathering period: ",
+                                WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
 
-  if (itsArea.isNamed())
-  {
-    const std::string& name(itsArea.name());
-    theLog << "** " << name << " **\n";
-  }
+    if (itsArea.isNamed())
+    {
+      const std::string& name(itsArea.name());
+      theLog << "** " << name << " **\n";
+    }
 
-  WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
+    WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
 
-  wf_story_params theParameters(
-      itsVar, itsArea, theDataGatheringPeriod, itsPeriod, itsForecastTime, itsSources, theLog);
+    wf_story_params theParameters(
+        itsVar, itsArea, theDataGatheringPeriod, itsPeriod, itsForecastTime, itsSources, theLog);
 
-  init_parameters(theParameters);
+    init_parameters(theParameters);
 
-  if (theParameters.theForecastArea == NO_AREA)
+    if (theParameters.theForecastArea == NO_AREA)
+      return paragraph;
+
+    populate_precipitation_time_series(theParameters);
+    populate_cloudiness_time_series(theParameters);
+    populate_fogintensity_time_series(theParameters);
+    populate_thunderprobability_time_series(theParameters);
+
+    CloudinessForecast cloudinessForecast(theParameters);
+    PrecipitationForecast precipitationForecast(theParameters);
+    FogForecast fogForecast(theParameters);
+    ThunderForecast thunderForecast(theParameters);
+
+    theParameters.thePrecipitationForecast = &precipitationForecast;
+    theParameters.theCloudinessForecast = &cloudinessForecast;
+    theParameters.theFogForecast = &fogForecast;
+    theParameters.theThunderForecast = &thunderForecast;
+
+    precipitationForecast.printOutPrecipitationData(theLog);
+    precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
+    precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
+    //	cloudinessForecast.printOutCloudinessData(theLog);
+    cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
+    fogForecast.printOutFogData(theLog);
+    fogForecast.printOutFogPeriods(theLog);
+    fogForecast.printOutFogTypePeriods(theLog);
+
+    // log_weather_result_data(theParameters);
+
+    WeatherForecastStory wfs(itsVar,
+                             itsPeriod,
+                             itsArea,
+                             theParameters,
+                             itsForecastTime,
+                             precipitationForecast,
+                             cloudinessForecast,
+                             fogForecast,
+                             thunderForecast,
+                             theParameters.theLog);
+
+    wfs.logTheStoryItems();
+
+    const_cast<WeatherHistory&>(itsArea.history())
+        .updateTimePhrase("", "", TextGenPosixTime(1970, 1, 1));
+
+    paragraph << wfs.getWeatherForecastStory();
+
+    //  log_weather_forecast_story(theLog, wfs);
+
+    theLog << paragraph;
+
     return paragraph;
-
-  populate_precipitation_time_series(theParameters);
-  populate_cloudiness_time_series(theParameters);
-  populate_fogintensity_time_series(theParameters);
-  populate_thunderprobability_time_series(theParameters);
-
-  CloudinessForecast cloudinessForecast(theParameters);
-  PrecipitationForecast precipitationForecast(theParameters);
-  FogForecast fogForecast(theParameters);
-  ThunderForecast thunderForecast(theParameters);
-
-  theParameters.thePrecipitationForecast = &precipitationForecast;
-  theParameters.theCloudinessForecast = &cloudinessForecast;
-  theParameters.theFogForecast = &fogForecast;
-  theParameters.theThunderForecast = &thunderForecast;
-
-  precipitationForecast.printOutPrecipitationData(theLog);
-  precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
-  precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
-  //	cloudinessForecast.printOutCloudinessData(theLog);
-  cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
-  fogForecast.printOutFogData(theLog);
-  fogForecast.printOutFogPeriods(theLog);
-  fogForecast.printOutFogTypePeriods(theLog);
-
-  // log_weather_result_data(theParameters);
-
-  WeatherForecastStory wfs(itsVar,
-                           itsPeriod,
-                           itsArea,
-                           theParameters,
-                           itsForecastTime,
-                           precipitationForecast,
-                           cloudinessForecast,
-                           fogForecast,
-                           thunderForecast,
-                           theParameters.theLog);
-
-  wfs.logTheStoryItems();
-
-  const_cast<WeatherHistory&>(itsArea.history())
-      .updateTimePhrase("", "", TextGenPosixTime(1970, 1, 1));
-
-  paragraph << wfs.getWeatherForecastStory();
-
-  //  log_weather_forecast_story(theLog, wfs);
-
-  theLog << paragraph;
-
-  return paragraph;
   }
   catch (...)
   {
@@ -1333,88 +1341,89 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 {
   try
   {
-  using namespace PrecipitationPeriodTools;
+    using namespace PrecipitationPeriodTools;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  // Period generator
-  const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
+    // Period generator
+    const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
 
-  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << '\n';
+    theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime() << '\n';
 
-  TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
-  TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
+    TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
+    TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
 
-  dataPeriodStartTime.ChangeByHours(-12);
-  dataPeriodEndTime.ChangeByHours(12);
+    dataPeriodStartTime.ChangeByHours(-12);
+    dataPeriodEndTime.ChangeByHours(12);
 
-  log_start_time_and_end_time(theLog, "the forecast period: ", itsPeriod);
+    log_start_time_and_end_time(theLog, "the forecast period: ", itsPeriod);
 
-  log_start_time_and_end_time(
-      theLog, "the data gathering period: ", WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
+    log_start_time_and_end_time(theLog,
+                                "the data gathering period: ",
+                                WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
 
-  if (itsArea.isNamed())
-  {
-    const std::string& name(itsArea.name());
-    theLog << "** " << name << " **\n";
-  }
+    if (itsArea.isNamed())
+    {
+      const std::string& name(itsArea.name());
+      theLog << "** " << name << " **\n";
+    }
 
-  WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
+    WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
 
-  wf_story_params theParameters(
-      itsVar, itsArea, theDataGatheringPeriod, itsPeriod, itsForecastTime, itsSources, theLog);
+    wf_story_params theParameters(
+        itsVar, itsArea, theDataGatheringPeriod, itsPeriod, itsForecastTime, itsSources, theLog);
 
-  init_parameters(theParameters);
+    init_parameters(theParameters);
 
-  if (theParameters.theForecastArea == NO_AREA)
+    if (theParameters.theForecastArea == NO_AREA)
+      return paragraph;
+
+    populate_precipitation_time_series(theParameters);
+    populate_cloudiness_time_series(theParameters);
+    populate_fogintensity_time_series(theParameters);
+    populate_thunderprobability_time_series(theParameters);
+
+    CloudinessForecast cloudinessForecast(theParameters);
+    PrecipitationForecast precipitationForecast(theParameters);
+    FogForecast fogForecast(theParameters, true);
+    ThunderForecast thunderForecast(theParameters);
+
+    theParameters.thePrecipitationForecast = &precipitationForecast;
+    theParameters.theCloudinessForecast = &cloudinessForecast;
+    theParameters.theFogForecast = &fogForecast;
+    theParameters.theThunderForecast = &thunderForecast;
+    /*
+    precipitationForecast.printOutPrecipitationData(theLog);
+    precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
+    precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
+    //	cloudinessForecast.printOutCloudinessData(theLog);
+    cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
+    fogForecast.printOutFogData(theLog);
+    fogForecast.printOutFogPeriods(theLog);
+    fogForecast.printOutFogTypePeriods(theLog);
+    */
+
+    // log_weather_result_data(theParameters);
+
+    WeatherForecastStory wfs(itsVar,
+                             itsPeriod,
+                             itsArea,
+                             theParameters,
+                             itsForecastTime,
+                             precipitationForecast,
+                             cloudinessForecast,
+                             fogForecast,
+                             thunderForecast,
+                             theParameters.theLog);
+
+    //  wfs.logTheStoryItems();
+
+    const_cast<WeatherHistory&>(itsArea.history())
+        .updateTimePhrase("", "", TextGenPosixTime(1970, 1, 1));
+
+    paragraph << wfs.getWeatherForecastStoryAtSea();
+
     return paragraph;
-
-  populate_precipitation_time_series(theParameters);
-  populate_cloudiness_time_series(theParameters);
-  populate_fogintensity_time_series(theParameters);
-  populate_thunderprobability_time_series(theParameters);
-
-  CloudinessForecast cloudinessForecast(theParameters);
-  PrecipitationForecast precipitationForecast(theParameters);
-  FogForecast fogForecast(theParameters, true);
-  ThunderForecast thunderForecast(theParameters);
-
-  theParameters.thePrecipitationForecast = &precipitationForecast;
-  theParameters.theCloudinessForecast = &cloudinessForecast;
-  theParameters.theFogForecast = &fogForecast;
-  theParameters.theThunderForecast = &thunderForecast;
-  /*
-  precipitationForecast.printOutPrecipitationData(theLog);
-  precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
-  precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
-  //	cloudinessForecast.printOutCloudinessData(theLog);
-  cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
-  fogForecast.printOutFogData(theLog);
-  fogForecast.printOutFogPeriods(theLog);
-  fogForecast.printOutFogTypePeriods(theLog);
-  */
-
-  // log_weather_result_data(theParameters);
-
-  WeatherForecastStory wfs(itsVar,
-                           itsPeriod,
-                           itsArea,
-                           theParameters,
-                           itsForecastTime,
-                           precipitationForecast,
-                           cloudinessForecast,
-                           fogForecast,
-                           thunderForecast,
-                           theParameters.theLog);
-
-  //  wfs.logTheStoryItems();
-
-  const_cast<WeatherHistory&>(itsArea.history())
-      .updateTimePhrase("", "", TextGenPosixTime(1970, 1, 1));
-
-  paragraph << wfs.getWeatherForecastStoryAtSea();
-
-  return paragraph;
   }
   catch (...)
   {
@@ -1449,28 +1458,28 @@ void check_sentences(const std::shared_ptr<Glyph>& theSentence1,
 {
   try
   {
-  auto& gc1 = static_cast<GlyphContainer&>(*theSentence1);
-  auto& gc2 = static_cast<GlyphContainer&>(*theSentence2);
+    auto& gc1 = static_cast<GlyphContainer&>(*theSentence1);
+    auto& gc2 = static_cast<GlyphContainer&>(*theSentence2);
 
-  DebugTextFormatter dtf;
+    DebugTextFormatter dtf;
 
-  if (gc1.size() < 2 || gc2.size() < 2)
-    return;
+    if (gc1.size() < 2 || gc2.size() < 2)
+      return;
 
-  auto iter1(gc1.begin());
-  auto iter2(gc2.begin());
-  iter1++;
-  iter2++;
+    auto iter1(gc1.begin());
+    auto iter2(gc2.begin());
+    iter1++;
+    iter2++;
 
-  std::string str1 = dtf.format(**iter1);
-  std::string str2 = dtf.format(**iter2);
-  if (isdigit(str1[0]) && !isdigit(str2[0]))
-    str1 = str1.substr(2);
-  if (is_same_part_of_the_day(str1, str2))
-  {
-    gc1.push_front(Phrase("aluksi"));
-    gc2.push_front(Phrase("myohemmin"));
-  }
+    std::string str1 = dtf.format(**iter1);
+    std::string str2 = dtf.format(**iter2);
+    if (isdigit(str1[0]) && !isdigit(str2[0]))
+      str1 = str1.substr(2);
+    if (is_same_part_of_the_day(str1, str2))
+    {
+      gc1.push_front(Phrase("aluksi"));
+      gc2.push_front(Phrase("myohemmin"));
+    }
   }
   catch (...)
   {
@@ -1482,18 +1491,18 @@ void get_sentences(const Glyph& glyphi, vector<std::shared_ptr<Glyph> >& sentenc
 {
   try
   {
-  if (typeid(glyphi) == typeid(Sentence))
-  {
-    const auto& gc = static_cast<const GlyphContainer&>(glyphi);
-    if (!gc.empty())
-      sentences.push_back(glyphi.clone());
-  }
-  else
-  {
-    const auto& containeri = static_cast<const GlyphContainer&>(glyphi);
-    for (const auto& iter : containeri)
-      get_sentences(*iter, sentences);
-  }
+    if (typeid(glyphi) == typeid(Sentence))
+    {
+      const auto& gc = static_cast<const GlyphContainer&>(glyphi);
+      if (!gc.empty())
+        sentences.push_back(glyphi.clone());
+    }
+    else
+    {
+      const auto& containeri = static_cast<const GlyphContainer&>(glyphi);
+      for (const auto& iter : containeri)
+        get_sentences(*iter, sentences);
+    }
   }
   catch (...)
   {
@@ -1505,20 +1514,20 @@ void analyze_sentences(Paragraph& paragraph)
 {
   try
   {
-  Paragraph paragraph_tmp;
-  paragraph_tmp << paragraph;
-  paragraph.clear();
+    Paragraph paragraph_tmp;
+    paragraph_tmp << paragraph;
+    paragraph.clear();
 
-  vector<std::shared_ptr<Glyph> > sentences;
-  get_sentences(paragraph_tmp, sentences);
+    vector<std::shared_ptr<Glyph> > sentences;
+    get_sentences(paragraph_tmp, sentences);
 
-  for (unsigned int i = 0; i < sentences.size(); i++)
-  {
-    if (i < sentences.size() - 1)
-      check_sentences(sentences[i], sentences[i + 1]);
-    auto& sen = static_cast<Sentence&>(*(sentences[i]));
-    paragraph << sen;
-  }
+    for (unsigned int i = 0; i < sentences.size(); i++)
+    {
+      if (i < sentences.size() - 1)
+        check_sentences(sentences[i], sentences[i + 1]);
+      auto& sen = static_cast<Sentence&>(*(sentences[i]));
+      paragraph << sen;
+    }
   }
   catch (...)
   {
@@ -1533,12 +1542,12 @@ void print_out_weather_event_vector(std::ostream& theOutput,
 {
   try
   {
-  for (const auto& i : theWeatherEventVector)
-  {
-    weather_event_id trid(i.second);
+    for (const auto& i : theWeatherEventVector)
+    {
+      weather_event_id trid(i.second);
 
-    theOutput << i.first << ": " << weather_event_string(trid) << '\n';
-  }
+      theOutput << i.first << ": " << weather_event_string(trid) << '\n';
+    }
   }
   catch (...)
   {
@@ -1562,59 +1571,61 @@ Paragraph WeatherStory::forecast() const
 {
   try
   {
-  MessageLogger log("WeatherStory::forecast");
+    MessageLogger log("WeatherStory::forecast");
 
-  using namespace PrecipitationPeriodTools;
+    using namespace PrecipitationPeriodTools;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  std::string areaName;
+    std::string areaName;
 
-  if (itsArea.isNamed())
-  {
-    areaName = itsArea.name();
-  }
+    if (itsArea.isNamed())
+    {
+      areaName = itsArea.name();
+    }
 
-  WeatherArea areaOne(itsArea);
-  WeatherArea areaTwo(itsArea);
-  split_method splitMethod =
-      check_area_splitting(itsVar, itsArea, itsPeriod, itsSources, areaOne, areaTwo, log);
+    WeatherArea areaOne(itsArea);
+    WeatherArea areaTwo(itsArea);
+    split_method splitMethod =
+        check_area_splitting(itsVar, itsArea, itsPeriod, itsSources, areaOne, areaTwo, log);
 
-  if (NO_SPLITTING != splitMethod)
-  {
-    Paragraph paragraphAreaOne;
-    Paragraph paragraphAreaTwo;
+    if (NO_SPLITTING != splitMethod)
+    {
+      Paragraph paragraphAreaOne;
+      Paragraph paragraphAreaTwo;
 
-    Sentence onAreaOneSentence;
-    Sentence onAreaTwoSentence;
-    onAreaOneSentence << ALUEEN_ETELAOSASSA_PHRASE << Delimiter(":");
-    onAreaTwoSentence << ALUEEN_POHJOISOSASSA_PHRASE << Delimiter(":");
+      Sentence onAreaOneSentence;
+      Sentence onAreaTwoSentence;
+      onAreaOneSentence << ALUEEN_ETELAOSASSA_PHRASE << Delimiter(":");
+      onAreaTwoSentence << ALUEEN_POHJOISOSASSA_PHRASE << Delimiter(":");
 
-    paragraphAreaOne << onAreaOneSentence;
-    paragraphAreaTwo << onAreaTwoSentence;
+      paragraphAreaOne << onAreaOneSentence;
+      paragraphAreaTwo << onAreaTwoSentence;
 
-    log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << '\n';
+      log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part")
+          << '\n';
 
-    paragraphAreaOne << weather_forecast(
-        areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, log);
+      paragraphAreaOne << weather_forecast(
+          areaOne, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
-    log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << '\n';
+      log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part")
+          << '\n';
 
-    paragraphAreaTwo << weather_forecast(
-        areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, log);
+      paragraphAreaTwo << weather_forecast(
+          areaTwo, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
-    paragraph << paragraphAreaOne << paragraphAreaTwo;
-  }
-  else
-  {
-    log << areaName << '\n';
+      paragraph << paragraphAreaOne << paragraphAreaTwo;
+    }
+    else
+    {
+      log << areaName << '\n';
 
-    paragraph << weather_forecast(itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
-  }
+      paragraph << weather_forecast(itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
+    }
 
-  analyze_sentences(paragraph);
+    analyze_sentences(paragraph);
 
-  return paragraph;
+    return paragraph;
   }
   catch (...)
   {
@@ -1638,25 +1649,25 @@ Paragraph WeatherStory::forecast_at_sea() const
 {
   try
   {
-  MessageLogger log("WeatherStory::forecast_at_sea");
+    MessageLogger log("WeatherStory::forecast_at_sea");
 
-  using namespace PrecipitationPeriodTools;
+    using namespace PrecipitationPeriodTools;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  std::string areaName;
+    std::string areaName;
 
-  if (itsArea.isNamed())
-  {
-    areaName = itsArea.name();
-  }
+    if (itsArea.isNamed())
+    {
+      areaName = itsArea.name();
+    }
 
-  log << areaName << '\n';
+    log << areaName << '\n';
 
-  paragraph << weather_forecast_at_sea(
-      itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
+    paragraph << weather_forecast_at_sea(
+        itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
-  return paragraph;
+    return paragraph;
   }
   catch (...)
   {

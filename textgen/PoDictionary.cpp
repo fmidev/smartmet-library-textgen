@@ -68,8 +68,8 @@ void rstrip_cr(std::string& line)
 std::string po_unquote(const std::string& theLine, const std::string& theFile, int theLineno)
 {
   if (theLine.size() < 2 || theLine.front() != '"' || theLine.back() != '"')
-    throw Fmi::Exception(
-        BCP, theFile + ":" + std::to_string(theLineno) + ": expected a quoted string");
+    throw Fmi::Exception(BCP,
+                         theFile + ":" + std::to_string(theLineno) + ": expected a quoted string");
 
   std::string result;
   result.reserve(theLine.size() - 2);
@@ -82,9 +82,8 @@ std::string po_unquote(const std::string& theLine, const std::string& theFile, i
       continue;
     }
     if (i + 2 >= theLine.size())
-      throw Fmi::Exception(BCP,
-                           theFile + ":" + std::to_string(theLineno) +
-                               ": dangling backslash in quoted string");
+      throw Fmi::Exception(
+          BCP, theFile + ":" + std::to_string(theLineno) + ": dangling backslash in quoted string");
     char next = theLine[++i];
     switch (next)
     {
@@ -180,7 +179,8 @@ void PoDictionary::init(const std::string& theLanguage)
     itsPimple->itsInitialized = false;
     itsPimple->itsData.clear();
 
-    std::string database = Settings::optional_string("textgen::podictionaries", "/usr/share/smartmet/textgen");
+    std::string database =
+        Settings::optional_string("textgen::podictionaries", "/usr/share/smartmet/textgen");
     std::string filename = database + '/' + theLanguage + ".po";
 
     if (!NFmiFileSystem::FileExists(filename))

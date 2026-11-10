@@ -194,7 +194,8 @@ string SpeechTextFormatter::visit(const Sentence& theSentence) const
   try
   {
     const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-    string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    string ret =
+        TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
     ret = TextFormatterTools::capitalize(ret);
     if (!ret.empty())
       ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
@@ -270,7 +271,8 @@ string SpeechTextFormatter::visit(const Document& theDocument) const
   try
   {
     const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-    string ret = TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, sep, "");
+    string ret =
+        TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, sep, "");
     return ret;
   }
   catch (...)

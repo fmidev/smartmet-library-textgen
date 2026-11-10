@@ -35,7 +35,6 @@
 using namespace std;
 using namespace TextGen;
 
-
 namespace WindSuccessiveEventTest
 {
 const string var = "successive";

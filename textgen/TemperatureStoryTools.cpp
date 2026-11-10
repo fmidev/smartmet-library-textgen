@@ -918,10 +918,8 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
     if (it == paramMap.end())
       return result;
 
-    WeatherParameter param = fractile_weather_parameter(theFractileType,
-                                                        std::get<0>(it->second),
-                                                        std::get<1>(it->second),
-                                                        std::get<2>(it->second));
+    WeatherParameter param = fractile_weather_parameter(
+        theFractileType, std::get<0>(it->second), std::get<1>(it->second), std::get<2>(it->second));
     result = gc.analyze(theVar, theSources, param, Mean, Mean, theArea, climatePeriod);
     return result;
   }

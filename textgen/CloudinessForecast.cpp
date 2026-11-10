@@ -46,35 +46,37 @@ using namespace TextGen;
 using namespace AreaTools;
 
 constexpr const char* HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
+    "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
 constexpr const char* SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
-  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
+    "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen";
 constexpr const char* HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE =
-  "[huomenna] saa vaihtelee puolipilvisesta pilviseen";
+    "[huomenna] saa vaihtelee puolipilvisesta pilviseen";
 
 constexpr const char* HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+    "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 constexpr const char* SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
-  "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+    "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 constexpr const char* HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE =
-  "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+    "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 
-constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[huomenna] [sisamaassa] saa on [selkea]";
+constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE =
+    "[huomenna] [sisamaassa] saa on [selkea]";
 constexpr const char* SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[sisamaassa] saa on [selkea]";
 constexpr const char* HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE = "[huomenna] saa on [selkea]";
 
 constexpr const char* HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
-  "[huomenna] [sisamaassa] saa on [selkea] ja poutainen";
+    "[huomenna] [sisamaassa] saa on [selkea] ja poutainen";
 constexpr const char* SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
-  "[sisamaassa] saa on [selkea] ja poutainen";
+    "[sisamaassa] saa on [selkea] ja poutainen";
 constexpr const char* HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE =
-  "[huomenna] saa on [selkea] ja poutainen";
+    "[huomenna] saa on [selkea] ja poutainen";
 constexpr const char* SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE = "saa on [selkea] ja poutainen";
 
-constexpr const char* ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE = "[iltapaivasta alkaen] [pilvistyvaa]";
+constexpr const char* ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE =
+    "[iltapaivasta alkaen] [pilvistyvaa]";
 
 constexpr const char* PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE =
-  "saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
+    "saa vaihtelee puolipilvisesta pilviseen ja on poutainen";
 
 namespace
 {
@@ -552,9 +554,9 @@ void CloudinessForecast::findOutCloudinessPeriods(const weather_result_data_item
           }
           else if (i == theData->size() - 1)
           {
-            pair<WeatherPeriod, cloudiness_id> item =
-                make_pair(WeatherPeriod(previousStartTime, theData->at(i)->thePeriod.localEndTime()),
-                          previousCloudinessId);
+            pair<WeatherPeriod, cloudiness_id> item = make_pair(
+                WeatherPeriod(previousStartTime, theData->at(i)->thePeriod.localEndTime()),
+                previousCloudinessId);
             theCloudinessPeriods.push_back(item);
           }
           else
@@ -598,7 +600,8 @@ void CloudinessForecast::joinPuolipilvisestaPilviseen(
     for (unsigned int i = 0; i < theData->size(); i++)
     {
       if (getCloudinessId(theData->at(i)->theResult.value()) >= PUOLIPILVINEN &&
-          getCloudinessId(theData->at(i)->theResult.value()) <= PILVINEN && i != theData->size() - 1)
+          getCloudinessId(theData->at(i)->theResult.value()) <= PILVINEN &&
+          i != theData->size() - 1)
       {
         if (index == -1)
           index = i;
@@ -861,7 +864,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
         const auto& startTime = thePeriod.localStartTime();
         const auto& endTime = thePeriod.localEndTime();
         cloudiness_id clid = theSourceCloudinessPeriod.second;
-        pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
+        pair<WeatherPeriod, cloudiness_id> item =
+            make_pair(WeatherPeriod(startTime, endTime), clid);
         theWeatherPeriodCloudiness.push_back(item);
       }
       else if (thePeriod.localStartTime() >= theSourceCloudinessPeriod.first.localStartTime() &&
@@ -871,7 +875,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
         const auto& startTime = thePeriod.localStartTime();
         const auto& endTime = theSourceCloudinessPeriod.first.localEndTime();
         cloudiness_id clid = theSourceCloudinessPeriod.second;
-        pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
+        pair<WeatherPeriod, cloudiness_id> item =
+            make_pair(WeatherPeriod(startTime, endTime), clid);
         theWeatherPeriodCloudiness.push_back(item);
       }
       else if (thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localStartTime() &&
@@ -881,7 +886,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
         const auto& startTime = theSourceCloudinessPeriod.first.localStartTime();
         const auto& endTime = thePeriod.localEndTime();
         cloudiness_id clid = theSourceCloudinessPeriod.second;
-        pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
+        pair<WeatherPeriod, cloudiness_id> item =
+            make_pair(WeatherPeriod(startTime, endTime), clid);
         theWeatherPeriodCloudiness.push_back(item);
       }
       else if (thePeriod.localStartTime() < theSourceCloudinessPeriod.first.localStartTime() &&
@@ -890,7 +896,8 @@ void CloudinessForecast::getWeatherPeriodCloudiness(
         const auto& startTime = theSourceCloudinessPeriod.first.localStartTime();
         const auto& endTime = theSourceCloudinessPeriod.first.localEndTime();
         cloudiness_id clid = theSourceCloudinessPeriod.second;
-        pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
+        pair<WeatherPeriod, cloudiness_id> item =
+            make_pair(WeatherPeriod(startTime, endTime), clid);
         theWeatherPeriodCloudiness.push_back(item);
       }
     }

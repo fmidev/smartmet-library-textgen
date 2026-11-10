@@ -815,8 +815,11 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
 
     if (thePercentages[firsttype] >= generally_limit)
     {
-      sentence << warning_phrase(
-          firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+      sentence << warning_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
       return sentence;
     }
 
@@ -842,8 +845,11 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
 
     if (thePercentages[firsttype] >= manyplaces_limit && firsttype != NORMAL)
     {
-      sentence << warning_phrase(
-          firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+      sentence << warning_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
 
       // Then report the most important "someplaces" condition
 
@@ -860,8 +866,11 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
 
     if (someplacestypes.empty())
     {
-      sentence << warning_phrase(
-          firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+      sentence << warning_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
       return sentence;
     }
 
@@ -887,8 +896,7 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 }  // namespace
@@ -949,7 +957,8 @@ Paragraph RoadStory::warning_shortview() const
     {
       const WeatherPeriod period = generator.period(i);
 
-      const WarningPercentages result = calculate_percentages(period, i, itsSources, itsArea, itsVar);
+      const WarningPercentages result =
+          calculate_percentages(period, i, itsSources, itsArea, itsVar);
 
       for (int j = min_warning; j <= max_warning; j++)
       {

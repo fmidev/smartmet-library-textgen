@@ -133,7 +133,8 @@ void MorningAndEveningPeriodGenerator::init()
       throw Fmi::Exception(BCP,
                            "MorningAndEveningPeriodGenerator: Evening must start before night");
     if (itsMorningStartHour >= itsNightStartHour)
-      throw Fmi::Exception(BCP, "MorningAndEveningPeriodGenerator: Night must start before morning");
+      throw Fmi::Exception(BCP,
+                           "MorningAndEveningPeriodGenerator: Night must start before morning");
 
     if (itsMorningMaxStartHour < itsMorningStartHour || itsMorningMaxStartHour >= itsDayStartHour)
       throw Fmi::Exception(BCP,

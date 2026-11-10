@@ -623,11 +623,8 @@ Sentence condition_sentence(const ConditionPercentages& thePercentages, const st
 
     firsttype = someplacestypes.begin()->second;
 
-    sentence << condition_phrase(firsttype,
-                                 thePercentages[firsttype],
-                                 generally_limit,
-                                 manyplaces_limit,
-                                 someplaces_limit);
+    sentence << condition_phrase(
+        firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
 
     if (someplacestypes.size() > 1)
     {

@@ -199,7 +199,8 @@ string WmlTextFormatter::visit(const Sentence& theSentence) const
   try
   {
     const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-    string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    string ret =
+        TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
     ret = TextFormatterTools::capitalize(ret);
     if (!ret.empty())
       ret += TextFormatterTools::sentenceEnd(itsDictionary.get());

@@ -187,7 +187,8 @@ Sentence until_tonight(const string& theVariable,
       else if (it == "none!")
         return sentence;
       else
-        throw Fmi::Exception(BCP, "PeriodPhraseFactory::until_tonight does not accept phrase " + it);
+        throw Fmi::Exception(BCP,
+                             "PeriodPhraseFactory::until_tonight does not accept phrase " + it);
     }
 
     throw Fmi::Exception(BCP, "PeriodPhrasefactory::until_tonight run out of options");
@@ -252,7 +253,8 @@ Sentence until_morning(const string& theVariable,
       else if (it == "none!")
         return sentence;
       else
-        throw Fmi::Exception(BCP, "PeriodPhrasefactory::until_morning does not accept phrase " + it);
+        throw Fmi::Exception(BCP,
+                             "PeriodPhrasefactory::until_morning does not accept phrase " + it);
     }
 
     throw Fmi::Exception(BCP, "PeriodPhrasefactory::until_morning run out of options");

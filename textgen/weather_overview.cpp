@@ -1356,19 +1356,21 @@ int one_day_rain_index(int theStartHour, int theEndHour)
 {
   try
   {
-  if (theEndHour <= theStartHour)
-    throw Fmi::Exception(
-        BCP, "Internal error in weather_overview: end hour must be greater than start hour");
+    if (theEndHour <= theStartHour)
+      throw Fmi::Exception(
+          BCP, "Internal error in weather_overview: end hour must be greater than start hour");
 
-  const int n = theEndHour - theStartHour - 1;
-  const int a1 = 24;
-  const int an = 24 - n + 1;
-  const int sn = ((a1 + an) * n) / 2;
-  return (sn + theStartHour + 1);
+    const int n = theEndHour - theStartHour - 1;
+    const int a1 = 24;
+    const int an = 24 - n + 1;
+    const int sn = ((a1 + an) * n) / 2;
+    return (sn + theStartHour + 1);
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartHour", Fmi::to_string(theStartHour)).addParameter("theEndHour", Fmi::to_string(theEndHour));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theStartHour", Fmi::to_string(theStartHour))
+        .addParameter("theEndHour", Fmi::to_string(theEndHour));
   }
 }
 
@@ -1386,12 +1388,14 @@ int one_day_rain_unique_index(int theStartHour, int theEndHour)
 {
   try
   {
-  const int tmp = one_day_rain_index(theStartHour, theEndHour);
-  return one_day_forecasts[tmp];
+    const int tmp = one_day_rain_index(theStartHour, theEndHour);
+    return one_day_forecasts[tmp];
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartHour", Fmi::to_string(theStartHour)).addParameter("theEndHour", Fmi::to_string(theEndHour));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theStartHour", Fmi::to_string(theStartHour))
+        .addParameter("theEndHour", Fmi::to_string(theEndHour));
   }
 }
 
@@ -1424,12 +1428,14 @@ int two_day_rain_unique_index(int theStartHour, int theEndHour)
 {
   try
   {
-  const int tmp = two_day_rain_index(theStartHour, theEndHour);
-  return two_day_forecasts[tmp];
+    const int tmp = two_day_rain_index(theStartHour, theEndHour);
+    return two_day_forecasts[tmp];
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theStartHour", Fmi::to_string(theStartHour)).addParameter("theEndHour", Fmi::to_string(theEndHour));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theStartHour", Fmi::to_string(theStartHour))
+        .addParameter("theEndHour", Fmi::to_string(theEndHour));
   }
 }
 
@@ -1449,66 +1455,68 @@ Sentence one_inclusive_rain(const TextGenPosixTime& theForecastTime,
 {
   try
   {
-  using namespace CloudinessStoryTools;
-  using PrecipitationStoryTools::rain_phrase;
+    using namespace CloudinessStoryTools;
+    using PrecipitationStoryTools::rain_phrase;
 
-  Sentence s;
-  s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);
+    Sentence s;
+    s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);
 
-  // start & end times of the rain
-  int rainstarthour = theRainPeriod.localStartTime().GetHour();
-  int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
-  if (rainendhour == 1)
-    rainendhour = 24;
+    // start & end times of the rain
+    int rainstarthour = theRainPeriod.localStartTime().GetHour();
+    int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
+    if (rainendhour == 1)
+      rainendhour = 24;
 
-  // mapping onto the four basic cases
-  const int idx = one_day_rain_unique_index(rainstarthour, rainendhour);
-  const int phrase = one_day_cases[idx].index;
+    // mapping onto the four basic cases
+    const int idx = one_day_rain_unique_index(rainstarthour, rainendhour);
+    const int phrase = one_day_cases[idx].index;
 
-  switch (phrase)
-  {
-    // [Aamulla] [sadetta]
-    case 1:
+    switch (phrase)
     {
-      s << one_day_cases[idx].phrase1
-        << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
+      // [Aamulla] [sadetta]
+      case 1:
+      {
+        s << one_day_cases[idx].phrase1
+          << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      // [Aamulla] [sadetta], [aamulla] [enimmakseen selkeaa] ja poutaa
+      case 2:
+      {
+        WeatherPeriod cloudyperiod(theRainPeriod.localEndTime(), thePeriod.localEndTime());
+        s << one_day_cases[idx].phrase1
+          << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+          << one_day_cases[idx].phrase2
+          << cloudiness_phrase(theSources, theArea, cloudyperiod, theVar, theDay) << "ja"
+          << "poutaa";
+        break;
+      }
+      // [Aamulla] [sadetta], [aamulla] poutaa
+      case 3:
+      {
+        s << one_day_cases[idx].phrase1
+          << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+          << one_day_cases[idx].phrase2 << "poutaa";
+        break;
+      }
+      // [Enimmakseen selkeaa], [aamulla] [sadetta]
+      case 4:
+      {
+        s << cloudiness_phrase(theSources, theArea, thePeriod, theVar, theDay) << Delimiter(",")
+          << one_day_cases[idx].phrase1
+          << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      default:
+        throw Fmi::Exception(BCP, "Internal error in weather_overview::one_inclusive_rain");
     }
-    // [Aamulla] [sadetta], [aamulla] [enimmakseen selkeaa] ja poutaa
-    case 2:
-    {
-      WeatherPeriod cloudyperiod(theRainPeriod.localEndTime(), thePeriod.localEndTime());
-      s << one_day_cases[idx].phrase1
-        << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-        << one_day_cases[idx].phrase2
-        << cloudiness_phrase(theSources, theArea, cloudyperiod, theVar, theDay) << "ja"
-        << "poutaa";
-      break;
-    }
-    // [Aamulla] [sadetta], [aamulla] poutaa
-    case 3:
-    {
-      s << one_day_cases[idx].phrase1
-        << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-        << one_day_cases[idx].phrase2 << "poutaa";
-      break;
-    }
-    // [Enimmakseen selkeaa], [aamulla] [sadetta]
-    case 4:
-    {
-      s << cloudiness_phrase(theSources, theArea, thePeriod, theVar, theDay) << Delimiter(",")
-        << one_day_cases[idx].phrase1
-        << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
-    }
-    default:
-      throw Fmi::Exception(BCP, "Internal error in weather_overview::one_inclusive_rain");
-  }
-  return s;
+    return s;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theDay", Fmi::to_string(theDay));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theDay", Fmi::to_string(theDay));
   }
 }
 
@@ -1528,207 +1536,209 @@ Paragraph one_twoday_inclusive_rain(const TextGenPosixTime& theForecastTime,
 {
   try
   {
-  using CloudinessStoryTools::cloudiness_phrase;
-  using PrecipitationStoryTools::rain_phrase;
+    using CloudinessStoryTools::cloudiness_phrase;
+    using PrecipitationStoryTools::rain_phrase;
 
-  // start & end times of the rain
-  int rainstarthour = theRainPeriod.localStartTime().GetHour();
-  int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
-  if (rainendhour == 1)
-    rainendhour = 24;
+    // start & end times of the rain
+    int rainstarthour = theRainPeriod.localStartTime().GetHour();
+    int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
+    if (rainendhour == 1)
+      rainendhour = 24;
 
-  // mapping onto the seventeen basic cases
-  const int idx = two_day_rain_unique_index(rainstarthour, rainendhour);
-  const int phrase = two_day_cases[idx].index;
-  const char* phrase1 = two_day_cases[idx].phrase1;
-  const char* phrase2 = two_day_cases[idx].phrase2;
+    // mapping onto the seventeen basic cases
+    const int idx = two_day_rain_unique_index(rainstarthour, rainendhour);
+    const int phrase = two_day_cases[idx].index;
+    const char* phrase1 = two_day_cases[idx].phrase1;
+    const char* phrase2 = two_day_cases[idx].phrase2;
 
-  // days 1 and 2
-  const WeatherPeriod day1(TimeTools::dayStart(theRainPeriod.localStartTime()),
-                           TimeTools::dayEnd(theRainPeriod.localStartTime()));
-  const WeatherPeriod day2(TimeTools::nextDay(day1.localStartTime()),
-                           TimeTools::nextDay(day1.localEndTime()));
+    // days 1 and 2
+    const WeatherPeriod day1(TimeTools::dayStart(theRainPeriod.localStartTime()),
+                             TimeTools::dayEnd(theRainPeriod.localStartTime()));
+    const WeatherPeriod day2(TimeTools::nextDay(day1.localStartTime()),
+                             TimeTools::nextDay(day1.localEndTime()));
 
-  // the period before the rain
-  const TextGenPosixTime before_rain_start = TimeTools::dayStart(theRainPeriod.localStartTime());
-  const TextGenPosixTime& before_rain_end = theRainPeriod.localStartTime();
-  const WeatherPeriod before_rain(before_rain_start, before_rain_end);
+    // the period before the rain
+    const TextGenPosixTime before_rain_start = TimeTools::dayStart(theRainPeriod.localStartTime());
+    const TextGenPosixTime& before_rain_end = theRainPeriod.localStartTime();
+    const WeatherPeriod before_rain(before_rain_start, before_rain_end);
 
-  // the period after the rain
-  const TextGenPosixTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(), 1));
-  const TextGenPosixTime after_rain_end(TimeTools::dayEnd(after_rain_start));
-  const WeatherPeriod after_rain(after_rain_start, after_rain_end);
+    // the period after the rain
+    const TextGenPosixTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(), 1));
+    const TextGenPosixTime after_rain_end(TimeTools::dayEnd(after_rain_start));
+    const WeatherPeriod after_rain(after_rain_start, after_rain_end);
 
-  Paragraph paragraph;
-  Sentence s1;
-  Sentence s2;
-  switch (phrase)
-  {
-    // Tanaan [aamusta alkaen] [sadetta]
-    case 1:
+    Paragraph paragraph;
+    Sentence s1;
+    Sentence s2;
+    switch (phrase)
     {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
-    }
-    // Tanaan [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa
-    case 2:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa";
-      break;
-    }
-    // Tanaan [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
-    case 3:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa" << Delimiter(",")
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan [aamusta alkaen] [sadetta], huomenna [enimmakseen selkeaa]
-    case 4:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan [aamusta alkaen] tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
-    case 5:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
-         << WeekdayTools::until_weekday_morning(day2.localStartTime()) << "asti"
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << WeekdayTools::on_weekday(day2.localStartTime())
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan [aamusta alkaen] tiistai-iltaan asti [sadetta]
-    case 6:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
-         << WeekdayTools::until_weekday_evening(day2.localStartTime()) << "asti"
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
-    }
-    // Tanaan [enimmakseen selkeaa], [aamulla] ja [yolla] [sadetta]. Huomenna [enimmakseen
-    // selkeaa]
-    case 7:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
-         << phrase1;
-      if (strcmp(phrase2, "") != 0)
-        s1 << "ja" << phrase2;
-      s1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+      // Tanaan [aamusta alkaen] [sadetta]
+      case 1:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      // Tanaan [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa
+      case 2:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << "poutaa";
+        break;
+      }
+      // Tanaan [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
+      case 3:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << "poutaa" << Delimiter(",")
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [aamusta alkaen] [sadetta], huomenna [enimmakseen selkeaa]
+      case 4:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [aamusta alkaen] tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+      case 5:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
+           << WeekdayTools::until_weekday_morning(day2.localStartTime()) << "asti"
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+           << WeekdayTools::on_weekday(day2.localStartTime())
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [aamusta alkaen] tiistai-iltaan asti [sadetta]
+      case 6:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << phrase1
+           << WeekdayTools::until_weekday_evening(day2.localStartTime()) << "asti"
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      // Tanaan [enimmakseen selkeaa], [aamulla] ja [yolla] [sadetta]. Huomenna [enimmakseen
+      // selkeaa]
+      case 7:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
+           << phrase1;
+        if (strcmp(phrase2, "") != 0)
+          s1 << "ja" << phrase2;
+        s1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
 
-      s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
+        s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]
+      case 8:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
+           << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      // Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa
+      case 9:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
+           << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << "poutaa";
+        break;
+      }
+      // Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa,
+      // [enimmakseen selkeaa]
+      case 10:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
+           << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << "poutaa" << Delimiter(",")
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [enimmakseen selkeaa], [aamusta alkaen] tiistai-iltaan asti [sadetta]
+      case 11:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
+           << phrase1 << WeekdayTools::until_weekday_evening(day2.localStartTime()) << "asti"
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      // Tanaan [enimmakseen selkeaa], [aamulla] [sadetta]. Huomenna [enimmakseen selkeaa]
+      case 12:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
+           << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [sadetta], huomenna [aamulla] poutaa
+      case 13:
+      // Tanaan [sadetta], huomenna [aamusta alkaen] poutaa
+      case 14:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << "poutaa";
+        break;
+      }
+      // Tanaan [sadetta], huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
+      case 15:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << "poutaa" << Delimiter(",")
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+      case 16:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay + 1) << Delimiter(",")
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
+           << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
+        break;
+      }
+      // Tanaan ja huomenna [sadetta]
+      case 17:
+      {
+        s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << "ja"
+           << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+           << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
+        break;
+      }
+      default:
+        throw Fmi::Exception(BCP, "Internal error in weather_overview::one_twoday_inclusive_rain");
     }
-    // Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]
-    case 8:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
-         << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
-    }
-    // Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa
-    case 9:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
-         << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa";
-      break;
-    }
-    // Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa,
-    // [enimmakseen selkeaa]
-    case 10:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
-         << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa" << Delimiter(",")
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan [enimmakseen selkeaa], [aamusta alkaen] tiistai-iltaan asti [sadetta]
-    case 11:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
-         << phrase1 << WeekdayTools::until_weekday_evening(day2.localStartTime()) << "asti"
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
-    }
-    // Tanaan [enimmakseen selkeaa], [aamulla] [sadetta]. Huomenna [enimmakseen selkeaa]
-    case 12:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << cloudiness_phrase(theSources, theArea, before_rain, theVar, theDay) << Delimiter(",")
-         << phrase1 << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan [sadetta], huomenna [aamulla] poutaa
-    case 13:
-    // Tanaan [sadetta], huomenna [aamusta alkaen] poutaa
-    case 14:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa";
-      break;
-    }
-    // Tanaan [sadetta], huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
-    case 15:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << "poutaa" << Delimiter(",")
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan [sadetta], huomenna [enimmakseen selkeaa]
-    case 16:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay + 1) << Delimiter(",")
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2) << phrase2
-         << cloudiness_phrase(theSources, theArea, after_rain, theVar, theDay + 1);
-      break;
-    }
-    // Tanaan ja huomenna [sadetta]
-    case 17:
-    {
-      s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1) << "ja"
-         << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
-         << rain_phrase(theSources, theArea, theRainPeriod, theVar, theDay);
-      break;
-    }
-    default:
-      throw Fmi::Exception(BCP, "Internal error in weather_overview::one_twoday_inclusive_rain");
-  }
 
-  paragraph << s1 << s2;
-  return paragraph;
+    paragraph << s1 << s2;
+    return paragraph;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar).addParameter("theDay", Fmi::to_string(theDay));
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("theVar", theVar)
+        .addParameter("theDay", Fmi::to_string(theDay));
   }
 }
 
@@ -1751,11 +1761,11 @@ Sentence many_inclusive_rains(const TextGenPosixTime& theForecastTime,
 {
   try
   {
-  Sentence s;
-  s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);
-  s << "enimmakseen"
-    << "poutaa";
-  return s;
+    Sentence s;
+    s << PeriodPhraseFactory::create("days", theVar, theForecastTime, thePeriod);
+    s << "enimmakseen"
+      << "poutaa";
+    return s;
   }
   catch (...)
   {
@@ -1783,28 +1793,31 @@ int handle_no_overlap_days(int day,
 {
   try
   {
-  int day2 = day;
-  for (; day2 < n; day2++)
-  {
-    if (!overlaps[day2 + 1].empty() || !inclusives[day2 + 1].empty())
-      break;
-  }
+    int day2 = day;
+    for (; day2 < n; day2++)
+    {
+      if (!overlaps[day2 + 1].empty() || !inclusives[day2 + 1].empty())
+        break;
+    }
 
-  WeatherPeriod period(generator.period(day).localStartTime(),
-                       generator.period(day2).localEndTime());
+    WeatherPeriod period(generator.period(day).localStartTime(),
+                         generator.period(day2).localEndTime());
 
-  if (day != day2)
-    log << "Cloudiness only for days " << day << '-' << day2 << '\n';
-  else
-    log << "Cloudiness only for day " << day << '\n';
+    if (day != day2)
+      log << "Cloudiness only for days " << day << '-' << day2 << '\n';
+    else
+      log << "Cloudiness only for day " << day << '\n';
 
-  CloudinessStory story(itsForecastTime, itsSources, itsArea, period, itsVar);
-  paragraph << story.makeStory("cloudiness_overview");
-  return day2;
+    CloudinessStory story(itsForecastTime, itsSources, itsArea, period, itsVar);
+    paragraph << story.makeStory("cloudiness_overview");
+    return day2;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("day", Fmi::to_string(day)).addParameter("n", Fmi::to_string(n)).addParameter("itsVar", itsVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("day", Fmi::to_string(day))
+        .addParameter("n", Fmi::to_string(n))
+        .addParameter("itsVar", itsVar);
   }
 }
 
@@ -1820,30 +1833,33 @@ int handle_rainy_sequence(int day,
 {
   try
   {
-  int day2 = day;
-  for (; day2 < n; day2++)
-  {
-    if (overlaps[day2 + 1].empty())
-      break;
-    if (overlaps[day2 + 1].size() == 1 && inclusives[day2 + 1].size() == 1)
-      break;
-  }
+    int day2 = day;
+    for (; day2 < n; day2++)
+    {
+      if (overlaps[day2 + 1].empty())
+        break;
+      if (overlaps[day2 + 1].size() == 1 && inclusives[day2 + 1].size() == 1)
+        break;
+    }
 
-  WeatherPeriod period(generator.period(day).localStartTime(),
-                       generator.period(day2).localEndTime());
+    WeatherPeriod period(generator.period(day).localStartTime(),
+                         generator.period(day2).localEndTime());
 
-  Sentence s;
-  if (day == day2)
-    s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period) << "enimmakseen"
-      << "poutaa";
-  else
-    s << WeekdayTools::from_weekday(period.localStartTime()) << "ajoittain sadetta";
-  paragraph << s;
-  return day2;
+    Sentence s;
+    if (day == day2)
+      s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period) << "enimmakseen"
+        << "poutaa";
+    else
+      s << WeekdayTools::from_weekday(period.localStartTime()) << "ajoittain sadetta";
+    paragraph << s;
+    return day2;
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("day", Fmi::to_string(day)).addParameter("n", Fmi::to_string(n)).addParameter("itsVar", itsVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed")
+        .addParameter("day", Fmi::to_string(day))
+        .addParameter("n", Fmi::to_string(n))
+        .addParameter("itsVar", itsVar);
   }
 }
 }  // namespace
@@ -1863,129 +1879,129 @@ Paragraph WeatherStory::overview() const
 {
   try
   {
-  MessageLogger log("WeatherStory::overview");
+    MessageLogger log("WeatherStory::overview");
 
-  using namespace PrecipitationPeriodTools;
+    using namespace PrecipitationPeriodTools;
 
-  Paragraph paragraph;
+    Paragraph paragraph;
 
-  // we want the last day to extend up to midnight regardless
-  // of the actual period length, otherwise we risk badly
-  // formed forecasts when using full-day descriptions. If the end
-  // hour is too early, we ignore the last day fully. Also, we do not
-  // want to analyze any times before the first period, which we'd
-  // get if we used itsPeriod start time as the start time. Hence we
-  // need some trickery...
+    // we want the last day to extend up to midnight regardless
+    // of the actual period length, otherwise we risk badly
+    // formed forecasts when using full-day descriptions. If the end
+    // hour is too early, we ignore the last day fully. Also, we do not
+    // want to analyze any times before the first period, which we'd
+    // get if we used itsPeriod start time as the start time. Hence we
+    // need some trickery...
 
-  // extended end time
-  const TextGenPosixTime endtime =
-      (itsPeriod.localEndTime().GetHour() < 12 ? TimeTools::dayStart(itsPeriod.localEndTime())
-                                               : TimeTools::dayEnd(itsPeriod.localEndTime()));
+    // extended end time
+    const TextGenPosixTime endtime =
+        (itsPeriod.localEndTime().GetHour() < 12 ? TimeTools::dayStart(itsPeriod.localEndTime())
+                                                 : TimeTools::dayEnd(itsPeriod.localEndTime()));
 
-  // valid generator for all days
-  HourPeriodGenerator generator(WeatherPeriod(itsPeriod.localStartTime(), endtime),
-                                itsVar + "::day");
+    // valid generator for all days
+    HourPeriodGenerator generator(WeatherPeriod(itsPeriod.localStartTime(), endtime),
+                                  itsVar + "::day");
 
-  // minimal inclusive period
-  WeatherPeriod rainperiod = generator.period();
+    // minimal inclusive period
+    WeatherPeriod rainperiod = generator.period();
 
-  RainPeriods rainperiods =
-      PrecipitationPeriodTools::analyze(itsSources, itsArea, rainperiod, itsVar);
+    RainPeriods rainperiods =
+        PrecipitationPeriodTools::analyze(itsSources, itsArea, rainperiod, itsVar);
 
-  log << "Found " << rainperiods.size() << " rainy periods\n";
+    log << "Found " << rainperiods.size() << " rainy periods\n";
 
-  {
-    for (const auto& rainperiod : rainperiods)
     {
-      log << "Period: " << rainperiod.localStartTime() << " ... " << rainperiod.localEndTime()
-          << '\n';
+      for (const auto& rainperiod : rainperiods)
+      {
+        log << "Period: " << rainperiod.localStartTime() << " ... " << rainperiod.localEndTime()
+            << '\n';
+      }
     }
-  }
 
-  if (rainperiods.empty())
-  {
-    CloudinessStory story(itsForecastTime, itsSources, itsArea, itsPeriod, itsVar);
-    paragraph << story.makeStory("cloudiness_overview");
+    if (rainperiods.empty())
+    {
+      CloudinessStory story(itsForecastTime, itsSources, itsArea, itsPeriod, itsVar);
+      paragraph << story.makeStory("cloudiness_overview");
+      log << paragraph;
+      return paragraph;
+    }
+
+    // process sequences of similar days
+
+    const int n = generator.size();
+
+    RainPeriods dummy;
+    vector<RainPeriods> overlaps;
+    vector<RainPeriods> inclusives;
+    overlaps.push_back(dummy);
+    inclusives.push_back(dummy);
+
+    for (int day = 1; day <= n; day++)
+    {
+      WeatherPeriod period = generator.period(day);
+
+      RainPeriods overlap = overlappingPeriods(rainperiods, period);
+      RainPeriods inclusive = inclusivePeriods(rainperiods, period);
+
+      overlaps.push_back(overlap);
+      inclusives.push_back(inclusive);
+    }
+
+    for (int day = 1; day <= n; day++)
+    {
+      const RainPeriods::size_type noverlap = overlaps[day].size();
+      const RainPeriods::size_type ninclusive = inclusives[day].size();
+
+      log << "Day " << day << " overlap   : " << noverlap << '\n';
+      log << "Day " << day << " inclusive : " << ninclusive << '\n';
+
+      if (noverlap == 0)
+      {
+        day = handle_no_overlap_days(day,
+                                     n,
+                                     overlaps,
+                                     inclusives,
+                                     generator,
+                                     itsForecastTime,
+                                     itsSources,
+                                     itsArea,
+                                     itsVar,
+                                     log,
+                                     paragraph);
+      }
+      else if (ninclusive == 1 && noverlap == 1)
+      {
+        paragraph << one_inclusive_rain(itsForecastTime,
+                                        itsSources,
+                                        itsArea,
+                                        generator.period(day),
+                                        itsVar,
+                                        inclusives[day].front(),
+                                        day);
+      }
+      else if (ninclusive == noverlap)
+      {
+        paragraph << many_inclusive_rains(
+            itsForecastTime, itsSources, itsArea, generator.period(day), itsVar, inclusives[day]);
+      }
+      else if (ninclusive == 0 && noverlap == 1 && day + 1 <= n && overlaps[day + 1].size() == 1 &&
+               inclusives[day + 1].empty())
+      {
+        WeatherPeriod period(generator.period(day).localStartTime(),
+                             generator.period(day + 1).localEndTime());
+        paragraph << one_twoday_inclusive_rain(
+            itsForecastTime, itsSources, itsArea, period, itsVar, overlaps[day].front(), day);
+        day++;
+      }
+      else
+      {
+        day = handle_rainy_sequence(
+            day, n, overlaps, inclusives, generator, itsForecastTime, itsVar, paragraph);
+      }
+    }
+
     log << paragraph;
     return paragraph;
-  }
-
-  // process sequences of similar days
-
-  const int n = generator.size();
-
-  RainPeriods dummy;
-  vector<RainPeriods> overlaps;
-  vector<RainPeriods> inclusives;
-  overlaps.push_back(dummy);
-  inclusives.push_back(dummy);
-
-  for (int day = 1; day <= n; day++)
-  {
-    WeatherPeriod period = generator.period(day);
-
-    RainPeriods overlap = overlappingPeriods(rainperiods, period);
-    RainPeriods inclusive = inclusivePeriods(rainperiods, period);
-
-    overlaps.push_back(overlap);
-    inclusives.push_back(inclusive);
-  }
-
-  for (int day = 1; day <= n; day++)
-  {
-    const RainPeriods::size_type noverlap = overlaps[day].size();
-    const RainPeriods::size_type ninclusive = inclusives[day].size();
-
-    log << "Day " << day << " overlap   : " << noverlap << '\n';
-    log << "Day " << day << " inclusive : " << ninclusive << '\n';
-
-    if (noverlap == 0)
-    {
-      day = handle_no_overlap_days(day,
-                                   n,
-                                   overlaps,
-                                   inclusives,
-                                   generator,
-                                   itsForecastTime,
-                                   itsSources,
-                                   itsArea,
-                                   itsVar,
-                                   log,
-                                   paragraph);
-    }
-    else if (ninclusive == 1 && noverlap == 1)
-    {
-      paragraph << one_inclusive_rain(itsForecastTime,
-                                      itsSources,
-                                      itsArea,
-                                      generator.period(day),
-                                      itsVar,
-                                      inclusives[day].front(),
-                                      day);
-    }
-    else if (ninclusive == noverlap)
-    {
-      paragraph << many_inclusive_rains(
-          itsForecastTime, itsSources, itsArea, generator.period(day), itsVar, inclusives[day]);
-    }
-    else if (ninclusive == 0 && noverlap == 1 && day + 1 <= n && overlaps[day + 1].size() == 1 &&
-             inclusives[day + 1].empty())
-    {
-      WeatherPeriod period(generator.period(day).localStartTime(),
-                           generator.period(day + 1).localEndTime());
-      paragraph << one_twoday_inclusive_rain(
-          itsForecastTime, itsSources, itsArea, period, itsVar, overlaps[day].front(), day);
-      day++;
-    }
-    else
-    {
-      day = handle_rainy_sequence(
-          day, n, overlaps, inclusives, generator, itsForecastTime, itsVar, paragraph);
-    }
-  }
-
-  log << paragraph;
-  return paragraph;
   }
   catch (...)
   {

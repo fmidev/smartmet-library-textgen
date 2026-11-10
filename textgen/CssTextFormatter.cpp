@@ -211,7 +211,8 @@ string CssTextFormatter::visit(const Sentence& theSentence) const
   try
   {
     const string sep = TextFormatterTools::wordSeparator(itsDictionary.get());
-    string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
+    string ret =
+        TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, sep, "");
     ret = TextFormatterTools::capitalize(ret);
     if (!ret.empty())
       ret += TextFormatterTools::sentenceEnd(itsDictionary.get());
@@ -245,8 +246,10 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
     ostringstream out;
     if (!text.empty())
     {
-      const string css_tag = Settings::optional_string(itsSectionVar + "::content::css::tag", "div");
-      const string css_class = Settings::optional_string(itsSectionVar + "::content::css::class", "");
+      const string css_tag =
+          Settings::optional_string(itsSectionVar + "::content::css::tag", "div");
+      const string css_class =
+          Settings::optional_string(itsSectionVar + "::content::css::class", "");
 
       // add tag if class is not empty and starting-tag for the class has not been already defined
       bool addCssTag =

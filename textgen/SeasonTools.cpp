@@ -316,7 +316,8 @@ bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
     int summerEndMonth = -1;
     int summerEndDay = -1;
 
-    read_date_variable(theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
+    read_date_variable(
+        theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
     read_date_variable(theVar + "::summertime::enddate", "0930", summerEndMonth, summerEndDay);
 
     return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);

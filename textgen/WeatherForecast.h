@@ -68,7 +68,8 @@ constexpr const char* KOVAA_WORD = "kovaa";
 constexpr const char* SADETTA_WORD = "sadetta";
 constexpr const char* RUNSASTA_VESISADETTA_PHRASE = "runsasta vesisadetta";
 constexpr const char* RUNSASTA_SADETTA_PHRASE = "runsasta sadetta";
-constexpr const char* VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE = "vaihtelee puolipilvisesta pilviseen";
+constexpr const char* VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE =
+    "vaihtelee puolipilvisesta pilviseen";
 constexpr const char* VERRATTAIN_PILVINEN_PHRASE = "verrattain pilvinen";
 constexpr const char* SELKEA_WORD = "selkea";
 constexpr const char* PILVINEN_WORD = "pilvinen";
@@ -117,18 +118,22 @@ constexpr const char* JAATAVAA_VESISADETTA_PHRASE = "jaatavaa vesisadetta";
 constexpr const char* JAATAVAA_TIHKUSADETTA_PHRASE = "jaatavaa tihkusadetta";
 constexpr const char* JOKA_VOI_OLLA_JAATAVAA_PHRASE = "joka voi olla jaatavaa";
 constexpr const char* JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE = "jotka voivat olla jaatavia";
-constexpr const char* YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset sadekuurot mahdollisia";
-constexpr const char* YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset vesikuurot mahdollisia";
-constexpr const char* YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset rantakuurot mahdollisia";
-constexpr const char* YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE = "yksittaiset lumikuurot mahdollisia";
+constexpr const char* YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE =
+    "yksittaiset sadekuurot mahdollisia";
+constexpr const char* YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE =
+    "yksittaiset vesikuurot mahdollisia";
+constexpr const char* YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE =
+    "yksittaiset rantakuurot mahdollisia";
+constexpr const char* YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE =
+    "yksittaiset lumikuurot mahdollisia";
 constexpr const char* YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE =
-  "yksittaiset vesi- tai rantakuurot mahdollisia";
+    "yksittaiset vesi- tai rantakuurot mahdollisia";
 constexpr const char* YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE =
-  "yksittaiset ranta- tai vesikuurot mahdollisia";
+    "yksittaiset ranta- tai vesikuurot mahdollisia";
 constexpr const char* YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE =
-  "yksittaiset lumi- tai rantakuurot mahdollisia";
+    "yksittaiset lumi- tai rantakuurot mahdollisia";
 constexpr const char* YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE =
-  "yksittaiset vesi- tai lumikuurot mahdollisia";
+    "yksittaiset vesi- tai lumikuurot mahdollisia";
 constexpr const char* JOKA_MUUTTUU_LUMISATEEKSI_PHRASE = "joka muuttuu lumisateeksi";
 constexpr const char* JOKA_MUUTTUU_VESISATEEKSI_PHRASE = "joka muuttuu vesisateeksi";
 constexpr const char* JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE = "joka muuttuu tihkusateeksi";
@@ -238,7 +243,8 @@ constexpr double IN_SOME_PLACES_UPPER_LIMIT = 50.0;
 constexpr double IN_MANY_PLACES_LOWER_LIMIT = 50.0;
 constexpr double IN_MANY_PLACES_UPPER_LIMIT = 90.0;
 constexpr int FREEZING_RAIN_LIMIT = 10;
-constexpr double PRECIPITATION_FORM_REPORTING_LIMIT = 10.0;  // at least 10% must be of the type to be mentioned
+constexpr double PRECIPITATION_FORM_REPORTING_LIMIT =
+    10.0;  // at least 10% must be of the type to be mentioned
 
 constexpr double SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT = 0.1;
 constexpr double SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT = 15.0;
@@ -627,8 +633,7 @@ bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& th
 WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
                                   const WeatherPeriod& theWeatherPeriod2);
 
-Sentence get_direction_phrase(AreaTools::direction_id theDirectionId,
-                              bool theAlkaenPhrase = false);
+Sentence get_direction_phrase(AreaTools::direction_id theDirectionId, bool theAlkaenPhrase = false);
 Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
                                bool theSpecifyDayFlag,
                                const std::string& theVar,

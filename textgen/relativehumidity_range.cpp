@@ -50,11 +50,21 @@ Paragraph RelativeHumidityStory::range() const
 
     GridForecaster forecaster;
 
-    WeatherResult minresult = forecaster.analyze(
-        itsVar + "::fake::minimum", itsSources, RelativeHumidity, Mean, Minimum, itsArea, itsPeriod);
+    WeatherResult minresult = forecaster.analyze(itsVar + "::fake::minimum",
+                                                 itsSources,
+                                                 RelativeHumidity,
+                                                 Mean,
+                                                 Minimum,
+                                                 itsArea,
+                                                 itsPeriod);
 
-    WeatherResult maxresult = forecaster.analyze(
-        itsVar + "::fake::maximum", itsSources, RelativeHumidity, Mean, Maximum, itsArea, itsPeriod);
+    WeatherResult maxresult = forecaster.analyze(itsVar + "::fake::maximum",
+                                                 itsSources,
+                                                 RelativeHumidity,
+                                                 Mean,
+                                                 Maximum,
+                                                 itsArea,
+                                                 itsPeriod);
 
     WeatherResult meanresult = forecaster.analyze(
         itsVar + "::fake::mean", itsSources, RelativeHumidity, Mean, Mean, itsArea, itsPeriod);

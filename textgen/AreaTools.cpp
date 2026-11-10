@@ -446,7 +446,6 @@ Rect Rect::boundingRect(const Rect& theRect) const
   }
 }
 
-
 Rect Rect::intersection(const Rect& theRect) const
 {
   try

@@ -850,8 +850,11 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
 
     if (thePercentages[firsttype] >= generally_limit)
     {
-      sentence << warning_phrase(
-          firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+      sentence << warning_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
       return sentence;
     }
 
@@ -877,8 +880,11 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
 
     if (thePercentages[firsttype] >= manyplaces_limit && firsttype != NORMAL)
     {
-      sentence << warning_phrase(
-          firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+      sentence << warning_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
 
       // Then report the most important "someplaces" condition
 
@@ -895,8 +901,11 @@ Sentence warning_sentence(const WarningPercentages& thePercentages, const string
 
     if (someplacestypes.empty())
     {
-      sentence << warning_phrase(
-          firsttype, thePercentages[firsttype], generally_limit, manyplaces_limit, someplaces_limit);
+      sentence << warning_phrase(firsttype,
+                                 thePercentages[firsttype],
+                                 generally_limit,
+                                 manyplaces_limit,
+                                 someplaces_limit);
       return sentence;
     }
 
@@ -959,8 +968,7 @@ bool is_morning(const WeatherPeriod& thePeriod, const string& theVar)
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -997,8 +1005,7 @@ bool is_day(const WeatherPeriod& thePeriod, const string& theVar)
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1035,8 +1042,7 @@ bool is_evening(const WeatherPeriod& thePeriod, const string& theVar)
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1073,8 +1079,7 @@ bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1116,8 +1121,7 @@ Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const stri
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1153,8 +1157,7 @@ Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const str
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1190,8 +1193,7 @@ Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1221,8 +1223,7 @@ Sentence during_period_phrase(const WeatherPeriod& thePeriod,
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1264,8 +1265,7 @@ Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const st
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1301,8 +1301,7 @@ Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const s
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1338,8 +1337,7 @@ Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const stri
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 
@@ -1369,8 +1367,7 @@ Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
   }
   catch (...)
   {
-    throw Fmi::Exception::Trace(BCP, "Operation failed")
-        .addParameter("theVar", theVar);
+    throw Fmi::Exception::Trace(BCP, "Operation failed").addParameter("theVar", theVar);
   }
 }
 }  // namespace
@@ -1432,7 +1429,8 @@ Paragraph RoadStory::warning_overview() const
     {
       const WeatherPeriod period = generator.period(i);
 
-      const WarningPercentages result = calculate_percentages(period, i, itsSources, itsArea, itsVar);
+      const WarningPercentages result =
+          calculate_percentages(period, i, itsSources, itsArea, itsVar);
 
       const Sentence sentence = warning_sentence(result, itsVar);
       const string realization = formatter.format(sentence);
@@ -1487,7 +1485,8 @@ Paragraph RoadStory::warning_overview() const
       }
       else
       {
-        sentence << starting_period_phrase(periods[i], last_mentioned_date, itsForecastTime, itsVar);
+        sentence << starting_period_phrase(
+            periods[i], last_mentioned_date, itsForecastTime, itsVar);
       }
       sentence << sentences[i];
 

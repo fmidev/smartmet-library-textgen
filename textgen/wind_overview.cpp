@@ -3149,9 +3149,10 @@ std::string quadrant_phrase_key(WeatherArea::Type type)
 //   ONE_QUALIFIER: args = (qualifier,   gustsPhrase, peakInt, mpsUnit)  → [1] [2] [3] [4]
 //   TWO_QUALIFIER: args = (time, quadrant, gustsPhrase, peakInt, mpsUnit) → [1] [2] [3] [4] [5]
 constexpr const char* CONVECTIVE_CELL_PLAIN_PHRASE = "paikoin [puuskia], kovimmillaan [n] [m/s]";
-constexpr const char* CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE = "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]";
+constexpr const char* CONVECTIVE_CELL_ONE_QUALIFIER_PHRASE =
+    "[aika] paikoin [puuskia], kovimmillaan [n] [m/s]";
 constexpr const char* CONVECTIVE_CELL_TWO_QUALIFIER_PHRASE =
-  "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]";
+    "[aika] [suunta] paikoin [puuskia], kovimmillaan [n] [m/s]";
 
 }  // namespace
 
@@ -3882,15 +3883,13 @@ void append_debug_html(wo_story_params& storyParams, const WeatherPeriod& period
   if (Settings::optional_bool("qdtext::append_graph", false))
   {
     std::string html_string(Settings::optional_string("html__append", ""));
-    html_string += get_js_code(js_id,
-                               html_string.empty(),
-                               ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
+    html_string += get_js_code(
+        js_id, html_string.empty(), ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
 
     html_string += "</br><br>\n";
     html_string += "<hr size=\"3\" color=\"black\">\n";
     html_string += "<h5>";
-    Fmi::Date startDate(
-        Fmi::Date::from_iso_string(period.localStartTime().ToStr(kYYYYMMDD)));
+    Fmi::Date startDate(Fmi::Date::from_iso_string(period.localStartTime().ToStr(kYYYYMMDD)));
     html_string += Fmi::date_time::to_simple_string(startDate);
     html_string += (period.localStartTime().GetHour() < 10 ? " 0" : " ");
     html_string += Fmi::to_string(period.localStartTime().GetHour());

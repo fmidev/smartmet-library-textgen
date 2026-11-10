@@ -144,14 +144,16 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
     {
       thunderProbabilityData =
           ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA].get());
-      thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA].get());
+      thunderExtentData =
+          ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA].get());
       areaString = "coast";
     }
     if (theForecastAreaId == INLAND_AREA)
     {
       thunderProbabilityData =
           ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA].get());
-      thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA].get());
+      thunderExtentData =
+          ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA].get());
       areaString = "inland";
     }
 

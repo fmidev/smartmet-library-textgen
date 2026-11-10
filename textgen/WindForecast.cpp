@@ -114,20 +114,18 @@ constexpr const char* POHJOINEN_LUODE_TUULI = "1- ja 8-valinen tuuli";
 constexpr const char* VAIHTELEVA_TUULI_P = "suunnaltaan vaihtelevaa tuulta";
 constexpr const char* VAIHTELEVA_TUULI = "suunnaltaan vaihteleva tuuli";
 
-
 constexpr const char* POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE =
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua";
+    "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua";
 constexpr const char* ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA_COMPOSITE_PHRASE =
-  "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]";
+    "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]";
 constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi";
+    "[iltapaivalla] tuuli muuttuu vaihtelevaksi";
 constexpr const char* ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE =
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]";
+    "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]";
 constexpr const char* ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE = "[iltapaivalla] [etelatuulta]";
 
 constexpr const char* ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE =
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi";
-
+    "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi";
 
 namespace
 {
@@ -2977,9 +2975,10 @@ void WindForecast::processNonSkippedInterval(paragraph_info& pi,
       // no later range follows (then the range alone covers the sentence period)
       if (laterReported &&
           as_string(sentenceInfo.sentence)
-              .substr(0,
+                  .substr(
+                      0,
                       strlen(POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)) !=
-          POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)
+              POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)
       {
         sentence_parameter sp;
         sp.sentence << Delimiter(COMMA_PUNCTUATION_MARK) << ALUKSI_WORD;
@@ -3789,8 +3788,7 @@ void WindForecast::checkReportingPoint(unsigned int i,
     referenceInfo = reportReferenceInfo(
         hourlyInfo, state.previousReportIndex, begIndex, firstSentenceInTheStory);
   if (theParameters.theReportFinalLevel && !state.finalLevelReported && notWeak &&
-      i < lastInsideIndex &&
-      final_level_reached_at(hourlyInfo, i, begIndex, lastInsideIndex) &&
+      i < lastInsideIndex && final_level_reached_at(hourlyInfo, i, begIndex, lastInsideIndex) &&
       wind_speed_differ_enough(hourlyInfo[i - begIndex], referenceInfo))
   {
     state.reportingIndexes.push_back(i);
