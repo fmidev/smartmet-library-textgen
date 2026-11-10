@@ -339,7 +339,8 @@ class WindForecast
                                  const sentence_info& sentenceInfo,
                                  TimePhraseInfo& timePhraseInfo,
                                  unsigned int k,
-                                 bool isFirstOfAll) const;
+                                 bool isFirstOfAll,
+                                 bool laterReported) const;
   void processSkippedInterval(paragraph_info& pi,
                               const interval_sentence_info& isi,
                               TimePhraseInfo& timePhraseInfo) const;

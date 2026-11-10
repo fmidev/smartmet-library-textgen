@@ -2387,6 +2387,30 @@ void WindForecast::markSkippedIntervals(sentence_info& sentenceInfo,
                                                      intervalInfoIsiNext,
                                                      theParameters.theContextualMaxIntervalSize,
                                                      sentenceInfo.changeType == VOIMISTUVAA_WORD);
+        if (!differEnough && k == 0 && sentenceIndex == 0 && theParameters.theReportInitialRange &&
+            sentenceInfo.changeType != VOIMISTUVAA_WORD)
+        {
+          // Keep the initial range, drop the following ranges that do not differ enough from it
+          unsigned int j = k + 1;
+          while (j < sentenceInfo.intervalSentences.size())
+          {
+            interval_sentence_info& isiLater = sentenceInfo.intervalSentences[j];
+            interval_info intervalInfoLater = windSpeedIntervalInfo(isiLater.period);
+            if (wind_speed_differ_enough(intervalInfoIsi,
+                                         intervalInfoLater,
+                                         theParameters.theContextualMaxIntervalSize,
+                                         false))
+              break;
+            isiLater.skip = true;
+            theParameters.theLog << "Interval2 " << intervalInfoLater
+                                 << " does not differ enough from initial " << intervalInfoIsi
+                                 << " -> initial reported, later not reported\n";
+            j++;
+          }
+          intervalInfoPrevious = intervalInfoIsi;
+          k = j - 1;
+          continue;
+        }
         if (!differEnough)
         {
           isi.skip = true;
@@ -2939,7 +2963,8 @@ void WindForecast::processNonSkippedInterval(paragraph_info& pi,
                                              const sentence_info& sentenceInfo,
                                              TimePhraseInfo& timePhraseInfo,
                                              unsigned int k,
-                                             bool isFirstOfAll) const
+                                             bool isFirstOfAll,
+                                             bool laterReported) const
 {
   try
   {
@@ -2948,8 +2973,10 @@ void WindForecast::processNonSkippedInterval(paragraph_info& pi,
 
     if (isFirstOfAll)
     {
-      // First interval of first sentence: add "aluksi" unless special phrase is used
-      if (as_string(sentenceInfo.sentence)
+      // First interval of first sentence: add "aluksi" unless special phrase is used or
+      // no later range follows (then the range alone covers the sentence period)
+      if (laterReported &&
+          as_string(sentenceInfo.sentence)
               .substr(0,
                       strlen(POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)) !=
           POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)
@@ -3080,9 +3107,14 @@ void WindForecast::processWindSpeedIntervalParam(paragraph_info& pi,
       if (isi.skip && k == sentenceInfo.intervalSentences.size() - 1)
         addPeakWindParam(pi, isi, timePhraseInfo);
 
+      bool laterReported =
+          std::any_of(sentenceInfo.intervalSentences.begin() + k + 1,
+                      sentenceInfo.intervalSentences.end(),
+                      [](const interval_sentence_info& later) { return !later.skip; });
       bool isFirstOfAll = (isFirstOutputSentence && k == 0);
       if (!isi.skip)
-        processNonSkippedInterval(pi, isi, sentenceInfo, timePhraseInfo, k, isFirstOfAll);
+        processNonSkippedInterval(
+            pi, isi, sentenceInfo, timePhraseInfo, k, isFirstOfAll, laterReported);
       else
         processSkippedInterval(pi, isi, timePhraseInfo);
 

@@ -81,6 +81,10 @@ struct wo_story_params
   // for the hours before the range changes and then the change sentence, instead of one sentence
   // with "aluksi": "Lounaistuulta 10-14 m/s. Iltapäivällä heikkenevää tuulta, illasta alkaen ..."
   bool theSeparateInitialSentence = false;
+  // In the first sentence of a weakening story, keep the initial speed range when the next
+  // range does not differ enough from it, and drop the later range instead. Avoids
+  // "Vähitellen heikkenevää tuulta, aamuyöstä alkaen 4-8 m/s" with no range for the first hours
+  bool theReportInitialRange = false;
   // Speed range reported last in the previous sentence (kFloatMissing = none); used as the
   // reference when the final-level rule decides whether a range differs enough
   float thePreviousRangeLower = kFloatMissing;
