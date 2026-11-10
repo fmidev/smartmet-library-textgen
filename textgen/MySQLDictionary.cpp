@@ -15,8 +15,13 @@
 
 #include <boost/lexical_cast.hpp>
 
+// mystring.h must be included before mysql++.h: otherwise null.h instantiates
+// mysqlpp::Null<mysqlpp::String> before String is complete and the build fails with
+// "field has incomplete type 'mysqlpp::String'". Keep clang-format from sorting these.
+// clang-format off
 #include <mysql++/mystring.h>
 #include <mysql++/mysql++.h>
+// clang-format on
 
 using namespace std;
 
