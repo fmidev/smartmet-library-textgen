@@ -546,7 +546,7 @@ void populate_thunderprobability_time_series(
         theHourlyDataContainer[THUNDER_NORTHWEST_SHARE_DATA];
 
     RangeAcceptor thunderlimits;
-    thunderlimits.lowerLimit(5.0);  // 5 % propability is the minimum
+    thunderlimits.lowerLimit(5.0);  // 5 % probability is the minimum
 
     GridForecaster theForecaster;
 
@@ -1020,7 +1020,7 @@ void create_data_structures(wf_story_params& theParameters)
 {
   try
   {
-    // first check which areas exists and create the data structures accordinly
+    // first check which areas exists and create the data structures accordingly
     WeatherArea fullArea = theParameters.theArea;
     WeatherArea inlandArea = theParameters.theArea;
     inlandArea.type(WeatherArea::Inland);

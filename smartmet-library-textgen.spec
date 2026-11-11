@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.10.23
+Version: 26.11.11
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Nov 11 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.11-1.fmi
+- Fixed typos in messages and comments
+
 * Fri Oct 23 2026 Pertti Kinnia <pertti.kinnia@fmi.fi> - 26.10.23-1.fmi
 - Repackage due to macgyver ABI changes (PostgreSQLConnectionOptions)
 

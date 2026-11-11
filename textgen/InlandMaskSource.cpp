@@ -213,7 +213,7 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
       insert(id, itsCoast, coastmask);
     }
 
-    // Substract the coast from th area
+    // Subtract the coast from th area
 
     *areamask -= *coastmask;
 

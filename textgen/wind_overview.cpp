@@ -1904,7 +1904,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
       WeatherPeriod windEventPeriod(dataItemPeriodBegin.thePeriod.localStartTime(),
                                     dataItemPeriodEnd.thePeriod.localStartTime());
 
-      // find out wind speed event; for that we need speed at the beginnig and the end
+      // find out wind speed event; for that we need speed at the beginning and the end
 
       float begSpeed = dataItemPeriodBegin.theEqualizedCalcWind.value();
       float endSpeed = dataItemPeriodEnd.theEqualizedCalcWind.value();
@@ -1949,7 +1949,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
     }
 
     // iterate through and check against actual threshold value that wind speed differ enough
-    // if it doesnt, set event as missing
+    // if it doesn't, set event as missing
     for (WindEventPeriodDataItem* windEventPeriodDataItem :
          storyParams.theWindSpeedEventPeriodVector)
     {
@@ -1968,7 +1968,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 }  // namespace
 
 // iterate merged event periods and remove short (<= 6h) missing period if it is between
-// strenghtening/weakening period
+// strengthening/weakening period
 wind_event_period_data_item_vector remove_short_missing_periods(
     wo_story_params& storyParams, const wind_event_period_data_item_vector& eventPeriodVector)
 {
@@ -2033,7 +2033,7 @@ wind_event_period_data_item_vector remove_short_missing_periods(
         }
         else
         {
-          // only a real strenghtening/weakening period can continue an earlier one
+          // only a real strengthening/weakening period can continue an earlier one
           if (currentDataItem->theWindEvent != MISSING_WIND_SPEED_EVENT)
             afterNextDataItem->theSuccessiveEventFlag = true;
           cleanedEventPeriods.push_back(currentDataItem);
@@ -2156,7 +2156,7 @@ void append_missing_gap_periods(
   }
 }
 
-// examine MISSING_WIND_SPEED_EVENT periods, if there are strenghtening/weakening periods inside
+// examine MISSING_WIND_SPEED_EVENT periods, if there are strengthening/weakening periods inside
 // separate them
 wind_event_period_data_item_vector examine_merged_missing_event_period(
     wo_story_params& storyParams, const WindEventPeriodDataItem& dataItem)
@@ -2185,7 +2185,7 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
       }
     }
 
-    // biggest difference in the beginnig
+    // biggest difference in the beginning
     std::sort(speedDifferenceVector.begin(), speedDifferenceVector.end(), comp_sdp);
 
     // remove overlapping periods
@@ -2297,14 +2297,14 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
     delete_dropped_event_periods(originalEventPeriods, mergedEventPeriods);
 
     // iterate merged event periods and remove short (<= 6h) missing period if it is between
-    // strenghtening/weakening period
+    // strengthening/weakening period
     const wind_event_period_data_item_vector beforeMergedCleanup = mergedEventPeriods;
     mergedEventPeriods = remove_short_missing_periods(storyParams, beforeMergedCleanup);
     delete_dropped_event_periods(beforeMergedCleanup, mergedEventPeriods);
 
     wind_event_period_data_item_vector cleanedEventPeriods;
 
-    // 2) examine the merged missing period if there are weakening/strenghtening periods inside
+    // 2) examine the merged missing period if there are weakening/strengthening periods inside
     for (auto& mergedEventPeriod : mergedEventPeriods)
     {
       WindEventPeriodDataItem* dataItem = mergedEventPeriod;
@@ -2355,7 +2355,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
     }
 
     // iterate merged event periods and remove short (<= 6h) missing period if it is between
-    // strenghtening/weakening period
+    // strengthening/weakening period
     const wind_event_period_data_item_vector beforeFinalCleanup = cleanedEventPeriods;
     cleanedEventPeriods = remove_short_missing_periods(storyParams, beforeFinalCleanup);
     delete_dropped_event_periods(beforeFinalCleanup, cleanedEventPeriods);
@@ -2391,7 +2391,7 @@ void check_first_period(wo_story_params& storyParams)
     WeatherPeriod firstDirectionPeriod = storyParams.theWindDirectionPeriods.at(0);
     WindDirectionId firstDirection = get_wind_direction(storyParams, firstDirectionPeriod).id;
 
-    // if wind is strenghtening at start and it is varying, add missing wind speed event to the
+    // if wind is strengthening at start and it is varying, add missing wind speed event to the
     // beginning
     if (get_period_length(firstDirectionPeriod) > 2 && firstWindEvent == TUULI_VOIMISTUU &&
         firstDirection == VAIHTELEVA)
@@ -2819,7 +2819,7 @@ void calculate_equalized_wind_speed_indexes_for_calc_wind(wo_story_params& story
 {
   try
   {
-    // get claculated wind speed
+    // get calculated wind speed
     for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
     {
       const WeatherArea& weatherArea = storyParams.theWeatherAreas[k];

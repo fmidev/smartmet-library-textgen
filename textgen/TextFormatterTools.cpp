@@ -292,7 +292,7 @@ std::string get_story_value_param(const std::string& theStoryVar, const std::str
 
     // line feed
     boost::algorithm::replace_all(retval, "\\n", "\n");
-    // carrige return
+    // carriage return
     boost::algorithm::replace_all(retval, "\\r", "\r");
     // horizontal tabulator
     boost::algorithm::replace_all(retval, "\\t", "\t");

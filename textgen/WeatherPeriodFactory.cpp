@@ -150,7 +150,7 @@ WeatherPeriod period_until(const TextGenPosixTime& theTime, const string& theVar
  *
  * The start time is formed by rounding up the given time to the
  * next full hour. Then \c startday is added to the days. If the
- * hour is atleast \c switchhour, another day is added. Finally
+ * hour is at least \c switchhour, another day is added. Finally
  * the hour is set to \c starthour.
  *
  * The end time is formed by adding \c days to the start time,

@@ -13,7 +13,7 @@
  * a default null dictionary so that conditional testing can be
  * avoided.
  *
- * The intended use is withing a singleton providing global access
+ * The intended use is within a singleton providing global access
  * to dictionary services. Since the singleton must be initialized
  * with some dictionary implementation, we must either have a boolean
  * indicating a successful init, or a null dictionary serving as

@@ -14,7 +14,7 @@
  *
  * The dictionary has an initialization method, which fetches the specified
  * language from the Database server, unless it has been fetched already.
- * In a sence this class is a version of FileDictionary which remembers
+ * In a sense this class is a version of FileDictionary which remembers
  * all used languages. The language in use is changed by using the changeLanguage command.
  *
  * Sample usage:
@@ -289,7 +289,7 @@ bool FileDictionaries::empty() const
 
 // ----------------------------------------------------------------------
 /*!
- * Change dictonary language
+ * Change dictionary language
  *
  */
 // ----------------------------------------------------------------------

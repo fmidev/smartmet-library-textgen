@@ -55,7 +55,7 @@ enum SentenceParameterType
 };
 
 // Sentence is constructed by populating the sentence with parameters.
-// Directon changes are checked in between
+// Direction changes are checked in between
 struct sentence_info
 {
   Sentence sentence;

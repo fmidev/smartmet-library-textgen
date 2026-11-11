@@ -76,9 +76,9 @@ int round_temperature(const int& theTemperatureToRound)
  * \param theVar The control variable prefix
  * \param theSources The analysis sources
  * \param theArea The waether area
- * \param theMinimum The varible where the  minimum temperature is stored
- * \param theMean The varible where the  mean temperature is stored
- * \param theMaximum The varible where the  maximum temperature is stored
+ * \param theMinimum The variable where the  minimum temperature is stored
+ * \param theMean The variable where the  mean temperature is stored
+ * \param theMaximum The variable where the  maximum temperature is stored
  */
 // ----------------------------------------------------------------------
 
@@ -489,9 +489,9 @@ void min_max_mean_temperature(const string& theVar,
  * \param theSources The analysis sources
  * \param theArea The waether area
  * \param thePeriod The main period
- * \param theMinimum The varible where the  minimum temperature is stored
- * \param theMean The varible where the  mean temperature is stored
- * \param theMaximum The varible where the  maximum temperature is stored
+ * \param theMinimum The variable where the  minimum temperature is stored
+ * \param theMean The variable where the  mean temperature is stored
+ * \param theMaximum The variable where the  maximum temperature is stored
  */
 // ----------------------------------------------------------------------
 
@@ -589,9 +589,9 @@ WeatherPeriod get_afternoon_period(const string& theVar, const TextGenPosixTime&
  * \param theSources The analysis sources
  * \param theArea The waether area
  * \param thePeriod The main period
- * \param theMinimum The varible where the minimum temperature is stored
- * \param theMean The varible where the mean temperature is stored
- * \param theMaximum The varible where the maximum temperature is stored
+ * \param theMinimum The variable where the minimum temperature is stored
+ * \param theMean The variable where the mean temperature is stored
+ * \param theMaximum The variable where the maximum temperature is stored
  */
 // ----------------------------------------------------------------------
 
@@ -654,9 +654,9 @@ void afternoon_temperature(const string& theVar,
  * \param theVar The control variable prefix
  * \param isWinter This parameter tells whether it is wintertime (true) or summertime (false)
  * \param isDay This parameter tells whether it is daytime (true) or nighttime (false)
- * \param theMinimum The varible that contains the original minimum temperature and where the new
+ * \param theMinimum The variable that contains the original minimum temperature and where the new
  * minimum temperature is stored
- * \param theMaximum The varible that contains the original maximum temperature  and where the new
+ * \param theMaximum The variable that contains the original maximum temperature  and where the new
  * maximum temperature is stored
  */
 // ----------------------------------------------------------------------
@@ -677,7 +677,7 @@ void clamp_temperature(
     if ((theMinimum <= 0 && theMaximum > 0) || (theMinimum < 0 && theMaximum >= 0))
       return;
 
-    // if both both minimum and maximum are below -15 degrees, dont' clamp
+    // if both both minimum and maximum are below -15 degrees, don't clamp
     if ((theMinimum <= -15 && theMaximum <= -15) && temperature_max_interval <= 10)
       temperature_max_interval = 10;
     // SOL-4856 Annakaisa (20170208): Jos minimi on kylmenpi kuin -20 ja

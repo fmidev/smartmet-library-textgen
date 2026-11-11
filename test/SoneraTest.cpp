@@ -390,7 +390,7 @@ void phrases()
   require("pakkanen heikkenee", "545");
   require("ja", "546");
 
-  // New additions (14) with same pronounciation:
+  // New additions (14) with same pronunciation:
   require("astetta (2)", "315");
   require("astetta (0)", "315");
   require("astetta (n...4)", "315");

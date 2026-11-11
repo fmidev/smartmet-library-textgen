@@ -325,7 +325,7 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Merge nigthly rain periods
+ * \brief Merge nightly rain periods
  *
  * The function merges rain periods which are separated by
  * relatively short no-rain periods during the night.
@@ -414,7 +414,7 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
  * be considered to belong into the same large scale
  * precipitation. The basic criteria is that the interval
  * between the periods must be short enough, and that
- * atleast one of the periods must be long enough to be
+ * at least one of the periods must be long enough to be
  * considered large scale.
  *
  * The idea is to avoid reporting on multiple rain periods

@@ -50,7 +50,7 @@ std::ostream& operator<<(std::ostream& theOutput, const WeatherForecastStoryItem
       theOutput << " \n";
   }
   else
-    theOutput << "exluded\n";
+    theOutput << "excluded\n";
 
   return theOutput;
 }
@@ -152,7 +152,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
 {
   try
   {
-    theLogger << "Start processing weather forcast at land\n";
+    theLogger << "Start processing weather forecast at land\n";
     thePeriodPhraseGenerator.reset();
 
     Paragraph paragraph;
@@ -605,7 +605,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
 {
   try
   {
-    theLogger << "Start processing weather forcast at sea\n";
+    theLogger << "Start processing weather forecast at sea\n";
 
     thePrecipitationForecast.setUseIcingPhraseFlag(false);
     thePeriodPhraseGenerator.reset();
@@ -774,7 +774,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
       TextGenPosixTime lastPeriodStartTime(
           theStoryItemVector[theStoryItemVector.size() - 1]->thePeriod.localEndTime());
       TextGenPosixTime lastPeriodEndTime(theForecastPeriod.localEndTime());
-      // chek if the last period is missing
+      // check if the last period is missing
       if (lastPeriodEndTime.DifferenceInHours(lastPeriodStartTime) > 0)
       {
         lastPeriodStartTime.ChangeByHours(1);

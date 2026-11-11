@@ -271,7 +271,7 @@ bool DatabaseDictionary::empty() const
 
 // ----------------------------------------------------------------------
 /*!
- * Change dictonary language
+ * Change dictionary language
  *
  */
 // ----------------------------------------------------------------------

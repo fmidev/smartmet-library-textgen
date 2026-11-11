@@ -876,7 +876,7 @@ bool windspeed_distribution_interval(const WeatherPeriod& thePeriod,
 
     value_distribution_data_vector windSpeedDistributionVector;
 
-    // first calculte the sum of the distribution values for the period for each wind speed
+    // first calculate the sum of the distribution values for the period for each wind speed
     unsigned int counter(0);
     for (unsigned int i = 0; i < theParameter.theWindDataVector.size(); i++)
     {
@@ -1562,7 +1562,7 @@ bool WindForecast::constructSeparateInitialSentences(
     isi.period = settledPeriod;
     isi.intervalInfo = windSpeedIntervalInfo(settledPeriod);
     sentenceInfo.intervalSentences.push_back(isi);
-    theParameters.theLog << "Reporting " << (windStrenghtens ? "strenghtening" : "weakening")
+    theParameters.theLog << "Reporting " << (windStrenghtens ? "strengthening" : "weakening")
                          << " wind at " << as_string(settledPeriod) << '\n';
     populateFirstReportingPointSentence(sentenceInfo,
                                         false,
@@ -1690,7 +1690,7 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
         sentenceInfoVector.back().intervalSentences.push_back(isi);
 
       theParameters.theLog << "Reporting "
-                           << (windStrenghtens ? "strenghtening wind at " : "weakening wind at ")
+                           << (windStrenghtens ? "strengthening wind at " : "weakening wind at ")
                            << as_string(period) << '\n';
 
       if (i == 0)
@@ -2053,7 +2053,7 @@ void WindForecast::injectDirectionsIntoIntervals(sentence_info& sentenceInfo,
       return;
     }
 
-    theParameters.theLog << "Wind direction changes during strenghtening/weakening period:\n";
+    theParameters.theLog << "Wind direction changes during strengthening/weakening period:\n";
     for (unsigned int k = 0; k < sentenceInfo.intervalSentences.size(); k++)
     {
       interval_sentence_info& intervalSentenceInfo = sentenceInfo.intervalSentences[k];

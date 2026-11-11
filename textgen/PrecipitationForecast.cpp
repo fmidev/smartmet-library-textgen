@@ -4559,7 +4559,7 @@ bool PrecipitationForecast::singleForm(precipitation_form_id thePrecipitationFor
          thePrecipitationForm == MISSING_PRECIPITATION_FORM;
 }
 
-// this function is set up because of language versions, for eample in swedish: regnet/snöfallet
+// this function is set up because of language versions, for example in swedish: regnet/snöfallet
 // upphör
 precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() const
 {
