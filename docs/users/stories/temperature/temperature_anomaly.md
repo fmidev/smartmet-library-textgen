@@ -92,7 +92,7 @@ Internal constants (source-level, not user-configurable) drive the
 | `SMALL_CHANGE_UPPER_LIMIT` | 3.0 |
 | `MODERATE_CHANGE_LOWER_LIMIT` | 3.0 |
 | `MODERATE_CHANGE_UPPER_LIMIT` | 5.0 |
-| `SIGNIFIGANT_CHANGE_LOWER_LIMIT` | 5.0 |
+| `SIGNIFICANT_CHANGE_LOWER_LIMIT` | 5.0 |
 | `NOTABLE_TEMPERATURE_CHANGE_LIMIT` | 2.5 |
 
 Other internal temperature thresholds:

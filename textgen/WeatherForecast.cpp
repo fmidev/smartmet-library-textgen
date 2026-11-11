@@ -1276,7 +1276,7 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
 
 void get_precipitation_limit_value(const wf_story_params& theParameters,
                                    unsigned int thePrecipitationForm,
-                                   precipitation_intesity_id theIntensityId,
+                                   precipitation_intensity_id theIntensityId,
                                    float& theLowerLimit,
                                    float& theUpperLimit)
 {
@@ -1527,7 +1527,7 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
 
 namespace
 {
-precipitation_intesity_id intensity_from_thresholds(float intensity,
+precipitation_intensity_id intensity_from_thresholds(float intensity,
                                                     float dryLimit,
                                                     float weakLimit,
                                                     float heavyLimit)
@@ -1542,7 +1542,7 @@ precipitation_intesity_id intensity_from_thresholds(float intensity,
 }
 }  // namespace
 
-precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipitationForm,
+precipitation_intensity_id get_precipitation_intensity_id(unsigned int thePrecipitationForm,
                                                          float thePrecipitationIntensity,
                                                          const wf_story_params& theParameters)
 {

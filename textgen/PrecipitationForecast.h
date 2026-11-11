@@ -92,7 +92,7 @@ class PrecipitationForecast
                      unsigned short theForecastArea,
                      const std::string& theVariable) const;
   void setUseIcingPhraseFlag(bool theFlag) const { theUseIcingPhraseFlag = theFlag; }
-  unsigned int getPrecipitationHours(precipitation_intesity_id intensityId,
+  unsigned int getPrecipitationHours(precipitation_intensity_id intensityId,
                                      const WeatherPeriod& period) const;
 
   // Helper context for parseFinalSentence (public so anonymous-namespace helpers can use it)

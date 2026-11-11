@@ -255,7 +255,7 @@ constexpr double OCCASIONALLY_THUNDER_UPPER_LIMIT = 110.0;
 constexpr double MAJORITY_LIMIT = 50.0;
 constexpr double SEPARATE_COASTAL_AREA_PERCENTAGE = 5.0;
 
-constexpr double TREND_CHANGE_COEFFICIENT_TRESHOLD = 0.65;  // pearson coefficient
+constexpr double TREND_CHANGE_COEFFICIENT_THRESHOLD = 0.65;  // pearson coefficient
 constexpr double PEARSON_CO_FORM_TRANSFORM = 0.65;
 
 constexpr int KESKIYO_START = 0;
@@ -361,7 +361,7 @@ enum precipitation_form_transformation_id
   NO_FORM_TRANSFORMATION
 };
 
-enum precipitation_intesity_id
+enum precipitation_intensity_id
 {
   DRY_WEATHER,
   WEAK_PRECIPITATION,
@@ -598,14 +598,14 @@ std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
                                    bool theAlkaenPhrase = false);
 void get_precipitation_limit_value(const wf_story_params& theParameters,
                                    unsigned int thePrecipitationForm,
-                                   precipitation_intesity_id theIntensityId,
+                                   precipitation_intensity_id theIntensityId,
                                    float& theLowerLimit,
                                    float& theUpperLimit);
 void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
                                           unsigned int thePrecipitationForm,
                                           float& theDryWeatherLimit,
                                           float& theWeakPrecipitationLimit);
-precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipitationForm,
+precipitation_intensity_id get_precipitation_intensity_id(unsigned int thePrecipitationForm,
                                                          float thePrecipitationIntensity,
                                                          const wf_story_params& theParameters);
 const char* weather_event_string(weather_event_id theWeatherEventId);
@@ -927,7 +927,7 @@ struct PrecipitationDataItemData
   weather_result_data_item_vector thePrecipitationShareNorthWest;
   NFmiPoint thePrecipitationPoint{0, 0};
   precipitation_type thePrecipitationType = MISSING_PRECIPITATION_TYPE;
-  precipitation_intesity_id thePrecipitationIntensityId = MISSING_INTENSITY_ID;
+  precipitation_intensity_id thePrecipitationIntensityId = MISSING_INTENSITY_ID;
 
   float precipitationPercentageNorth() const
   {

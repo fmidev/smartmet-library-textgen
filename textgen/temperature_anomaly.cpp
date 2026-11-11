@@ -70,7 +70,7 @@ constexpr double SMALL_CHANGE_LOWER_LIMIT = 2.0;
 constexpr double SMALL_CHANGE_UPPER_LIMIT = 3.0;
 constexpr double MODERATE_CHANGE_LOWER_LIMIT = 3.0;
 constexpr double MODERATE_CHANGE_UPPER_LIMIT = 5.0;
-constexpr double SIGNIFIGANT_CHANGE_LOWER_LIMIT = 5.0;
+constexpr double SIGNIFICANT_CHANGE_LOWER_LIMIT = 5.0;
 constexpr double NOTABLE_TEMPERATURE_CHANGE_LIMIT = 2.5;
 
 constexpr const char* SAA_LAUHTUU_PHRASE = "saa lauhtuu";
@@ -675,7 +675,7 @@ struct TrendTemps
 {
   double dayBefore, day1, day2, dayAfter;
   float diff12, diff1After, diffBefore2, diffBeforeAfter;
-  bool smallChange, moderateChange, signifigantChange, gettingLower;
+  bool smallChange, moderateChange, significantChange, gettingLower;
 };
 
 // Build TrendTemps from the parameters
@@ -707,10 +707,10 @@ TrendTemps build_trend_temps(const temperature_anomaly_params& theParameters)
         inRange(t.diff1After, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
         inRange(t.diffBefore2, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT) &&
         inRange(t.diffBeforeAfter, MODERATE_CHANGE_LOWER_LIMIT, MODERATE_CHANGE_UPPER_LIMIT);
-    t.signifigantChange = t.diff12 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
-                          t.diff1After >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
-                          t.diffBefore2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
-                          t.diffBeforeAfter >= SIGNIFIGANT_CHANGE_LOWER_LIMIT;
+    t.significantChange = t.diff12 >= SIGNIFICANT_CHANGE_LOWER_LIMIT &&
+                          t.diff1After >= SIGNIFICANT_CHANGE_LOWER_LIMIT &&
+                          t.diffBefore2 >= SIGNIFICANT_CHANGE_LOWER_LIMIT &&
+                          t.diffBeforeAfter >= SIGNIFICANT_CHANGE_LOWER_LIMIT;
     t.gettingLower =
         t.day2 < t.day1 && t.dayAfter < t.day1 && t.day2 < t.dayBefore && t.dayAfter < t.dayBefore;
     return t;
@@ -758,7 +758,7 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
             theAreaPhrase);
         theParameters.theShortrunTrend = SAA_ON_EDELLEEN_LAUHAA;
       }
-      else if (t.signifigantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
+      else if (t.significantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
                t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day2 >= MILD_TEMPERATURE_LOWER_LIMIT &&
                t.day2 < MILD_TEMPERATURE_UPPER_LIMIT &&
                t.dayAfter >= MILD_TEMPERATURE_LOWER_LIMIT &&
@@ -772,7 +772,7 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
                                                theAreaPhrase);
         theParameters.theShortrunTrend = SAA_LAUHTUU;
       }
-      else if (t.signifigantChange && t.day1 <= veryColdTemperature &&
+      else if (t.significantChange && t.day1 <= veryColdTemperature &&
                t.dayBefore <= veryColdTemperature && t.day2 <= MILD_TEMPERATURE_LOWER_LIMIT &&
                t.dayAfter <= MILD_TEMPERATURE_LOWER_LIMIT)
       {
@@ -785,7 +785,7 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
             theAreaPhrase);
         theParameters.theShortrunTrend = KIREA_PAKKANEN_HEIKKENEE;
       }
-      else if (t.signifigantChange && t.day1 > veryColdTemperature &&
+      else if (t.significantChange && t.day1 > veryColdTemperature &&
                t.dayBefore > veryColdTemperature && t.day2 < MILD_TEMPERATURE_LOWER_LIMIT &&
                t.dayAfter < MILD_TEMPERATURE_LOWER_LIMIT)
       {
@@ -798,7 +798,7 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
             theAreaPhrase);
         theParameters.theShortrunTrend = PAKKANEN_HEIKKENEE;
       }
-      else if (t.signifigantChange && t.dayBefore > veryColdTemperature &&
+      else if (t.significantChange && t.dayBefore > veryColdTemperature &&
                t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT && t.day1 > veryColdTemperature &&
                t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day1 < ZERO_DEGREES &&
                t.day2 >= MILD_TEMPERATURE_LOWER_LIMIT && t.day2 < ZERO_DEGREES)
@@ -828,7 +828,7 @@ Sentence winter_shortruntrend_sentence(temperature_anomaly_params& theParameters
     }
     else  // gettingLower
     {
-      if (t.signifigantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
+      if (t.significantChange && t.dayBefore < MILD_TEMPERATURE_LOWER_LIMIT &&
           t.day1 < MILD_TEMPERATURE_LOWER_LIMIT && t.day2 <= veryColdTemperature &&
           t.dayAfter <= veryColdTemperature)
       {
@@ -960,7 +960,7 @@ Sentence summer_warming_sentence(temperature_anomaly_params& theParameters,
         theParameters.theShortrunTrend = SAA_ON_HELTEISTA;
       }
     }
-    else if (t.signifigantChange && t.day2 < 25.0)
+    else if (t.significantChange && t.day2 < 25.0)
     {
       sentence << get_shortruntrend_sentence(
           MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
@@ -1052,7 +1052,7 @@ Sentence summer_cooling_sentence(temperature_anomaly_params& theParameters,
           theAreaPhrase);
       theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
     }
-    else if (t.signifigantChange && t.day2 < 25.0)
+    else if (t.significantChange && t.day2 < 25.0)
     {
       sentence << get_shortruntrend_sentence(
           MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,

@@ -2267,10 +2267,10 @@ void create_wind_anomaly_testcase_stories(TestCaseContainer& testCases,
 
 string get_fractile_share(const fractile_id& fractileId,
                           const float& referenceTemperature,
-                          const TextGenPosixTime& timestmp)
+                          const TextGenPosixTime& timestamp)
 {
   // winter
-  if (timestmp.GetMonth() > 10 || timestmp.GetMonth() < 4)
+  if (timestamp.GetMonth() > 10 || timestamp.GetMonth() < 4)
   {
     if (referenceTemperature < -25)
     {

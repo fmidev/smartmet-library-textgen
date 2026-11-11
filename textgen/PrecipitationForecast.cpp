@@ -2108,8 +2108,8 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
 
     for (unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
     {
-      float precipitationMaxIntesity = (*precipitationMaxHourly)[i]->theResult.value();
-      float precipitationMeanIntesity = (*precipitationMeanHourly)[i]->theResult.value();
+      float precipitationMaxIntensity = (*precipitationMaxHourly)[i]->theResult.value();
+      float precipitationMeanIntensity = (*precipitationMeanHourly)[i]->theResult.value();
       float precipitationExtent = (*precipitationExtentHourly)[i]->theResult.value();
       float precipitationFormWater = (*precipitationFormWaterHourly)[i]->theResult.value();
       float precipitationFormDrizzle = (*precipitationFormDrizzleHourly)[i]->theResult.value();
@@ -2133,8 +2133,8 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
       auto item = std::make_shared<PrecipitationDataItemData>(
           theParameters,
           precipitationForm,
-          (precipitationMaxIntesity + precipitationMeanIntesity) / 2.0,
-          precipitationMaxIntesity,
+          (precipitationMaxIntensity + precipitationMeanIntensity) / 2.0,
+          precipitationMaxIntensity,
           precipitationExtent,
           precipitationFormWater,
           precipitationFormDrizzle,
@@ -4653,7 +4653,7 @@ bool PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
 }
 
 // return hours of intensityId during forecast period
-unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intesity_id intensityId,
+unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intensity_id intensityId,
                                                           const WeatherPeriod& period) const
 {
   try
@@ -4661,7 +4661,7 @@ unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intesity
     const precipitation_data_vector& dataVector =
         getPrecipitationDataVector(theParameters.theForecastArea);
 
-    std::map<precipitation_intesity_id, unsigned int> hours;
+    std::map<precipitation_intensity_id, unsigned int> hours;
     hours.insert(make_pair(DRY_WEATHER, 0));
     hours.insert(make_pair(WEAK_PRECIPITATION, 0));
     hours.insert(make_pair(MODERATE_PRECIPITATION, 0));
@@ -4672,7 +4672,7 @@ unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intesity
       if (i->theObservationTime >= period.localStartTime() &&
           i->theObservationTime <= period.localEndTime())
       {
-        precipitation_intesity_id intensityId = get_precipitation_intensity_id(
+        precipitation_intensity_id intensityId = get_precipitation_intensity_id(
             i->thePrecipitationForm, i->thePrecipitationMaxIntensity, theParameters);
         (hours[intensityId])++;
       }
