@@ -13,7 +13,6 @@
 #include "UnitFactory.h"
 #include "WeekdayTools.h"
 #include <boost/algorithm/string/case_conv.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>

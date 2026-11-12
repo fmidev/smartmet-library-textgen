@@ -1,5 +1,4 @@
 #include "InlandMaskSource.h"
-#include <boost/accumulators/accumulators.hpp>
 #include <calculator/UserWeatherSource.h>
 #include <calculator/WeatherArea.h>
 #include <newbase/NFmiIndexMask.h>

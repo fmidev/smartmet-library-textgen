@@ -3,7 +3,6 @@
 #include "AreaTools.h"
 #include "Sentence.h"
 #include "WeatherForecast.h"
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiPoint.h>

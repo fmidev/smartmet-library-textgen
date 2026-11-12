@@ -8,7 +8,6 @@
 #include "WindForecastStructs.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
