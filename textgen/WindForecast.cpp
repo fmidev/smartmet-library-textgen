@@ -177,7 +177,7 @@ part_of_the_day_id get_part_of_the_day_id_wind(const WeatherPeriod& thePeriod)
 
 bool operator==(const TimePhraseInfo& p1, const TimePhraseInfo& p2)
 {
-  // if (abs(p1.starttime.DifferenceInHours(p2.starttime)) <= 2) return true;
+  // if (std::abs(p1.starttime.DifferenceInHours(p2.starttime)) <= 2) return true;
 
   return p1.day_number == p2.day_number && p1.part_of_the_day == p2.part_of_the_day;
 }
@@ -994,7 +994,7 @@ void get_wind_speed_interval(const WeatherPeriod& thePeriod,
            << distributionUpperLimit67 << " most typical: " << mostTypicalWindSpeed << '\n';
     */
 
-    bool too_large_interval = abs(distributionUpperLimit67 - distributionLowerLimit67) >
+    bool too_large_interval = std::abs(distributionUpperLimit67 - distributionLowerLimit67) >
                               theParameter.theContextualMaxIntervalSize;
 
     if (!got_coverage || too_large_interval)
@@ -1102,7 +1102,7 @@ bool wind_speed_differ_enough(const wo_story_params& theParameters, const Weathe
     if (begSpeed < WEAK_WIND_SPEED_UPPER_LIMIT && endSpeed < WEAK_WIND_SPEED_UPPER_LIMIT)
       return false;
 
-    float difference = abs(endSpeed - begSpeed);
+    float difference = std::abs(endSpeed - begSpeed);
 
     return (difference >= theParameters.theWindSpeedThreshold);
   }
@@ -1117,8 +1117,8 @@ bool wind_speed_differ_enough(const interval_info& firstInterval,
 {
   try
   {
-    unsigned int lowerLimitDifference = abs(firstInterval.lowerLimit - secondInterval.lowerLimit);
-    unsigned int upperLimitDifference = abs(firstInterval.upperLimit - secondInterval.upperLimit);
+    unsigned int lowerLimitDifference = std::abs(firstInterval.lowerLimit - secondInterval.lowerLimit);
+    unsigned int upperLimitDifference = std::abs(firstInterval.upperLimit - secondInterval.upperLimit);
 
     return (lowerLimitDifference + upperLimitDifference > 3);
   }
@@ -1209,9 +1209,9 @@ bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
     float dire1 = theWindDirection1.value();
     float dire2 = theWindDirection2.value();
 
-    float difference = abs(dire2 - dire1);
+    float difference = std::abs(dire2 - dire1);
     if (difference > 180.0)
-      difference = abs((dire2 > dire1 ? dire2 - (dire1 + 360) : dire1 - (dire2 + 360)));
+      difference = std::abs((dire2 > dire1 ? dire2 - (dire1 + 360) : dire1 - (dire2 + 360)));
 
     return (difference >= theWindDirectionThreshold);
   }
@@ -1964,7 +1964,7 @@ void WindForecast::assignDirectionToInterval(interval_sentence_info& intervalSen
         (get_part_of_the_day_id_wind(windDirectionPeriod.localStartTime()) ==
          get_part_of_the_day_id_wind(intervalSentenceInfo.period.localStartTime()));
     unsigned int differenceInHours =
-        abs(intervalSentenceInfo.period.localStartTime().DifferenceInHours(
+        std::abs(intervalSentenceInfo.period.localStartTime().DifferenceInHours(
             windDirectionPeriod.localStartTime()));
 
     bool isBeforeInterval =
@@ -2169,7 +2169,7 @@ bool WindForecast::processOneDirectionChange(
 
     bool directionIsBefore =
         windDirectionPeriod.localStartTime() < windSpeedChangePeriod.localStartTime() &&
-        (abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
+        (std::abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
              windDirectionPeriod.localStartTime())) > 2 ||
          (windDirectionInfo.id == VAIHTELEVA && directionPeriodLen > 2));
 
@@ -2185,7 +2185,7 @@ bool WindForecast::processOneDirectionChange(
       return true;
     }
 
-    if (abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
+    if (std::abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
             windDirectionPeriod.localStartTime())) < 4)
     {
       if (windDirectionInfo.id != VAIHTELEVA)
@@ -2517,7 +2517,7 @@ WeatherPeriod WindForecast::findMovedPeriod(part_of_the_day_id partOfTheDay,
       if (tpi.part_of_the_day != partOfTheDay)
       {
         result = WeatherPeriod(startTime, endTime);
-        hours_moved = abs(startTime.DifferenceInHours(period.localStartTime()));
+        hours_moved = std::abs(startTime.DifferenceInHours(period.localStartTime()));
         break;
       }
     }
@@ -2565,8 +2565,8 @@ WeatherPeriod WindForecast::findShrunkPeriod(part_of_the_day_id partOfTheDay,
       if (tpi.part_of_the_day != partOfTheDay)
       {
         result = WeatherPeriod(startTime, endTime);
-        hours_shrunk = backwards ? abs(endTime.DifferenceInHours(period.localEndTime()))
-                                 : abs(startTime.DifferenceInHours(period.localStartTime()));
+        hours_shrunk = backwards ? std::abs(endTime.DifferenceInHours(period.localEndTime()))
+                                 : std::abs(startTime.DifferenceInHours(period.localStartTime()));
         break;
       }
     }
@@ -3464,7 +3464,7 @@ void WindForecast::adjustEndOfForecastPhrase(TimePhraseInfo& timePhraseInfo,
   try
   {
     auto endHour = theParameters.theForecastPeriod.localEndTime().GetHour();
-    auto diffHours = abs(actualPeriod.localStartTime().DifferenceInHours(
+    auto diffHours = std::abs(actualPeriod.localStartTime().DifferenceInHours(
         theParameters.theForecastPeriod.localEndTime()));
     if (timePhraseInfo.part_of_the_day == ILTA && endHour == 18 && diffHours < 6)
     {
@@ -3647,8 +3647,8 @@ WeatherPeriod WindForecast::findWeakeningLastPeriod(const WeatherPeriod& lastPer
     if (varyingHours <= 2)
       return lastPeriod;
 
-    float lowerDiff = abs(minIntervalInfo.lowerLimit - maxIntervalInfo.lowerLimit);
-    float upperDiff = abs(minIntervalInfo.upperLimit - maxIntervalInfo.upperLimit);
+    float lowerDiff = std::abs(minIntervalInfo.lowerLimit - maxIntervalInfo.lowerLimit);
+    float upperDiff = std::abs(minIntervalInfo.upperLimit - maxIntervalInfo.upperLimit);
     minIntervalInfo.startTime = lastPeriod.localStartTime();
     minIntervalInfo.endTime =
         (lowerDiff + upperDiff > 5.0) ? lastPeriod.localStartTime() : lastPeriod.localEndTime();
@@ -3688,7 +3688,7 @@ namespace
 // "reached" is stricter than wind_speed_differ_enough: both limits within 1 m/s in total 2
 bool same_level(const interval_info& a, const interval_info& b)
 {
-  return (abs(a.lowerLimit - b.lowerLimit) + abs(a.upperLimit - b.upperLimit) <= 2);
+  return (std::abs(a.lowerLimit - b.lowerLimit) + std::abs(a.upperLimit - b.upperLimit) <= 2);
 }
 
 // True if the hourly range stays at the final level from index i to the end of the change
@@ -4062,12 +4062,12 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
     int periodLength(get_period_length(changePeriod));
 
     phraseStr = EMPTY_STRING;
-    if (abs(endUpperLimit - begUpperLimit) <= changeThreshold * 0.5)
+    if (std::abs(endUpperLimit - begUpperLimit) <= changeThreshold * 0.5)
     {
       phraseStr = VAHAN_WORD;
       smallChange = true;
     }
-    else if (abs(endUpperLimit - begUpperLimit) >= changeThreshold)
+    else if (std::abs(endUpperLimit - begUpperLimit) >= changeThreshold)
     {
       if (periodLength <= 6 && endUpperLimit >= NAVAKKA_UPPER_LIMIT)
       {
