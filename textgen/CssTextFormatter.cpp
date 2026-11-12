@@ -12,7 +12,6 @@
 // ======================================================================
 
 #include "CssTextFormatter.h"
-#include "Dictionary.h"
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
@@ -28,9 +27,12 @@
 #include "TimePeriod.h"
 #include "TimePhrase.h"
 #include "WeatherTime.h"
-#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <macgyver/Exception.h>
+#include <list>
+#include <sstream>
 
 using namespace std;
 

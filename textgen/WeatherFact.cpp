@@ -18,6 +18,8 @@
 
 #include "WeatherFact.h"
 #include <macgyver/Exception.h>
+#include <string>
+#include <utility>
 
 namespace TextGen
 {

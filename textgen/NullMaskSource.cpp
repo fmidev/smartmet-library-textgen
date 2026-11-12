@@ -17,9 +17,6 @@
 // ======================================================================
 
 #include "NullMaskSource.h"
-
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherSource.h>
 #include <macgyver/Exception.h>
 #include <newbase/NFmiIndexMask.h>
 

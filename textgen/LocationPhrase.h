@@ -12,7 +12,6 @@
 
 namespace TextGen
 {
-class Dictionary;
 
 class LocationPhrase : public Glyph
 {

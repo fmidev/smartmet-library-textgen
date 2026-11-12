@@ -10,9 +10,8 @@
 #include <algorithm>
 #include <cassert>
 #include <memory>
-#include <ostream>
 #include <sstream>
-#include <stdexcept>
+#include <string>
 
 #ifndef UNIX
 #pragma warning(disable : 4512)  // poistaa VC++ kääntäjän C4512 "assignment operator could not be
@@ -22,7 +21,7 @@
 // forward declaration(s)
 
 template <class char_type = char, class CharTraits = std::char_traits<char_type> >
-class MessageLoggerStream;
+class MessageLoggerStream;  // IWYU pragma: keep
 
 template <class char_type = char, class CharTraits = std::char_traits<char_type> >
 class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits>

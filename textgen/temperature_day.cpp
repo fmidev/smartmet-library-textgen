@@ -5,28 +5,37 @@
  */
 // ======================================================================
 
-#include "TemperatureStory.h"
-
 #include "Delimiter.h"
-#include "Integer.h"
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include "TemperatureStory.h"
 #include "TemperatureStoryTools.h"
-#include "UnitFactory.h"
-#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherForecaster.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
-
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiStringTools.h>
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <ostream>
+#include <string>
 
-#include <boost/lexical_cast.hpp>
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace TextGen;
 using namespace TextGen::TemperatureStoryTools;

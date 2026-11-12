@@ -13,12 +13,13 @@
 // ======================================================================
 
 #include "Document.h"
-
-#include "Dictionary.h"
-#include "PlainTextFormatter.h"
+#include "Glyph.h"
+#include "TextFormatter.h"
 #include <macgyver/Exception.h>
-
+#include <algorithm>
 #include <iterator>
+#include <list>
+#include <memory>
 
 using namespace std;
 

@@ -15,10 +15,14 @@
 
 #include "FrostStory.h"
 #include "Paragraph.h"
-#include <calculator/AnalysisSources.h>
 #include <macgyver/Exception.h>
-
 #include <utility>
+
+namespace TextGen
+{
+class AnalysisSources;
+class WeatherPeriod;
+}  // namespace TextGen
 
 using namespace std;
 using namespace TextGen;

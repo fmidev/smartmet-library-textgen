@@ -12,9 +12,9 @@
 // ======================================================================
 
 #include "Delimiter.h"
-
 #include "TextFormatter.h"
 #include <macgyver/Exception.h>
+#include <memory>
 #include <utility>
 
 using namespace std;

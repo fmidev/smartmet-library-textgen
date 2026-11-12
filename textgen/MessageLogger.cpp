@@ -36,11 +36,13 @@
 #include "MessageLogger.h"
 #include "DebugTextFormatter.h"
 #include <macgyver/Exception.h>
+#include <newbase/NFmiStaticTime.h>
+#include <newbase/NFmiString.h>
 #include <newbase/NFmiTime.h>
-#include <ctime>
 #include <fstream>
-#include <iomanip>
 #include <memory>
+#include <sstream>
+#include <stdexcept>
 #include <utility>
 
 using namespace std;

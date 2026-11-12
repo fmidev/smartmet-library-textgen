@@ -11,12 +11,9 @@
 // ======================================================================
 
 #include "Integer.h"
-#include "Dictionary.h"
 #include "TextFormatter.h"
 #include <macgyver/Exception.h>
-
 #include <memory>
-
 #include <sstream>
 
 using namespace std;

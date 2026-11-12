@@ -1,15 +1,13 @@
-#include <regression/tframe.h>
-
 #include "CoastMaskSource.h"
+#include <boost/accumulators/accumulators.hpp>
 #include <calculator/UserWeatherSource.h>
 #include <calculator/WeatherArea.h>
-
 #include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiSettings.h>
+#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiStringTools.h>
-
+#include <regression/tframe.h>
 #include <iostream>
-#include <stdexcept>
+#include <memory>
 #include <string>
 
 using namespace std;

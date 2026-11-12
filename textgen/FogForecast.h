@@ -1,8 +1,13 @@
 #pragma once
 
-#include "PrecipitationForecast.h"
 #include "Sentence.h"
 #include "WeatherForecast.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <calculator/WeatherPeriod.h>
+#include <iosfwd>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace TextGen
 {

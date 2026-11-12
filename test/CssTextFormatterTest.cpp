@@ -7,12 +7,16 @@
 #include "Story.h"
 #include "StoryTag.h"
 #include <boost/locale.hpp>
+#include <calculator/AnalysisSources.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiSettings.h>
 #include <regression/tframe.h>
 #include <iostream>
-#include <sstream>
-#include <stdexcept>
+#include <locale>
+#include <memory>
 #include <string>
 
 using namespace std;

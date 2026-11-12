@@ -5,7 +5,6 @@
  */
 // ======================================================================
 
-#include "Delimiter.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Real.h"
@@ -14,14 +13,16 @@
 #include "UnitFactory.h"
 #include "WaveStory.h"
 #include <calculator/GridForecaster.h>
-#include <calculator/MathTools.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
-
+#include <cmath>
+#include <memory>
+#include <ostream>
+#include <string>
 #include <vector>
 
 using namespace TextGen;

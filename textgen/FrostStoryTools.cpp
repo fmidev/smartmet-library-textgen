@@ -20,6 +20,8 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
+#include <memory>
+#include <string>
 
 namespace TextGen
 {

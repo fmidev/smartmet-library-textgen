@@ -8,22 +8,11 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "SpecialStory.h"
-#include "Text.h"
 #include "TimePeriod.h"
-#include "WeatherTime.h"
-#include <calculator/Settings.h>
-#include <macgyver/Exception.h>
-
 #include <boost/locale.hpp>
-#include <filesystem>
-
-#include <cstdio>
-#include <fstream>
-#include <sstream>
-
-#ifdef UNIX
-#include <unistd.h>
-#endif
+#include <calculator/WeatherPeriod.h>
+#include <macgyver/Exception.h>
+#include <string>
 
 using namespace TextGen;
 using namespace std;

@@ -9,12 +9,13 @@
 
 #include "GlyphContainer.h"
 #include <calculator/TextGenPosixTime.h>
-#include <memory>
 #include <optional>
 #include <string>
 
 namespace TextGen
 {
+class Glyph;
+
 class Header : public GlyphContainer
 {
  public:

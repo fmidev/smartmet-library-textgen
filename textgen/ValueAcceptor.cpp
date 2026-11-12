@@ -17,6 +17,7 @@
 #include "ValueAcceptor.h"
 #include <macgyver/Exception.h>
 #include <newbase/NFmiGlobals.h>
+#include <string>
 
 namespace TextGen
 {

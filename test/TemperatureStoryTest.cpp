@@ -7,24 +7,27 @@
 #include "Story.h"
 #include "TemperatureStory.h"
 #include "TemperatureStoryTools.h"
-#include <calculator/AnalysisSources.h>
-#include <calculator/RegularMaskSource.h>
-#include <calculator/Settings.h>
-#include <calculator/UserWeatherSource.h>
-#include <regression/tframe.h>
-
 #include <boost/algorithm/string.hpp>
-#include <newbase/NFmiGrid.h>
+#include <boost/locale.hpp>
+#include <calculator/AnalysisSources.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSettings.h>
-#include <newbase/NFmiSvgPath.h>
-
+#include <regression/tframe.h>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
+#include <locale>
+#include <map>
+#include <memory>
 #include <string>
-
-#include <boost/locale.hpp>
+#include <utility>
+#include <vector>
 
 using namespace std;
 using namespace boost;

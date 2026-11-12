@@ -1,15 +1,12 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Phrase.h"
-#include <calculator/Settings.h>
-#include <regression/tframe.h>
-
 #include <boost/lexical_cast.hpp>
-
+#include <calculator/Settings.h>
 #include <newbase/NFmiSettings.h>
-
+#include <regression/tframe.h>
 #include <iostream>
-#include <stdexcept>
+#include <memory>
 #include <string>
 
 using namespace std;

@@ -8,8 +8,6 @@
 #pragma once
 
 #include <string>
-#include <utility>
-#include <vector>
 
 namespace TextGen
 {

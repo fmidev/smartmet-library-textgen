@@ -28,24 +28,38 @@
 #include "WeekdayTools.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
-
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherHistory.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
+#include <newbase/NFmiGlobals.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdlib>
 #include <iomanip>
+#include <memory>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
+
+namespace TextGen
+{
+class Acceptor;
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace TextGen;
 using namespace TextGen::WindStoryTools;

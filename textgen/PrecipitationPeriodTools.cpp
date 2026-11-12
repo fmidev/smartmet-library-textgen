@@ -18,7 +18,6 @@
 // ======================================================================
 
 #include "PrecipitationPeriodTools.h"
-
 #include <calculator/AnalysisSources.h>
 #include <calculator/MaskSource.h>
 #include <calculator/PercentageCalculator.h>
@@ -26,17 +25,21 @@
 #include <calculator/QueryDataTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TimeTools.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherSource.h>
 #include <macgyver/Exception.h>
-
-#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiMetTime.h>
+#include <newbase/NFmiParameterName.h>
+#include <newbase/NFmiPoint.h>
 #include <memory>
+#include <sstream>
+
+class NFmiQueryData;
 
 using namespace std;
 

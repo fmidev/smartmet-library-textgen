@@ -7,21 +7,18 @@
 
 #pragma once
 
-#include <calculator/AnalysisSources.h>
 #include <calculator/WeatherArea.h>
-#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
+#include <iterator>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace TextGen
 {
-class WeatherResult;
-}
-
-namespace TextGen
-{
+class AnalysisSources;
 class Sentence;
+class WeatherPeriod;
 
 namespace WindStoryTools
 {

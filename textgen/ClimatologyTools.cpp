@@ -14,13 +14,16 @@
 // ======================================================================
 
 #include "ClimatologyTools.h"
+#include <calculator/AnalysisSources.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherSource.h>
-
 #include <macgyver/Exception.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiMetTime.h>
 #include <memory>
+
+class NFmiQueryData;
 
 namespace TextGen
 {

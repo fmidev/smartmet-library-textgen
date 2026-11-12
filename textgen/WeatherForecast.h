@@ -1,13 +1,25 @@
 #pragma once
 
 #include "AreaTools.h"
-#include "MessageLogger.h"
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
+#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiPoint.h>
+#include <iosfwd>
+#include <map>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
+
+class MessageLogger;
 
 namespace TextGen
 {
+class AnalysisSources;
+
 // An empty period at the current time, for members that have no meaningful value yet. It is
 // built from one time value: two separate TextGenPosixTime() calls may straddle a second
 // boundary, and since the compiler may evaluate the end argument first, the end could then be
@@ -18,12 +30,12 @@ inline WeatherPeriod empty_period()
   return {now, now};
 }
 
-class PrecipitationForecast;
 class CloudinessForecast;
 class FogForecast;
-class ThunderForecast;
-class Sentence;
 class GlyphContainer;
+class PrecipitationForecast;
+class Sentence;
+class ThunderForecast;
 
 constexpr const char* EMPTY_STRING = "empty_string";
 constexpr const char* SPACE_STRING = " ";
@@ -499,12 +511,11 @@ enum time_phrase_format
   AT_FORMAT
 };
 
-struct WeatherResultDataItem;
-struct PrecipitationDataItemData;
+struct CloudinessDataItem;
 struct FogIntensityDataItem;
 struct PrecipitationDataItem;
-struct CloudinessDataItem;
-struct ThunderDataItem;
+struct PrecipitationDataItemData;
+struct WeatherResultDataItem;
 
 using weather_result_data_item_vector = std::vector<std::shared_ptr<WeatherResultDataItem> >;
 using timestamp_weather_event_id_pair = std::pair<TextGenPosixTime, weather_event_id>;

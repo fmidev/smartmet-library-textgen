@@ -17,18 +17,25 @@
 #include "PositiveRange.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
 #include <newbase/NFmiGlobals.h>
-
-#include <boost/lexical_cast.hpp>
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <memory>
+
+namespace TextGen
+{
+class AnalysisSources;
+class WeatherPeriod;
+}  // namespace TextGen
 
 using namespace TextGen;
 using namespace std;

@@ -6,28 +6,33 @@
 // ======================================================================
 
 #include "Delimiter.h"
-#include "Integer.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "UnitFactory.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
 #include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
 #include <memory>
-
+#include <ostream>
+#include <string>
 #include <vector>
+
+namespace TextGen
+{
+class WeatherPeriodGenerator;
+}  // namespace TextGen
 
 using namespace TextGen;
 using namespace std;

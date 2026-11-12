@@ -20,8 +20,8 @@
 #include <calculator/WeatherPeriodTools.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
 #include <algorithm>
+#include <utility>
 
 using namespace std;
 

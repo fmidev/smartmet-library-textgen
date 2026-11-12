@@ -2,6 +2,7 @@
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherPeriod.h>
 #include <regression/tframe.h>
+#include <iostream>
 
 using namespace std;
 

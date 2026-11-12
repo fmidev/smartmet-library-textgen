@@ -12,16 +12,20 @@
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
-
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
-
+#include <algorithm>
+#include <ostream>
+#include <string>
+#include <utility>
 #include <vector>
 
 using namespace std;

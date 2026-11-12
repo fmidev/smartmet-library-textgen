@@ -8,10 +8,14 @@
 #pragma once
 
 #include "TextFormatter.h"
+#include <memory>
 #include <set>
+#include <string>
 
 namespace TextGen
 {
+class Dictionary;
+
 class CssTextFormatter : public TextFormatter
 {
  public:

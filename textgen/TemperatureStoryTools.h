@@ -7,17 +7,16 @@
 
 #pragma once
 
-#include <calculator/AnalysisSources.h>
 #include <calculator/TextGenPosixTime.h>
 #include <string>
 
 namespace TextGen
 {
-class WeatherPeriod;
-class WeatherResult;
 class AnalysisSources;
 class WeatherArea;
+class WeatherPeriod;
 class WeatherPeriodGenerator;
+class WeatherResult;
 }  // namespace TextGen
 
 namespace TextGen

@@ -8,9 +8,13 @@
 #pragma once
 
 #include "TextFormatter.h"
+#include <memory>
+#include <string>
 
 namespace TextGen
 {
+class Dictionary;
+
 class SpeechTextFormatter : public TextFormatter
 {
  public:

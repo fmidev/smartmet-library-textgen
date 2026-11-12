@@ -37,9 +37,10 @@
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
 #include <newbase/NFmiFileSystem.h>
-
+#include <cstddef>
 #include <fstream>
 #include <map>
+#include <utility>
 
 namespace TextGen
 {

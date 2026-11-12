@@ -45,6 +45,8 @@
 // ----------------------------------------------------------------------
 
 #include "DatabaseDictionaries.h"
+#include "DatabaseDictionary.h"
+#include <utility>
 #ifdef UNIX
 #include "MySQLDictionary.h"
 #include "PostgreSQLDictionary.h"

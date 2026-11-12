@@ -9,6 +9,8 @@
 
 #include "Glyph.h"
 #include <list>
+#include <memory>
+#include <string>
 
 namespace TextGen
 {

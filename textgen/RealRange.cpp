@@ -11,9 +11,8 @@
 // ======================================================================
 
 #include "RealRange.h"
-#include "Dictionary.h"
+#include "TextFormatter.h"
 #include <macgyver/Exception.h>
-
 #include <iomanip>
 #include <memory>
 #include <sstream>

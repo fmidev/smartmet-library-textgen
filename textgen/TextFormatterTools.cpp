@@ -14,13 +14,15 @@
 
 #include "TextFormatterTools.h"
 #include "Dictionary.h"
+#include <boost/algorithm/string/find.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/locale.hpp>
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
-#include <newbase/NFmiStringTools.h>
+#include <locale>
+#include <sstream>
 
 using namespace std;
 

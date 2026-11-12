@@ -10,8 +10,6 @@
 #include <string>
 #include <vector>
 
-#include <calculator/WeatherHistory.h>
-
 class TextGenPosixTime;
 
 namespace TextGen
@@ -21,6 +19,8 @@ class WeatherPeriod;
 
 namespace TextGen
 {
+class WeatherHistory;
+
 namespace WeekdayTools
 {
 std::string on_weekday(const TextGenPosixTime& theTime);

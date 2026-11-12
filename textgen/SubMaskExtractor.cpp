@@ -1,31 +1,31 @@
-#include <calculator/RegularFunctionAnalyzer.h>
-
 #include "SubMaskExtractor.h"
-#include <calculator/CalculatorFactory.h>
+#include <calculator/Acceptor.h>
+#include <calculator/AnalysisSources.h>
 #include <calculator/MaskSource.h>
 #include <calculator/ParameterAnalyzer.h>
-#include <calculator/QueryDataIntegrator.h>
 #include <calculator/QueryDataTools.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherResult.h>
+#include <calculator/WeatherDataType.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherSource.h>
 #include <macgyver/Exception.h>
-
-#include <calculator/TextGenPosixTime.h>
+#include <newbase/NFmiArea.h>
 #include <newbase/NFmiEnumConverter.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiIndexMaskSource.h>
-#include <newbase/NFmiMetMath.h>
+#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiGrid.h>
 #include <newbase/NFmiNearTree.h>
-#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiParameterName.h>
+#include <newbase/NFmiPoint.h>
+#include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiSvgTools.h>
-#include <cassert>
+#include <cmath>
+#include <iostream>
 #include <math.h>
-
-#include <boost/lexical_cast.hpp>
 #include <memory>
-#include <sstream>
 #include <string>
+
+class NFmiQueryData;
 
 using namespace std;
 

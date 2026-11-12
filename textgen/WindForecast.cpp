@@ -7,21 +7,27 @@
 
 #include "WindForecast.h"
 #include "Delimiter.h"
+#include "MessageLogger.h"
 #include "PositiveRange.h"
 #include "QualifiedDirectionPhrase.h"
 #include "UnitFactory.h"
 #include "WeekdayTools.h"
 #include <boost/algorithm/string/case_conv.hpp>
-#include <boost/algorithm/string/replace.hpp>
-#include <calculator/Settings.h>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
 #include <algorithm>
 #include <array>
-#include <iomanip>
-
-// #define BOOST_STACKTRACE_USE_ADDR2LINE
-#include <boost/stacktrace.hpp>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <sstream>
 
 namespace TextGen
 {

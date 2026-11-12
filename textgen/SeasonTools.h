@@ -8,18 +8,15 @@
 
 #pragma once
 
-#include <ctime>
 #include <string>
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
-class WeatherPeriod;
-class WeatherResult;
 class AnalysisSources;
 class WeatherArea;
-class WeatherPeriodGenerator;
+class WeatherPeriod;
 
 namespace SeasonTools
 {

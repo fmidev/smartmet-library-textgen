@@ -16,13 +16,23 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
-
+#include <algorithm>
+#include <ostream>
+#include <string>
 #include <vector>
+
+class TextGenPosixTime;
+namespace TextGen
+{
+class AnalysisSources;
+class WeatherArea;
+}  // namespace TextGen
 
 using namespace TextGen::WindStoryTools;
 using namespace TextGen;

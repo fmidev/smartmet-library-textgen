@@ -1,19 +1,31 @@
 #pragma once
 
-#include "Sentence.h"
 #include "WeatherForecast.h"
 #include "WindStoryTools.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
+#include <newbase/NFmiGlobals.h>
+#include <iosfwd>
+#include <map>
+#include <string>
+#include <utility>
 #include <vector>
+
+class MessageLogger;
 
 namespace TextGen
 {
+class AnalysisSources;
+
 using namespace WindStoryTools;
 
-struct WindDataItemUnit;
 struct WindDataItemsByArea;
-struct WindSpeedPeriodDataItem;
 struct WindDirectionPeriodDataItem;
 struct WindEventPeriodDataItem;
+struct WindSpeedPeriodDataItem;
 
 using value_distribution_data_vector = std::vector<std::pair<float, WeatherResult>>;
 using wind_data_item_vector = std::vector<WindDataItemsByArea*>;

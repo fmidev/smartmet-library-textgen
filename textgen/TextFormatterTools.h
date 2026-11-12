@@ -8,10 +8,7 @@
 #pragma once
 
 #include "TextFormatter.h"
-#include <boost/algorithm/string/find.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/lexical_cast.hpp>
-#include <iostream>
 #include <string>
 
 class TextGenPosixTime;

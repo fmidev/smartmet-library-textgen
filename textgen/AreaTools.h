@@ -7,23 +7,24 @@
 
 #pragma once
 
-#include <calculator/Acceptor.h>
-#include <calculator/AnalysisSources.h>
-#include <calculator/UserWeatherSource.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherParameter.h>
-#include <calculator/WeatherPeriod.h>
-#include <calculator/WeatherResult.h>
-
-#include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiPoint.h>
-
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
 
+class NFmiIndexMask;
+
 namespace TextGen
 {
+class Acceptor;
+class AnalysisSources;
+class UserWeatherSource;
+class WeatherPeriod;
+class WeatherResult;
+
 namespace AreaTools
 {
 enum forecast_area_id

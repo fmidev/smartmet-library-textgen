@@ -1,19 +1,25 @@
 #include "PrecipitationPeriodTools.h"
+#include <boost/lexical_cast.hpp>
 #include <calculator/AnalysisSources.h>
-#include <calculator/MaskSource.h>
 #include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/UserWeatherSource.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
-#include <calculator/WeatherSource.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiGrid.h>
+#include <newbase/NFmiMetTime.h>
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSettings.h>
-#include <newbase/NFmiSvgPath.h>
 #include <regression/tframe.h>
-#include <stdexcept>
+#include <iostream>
+#include <memory>
+#include <string>
+
+namespace TextGen
+{
+class MaskSource;
+}  // namespace TextGen
 
 using namespace std;
 using namespace boost;

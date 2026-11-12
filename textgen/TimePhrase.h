@@ -9,11 +9,12 @@
 
 #include "GlyphContainer.h"
 #include <calculator/TextGenPosixTime.h>
-#include <memory>
 #include <string>
 
 namespace TextGen
 {
+class Glyph;
+
 class TimePhrase : public GlyphContainer
 {
  public:

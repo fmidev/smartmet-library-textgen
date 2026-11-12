@@ -14,6 +14,7 @@
 
 #include "OrAcceptor.h"
 #include <macgyver/Exception.h>
+#include <string>
 
 namespace TextGen
 {

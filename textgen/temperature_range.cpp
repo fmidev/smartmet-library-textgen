@@ -5,7 +5,6 @@
  */
 // ======================================================================
 
-#include "Integer.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
@@ -13,9 +12,15 @@
 #include "TemperatureStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
+#include <cmath>
+#include <ostream>
+#include <string>
+#include <vector>
 
 using namespace TextGen;
 using namespace std;

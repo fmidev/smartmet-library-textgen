@@ -11,7 +11,10 @@
 #include "Paragraph.h"
 #include "Sentence.h"
 #include <calculator/Settings.h>
+#include <calculator/WeatherArea.h>
 #include <macgyver/Exception.h>
+#include <ostream>
+#include <string>
 
 using namespace TextGen;
 

@@ -14,11 +14,12 @@
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
 #include <macgyver/PostgreSQLConnection.h>
-#include <macgyver/StringConversion.h>
-
-#include <thread>
-
+#include <chrono>
+#include <exception>
 #include <map>
+#include <pqxx/pqxx>
+#include <thread>
+#include <utility>
 
 using namespace std;
 

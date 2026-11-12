@@ -13,17 +13,22 @@
 #include "PrecipitationStory.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
-#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <vector>
 
-#include <boost/lexical_cast.hpp>
+class TextGenPosixTime;
 
 using namespace TextGen;
 

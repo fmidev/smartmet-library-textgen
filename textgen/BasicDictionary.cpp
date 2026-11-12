@@ -7,6 +7,7 @@
 
 #include "BasicDictionary.h"
 #include <macgyver/Exception.h>
+#include <utility>
 
 namespace TextGen
 {

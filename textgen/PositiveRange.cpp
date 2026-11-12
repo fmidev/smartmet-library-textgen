@@ -11,10 +11,9 @@
 // ======================================================================
 
 #include "PositiveRange.h"
-#include "Dictionary.h"
+#include "TextFormatter.h"
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
 #include <memory>
 #include <sstream>
 #include <utility>

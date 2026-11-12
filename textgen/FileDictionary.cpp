@@ -44,9 +44,10 @@
 #include <macgyver/Exception.h>
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
-
 #include <fstream>
 #include <map>
+#include <utility>
+#include <vector>
 
 namespace TextGen
 {

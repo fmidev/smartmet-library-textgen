@@ -1,12 +1,12 @@
 #include "FileDictionary.h"
+#include <boost/locale.hpp>
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
 #include <newbase/NFmiSettings.h>
 #include <regression/tframe.h>
 #include <iostream>
+#include <locale>
 #include <string>
-
-#include <boost/locale.hpp>
 
 using namespace std;
 

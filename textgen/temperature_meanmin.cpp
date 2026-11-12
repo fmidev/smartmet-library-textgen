@@ -13,9 +13,16 @@
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
+#include <cmath>
+#include <memory>
+#include <ostream>
+#include <string>
 
 using namespace TextGen;
 using namespace std;

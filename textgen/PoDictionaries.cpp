@@ -34,6 +34,7 @@
 // ----------------------------------------------------------------------
 
 #include "PoDictionaries.h"
+#include <utility>
 #ifdef UNIX
 #include "PoDictionary.h"
 #include <macgyver/Exception.h>

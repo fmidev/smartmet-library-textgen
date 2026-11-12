@@ -6,18 +6,22 @@
 #include "TimePeriod.h"
 #include "UnitFactory.h"
 #include "WeatherTime.h"
+#include <boost/locale.hpp>
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherPeriod.h>
-#include <regression/tframe.h>
-
 #include <newbase/NFmiSettings.h>
-
+#include <regression/tframe.h>
 #include <iostream>
-#include <stdexcept>
+#include <list>
+#include <locale>
+#include <memory>
 #include <string>
 
-#include <boost/locale.hpp>
+namespace TextGen
+{
+class Dictionary;
+}  // namespace TextGen
 
 using namespace std;
 using namespace boost;

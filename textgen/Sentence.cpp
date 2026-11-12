@@ -16,15 +16,15 @@
 // ======================================================================
 
 #include "Sentence.h"
-
-#include "Dictionary.h"
+#include "Glyph.h"
 #include "Integer.h"
 #include "Phrase.h"
-#include "PlainTextFormatter.h"
 #include "TextFormatter.h"
 #include <macgyver/Exception.h>
 #include <algorithm>
 #include <iterator>
+#include <list>
+#include <memory>
 
 using namespace std;
 

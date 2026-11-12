@@ -11,9 +11,10 @@
 #include <calculator/WeatherPeriod.h>
 #include <string>
 
+class TextGenPosixTime;
+
 namespace TextGen
 {
-class Dictionary;
 
 class TimePeriod : public Glyph
 {

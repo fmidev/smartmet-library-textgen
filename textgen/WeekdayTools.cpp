@@ -22,6 +22,7 @@
 #include <macgyver/Exception.h>
 #include <newbase/NFmiStringTools.h>
 #include <set>
+#include <utility>
 
 using namespace std;
 

@@ -11,13 +11,9 @@
 // ======================================================================
 
 #include "StoryTag.h"
-#include "Dictionary.h"
 #include "TextFormatter.h"
 #include <macgyver/Exception.h>
-
 #include <memory>
-
-#include <sstream>
 #include <utility>
 
 using namespace std;

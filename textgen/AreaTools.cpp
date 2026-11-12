@@ -15,16 +15,27 @@
 
 #include "AreaTools.h"
 #include "SubMaskExtractor.h"
+#include <calculator/AnalysisSources.h>
 #include <calculator/ParameterAnalyzer.h>
 #include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherDataType.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/WeatherSource.h>
 #include <macgyver/Exception.h>
 #include <newbase/NFmiFastQueryInfo.h>
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiSvgTools.h>
 #include <algorithm>
+#include <memory>
+#include <utility>
+
+class NFmiQueryData;
+namespace TextGen
+{
+class Acceptor;
+class WeatherPeriod;
+}  // namespace TextGen
 
 using mask_type = TextGen::RegularMaskSource::mask_type;
 

@@ -11,10 +11,9 @@
 // ======================================================================
 
 #include "WeatherTime.h"
-#include "Dictionary.h"
 #include "TextFormatter.h"
-#include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
+#include <memory>
 
 using namespace std;
 

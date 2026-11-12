@@ -1,14 +1,11 @@
 #include "FireWarnings.h"
-#include <calculator/TextGenPosixTime.h>
-#include <regression/tframe.h>
-
-#include <newbase/NFmiSettings.h>
-
-#include <iostream>
-#include <stdexcept>
-#include <string>
-
 #include <boost/locale.hpp>
+#include <calculator/TextGenPosixTime.h>
+#include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
+#include <iostream>
+#include <locale>
+#include <string>
 
 using namespace std;
 

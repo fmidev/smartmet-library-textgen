@@ -1,25 +1,16 @@
-#include <iostream>
-#include <string>
-
+#include "WeatherForecastStory.h"
+#include "CloudinessForecast.h"
 #include "Delimiter.h"
+#include "FogForecast.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
+#include "PrecipitationForecast.h"
 #include "Sentence.h"
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/range/algorithm/remove_if.hpp>
-
 #include <calculator/Settings.h>
-#include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
-#include <macgyver/StringConversion.h>
-
-#include "CloudinessForecast.h"
-#include "FogForecast.h"
-#include "PrecipitationForecast.h"
-#include "ThunderForecast.h"
-#include "WeatherForecastStory.h"
+#include <iostream>
+#include <string>
 
 using namespace std;
 

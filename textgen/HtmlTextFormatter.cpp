@@ -12,7 +12,6 @@
 // ======================================================================
 
 #include "HtmlTextFormatter.h"
-#include "Dictionary.h"
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
@@ -30,8 +29,8 @@
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
+#include <list>
+#include <sstream>
 
 using namespace std;
 

@@ -8,7 +8,6 @@
 #pragma once
 
 #include <calculator/Acceptor.h>
-#include <functional>
 
 namespace TextGen
 {

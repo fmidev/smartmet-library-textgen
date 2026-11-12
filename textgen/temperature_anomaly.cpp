@@ -5,47 +5,40 @@
  */
 // ======================================================================
 
-#include "TemperatureStory.h"
-
-#include "ClimatologyTools.h"
-#include "GridClimatology.h"
-
 #include "AreaTools.h"
-#include "Delimiter.h"
-#include "Integer.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
+#include "TemperatureStory.h"
 #include "TemperatureStoryTools.h"
-#include "UnitFactory.h"
+#include "WeatherForecast.h"
 #include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <newbase/NFmiGrid.h>
-#include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiIndexMaskSource.h>
-#include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiMetMath.h>
-#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiStringTools.h>
-
-#include "WeatherForecast.h"
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherSource.h>
-#include <map>
-
-#include <boost/lexical_cast.hpp>
+#include <cstdlib>
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
+#include <sstream>
+#include <string>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
+
 namespace fs = std::filesystem;
 
 using namespace std;

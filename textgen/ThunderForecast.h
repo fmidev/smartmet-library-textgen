@@ -1,10 +1,14 @@
 #pragma once
 
-#include "PrecipitationForecast.h"
+#include "AreaTools.h"
+#include "Sentence.h"
 #include "WeatherForecast.h"
+#include <string>
 
 namespace TextGen
 {
+class WeatherPeriod;
+
 class ThunderForecast
 {
  public:

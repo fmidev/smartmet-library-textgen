@@ -7,34 +7,17 @@
 
 #include "CloudinessForecast.h"
 #include "AreaTools.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
 #include "Delimiter.h"
-#include "MessageLogger.h"
-#include "NightAndDayPeriodGenerator.h"
-#include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
-#include "PrecipitationPeriodTools.h"
-#include "PrecipitationStoryTools.h"
-#include "SeasonTools.h"
 #include "Sentence.h"
-#include "SubMaskExtractor.h"
-#include "ValueAcceptor.h"
-#include "WeatherStory.h"
-#include "WeekdayTools.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
-#include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TimeTools.h>
-#include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
-#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <math.h>
+#include <memory>
+#include <ostream>
+#include <string>
 #include <vector>
 
 using namespace std;

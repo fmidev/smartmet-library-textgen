@@ -30,8 +30,8 @@
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
+#include <newbase/NFmiPoint.h>
+#include <ostream>
 
 using namespace TextGen;
 using namespace std;

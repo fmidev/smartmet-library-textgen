@@ -10,20 +10,32 @@
 #include "MessageLogger.h"
 #include "MorningAndEveningPeriodGenerator.h"
 #include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
 #include "RoadStory.h"
 #include "Sentence.h"
 #include "ValueAcceptor.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <boost/lexical_cast.hpp>
-
+#include <functional>
 #include <map>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+class WeatherArea;
+}  // namespace TextGen
 
 using namespace TextGen;
 using namespace std;

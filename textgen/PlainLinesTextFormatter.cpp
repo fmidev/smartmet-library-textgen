@@ -15,6 +15,7 @@
 #include "Paragraph.h"
 #include "TextFormatterTools.h"
 #include <macgyver/Exception.h>
+#include <list>
 
 using namespace std;
 

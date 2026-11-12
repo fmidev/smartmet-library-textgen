@@ -37,6 +37,7 @@
 
 namespace TextGen
 {
+class Dictionary;
 // ----------------------------------------------------------------------
 /*!
  * \brief Create a dictionary of given type

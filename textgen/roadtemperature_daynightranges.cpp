@@ -15,10 +15,16 @@
 #include "TemperatureStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
+#include <newbase/NFmiGlobals.h>
+#include <cmath>
+#include <ostream>
+#include <string>
 
 using namespace TextGen;
 using namespace std;

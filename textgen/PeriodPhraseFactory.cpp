@@ -13,22 +13,25 @@
  *
  */
 // ======================================================================
-#include <boost/lexical_cast.hpp>
-
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
 #include "WeekdayTools.h"
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
-#include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
-
-#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
+#include <algorithm>
 #include <array>
+#include <vector>
+
+namespace TextGen
+{
+class WeatherHistory;
+}  // namespace TextGen
 
 using namespace TextGen::TimeTools;
 using namespace std;

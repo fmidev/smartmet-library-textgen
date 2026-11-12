@@ -8,12 +8,10 @@
 #pragma once
 
 #include "Glyph.h"
-#include "TextFormatter.h"
 #include <string>
 
 namespace TextGen
 {
-class Dictionary;
 
 class RealRange : public Glyph
 {

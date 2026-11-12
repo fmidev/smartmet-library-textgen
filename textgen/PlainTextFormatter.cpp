@@ -12,7 +12,6 @@
 // ======================================================================
 
 #include "PlainTextFormatter.h"
-#include "Dictionary.h"
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
@@ -30,6 +29,7 @@
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
+#include <list>
 
 using namespace std;
 

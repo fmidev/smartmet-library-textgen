@@ -8,6 +8,9 @@
 #pragma once
 
 #include <calculator/MaskSource.h>
+#include <calculator/WeatherArea.h>
+#include <memory>
+#include <string>
 
 namespace TextGen
 {
@@ -30,6 +33,7 @@ class NorthernMaskSource : public MaskSource
 
  private:
   class Pimple;
+
   std::shared_ptr<Pimple> itsPimple;
 
 };  // class NorthernMaskSource

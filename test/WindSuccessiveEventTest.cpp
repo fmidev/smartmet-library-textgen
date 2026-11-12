@@ -14,20 +14,20 @@
 
 #include "MessageLogger.h"
 #include "WindForecastStructs.h"
-
+#include "WindStoryTools.h"
+#include <boost/locale.hpp>
 #include <calculator/AnalysisSources.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
-#include <regression/tframe.h>
-
+#include <calculator/WeatherResult.h>
 #include <newbase/NFmiSettings.h>
-
-#include <boost/locale.hpp>
-
+#include <regression/tframe.h>
 #include <algorithm>
 #include <cstring>
 #include <iostream>
+#include <locale>
 #include <memory>
 #include <string>
 #include <vector>

@@ -6,47 +6,46 @@
 // ======================================================================
 
 #include "AreaTools.h"
-#include "ClimatologyTools.h"
-#include "DebugTextFormatter.h"
 #include "Delimiter.h"
 #include "FrostStory.h"
-#include "GridClimatology.h"
 #include "Integer.h"
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
-#include "NorthernMaskSource.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
-#include "SouthernMaskSource.h"
 #include "TemperatureStory.h"
 #include "TemperatureStoryTools.h"
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
-#include "WeekdayTools.h"
-#include <boost/lexical_cast.hpp>
-#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherHistory.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
-#include <calculator/WeatherSource.h>
 #include <macgyver/Exception.h>
 #include <newbase/NFmiGlobals.h>
-#include <newbase/NFmiGrid.h>
-#include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiIndexMaskSource.h>
-#include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiStringTools.h>
+#include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <map>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <utility>
 #include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace std;
 

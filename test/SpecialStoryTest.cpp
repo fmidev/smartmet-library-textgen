@@ -6,16 +6,18 @@
 #include "SpecialStory.h"
 #include "Story.h"
 #include "StoryTag.h"
-#include <calculator/Settings.h>
-#include <regression/tframe.h>
-
-#include <newbase/NFmiSettings.h>
-
-#include <iostream>
-#include <stdexcept>
-#include <string>
-
 #include <boost/locale.hpp>
+#include <calculator/AnalysisSources.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
+#include <iostream>
+#include <locale>
+#include <memory>
+#include <string>
 
 using namespace std;
 using namespace boost;

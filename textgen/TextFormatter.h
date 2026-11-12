@@ -16,20 +16,18 @@ namespace TextGen
 class Dictionary;
 class Document;
 class Glyph;
-class GlyphContainer;
 class Header;
 class Integer;
-class Real;
 class IntegerRange;
-class PositiveRange;
 class Paragraph;
+class PositiveRange;
+class Real;
+class SectionTag;
 class Sentence;
+class StoryTag;
 class TimePeriod;
 class TimePhrase;
 class WeatherTime;
-
-class SectionTag;
-class StoryTag;
 
 class TextFormatter
 {

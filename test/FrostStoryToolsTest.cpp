@@ -1,18 +1,13 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
-#include "FrostStoryTools.h"
-#include <calculator/Settings.h>
-#include <regression/tframe.h>
-
-#include <newbase/NFmiSettings.h>
-
-#include <memory>
-
-#include <iostream>
-#include <stdexcept>
-#include <string>
-
 #include <boost/locale.hpp>
+#include <calculator/Settings.h>
+#include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
+#include <iostream>
+#include <locale>
+#include <memory>
+#include <string>
 
 using namespace std;
 using namespace boost;

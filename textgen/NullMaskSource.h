@@ -8,6 +8,10 @@
 #pragma once
 
 #include <calculator/MaskSource.h>
+#include <memory>
+#include <string>
+
+class NFmiIndexMask;
 
 namespace TextGen
 {

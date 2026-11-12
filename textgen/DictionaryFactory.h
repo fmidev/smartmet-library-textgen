@@ -7,10 +7,12 @@
 
 #pragma once
 
-#include "Dictionary.h"
+#include <string>
 
 namespace TextGen
 {
+class Dictionary;
+
 namespace DictionaryFactory
 {
 Dictionary* create(const std::string& theType);

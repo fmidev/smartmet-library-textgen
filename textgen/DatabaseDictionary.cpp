@@ -41,8 +41,8 @@
 // ----------------------------------------------------------------------
 #include "DatabaseDictionary.h"
 #include <macgyver/Exception.h>
-
 #include <map>
+#include <utility>
 
 using namespace std;
 

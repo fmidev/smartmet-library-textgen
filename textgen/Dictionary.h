@@ -8,8 +8,6 @@
 #pragma once
 
 #include <macgyver/Exception.h>
-#include <iostream>
-#include <map>
 #include <sstream>
 #include <string>
 

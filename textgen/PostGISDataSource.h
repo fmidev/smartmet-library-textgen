@@ -8,12 +8,12 @@
 #pragma once
 
 #include <gdal_version.h>
+#include <iterator>
 #include <list>
 #include <map>
 #include <ogrsf_frmts.h>
 #include <string>
-
-class OGRDataSource;
+#include <utility>
 
 namespace BrainStorm
 {

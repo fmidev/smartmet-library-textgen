@@ -8,11 +8,12 @@
 #pragma once
 
 #include "GlyphContainer.h"
-#include <memory>
 #include <string>
 
 namespace TextGen
 {
+class Glyph;
+
 class Sentence : public GlyphContainer
 {
  public:

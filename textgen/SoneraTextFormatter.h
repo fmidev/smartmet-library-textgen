@@ -8,11 +8,14 @@
 #pragma once
 
 #include "TextFormatter.h"
-
 #include <list>
+#include <memory>
+#include <string>
 
 namespace TextGen
 {
+class Dictionary;
+
 class SoneraTextFormatter : public TextFormatter
 {
  public:

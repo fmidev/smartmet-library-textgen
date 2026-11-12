@@ -7,9 +7,7 @@
 
 #pragma once
 
-#include <calculator/AnalysisSources.h>
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherPeriod.h>
+#include <string>
 
 namespace TextGen
 {

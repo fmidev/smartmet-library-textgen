@@ -8,13 +8,15 @@
 #pragma once
 
 #include "Story.h"
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
 #include <string>
-
-class TextGenPosixTime;
 
 namespace TextGen
 {
+class AnalysisSources;
 class Paragraph;
+class WeatherPeriod;
 
 class FrostStory : public Story
 {

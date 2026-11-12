@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "DebugTextFormatter.h"
+#include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Document.h"
 #include "Header.h"
@@ -23,6 +24,8 @@
 #include <newbase/NFmiSettings.h>
 #include <regression/tframe.h>
 #include <iostream>
+#include <locale>
+#include <memory>
 #include <string>
 
 using namespace std;

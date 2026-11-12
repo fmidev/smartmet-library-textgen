@@ -9,6 +9,7 @@
 #include "Paragraph.h"
 #include "SpecialStory.h"
 #include <macgyver/Exception.h>
+#include <string>
 
 using namespace TextGen;
 using namespace std;

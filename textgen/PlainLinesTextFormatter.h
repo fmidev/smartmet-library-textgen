@@ -8,6 +8,7 @@
 #pragma once
 
 #include "PlainTextFormatter.h"
+#include <string>
 
 namespace TextGen
 {

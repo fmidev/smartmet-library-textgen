@@ -9,6 +9,7 @@
 
 #include "DebugDictionary.h"
 #include "TextFormatter.h"
+#include <string>
 
 namespace TextGen
 {

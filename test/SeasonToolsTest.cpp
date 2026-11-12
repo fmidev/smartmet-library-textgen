@@ -2,8 +2,8 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <regression/tframe.h>
-
-#include <newbase/NFmiSettings.h>
+#include <iostream>
+#include <string>
 
 using namespace std;
 

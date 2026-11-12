@@ -12,16 +12,25 @@
 #include "PrecipitationStory.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
+#include <boost/lexical_cast.hpp>
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiStringTools.h>
+#include <algorithm>
 #include <list>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <utility>
+#include <vector>
 
 using namespace std;
 using namespace TextGen;

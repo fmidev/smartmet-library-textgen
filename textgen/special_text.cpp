@@ -11,12 +11,12 @@
 #include "Text.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
-
-#include <filesystem>
-
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
+#include <string>
 
 #ifdef UNIX
 #include <unistd.h>

@@ -8,12 +8,10 @@
 #pragma once
 
 #include "IntegerRange.h"
-#include "TextFormatter.h"
 #include <string>
 
 namespace TextGen
 {
-class Dictionary;
 
 class TemperatureRange : public IntegerRange
 {

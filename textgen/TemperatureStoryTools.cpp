@@ -16,26 +16,28 @@
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
 #include "Integer.h"
-#include "PositiveValueAcceptor.h"
+#include "SeasonTools.h"
 #include "Sentence.h"
 #include "TemperatureRange.h"
 #include "UnitFactory.h"
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/Settings.h>
-#include <calculator/WeatherPeriodGenerator.h>
-
-#include "SeasonTools.h"
-#include "TextFormatter.h"
 #include <calculator/GridForecaster.h>
-#include <calculator/WeatherArea.h>
+#include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherPeriodGenerator.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
+#include <newbase/NFmiGlobals.h>
 #include <array>
+#include <cstdlib>
+#include <iterator>
+#include <map>
 #include <memory>
-#include <sstream>
 #include <string>
+#include <tuple>
+#include <utility>
 
 using namespace Settings;
 using namespace TextGen;

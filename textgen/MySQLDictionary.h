@@ -13,6 +13,7 @@
 #ifdef UNIX
 
 #include "DatabaseDictionary.h"
+#include <string>
 
 namespace TextGen
 {

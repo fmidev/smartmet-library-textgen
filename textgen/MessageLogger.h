@@ -8,8 +8,8 @@
 #pragma once
 
 #include "MessageLoggerStream.h"
-
-#include <stdexcept>
+#include <ostream>
+#include <string>
 
 namespace TextGen
 {

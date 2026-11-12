@@ -18,9 +18,21 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
+#include <newbase/NFmiGlobals.h>
+#include <cstdlib>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <vector>
+
+class TextGenPosixTime;
 
 using namespace std;
 using namespace TextGen;

@@ -36,12 +36,20 @@
 #include <calculator/MaskSource.h>
 #include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
-
-#include <calculator/TextGenPosixTime.h>
+#include <newbase/NFmiPoint.h>
 #include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiSvgPath.h>
+#include <ostream>
+#include <vector>
+
+namespace TextGen
+{
+class WeatherSource;
+}  // namespace TextGen
 
 constexpr const char* VERSION_STRING = "17.11.21-1";
 

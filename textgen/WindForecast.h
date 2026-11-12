@@ -1,9 +1,17 @@
 #pragma once
 
 #include "Paragraph.h"
+#include "Sentence.h"
 #include "WeatherForecast.h"
 #include "WindForecastStructs.h"
 #include "WindStoryTools.h"
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherPeriod.h>
+#include <newbase/NFmiGlobals.h>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace TextGen
 {

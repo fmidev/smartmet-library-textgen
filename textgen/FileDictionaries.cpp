@@ -45,6 +45,7 @@
 // ----------------------------------------------------------------------
 
 #include "FileDictionaries.h"
+#include <utility>
 #ifdef UNIX
 #include "FileDictionary.h"
 #include <macgyver/Exception.h>

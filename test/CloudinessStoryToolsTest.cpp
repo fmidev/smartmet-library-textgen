@@ -2,14 +2,19 @@
 #include "DebugDictionary.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
+#include <boost/locale.hpp>
 #include <newbase/NFmiSettings.h>
 #include <regression/tframe.h>
-
 #include <iostream>
-#include <stdexcept>
+#include <locale>
+#include <memory>
 #include <string>
+#include <vector>
 
-#include <boost/locale.hpp>
+namespace TextGen
+{
+class Dictionary;
+}  // namespace TextGen
 
 using namespace std;
 using namespace boost;

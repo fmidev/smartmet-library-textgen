@@ -6,43 +6,35 @@
 // ======================================================================
 
 #include "PrecipitationForecast.h"
-
 #include "AreaTools.h"
-#include "CloudinessForecast.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
-#include "DebugTextFormatter.h"
 #include "Delimiter.h"
 #include "MessageLogger.h"
-#include "NightAndDayPeriodGenerator.h"
-#include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
-#include "PrecipitationStoryTools.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
 #include "SubMaskExtractor.h"
 #include "ThunderForecast.h"
-#include "ValueAcceptor.h"
-#include "WeatherStory.h"
-#include "WeekdayTools.h"
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/TimeTools.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
+#include <newbase/NFmiArea.h>
 #include <newbase/NFmiAreaTools.h>
+#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiRect.h>
+#include <algorithm>
 #include <array>
+#include <cstdlib>
+#include <cstring>
 #include <iomanip>
 #include <map>
+#include <memory>
+#include <ostream>
+#include <utility>
 #include <vector>
 
 using namespace std;

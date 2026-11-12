@@ -1,14 +1,26 @@
 #pragma once
 
+#include "CloudinessForecast.h"
+#include "PrecipitationForecast.h"
+#include "Sentence.h"
+#include "ThunderForecast.h"
+#include "WeatherForecast.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
 #include <map>
 #include <memory>
 #include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 class MessageLogger;
 
 namespace TextGen
 {
-class Sentence;
+class FogForecast;
 class Paragraph;
 class WeatherForecastStory;
 

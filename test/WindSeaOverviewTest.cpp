@@ -5,14 +5,13 @@
 // describes one wind situation and checks the produced text in Finnish,
 // Swedish and English.
 
-#include <regression/tframe.h>
-
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
 #include "Story.h"
 #include "WindStory.h"
+#include <boost/locale.hpp>
 #include <calculator/AnalysisSources.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
@@ -20,13 +19,13 @@
 #include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiSettings.h>
-
-#include <boost/locale.hpp>
-
+#include <regression/tframe.h>
 #include <algorithm>
-#include <cmath>
+#include <cstddef>
 #include <iomanip>
 #include <iostream>
+#include <locale>
+#include <memory>
 #include <sstream>
 #include <string>
 

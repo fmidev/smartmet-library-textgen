@@ -19,15 +19,16 @@
 #include "CloudinessStoryTools.h"
 #include "MessageLogger.h"
 #include "Sentence.h"
-#include <calculator/AnalysisSources.h>
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <boost/lexical_cast.hpp>
+#include <ostream>
 
 using namespace TextGen;
 using namespace std;

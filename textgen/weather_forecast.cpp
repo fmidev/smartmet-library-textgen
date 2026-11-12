@@ -7,52 +7,55 @@
 
 #include "AreaTools.h"
 #include "CloudinessForecast.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
 #include "DebugTextFormatter.h"
 #include "Delimiter.h"
-#include "Dictionary.h"
-#include "DictionaryFactory.h"
 #include "FogForecast.h"
+#include "Glyph.h"
+#include "GlyphContainer.h"
 #include "MessageLogger.h"
-#include "NightAndDayPeriodGenerator.h"
 #include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
 #include "Phrase.h"
-#include "PlainTextFormatter.h"
 #include "PrecipitationForecast.h"
 #include "PrecipitationPeriodTools.h"
-#include "PrecipitationStoryTools.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
-#include "SubMaskExtractor.h"
 #include "ThunderForecast.h"
 #include "ValueAcceptor.h"
 #include "WeatherForecast.h"
 #include "WeatherForecastStory.h"
 #include "WeatherStory.h"
-#include "WeekdayTools.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
-#include <calculator/ParameterAnalyzer.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TimeTools.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
 #include <calculator/WeatherHistory.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
 #include <newbase/NFmiCombinedParam.h>
-#include <newbase/NFmiFastQueryInfo.h>
-
-#include <boost/lexical_cast.hpp>
+#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiPoint.h>
+#include <newbase/NFmiStringTools.h>
+#include <cctype>
+#include <list>
 #include <map>
+#include <memory>
+#include <ostream>
+#include <string>
 #include <typeinfo>
+#include <utility>
 #include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace std;
 

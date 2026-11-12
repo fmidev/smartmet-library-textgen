@@ -1,10 +1,11 @@
 #include "TemperatureTools.h"
-
-#include "Story.h"
-
 #include "SeasonTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 

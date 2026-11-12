@@ -8,8 +8,8 @@
 #pragma once
 
 #include "Story.h"
-
-class TextGenPosixTime;
+#include <calculator/TextGenPosixTime.h>
+#include <string>
 
 namespace TextGen
 {

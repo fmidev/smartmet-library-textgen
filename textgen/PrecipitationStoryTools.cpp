@@ -17,25 +17,25 @@
 // ======================================================================
 
 #include "PrecipitationStoryTools.h"
-#include "Integer.h"
 #include "MessageLogger.h"
 #include "PositiveRange.h"
 #include "Sentence.h"
 #include "UnitFactory.h"
 #include "ValueAcceptor.h"
-#include <calculator/AnalysisSources.h>
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <boost/lexical_cast.hpp>
 #include <newbase/NFmiGlobals.h>
 #include <cmath>
+#include <memory>
+#include <ostream>
 
 using namespace TextGen;
 using namespace std;

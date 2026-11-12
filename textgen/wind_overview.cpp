@@ -1,30 +1,51 @@
-#include "Delimiter.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "PositiveValueAcceptor.h"
 #include "Sentence.h"
-#include "SubMaskExtractor.h"
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
 #include "WeekdayTools.h"
 #include "WindForecast.h"
+#include "WindForecastStructs.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
-#include <calculator/ParameterAnalyzer.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
+#include <macgyver/DateTime.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
+#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiPoint.h>
+#include <newbase/NFmiStaticTime.h>
 #include <algorithm>
 #include <array>
-#include <bitset>
+#include <climits>
 #include <cmath>
-#include <fstream>
+#include <cstdlib>
 #include <iomanip>
+#include <limits>
+#include <map>
+#include <memory>
 #include <random>
+#include <set>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace TextGen;
 using namespace TextGen::WindStoryTools;

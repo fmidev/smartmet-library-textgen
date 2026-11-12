@@ -11,15 +11,11 @@
 // ======================================================================
 
 #include "Real.h"
-#include "Dictionary.h"
 #include "TextFormatter.h"
 #include <macgyver/Exception.h>
-
 #include <newbase/NFmiStringTools.h>
-
-#include <memory>
-
 #include <iomanip>
+#include <memory>
 #include <sstream>
 
 using namespace std;

@@ -64,8 +64,7 @@
 #include "Sentence.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
+#include <cstdlib>
 #include <string>
 
 using namespace std;

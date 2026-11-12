@@ -9,6 +9,7 @@
 #ifdef UNIX
 
 #include "Dictionary.h"
+#include <map>
 #include <memory>
 #include <string>
 
@@ -40,6 +41,7 @@ class DatabaseDictionary : public Dictionary
 
  private:
   class Pimple;
+
   std::shared_ptr<Pimple> itsPimple;
 
 };  // class DatabaseDictionary

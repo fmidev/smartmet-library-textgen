@@ -5,14 +5,13 @@
 // data/skandinavia_pinta.sqd instead. The data has no gust or maximum wind
 // parameters, so the wind speed stands in for both.
 
-#include <regression/tframe.h>
-
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
 #include "Story.h"
 #include "WindStory.h"
+#include <boost/locale.hpp>
 #include <calculator/AnalysisSources.h>
 #include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
@@ -23,10 +22,9 @@
 #include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSettings.h>
-
-#include <boost/locale.hpp>
-
+#include <regression/tframe.h>
 #include <iostream>
+#include <locale>
 #include <memory>
 #include <string>
 

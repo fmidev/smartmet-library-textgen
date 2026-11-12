@@ -1,21 +1,20 @@
 #pragma once
 
 #include "AreaTools.h"
-#include <calculator/Acceptor.h>
-#include <calculator/AnalysisSources.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherParameter.h>
-#include <calculator/WeatherPeriod.h>
-
+#include <newbase/NFmiIndexMask.h>
 #include <vector>
 
-#include <newbase/NFmiGrid.h>
-#include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiPoint.h>
-#include <newbase/NFmiSvgPath.h>
+class NFmiGrid;
+class NFmiPoint;
 
 namespace TextGen
 {
+class Acceptor;
+class AnalysisSources;
+class WeatherPeriod;
+
 double GetLocationCoordinates(const AnalysisSources& theSources,
                               const WeatherParameter& theParameter,
                               const WeatherArea& theArea,

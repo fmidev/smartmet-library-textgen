@@ -12,8 +12,6 @@
 
 namespace TextGen
 {
-class Dictionary;
-class TextFormatter;
 
 class SectionTag : public Glyph
 {

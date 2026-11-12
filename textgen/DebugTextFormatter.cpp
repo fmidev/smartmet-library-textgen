@@ -12,7 +12,6 @@
 // ======================================================================
 
 #include "DebugTextFormatter.h"
-#include "Dictionary.h"
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
@@ -28,10 +27,8 @@
 #include "TimePeriod.h"
 #include "TimePhrase.h"
 #include "WeatherTime.h"
-#include <calculator/Settings.h>
 #include <macgyver/Exception.h>
-
-#include <sstream>
+#include <list>
 #include <string>
 
 using namespace std;

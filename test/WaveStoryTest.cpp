@@ -1,23 +1,24 @@
 /*
  * NOTE: This file is to be edited in "Windows Latin-1" encoding (NOT UTF-8)
  */
-#include <regression/tframe.h>
-
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
 #include "Story.h"
 #include "WaveStory.h"
-#include <calculator/Settings.h>
-
-#include <newbase/NFmiSettings.h>
-
-#include <iostream>
-#include <stdexcept>
-#include <string>
-
 #include <boost/locale.hpp>
+#include <calculator/AnalysisSources.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
+#include <iostream>
+#include <locale>
+#include <memory>
+#include <string>
 
 using namespace std;
 using namespace boost;

@@ -21,7 +21,6 @@
 // ======================================================================
 
 #include "SoneraTextFormatter.h"
-#include "Dictionary.h"
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
@@ -30,7 +29,6 @@
 #include "Paragraph.h"
 #include "Phrase.h"
 #include "PositiveRange.h"
-#include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
 #include "StoryTag.h"
@@ -40,10 +38,17 @@
 #include "WeatherTime.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
-
 #include <newbase/NFmiStringTools.h>
+#include <algorithm>
+#include <cstdlib>
+#include <iterator>
+#include <sstream>
+#include <vector>
 
-#include <boost/lexical_cast.hpp>
+namespace TextGen
+{
+class Dictionary;
+}  // namespace TextGen
 
 using namespace std;
 

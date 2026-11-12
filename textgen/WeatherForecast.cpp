@@ -1,33 +1,36 @@
 #include "WeatherForecast.h"
 #include "AreaTools.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
 #include "DebugTextFormatter.h"
+#include "GlyphContainer.h"
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
 #include "PeriodPhraseFactory.h"
-#include "PrecipitationStoryTools.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
 #include "SubMaskExtractor.h"
 #include "TemperatureStoryTools.h"
-#include "WeatherStory.h"
-#include "WeekdayTools.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TimeTools.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-#include <macgyver/TimeFormatter.h>
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiStringTools.h>
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <sstream>
 #include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace std;
 

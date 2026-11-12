@@ -13,7 +13,6 @@
 
 namespace TextGen
 {
-class Dictionary;
 
 class WeatherTime : public Glyph
 {

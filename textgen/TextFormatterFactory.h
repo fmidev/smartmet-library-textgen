@@ -7,10 +7,12 @@
 
 #pragma once
 
-#include "TextFormatter.h"
+#include <string>
 
 namespace TextGen
 {
+class TextFormatter;
+
 namespace TextFormatterFactory
 {
 TextFormatter* create(const std::string& theType);

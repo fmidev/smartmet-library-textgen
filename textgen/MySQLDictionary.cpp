@@ -12,15 +12,13 @@
 #include "MySQLDictionary.h"
 #include <calculator/Settings.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
-
-// mystring.h must be included before mysql++.h: otherwise null.h instantiates
-// mysqlpp::Null<mysqlpp::String> before String is complete and the build fails with
-// "field has incomplete type 'mysqlpp::String'". Keep clang-format from sorting these.
-// clang-format off
-#include <mysql++/mystring.h>
+#include <mysql++/mystring.h>  // IWYU pragma: keep (mysql++.h needs it first)
 #include <mysql++/mysql++.h>
+#include <cstddef>
+#include <map>
+#include <ostream>
+#include <stdexcept>
+#include <utility>
 // clang-format on
 
 using namespace std;

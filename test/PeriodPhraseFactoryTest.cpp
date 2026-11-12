@@ -1,19 +1,18 @@
+#include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "PeriodPhraseFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
+#include <boost/locale.hpp>
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherPeriod.h>
-#include <regression/tframe.h>
-
 #include <newbase/NFmiSettings.h>
-
+#include <regression/tframe.h>
 #include <iostream>
-#include <stdexcept>
+#include <locale>
+#include <memory>
 #include <string>
-
-#include <boost/locale.hpp>
 
 using namespace std;
 using namespace boost;

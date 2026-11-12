@@ -5,43 +5,40 @@
  */
 // ======================================================================
 
-#include "WindStory.h"
-
 #include "AreaTools.h"
-#include "Delimiter.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
 #include "TemperatureStoryTools.h"
-#include "UnitFactory.h"
 #include "WeatherForecast.h"
+#include "WindStory.h"
 #include "WindStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherPeriodTools.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <newbase/NFmiGrid.h>
-#include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiIndexMaskSource.h>
-#include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiMetMath.h>
-#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiStringTools.h>
-
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherSource.h>
-
-#include <boost/lexical_cast.hpp>
-
 #include <algorithm>
-#include <map>
+#include <cmath>
+#include <cstdlib>
+#include <ostream>
+#include <string>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
 
 using namespace std;
 

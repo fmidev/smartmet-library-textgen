@@ -9,33 +9,40 @@
 #include "ComparativeAcceptor.h"
 #include "Delimiter.h"
 #include "FrostStory.h"
-#include "FrostStoryTools.h"
-#include "Integer.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
-#include "PositiveValueAcceptor.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
-#include "UnitFactory.h"
 #include "WeatherForecast.h"
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/trim.hpp>
-#include <boost/lexical_cast.hpp>
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiStringTools.h>
 #include <filesystem>  // includes all needed Boost.Filesystem declarations
 #include <iomanip>
-#include <map>
+#include <ostream>
+#include <string>
+#include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+}  // namespace TextGen
+
 namespace boostfs = std::filesystem;
 
 using namespace std;

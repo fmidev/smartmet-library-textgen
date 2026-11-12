@@ -16,18 +16,24 @@
 #include "Sentence.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
-#include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
 #include <calculator/TimeTools.h>
-#include <calculator/WeatherResult.h>
+#include <calculator/WeatherPeriod.h>
 #include <macgyver/Exception.h>
 #include <macgyver/StringConversion.h>
-
-#include <boost/lexical_cast.hpp>
 #include <array>
+#include <cstring>
+#include <list>
+#include <ostream>
+#include <string>
 #include <vector>
+
+namespace TextGen
+{
+class AnalysisSources;
+class WeatherArea;
+}  // namespace TextGen
 
 using namespace TextGen;
 

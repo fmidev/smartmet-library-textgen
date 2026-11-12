@@ -36,6 +36,8 @@
 
 namespace TextGen
 {
+class TextFormatter;
+
 namespace TextFormatterFactory
 {
 // ----------------------------------------------------------------------

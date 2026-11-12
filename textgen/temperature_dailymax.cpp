@@ -15,12 +15,17 @@
 #include "WeekdayTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <macgyver/Exception.h>
-
-#include <boost/lexical_cast.hpp>
+#include <cmath>
+#include <ostream>
+#include <string>
+#include <vector>
 
 using namespace TextGen::TemperatureStoryTools;
 using namespace TextGen;

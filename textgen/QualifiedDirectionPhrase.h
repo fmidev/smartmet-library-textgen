@@ -12,6 +12,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <memory>
 #include <string>
+#include <utility>
 
 namespace TextGen
 {

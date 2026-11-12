@@ -1,10 +1,10 @@
 #include "PostGISDataSource.h"
+#include <memory>
 
 #ifdef UNIX
 
 #include <boost/algorithm/string/replace.hpp>
 #include <macgyver/Exception.h>
-#include <iostream>
 #include <ogrsf_frmts.h>
 #include <sstream>
 #include <stdexcept>

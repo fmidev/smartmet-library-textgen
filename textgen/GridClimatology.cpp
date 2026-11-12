@@ -18,16 +18,13 @@
 // ======================================================================
 
 #include "GridClimatology.h"
-#include <calculator/Acceptor.h>
-#include <calculator/AnalysisSources.h>
+#include <calculator/ParameterAnalyzer.h>
 #include <calculator/ParameterAnalyzerFactory.h>
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherPeriod.h>
-#include <calculator/WeatherPeriodGenerator.h>
+#include <calculator/WeatherDataType.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
-
 #include <memory>
+#include <string>
 
 namespace TextGen
 {

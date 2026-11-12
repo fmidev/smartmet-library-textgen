@@ -15,17 +15,19 @@
 
 #include "SeasonTools.h"
 #include "PositiveValueAcceptor.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
 #include <macgyver/Exception.h>
-#include <newbase/NFmiStringTools.h>
-
-#include <ctime>
+#include <newbase/NFmiGlobals.h>
+#include <sstream>
 
 using namespace std;
 using namespace Settings;
