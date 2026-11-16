@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.11.13
+Version: 26.11.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,13 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Nov 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.16-1.fmi
+- turn_phrases = veering_backing no longer states the sense of a turn as a literal
+  "clockwise" or "counterclockwise" ("medurs", "med uret", "med klokka" etc): the
+  veering and backing dictionary keys now repeat the neutral turn phrases in all
+  languages except English, Dutch and the German qualifiers "rechtdrehend" and
+  "rückdrehend", which are established forecast terms. Finnish was already neutral
+
 * Fri Nov 13 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.13-1.fmi
 - Include cleanup: headers include what they use and prefer forward declarations,
   unnecessary includes removed. No functional changes, but code using these headers may

@@ -6486,10 +6486,10 @@ msgstr "[1] [2]局部[3]，最大[4] [5]"
 
 # wind_sea_overview: clockwise (veering) and counterclockwise (backing) turns
 msgid "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]"
-msgstr "[1]风顺时针[2]"
+msgstr "[1]风转向[2]"
 
 msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
-msgstr "[1]风逆时针[2]"
+msgstr "[1]风转向[2]"
 
 # Wind stories: a change of day marked with "tomorrow" and the part of the day
 msgid "huomenna aamuyolla"
@@ -6536,16 +6536,16 @@ msgstr "从明天午夜起"
 
 # wind_overview: a reported direction qualified as veering or backing, [1] = the direction
 msgid "myotapaivaan kaantyen [etelaan] [etelatuulta]"
-msgstr "顺时针转向的[2]"
+msgstr "[2]"
 
 msgid "vastapaivaan kaantyen [etelaan] [etelatuulta]"
-msgstr "逆时针转向的[2]"
+msgstr "[2]"
 
 msgid "myotapaivaan kaantyen [etelaan] [etelatuuli]"
-msgstr "顺时针转向的[2]"
+msgstr "[2]"
 
 msgid "vastapaivaan kaantyen [etelaan] [etelatuuli]"
-msgstr "逆时针转向的[2]"
+msgstr "[2]"
 
 # wind_sea_overview: the head of a change sentence whose wind turns, [4] = the turning direction
 msgid "[iltapaivalla] [nopeasti] [heikkenevaa] [kaantyvaa tuulta]"

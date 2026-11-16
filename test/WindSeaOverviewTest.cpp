@@ -348,7 +348,7 @@ void veering_and_backing()
   TextGen::WindStory story = make_story();
   string result;
   REQUIRE(story, "fi", "Etelätuulta 7-9 m/s. Keskiyöllä tuuli kääntyy länteen.");
-  REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden medurs mot väst.");
+  REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden mot väst.");
   REQUIRE(story, "en", "Southerly wind 7-9 m/s. The wind veers to the west at midnight.");
   REQUIRE(story, "en-marine", "South 7-9 m/s. Veering west at midnight.");
 
@@ -363,7 +363,7 @@ void veering_and_backing()
     set_hour(h, 8.0, 7.0, 9.0, dir, 5.0);
   }
   REQUIRE(story, "fi", "Etelätuulta 7-9 m/s. Keskiyöllä tuuli kääntyy itään.");
-  REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden moturs mot ost.");
+  REQUIRE(story, "sv", "Sydlig vind 7-9 m/s. Vid midnatt vrider vinden mot ost.");
   REQUIRE(story, "en", "Southerly wind 7-9 m/s. The wind backs to the east at midnight.");
   REQUIRE(story, "en-marine", "South 7-9 m/s. Backing east at midnight.");
   TEST_PASSED();

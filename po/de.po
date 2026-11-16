@@ -6480,10 +6480,10 @@ msgstr "[1] [2] stellenweise [3], bis zu [4] [5]"
 
 # wind_sea_overview: clockwise (veering) and counterclockwise (backing) turns
 msgid "[iltapaivalla] tuuli kaantyy myotapaivaan [etelaan]"
-msgstr "[1] dreht der Wind im Uhrzeigersinn nach [2]"
+msgstr "[1] dreht der Wind nach [2]"
 
 msgid "[iltapaivalla] tuuli kaantyy vastapaivaan [etelaan]"
-msgstr "[1] dreht der Wind gegen den Uhrzeigersinn nach [2]"
+msgstr "[1] dreht der Wind nach [2]"
 
 # Wind stories: a change of day marked with "tomorrow" and the part of the day
 msgid "huomenna aamuyolla"

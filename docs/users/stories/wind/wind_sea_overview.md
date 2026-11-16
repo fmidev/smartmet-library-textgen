@@ -160,12 +160,15 @@ phase only produces a sentence when the direction changed.
 
 With `turn_phrases = veering_backing` a turn is described as clockwise
 (veering) or counterclockwise (backing) relative to the previously
-reported direction, in the languages that have such words: English
-"veers / backs" and "veering northerly wind", `en-marine` "veering
-north", Swedish "vrider medurs / moturs" and "medurs vridande nordlig
-vind". Finnish never states the sense of a turn, so its text is the same
-with both settings. The default `plain` keeps the neutral phrases
-everywhere.
+reported direction, in the languages whose forecasts use such words:
+English "veers / backs" and "veering northerly wind", `en-marine`
+"veering north", Dutch "ruimt / krimpt" and the German qualifiers
+"rechtdrehend / rückdrehend". Finnish never states the sense of a turn,
+and neither do the other languages: a literal "clockwise" (Swedish
+"medurs", Danish "med uret", Norwegian "med klokka") is not forecast
+language, so their dictionaries translate the veering and backing keys
+with the neutral phrases and the text is the same with both settings.
+The default `plain` keeps the neutral phrases everywhere.
 
 The qualified direction is one glyph whose translation may use the
 turn-to form ("pohjoiseen") or the noun form ("pohjoistuulta") of the

@@ -112,8 +112,8 @@ void veering_and_backing()
           "tuulta, perjantaiaamuyöstä alkaen kaakkoon kääntyvää tuulta.");
   REQUIRE(forecast.story,
           "sv",
-          "Sydostlig vind 4-9 m/s, upp till 12 m/s. Från och med förmiddagen medurs vridande "
-          "sydlig vind, från och med fredag efternatt moturs vridande sydostlig vind.");
+          "Sydostlig vind 4-9 m/s, upp till 12 m/s. Från och med förmiddagen sydlig vind, från "
+          "och med fredag efternatt sydostlig vind.");
   REQUIRE(forecast.story,
           "en",
           "South-easterly wind 4-9 m/s, up to 12 m/s. From the forenoon veering southerly wind, "

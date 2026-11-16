@@ -319,11 +319,13 @@ rest. Setting both `convective_cell_max_duration` and
   "koillisen ja pohjoisen välistä tuulta".
 * With `turn_phrases = veering_backing` a direction that differs from the
   one written before it is qualified as clockwise or counterclockwise, as
-  in `wind_sea_overview`: English "veering northerly wind", `en-marine`
-  "veering north", Swedish "medurs vridande nordlig vind". Finnish never
-  states the sense of a turn and writes "aamulla pohjoiseen kääntyvää
-  tuulta". Variable winds are never qualified. The default `plain` keeps
-  the direction alone. Translations outside Finnish, Swedish and English
+  in `wind_sea_overview`, in the languages whose forecasts use such
+  words: English "veering northerly wind", `en-marine` "veering north",
+  Dutch "ruimende" and German "rechtdrehend". Finnish never states the
+  sense of a turn and writes "aamulla pohjoiseen kääntyvää tuulta". The
+  other languages, Swedish, Danish and Norwegian among them, write the
+  direction alone as with `plain`. Variable winds are never qualified.
+  The default `plain` keeps the direction alone. Translations outside Finnish, Swedish and English
   await native review.
 
 ### 8-way compass
