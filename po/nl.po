@@ -1039,9 +1039,6 @@ msgstr "lucht"
 msgid "Suomeen"
 msgstr "naar Finland"
 
-msgid "maan"
-msgstr "het land"
-
 msgid "etelaosiin"
 msgstr "zuidelijke delen"
 

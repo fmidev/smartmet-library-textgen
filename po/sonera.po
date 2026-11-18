@@ -952,9 +952,6 @@ msgstr "509"
 msgid "Suomeen"
 msgstr "510"
 
-msgid "maan"
-msgstr "511"
-
 msgid "etelaosiin"
 msgstr "512"
 

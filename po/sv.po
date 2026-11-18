@@ -970,9 +970,6 @@ msgstr "luft"
 msgid "Suomeen"
 msgstr "till Finland"
 
-msgid "maan"
-msgstr "landets"
-
 msgid "etelaosiin"
 msgstr "södra delar"
 

@@ -350,7 +350,6 @@ void phrases()
   require("vahan", "508");
   require("ilmaa", "509");
   require("Suomeen", "510");
-  require("maan", "511");
   require("etelaosiin", "512");
   require("keskiosiin", "513");
   require("pohjoisosiin", "514");
@@ -408,8 +407,8 @@ void phrases()
   // ahvenanmaa:lle == aland::lle
   // o'clock = <empty>
 
-  if (dict->size() != 378)
-    TEST_FAILED("Sonera dictionary should have 378 phrases, not " +
+  if (dict->size() != 377)
+    TEST_FAILED("Sonera dictionary should have 377 phrases, not " +
                 boost::lexical_cast<std::string>(dict->size()));
 
   TEST_PASSED();

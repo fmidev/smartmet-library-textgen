@@ -1039,9 +1039,6 @@ msgstr "udara"
 msgid "Suomeen"
 msgstr "ke Finlandia"
 
-msgid "maan"
-msgstr "negara"
-
 msgid "etelaosiin"
 msgstr "bagian selatan"
 

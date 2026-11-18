@@ -979,9 +979,6 @@ msgstr "Länsi-Suomen yli"
 msgid "lansiosiin"
 msgstr "länsiosiin"
 
-msgid "maan"
-msgstr "maan"
-
 msgid "pakkanen heikkenee"
 msgstr "pakkanen heikkenee"
 

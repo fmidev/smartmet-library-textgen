@@ -1039,9 +1039,6 @@ msgstr "هواء"
 msgid "Suomeen"
 msgstr "إلى فنلندا"
 
-msgid "maan"
-msgstr "البلاد"
-
 msgid "etelaosiin"
 msgstr "المناطق الجنوبية"
 

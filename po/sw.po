@@ -1039,9 +1039,6 @@ msgstr "hewa"
 msgid "Suomeen"
 msgstr "Finland"
 
-msgid "maan"
-msgstr "ya nchi"
-
 msgid "etelaosiin"
 msgstr "maeneo ya kusini"
 

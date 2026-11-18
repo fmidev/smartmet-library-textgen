@@ -320,7 +320,6 @@ lampimampaa|lämpimämpää
 lansi-|länsi-
 Lansi-Suomen yli|Länsi-Suomen yli
 lansiosiin|länsiosiin
-maan|maan
 pakkanen heikkenee|pakkanen heikkenee
 pakkanen jatkuu|pakkanen jatkuu
 pakkanen kiristyy|pakkanen kiristyy

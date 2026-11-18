@@ -1039,9 +1039,6 @@ msgstr "aire"
 msgid "Suomeen"
 msgstr "a Finlandia"
 
-msgid "maan"
-msgstr "del país"
-
 msgid "etelaosiin"
 msgstr "las partes meridionales"
 

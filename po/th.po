@@ -1045,9 +1045,6 @@ msgstr "อากาศ"
 msgid "Suomeen"
 msgstr "สู่ฟินแลนด์"
 
-msgid "maan"
-msgstr "ของประเทศ"
-
 msgid "etelaosiin"
 msgstr "ภาคใต้"
 

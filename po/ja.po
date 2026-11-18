@@ -1045,9 +1045,6 @@ msgstr "空気"
 msgid "Suomeen"
 msgstr "フィンランドへ"
 
-msgid "maan"
-msgstr "国の"
-
 msgid "etelaosiin"
 msgstr "南部に"
 

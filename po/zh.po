@@ -1045,9 +1045,6 @@ msgstr "气流"
 msgid "Suomeen"
 msgstr "进入芬兰"
 
-msgid "maan"
-msgstr "该国"
-
 msgid "etelaosiin"
 msgstr "南部地区"
 

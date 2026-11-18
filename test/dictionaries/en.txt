@@ -340,7 +340,6 @@ hyvin|a lot
 vahan|a little
 ilmaa|air
 Suomeen|to Finland
-maan|the countrys
 etelaosiin|southern parts
 keskiosiin|central parts
 pohjoisosiin|northern parts
@@ -1899,7 +1898,7 @@ kuola:lle|for Kola Peninsula
 [voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]|[1] starts to weaken and turns [2]
 [voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi|[1] heikkenee ja muuttuu vaihtelevaksi
 [voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi|[1] starts to weaken and becomes variable
-[voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi|[1] starts to weaken and becomes temporarily varaible
+[voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi|[1] starts to weaken and becomes temporarily variable
 [voimakas pohjoistuuli] heikkenee edelleen|[1] weakens further
 [voimakas pohjoistuuli] alkaa heiketa [nopeasti]|[1] starts to weaken [2]
 [voimakas pohjoistuuli] heikkenee [nopeasti]|[1] weakens [2]
@@ -1956,7 +1955,7 @@ tiepiiri-o4:lle|for Oulu northern inland region
 [pohjoistuuli] alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]|[1] starts to weaken [2] and turns [4] [3]
 [etelatuuli] heikkenee [nopeasti]|[1] weakens [2]
 [pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi|[1] starts to weaken and becomes variable
-[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi|[1] starts to weaken and becomes temporarily varaible
+[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi|[1] starts to weaken and becomes temporarily variable
 [pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi|[1] starts to weaken and becomes variable
 1-keskipaivaan|until Monday noon
 2-keskipaivaan|until Tuesday noon

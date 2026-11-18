@@ -1039,9 +1039,6 @@ msgstr "air"
 msgid "Suomeen"
 msgstr "to Finland"
 
-msgid "maan"
-msgstr "the countrys"
-
 msgid "etelaosiin"
 msgstr "southern parts"
 
@@ -5717,7 +5714,7 @@ msgid "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
 msgstr "[1] starts to weaken and becomes variable"
 
 msgid "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[1] starts to weaken and becomes temporarily varaible"
+msgstr "[1] starts to weaken and becomes temporarily variable"
 
 msgid "[voimakas pohjoistuuli] heikkenee edelleen"
 msgstr "[1] weakens further"
@@ -5888,7 +5885,7 @@ msgid "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
 msgstr "[1] starts to weaken and becomes variable"
 
 msgid "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-msgstr "[1] starts to weaken and becomes temporarily varaible"
+msgstr "[1] starts to weaken and becomes temporarily variable"
 
 msgid "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
 msgstr "[1] starts to weaken and becomes variable"

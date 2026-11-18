@@ -1039,9 +1039,6 @@ msgstr "không khí"
 msgid "Suomeen"
 msgstr "đến Phần Lan"
 
-msgid "maan"
-msgstr "của đất nước"
-
 msgid "etelaosiin"
 msgstr "phía nam"
 

@@ -1039,9 +1039,6 @@ msgstr "воздух"
 msgid "Suomeen"
 msgstr "в Финляндию"
 
-msgid "maan"
-msgstr "страны"
-
 msgid "etelaosiin"
 msgstr "южные районы"
 

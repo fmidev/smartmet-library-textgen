@@ -1039,9 +1039,6 @@ msgstr "gaiss"
 msgid "Suomeen"
 msgstr "uz Somiju"
 
-msgid "maan"
-msgstr "valstis"
-
 msgid "etelaosiin"
 msgstr "dienvidu daļā"
 

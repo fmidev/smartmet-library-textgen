@@ -1045,9 +1045,6 @@ msgstr "공기"
 msgid "Suomeen"
 msgstr "핀란드로"
 
-msgid "maan"
-msgstr "국내"
-
 msgid "etelaosiin"
 msgstr "남부 지역"
 
