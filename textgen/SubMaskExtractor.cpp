@@ -14,7 +14,7 @@
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiGrid.h>
-#include <newbase/NFmiNearTree.h>
+#include <newbase/NFmiIndexMaskTools.h>
 #include <newbase/NFmiParameterName.h>
 #include <newbase/NFmiPoint.h>
 #include <newbase/NFmiSvgPath.h>
@@ -52,118 +52,6 @@ NFmiEnumConverter converter;
 
 namespace TextGen
 {
-namespace
-{
-// ----------------------------------------------------------------------
-/*!
- * \brief Insert a line into the given NFmiNearTree
- *
- * This is used when inserting a NFmiSvgPath into the NFmiNearTree
- * with some fixed resolution.
- *
- * \param theTree The tree to insert the data into
- * \param theStart The starting X-coordinate
- * \param theEnd The end X-coordinate
- * \param theResolution The maximum allowed edge distance
- */
-// ----------------------------------------------------------------------
-
-void Insert(NFmiNearTree<NFmiPoint>& theTree,
-            const NFmiPoint& theStart,
-            const NFmiPoint& theEnd,
-            double theResolution)
-{
-  try
-  {
-    // Safety against infinite recursion
-    if (theResolution <= 0)
-    {
-      theTree.Insert(theStart);
-      theTree.Insert(theEnd);
-    }
-    else
-    {
-      // if edge length is small enough, stop recursion
-      const double dist = theStart.Distance(theEnd);
-      if (dist <= theResolution)
-      {
-        theTree.Insert(theStart);
-        theTree.Insert(theEnd);
-      }
-      else
-      {
-        // subdivide and recurse
-        NFmiPoint mid((theStart.X() + theEnd.X()) / 2, (theStart.Y() + theEnd.Y()) / 2);
-        Insert(theTree, theStart, mid, theResolution);
-        Insert(theTree, theEnd, mid, theResolution);
-      }
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Insert the SVG path into the given NFmiNearTree
- *
- * The purpose here is to provide means for calculating
- * the distance of some point from the NFmiSvgPath. The user
- * is expected to provide some suitable resolution for
- * subdividing too long edges into more vertices.
- *
- * \param theTree The tree to insert the data into
- * \param thePath The path to insert
- * \param theResolution The maximum allowed edge distance
- */
-// ----------------------------------------------------------------------
-
-void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double theResolution)
-{
-  try
-  {
-    if (thePath.empty())
-      return;
-
-    NFmiPoint firstPoint(thePath.front().itsX, thePath.front().itsY);
-
-    NFmiPoint lastPoint(0, 0);
-
-    for (const auto& it : thePath)
-    {
-      switch (it.itsType)
-      {
-        case NFmiSvgPath::kElementMoveto:
-          lastPoint = NFmiPoint(it.itsX, it.itsY);
-          firstPoint = lastPoint;
-          break;
-        case NFmiSvgPath::kElementClosePath:
-        {
-          Insert(theTree, lastPoint, firstPoint, theResolution);
-          lastPoint = firstPoint;
-          break;
-        }
-        case NFmiSvgPath::kElementLineto:
-        {
-          NFmiPoint nextPoint(it.itsX, it.itsY);
-          Insert(theTree, lastPoint, nextPoint, theResolution);
-          lastPoint = nextPoint;
-          break;
-        }
-        case NFmiSvgPath::kElementNotValid:
-          return;
-      }
-    }
-  }
-  catch (...)
-  {
-    throw Fmi::Exception::Trace(BCP, "Operation failed");
-  }
-}
-}  // namespace
-
 double GetLocationCoordinates(const AnalysisSources& theSources,
                               const WeatherParameter& theParameter,
                               const WeatherArea& theArea,
@@ -417,21 +305,9 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
 
   const NFmiSvgPath& svgPath = theArea.path();
 
-  const double resolution_factor = 1.0 / 4;
+  if (svgPath.empty())
+    return mask;
 
-  // Establish grid resolution
-
-  const double dx = theGrid.Area()->WorldXYWidth() / (theGrid.XNumber() - 1);
-  const double dy = theGrid.Area()->WorldXYHeight() / (theGrid.YNumber() - 1);
-
-  // Fast lookup tree for distance calculations
-
-  NFmiSvgPath projectedPath(svgPath);
-  NFmiSvgTools::LatLonToWorldXY(projectedPath, *theGrid.Area());
-  NFmiNearTree<NFmiPoint> tree;
-  Insert(tree, projectedPath, FmiMin(dx, dy) * resolution_factor);
-
-  //
   double theXmin = NAN;
   double theYmin = NAN;
   double theXmax = NAN;
@@ -447,27 +323,24 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
       (theArea.longitudeDivisionLineSet() ? theArea.getLongitudeDivisionLine()
                                           : theXmin + ((theXmax - theXmin) / 2.0));
 
-  // Non-optimal solution loops through the entire grid
+  // Looping through the entire grid would be slow for high resolution data. Hence we
+  // first establish the grid points inside or close to the area, and then make the
+  // exact tests only for them. The margin of two grid cells guarantees no point
+  // inside the area is lost.
 
-  const unsigned long nx = theGrid.XNumber();
-  const unsigned long ny = theGrid.YNumber();
+  const double dx = theGrid.Area()->WorldXYWidth() / (theGrid.XNumber() - 1);
+  const double dy = theGrid.Area()->WorldXYHeight() / (theGrid.YNumber() - 1);
+  const double margin_km = 2 * FmiMax(dx, dy) / 1000;
 
-  if (!svgPath.empty())
+  const NFmiIndexMask candidates = NFmiIndexMaskTools::MaskExpand(theGrid, svgPath, margin_km);
+
+  for (const unsigned long idx : candidates)
   {
-    for (unsigned long j = 0; j < ny; j++)
-      for (unsigned long i = 0; i < nx; i++)
-      {
-        const unsigned long idx = j * nx + i;
-        const NFmiPoint p = theGrid.LatLon(idx);
+    const NFmiPoint p = theGrid.LatLon(idx);
 
-        // const NFmiPoint xy = theGrid.GridToWorldXY(i,j);
-
-        if (NFmiSvgTools::IsInside(svgPath, p))
-        {
-          if (point_in_direction(p, theDirectionId, latitudeDivisionLine, longitudeDivisionLine))
-            mask.insert(idx);
-        }
-      }
+    if (NFmiSvgTools::IsInside(svgPath, p) &&
+        point_in_direction(p, theDirectionId, latitudeDivisionLine, longitudeDivisionLine))
+      mask.insert(idx);
   }
 
   return mask;
