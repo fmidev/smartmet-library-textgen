@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 26.11.16
+Version: 26.11.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -111,6 +111,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Nov 18 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.18-1.fmi
+- Optimized direction masks (northern, southern etc parts of an area): only the grid
+  points close to the area are tested instead of the entire grid
+- Removed the unused phrase "maan" from all dictionaries
+- Fixed the typo "varaible" in the English dictionaries
+
 * Mon Nov 16 2026 Mika Heiskanen <mika.heiskanen@fmi.fi> - 26.11.16-1.fmi
 - turn_phrases = veering_backing no longer states the sense of a turn as a literal
   "clockwise" or "counterclockwise" ("medurs", "med uret", "med klokka" etc): the
